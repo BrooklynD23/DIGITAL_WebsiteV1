@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Team - DIGITAL at Cal-Poly Pomona</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;900&amp;family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0d7ff2",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101922",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1c2630",
+                        "surface-highlight": "#283039",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-gray-900 dark:text-white min-h-screen flex flex-col overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-200 dark:border-[#283039] bg-surface-light dark:bg-background-dark px-6 py-3 lg:px-10 sticky top-0 z-50">
+<div class="flex items-center gap-4">
+<div class="size-8 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M24 4C25.7818 14.2173 33.7827 22.2182 44 24C33.7827 25.7818 25.7818 33.7827 24 44C22.2182 33.7827 14.2173 25.7818 4 24C14.2173 22.2182 22.2182 14.2173 24 4Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">DIGITAL</h2>
+</div>
+<div class="hidden lg:flex flex-1 justify-end gap-8">
+<div class="flex items-center gap-9">
+<a class="text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Home</a>
+<a class="text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Projects</a>
+<a class="text-sm font-medium leading-normal text-primary" href="#">Team</a>
+<a class="text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Events</a>
+<a class="text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Contact</a>
+</div>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-blue-600 transition-colors">
+<span class="truncate">Join Us</span>
+</button>
+</div>
+<div class="lg:hidden">
+<span class="material-symbols-outlined cursor-pointer">menu</span>
+</div>
+</header>
+<main class="flex-grow flex flex-col items-center">
+<div class="w-full max-w-[1280px] px-4 md:px-10 pb-20">
+<!-- HeroSection -->
+<div class="@container py-8">
+<div class="flex flex-col gap-6 py-10 @[480px]:gap-8 @[864px]:flex-row items-center">
+<div class="w-full @[864px]:w-1/2 flex flex-col gap-6 @[480px]:gap-8 justify-center">
+<div class="flex flex-col gap-4 text-left">
+<h1 class="text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl lg:text-6xl">
+                                Meet the Builders
+                            </h1>
+<h2 class="text-gray-600 dark:text-gray-300 text-base font-normal leading-relaxed lg:text-lg max-w-xl">
+                                We are a collective of engineers, designers, and innovators at Cal-Poly Pomona. From modular smartphones to industry-standard hardware, we are building the future together.
+                            </h2>
+</div>
+<div class="flex gap-4">
+<button class="flex cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-primary text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-blue-600 transition-colors">
+<span class="truncate">Join the Team</span>
+</button>
+<button class="flex cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-gray-200 dark:bg-surface-highlight text-gray-900 dark:text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors">
+<span class="truncate">View Projects</span>
+</button>
+</div>
+</div>
+<div class="w-full @[864px]:w-1/2 aspect-video rounded-xl overflow-hidden shadow-2xl relative group">
+<div class="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-all z-10"></div>
+<div class="w-full h-full bg-center bg-cover" data-alt="Group of diverse students working together on laptops in a modern office" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCAvUOuS6_fRTFm2ilaCeZNCpfLprJ_AFbweeeW70g3_Wndgdm1P5GoHIdJF_YkwlIRKXv-JtLeTBoak-4oSubZk3MebejeYRrvysBwy_aVpnUk-FTTR7fHh6xgupF6US0fkWiHaYvkxEcqDgUM3Yx_NF7hDapHWodAJ3C5-4kVdmSo0WUOpJYiadzI1Iqv_jgmjWofvm_0l4wVuE0PNjqGsuoZNe2OXd3g0lrX2uw9H_sWFUHpfnu7BUP8D_yCgMPfXvK5GuTjHWY");'>
+</div>
+</div>
+</div>
+</div>
+<!-- SearchBar & Chips -->
+<div class="flex flex-col gap-6 py-6 sticky top-[65px] z-40 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm -mx-4 px-4 md:-mx-10 md:px-10 border-b border-gray-200 dark:border-surface-highlight transition-all">
+<div class="flex flex-col md:flex-row gap-4 justify-between items-center w-full">
+<!-- Search -->
+<label class="flex flex-col h-12 w-full md:max-w-md">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full bg-white dark:bg-surface-highlight shadow-sm border border-gray-200 dark:border-transparent focus-within:border-primary transition-colors">
+<div class="text-gray-400 dark:text-[#9cabba] flex items-center justify-center pl-4 pr-2">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="flex w-full min-w-0 flex-1 bg-transparent text-gray-900 dark:text-white focus:outline-0 border-none h-full placeholder:text-gray-400 dark:placeholder:text-[#9cabba] px-2 text-base font-normal leading-normal" placeholder="Search members..."/>
+</div>
+</label>
+<!-- Chips -->
+<div class="flex gap-2 overflow-x-auto pb-2 md:pb-0 w-full md:w-auto no-scrollbar mask-linear-fade">
+<button class="flex h-9 shrink-0 items-center justify-center px-4 rounded-full bg-primary text-white text-sm font-medium transition-transform active:scale-95">
+                            All Members
+                        </button>
+<button class="flex h-9 shrink-0 items-center justify-center px-4 rounded-full bg-white dark:bg-surface-highlight text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-transparent hover:border-primary dark:hover:border-primary text-sm font-medium transition-all active:scale-95">
+                            Executive Board
+                        </button>
+<button class="flex h-9 shrink-0 items-center justify-center px-4 rounded-full bg-white dark:bg-surface-highlight text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-transparent hover:border-primary dark:hover:border-primary text-sm font-medium transition-all active:scale-95">
+                            Hardware
+                        </button>
+<button class="flex h-9 shrink-0 items-center justify-center px-4 rounded-full bg-white dark:bg-surface-highlight text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-transparent hover:border-primary dark:hover:border-primary text-sm font-medium transition-all active:scale-95">
+                            Software
+                        </button>
+<button class="flex h-9 shrink-0 items-center justify-center px-4 rounded-full bg-white dark:bg-surface-highlight text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-transparent hover:border-primary dark:hover:border-primary text-sm font-medium transition-all active:scale-95">
+                            Outreach
+                        </button>
+</div>
+</div>
+</div>
+<!-- Content Grid -->
+<div class="flex flex-col gap-12 mt-8">
+<!-- Executive Board Section -->
+<section>
+<div class="flex items-center gap-2 mb-6">
+<div class="h-8 w-1 bg-primary rounded-full"></div>
+<h2 class="text-2xl md:text-3xl font-bold tracking-tight">Executive Board</h2>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Exec Member 1 -->
+<div class="group flex flex-col items-center bg-white dark:bg-surface-highlight rounded-xl p-6 border border-gray-200 dark:border-transparent hover:border-primary dark:hover:border-primary transition-all duration-300 shadow-sm hover:shadow-lg hover:-translate-y-1 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-primary">arrow_outward</span>
+</div>
+<div class="w-32 h-32 mb-4 rounded-full overflow-hidden border-2 border-gray-100 dark:border-gray-700 group-hover:border-primary transition-colors">
+<img class="w-full h-full object-cover" data-alt="Portrait of smiling young man in a white shirt" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcjbn70K2FvDzT2pMTFYlRgLtsj0uZCf0BwklU7p0p81_iQS_IS48BRgFhs-77AXM7k9cGjHmtJ2JuoYexRd776shCI07qCNEkXzfrKgN86hGjAyIK_98aOYSJJzNOXQJXt-HuRqN5AvhN90X85qYiyY-eyLZyBBkeN9GUREhUUxP8dH6sUaZuw1omwNWWPD4AxgQ2vzH2VShY7ScY024X1m-yty6IFBUU7EnOAhbsvnX9RuYNgJDg27pDXQyOTliIvbUNDmV5Y8E"/>
+</div>
+<h3 class="text-xl font-bold text-center">Alex Chen</h3>
+<p class="text-primary font-medium text-sm mb-2">President</p>
+<p class="text-gray-500 dark:text-gray-400 text-sm text-center mb-4 line-clamp-2">Computer Engineering '24. Leading the modular smartphone initiative.</p>
+<div class="flex gap-3 mt-auto">
+<a class="text-gray-400 hover:text-primary transition-colors" href="#"><i class="material-symbols-outlined text-[20px]">link</i></a>
+<a class="text-gray-400 hover:text-primary transition-colors" href="#"><i class="material-symbols-outlined text-[20px]">mail</i></a>
+</div>
+</div>
+<!-- Exec Member 2 -->
+<div class="group flex flex-col items-center bg-white dark:bg-surface-highlight rounded-xl p-6 border border-gray-200 dark:border-transparent hover:border-primary dark:hover:border-primary transition-all duration-300 shadow-sm hover:shadow-lg hover:-translate-y-1 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-primary">arrow_outward</span>
+</div>
+<div class="w-32 h-32 mb-4 rounded-full overflow-hidden border-2 border-gray-100 dark:border-gray-700 group-hover:border-primary transition-colors">
+<img class="w-full h-full object-cover" data-alt="Portrait of a confident woman with glasses" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTP3yfppi6bbKi0iO87iGO0MUdEFfzqUn6FYmVsdEdc7NUaqQC9fYxObfcSn42-gGqRYn4jl9RTKa0c-5552h63Z5VGX-4XR4kjVi8qSfZ3POIK0QSSN-onLERC2uq7d2JqGwKuKHkFFeGzWLgeA_MZ5QcfmvEbPKBeopr-46QMHYE-sEHG25Irz5QQBpApa2PV3fg0vXabS1XBbqbbey81XbaOnoJunY_ozAIAMIV825-Z_B4_GaD2OOaPoafIaow0_k7WbyKCY4"/>
+</div>
+<h3 class="text-xl font-bold text-center">Sarah Jenkins</h3>
+<p class="text-primary font-medium text-sm mb-2">VP of Engineering</p>
+<p class="text-gray-500 dark:text-gray-400 text-sm text-center mb-4 line-clamp-2">Electrical Engineering '25. Obsessed with PCB design and embedded systems.</p>
+<div class="flex gap-3 mt-auto">
+<a class="text-gray-400 hover:text-primary transition-colors" href="#"><i class="material-symbols-outlined text-[20px]">link</i></a>
+<a class="text-gray-400 hover:text-primary transition-colors" href="#"><i class="material-symbols-outlined text-[20px]">mail</i></a>
+</div>
+</div>
+<!-- Exec Member 3 -->
+<div class="group flex flex-col items-center bg-white dark:bg-surface-highlight rounded-xl p-6 border border-gray-200 dark:border-transparent hover:border-primary dark:hover:border-primary transition-all duration-300 shadow-sm hover:shadow-lg hover:-translate-y-1 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-primary">arrow_outward</span>
+</div>
+<div class="w-32 h-32 mb-4 rounded-full overflow-hidden border-2 border-gray-100 dark:border-gray-700 group-hover:border-primary transition-colors">
+<img class="w-full h-full object-cover" data-alt="Portrait of a smiling man with a beard" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDphs5ELXil1wlL6tNBC_G_Z-ceFJBqLq-NqtyF4TJGJHwrv1ALDwkqVjBfiJ5Ot5bQSfgoqqgYZtip0qKnlBcRcvEPgEnPDw700tDDa2WI17yqXrfAYudNnzl80PfwOjUp-AacFQ6Z_4bcOsKXtRoUveYVR3UasFxL_da7IRJDai7A4472q8JfSyqHUhtZ9RdSleLXP0G__6ZHGTHRz1DcHXd4WugUze61KVCSLmOM6KZutYJei62PI6Vo5uS9ZQ9e11zfHmR9jDg"/>
+</div>
+<h3 class="text-xl font-bold text-center">Marcus Johnson</h3>
+<p class="text-primary font-medium text-sm mb-2">Treasurer</p>
+<p class="text-gray-500 dark:text-gray-400 text-sm text-center mb-4 line-clamp-2">Finance &amp; CS Minor '24. Managing funding from Project Hatchery.</p>
+<div class="flex gap-3 mt-auto">
+<a class="text-gray-400 hover:text-primary transition-colors" href="#"><i class="material-symbols-outlined text-[20px]">link</i></a>
+<a class="text-gray-400 hover:text-primary transition-colors" href="#"><i class="material-symbols-outlined text-[20px]">mail</i></a>
+</div>
+</div>
+<!-- Exec Member 4 -->
+<div class="group flex flex-col items-center bg-white dark:bg-surface-highlight rounded-xl p-6 border border-gray-200 dark:border-transparent hover:border-primary dark:hover:border-primary transition-all duration-300 shadow-sm hover:shadow-lg hover:-translate-y-1 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-primary">arrow_outward</span>
+</div>
+<div class="w-32 h-32 mb-4 rounded-full overflow-hidden border-2 border-gray-100 dark:border-gray-700 group-hover:border-primary transition-colors">
+<img class="w-full h-full object-cover" data-alt="Portrait of a young woman smiling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNvfFWdjeEWxgSLFMdbjgkrBFJv2KDXbOSC02tbeN2QCfMegYLZenmplyla9bGA1xulpjomLCznevgqA_O0i1hdvj8v91vmJs-FLpCCWhTr1NchRVuXC6940EwEj2nft0GIZ9tfczN2mxRnVLWwb1Awwj_dZbVZ_T7ixxHCeMWtWXGzjbD_DUcre0yfUybGzPrPvrryGYsFIRWB1wfVLjABcZAmiCHBIsp_5nn6JZ6HlPw6vM5CuD6qls3hcy8pu-5iYVLmLUOTLc"/>
+</div>
+<h3 class="text-xl font-bold text-center">Emily Zhao</h3>
+<p class="text-primary font-medium text-sm mb-2">Secretary</p>
+<p class="text-gray-500 dark:text-gray-400 text-sm text-center mb-4 line-clamp-2">Computer Science '26. Organizing events and keeping the team on track.</p>
+<div class="flex gap-3 mt-auto">
+<a class="text-gray-400 hover:text-primary transition-colors" href="#"><i class="material-symbols-outlined text-[20px]">link</i></a>
+<a class="text-gray-400 hover:text-primary transition-colors" href="#"><i class="material-symbols-outlined text-[20px]">mail</i></a>
+</div>
+</div>
+</div>
+</section>
+<!-- Hardware Team -->
+<section>
+<div class="flex items-center gap-2 mb-6">
+<div class="h-6 w-1 bg-gray-500 rounded-full"></div>
+<h2 class="text-xl md:text-2xl font-bold tracking-tight">Hardware Team</h2>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+<!-- Standard Member Card -->
+<div class="flex flex-col items-start bg-white dark:bg-surface-highlight rounded-lg p-4 border border-gray-200 dark:border-transparent hover:border-primary transition-colors hover:shadow-md">
+<div class="w-16 h-16 rounded-full mb-3 overflow-hidden bg-gray-800">
+<img class="w-full h-full object-cover" data-alt="Portrait of a young man" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDy65OFrZrxiauzfb6ovkkDlu5Xj4e2FkoeN6ZDb8ImqIAh08XiRQ9ID5ZU9eNCXexn-kqwosuHXBJGouMhsvbAUM1Lc5IGiv8W9psrh9-nCL-CZmLJmww-0oCW7NJZxs4LFDijdmsGILehqkhOSgcYnVvNwFKNlFHDqvwDe4xG07NDPJ9iVTYQoyfLYFJ-pRfl5UVob5VN58OY74VQiDkL96PtvZEV6ww-DUlzjHMbITstwqpQV1362xUVtvHsMqcjfcKW0Df5enc"/>
+</div>
+<h4 class="font-bold text-base leading-tight">David Kim</h4>
+<p class="text-xs text-primary mb-1">Hardware Lead</p>
+<p class="text-xs text-gray-500 dark:text-gray-400 mb-3">Mechanical Eng.</p>
+<div class="flex gap-2 mt-auto">
+<a class="text-gray-400 hover:text-white transition-colors" href="#"><span class="material-symbols-outlined text-[16px]">terminal</span></a>
+</div>
+</div>
+<div class="flex flex-col items-start bg-white dark:bg-surface-highlight rounded-lg p-4 border border-gray-200 dark:border-transparent hover:border-primary transition-colors hover:shadow-md">
+<div class="w-16 h-16 rounded-full mb-3 overflow-hidden bg-gray-800">
+<img class="w-full h-full object-cover" data-alt="Portrait of a young woman with long hair" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDz0ua4J32zFpjQWo-NXOAdxALlKP-RmD9b6xrnuTgnslB3QufPCGf9PG_75l9f0iQuvA3dPB9b9DiR0Ve4jEX-WYRtqLD7OPkqaWZzHp_wWjx1jz8-qsZ0sFET8nDpaDdr-tGiCPeTv9q_pj0J0FpgHWUaEd5esDouKei59exVdijNJGrZDnIuTDA9fMG589VqGlkQvT8ljBw2VuLzv9qWwmrrr6bd3LgszDLYs6u1lXfY4xNNnu6YoxVklp66GmiZoUEpS1Lc-k"/>
+</div>
+<h4 class="font-bold text-base leading-tight">Maria Garcia</h4>
+<p class="text-xs text-primary mb-1">Circuit Design</p>
+<p class="text-xs text-gray-500 dark:text-gray-400 mb-3">Electrical Eng.</p>
+<div class="flex gap-2 mt-auto">
+<a class="text-gray-400 hover:text-white transition-colors" href="#"><span class="material-symbols-outlined text-[16px]">terminal</span></a>
+</div>
+</div>
+<div class="flex flex-col items-start bg-white dark:bg-surface-highlight rounded-lg p-4 border border-gray-200 dark:border-transparent hover:border-primary transition-colors hover:shadow-md">
+<div class="w-16 h-16 rounded-full mb-3 overflow-hidden bg-gray-800">
+<img class="w-full h-full object-cover" data-alt="Portrait of a young woman smiling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4iFSyb3mikTclAQbcF6nN0ZqZ1jmx8AQb0Fm2wIPl3c-Ww0KZADBOBcdbBjCoCViCYS6S4x0Nt4ALlCpO3O28_qEgOv7U1HRAlklURfq8ZY6Jh8quXMCkKFK36zbgS1ArDGdB7RpDm7CictyiX614mFr8rtzVRZf4_B2ojVQpxlZAHbGasWmskFbqtm5Z7wJKSoW0iRjownrnfy-ZYztIt_iXtoytb0vD1i08XzUAnxqZvVHKQ8s3_mR_K4402FfwFIXSiQ1Pb9c"/>
+</div>
+<h4 class="font-bold text-base leading-tight">Alice Freeman</h4>
+<p class="text-xs text-primary mb-1">Testing</p>
+<p class="text-xs text-gray-500 dark:text-gray-400 mb-3">Computer Eng.</p>
+<div class="flex gap-2 mt-auto">
+<a class="text-gray-400 hover:text-white transition-colors" href="#"><span class="material-symbols-outlined text-[16px]">terminal</span></a>
+</div>
+</div>
+<div class="flex flex-col items-start bg-white dark:bg-surface-highlight rounded-lg p-4 border border-gray-200 dark:border-transparent hover:border-primary transition-colors hover:shadow-md">
+<div class="w-16 h-16 rounded-full mb-3 overflow-hidden bg-gray-800">
+<img class="w-full h-full object-cover" data-alt="Portrait of a man looking to the side" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6KeBQq0cVANd04hqreYHGofI3zpDjHl8_UYv-VOnD0l-DDxX0SXIAnXYUA9fOipTDh8iD73mbTVEfc38M8kPGRtK_ttXMYwXzQqkyeiqkr-Rth5enrRfW9eL1g-Wwht-Bd0aKzvMdv_k6caBYVxVav-ZIHkhX0xciHLC3lu0k9h8tXoSAkqcWTAaT2DgbifKRgURuorOwM-4FtQ4ycqZpPjW3TszFigm76R8flU_4wofy9sc_HFXKIUgCWCT7yyDguC3F5M5qlN4"/>
+</div>
+<h4 class="font-bold text-base leading-tight">James Lee</h4>
+<p class="text-xs text-primary mb-1">Prototyping</p>
+<p class="text-xs text-gray-500 dark:text-gray-400 mb-3">Manufacturing Eng.</p>
+<div class="flex gap-2 mt-auto">
+<a class="text-gray-400 hover:text-white transition-colors" href="#"><span class="material-symbols-outlined text-[16px]">terminal</span></a>
+</div>
+</div>
+<div class="flex flex-col items-center justify-center bg-gray-100 dark:bg-surface-dark rounded-lg p-4 border border-dashed border-gray-300 dark:border-gray-600 hover:border-primary dark:hover:border-primary transition-colors cursor-pointer group">
+<div class="w-12 h-12 rounded-full bg-gray-200 dark:bg-surface-highlight flex items-center justify-center mb-2 group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">add</span>
+</div>
+<h4 class="font-bold text-sm text-center">Join Hardware</h4>
+</div>
+</div>
+</section>
+<!-- Software Team -->
+<section>
+<div class="flex items-center gap-2 mb-6">
+<div class="h-6 w-1 bg-gray-500 rounded-full"></div>
+<h2 class="text-xl md:text-2xl font-bold tracking-tight">Software Team</h2>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+<div class="flex flex-col items-start bg-white dark:bg-surface-highlight rounded-lg p-4 border border-gray-200 dark:border-transparent hover:border-primary transition-colors hover:shadow-md">
+<div class="w-16 h-16 rounded-full mb-3 overflow-hidden bg-gray-800">
+<img class="w-full h-full object-cover" data-alt="Portrait of a man with sunglasses" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlju6MKkcjEjN3LXXui1mf3uJyqvW2FlXcYEBE9wNa3ihK0Zn7IbXH6LV4k7zeA4fbDjG2v66NQehGF0HdWNYYkZN8uv0JeRnyG7vBoJjvKrXXPGGJokku_6I9SdtPmC3mn2PlUxvEEtiMhJ2z3BOqvvmxZ6MOQTNfXkJ7G_IONXZrYJmaAZ2FEId9dDdkqIW3fzQHvhzfssNvvoYhxCEesZldM23Q7Hc82r_pnBIVNofNWwe4nC2p8NjYkvlYlZkzH3k2MKWFVgU"/>
+</div>
+<h4 class="font-bold text-base leading-tight">Tom Hiddleston</h4>
+<p class="text-xs text-primary mb-1">Software Lead</p>
+<p class="text-xs text-gray-500 dark:text-gray-400 mb-3">Computer Science</p>
+<div class="flex gap-2 mt-auto">
+<a class="text-gray-400 hover:text-white transition-colors" href="#"><span class="material-symbols-outlined text-[16px]">code</span></a>
+<a class="text-gray-400 hover:text-white transition-colors" href="#"><span class="material-symbols-outlined text-[16px]">terminal</span></a>
+</div>
+</div>
+<div class="flex flex-col items-start bg-white dark:bg-surface-highlight rounded-lg p-4 border border-gray-200 dark:border-transparent hover:border-primary transition-colors hover:shadow-md">
+<div class="w-16 h-16 rounded-full mb-3 overflow-hidden bg-gray-800">
+<img class="w-full h-full object-cover" data-alt="Portrait of a woman with curly hair" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfvs1oTRI285qj8CPNEJUQxla_K8XeZ5gld-Wd2NAAdej6-CBFG_C2Xhmw3sqki0sHgjtvNih0CDfs3UJNmlkI6VTZSv3DUNdpIeN8DqM7WO8SLuK5GmFkveOXKoxyPB8mmY1OlSvxEJUdfs1aB-skuowsi_q4HLMFK7c1oI1qpfST2zsMDnvLJZtaFqsZB_VYrNH6FVolrJkbeFxehYSI4bJyhXwFiT4y1oGM_End83QhGtLWGflFq26xH9Xd0Jon0f5kBrr6O5Y"/>
+</div>
+<h4 class="font-bold text-base leading-tight">Priya Patel</h4>
+<p class="text-xs text-primary mb-1">Frontend Dev</p>
+<p class="text-xs text-gray-500 dark:text-gray-400 mb-3">CIS</p>
+<div class="flex gap-2 mt-auto">
+<a class="text-gray-400 hover:text-white transition-colors" href="#"><span class="material-symbols-outlined text-[16px]">code</span></a>
+</div>
+</div>
+<div class="flex flex-col items-start bg-white dark:bg-surface-highlight rounded-lg p-4 border border-gray-200 dark:border-transparent hover:border-primary transition-colors hover:shadow-md">
+<div class="w-16 h-16 rounded-full mb-3 overflow-hidden bg-gray-800">
+<img class="w-full h-full object-cover" data-alt="Portrait of a man in a suit" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWa1uFqanRbgamqyONFWBbryiGs2koQtfM_PyJrUZr9rQ6Qdeb7SuLLEpGPQN4HwVJhFI2sRG5AWwjgAp4FqfgDrr171oDUwUisxm81aiprFwkGod4n-n2YV3QT7Z_ZfRn_kkm9RlkH6nh6shubY5J5rcOGeRuqbJHLq82gSLfEtNyTJ0j-bPzcQsetPDIbwEr3lVxNQHaeVQZIIOPOxJVu6BWal6CNUSBlcsr-cZF6Dq8jKjjYvxjObU3Gdnyi6gtYhXLneaWTW8"/>
+</div>
+<h4 class="font-bold text-base leading-tight">Robert Chen</h4>
+<p class="text-xs text-primary mb-1">Kernel Dev</p>
+<p class="text-xs text-gray-500 dark:text-gray-400 mb-3">Computer Science</p>
+<div class="flex gap-2 mt-auto">
+<a class="text-gray-400 hover:text-white transition-colors" href="#"><span class="material-symbols-outlined text-[16px]">terminal</span></a>
+</div>
+</div>
+<div class="flex flex-col items-center justify-center bg-gray-100 dark:bg-surface-dark rounded-lg p-4 border border-dashed border-gray-300 dark:border-gray-600 hover:border-primary dark:hover:border-primary transition-colors cursor-pointer group">
+<div class="w-12 h-12 rounded-full bg-gray-200 dark:bg-surface-highlight flex items-center justify-center mb-2 group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">add</span>
+</div>
+<h4 class="font-bold text-sm text-center">Join Software</h4>
+</div>
+</div>
+</section>
+<!-- Outreach Team -->
+<section>
+<div class="flex items-center gap-2 mb-6">
+<div class="h-6 w-1 bg-gray-500 rounded-full"></div>
+<h2 class="text-xl md:text-2xl font-bold tracking-tight">Outreach &amp; Design</h2>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+<div class="flex flex-col items-start bg-white dark:bg-surface-highlight rounded-lg p-4 border border-gray-200 dark:border-transparent hover:border-primary transition-colors hover:shadow-md">
+<div class="w-16 h-16 rounded-full mb-3 overflow-hidden bg-gray-800">
+<img class="w-full h-full object-cover" data-alt="Portrait of a woman applying makeup" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB10x_5vmciC1DtUnVTLOZ0CNrl8feITR4Kfb22g1ejLVS6ePXTXF5JUfido8p1RlHI0v-Ner4A_6Fxuh9z1PEuJGVqtK8ANZkXDHnP0344izIDsltqnopL9ExHvnIamN5IKz8uz_Ta1BY93KQAh4aoKfVunt2OgwwXj0MgV2t0jnkBEFCL2mS362OBahZKbJFC6sW920j9yiBxuJhqwFWh3lCdJUPb-ycWSdQLv5UREiPJ3BFQrKLxB3_Qz3pFL7lyOUrhAK-BUPI"/>
+</div>
+<h4 class="font-bold text-base leading-tight">Lisa Wong</h4>
+<p class="text-xs text-primary mb-1">Design Lead</p>
+<p class="text-xs text-gray-500 dark:text-gray-400 mb-3">Graphic Design</p>
+<div class="flex gap-2 mt-auto">
+<a class="text-gray-400 hover:text-white transition-colors" href="#"><span class="material-symbols-outlined text-[16px]">brush</span></a>
+</div>
+</div>
+<div class="flex flex-col items-start bg-white dark:bg-surface-highlight rounded-lg p-4 border border-gray-200 dark:border-transparent hover:border-primary transition-colors hover:shadow-md">
+<div class="w-16 h-16 rounded-full mb-3 overflow-hidden bg-gray-800">
+<img class="w-full h-full object-cover" data-alt="Portrait of a young man" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5jGtHxa0Q78ICEyajsZpN1-7Ml0qstHWZQUavCTwHy-eWyyFfsMlOZSUnYWfi4qTEZnx15h2jm600gcuui-t6pqGM82aPNe1xpBgmZOieDWuhH7p0R82Zyl8jD5BOJ8OzSMEEAQzjr3umm5vOz_Tak7lTgbsHBCtMDBSuc-uOpq7nm8jNInVgzdCQKfOY8E5ori6evrnD3uhUCJoLi9YvajHGr2qmbGPw_UO8GZY7FOUQdd_PEG_fIcyiE7oRMBtPl63M2BM56-k"/>
+</div>
+<h4 class="font-bold text-base leading-tight">Sam Wilson</h4>
+<p class="text-xs text-primary mb-1">Marketing</p>
+<p class="text-xs text-gray-500 dark:text-gray-400 mb-3">Business Admin</p>
+<div class="flex gap-2 mt-auto">
+<a class="text-gray-400 hover:text-white transition-colors" href="#"><span class="material-symbols-outlined text-[16px]">campaign</span></a>
+</div>
+</div>
+<div class="flex flex-col items-center justify-center bg-gray-100 dark:bg-surface-dark rounded-lg p-4 border border-dashed border-gray-300 dark:border-gray-600 hover:border-primary dark:hover:border-primary transition-colors cursor-pointer group">
+<div class="w-12 h-12 rounded-full bg-gray-200 dark:bg-surface-highlight flex items-center justify-center mb-2 group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">add</span>
+</div>
+<h4 class="font-bold text-sm text-center">Join Outreach</h4>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+<footer class="bg-surface-light dark:bg-surface-dark border-t border-gray-200 dark:border-surface-highlight py-12 px-6 lg:px-10 mt-auto">
+<div class="max-w-[960px] mx-auto flex flex-col items-center text-center">
+<div class="flex items-center gap-2 mb-4 text-gray-900 dark:text-white">
+<div class="size-6 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M24 4C25.7818 14.2173 33.7827 22.2182 44 24C33.7827 25.7818 25.7818 33.7827 24 44C22.2182 33.7827 14.2173 25.7818 4 24C14.2173 22.2182 22.2182 14.2173 24 4Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-lg font-bold">DIGITAL</h2>
+</div>
+<p class="text-gray-500 dark:text-gray-400 mb-8 max-w-lg">
+                DIGITAL is a student-run engineering organization at Cal-Poly Pomona, dedicated to hands-on learning through ambitious projects like the modular smartphone.
+            </p>
+<div class="flex gap-8 mb-8">
+<a class="text-gray-500 hover:text-primary transition-colors" href="#">LinkedIn</a>
+<a class="text-gray-500 hover:text-primary transition-colors" href="#">GitHub</a>
+<a class="text-gray-500 hover:text-primary transition-colors" href="#">Instagram</a>
+<a class="text-gray-500 hover:text-primary transition-colors" href="#">Discord</a>
+</div>
+<p class="text-sm text-gray-400 dark:text-gray-600">
+                Backed by the Project Hatchery Foundation. © DIGITAL 2024.
+            </p>
+</div>
+</footer>
+</body></html>

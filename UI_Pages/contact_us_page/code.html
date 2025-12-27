@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Contact Us - DIGITAL</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Noto+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0d7ff2",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101922",
+                        "surface-dark": "#1b232d",
+                        "surface-border": "#283039",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-x-hidden antialiased">
+<div class="relative flex min-h-screen flex-col">
+<!-- Header -->
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-surface-border bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md px-10 py-3">
+<div class="flex items-center gap-4">
+<div class="size-8 text-primary">
+<span class="material-symbols-outlined text-[32px]">memory</span>
+</div>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">DIGITAL</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<nav class="hidden md:flex items-center gap-9">
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Home</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Projects</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Team</a>
+<a class="text-primary font-bold text-sm leading-normal" href="#">Contact</a>
+</nav>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary hover:bg-primary/90 transition-all text-white text-sm font-bold leading-normal tracking-[0.015em] shadow-lg shadow-primary/20">
+<span class="truncate">Join Us</span>
+</button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow flex justify-center py-10 px-4 sm:px-10 lg:px-40 relative">
+<!-- Background Decoration -->
+<div class="absolute top-0 right-0 -z-10 w-full h-full overflow-hidden pointer-events-none opacity-20 dark:opacity-10">
+<div class="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] rounded-full bg-primary blur-[120px]"></div>
+<div class="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] rounded-full bg-primary/50 blur-[100px]"></div>
+</div>
+<div class="flex flex-col max-w-[1200px] w-full gap-8">
+<!-- Page Heading -->
+<div class="flex flex-col gap-4 text-center md:text-left mb-8">
+<h1 class="text-slate-900 dark:text-white text-5xl md:text-6xl font-black leading-tight tracking-[-0.033em]">
+                        Let's Build <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">Something Cool</span>
+</h1>
+<p class="text-slate-500 dark:text-[#9cabba] text-lg md:text-xl font-normal leading-relaxed max-w-2xl">
+                        Have questions about our modular phone project, the Project Hatchery Foundation, or just want to geek out about hardware? We're all ears.
+                    </p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+<!-- Left Column: Form -->
+<div class="lg:col-span-7 bg-white dark:bg-surface-dark border border-slate-200 dark:border-surface-border rounded-2xl p-6 md:p-8 shadow-xl shadow-slate-200/50 dark:shadow-none">
+<form class="flex flex-col gap-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<label class="flex flex-col flex-1">
+<p class="text-slate-900 dark:text-white text-base font-medium leading-normal pb-2">Full Name</p>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-slate-300 dark:border-surface-border bg-slate-50 dark:bg-[#111418] focus:border-primary h-14 placeholder:text-slate-400 dark:placeholder:text-[#9cabba] p-[15px] text-base font-normal leading-normal transition-all" placeholder="Ada Lovelace" type="text"/>
+</label>
+<label class="flex flex-col flex-1">
+<p class="text-slate-900 dark:text-white text-base font-medium leading-normal pb-2">Email Address</p>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-slate-300 dark:border-surface-border bg-slate-50 dark:bg-[#111418] focus:border-primary h-14 placeholder:text-slate-400 dark:placeholder:text-[#9cabba] p-[15px] text-base font-normal leading-normal transition-all" placeholder="ada@cpp.edu" type="email"/>
+</label>
+</div>
+<label class="flex flex-col flex-1">
+<p class="text-slate-900 dark:text-white text-base font-medium leading-normal pb-2">Topic</p>
+<div class="relative">
+<select class="form-select flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-slate-300 dark:border-surface-border bg-slate-50 dark:bg-[#111418] focus:border-primary h-14 placeholder:text-slate-400 dark:placeholder:text-[#9cabba] px-[15px] text-base font-normal leading-normal appearance-none cursor-pointer transition-all">
+<option disabled="" selected="" value="">Select a topic...</option>
+<option value="general">General Inquiry</option>
+<option value="join">Joining the Team</option>
+<option value="project">Modular Phone Project</option>
+<option value="sponsorship">Sponsorship &amp; Partnership</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500 dark:text-[#9cabba]">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</div>
+</label>
+<label class="flex flex-col flex-1">
+<p class="text-slate-900 dark:text-white text-base font-medium leading-normal pb-2">Message</p>
+<textarea class="form-textarea flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-slate-300 dark:border-surface-border bg-slate-50 dark:bg-[#111418] focus:border-primary min-h-40 placeholder:text-slate-400 dark:placeholder:text-[#9cabba] p-[15px] text-base font-normal leading-normal transition-all" placeholder="Tell us what's on your mind..."></textarea>
+</label>
+<div class="flex justify-end pt-2">
+<button class="flex min-w-[140px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-primary hover:bg-blue-600 active:bg-blue-700 text-white text-base font-bold leading-normal tracking-[0.015em] transition-all shadow-lg shadow-primary/30 group" type="button">
+<span class="mr-2">Send Message</span>
+<span class="material-symbols-outlined text-[20px] group-hover:translate-x-1 transition-transform">send</span>
+</button>
+</div>
+</form>
+</div>
+<!-- Right Column: Info & Location -->
+<div class="lg:col-span-5 flex flex-col gap-6">
+<!-- Contact Info Card -->
+<div class="bg-white dark:bg-surface-dark border border-slate-200 dark:border-surface-border rounded-2xl p-6 shadow-sm">
+<h3 class="text-slate-900 dark:text-white text-xl font-bold mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">perm_contact_calendar</span>
+                                Contact Info
+                            </h3>
+<div class="flex flex-col gap-5">
+<a class="flex items-start gap-4 group" href="mailto:contact@digitalcpp.org">
+<div class="size-10 rounded-full bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors shrink-0">
+<span class="material-symbols-outlined text-[20px]">mail</span>
+</div>
+<div>
+<p class="text-sm font-medium text-slate-500 dark:text-slate-400">Email Us</p>
+<p class="text-base font-semibold text-slate-900 dark:text-white group-hover:text-primary transition-colors">contact@digitalcpp.org</p>
+</div>
+</a>
+<div class="flex items-start gap-4">
+<div class="size-10 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[20px]">schedule</span>
+</div>
+<div>
+<p class="text-sm font-medium text-slate-500 dark:text-slate-400">Meeting Times</p>
+<p class="text-base font-semibold text-slate-900 dark:text-white">Thursdays @ 6:00 PM</p>
+<p class="text-sm text-slate-500 dark:text-slate-400">Bi-weekly project syncing</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="size-10 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[20px]">location_on</span>
+</div>
+<div>
+<p class="text-sm font-medium text-slate-500 dark:text-slate-400">Location</p>
+<p class="text-base font-semibold text-slate-900 dark:text-white">Building 17, Room 1635</p>
+<p class="text-sm text-slate-500 dark:text-slate-400">Cal Poly Pomona</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Socials -->
+<div class="bg-primary text-white rounded-2xl p-6 shadow-lg shadow-primary/20 relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl group-hover:bg-white/20 transition-all"></div>
+<h3 class="text-lg font-bold mb-4 relative z-10">Join the Community</h3>
+<p class="text-blue-100 text-sm mb-6 relative z-10">Follow our journey as we build the future of modular tech.</p>
+<div class="flex gap-4 relative z-10">
+<a class="size-10 bg-white/20 hover:bg-white text-white hover:text-primary rounded-full flex items-center justify-center backdrop-blur-sm transition-all" href="#">
+<span class="text-lg font-bold">In</span> <!-- Fallback for Linkedin Icon since material symbols doesn't have brands usually -->
+</a>
+<a class="size-10 bg-white/20 hover:bg-white text-white hover:text-primary rounded-full flex items-center justify-center backdrop-blur-sm transition-all" href="#">
+<span class="material-symbols-outlined">photo_camera</span>
+</a>
+<a class="size-10 bg-white/20 hover:bg-white text-white hover:text-primary rounded-full flex items-center justify-center backdrop-blur-sm transition-all" href="#">
+<span class="material-symbols-outlined">forum</span>
+</a>
+</div>
+</div>
+<!-- Map / Visual -->
+<div class="h-48 w-full rounded-2xl overflow-hidden relative border border-slate-200 dark:border-surface-border shadow-sm group">
+<img class="w-full h-full object-cover grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500" data-alt="Aerial view of Cal Poly Pomona campus buildings and greenery" data-location="Cal Poly Pomona Campus" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8NNVtRCZVkUQSJ5jAdoEk5ZWcX2w19tvuASvhdhQiBXil1e6AivksnHgcvjuhSjqLMY4nPszdgriC1D_7wbpGX_DKrUkR0sCxg9-yp4sJ9OvLevyDe-u5X5fvL9YsFCWjQAggUTkFnfHya3TODDxINNUcMto3PZfZ_16NOqJz3qX1V2i_nGLax7pgVStK08PvevEeVrFWiNO5snAbEl1LqGySiWMeXOHdwEpLCX9A7XOO5QVyqZtkFIaTg9h97o2TOkUyGvTVf6g"/>
+<div class="absolute bottom-3 left-3 bg-background-dark/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-surface-border">
+<span class="text-xs font-bold text-white flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-primary">school</span>
+                                    Cal Poly Pomona
+                                </span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Section: Project Hatchery CTA -->
+<div class="mt-8 border-t border-slate-200 dark:border-surface-border pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+<div class="flex items-center gap-3">
+<div class="size-10 bg-surface-dark border border-surface-border rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">rocket_launch</span>
+</div>
+<div>
+<p class="text-slate-900 dark:text-white font-bold text-sm">Backed by Project Hatchery</p>
+<p class="text-slate-500 dark:text-slate-400 text-xs">Empowering student-led innovation</p>
+</div>
+</div>
+<p class="text-slate-400 dark:text-slate-600 text-sm">© 2024 DIGITAL Club. All rights reserved.</p>
+</div>
+</div>
+</main>
+</div>
+</body></html>

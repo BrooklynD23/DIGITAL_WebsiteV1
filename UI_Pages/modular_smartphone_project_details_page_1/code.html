@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Modular Smartphone - DIGITAL Cal-Poly</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0d7ff2",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101922",
+                        "surface-dark": "#1C242E",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-white overflow-x-hidden">
+<div class="relative flex min-h-screen w-full flex-col group/design-root">
+<!-- Top Navigation -->
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#283039] bg-[#111418]/90 backdrop-blur-md px-4 py-3 md:px-10">
+<div class="flex items-center gap-4 text-white">
+<div class="size-8 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl">developer_board</span>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">DIGITAL | Cal-Poly</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8 hidden md:flex">
+<div class="flex items-center gap-9">
+<a class="text-white text-sm font-medium hover:text-primary transition-colors" href="#">Projects</a>
+<a class="text-white text-sm font-medium hover:text-primary transition-colors" href="#">About Us</a>
+<a class="text-white text-sm font-medium hover:text-primary transition-colors" href="#">Sponsors</a>
+<a class="text-white text-sm font-medium hover:text-primary transition-colors" href="#">Join Team</a>
+</div>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary hover:bg-primary/90 transition-colors text-white text-sm font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Donate</span>
+</button>
+</div>
+<div class="md:hidden text-white">
+<span class="material-symbols-outlined">menu</span>
+</div>
+</header>
+<main class="flex-grow flex flex-col items-center">
+<!-- Hero Section -->
+<section class="w-full max-w-[1200px] px-4 md:px-10 py-12 md:py-20">
+<div class="flex flex-col gap-10 lg:flex-row items-center">
+<div class="flex-1 flex flex-col gap-6 text-left">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 w-fit">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+</span>
+<span class="text-xs font-bold text-primary tracking-wide uppercase">Phase 2: Prototyping</span>
+</div>
+<h1 class="text-white text-5xl md:text-7xl font-black leading-tight tracking-[-0.033em]">
+                            Project: <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-cyan-400">Modular One</span>
+</h1>
+<p class="text-gray-300 text-lg md:text-xl font-normal leading-relaxed max-w-xl font-body">
+                            A fully modular, open-source smartphone designed by students. Redefining mobile hardware with industry-standard engineering and repairability at its core.
+                        </p>
+<div class="flex flex-wrap gap-4 pt-4">
+<button class="flex items-center justify-center rounded-lg h-12 px-6 bg-primary hover:bg-blue-600 text-white text-base font-bold transition-all shadow-[0_0_20px_rgba(13,127,242,0.3)]">
+                                View Technical Specs
+                            </button>
+<button class="flex items-center justify-center rounded-lg h-12 px-6 bg-surface-dark border border-gray-700 hover:border-gray-500 text-white text-base font-bold transition-all">
+                                Github Repository
+                            </button>
+</div>
+</div>
+<div class="flex-1 w-full relative group">
+<!-- Abstract decorative glow -->
+<div class="absolute -inset-1 bg-gradient-to-r from-primary to-cyan-400 rounded-xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
+<div class="relative w-full aspect-[4/3] bg-surface-dark rounded-xl overflow-hidden border border-gray-800 shadow-2xl">
+<div class="w-full h-full bg-center bg-cover" data-alt="Exploded view conceptual rendering of smartphone internal components and circuit boards" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBXWo3gNZ1E5ILzHh4xDXjTZsSnov--fVpzfP7uHX_k3xv4R3c7LGBWvk6FcklHR57kS4AgpoM8fsq62DV4oQDOxoDgAbtxMqBa49JKxPHxMEYsZNQ9Igfz4P9xu3tXTm6xCS6oSbKLG_GmY0paioWInXL-z6Gq08jN8hDBaI2pk1lp41btWS9x6x8RejfSkIdM1YYa7BOcKQgP1VyiepFtCSP159tke1tVzwUC3NX_DSALMJ6AztNIfD4Gs4UOuWyGBMuduk6r_gQ");'>
+</div>
+<div class="absolute bottom-4 left-4 right-4 bg-black/60 backdrop-blur-md rounded-lg p-4 border border-white/10">
+<div class="flex justify-between items-center">
+<span class="text-xs uppercase text-gray-400 font-bold tracking-widest">System Status</span>
+<span class="text-xs text-green-400 font-mono">ALL SYSTEMS NOMINAL</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Mission Stats -->
+<section class="w-full bg-[#0d1216] border-y border-gray-800">
+<div class="max-w-[1200px] mx-auto px-4 md:px-10 py-12">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-gray-800">
+<div class="flex flex-col gap-2 p-4">
+<span class="text-5xl font-bold text-white">100%</span>
+<span class="text-primary text-sm font-bold uppercase tracking-widest">Open Source</span>
+</div>
+<div class="flex flex-col gap-2 p-4">
+<span class="text-5xl font-bold text-white">4</span>
+<span class="text-primary text-sm font-bold uppercase tracking-widest">Core Modules</span>
+</div>
+<div class="flex flex-col gap-2 p-4">
+<span class="text-5xl font-bold text-white">25+</span>
+<span class="text-primary text-sm font-bold uppercase tracking-widest">Student Engineers</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Progress Tracker -->
+<section class="w-full max-w-[1200px] px-4 md:px-10 py-16">
+<div class="flex flex-col items-center mb-12">
+<h2 class="text-white text-3xl font-bold leading-tight mb-4">Project Timeline</h2>
+<p class="text-gray-400 text-center max-w-2xl font-body">From initial sketches on a napkin to a functional printed circuit board. Here is where we stand.</p>
+</div>
+<div class="relative w-full">
+<!-- Connector Line -->
+<div class="absolute top-1/2 left-0 w-full h-1 bg-gray-800 -translate-y-1/2 hidden md:block rounded-full"></div>
+<div class="absolute top-1/2 left-0 w-1/2 h-1 bg-gradient-to-r from-primary to-primary/50 -translate-y-1/2 hidden md:block rounded-full"></div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10">
+<!-- Step 1 -->
+<div class="flex flex-row md:flex-col items-center gap-4 md:gap-6 bg-background-dark md:bg-transparent p-4 md:p-0 rounded-lg border md:border-none border-gray-800">
+<div class="size-12 rounded-full bg-primary flex items-center justify-center text-white shadow-[0_0_15px_rgba(13,127,242,0.5)] shrink-0">
+<span class="material-symbols-outlined">check</span>
+</div>
+<div class="text-left md:text-center">
+<h3 class="text-white font-bold text-lg">Ideation</h3>
+<p class="text-gray-500 text-sm font-body">Concept &amp; Requirements</p>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="flex flex-row md:flex-col items-center gap-4 md:gap-6 bg-background-dark md:bg-transparent p-4 md:p-0 rounded-lg border md:border-none border-gray-800">
+<div class="size-12 rounded-full bg-primary flex items-center justify-center text-white shadow-[0_0_15px_rgba(13,127,242,0.5)] shrink-0">
+<span class="material-symbols-outlined">design_services</span>
+</div>
+<div class="text-left md:text-center">
+<h3 class="text-white font-bold text-lg">PCB Design</h3>
+<p class="text-gray-500 text-sm font-body">Schematics &amp; Layout</p>
+</div>
+</div>
+<!-- Step 3 (Current) -->
+<div class="flex flex-row md:flex-col items-center gap-4 md:gap-6 bg-surface-dark md:bg-transparent p-4 md:p-0 rounded-lg border border-primary/30 md:border-none">
+<div class="size-12 rounded-full bg-surface-dark border-2 border-primary flex items-center justify-center text-primary shrink-0 relative">
+<span class="material-symbols-outlined">precision_manufacturing</span>
+<span class="absolute -top-1 -right-1 flex h-3 w-3">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
+</span>
+</div>
+<div class="text-left md:text-center">
+<h3 class="text-white font-bold text-lg">Prototyping</h3>
+<p class="text-primary text-sm font-body font-bold">In Progress</p>
+</div>
+</div>
+<!-- Step 4 -->
+<div class="flex flex-row md:flex-col items-center gap-4 md:gap-6 bg-background-dark md:bg-transparent p-4 md:p-0 rounded-lg border md:border-none border-gray-800 opacity-50">
+<div class="size-12 rounded-full bg-gray-800 border-2 border-gray-700 flex items-center justify-center text-gray-500 shrink-0">
+<span class="material-symbols-outlined">rocket_launch</span>
+</div>
+<div class="text-left md:text-center">
+<h3 class="text-white font-bold text-lg">Assembly</h3>
+<p class="text-gray-500 text-sm font-body">Integration &amp; Launch</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Module Grid (Bento) -->
+<section class="w-full max-w-[1200px] px-4 md:px-10 py-16">
+<div class="flex justify-between items-end mb-8">
+<h2 class="text-white text-3xl font-bold leading-tight">System Modules</h2>
+<a class="text-primary text-sm font-bold hover:underline hidden md:block" href="#">View Full Schematics -&gt;</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Core Processor Card -->
+<div class="group relative bg-surface-dark rounded-xl p-6 border border-gray-800 hover:border-primary transition-colors cursor-pointer overflow-hidden lg:col-span-2">
+<div class="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-9xl">memory</span>
+</div>
+<div class="relative z-10 flex flex-col h-full justify-between gap-6">
+<div class="size-10 rounded-lg bg-primary/20 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined">memory</span>
+</div>
+<div>
+<h3 class="text-xl font-bold text-white mb-2">Core Compute Module</h3>
+<p class="text-gray-400 text-sm mb-4 font-body max-w-md">Powered by the ESP32-S3 microcontroller tailored for low-power IoT applications with integrated Wi-Fi + Bluetooth LE 5.0.</p>
+<div class="flex gap-2">
+<span class="text-xs font-mono bg-black/40 text-gray-300 px-2 py-1 rounded border border-gray-700">Dual-core Xtensa®</span>
+<span class="text-xs font-mono bg-black/40 text-gray-300 px-2 py-1 rounded border border-gray-700">240 MHz</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Power Card -->
+<div class="group relative bg-surface-dark rounded-xl p-6 border border-gray-800 hover:border-primary transition-colors cursor-pointer">
+<div class="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-8xl">battery_charging_full</span>
+</div>
+<div class="relative z-10 flex flex-col h-full justify-between gap-6">
+<div class="size-10 rounded-lg bg-green-500/20 text-green-500 flex items-center justify-center">
+<span class="material-symbols-outlined">battery_charging_full</span>
+</div>
+<div>
+<h3 class="text-xl font-bold text-white mb-2">Power Management</h3>
+<p class="text-gray-400 text-sm mb-4 font-body">Custom TP4056 based charging circuit with over-discharge protection.</p>
+<span class="text-xs font-mono bg-black/40 text-green-400 px-2 py-1 rounded border border-gray-700">3000mAh LiPo</span>
+</div>
+</div>
+</div>
+<!-- Display Card -->
+<div class="group relative bg-surface-dark rounded-xl p-6 border border-gray-800 hover:border-primary transition-colors cursor-pointer">
+<div class="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-8xl">screenshot_monitor</span>
+</div>
+<div class="relative z-10 flex flex-col h-full justify-between gap-6">
+<div class="size-10 rounded-lg bg-purple-500/20 text-purple-500 flex items-center justify-center">
+<span class="material-symbols-outlined">screenshot_monitor</span>
+</div>
+<div>
+<h3 class="text-xl font-bold text-white mb-2">Display Unit</h3>
+<p class="text-gray-400 text-sm mb-4 font-body">High-refresh rate OLED interface via SPI/I2C bridge.</p>
+<span class="text-xs font-mono bg-black/40 text-purple-400 px-2 py-1 rounded border border-gray-700">1.28" Circular OLED</span>
+</div>
+</div>
+</div>
+<!-- Camera Card -->
+<div class="group relative bg-surface-dark rounded-xl p-6 border border-gray-800 hover:border-primary transition-colors cursor-pointer lg:col-span-2">
+<div class="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-9xl">photo_camera</span>
+</div>
+<div class="relative z-10 flex flex-col h-full justify-between gap-6">
+<div class="size-10 rounded-lg bg-orange-500/20 text-orange-500 flex items-center justify-center">
+<span class="material-symbols-outlined">photo_camera</span>
+</div>
+<div>
+<h3 class="text-xl font-bold text-white mb-2">Optics Module</h3>
+<p class="text-gray-400 text-sm mb-4 font-body max-w-md">Interchangeable sensor array support. Currently prototyping with OV2640 sensors for basic machine learning vision tasks.</p>
+<div class="flex gap-2">
+<span class="text-xs font-mono bg-black/40 text-gray-300 px-2 py-1 rounded border border-gray-700">2MP Sensor</span>
+<span class="text-xs font-mono bg-black/40 text-gray-300 px-2 py-1 rounded border border-gray-700">Hardware JPEG</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Technical Specifications Table -->
+<section class="w-full bg-[#0d1216] border-y border-gray-800 py-16">
+<div class="max-w-[960px] mx-auto px-4 md:px-10">
+<h2 class="text-white text-2xl font-bold mb-8 flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">tune</span>
+                        Hardware Specifications
+                    </h2>
+<div class="w-full bg-surface-dark rounded-xl border border-gray-800 overflow-hidden">
+<div class="flex flex-col">
+<div class="grid grid-cols-1 md:grid-cols-3 border-b border-gray-800 p-4 hover:bg-white/5 transition-colors">
+<div class="text-gray-400 font-bold text-sm uppercase tracking-wider">Microcontroller</div>
+<div class="md:col-span-2 text-white font-mono text-sm">Espressif ESP32-S3-WROOM-1</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 border-b border-gray-800 p-4 hover:bg-white/5 transition-colors">
+<div class="text-gray-400 font-bold text-sm uppercase tracking-wider">PCB Layers</div>
+<div class="md:col-span-2 text-white font-mono text-sm">4-Layer Stackup, ENIG Finish</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 border-b border-gray-800 p-4 hover:bg-white/5 transition-colors">
+<div class="text-gray-400 font-bold text-sm uppercase tracking-wider">Connectivity</div>
+<div class="md:col-span-2 text-white font-mono text-sm">USB-C (Data + Power), WiFi 2.4GHz, BT 5.0</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 border-b border-gray-800 p-4 hover:bg-white/5 transition-colors">
+<div class="text-gray-400 font-bold text-sm uppercase tracking-wider">Firmware</div>
+<div class="md:col-span-2 text-white font-mono text-sm">C++ / PlatformIO (Open Source)</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 p-4 hover:bg-white/5 transition-colors">
+<div class="text-gray-400 font-bold text-sm uppercase tracking-wider">Expansion</div>
+<div class="md:col-span-2 text-white font-mono text-sm">12-Pin Pogo Connector for external modules</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Team Section -->
+<section class="w-full max-w-[1200px] px-4 md:px-10 py-20">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-4">
+<div>
+<h2 class="text-white text-3xl font-bold leading-tight mb-2">Built By Students</h2>
+<p class="text-gray-400 font-body">The engineering minds behind Modular One.</p>
+</div>
+<button class="text-sm font-bold text-white bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg transition-colors">
+                        Meet the whole team
+                    </button>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+<!-- Member 1 -->
+<div class="flex flex-col gap-3">
+<div class="aspect-square w-full rounded-xl bg-gray-800 overflow-hidden relative group">
+<div class="w-full h-full bg-center bg-cover transition-transform duration-500 group-hover:scale-110" data-alt="Portrait of Sarah Jenkins, Project Lead" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAjUE2Bxiul3cIl5_eJADJdfEPfHeK6a0bbhvRVpRHTtco5EYzr076qXJph3ryGvYIAeVstLKBxc3IHOn9vAR0oqWisYVWHxTrVaJFOSVfVIqFTFUWhQet_2n9huD-TEupHqv-4pLXx7ZT5z8Z7iFxtu5wZTU4WTvOoiqikPODuyXr42Q455wgDuq-Rn_0l4iLi9HtALF6cxbEqbOgnbhfylM1GeuTid8pYW0Yh9nJI7dawRPinoU1pdGk54FHxWts5-d5JeqBzWrM");'>
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+<span class="text-white text-xs font-bold">Connect on LinkedIn</span>
+</div>
+</div>
+<div>
+<h4 class="text-white font-bold text-lg leading-none">Sarah Jenkins</h4>
+<span class="text-primary text-sm font-medium">Project Lead</span>
+</div>
+</div>
+<!-- Member 2 -->
+<div class="flex flex-col gap-3">
+<div class="aspect-square w-full rounded-xl bg-gray-800 overflow-hidden relative group">
+<div class="w-full h-full bg-center bg-cover transition-transform duration-500 group-hover:scale-110" data-alt="Portrait of David Chen, PCB Specialist" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCmPSQsxj_1MN-nXoupCPOCjcezKkl02GKmPK4fMg-LheycTPF8XzqPEQJY1AcljVW1fdae9AXOqqkT31hODn9HEi-pBdw6eCoEluNnazdclSg6vLReXYaQGPNmiEJpacG2nHFSzQZdsBtff01lWOUhhFdK7OUikUT6piRUKf0r27ics_pKAYOWXtSB6qTHNV2T8zDVqF5hxfBlCTlt8tAX5-gZwmpSzR5RCojV9T6elfyq-RlFrn2osgcpeb5XQByAhIfHDGnMZFw");'>
+</div>
+</div>
+<div>
+<h4 class="text-white font-bold text-lg leading-none">David Chen</h4>
+<span class="text-gray-400 text-sm font-medium">PCB Design Lead</span>
+</div>
+</div>
+<!-- Member 3 -->
+<div class="flex flex-col gap-3">
+<div class="aspect-square w-full rounded-xl bg-gray-800 overflow-hidden relative group">
+<div class="w-full h-full bg-center bg-cover transition-transform duration-500 group-hover:scale-110" data-alt="Portrait of Emily Rodriguez, Firmware Engineer" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD9sxfC89--UVi3r6nZQ5aZ-ysNT1rUWOB4_XCEbM4wIv-Dv42VG9Hlb1mJdk9dBb-cIATjlV5RgJjtwsVhZdW9XAyVFGHm_V7MKH9GMT7mBbMwcnEsxgbVm2v7m1Pvgi6fI3iJXx3Goktkt0M-CrM3uIOy99K7mC-p70cnWiCXfKI5ISq0Yc4CpixnQdpPm4iwwfx6N6oJIm3xhdI7ER03tozOiSv8aZxFEi-y_go64QmwEHwBK5p7MaZbCzVBIYXqdEo2cqcN8mQ");'>
+</div>
+</div>
+<div>
+<h4 class="text-white font-bold text-lg leading-none">Emily Rodriguez</h4>
+<span class="text-gray-400 text-sm font-medium">Firmware Architect</span>
+</div>
+</div>
+<!-- Member 4 -->
+<div class="flex flex-col gap-3">
+<div class="aspect-square w-full rounded-xl bg-gray-800 overflow-hidden relative group">
+<div class="w-full h-full bg-center bg-cover transition-transform duration-500 group-hover:scale-110" data-alt="Portrait of Marcus Johnson, Industrial Designer" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBguWc2NJhhFCdGGXTzIlDTftCxYuTtCRBCOAY8CfvT19YCYUehcnvbc1jSo9huPRiIjh8aDdWIsdTYyD9Ti6xOqap4W0DVts2AuIq6KGPcZc8kkaOdyL59A0ZWS8RYTaUOH7xC5OZmlws50_9I0eMXQ_PXqR6-YjA2_t8SmSDKMnmYmbWd4uw9j8VnmHyI2aNzBtYNViduu-t_L7acWNjmFG3TOlg58iA17IW_Da_Hb6D3csFfaEAyv-fokYmsOpy1b64Jni4EXvc");'>
+</div>
+</div>
+<div>
+<h4 class="text-white font-bold text-lg leading-none">Marcus Johnson</h4>
+<span class="text-gray-400 text-sm font-medium">Industrial Design</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Call to Action -->
+<section class="w-full px-4 pb-20 pt-10">
+<div class="max-w-[960px] mx-auto bg-gradient-to-br from-surface-dark to-[#0d1216] border border-gray-700 rounded-2xl p-8 md:p-16 text-center relative overflow-hidden">
+<div class="absolute -top-24 -right-24 w-64 h-64 bg-primary/20 blur-3xl rounded-full"></div>
+<div class="absolute -bottom-24 -left-24 w-64 h-64 bg-purple-500/20 blur-3xl rounded-full"></div>
+<div class="relative z-10 flex flex-col items-center gap-6">
+<h2 class="text-3xl md:text-5xl font-black text-white tracking-tight">Ready to Build the Future?</h2>
+<p class="text-gray-300 max-w-lg text-lg font-body">
+                            Join DIGITAL today. Whether you code, design PCBs, or just love hardware, there is a place for you on the Modular One team.
+                        </p>
+<div class="flex flex-col sm:flex-row gap-4 w-full justify-center">
+<button class="flex items-center justify-center rounded-lg h-12 px-8 bg-primary hover:bg-blue-600 text-white text-base font-bold transition-all w-full sm:w-auto">
+                                Apply to Join Team
+                            </button>
+<button class="flex items-center justify-center rounded-lg h-12 px-8 bg-white/5 hover:bg-white/10 border border-white/10 text-white text-base font-bold transition-all w-full sm:w-auto">
+                                Sponsor This Project
+                            </button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full border-t border-gray-800 bg-[#0d1216] py-12 px-4 md:px-10">
+<div class="max-w-[1200px] mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="flex flex-col gap-2 text-center md:text-left">
+<div class="flex items-center justify-center md:justify-start gap-2 text-white mb-2">
+<span class="material-symbols-outlined text-primary">developer_board</span>
+<h2 class="text-lg font-bold">DIGITAL</h2>
+</div>
+<p class="text-gray-500 text-sm max-w-xs font-body">
+                        Cal-Poly Pomona's premier hardware engineering club. Turning theory into reality.
+                    </p>
+</div>
+<div class="flex flex-col items-center md:items-end gap-4">
+<span class="text-xs uppercase text-gray-600 font-bold tracking-widest">Backed By</span>
+<div class="flex items-center gap-6 opacity-70 grayscale hover:grayscale-0 transition-all">
+<div class="h-8 w-24 bg-contain bg-no-repeat bg-center" data-alt="Cal Poly Pomona Logo" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCp-gX3xtiF_szaofQ7KnJBsv8Pg0qsNdeAJP5Lg0v3nPxzRYs9oyQU9riH4dSTGwVB6a2cwan_9Onv7WlHlX1xDz6CVsH308_v6VXCp_cyLYbS1XKkmRcN5zVnsPwet3-t7uxJwGz9UJhAZfJZW2EZ8bxZVH0iU4w31-5Is9N3VkH-4kcwAypIiofHD0VJKYqI6BuvyxqODf0sbKr4N3F9yxd32lWENt5Bz69lBy0cBiYzAIvFpM1TuMXPmscl9xCuqiwUzvvjAuM');"></div>
+<div class="h-8 w-32 bg-contain bg-no-repeat bg-center" data-alt="Project Hatchery Foundation Logo" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCWwonW4vRzoX7z7-Ez2antyDKV0_vMexN6Q2JA8fuiDx7p_iRpAWBTeDONTp2pWoU_A_buR5Aw-yVnjQl5qswzwDA7AFo1018SkIhEXrA1oyhGGdQxdMG3qw7EocHq_cw1PhvY3TfqDaUBtOWgoLKPBZ_VN6tr2Hyu8hYr52arR1ApcMsW1ryGNcyDFJ26xOpnQ_krPiy5WiE5BcNToVtZPm7m82mztGLrWP5SbKKCrUGQxGNgc7J2Ab-t-lZE-Yeoiqvz2IfEW9U');"></div>
+</div>
+</div>
+</div>
+<div class="max-w-[1200px] mx-auto mt-12 pt-8 border-t border-gray-800 text-center text-gray-600 text-sm font-body">
+                © 2023 DIGITAL Club. All rights reserved. Designed for the Future.
+            </div>
+</footer>
+</div>
+</body></html>

@@ -1,0 +1,8 @@
+<svg width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100%" height="100%" fill="#1a242f"/>
+  <rect x="100" y="150" width="150" height="100" fill="#283039"/>
+  <rect x="300" y="120" width="200" height="130" fill="#283039"/>
+  <rect x="550" y="160" width="150" height="90" fill="#283039"/>
+  <ellipse cx="400" cy="350" rx="350" ry="30" fill="#101922" opacity="0.5"/>
+  <text x="400" y="80" font-family="Arial, sans-serif" font-size="24" fill="#9cabba" text-anchor="middle">Cal Poly Pomona</text>
+</svg>
