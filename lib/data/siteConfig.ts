@@ -24,12 +24,10 @@ export const stats = {
   activeMembers: '120+',
   prototypes: '15',
   linesOfCode: '50k+',
-  sponsors: '8',
+  sponsors: '2',
 };
 
 export const sponsors = [
-  { name: 'Project Hatchery', icon: 'rocket_launch' },
-  { name: 'Cal Poly Pomona', icon: 'school' },
-  { name: 'Autodesk', icon: 'precision_manufacturing' },
-  { name: 'NVIDIA', icon: 'memory' },
+  { name: 'Cal Poly Pomona Project Hatchery' },
+  { name: 'College of Engineering: MEP-WiSE' },
 ];

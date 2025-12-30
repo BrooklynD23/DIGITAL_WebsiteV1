@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Badge } from '@/components/ui';
+import { Badge, Button, Card } from '@/components/ui';
 import { stats, sponsors } from '@/lib/data/siteConfig';
 import { projects } from '@/lib/data/projects';
 
@@ -16,18 +16,18 @@ export default function HomePage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative w-full py-16 md:py-24 px-4 md:px-10 overflow-hidden">
-        {/* Background decorative elements */}
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-500/5 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/4 pointer-events-none" />
+      <section className="relative w-full py-20 md:py-28 px-4 md:px-10 overflow-hidden">
+        {/* Background decorative elements - subtle glow */}
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/8 rounded-full blur-[100px] -translate-y-1/3 translate-x-1/3 pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-primary/5 rounded-full blur-[80px] translate-y-1/3 -translate-x-1/4 pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
           <div className="flex-1 flex flex-col gap-6 z-10">
-            <Badge pulse>Now Recruiting for Fall 2024</Badge>
+            <Badge variant="flagship" pulse>Now Recruiting for Fall 2024</Badge>
 
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-[0.95] tracking-tight text-slate-900 dark:text-white">
               Building the Future, <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">
+              <span className="text-gradient">
                 One Module
               </span>{' '}
               at a Time.
@@ -39,45 +39,49 @@ export default function HomePage() {
             </p>
 
             <div className="flex flex-wrap gap-4 pt-4">
-              <Link
-                href="/projects/modular-smartphone"
-                className="flex items-center justify-center rounded-lg h-12 px-6 bg-primary hover:bg-blue-600 text-white text-base font-bold transition-all shadow-lg shadow-primary/25 group"
-              >
-                <span>View Modular Phone</span>
-                <span className="material-symbols-outlined ml-2 group-hover:translate-x-1 transition-transform text-[20px]">
-                  arrow_forward
-                </span>
+              <Link href="/projects/modular-smartphone">
+                <Button
+                  size="lg"
+                  icon={
+                    <span className="material-symbols-outlined text-[20px] transition-transform group-hover:translate-x-1">
+                      arrow_forward
+                    </span>
+                  }
+                  iconPosition="right"
+                  className="group"
+                >
+                  View Modular Phone
+                </Button>
               </Link>
-              <Link
-                href="/about"
-                className="flex items-center justify-center rounded-lg h-12 px-6 bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 hover:border-primary dark:hover:border-primary text-slate-900 dark:text-white text-base font-bold transition-all"
-              >
-                Learn More
+              <Link href="/about">
+                <Button variant="secondary" size="lg">
+                  Learn More
+                </Button>
               </Link>
             </div>
           </div>
 
           {/* Hero Image */}
           <div className="flex-1 w-full relative group">
-            <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-purple-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800 shadow-2xl bg-surface-dark">
+            <div className="absolute inset-0 bg-gradient-to-tr from-primary/15 to-blue-400/10 rounded-2xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-500 ease-smooth" />
+            <Card variant="default" padding="none" className="relative w-full aspect-[4/3] overflow-hidden shadow-xl">
               <Image
                 src="/images/placeholders/general/hero-device.svg"
                 alt="Exploded view of advanced smartphone components and circuitry"
                 fill
-                className="object-cover hover:scale-105 transition-transform duration-700 ease-out opacity-90"
+                className="object-cover transition-transform duration-700 ease-smooth group-hover:scale-[1.02] opacity-90"
                 priority
               />
               {/* Overlay UI Elements */}
-              <div className="absolute top-6 right-6 flex flex-col gap-2 items-end">
-                <div className="bg-black/60 backdrop-blur-md border border-white/10 px-3 py-1 rounded text-xs font-mono text-primary">
+              <div className="absolute top-5 right-5 flex flex-col gap-2 items-end">
+                <div className="bg-black/60 backdrop-blur-md border border-white/10 px-3 py-1.5 rounded-lg text-xs font-mono text-primary">
                   BATTERY_MOD_V2
                 </div>
-                <div className="bg-black/60 backdrop-blur-md border border-white/10 px-3 py-1 rounded text-xs font-mono text-green-400">
+                <div className="bg-black/60 backdrop-blur-md border border-white/10 px-3 py-1.5 rounded-lg text-xs font-mono text-emerald-400">
                   STATUS: ACTIVE
                 </div>
               </div>
-            </div>
+            </Card>
           </div>
         </div>
       </section>
@@ -249,14 +253,13 @@ export default function HomePage() {
           <h3 className="text-center text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest mb-10 text-sm">
             Backed By Industry Leaders
           </h3>
-          <div className="flex flex-wrap justify-center items-center gap-12 md:gap-20 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
+          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">
             {sponsors.map((sponsor) => (
               <div
                 key={sponsor.name}
-                className="flex items-center gap-2 text-2xl font-bold text-slate-800 dark:text-white"
+                className="text-lg md:text-xl font-semibold text-slate-700 dark:text-slate-300 transition-colors duration-300 hover:text-primary"
               >
-                <span className="material-symbols-outlined text-4xl">{sponsor.icon}</span>
-                {sponsor.name.toUpperCase()}
+                {sponsor.name}
               </div>
             ))}
           </div>
@@ -266,15 +269,15 @@ export default function HomePage() {
       {/* CTA Section */}
       <section className="w-full py-24 px-4 md:px-10 bg-background-light dark:bg-background-dark relative overflow-hidden">
         <div
-          className="absolute inset-0 opacity-10"
+          className="absolute inset-0 opacity-5"
           style={{
             backgroundImage: 'radial-gradient(#4b5563 1px, transparent 1px)',
             backgroundSize: '32px 32px',
           }}
         />
-        <div className="max-w-4xl mx-auto relative z-10 bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-800 rounded-3xl p-8 md:p-16 text-center shadow-2xl">
-          <div className="size-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6 text-primary">
-            <span className="material-symbols-outlined text-4xl">electrical_services</span>
+        <Card variant="default" padding="lg" className="max-w-4xl mx-auto relative z-10 text-center shadow-xl">
+          <div className="size-16 bg-primary-subtle rounded-2xl flex items-center justify-center mx-auto mb-6 text-primary transition-all duration-300 hover:shadow-glow-sm">
+            <span className="material-symbols-outlined text-3xl">electrical_services</span>
           </div>
           <h2 className="text-3xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6">
             Ready to Join the Circuit?
@@ -284,20 +287,18 @@ export default function HomePage() {
             there&apos;s a place for you at DIGITAL. No prior experience required.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              href="/contact"
-              className="w-full sm:w-auto flex items-center justify-center rounded-lg h-14 px-8 bg-primary hover:bg-blue-600 text-white text-lg font-bold transition-all shadow-xl shadow-primary/20"
-            >
-              Apply for Membership
+            <Link href="/contact" className="w-full sm:w-auto">
+              <Button size="lg" className="w-full sm:w-auto text-base px-8">
+                Apply for Membership
+              </Button>
             </Link>
-            <Link
-              href="/contact"
-              className="w-full sm:w-auto flex items-center justify-center rounded-lg h-14 px-8 bg-transparent border border-gray-300 dark:border-gray-600 hover:border-primary dark:hover:border-primary text-slate-900 dark:text-white text-lg font-bold transition-all"
-            >
-              Contact Us
+            <Link href="/contact" className="w-full sm:w-auto">
+              <Button variant="outline" size="lg" className="w-full sm:w-auto text-base px-8">
+                Contact Us
+              </Button>
             </Link>
           </div>
-        </div>
+        </Card>
       </section>
     </>
   );

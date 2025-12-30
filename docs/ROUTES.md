@@ -12,6 +12,7 @@ This document outlines all routes and pages in the DIGITAL website.
 | `/contact` | Contact | Contact form and club information |
 | `/projects` | Projects Showcase | Filterable grid of all projects |
 | `/projects/[slug]` | Project Details | Individual project page with specs, timeline, team |
+| `/get-involved` | Get Involved | Scalable involvement options for students, alumni, companies |
 
 ---
 
@@ -21,16 +22,21 @@ This document outlines all routes and pages in the DIGITAL website.
 **File:** `app/page.tsx`
 
 **Sections:**
-1. **Hero** - Main headline, badge, CTA buttons, hero image
+1. **Hero** - Main headline with gradient text, badge, CTA buttons, hero image with overlay elements
 2. **Stats Bar** - Active members, prototypes, lines of code, sponsors
 3. **Mission** - Brief mission statement
 4. **Featured Projects** - Bento grid of 4 featured projects
-5. **Sponsors** - Logo bar of industry partners
-6. **CTA** - "Ready to Join the Circuit?" call-to-action
+5. **Sponsors** - Text display of industry partners (Cal Poly Pomona Project Hatchery, MEP-WiSE)
+6. **CTA** - "Ready to Join the Circuit?" call-to-action with Card component
 
 **Data Sources:**
 - `lib/data/siteConfig.ts` - Stats, sponsors
 - `lib/data/projects.ts` - Featured projects
+
+**UI Components Used:**
+- `Button` - Primary and secondary CTAs
+- `Badge` - "Now Recruiting" with pulse animation
+- `Card` - Hero image container, CTA section
 
 ---
 
@@ -97,6 +103,9 @@ This document outlines all routes and pages in the DIGITAL website.
 **Data Sources:**
 - `lib/data/siteConfig.ts` - Contact info, social links, Formspree endpoint
 
+**Query Parameters:**
+- `?type=<involvement-type>` - Pre-selects topic based on Get Involved page links
+
 ---
 
 ### Projects Showcase (`/projects`)
@@ -151,6 +160,45 @@ This document outlines all routes and pages in the DIGITAL website.
 
 ---
 
+### Get Involved Page (`/get-involved`)
+**File:** `app/get-involved/page.tsx`
+
+**Purpose:** Scalable page for different audiences to find involvement opportunities
+
+**Sections:**
+1. **Hero** - "Get Involved with DIGITAL" with badge "Open to Everyone"
+2. **Students Section** - 4 options:
+   - Become a Member (featured)
+   - Join a Project Team
+   - Apply for Leadership
+   - Get Mentorship
+3. **Alumni Section** - 3 options:
+   - Join Alumni Network (featured)
+   - Mentor Students
+   - Speak at an Event
+4. **Companies Section** - 4 options:
+   - Become a Sponsor (featured)
+   - Recruit Talent
+   - Host a Workshop
+   - Donate Equipment
+5. **Meeting Info** - General meeting details with perks list
+6. **CTA** - "Not Sure Where to Start?" with contact links
+
+**Data Sources:**
+- `lib/data/involvement.ts` - All involvement categories and options
+- `lib/data/involvement.ts` - Meeting information
+
+**UI Components Used:**
+- `Card` - Interactive cards for each option, featured card for meeting info
+- `CardHeader`, `CardTitle`, `CardDescription` - Card subcomponents
+- `Badge` - "Popular" badges on featured options, "Open to Everyone" hero badge
+- `Button` - CTAs throughout
+
+**Scalability:**
+To add new involvement options, edit `lib/data/involvement.ts`. See `MAINTAINER_GUIDE.md` for details.
+
+---
+
 ### 404 Page (`/not-found`)
 **File:** `app/not-found.tsx`
 
@@ -179,8 +227,35 @@ Applied to all pages. Includes:
 
 ---
 
+## Navigation Structure
+
+**File:** `components/layout/Navbar.tsx`
+
+Current navigation links (in order):
+1. Home (`/`)
+2. Projects (`/projects`)
+3. About Us (`/about`)
+4. Team (`/team`)
+5. Get Involved (`/get-involved`)
+6. Contact (`/contact`)
+
+Plus "Join Us" CTA button linking to `/contact`
+
+---
+
 ## Static Generation
 
 All pages are statically generated at build time. The project uses Next.js static export (`output: 'export'`).
 
 Dynamic routes (`/projects/[slug]`) use `generateStaticParams()` to pre-render all project pages based on the slugs in `lib/data/projects.ts`.
+
+---
+
+## Data Files Summary
+
+| File | Purpose |
+|------|---------|
+| `lib/data/siteConfig.ts` | Site metadata, contact info, social links, stats, sponsors |
+| `lib/data/projects.ts` | All project data with full details |
+| `lib/data/team.ts` | Team member information |
+| `lib/data/involvement.ts` | Get Involved categories, options, and meeting info |
