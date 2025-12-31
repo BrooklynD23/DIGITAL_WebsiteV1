@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Card, CardHeader, CardTitle, CardDescription, Button, Badge } from '@/components/ui';
 import { involvementCategories, meetingInfo } from '@/lib/data/involvement';
+import { siteConfig } from '@/lib/data/siteConfig';
 
 export const metadata: Metadata = {
   title: 'Get Involved - DIGITAL @ Cal Poly Pomona',
@@ -175,7 +176,7 @@ export default function GetInvolvedPage() {
           <p className="text-slate-600 dark:text-slate-400 mb-8">
             Reach out to our outreach team and we&apos;ll help you find the perfect way to get involved.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
             <Link href="/contact">
               <Button size="lg">
                 Contact Outreach Team
@@ -186,6 +187,42 @@ export default function GetInvolvedPage() {
                 Learn More About Us
               </Button>
             </Link>
+          </div>
+
+          {/* Quick Access Community Links */}
+          <div className="pt-8 border-t border-slate-200 dark:border-surface-border">
+            <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">
+              Ready to jump in? Join our community directly:
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              <a
+                href={siteConfig.community.discord}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#5865F2] hover:bg-[#4752C4] text-white text-sm font-semibold transition-colors"
+              >
+                <span className="material-symbols-outlined text-lg">chat</span>
+                Join Discord
+              </a>
+              <a
+                href={siteConfig.community.notion}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-sm font-semibold transition-colors"
+              >
+                <span className="material-symbols-outlined text-lg">article</span>
+                View Notion
+              </a>
+              <a
+                href={siteConfig.community.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-sm font-semibold transition-colors"
+              >
+                <span className="material-symbols-outlined text-lg">code</span>
+                View GitHub
+              </a>
+            </div>
           </div>
         </div>
       </section>

@@ -15,7 +15,12 @@ export const siteConfig: SiteConfig = {
     linkedin: 'https://linkedin.com/company/digitalcpp',
     github: 'https://github.com/digitalcpp',
     instagram: 'https://instagram.com/digitalcpp',
-    discord: 'https://discord.gg/digitalcpp',
+    discord: 'https://discord.gg/Vsg3qcNVzv',
+  },
+  community: {
+    discord: 'https://discord.gg/Vsg3qcNVzv',
+    github: 'https://github.com/SunnyYoshimitsu/CelestiCall',
+    notion: 'https://www.notion.so/team/14816947-3d77-8175-b209-0042311fec65/join',
   },
   formspreeEndpoint: 'https://formspree.io/f/YOUR_FORM_ID',
 };

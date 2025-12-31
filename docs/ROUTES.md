@@ -7,6 +7,7 @@ This document outlines all routes and pages in the DIGITAL website.
 | Route | Page | Description |
 |-------|------|-------------|
 | `/` | Homepage | Main landing page with hero, stats, featured projects, and CTA |
+| `/pillars` | DIGITAL Pillars | Showcase of the DIGITAL acronym and mission framework |
 | `/about` | About/Mission | Club mission, values, flagship project showcase, roadmap |
 | `/team` | Team Members | Filterable team directory with all members |
 | `/contact` | Contact | Contact form and club information |
@@ -37,6 +38,33 @@ This document outlines all routes and pages in the DIGITAL website.
 - `Button` - Primary and secondary CTAs
 - `Badge` - "Now Recruiting" with pulse animation
 - `Card` - Hero image container, CTA section
+
+---
+
+### DIGITAL Pillars Page (`/pillars`)
+**File:** `app/pillars/page.tsx`
+
+**Purpose:** Showcase the DIGITAL acronym and explain the club's engineering framework.
+
+**Sections:**
+1. **Hero** - "The DIGITAL Pillars" with gradient text, "Our Framework" badge
+2. **Interactive Acronym Display** - Horizontal display of D-I-G-I-T-A-L letters with hover effects
+3. **Pillars Grid** - 7 cards explaining each pillar:
+   - **D**evice - Hardware architecture, ergonomic design, component selection
+   - **I**mplementation - PCB fabrication, firmware development, mechanical assembly
+   - **G**enerating - Concept ideation, rapid prototyping, design iteration
+   - **I**ntegrating - System architecture, module interconnects, cross-team collaboration
+   - **T**esting - Performance benchmarks, stress testing, quality assurance
+   - **A**nalyzing - Performance metrics, failure analysis, optimization studies
+   - **L**earning - Peer mentorship, technical workshops, documentation culture
+4. **Mission Statement** - Featured card with the full mission statement
+5. **Connected Framework** - Three cards showing Design→Build→Growth phases
+6. **CTA** - Links to Get Involved and Contact pages
+
+**UI Components Used:**
+- `Card`, `CardHeader`, `CardTitle`, `CardDescription` - Pillar cards and mission statement
+- `Badge` - "Our Framework" hero badge
+- `Button` - CTA buttons
 
 ---
 
@@ -233,11 +261,12 @@ Applied to all pages. Includes:
 
 Current navigation links (in order):
 1. Home (`/`)
-2. Projects (`/projects`)
-3. About Us (`/about`)
-4. Team (`/team`)
-5. Get Involved (`/get-involved`)
-6. Contact (`/contact`)
+2. Pillars (`/pillars`)
+3. Projects (`/projects`)
+4. About Us (`/about`)
+5. Team (`/team`)
+6. Get Involved (`/get-involved`)
+7. Contact (`/contact`)
 
 Plus "Join Us" CTA button linking to `/contact`
 
@@ -255,7 +284,8 @@ Dynamic routes (`/projects/[slug]`) use `generateStaticParams()` to pre-render a
 
 | File | Purpose |
 |------|---------|
-| `lib/data/siteConfig.ts` | Site metadata, contact info, social links, stats, sponsors |
+| `lib/data/siteConfig.ts` | Site metadata, contact info, social links, community links (Discord, GitHub, Notion), stats, sponsors |
 | `lib/data/projects.ts` | All project data with full details |
 | `lib/data/team.ts` | Team member information |
 | `lib/data/involvement.ts` | Get Involved categories, options, and meeting info |
+| `lib/types.ts` | TypeScript type definitions for all data structures |

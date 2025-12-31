@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Badge } from '@/components/ui';
 import { teamMembers } from '@/lib/data/team';
+import { siteConfig } from '@/lib/data/siteConfig';
 
 export const metadata: Metadata = {
   title: 'About Us - DIGITAL @ Cal Poly Pomona',
@@ -380,20 +381,58 @@ export default function AboutPage() {
           Join a community of passionate builders. No prior experience required, just a willingness
           to learn and break things.
         </p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Link
-            href="/contact"
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
+          <a
+            href={siteConfig.community.discord}
+            target="_blank"
+            rel="noopener noreferrer"
             className="w-full sm:w-auto px-8 h-12 rounded-lg bg-primary text-white font-bold text-lg hover:bg-blue-600 transition-all flex items-center justify-center gap-2"
           >
             <span className="material-symbols-outlined">chat</span>
             Join Discord
-          </Link>
-          <Link
-            href="/contact"
-            className="w-full sm:w-auto px-8 h-12 rounded-lg bg-transparent border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-[#1b2127] text-slate-900 dark:text-white font-bold text-lg transition-all flex items-center justify-center"
+          </a>
+          <a
+            href={siteConfig.community.notion}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full sm:w-auto px-8 h-12 rounded-lg bg-transparent border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-[#1b2127] text-slate-900 dark:text-white font-bold text-lg transition-all flex items-center justify-center gap-2"
           >
-            View Calendar
-          </Link>
+            <span className="material-symbols-outlined">article</span>
+            View Notion
+          </a>
+        </div>
+
+        {/* Additional Community Links */}
+        <div className="flex items-center justify-center gap-6">
+          <a
+            href={siteConfig.community.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-slate-500 dark:text-slate-400 hover:text-primary transition-colors"
+          >
+            <span className="material-symbols-outlined">code</span>
+            <span className="text-sm font-medium">GitHub</span>
+          </a>
+          <span className="text-slate-300 dark:text-slate-700">|</span>
+          <a
+            href={siteConfig.social.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-slate-500 dark:text-slate-400 hover:text-primary transition-colors"
+          >
+            <span className="material-symbols-outlined">public</span>
+            <span className="text-sm font-medium">LinkedIn</span>
+          </a>
+          <span className="text-slate-300 dark:text-slate-700">|</span>
+          <a
+            href={siteConfig.social.instagram}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-slate-500 dark:text-slate-400 hover:text-primary transition-colors"
+          >
+            <span className="material-symbols-outlined">photo_camera</span>
+            <span className="text-sm font-medium">Instagram</span>
+          </a>
         </div>
       </section>
     </main>
