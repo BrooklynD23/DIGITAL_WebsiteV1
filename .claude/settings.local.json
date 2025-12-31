@@ -8,7 +8,10 @@
       "Skill(superpowers:brainstorming)",
       "WebFetch(domain:sites.google.com)",
       "Bash(mkdir:*)",
-      "Skill(superpowers:systematic-debugging)"
+      "Skill(superpowers:systematic-debugging)",
+      "Skill(superpowers:requesting-code-review)",
+      "Bash(git rev-parse:*)",
+      "Bash(git add:*)"
     ]
   }
 }

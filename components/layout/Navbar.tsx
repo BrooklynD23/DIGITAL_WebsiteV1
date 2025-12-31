@@ -1,10 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui';
+
+// Navbar height constant - exported for use in other components
+export const NAVBAR_HEIGHT = 65;
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -16,20 +19,51 @@ const navLinks = [
   { href: '/contact', label: 'Contact' },
 ];
 
+// Throttle function to limit scroll event calls
+function useThrottle<T extends (...args: unknown[]) => void>(
+  callback: T,
+  delay: number
+): T {
+  const lastRan = useRef(Date.now());
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  return useCallback(
+    ((...args: unknown[]) => {
+      const now = Date.now();
+      if (now - lastRan.current >= delay) {
+        callback(...args);
+        lastRan.current = now;
+      } else {
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        timeoutRef.current = setTimeout(() => {
+          callback(...args);
+          lastRan.current = Date.now();
+        }, delay - (now - lastRan.current));
+      }
+    }) as T,
+    [callback, delay]
+  );
+}
+
 export function Navbar() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  // Handle scroll effect
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+  // Handle scroll effect with throttling (16ms = ~60fps)
+  const handleScroll = useCallback(() => {
+    setScrolled(window.scrollY > 10);
   }, []);
+
+  const throttledHandleScroll = useThrottle(handleScroll, 16);
+
+  useEffect(() => {
+    // Set initial scroll state
+    handleScroll();
+
+    window.addEventListener('scroll', throttledHandleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', throttledHandleScroll);
+  }, [handleScroll, throttledHandleScroll]);
 
   // Close mobile menu on route change
   useEffect(() => {

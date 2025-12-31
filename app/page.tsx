@@ -69,6 +69,7 @@ export default function HomePage() {
                 src="/images/placeholders/general/hero-device.svg"
                 alt="Exploded view of advanced smartphone components and circuitry"
                 fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover transition-transform duration-700 ease-smooth group-hover:scale-[1.02] opacity-90"
                 priority
               />
@@ -175,7 +176,9 @@ export default function HomePage() {
                 src={featuredProjects[0]?.image || '/images/placeholders/projects/modular-phone.svg'}
                 alt={featuredProjects[0]?.title || 'Featured Project'}
                 fill
+                sizes="(max-width: 768px) 100vw, 66vw"
                 className="object-cover transition-transform duration-700 group-hover:scale-105 opacity-60 group-hover:opacity-40"
+                loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
               <div className="absolute bottom-0 left-0 p-8">
@@ -205,7 +208,9 @@ export default function HomePage() {
                   src={project.image}
                   alt={project.title}
                   fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
                   className="object-cover transition-transform duration-700 group-hover:scale-105 opacity-60 group-hover:opacity-40"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent" />
                 <div className="absolute bottom-0 left-0 p-6">
@@ -227,7 +232,9 @@ export default function HomePage() {
                   src={featuredProjects[3].image}
                   alt={featuredProjects[3].title}
                   fill
+                  sizes="(max-width: 768px) 100vw, 66vw"
                   className="object-cover transition-transform duration-700 group-hover:scale-105 opacity-60 group-hover:opacity-40"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent" />
                 <div className="absolute bottom-0 left-0 p-6 flex flex-col md:flex-row md:items-end md:justify-between gap-4 w-full">

@@ -119,7 +119,9 @@ export default function AboutPage() {
                 src="/images/placeholders/general/lab-session.svg"
                 alt="Close up of a student soldering a circuit board in an engineering lab"
                 fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
+                priority
               />
               {/* Floating Badge */}
               <div className="absolute bottom-6 left-6 z-20 bg-background-dark/90 backdrop-blur border border-gray-700 p-4 rounded-xl flex gap-4 items-center shadow-lg">
@@ -199,7 +201,9 @@ export default function AboutPage() {
                   src="/images/placeholders/projects/modular-phone.svg"
                   alt="Exploded view diagram of electronic components"
                   fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover"
+                  loading="lazy"
                 />
               </div>
             </div>
@@ -351,7 +355,9 @@ export default function AboutPage() {
                   src={member.image}
                   alt={`Portrait of ${member.name}`}
                   fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 33vw, 256px"
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
                 <div className="absolute bottom-0 left-0 w-full p-6 text-left transform translate-y-2 group-hover:translate-y-0 transition-transform">
