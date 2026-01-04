@@ -67,5 +67,10 @@ export interface SiteConfig {
     instagram: string;
     discord: string;
   };
+  community: {
+    discord: string;
+    github: string;
+    notion: string;
+  };
   formspreeEndpoint: string;
 }

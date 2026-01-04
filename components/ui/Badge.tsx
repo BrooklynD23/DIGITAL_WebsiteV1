@@ -1,36 +1,70 @@
 import { cn } from '@/lib/utils';
+import { HTMLAttributes } from 'react';
 
-interface BadgeProps {
-  variant?: 'default' | 'active' | 'completed' | 'paused' | 'flagship';
+interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
+  variant?: 'default' | 'active' | 'completed' | 'paused' | 'flagship' | 'outline';
+  size?: 'sm' | 'md';
   children: React.ReactNode;
-  className?: string;
   pulse?: boolean;
 }
 
-export function Badge({ variant = 'default', children, className, pulse = false }: BadgeProps) {
+export function Badge({
+  variant = 'default',
+  size = 'md',
+  children,
+  className,
+  pulse = false,
+  ...props
+}: BadgeProps) {
   return (
-    <div
+    <span
       className={cn(
-        'inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide',
-        variant === 'default' && 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400',
-        variant === 'active' && 'bg-green-500/10 border border-green-500/20 text-green-500',
-        variant === 'completed' && 'bg-blue-500/10 border border-blue-500/20 text-blue-500',
-        variant === 'paused' && 'bg-yellow-500/10 border border-yellow-500/20 text-yellow-500',
-        variant === 'flagship' && 'bg-primary/20 border border-primary/40 text-primary',
+        'inline-flex items-center gap-1.5 font-semibold uppercase tracking-wide',
+        'transition-all duration-200',
+        // Size variants
+        size === 'sm' && 'px-2 py-0.5 rounded-md text-[10px]',
+        size === 'md' && 'px-3 py-1 rounded-lg text-xs',
+        // Color variants
+        variant === 'default' && [
+          'bg-slate-100 dark:bg-slate-800',
+          'text-slate-600 dark:text-slate-400',
+        ],
+        variant === 'active' && [
+          'bg-emerald-500/10 border border-emerald-500/20',
+          'text-emerald-600 dark:text-emerald-400',
+        ],
+        variant === 'completed' && [
+          'bg-primary-subtle border border-primary/20',
+          'text-primary',
+        ],
+        variant === 'paused' && [
+          'bg-amber-500/10 border border-amber-500/20',
+          'text-amber-600 dark:text-amber-400',
+        ],
+        variant === 'flagship' && [
+          'bg-primary/15 border border-primary/30',
+          'text-primary',
+        ],
+        variant === 'outline' && [
+          'bg-transparent border border-surface-border-light dark:border-surface-border',
+          'text-slate-600 dark:text-slate-400',
+        ],
         className
       )}
+      {...props}
     >
       {pulse && (
         <span
           className={cn(
-            'size-2 rounded-full',
-            variant === 'active' && 'bg-green-500 animate-pulse',
-            variant === 'flagship' && 'bg-primary animate-pulse',
-            variant === 'default' && 'bg-primary animate-pulse'
+            'size-1.5 rounded-full animate-subtle-pulse',
+            variant === 'active' && 'bg-emerald-500',
+            variant === 'flagship' && 'bg-primary',
+            variant === 'completed' && 'bg-primary',
+            (variant === 'default' || variant === 'outline') && 'bg-slate-500'
           )}
         />
       )}
       {children}
-    </div>
+    </span>
   );
 }

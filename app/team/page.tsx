@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { teamMembers } from '@/lib/data/team';
 import { cn } from '@/lib/utils';
+import { NAVBAR_HEIGHT } from '@/components/layout/Navbar';
 
 // Note: Metadata must be in a separate layout.tsx for client components
 // See app/team/layout.tsx for SEO metadata
@@ -77,14 +78,19 @@ export default function TeamPage() {
                 src="/images/placeholders/team/group-photo.svg"
                 alt="Group of diverse students working together"
                 fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"
+                priority
               />
             </div>
           </div>
         </div>
 
         {/* Search & Filter */}
-        <div className="flex flex-col gap-6 py-6 sticky top-[65px] z-40 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm -mx-4 px-4 md:-mx-10 md:px-10 border-b border-gray-200 dark:border-surface-border transition-all">
+        <div
+          className="flex flex-col gap-6 py-6 sticky z-40 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm -mx-4 px-4 md:-mx-10 md:px-10 border-b border-gray-200 dark:border-surface-border transition-all"
+          style={{ top: `${NAVBAR_HEIGHT}px` }}
+        >
           <div className="flex flex-col md:flex-row gap-4 justify-between items-center w-full">
             {/* Search */}
             <label className="flex flex-col h-12 w-full md:max-w-md">

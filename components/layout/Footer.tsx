@@ -34,13 +34,31 @@ export function Footer() {
               <span className="material-symbols-outlined">alternate_email</span>
             </a>
             <a
-              href={siteConfig.social.discord}
+              href={siteConfig.community.discord}
               target="_blank"
               rel="noopener noreferrer"
               className="text-slate-400 hover:text-primary transition-colors"
               aria-label="Discord"
             >
-              <span className="material-symbols-outlined">group</span>
+              <span className="material-symbols-outlined">chat</span>
+            </a>
+            <a
+              href={siteConfig.community.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-slate-400 hover:text-primary transition-colors"
+              aria-label="GitHub"
+            >
+              <span className="material-symbols-outlined">code</span>
+            </a>
+            <a
+              href={siteConfig.community.notion}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-slate-400 hover:text-primary transition-colors"
+              aria-label="Notion"
+            >
+              <span className="material-symbols-outlined">article</span>
             </a>
           </div>
         </div>

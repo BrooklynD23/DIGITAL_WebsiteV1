@@ -261,6 +261,7 @@ export default function ContactPage() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="size-10 bg-white/20 hover:bg-white text-white hover:text-primary rounded-full flex items-center justify-center backdrop-blur-sm transition-all"
+                  title="LinkedIn"
                 >
                   <span className="text-lg font-bold">In</span>
                 </a>
@@ -269,16 +270,36 @@ export default function ContactPage() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="size-10 bg-white/20 hover:bg-white text-white hover:text-primary rounded-full flex items-center justify-center backdrop-blur-sm transition-all"
+                  title="Instagram"
                 >
                   <span className="material-symbols-outlined">photo_camera</span>
                 </a>
                 <a
-                  href={siteConfig.social.discord}
+                  href={siteConfig.community.discord}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="size-10 bg-white/20 hover:bg-white text-white hover:text-primary rounded-full flex items-center justify-center backdrop-blur-sm transition-all"
+                  title="Discord"
                 >
-                  <span className="material-symbols-outlined">forum</span>
+                  <span className="material-symbols-outlined">chat</span>
+                </a>
+                <a
+                  href={siteConfig.community.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="size-10 bg-white/20 hover:bg-white text-white hover:text-primary rounded-full flex items-center justify-center backdrop-blur-sm transition-all"
+                  title="GitHub"
+                >
+                  <span className="material-symbols-outlined">code</span>
+                </a>
+                <a
+                  href={siteConfig.community.notion}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="size-10 bg-white/20 hover:bg-white text-white hover:text-primary rounded-full flex items-center justify-center backdrop-blur-sm transition-all"
+                  title="Notion"
+                >
+                  <span className="material-symbols-outlined">article</span>
                 </a>
               </div>
             </div>

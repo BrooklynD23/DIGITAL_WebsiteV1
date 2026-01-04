@@ -4,7 +4,14 @@
       "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir=false --import-alias=\"@/*\" --use-npm)",
       "Bash(npm install:*)",
       "Bash(npm run build:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Skill(superpowers:brainstorming)",
+      "WebFetch(domain:sites.google.com)",
+      "Bash(mkdir:*)",
+      "Skill(superpowers:systematic-debugging)",
+      "Skill(superpowers:requesting-code-review)",
+      "Bash(git rev-parse:*)",
+      "Bash(git add:*)"
     ]
   }
 }

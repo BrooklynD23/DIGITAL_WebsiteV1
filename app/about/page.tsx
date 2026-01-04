@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Badge } from '@/components/ui';
 import { teamMembers } from '@/lib/data/team';
+import { siteConfig } from '@/lib/data/siteConfig';
 
 export const metadata: Metadata = {
   title: 'About Us - DIGITAL @ Cal Poly Pomona',
@@ -118,7 +119,9 @@ export default function AboutPage() {
                 src="/images/placeholders/general/lab-session.svg"
                 alt="Close up of a student soldering a circuit board in an engineering lab"
                 fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
+                priority
               />
               {/* Floating Badge */}
               <div className="absolute bottom-6 left-6 z-20 bg-background-dark/90 backdrop-blur border border-gray-700 p-4 rounded-xl flex gap-4 items-center shadow-lg">
@@ -198,7 +201,9 @@ export default function AboutPage() {
                   src="/images/placeholders/projects/modular-phone.svg"
                   alt="Exploded view diagram of electronic components"
                   fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover"
+                  loading="lazy"
                 />
               </div>
             </div>
@@ -350,7 +355,9 @@ export default function AboutPage() {
                   src={member.image}
                   alt={`Portrait of ${member.name}`}
                   fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 33vw, 256px"
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
                 <div className="absolute bottom-0 left-0 w-full p-6 text-left transform translate-y-2 group-hover:translate-y-0 transition-transform">
@@ -380,20 +387,58 @@ export default function AboutPage() {
           Join a community of passionate builders. No prior experience required, just a willingness
           to learn and break things.
         </p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Link
-            href="/contact"
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
+          <a
+            href={siteConfig.community.discord}
+            target="_blank"
+            rel="noopener noreferrer"
             className="w-full sm:w-auto px-8 h-12 rounded-lg bg-primary text-white font-bold text-lg hover:bg-blue-600 transition-all flex items-center justify-center gap-2"
           >
             <span className="material-symbols-outlined">chat</span>
             Join Discord
-          </Link>
-          <Link
-            href="/contact"
-            className="w-full sm:w-auto px-8 h-12 rounded-lg bg-transparent border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-[#1b2127] text-slate-900 dark:text-white font-bold text-lg transition-all flex items-center justify-center"
+          </a>
+          <a
+            href={siteConfig.community.notion}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full sm:w-auto px-8 h-12 rounded-lg bg-transparent border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-[#1b2127] text-slate-900 dark:text-white font-bold text-lg transition-all flex items-center justify-center gap-2"
           >
-            View Calendar
-          </Link>
+            <span className="material-symbols-outlined">article</span>
+            View Notion
+          </a>
+        </div>
+
+        {/* Additional Community Links */}
+        <div className="flex items-center justify-center gap-6">
+          <a
+            href={siteConfig.community.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-slate-500 dark:text-slate-400 hover:text-primary transition-colors"
+          >
+            <span className="material-symbols-outlined">code</span>
+            <span className="text-sm font-medium">GitHub</span>
+          </a>
+          <span className="text-slate-300 dark:text-slate-700">|</span>
+          <a
+            href={siteConfig.social.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-slate-500 dark:text-slate-400 hover:text-primary transition-colors"
+          >
+            <span className="material-symbols-outlined">public</span>
+            <span className="text-sm font-medium">LinkedIn</span>
+          </a>
+          <span className="text-slate-300 dark:text-slate-700">|</span>
+          <a
+            href={siteConfig.social.instagram}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-slate-500 dark:text-slate-400 hover:text-primary transition-colors"
+          >
+            <span className="material-symbols-outlined">photo_camera</span>
+            <span className="text-sm font-medium">Instagram</span>
+          </a>
         </div>
       </section>
     </main>

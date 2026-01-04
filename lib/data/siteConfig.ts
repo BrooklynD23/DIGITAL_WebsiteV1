@@ -15,7 +15,12 @@ export const siteConfig: SiteConfig = {
     linkedin: 'https://linkedin.com/company/digitalcpp',
     github: 'https://github.com/digitalcpp',
     instagram: 'https://instagram.com/digitalcpp',
-    discord: 'https://discord.gg/digitalcpp',
+    discord: 'https://discord.gg/Vsg3qcNVzv',
+  },
+  community: {
+    discord: 'https://discord.gg/Vsg3qcNVzv',
+    github: 'https://github.com/SunnyYoshimitsu/CelestiCall',
+    notion: 'https://www.notion.so/team/14816947-3d77-8175-b209-0042311fec65/join',
   },
   formspreeEndpoint: 'https://formspree.io/f/YOUR_FORM_ID',
 };
@@ -24,12 +29,10 @@ export const stats = {
   activeMembers: '120+',
   prototypes: '15',
   linesOfCode: '50k+',
-  sponsors: '8',
+  sponsors: '2',
 };
 
 export const sponsors = [
-  { name: 'Project Hatchery', icon: 'rocket_launch' },
-  { name: 'Cal Poly Pomona', icon: 'school' },
-  { name: 'Autodesk', icon: 'precision_manufacturing' },
-  { name: 'NVIDIA', icon: 'memory' },
+  { name: 'Cal Poly Pomona Project Hatchery' },
+  { name: 'College of Engineering: MEP-WiSE' },
 ];

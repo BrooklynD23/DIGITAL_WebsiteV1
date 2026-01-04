@@ -7,11 +7,13 @@ This document outlines all routes and pages in the DIGITAL website.
 | Route | Page | Description |
 |-------|------|-------------|
 | `/` | Homepage | Main landing page with hero, stats, featured projects, and CTA |
+| `/pillars` | DIGITAL Pillars | Showcase of the DIGITAL acronym and mission framework |
 | `/about` | About/Mission | Club mission, values, flagship project showcase, roadmap |
 | `/team` | Team Members | Filterable team directory with all members |
 | `/contact` | Contact | Contact form and club information |
 | `/projects` | Projects Showcase | Filterable grid of all projects |
 | `/projects/[slug]` | Project Details | Individual project page with specs, timeline, team |
+| `/get-involved` | Get Involved | Scalable involvement options for students, alumni, companies |
 
 ---
 
@@ -21,16 +23,48 @@ This document outlines all routes and pages in the DIGITAL website.
 **File:** `app/page.tsx`
 
 **Sections:**
-1. **Hero** - Main headline, badge, CTA buttons, hero image
+1. **Hero** - Main headline with gradient text, badge, CTA buttons, hero image with overlay elements
 2. **Stats Bar** - Active members, prototypes, lines of code, sponsors
 3. **Mission** - Brief mission statement
 4. **Featured Projects** - Bento grid of 4 featured projects
-5. **Sponsors** - Logo bar of industry partners
-6. **CTA** - "Ready to Join the Circuit?" call-to-action
+5. **Sponsors** - Text display of industry partners (Cal Poly Pomona Project Hatchery, MEP-WiSE)
+6. **CTA** - "Ready to Join the Circuit?" call-to-action with Card component
 
 **Data Sources:**
 - `lib/data/siteConfig.ts` - Stats, sponsors
 - `lib/data/projects.ts` - Featured projects
+
+**UI Components Used:**
+- `Button` - Primary and secondary CTAs
+- `Badge` - "Now Recruiting" with pulse animation
+- `Card` - Hero image container, CTA section
+
+---
+
+### DIGITAL Pillars Page (`/pillars`)
+**File:** `app/pillars/page.tsx`
+
+**Purpose:** Showcase the DIGITAL acronym and explain the club's engineering framework.
+
+**Sections:**
+1. **Hero** - "The DIGITAL Pillars" with gradient text, "Our Framework" badge
+2. **Interactive Acronym Display** - Horizontal display of D-I-G-I-T-A-L letters with hover effects
+3. **Pillars Grid** - 7 cards explaining each pillar:
+   - **D**evice - Hardware architecture, ergonomic design, component selection
+   - **I**mplementation - PCB fabrication, firmware development, mechanical assembly
+   - **G**enerating - Concept ideation, rapid prototyping, design iteration
+   - **I**ntegrating - System architecture, module interconnects, cross-team collaboration
+   - **T**esting - Performance benchmarks, stress testing, quality assurance
+   - **A**nalyzing - Performance metrics, failure analysis, optimization studies
+   - **L**earning - Peer mentorship, technical workshops, documentation culture
+4. **Mission Statement** - Featured card with the full mission statement
+5. **Connected Framework** - Three cards showing Design→Build→Growth phases
+6. **CTA** - Links to Get Involved and Contact pages
+
+**UI Components Used:**
+- `Card`, `CardHeader`, `CardTitle`, `CardDescription` - Pillar cards and mission statement
+- `Badge` - "Our Framework" hero badge
+- `Button` - CTA buttons
 
 ---
 
@@ -97,6 +131,9 @@ This document outlines all routes and pages in the DIGITAL website.
 **Data Sources:**
 - `lib/data/siteConfig.ts` - Contact info, social links, Formspree endpoint
 
+**Query Parameters:**
+- `?type=<involvement-type>` - Pre-selects topic based on Get Involved page links
+
 ---
 
 ### Projects Showcase (`/projects`)
@@ -151,6 +188,45 @@ This document outlines all routes and pages in the DIGITAL website.
 
 ---
 
+### Get Involved Page (`/get-involved`)
+**File:** `app/get-involved/page.tsx`
+
+**Purpose:** Scalable page for different audiences to find involvement opportunities
+
+**Sections:**
+1. **Hero** - "Get Involved with DIGITAL" with badge "Open to Everyone"
+2. **Students Section** - 4 options:
+   - Become a Member (featured)
+   - Join a Project Team
+   - Apply for Leadership
+   - Get Mentorship
+3. **Alumni Section** - 3 options:
+   - Join Alumni Network (featured)
+   - Mentor Students
+   - Speak at an Event
+4. **Companies Section** - 4 options:
+   - Become a Sponsor (featured)
+   - Recruit Talent
+   - Host a Workshop
+   - Donate Equipment
+5. **Meeting Info** - General meeting details with perks list
+6. **CTA** - "Not Sure Where to Start?" with contact links
+
+**Data Sources:**
+- `lib/data/involvement.ts` - All involvement categories and options
+- `lib/data/involvement.ts` - Meeting information
+
+**UI Components Used:**
+- `Card` - Interactive cards for each option, featured card for meeting info
+- `CardHeader`, `CardTitle`, `CardDescription` - Card subcomponents
+- `Badge` - "Popular" badges on featured options, "Open to Everyone" hero badge
+- `Button` - CTAs throughout
+
+**Scalability:**
+To add new involvement options, edit `lib/data/involvement.ts`. See `MAINTAINER_GUIDE.md` for details.
+
+---
+
 ### 404 Page (`/not-found`)
 **File:** `app/not-found.tsx`
 
@@ -179,8 +255,37 @@ Applied to all pages. Includes:
 
 ---
 
+## Navigation Structure
+
+**File:** `components/layout/Navbar.tsx`
+
+Current navigation links (in order):
+1. Home (`/`)
+2. Pillars (`/pillars`)
+3. Projects (`/projects`)
+4. About Us (`/about`)
+5. Team (`/team`)
+6. Get Involved (`/get-involved`)
+7. Contact (`/contact`)
+
+Plus "Join Us" CTA button linking to `/contact`
+
+---
+
 ## Static Generation
 
 All pages are statically generated at build time. The project uses Next.js static export (`output: 'export'`).
 
 Dynamic routes (`/projects/[slug]`) use `generateStaticParams()` to pre-render all project pages based on the slugs in `lib/data/projects.ts`.
+
+---
+
+## Data Files Summary
+
+| File | Purpose |
+|------|---------|
+| `lib/data/siteConfig.ts` | Site metadata, contact info, social links, community links (Discord, GitHub, Notion), stats, sponsors |
+| `lib/data/projects.ts` | All project data with full details |
+| `lib/data/team.ts` | Team member information |
+| `lib/data/involvement.ts` | Get Involved categories, options, and meeting info |
+| `lib/types.ts` | TypeScript type definitions for all data structures |
