@@ -47,19 +47,15 @@ interface TimelineItemProps {
   orientation: 'horizontal' | 'vertical';
 }
 
-function TimelineItem({
-  step,
-  isFirst,
-  isLast,
-  orientation,
-}: TimelineItemProps) {
+function TimelineItem({ step, isFirst, isLast, orientation }: TimelineItemProps) {
   const isHorizontal = orientation === 'horizontal';
+  const isDone = step.status === 'completed' || step.status === 'current';
 
   return (
     <div
       className={cn(
         'relative flex',
-        isHorizontal ? 'flex-col items-center flex-1' : 'items-start gap-4'
+        isHorizontal ? 'flex-1 flex-col items-center' : 'items-start gap-4'
       )}
     >
       {/* Connector Line - Before */}
@@ -67,12 +63,8 @@ function TimelineItem({
         <div
           className={cn(
             'absolute transition-colors duration-300',
-            isHorizontal
-              ? 'top-3 right-1/2 h-0.5 w-1/2'
-              : 'top-0 left-3 w-0.5 h-4',
-            step.status === 'completed' || step.status === 'current'
-              ? 'bg-primary'
-              : 'bg-surface-border-light dark:bg-surface-border'
+            isHorizontal ? 'right-1/2 top-3 h-px w-1/2' : 'left-3 top-0 h-4 w-px',
+            isDone ? 'bg-accent' : 'bg-line'
           )}
         />
       )}
@@ -82,12 +74,8 @@ function TimelineItem({
         <div
           className={cn(
             'absolute transition-colors duration-300',
-            isHorizontal
-              ? 'top-3 left-1/2 h-0.5 w-1/2'
-              : 'top-8 left-3 w-0.5 h-full',
-            step.status === 'completed'
-              ? 'bg-primary'
-              : 'bg-surface-border-light dark:bg-surface-border'
+            isHorizontal ? 'left-1/2 top-3 h-px w-1/2' : 'left-3 top-8 h-full w-px',
+            step.status === 'completed' ? 'bg-accent' : 'bg-line'
           )}
         />
       )}
@@ -95,42 +83,29 @@ function TimelineItem({
       {/* Node */}
       <div
         className={cn(
-          'relative z-10 flex items-center justify-center',
-          'size-6 rounded-full border-2 transition-all duration-300',
-          step.status === 'completed' && [
-            'bg-primary border-primary',
-            'shadow-glow-sm',
-          ],
-          step.status === 'current' && [
-            'bg-white dark:bg-surface-dark border-primary',
-            'shadow-glow',
-          ],
-          step.status === 'upcoming' && [
-            'bg-white dark:bg-surface-dark',
-            'border-surface-border-light dark:border-surface-border',
-          ]
+          'relative z-10 flex size-6 items-center justify-center rounded-full border-[1.5px] transition-all duration-300',
+          step.status === 'completed' && 'border-accent bg-accent',
+          step.status === 'current' && 'border-accent bg-studio',
+          step.status === 'upcoming' && 'border-line bg-studio'
         )}
       >
         {step.status === 'completed' && (
           <svg
-            className="size-3 text-white"
+            className="size-3 text-studio"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
             strokeWidth={3}
+            aria-hidden="true"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M5 13l4 4L19 7"
-            />
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
           </svg>
         )}
         {step.status === 'current' && (
-          <div className="size-2 rounded-full bg-primary animate-subtle-pulse" />
+          <div className="size-2 rounded-full bg-accent" />
         )}
         {step.status === 'upcoming' && (
-          <div className="size-2 rounded-full bg-surface-border-light dark:bg-surface-border" />
+          <div className="size-2 rounded-full bg-line" />
         )}
       </div>
 
@@ -138,22 +113,20 @@ function TimelineItem({
       <div
         className={cn(
           'transition-opacity duration-300',
-          isHorizontal ? 'mt-3 text-center px-2' : 'flex-1 pb-8',
+          isHorizontal ? 'mt-3 px-2 text-center' : 'flex-1 pb-8',
           step.status === 'upcoming' && 'opacity-60'
         )}
       >
         <p
           className={cn(
-            'text-sm font-medium',
-            step.status === 'current'
-              ? 'text-primary'
-              : 'text-slate-900 dark:text-white'
+            'font-mono text-[11px] font-medium uppercase tracking-[.16em]',
+            step.status === 'current' ? 'text-accent' : 'text-ink'
           )}
         >
           {step.title}
         </p>
         {step.description && (
-          <p className="mt-1 text-xs text-text-muted-light dark:text-text-muted-dark">
+          <p className="mt-1 text-xs leading-[1.55] text-ink-soft">
             {step.description}
           </p>
         )}
@@ -181,28 +154,25 @@ export function ProgressBar({
   return (
     <div className={cn('w-full', className)}>
       {showLabel && (
-        <div className="flex justify-between items-center mb-2">
-          <span className="text-sm text-text-muted-light dark:text-text-muted-dark">
+        <div className="mb-2 flex items-center justify-between">
+          <span className="font-mono text-[11px] uppercase tracking-[.16em] text-ink-soft">
             Progress
           </span>
-          <span className="text-sm font-medium text-slate-900 dark:text-white">
+          <span className="font-mono text-[11px] font-medium text-ink">
             {clampedValue}%
           </span>
         </div>
       )}
       <div
         className={cn(
-          'w-full rounded-full bg-surface-border-light dark:bg-surface-border overflow-hidden',
+          'w-full overflow-hidden rounded-full bg-line',
           size === 'sm' && 'h-1',
           size === 'md' && 'h-2',
           size === 'lg' && 'h-3'
         )}
       >
         <div
-          className={cn(
-            'h-full rounded-full bg-primary transition-all duration-500 ease-smooth',
-            clampedValue === 100 && 'shadow-glow-sm'
-          )}
+          className="h-full rounded-full bg-accent transition-all duration-500 ease-studio"
           style={{ width: `${clampedValue}%` }}
         />
       </div>
@@ -231,12 +201,12 @@ export function MilestoneBar({
   const clampedProgress = Math.min(100, Math.max(0, currentProgress));
 
   return (
-    <div className={cn('relative w-full pt-8 pb-2', className)}>
+    <div className={cn('relative w-full pb-2 pt-8', className)}>
       {/* Progress Track */}
-      <div className="relative h-2 rounded-full bg-surface-border-light dark:bg-surface-border overflow-visible">
+      <div className="relative h-2 overflow-visible rounded-full bg-line">
         {/* Progress Fill */}
         <div
-          className="absolute top-0 left-0 h-full rounded-full bg-primary transition-all duration-500 ease-smooth shadow-glow-sm"
+          className="absolute left-0 top-0 h-full rounded-full bg-accent transition-all duration-500 ease-studio"
           style={{ width: `${clampedProgress}%` }}
         />
 
@@ -250,27 +220,23 @@ export function MilestoneBar({
           return (
             <div
               key={milestone.id}
-              className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2"
+              className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2"
               style={{ left: `${milestone.position}%` }}
             >
               {/* Milestone Node */}
               <div
                 className={cn(
-                  'size-4 rounded-full border-2 transition-all duration-300',
-                  isPassed
-                    ? 'bg-primary border-primary shadow-glow-sm'
-                    : 'bg-white dark:bg-surface-dark border-surface-border-light dark:border-surface-border',
-                  isCurrent && 'ring-4 ring-primary/20'
+                  'size-4 rounded-full border-[1.5px] transition-all duration-300',
+                  isPassed ? 'border-accent bg-accent' : 'border-line bg-studio',
+                  isCurrent && 'ring-4 ring-accent/20'
                 )}
               />
               {/* Label */}
               <span
                 className={cn(
                   'absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap',
-                  'text-xs font-medium transition-colors duration-300',
-                  isPassed
-                    ? 'text-primary'
-                    : 'text-text-muted-light dark:text-text-muted-dark'
+                  'font-mono text-[10px] uppercase tracking-[.16em] transition-colors duration-300',
+                  isPassed ? 'text-accent' : 'text-ink-soft'
                 )}
               >
                 {milestone.label}

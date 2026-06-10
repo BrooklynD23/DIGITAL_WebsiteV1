@@ -1,20 +1,28 @@
 import type { Metadata } from 'next';
-import { Space_Grotesk, Noto_Sans } from 'next/font/google';
+import { Archivo, Hanken_Grotesk, DM_Mono } from 'next/font/google';
 import './globals.css';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { siteConfig } from '@/lib/data/siteConfig';
 
-const spaceGrotesk = Space_Grotesk({
+const archivo = Archivo({
   subsets: ['latin'],
   variable: '--font-display',
+  weight: ['500', '600', '700', '800'],
   display: 'swap',
 });
 
-const notoSans = Noto_Sans({
+const hankenGrotesk = Hanken_Grotesk({
   subsets: ['latin'],
   variable: '--font-body',
-  weight: ['400', '500', '700'],
+  weight: ['400', '500', '600'],
+  display: 'swap',
+});
+
+const dmMono = DM_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
+  weight: ['400', '500'],
   display: 'swap',
 });
 
@@ -37,47 +45,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
-      <head>
-        {/* Preconnect to Google Fonts for faster loading */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        {/*
-          Non-blocking font loading strategy:
-          1. Preload the stylesheet for early discovery
-          2. Load with media="print" so it doesn't block render
-          3. Script switches to media="all" after DOM is ready
-        */}
-        <link
-          rel="preload"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-          as="style"
-        />
-        <link
-          id="material-symbols-font"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-          rel="stylesheet"
-          media="print"
-        />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              // Non-blocking font loading - switch media after document is interactive
-              if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', function() {
-                  var link = document.getElementById('material-symbols-font');
-                  if (link) link.media = 'all';
-                });
-              } else {
-                var link = document.getElementById('material-symbols-font');
-                if (link) link.media = 'all';
-              }
-            `,
-          }}
-        />
-      </head>
+    <html lang="en">
       <body
-        className={`${spaceGrotesk.variable} ${notoSans.variable} bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-x-hidden antialiased`}
+        className={`${archivo.variable} ${hankenGrotesk.variable} ${dmMono.variable} font-body text-ink bg-studio overflow-x-hidden antialiased`}
       >
         <Navbar />
         <main>{children}</main>

@@ -2,6 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================================
+   THEME TOKENS — studio grey/black industrial system.
+   Mirrored into tailwind.config.ts. Copied from the Refractor
+   reference :root block. Never hardcode raw hex in components.
+============================================================ */
+:root {
+  --studio: #d6d4d3; /* studio sweep base — matches renders */
+  --studio-lo: #c4c1c0; /* sweep edge */
+  --studio-hi: #eceae9; /* sweep highlight (center light) */
+  --ink: #16161a; /* near-black device / text */
+  --ink-soft: #5d5b59; /* muted text */
+  --accent: #d8412f; /* signal red — margin notes / rail */
+  --accent-2: #1c6cff; /* electric blue — links / screen glow / focus */
+  --line: #b9b6b4; /* hairlines */
+  --pill: rgba(255, 255, 255, 0.55);
+
+  --maxw: 1180px;
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -9,10 +29,44 @@
 
   body {
     @apply antialiased;
+    color: var(--ink);
+    background: var(--studio);
+  }
+
+  /* studio sweep + faint grain so the page reads as one continuous
+     backdrop with the render frames (no visible seam) */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(70vmax 70vmax at 50% 38%, var(--studio-hi) 0%, transparent 60%),
+      radial-gradient(90vmax 90vmax at 50% 120%, var(--studio-lo) 0%, transparent 70%);
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  section {
+    position: relative;
+    z-index: 2;
   }
 
   /* Respect reduced motion preferences */
   @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
     *,
     *::before,
     *::after {
@@ -20,72 +74,70 @@
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
     }
+
+    /* disable the scroll cue dash + reveal transitions explicitly */
+    .scrollcue::after {
+      animation: none !important;
+    }
+
+    .reveal {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
   }
 }
 
 @layer components {
-  /* Button glow effect */
-  .btn-glow {
-    @apply relative overflow-hidden;
+  /* layout primitive — content container */
+  .wrap {
+    @apply mx-auto max-w-content px-7;
   }
 
-  .btn-glow::after {
+  /* accent mono kicker above section headings */
+  .eyebrow {
+    font:
+      500 12px/1 'DM Mono',
+      monospace;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  /* signature outline keyword treatment for headlines */
+  .text-outline {
+    -webkit-text-stroke: 2px var(--ink);
+    color: transparent;
+  }
+
+  /* scroll-into-view reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+      opacity 0.8s var(--ease),
+      transform 0.8s var(--ease);
+  }
+
+  .reveal.in {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* scroll cue animated dash (DESIGN §5.7) */
+  .scrollcue::after {
     content: '';
-    @apply absolute inset-0 opacity-0 transition-opacity duration-300;
-    background: radial-gradient(circle at center, rgba(13, 127, 242, 0.3) 0%, transparent 70%);
-  }
-
-  .btn-glow:hover::after {
-    @apply opacity-100;
-  }
-
-  /* Card lift effect */
-  .card-lift {
-    @apply transition-all duration-300 ease-smooth;
-  }
-
-  .card-lift:hover {
-    @apply -translate-y-1 shadow-lift;
-  }
-
-  /* Glass effect */
-  .glass {
-    @apply bg-white/70 dark:bg-surface-dark/70 backdrop-blur-md;
-  }
-
-  /* Focus ring with glow */
-  .focus-glow {
-    @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background-light dark:focus:ring-offset-background-dark;
+    height: 1px;
+    width: 80px;
+    background: var(--ink-soft);
+    transform-origin: left;
+    animation: cue 2.4s var(--ease) infinite;
   }
 }
 
 @layer utilities {
-  .text-gradient {
-    @apply text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400;
+  /* functional electric-blue focus ring (replaces old .focus-glow) */
+  .focus-glow {
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue focus-visible:ring-offset-2 focus-visible:ring-offset-studio;
   }
-
-  /* Smooth transitions */
-  .transition-smooth {
-    @apply transition-all duration-300 ease-smooth;
-  }
-
-  /* Interactive scale */
-  .hover-scale {
-    @apply transition-transform duration-300 ease-smooth hover:scale-[1.02];
-  }
-
-  .hover-scale-sm {
-    @apply transition-transform duration-300 ease-smooth hover:scale-[1.01];
-  }
-
-  .active-scale {
-    @apply active:scale-[0.98];
-  }
-
-  /* Stagger animation delays for children */
-  .stagger-1 { animation-delay: 50ms; }
-  .stagger-2 { animation-delay: 100ms; }
-  .stagger-3 { animation-delay: 150ms; }
-  .stagger-4 { animation-delay: 200ms; }
-  .stagger-5 { animation-delay: 250ms; }
 }

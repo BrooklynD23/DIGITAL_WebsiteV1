@@ -1,13 +1,13 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { projects, getFlagshipProject } from '@/lib/data/projects';
 import { cn } from '@/lib/utils';
+import { Badge, Button, Eyebrow, Icon, Input, OutlineHeading } from '@/components/ui';
 
-// Note: Metadata must be in a separate layout.tsx for client components
-// See app/projects/layout.tsx for SEO metadata
+// Note: Metadata lives in app/projects/layout.tsx (this is a client component).
 
 type Category = 'all' | 'hardware' | 'software' | 'embedded' | 'robotics' | 'iot';
 
@@ -19,9 +19,16 @@ const filters: { label: string; value: Category }[] = [
   { label: 'Robotics', value: 'robotics' },
 ];
 
+const statusVariant = {
+  active: 'active',
+  completed: 'completed',
+  paused: 'paused',
+} as const;
+
 export default function ProjectsPage() {
   const [activeFilter, setActiveFilter] = useState<Category>('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const gridRef = useRef<HTMLDivElement>(null);
 
   const flagship = getFlagshipProject();
 
@@ -36,192 +43,230 @@ export default function ProjectsPage() {
     });
   }, [activeFilter, searchQuery]);
 
+  // Reveal-on-scroll wiring (.reveal -> .reveal.in). Re-runs as cards mount.
+  useEffect(() => {
+    const root = gridRef.current;
+    if (!root) return;
+    const els = Array.from(root.querySelectorAll<HTMLElement>('.reveal'));
+    if (typeof IntersectionObserver === 'undefined') {
+      els.forEach((el) => el.classList.add('in'));
+      return;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+    els.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, [filteredProjects]);
+
   return (
-    <main className="flex-grow">
-      {/* Hero Section */}
-      <section className="w-full py-16 md:py-20 px-4 md:px-10 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+    <>
+      {/* Flagship hero — dark ink device-render treatment */}
+      <section className="border-b border-line">
+        <div className="mx-auto max-w-content px-7 py-16 md:py-24">
+          <div className="flex flex-col items-center gap-12 lg:flex-row">
+            <div className="z-10 flex flex-1 flex-col gap-6">
+              <Eyebrow>Flagship Project</Eyebrow>
+              <OutlineHeading as="h1" size="hero" outline="Modular" after=" Smartphone" dot>
+                The{' '}
+              </OutlineHeading>
+              <p className="max-w-[34ch] text-[clamp(16px,1.5vw,19px)] leading-[1.55] text-ink-soft">
+                {flagship?.fullDescription ||
+                  'A fully modular, repairable smartphone built from scratch by students.'}
+              </p>
+              <div className="flex flex-wrap items-center gap-3">
+                {flagship && (
+                  <Badge variant="flagship" pulse>
+                    Flagship
+                  </Badge>
+                )}
+                {flagship && (
+                  <Badge variant={statusVariant[flagship.status]} pulse>
+                    {flagship.status}
+                  </Badge>
+                )}
+              </div>
+              <div className="pt-2">
+                <Link href={`/projects/${flagship?.slug || 'modular-smartphone'}`}>
+                  <Button
+                    size="lg"
+                    icon={<Icon name="arrow_forward" size="sm" />}
+                    iconPosition="right"
+                  >
+                    Explore the Specs
+                  </Button>
+                </Link>
+              </div>
+            </div>
 
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12">
-          <div className="flex-1 flex flex-col gap-6 z-10">
-            <span className="text-primary font-bold tracking-wider uppercase text-sm">
-              Flagship Project
-            </span>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight">
-              <span className="text-primary">The Modular</span>{' '}
-              <span className="text-slate-900 dark:text-white">Smartphone</span>
-            </h1>
-            <p className="text-lg text-slate-600 dark:text-slate-400 max-w-xl font-body leading-relaxed">
-              {flagship?.fullDescription ||
-                'A fully modular, repairable smartphone built from scratch by students.'}
-            </p>
-            <Link
-              href={`/projects/${flagship?.slug || 'modular-smartphone'}`}
-              className="inline-flex items-center justify-center rounded-lg h-12 px-6 bg-primary hover:bg-blue-600 text-white text-base font-bold transition-all shadow-lg shadow-primary/25 group w-fit"
-            >
-              <span>Explore the Specs</span>
-              <span className="material-symbols-outlined ml-2 group-hover:translate-x-1 transition-transform text-[20px]">
-                arrow_forward
-              </span>
-            </Link>
-          </div>
-
-          {/* Hero Image */}
-          <div className="flex-1 w-full relative group">
-            <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800 shadow-2xl bg-surface-dark">
-              <Image
-                src={flagship?.image || '/images/placeholders/projects/modular-phone.svg'}
-                alt="The Modular Smartphone"
-                fill
-                className="object-cover hover:scale-105 transition-transform duration-700 ease-out"
-                priority
-              />
+            {/* Device render tile */}
+            <div className="w-full flex-1">
+              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg border border-white/10 bg-ink shadow-card">
+                <Image
+                  src={flagship?.image || '/images/placeholders/projects/modular-phone.svg'}
+                  alt="The Modular Smartphone"
+                  fill
+                  className="object-cover"
+                  priority
+                />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/40 to-transparent" />
+                <span className="absolute bottom-5 left-5 font-mono text-[12px] uppercase tracking-[.1em] text-studio">
+                  00 · {flagship?.category ?? 'hardware'}
+                </span>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Projects Grid Section */}
-      <section className="w-full py-16 px-4 md:px-10 bg-gray-50 dark:bg-[#0d131a]">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-8">
-            Explore Our Projects
-          </h2>
+      {/* Project grid */}
+      <section className="mx-auto max-w-content px-7 py-16 md:py-24">
+        <Eyebrow>The Catalogue</Eyebrow>
+        <OutlineHeading className="mt-4" outline="Projects" dot>
+          Explore Our{' '}
+        </OutlineHeading>
 
-          {/* Search & Filter */}
-          <div className="flex flex-col md:flex-row gap-4 mb-8">
-            {/* Search Bar */}
-            <div className="flex-1 max-w-md">
-              <div className="flex w-full items-stretch rounded-lg h-12 bg-white dark:bg-surface-dark shadow-sm border border-gray-200 dark:border-transparent focus-within:border-primary transition-colors">
-                <div className="text-gray-400 dark:text-[#9cabba] flex items-center justify-center pl-4 pr-2">
-                  <span className="material-symbols-outlined">search</span>
-                </div>
-                <input
-                  type="text"
-                  className="flex w-full min-w-0 flex-1 bg-transparent text-gray-900 dark:text-white focus:outline-0 border-none h-full placeholder:text-gray-400 dark:placeholder:text-[#9cabba] px-2 text-base font-normal leading-normal"
-                  placeholder="Search projects by name, status, or domain..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </div>
-            </div>
+        {/* Search & filter */}
+        <div className="mb-10 mt-10 flex flex-col gap-4 md:flex-row md:items-end">
+          <div className="max-w-md flex-1">
+            <Input
+              type="text"
+              label="Search"
+              placeholder="Search projects by name or domain..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
 
-            {/* Filter Chips */}
-            <div className="flex gap-2 overflow-x-auto pb-2 md:pb-0">
-              {filters.map((filter) => (
+          <div className="flex gap-2 overflow-x-auto pb-1 md:pb-0">
+            {filters.map((filter) => {
+              const isActive = activeFilter === filter.value;
+              return (
                 <button
                   key={filter.value}
                   onClick={() => setActiveFilter(filter.value)}
+                  aria-pressed={isActive}
                   className={cn(
-                    'flex h-10 shrink-0 items-center justify-center px-4 rounded-lg text-sm font-medium transition-all',
-                    activeFilter === filter.value
-                      ? 'bg-primary text-white'
-                      : 'bg-white dark:bg-surface-dark text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-transparent hover:border-primary dark:hover:border-primary'
+                    'shrink-0 rounded border px-4 py-2.5 font-mono text-[11px] uppercase tracking-[.1em]',
+                    'transition-[background-color,border-color,color] duration-200 ease-studio',
+                    'focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue focus-visible:ring-offset-2 focus-visible:ring-offset-studio',
+                    isActive
+                      ? 'border-ink bg-ink text-studio'
+                      : 'border-line text-ink-soft hover:border-ink hover:text-ink'
                   )}
                 >
                   {filter.label}
                 </button>
-              ))}
-            </div>
+              );
+            })}
           </div>
-
-          {/* Projects Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredProjects.map((project) => (
-              <Link
-                key={project.id}
-                href={`/projects/${project.slug}`}
-                className="group relative overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-surface-dark hover:border-primary dark:hover:border-primary transition-all duration-300 hover:shadow-lg"
-              >
-                <div className="relative aspect-[16/10] overflow-hidden">
-                  <Image
-                    src={project.image}
-                    alt={project.title}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-
-                  {/* Status Badge */}
-                  <div className="absolute top-4 left-4">
-                    <span
-                      className={cn(
-                        'px-2 py-1 rounded text-xs font-bold uppercase',
-                        project.status === 'active' && 'bg-green-500/20 text-green-400',
-                        project.status === 'completed' && 'bg-blue-500/20 text-blue-400',
-                        project.status === 'paused' && 'bg-yellow-500/20 text-yellow-400'
-                      )}
-                    >
-                      {project.status}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-primary transition-colors">
-                    {project.title}
-                  </h3>
-                  <p className="text-slate-600 dark:text-slate-400 text-sm line-clamp-2 mb-4">
-                    {project.shortDescription}
-                  </p>
-
-                  {/* Tech Stack Tags */}
-                  <div className="flex flex-wrap gap-2">
-                    {project.techStack.slice(0, 3).map((tech) => (
-                      <span
-                        key={tech}
-                        className="px-2 py-1 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 text-xs rounded"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                    {project.techStack.length > 3 && (
-                      <span className="px-2 py-1 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 text-xs rounded">
-                        +{project.techStack.length - 3}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-
-          {/* No results */}
-          {filteredProjects.length === 0 && (
-            <div className="text-center py-20">
-              <span className="material-symbols-outlined text-6xl text-gray-400 mb-4">
-                search_off
-              </span>
-              <h3 className="text-xl font-bold text-gray-600 dark:text-gray-400">
-                No projects found
-              </h3>
-              <p className="text-gray-500 mt-2">Try adjusting your search or filter</p>
-            </div>
-          )}
         </div>
+
+        {/* Cards */}
+        <div
+          ref={gridRef}
+          className="grid gap-[30px] [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]"
+        >
+          {filteredProjects.map((project, index) => (
+            <Link
+              key={project.id}
+              href={`/projects/${project.slug}`}
+              className={cn(
+                'reveal group flex flex-col rounded-lg border border-white/60 bg-white/[.42] p-[30px] shadow-card backdrop-blur-[6px]',
+                'transition-[transform,border-color] duration-300 ease-studio',
+                'hover:-translate-y-0.5 hover:border-white/80',
+                'focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue focus-visible:ring-offset-2 focus-visible:ring-offset-studio'
+              )}
+              style={{ transitionDelay: `${index * 60}ms` }}
+            >
+              {/* Index + status */}
+              <div className="mb-5 flex items-center justify-between">
+                <span className="font-mono text-[12px] uppercase tracking-[.1em] text-accent">
+                  {String(index + 1).padStart(2, '0')} · {project.category}
+                </span>
+                <Badge variant={statusVariant[project.status]} size="sm">
+                  {project.status}
+                </Badge>
+              </div>
+
+              <h3 className="font-display text-[21px] font-bold uppercase leading-none tracking-[-.01em] text-ink transition-colors duration-200 group-hover:text-accent">
+                {project.title}
+              </h3>
+
+              <p className="mt-3 line-clamp-3 text-[15px] leading-[1.55] text-ink-soft">
+                {project.shortDescription}
+              </p>
+
+              {/* Tech stack chips */}
+              <div className="mt-5 flex flex-wrap gap-2">
+                {project.techStack.slice(0, 4).map((tech) => (
+                  <span
+                    key={tech}
+                    className="rounded border border-line px-2 py-0.5 font-mono text-[10px] uppercase tracking-[.1em] text-ink-soft"
+                  >
+                    {tech}
+                  </span>
+                ))}
+                {project.techStack.length > 4 && (
+                  <span className="rounded border border-line px-2 py-0.5 font-mono text-[10px] uppercase tracking-[.1em] text-ink-soft">
+                    +{project.techStack.length - 4}
+                  </span>
+                )}
+              </div>
+
+              <span className="mt-6 inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[.16em] text-ink">
+                View Specs
+                <Icon
+                  name="arrow_forward"
+                  size="sm"
+                  className="transition-transform duration-200 group-hover:translate-x-1"
+                />
+              </span>
+            </Link>
+          ))}
+        </div>
+
+        {/* No results */}
+        {filteredProjects.length === 0 && (
+          <div className="flex flex-col items-center py-24 text-center">
+            <Icon name="search_off" size="xl" className="text-ink-soft" />
+            <h3 className="mt-4 font-display text-[21px] font-bold uppercase tracking-[-.01em] text-ink">
+              No projects found
+            </h3>
+            <p className="mt-2 text-[15px] leading-[1.55] text-ink-soft">
+              Try adjusting your search or filter.
+            </p>
+          </div>
+        )}
       </section>
 
-      {/* CTA Section */}
-      <section className="w-full py-20 px-4 md:px-10 bg-background-light dark:bg-background-dark">
-        <div className="max-w-4xl mx-auto bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-800 rounded-3xl p-8 md:p-12 text-center shadow-lg">
-          <div className="size-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6 text-primary">
-            <span className="material-symbols-outlined text-4xl">lightbulb</span>
-          </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">
-            Have a Project Idea?
-          </h2>
-          <p className="text-lg text-slate-600 dark:text-slate-300 font-body mb-8 max-w-xl mx-auto">
+      {/* CTA */}
+      <section className="border-t border-line">
+        <div className="mx-auto flex max-w-content flex-col items-center px-7 py-[120px] text-center">
+          <Icon name="lightbulb" size="xl" className="text-accent" />
+          <Eyebrow className="mt-6">Pitch Us</Eyebrow>
+          <OutlineHeading className="mt-4" outline="Idea" dot>
+            Have a Project{' '}
+          </OutlineHeading>
+          <p className="mx-auto mt-6 max-w-[50ch] text-[clamp(16px,1.5vw,19px)] leading-[1.55] text-ink-soft">
             We&apos;re always looking for ambitious projects. Pitch your idea and get the support
             of our engineering team.
           </p>
-          <Link
-            href="/contact"
-            className="inline-flex items-center justify-center rounded-lg h-12 px-8 bg-primary hover:bg-blue-600 text-white text-base font-bold transition-all shadow-lg shadow-primary/20"
-          >
-            Submit Your Idea
-          </Link>
+          <div className="mt-8">
+            <Link href="/contact">
+              <Button size="lg">Submit Your Idea</Button>
+            </Link>
+          </div>
         </div>
       </section>
-    </main>
+    </>
   );
 }

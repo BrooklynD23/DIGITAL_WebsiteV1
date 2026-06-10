@@ -23,42 +23,30 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
       <div
         ref={ref}
         className={cn(
-          // Base styles
-          'rounded-xl border',
-          'transition-all duration-300 ease-smooth',
+          // Base — glass surface, hairline border, soft blur, 10px radius
+          'rounded-lg border backdrop-blur-[6px]',
+          'transition-[transform,border-color,box-shadow] duration-300 ease-studio',
           'transform-gpu',
-          // Padding variants
+          // Padding variants (base card padding is 30px → md)
           padding === 'none' && 'p-0',
           padding === 'sm' && 'p-4',
-          padding === 'md' && 'p-5 md:p-6',
-          padding === 'lg' && 'p-6 md:p-8',
+          padding === 'md' && 'p-[30px]',
+          padding === 'lg' && 'p-10',
           // Variant styles
           variant === 'default' && [
-            'bg-white dark:bg-surface-dark',
-            'border-surface-border-light dark:border-surface-border',
-          ],
-          variant === 'interactive' && [
-            'bg-white dark:bg-surface-dark',
-            'border-surface-border-light dark:border-surface-border',
-            'cursor-pointer',
-            'hover:-translate-y-1',
-            'hover:shadow-lift',
-            'hover:border-primary/30 dark:hover:border-primary/30',
-            'active:-translate-y-0.5',
-            'active:shadow-md',
-          ],
-          variant === 'featured' && [
-            'bg-white dark:bg-surface-dark',
-            'border-primary/20 dark:border-primary/20',
-            'shadow-sm',
-            'hover:-translate-y-1',
-            'hover:shadow-glow',
-            'hover:border-primary/40 dark:hover:border-primary/40',
+            'border-white/60 bg-white/[.42] shadow-card',
           ],
           variant === 'glass' && [
-            'bg-white/70 dark:bg-surface-dark/70',
-            'backdrop-blur-md',
-            'border-white/20 dark:border-white/10',
+            'border-white/60 bg-white/[.42] shadow-card',
+          ],
+          variant === 'interactive' && [
+            'border-white/60 bg-white/[.42] shadow-card',
+            'cursor-pointer',
+            'hover:-translate-y-0.5 hover:border-white/80',
+          ],
+          variant === 'featured' && [
+            'border-accent/30 bg-white/[.42] shadow-card',
+            'hover:-translate-y-0.5 hover:border-accent/50',
           ],
           className
         )}
@@ -80,10 +68,7 @@ interface CardHeaderProps extends HTMLAttributes<HTMLDivElement> {
 
 export function CardHeader({ children, className, ...props }: CardHeaderProps) {
   return (
-    <div
-      className={cn('flex flex-col gap-1.5', className)}
-      {...props}
-    >
+    <div className={cn('flex flex-col gap-1.5', className)} {...props}>
       {children}
     </div>
   );
@@ -104,7 +89,7 @@ export function CardTitle({
   return (
     <Component
       className={cn(
-        'font-display font-semibold text-lg text-slate-900 dark:text-white',
+        'font-display text-[21px] font-bold uppercase tracking-[-.01em] text-ink',
         className
       )}
       {...props}
@@ -126,10 +111,7 @@ export function CardDescription({
 }: CardDescriptionProps) {
   return (
     <p
-      className={cn(
-        'text-sm text-text-muted-light dark:text-text-muted-dark',
-        className
-      )}
+      className={cn('text-[15px] leading-[1.55] text-ink-soft', className)}
       {...props}
     >
       {children}
@@ -157,10 +139,7 @@ interface CardFooterProps extends HTMLAttributes<HTMLDivElement> {
 
 export function CardFooter({ children, className, ...props }: CardFooterProps) {
   return (
-    <div
-      className={cn('mt-4 flex items-center gap-3', className)}
-      {...props}
-    >
+    <div className={cn('mt-4 flex items-center gap-3', className)} {...props}>
       {children}
     </div>
   );

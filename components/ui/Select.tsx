@@ -1,31 +1,42 @@
 import { cn } from '@/lib/utils';
-import { SelectHTMLAttributes, forwardRef } from 'react';
+import { SelectHTMLAttributes, forwardRef, useId } from 'react';
+import { ChevronDown } from 'lucide-react';
 
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   label?: string;
+  error?: string;
   options: { value: string; label: string }[];
   placeholder?: string;
 }
 
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(
-  ({ className, label, options, placeholder, ...props }, ref) => {
+  ({ className, label, error, options, placeholder, id, ...props }, ref) => {
+    const generatedId = useId();
+    const selectId = id ?? generatedId;
+    const errorId = `${selectId}-error`;
+
     return (
-      <label className="flex flex-col flex-1">
+      <div className="flex flex-1 flex-col">
         {label && (
-          <p className="text-slate-900 dark:text-white text-base font-medium leading-normal pb-2">
+          <label
+            htmlFor={selectId}
+            className="pb-2 font-mono text-[11px] font-medium uppercase tracking-[.16em] text-ink-soft"
+          >
             {label}
-          </p>
+          </label>
         )}
         <div className="relative">
           <select
             ref={ref}
+            id={selectId}
+            aria-invalid={error ? true : undefined}
+            aria-describedby={error ? errorId : undefined}
             className={cn(
-              'form-select flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg',
-              'text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50',
-              'border border-slate-300 dark:border-surface-border',
-              'bg-slate-50 dark:bg-[#111418] focus:border-primary',
-              'h-14 placeholder:text-slate-400 dark:placeholder:text-[#9cabba]',
-              'px-[15px] text-base font-normal leading-normal appearance-none cursor-pointer transition-all',
+              'flex min-h-[44px] w-full min-w-0 flex-1 cursor-pointer appearance-none rounded border border-line bg-white/55',
+              'px-4 py-[14px] pr-11 font-body text-base leading-normal text-ink',
+              'transition-[border-color,box-shadow] duration-200 ease-studio',
+              'focus:outline-none focus-visible:border-accent-blue focus-visible:ring-2 focus-visible:ring-accent-blue',
+              error && 'border-accent focus-visible:border-accent focus-visible:ring-accent',
               className
             )}
             {...props}
@@ -41,11 +52,20 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
               </option>
             ))}
           </select>
-          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500 dark:text-[#9cabba]">
-            <span className="material-symbols-outlined">expand_more</span>
+          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-ink-soft">
+            <ChevronDown size={18} strokeWidth={1.75} aria-hidden="true" />
           </div>
         </div>
-      </label>
+        {error && (
+          <p
+            id={errorId}
+            role="alert"
+            className="mt-1 font-mono text-[12px] text-accent"
+          >
+            {error}
+          </p>
+        )}
+      </div>
     );
   }
 );

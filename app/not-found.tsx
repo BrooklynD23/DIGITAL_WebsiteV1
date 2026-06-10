@@ -1,34 +1,30 @@
 import Link from 'next/link';
+import { Button, Eyebrow } from '@/components/ui';
 
 export default function NotFound() {
   return (
-    <main className="flex-grow flex items-center justify-center min-h-[60vh] px-4">
-      <div className="text-center">
-        <div className="size-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-8 text-primary">
-          <span className="material-symbols-outlined text-6xl">search_off</span>
-        </div>
-        <h1 className="text-6xl md:text-8xl font-black text-slate-900 dark:text-white mb-4">404</h1>
-        <h2 className="text-2xl md:text-3xl font-bold text-slate-600 dark:text-slate-400 mb-6">
+    <div className="flex min-h-[70vh] items-center justify-center px-4 py-24">
+      <div className="mx-auto max-w-xl text-center">
+        <Eyebrow>Error 404</Eyebrow>
+        <h1 className="mt-4 font-display text-[clamp(72px,16vw,180px)] font-extrabold uppercase leading-[.86] tracking-[-.03em] text-ink">
+          4<span className="text-outline">0</span>4
+        </h1>
+        <h2 className="mt-2 font-display text-[clamp(24px,3.6vw,42px)] font-bold uppercase leading-none tracking-[-.02em] text-ink">
           Page Not Found
+          <span className="text-accent">.</span>
         </h2>
-        <p className="text-slate-500 dark:text-slate-400 mb-8 max-w-md mx-auto">
+        <p className="mx-auto mt-6 max-w-md text-[clamp(16px,1.5vw,19px)] leading-[1.55] text-ink-soft">
           The page you&apos;re looking for doesn&apos;t exist or has been moved.
         </p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Link
-            href="/"
-            className="inline-flex items-center justify-center rounded-lg h-12 px-6 bg-primary hover:bg-blue-600 text-white text-base font-bold transition-all shadow-lg shadow-primary/25"
-          >
-            Go Home
+        <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <Link href="/">
+            <Button>Go Home</Button>
           </Link>
-          <Link
-            href="/projects"
-            className="inline-flex items-center justify-center rounded-lg h-12 px-6 bg-transparent border border-gray-300 dark:border-gray-600 hover:border-primary text-slate-900 dark:text-white text-base font-bold transition-all"
-          >
-            View Projects
+          <Link href="/projects">
+            <Button variant="ghost">View Projects</Button>
           </Link>
         </div>
       </div>
-    </main>
+    </div>
   );
 }

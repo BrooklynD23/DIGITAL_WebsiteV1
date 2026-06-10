@@ -3,7 +3,17 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { projects, getProjectBySlug } from '@/lib/data/projects';
 import { teamMembers } from '@/lib/data/team';
-import { cn } from '@/lib/utils';
+import type { Metadata } from 'next';
+import {
+  Badge,
+  Button,
+  Card,
+  Eyebrow,
+  Icon,
+  OutlineHeading,
+  Timeline,
+  type TimelineStep,
+} from '@/components/ui';
 
 export function generateStaticParams() {
   return projects.map((project) => ({
@@ -14,6 +24,26 @@ export function generateStaticParams() {
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const project = getProjectBySlug(slug);
+
+  if (!project) {
+    return { title: 'Project Not Found - DIGITAL @ Cal Poly Pomona' };
+  }
+
+  return {
+    title: `${project.title} - DIGITAL @ Cal Poly Pomona`,
+    description: project.shortDescription,
+  };
+}
+
+const statusVariant = {
+  active: 'active',
+  completed: 'completed',
+  paused: 'paused',
+} as const;
 
 export default async function ProjectDetailsPage({ params }: PageProps) {
   const { slug } = await params;
@@ -27,296 +57,270 @@ export default async function ProjectDetailsPage({ params }: PageProps) {
     ? teamMembers.filter((m) => project.teamMembers?.includes(m.id))
     : teamMembers.slice(0, 4);
 
+  const timelineSteps: TimelineStep[] = (project.timeline ?? []).map((phase) => ({
+    id: `phase-${phase.phase}`,
+    title: phase.title,
+    description: phase.description,
+    status: phase.status,
+  }));
+
   return (
-    <main className="flex-grow">
-      {/* Hero Section */}
-      <section className="w-full py-16 md:py-20 px-4 md:px-10 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+    <>
+      {/* Hero */}
+      <section className="border-b border-line">
+        <div className="mx-auto max-w-content px-7 py-16 md:py-24">
+          <div className="flex flex-col items-center gap-12 lg:flex-row">
+            <div className="z-10 flex flex-1 flex-col gap-6">
+              <Eyebrow>{project.category}</Eyebrow>
 
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12">
-          <div className="flex-1 flex flex-col gap-6 z-10">
-            <div className="flex items-center gap-3">
-              <span
-                className={cn(
-                  'px-3 py-1 rounded-full text-xs font-bold uppercase',
-                  project.status === 'active' && 'bg-green-500/20 text-green-400',
-                  project.status === 'completed' && 'bg-blue-500/20 text-blue-400',
-                  project.status === 'paused' && 'bg-yellow-500/20 text-yellow-400'
+              <OutlineHeading as="h1" size="hero" outline={project.title.replace('The ', '')} dot>
+                {project.title.startsWith('The ') ? 'The ' : ''}
+              </OutlineHeading>
+
+              <div className="flex flex-wrap items-center gap-3">
+                <Badge variant={statusVariant[project.status]} pulse>
+                  {project.status}
+                </Badge>
+                {project.isFlagship && (
+                  <Badge variant="flagship" pulse>
+                    Flagship
+                  </Badge>
                 )}
-              >
-                {project.status}
-              </span>
-              {project.isFlagship && (
-                <span className="px-3 py-1 rounded-full text-xs font-bold uppercase bg-primary/20 text-primary">
-                  Flagship
-                </span>
-              )}
+              </div>
+
+              <p className="max-w-[34ch] text-[clamp(16px,1.5vw,19px)] leading-[1.55] text-ink-soft">
+                {project.fullDescription}
+              </p>
+
+              <div className="flex flex-wrap gap-4 pt-2">
+                <Link href="/contact">
+                  <Button
+                    icon={<Icon name="arrow_forward" size="sm" />}
+                    iconPosition="right"
+                  >
+                    Join This Project
+                  </Button>
+                </Link>
+                <Link href="/projects">
+                  <Button variant="ghost">All Projects</Button>
+                </Link>
+              </div>
             </div>
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight text-slate-900 dark:text-white">
-              Project:{' '}
-              <span className="text-primary">{project.title.replace('The ', '')}</span>
-            </h1>
-
-            <p className="text-lg text-slate-600 dark:text-slate-400 max-w-xl font-body leading-relaxed">
-              {project.fullDescription}
-            </p>
-
-            <div className="flex flex-wrap gap-4 pt-2">
-              <Link
-                href="/contact"
-                className="inline-flex items-center justify-center rounded-lg h-12 px-6 bg-primary hover:bg-blue-600 text-white text-base font-bold transition-all shadow-lg shadow-primary/25 group"
-              >
-                <span>Join This Project</span>
-                <span className="material-symbols-outlined ml-2 group-hover:translate-x-1 transition-transform text-[20px]">
-                  arrow_forward
+            {/* Device render tile */}
+            <div className="w-full flex-1">
+              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg border border-white/10 bg-ink shadow-card">
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  fill
+                  className="object-cover"
+                  priority
+                />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/40 to-transparent" />
+                <span className="absolute bottom-5 left-5 font-mono text-[12px] uppercase tracking-[.1em] text-studio">
+                  {project.category}
                 </span>
-              </Link>
-              <Link
-                href="/projects"
-                className="inline-flex items-center justify-center rounded-lg h-12 px-6 bg-transparent border border-gray-300 dark:border-gray-600 hover:border-primary text-slate-900 dark:text-white text-base font-bold transition-all"
-              >
-                All Projects
-              </Link>
-            </div>
-          </div>
-
-          {/* Hero Image */}
-          <div className="flex-1 w-full relative">
-            <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800 shadow-2xl bg-surface-dark">
-              <Image
-                src={project.image}
-                alt={project.title}
-                fill
-                className="object-cover"
-                priority
-              />
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Stats Section */}
+      {/* Stats */}
       {project.stats && project.stats.length > 0 && (
-        <section className="w-full border-y border-gray-200 dark:border-gray-800 bg-white/50 dark:bg-surface-dark/50 backdrop-blur-sm">
-          <div className="max-w-7xl mx-auto px-4 md:px-10 py-8">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {project.stats.map((stat, index) => (
-                <div
-                  key={index}
-                  className="flex flex-col items-center md:items-start px-4 text-center md:text-left"
-                >
-                  <span className="text-4xl font-bold text-primary tracking-tighter">
-                    {stat.value}
-                  </span>
-                  <span className="text-sm font-mono text-slate-500 dark:text-slate-400 uppercase tracking-widest mt-1">
-                    {stat.label}
-                  </span>
-                </div>
-              ))}
-            </div>
+        <section className="border-b border-line">
+          <div className="mx-auto grid max-w-content grid-cols-1 gap-8 px-7 py-12 md:grid-cols-3">
+            {project.stats.map((stat, index) => (
+              <div
+                key={index}
+                className="flex flex-col items-center text-center md:items-start md:text-left"
+              >
+                <span className="font-display text-[clamp(34px,5vw,52px)] font-extrabold leading-none tracking-[-.03em] text-ink [font-variant-numeric:tabular-nums]">
+                  {stat.value}
+                </span>
+                <span className="mt-2 font-mono text-[11px] uppercase tracking-[.16em] text-ink-soft">
+                  {stat.label}
+                </span>
+              </div>
+            ))}
           </div>
         </section>
       )}
 
-      {/* Timeline Section */}
-      {project.timeline && project.timeline.length > 0 && (
-        <section className="w-full py-16 px-4 md:px-10 bg-gray-50 dark:bg-[#0d131a]">
-          <div className="max-w-5xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-8 text-center">
-              Project Timeline
-            </h2>
-
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-              {project.timeline.map((phase, index) => (
-                <div key={index} className="flex flex-col items-center flex-1 relative">
-                  {/* Connector Line */}
-                  {index < project.timeline!.length - 1 && (
-                    <div className="hidden md:block absolute top-5 left-1/2 w-full h-0.5 bg-gray-200 dark:bg-gray-700" />
-                  )}
-
-                  {/* Phase Circle */}
-                  <div
-                    className={cn(
-                      'relative z-10 size-10 rounded-full flex items-center justify-center text-sm font-bold',
-                      phase.status === 'completed' && 'bg-primary text-white',
-                      phase.status === 'current' &&
-                        'bg-primary/20 text-primary border-2 border-primary',
-                      phase.status === 'upcoming' && 'bg-gray-200 dark:bg-gray-700 text-gray-500'
-                    )}
-                  >
-                    {phase.status === 'completed' ? (
-                      <span className="material-symbols-outlined text-[18px]">check</span>
-                    ) : (
-                      phase.phase
-                    )}
-                  </div>
-
-                  {/* Phase Info */}
-                  <div className="mt-4 text-center">
-                    <h4
-                      className={cn(
-                        'font-bold text-sm',
-                        phase.status === 'upcoming'
-                          ? 'text-gray-500'
-                          : 'text-slate-900 dark:text-white'
-                      )}
-                    >
-                      {phase.title}
-                    </h4>
-                    <p className="text-xs text-gray-500 mt-1">{phase.description}</p>
-                  </div>
-                </div>
-              ))}
+      {/* Timeline */}
+      {timelineSteps.length > 0 && (
+        <section className="border-t border-line">
+          <div className="mx-auto max-w-content px-7 py-[120px]">
+            <div className="text-center">
+              <Eyebrow>Roadmap</Eyebrow>
+              <OutlineHeading className="mt-4" outline="Timeline" dot>
+                Project{' '}
+              </OutlineHeading>
             </div>
+            <Timeline steps={timelineSteps} className="mt-12" />
           </div>
         </section>
       )}
 
-      {/* System Modules Section */}
+      {/* System modules */}
       {project.modules && project.modules.length > 0 && (
-        <section className="w-full py-16 px-4 md:px-10 bg-white dark:bg-background-dark">
-          <div className="max-w-7xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-8">
-              System Modules
-            </h2>
+        <section className="border-t border-line">
+          <div className="mx-auto max-w-content px-7 py-[120px]">
+            <Eyebrow>Architecture</Eyebrow>
+            <OutlineHeading className="mt-4" outline="Modules" dot>
+              System{' '}
+            </OutlineHeading>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="mt-12 grid gap-[30px] [grid-template-columns:repeat(auto-fit,minmax(240px,1fr))]">
               {project.modules.map((module, index) => (
-                <div
-                  key={index}
-                  className="group p-6 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-surface-dark hover:border-primary transition-all"
-                >
-                  <div
-                    className={cn(
-                      'size-12 rounded-lg flex items-center justify-center mb-4',
-                      module.color === 'primary' && 'bg-primary/10 text-primary',
-                      module.color === 'orange' && 'bg-orange-500/10 text-orange-500',
-                      module.color === 'purple' && 'bg-purple-500/10 text-purple-500',
-                      module.color === 'teal' && 'bg-teal-500/10 text-teal-500'
-                    )}
-                  >
-                    <span className="material-symbols-outlined">{module.icon}</span>
+                <Card key={index} variant="glass">
+                  <span className="font-mono text-[12px] uppercase tracking-[.1em] text-accent">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <div className="mt-4 flex size-12 items-center justify-center rounded border border-line text-ink">
+                    <Icon name={module.icon} size="lg" />
                   </div>
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
+                  <h3 className="mt-4 font-display text-[21px] font-bold uppercase tracking-[-.01em] text-ink">
                     {module.title}
                   </h3>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">{module.description}</p>
-                </div>
+                  <p className="mt-2 text-[15px] leading-[1.55] text-ink-soft">
+                    {module.description}
+                  </p>
+                </Card>
               ))}
             </div>
 
-            <div className="mt-6 text-center">
+            <div className="mt-10">
               <Link
                 href="/contact"
-                className="text-primary font-bold hover:underline inline-flex items-center gap-1"
+                className="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[.16em] text-ink transition-colors duration-200 hover:text-accent"
               >
                 View More Details
-                <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                <Icon name="arrow_forward" size="sm" />
               </Link>
             </div>
           </div>
         </section>
       )}
 
-      {/* Specifications Section */}
+      {/* Specifications */}
       {project.specifications && project.specifications.length > 0 && (
-        <section className="w-full py-16 px-4 md:px-10 bg-gray-50 dark:bg-[#0d131a]">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-8">
-              Hardware Specifications
-            </h2>
+        <section className="border-t border-line">
+          <div className="mx-auto max-w-content px-7 py-[120px]">
+            <Eyebrow>The Bench</Eyebrow>
+            <OutlineHeading className="mt-4" outline="Specs" dot>
+              Hardware{' '}
+            </OutlineHeading>
 
-            <div className="bg-white dark:bg-surface-dark rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
-              <table className="w-full">
-                <tbody className="divide-y divide-gray-200 dark:divide-gray-800">
-                  {project.specifications.map((spec, index) => (
-                    <tr key={index}>
-                      <td className="px-6 py-4 text-sm font-medium text-slate-500 dark:text-slate-400 w-1/3">
-                        {spec.label}
-                      </td>
-                      <td className="px-6 py-4 text-sm font-mono text-slate-900 dark:text-white">
-                        {spec.value}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <dl className="mt-12 border-t border-line">
+              {project.specifications.map((spec, index) => (
+                <div
+                  key={index}
+                  className="flex flex-col gap-1 border-b border-line py-4 md:flex-row md:items-baseline md:gap-8"
+                >
+                  <dt className="font-mono text-[11px] uppercase tracking-[.16em] text-ink-soft md:w-1/3">
+                    {spec.label}
+                  </dt>
+                  <dd className="font-mono text-[15px] text-ink [font-variant-numeric:tabular-nums] md:flex-1">
+                    {spec.value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </section>
+      )}
+
+      {/* Tech stack */}
+      {project.techStack.length > 0 && (
+        <section className="border-t border-line">
+          <div className="mx-auto max-w-content px-7 py-[120px]">
+            <Eyebrow>Toolchain</Eyebrow>
+            <OutlineHeading className="mt-4" outline="Stack" dot>
+              Tech{' '}
+            </OutlineHeading>
+            <div className="mt-10 flex flex-wrap gap-3">
+              {project.techStack.map((tech) => (
+                <span
+                  key={tech}
+                  className="rounded border border-line px-3 py-1.5 font-mono text-[11px] uppercase tracking-[.1em] text-ink-soft"
+                >
+                  {tech}
+                </span>
+              ))}
             </div>
           </div>
         </section>
       )}
 
-      {/* Team Section */}
-      <section className="w-full py-16 px-4 md:px-10 bg-white dark:bg-background-dark">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex justify-between items-center mb-8">
-            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">
-              Built By Students
-            </h2>
+      {/* Team */}
+      <section className="border-t border-line">
+        <div className="mx-auto max-w-content px-7 py-[120px]">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <Eyebrow>The Crew</Eyebrow>
+              <OutlineHeading className="mt-4" outline="Students" dot>
+                Built By{' '}
+              </OutlineHeading>
+            </div>
             <Link
               href="/team"
-              className="text-primary font-bold hover:underline inline-flex items-center gap-1"
+              className="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[.16em] text-ink transition-colors duration-200 hover:text-accent"
             >
               View All Members
-              <span className="material-symbols-outlined text-sm">arrow_forward</span>
+              <Icon name="arrow_forward" size="sm" />
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="mt-12 grid grid-cols-2 gap-[30px] md:grid-cols-4">
             {projectTeam.map((member) => (
-              <div
-                key={member.id}
-                className="group flex flex-col items-center bg-gray-50 dark:bg-surface-dark rounded-xl p-6 border border-gray-200 dark:border-transparent hover:border-primary transition-all"
-              >
-                <div className="w-20 h-20 mb-4 rounded-full overflow-hidden border-2 border-gray-100 dark:border-gray-700 group-hover:border-primary transition-colors">
+              <Card key={member.id} variant="glass" className="flex flex-col items-center text-center">
+                <div className="mb-4 size-20 overflow-hidden rounded-full border border-line">
                   <Image
                     src={member.image}
                     alt={member.name}
                     width={80}
                     height={80}
-                    className="w-full h-full object-cover"
+                    className="size-full object-cover"
                   />
                 </div>
-                <h3 className="text-base font-bold text-center text-slate-900 dark:text-white">
+                <h3 className="font-display text-base font-bold uppercase tracking-[-.01em] text-ink">
                   {member.name}
                 </h3>
-                <p className="text-primary text-xs font-medium">{member.title}</p>
-              </div>
+                <p className="mt-1 font-mono text-[11px] uppercase tracking-[.1em] text-ink-soft">
+                  {member.title}
+                </p>
+              </Card>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="w-full py-20 px-4 md:px-10 bg-gray-50 dark:bg-[#0d131a]">
-        <div className="max-w-4xl mx-auto bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-800 rounded-3xl p-8 md:p-12 text-center shadow-lg">
-          <div className="size-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6 text-primary">
-            <span className="material-symbols-outlined text-4xl">rocket_launch</span>
-          </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">
-            Ready to Build the Future?
-          </h2>
-          <p className="text-lg text-slate-600 dark:text-slate-300 font-body mb-8 max-w-xl mx-auto">
+      {/* CTA */}
+      <section className="border-t border-line">
+        <div className="mx-auto flex max-w-content flex-col items-center px-7 py-[140px] text-center">
+          <Icon name="rocket_launch" size="xl" className="text-accent" />
+          <Eyebrow className="mt-6">Get Involved</Eyebrow>
+          <OutlineHeading className="mt-4" outline="Future" dot>
+            Ready to Build the{' '}
+          </OutlineHeading>
+          <p className="mx-auto mt-6 max-w-[50ch] text-[clamp(16px,1.5vw,19px)] leading-[1.55] text-ink-soft">
             Join DIGITAL and be part of groundbreaking projects. No experience required - just
             passion and willingness to learn.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              href="/contact"
-              className="w-full sm:w-auto inline-flex items-center justify-center rounded-lg h-14 px-8 bg-primary hover:bg-blue-600 text-white text-lg font-bold transition-all shadow-xl shadow-primary/20"
-            >
-              Apply Now
+          <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <Link href="/contact">
+              <Button size="lg">Apply Now</Button>
             </Link>
-            <Link
-              href="/projects"
-              className="w-full sm:w-auto inline-flex items-center justify-center rounded-lg h-14 px-8 bg-transparent border border-gray-300 dark:border-gray-600 hover:border-primary text-slate-900 dark:text-white text-lg font-bold transition-all"
-            >
-              Explore More Projects
+            <Link href="/projects">
+              <Button size="lg" variant="ghost">
+                Explore More Projects
+              </Button>
             </Link>
           </div>
         </div>
       </section>
-    </main>
+    </>
   );
 }

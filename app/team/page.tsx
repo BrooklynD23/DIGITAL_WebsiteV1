@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { teamMembers } from '@/lib/data/team';
 import { cn } from '@/lib/utils';
 import { NAVBAR_HEIGHT } from '@/components/layout/Navbar';
+import { Card, Button, Icon, Eyebrow } from '@/components/ui';
+import type { TeamMember } from '@/lib/types';
 
 // Note: Metadata must be in a separate layout.tsx for client components
 // See app/team/layout.tsx for SEO metadata
@@ -19,6 +21,75 @@ const filters: { label: string; value: Department }[] = [
   { label: 'Software', value: 'software' },
   { label: 'Outreach', value: 'outreach' },
 ];
+
+const departments: {
+  value: Exclude<Department, 'all'>;
+  index: string;
+  label: string;
+  joinLabel: string;
+}[] = [
+  { value: 'executive', index: '01', label: 'Executive Board', joinLabel: 'Join Executive' },
+  { value: 'hardware', index: '02', label: 'Hardware Team', joinLabel: 'Join Hardware' },
+  { value: 'software', index: '03', label: 'Software Team', joinLabel: 'Join Software' },
+  { value: 'outreach', index: '04', label: 'Outreach & Design', joinLabel: 'Join Outreach' },
+];
+
+function MemberCard({ member }: { member: TeamMember }) {
+  return (
+    <Card variant="glass" padding="md" className="reveal in flex h-full flex-col items-center text-center">
+      <div className="mb-4 size-28 overflow-hidden rounded-full border border-line">
+        <Image
+          src={member.image}
+          alt={`Portrait of ${member.name}`}
+          width={112}
+          height={112}
+          className="size-full object-cover"
+        />
+      </div>
+      <h3 className="font-display text-[19px] font-bold uppercase leading-tight tracking-[-.01em] text-ink">
+        {member.name}
+      </h3>
+      <p className="mt-1 font-mono text-[11px] uppercase tracking-[.16em] text-accent">
+        {member.title}
+      </p>
+      {member.role !== member.title && (
+        <p className="mt-1 text-[14px] leading-[1.5] text-ink-soft">{member.role}</p>
+      )}
+      {member.links && (
+        <div className="mt-4 flex gap-3">
+          {member.links.linkedin && (
+            <a
+              href={member.links.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex size-9 items-center justify-center rounded text-ink-soft transition-colors duration-200 ease-studio hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue"
+            >
+              <Icon name="link" size="md" label={`${member.name} on LinkedIn`} />
+            </a>
+          )}
+          {member.links.github && (
+            <a
+              href={member.links.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex size-9 items-center justify-center rounded text-ink-soft transition-colors duration-200 ease-studio hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue"
+            >
+              <Icon name="code" size="md" label={`${member.name} on GitHub`} />
+            </a>
+          )}
+          {member.links.email && (
+            <a
+              href={`mailto:${member.links.email}`}
+              className="inline-flex size-9 items-center justify-center rounded text-ink-soft transition-colors duration-200 ease-studio hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue"
+            >
+              <Icon name="mail" size="md" label={`Email ${member.name}`} />
+            </a>
+          )}
+        </div>
+      )}
+    </Card>
+  );
+}
 
 export default function TeamPage() {
   const [activeFilter, setActiveFilter] = useState<Department>('all');
@@ -35,90 +106,80 @@ export default function TeamPage() {
     });
   }, [activeFilter, searchQuery]);
 
-  const executiveMembers = filteredMembers.filter((m) => m.department === 'executive');
-  const hardwareMembers = filteredMembers.filter((m) => m.department === 'hardware');
-  const softwareMembers = filteredMembers.filter((m) => m.department === 'software');
-  const outreachMembers = filteredMembers.filter((m) => m.department === 'outreach');
-
   return (
-    <main className="flex-grow flex flex-col items-center">
-      <div className="w-full max-w-[1280px] px-4 md:px-10 pb-20">
+    <div className="flex flex-col items-center">
+      <div className="w-full max-w-content px-4 pb-[120px] md:px-7">
         {/* Hero Section */}
-        <div className="py-8">
-          <div className="flex flex-col gap-6 py-10 lg:flex-row items-center">
-            <div className="w-full lg:w-1/2 flex flex-col gap-6 justify-center">
-              <div className="flex flex-col gap-4 text-left">
-                <h1 className="text-4xl font-black leading-tight tracking-[-0.033em] md:text-5xl lg:text-6xl">
-                  Meet the Builders
-                </h1>
-                <p className="text-gray-600 dark:text-gray-300 text-base font-normal leading-relaxed lg:text-lg max-w-xl">
-                  We are a collective of engineers, designers, and innovators at Cal-Poly Pomona.
-                  From modular smartphones to industry-standard hardware, we are building the future
-                  together.
-                </p>
-              </div>
-              <div className="flex gap-4">
-                <Link
-                  href="/contact"
-                  className="flex cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-primary text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-blue-600 transition-colors"
-                >
-                  Join the Team
+        <section className="pt-[120px] pb-16 md:pb-24">
+          <div className="flex flex-col items-center gap-10 lg:flex-row">
+            <div className="flex w-full flex-col gap-6 lg:w-1/2">
+              <Eyebrow>Who We Are</Eyebrow>
+              <h1 className="font-display text-[clamp(40px,7vw,76px)] font-extrabold uppercase leading-[.92] tracking-[-.03em] text-ink">
+                Meet the <span className="text-outline">Builders</span>
+                <span className="text-accent">.</span>
+              </h1>
+              <p className="max-w-[40ch] text-[clamp(16px,1.5vw,19px)] leading-[1.55] text-ink-soft">
+                We are a collective of engineers, designers, and innovators at Cal-Poly Pomona.
+                From modular smartphones to industry-standard hardware, we are building the future
+                together.
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <Link href="/contact">
+                  <Button>Join the Team</Button>
                 </Link>
-                <Link
-                  href="/projects"
-                  className="flex cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-gray-200 dark:bg-surface-dark text-gray-900 dark:text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors"
-                >
-                  View Projects
+                <Link href="/projects">
+                  <Button variant="ghost">View Projects</Button>
                 </Link>
               </div>
             </div>
-            <div className="w-full lg:w-1/2 aspect-video rounded-xl overflow-hidden shadow-2xl relative group">
-              <div className="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-all z-10" />
-              <Image
-                src="/images/placeholders/team/group-photo.svg"
-                alt="Group of diverse students working together"
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover"
-                priority
-              />
+            <div className="relative w-full overflow-hidden rounded-lg border border-white/60 shadow-card lg:w-1/2">
+              <div className="aspect-video w-full">
+                <Image
+                  src="/images/placeholders/team/group-photo.svg"
+                  alt="Group of diverse students working together"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover"
+                  priority
+                />
+              </div>
             </div>
           </div>
-        </div>
+        </section>
 
         {/* Search & Filter */}
         <div
-          className="flex flex-col gap-6 py-6 sticky z-40 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm -mx-4 px-4 md:-mx-10 md:px-10 border-b border-gray-200 dark:border-surface-border transition-all"
+          className="sticky z-40 -mx-4 flex flex-col gap-6 border-y border-line bg-studio/85 px-4 py-6 backdrop-blur-[6px] md:-mx-7 md:px-7"
           style={{ top: `${NAVBAR_HEIGHT}px` }}
         >
-          <div className="flex flex-col md:flex-row gap-4 justify-between items-center w-full">
+          <div className="flex w-full flex-col items-center justify-between gap-4 md:flex-row">
             {/* Search */}
-            <label className="flex flex-col h-12 w-full md:max-w-md">
-              <div className="flex w-full flex-1 items-stretch rounded-lg h-full bg-white dark:bg-surface-dark shadow-sm border border-gray-200 dark:border-transparent focus-within:border-primary transition-colors">
-                <div className="text-gray-400 dark:text-[#9cabba] flex items-center justify-center pl-4 pr-2">
-                  <span className="material-symbols-outlined">search</span>
-                </div>
-                <input
-                  type="text"
-                  className="flex w-full min-w-0 flex-1 bg-transparent text-gray-900 dark:text-white focus:outline-0 border-none h-full placeholder:text-gray-400 dark:placeholder:text-[#9cabba] px-2 text-base font-normal leading-normal"
-                  placeholder="Search members..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </div>
+            <label className="flex h-11 w-full items-stretch rounded border border-line bg-white/55 transition-[border-color,box-shadow] duration-200 ease-studio focus-within:border-accent-blue focus-within:ring-2 focus-within:ring-accent-blue md:max-w-md">
+              <span className="flex items-center justify-center pl-4 pr-2 text-ink-soft">
+                <Icon name="search" size="md" />
+              </span>
+              <input
+                type="text"
+                className="w-full min-w-0 flex-1 border-none bg-transparent px-2 font-body text-base text-ink placeholder:text-ink-soft/70 focus:outline-none"
+                placeholder="Search members..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                aria-label="Search members"
+              />
             </label>
 
             {/* Filter Chips */}
-            <div className="flex gap-2 overflow-x-auto pb-2 md:pb-0 w-full md:w-auto">
+            <div className="flex w-full gap-2 overflow-x-auto pb-2 md:w-auto md:pb-0">
               {filters.map((filter) => (
                 <button
                   key={filter.value}
                   onClick={() => setActiveFilter(filter.value)}
+                  aria-pressed={activeFilter === filter.value}
                   className={cn(
-                    'flex h-9 shrink-0 items-center justify-center px-4 rounded-full text-sm font-medium transition-all active:scale-95',
+                    'flex h-9 shrink-0 items-center justify-center rounded border px-4 font-mono text-[11px] uppercase tracking-[.16em] transition-colors duration-200 ease-studio focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue',
                     activeFilter === filter.value
-                      ? 'bg-primary text-white'
-                      : 'bg-white dark:bg-surface-dark text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-transparent hover:border-primary dark:hover:border-primary'
+                      ? 'border-ink bg-ink text-studio'
+                      : 'border-line bg-white/55 text-ink-soft hover:border-ink hover:text-ink'
                   )}
                 >
                   {filter.label}
@@ -129,200 +190,55 @@ export default function TeamPage() {
         </div>
 
         {/* Content Grid */}
-        <div className="flex flex-col gap-12 mt-8">
-          {/* Executive Board Section */}
-          {(activeFilter === 'all' || activeFilter === 'executive') && executiveMembers.length > 0 && (
-            <section>
-              <div className="flex items-center gap-2 mb-6">
-                <div className="h-8 w-1 bg-primary rounded-full" />
-                <h2 className="text-2xl md:text-3xl font-bold tracking-tight">Executive Board</h2>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {executiveMembers.map((member) => (
-                  <div
-                    key={member.id}
-                    className="group flex flex-col items-center bg-white dark:bg-surface-dark rounded-xl p-6 border border-gray-200 dark:border-transparent hover:border-primary dark:hover:border-primary transition-all duration-300 shadow-sm hover:shadow-lg hover:-translate-y-1 relative overflow-hidden"
-                  >
-                    <div className="absolute top-0 right-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <span className="material-symbols-outlined text-primary">arrow_outward</span>
-                    </div>
-                    <div className="w-32 h-32 mb-4 rounded-full overflow-hidden border-2 border-gray-100 dark:border-gray-700 group-hover:border-primary transition-colors">
-                      <Image
-                        src={member.image}
-                        alt={`Portrait of ${member.name}`}
-                        width={128}
-                        height={128}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <h3 className="text-xl font-bold text-center">{member.name}</h3>
-                    <p className="text-primary font-medium text-sm mb-2">{member.title}</p>
-                    <p className="text-gray-500 dark:text-gray-400 text-sm text-center mb-4 line-clamp-2">
-                      {member.role}
-                    </p>
-                    <div className="flex gap-3 mt-auto">
-                      {member.links?.linkedin && (
-                        <a
-                          href={member.links.linkedin}
-                          className="text-gray-400 hover:text-primary transition-colors"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <span className="material-symbols-outlined text-[20px]">link</span>
-                        </a>
-                      )}
-                      {member.links?.email && (
-                        <a
-                          href={`mailto:${member.links.email}`}
-                          className="text-gray-400 hover:text-primary transition-colors"
-                        >
-                          <span className="material-symbols-outlined text-[20px]">mail</span>
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </section>
-          )}
+        <div className="mt-12 flex flex-col gap-16">
+          {departments.map((dept) => {
+            if (activeFilter !== 'all' && activeFilter !== dept.value) return null;
+            const members = filteredMembers.filter((m) => m.department === dept.value);
+            if (members.length === 0) return null;
 
-          {/* Hardware Team */}
-          {(activeFilter === 'all' || activeFilter === 'hardware') && hardwareMembers.length > 0 && (
-            <section>
-              <div className="flex items-center gap-2 mb-6">
-                <div className="h-6 w-1 bg-gray-500 rounded-full" />
-                <h2 className="text-xl md:text-2xl font-bold tracking-tight">Hardware Team</h2>
-              </div>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                {hardwareMembers.map((member) => (
-                  <div
-                    key={member.id}
-                    className="flex flex-col items-start bg-white dark:bg-surface-dark rounded-lg p-4 border border-gray-200 dark:border-transparent hover:border-primary transition-colors hover:shadow-md"
+            return (
+              <section key={dept.value}>
+                <div className="mb-8 border-t border-line pt-6">
+                  <Eyebrow>{dept.index} / Department</Eyebrow>
+                  <h2 className="mt-2 font-display text-[clamp(28px,3.6vw,42px)] font-bold uppercase leading-none tracking-[-.02em] text-ink">
+                    {dept.label}
+                  </h2>
+                </div>
+                <div className="grid grid-cols-1 gap-[30px] sm:grid-cols-2 lg:grid-cols-4">
+                  {members.map((member) => (
+                    <MemberCard key={member.id} member={member} />
+                  ))}
+                  {/* Join Card */}
+                  <Link
+                    href="/contact"
+                    className="group flex flex-col items-center justify-center gap-3 rounded-lg border border-dashed border-line p-[30px] text-center transition-colors duration-200 ease-studio hover:border-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue"
                   >
-                    <div className="w-16 h-16 rounded-full mb-3 overflow-hidden bg-gray-800">
-                      <Image
-                        src={member.image}
-                        alt={`Portrait of ${member.name}`}
-                        width={64}
-                        height={64}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <h4 className="font-bold text-base leading-tight">{member.name}</h4>
-                    <p className="text-xs text-primary mb-1">{member.title}</p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">{member.role}</p>
-                  </div>
-                ))}
-                {/* Join Card */}
-                <Link
-                  href="/contact"
-                  className="flex flex-col items-center justify-center bg-gray-100 dark:bg-background-dark rounded-lg p-4 border border-dashed border-gray-300 dark:border-gray-600 hover:border-primary dark:hover:border-primary transition-colors cursor-pointer group"
-                >
-                  <div className="w-12 h-12 rounded-full bg-gray-200 dark:bg-surface-dark flex items-center justify-center mb-2 group-hover:bg-primary group-hover:text-white transition-colors">
-                    <span className="material-symbols-outlined">add</span>
-                  </div>
-                  <h4 className="font-bold text-sm text-center">Join Hardware</h4>
-                </Link>
-              </div>
-            </section>
-          )}
-
-          {/* Software Team */}
-          {(activeFilter === 'all' || activeFilter === 'software') && softwareMembers.length > 0 && (
-            <section>
-              <div className="flex items-center gap-2 mb-6">
-                <div className="h-6 w-1 bg-gray-500 rounded-full" />
-                <h2 className="text-xl md:text-2xl font-bold tracking-tight">Software Team</h2>
-              </div>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                {softwareMembers.map((member) => (
-                  <div
-                    key={member.id}
-                    className="flex flex-col items-start bg-white dark:bg-surface-dark rounded-lg p-4 border border-gray-200 dark:border-transparent hover:border-primary transition-colors hover:shadow-md"
-                  >
-                    <div className="w-16 h-16 rounded-full mb-3 overflow-hidden bg-gray-800">
-                      <Image
-                        src={member.image}
-                        alt={`Portrait of ${member.name}`}
-                        width={64}
-                        height={64}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <h4 className="font-bold text-base leading-tight">{member.name}</h4>
-                    <p className="text-xs text-primary mb-1">{member.title}</p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">{member.role}</p>
-                  </div>
-                ))}
-                {/* Join Card */}
-                <Link
-                  href="/contact"
-                  className="flex flex-col items-center justify-center bg-gray-100 dark:bg-background-dark rounded-lg p-4 border border-dashed border-gray-300 dark:border-gray-600 hover:border-primary dark:hover:border-primary transition-colors cursor-pointer group"
-                >
-                  <div className="w-12 h-12 rounded-full bg-gray-200 dark:bg-surface-dark flex items-center justify-center mb-2 group-hover:bg-primary group-hover:text-white transition-colors">
-                    <span className="material-symbols-outlined">add</span>
-                  </div>
-                  <h4 className="font-bold text-sm text-center">Join Software</h4>
-                </Link>
-              </div>
-            </section>
-          )}
-
-          {/* Outreach Team */}
-          {(activeFilter === 'all' || activeFilter === 'outreach') && outreachMembers.length > 0 && (
-            <section>
-              <div className="flex items-center gap-2 mb-6">
-                <div className="h-6 w-1 bg-gray-500 rounded-full" />
-                <h2 className="text-xl md:text-2xl font-bold tracking-tight">Outreach & Design</h2>
-              </div>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                {outreachMembers.map((member) => (
-                  <div
-                    key={member.id}
-                    className="flex flex-col items-start bg-white dark:bg-surface-dark rounded-lg p-4 border border-gray-200 dark:border-transparent hover:border-primary transition-colors hover:shadow-md"
-                  >
-                    <div className="w-16 h-16 rounded-full mb-3 overflow-hidden bg-gray-800">
-                      <Image
-                        src={member.image}
-                        alt={`Portrait of ${member.name}`}
-                        width={64}
-                        height={64}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <h4 className="font-bold text-base leading-tight">{member.name}</h4>
-                    <p className="text-xs text-primary mb-1">{member.title}</p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">{member.role}</p>
-                  </div>
-                ))}
-                {/* Join Card */}
-                <Link
-                  href="/contact"
-                  className="flex flex-col items-center justify-center bg-gray-100 dark:bg-background-dark rounded-lg p-4 border border-dashed border-gray-300 dark:border-gray-600 hover:border-primary dark:hover:border-primary transition-colors cursor-pointer group"
-                >
-                  <div className="w-12 h-12 rounded-full bg-gray-200 dark:bg-surface-dark flex items-center justify-center mb-2 group-hover:bg-primary group-hover:text-white transition-colors">
-                    <span className="material-symbols-outlined">add</span>
-                  </div>
-                  <h4 className="font-bold text-sm text-center">Join Outreach</h4>
-                </Link>
-              </div>
-            </section>
-          )}
+                    <span className="inline-flex size-12 items-center justify-center rounded-full border border-line text-ink-soft transition-colors duration-200 ease-studio group-hover:border-accent group-hover:text-accent">
+                      <Icon name="add" size="md" />
+                    </span>
+                    <span className="font-display text-[15px] font-bold uppercase tracking-[-.01em] text-ink">
+                      {dept.joinLabel}
+                    </span>
+                  </Link>
+                </div>
+              </section>
+            );
+          })}
 
           {/* No results */}
           {filteredMembers.length === 0 && (
-            <div className="text-center py-20">
-              <span className="material-symbols-outlined text-6xl text-gray-400 mb-4">
-                search_off
+            <div className="border-t border-line py-20 text-center">
+              <span className="mb-4 inline-flex text-ink-soft">
+                <Icon name="search_off" size="xl" />
               </span>
-              <h3 className="text-xl font-bold text-gray-600 dark:text-gray-400">
+              <h3 className="font-display text-[21px] font-bold uppercase tracking-[-.01em] text-ink">
                 No members found
               </h3>
-              <p className="text-gray-500 mt-2">Try adjusting your search or filter</p>
+              <p className="mt-2 text-[15px] text-ink-soft">Try adjusting your search or filter</p>
             </div>
           )}
         </div>
       </div>
-    </main>
+    </div>
   );
 }

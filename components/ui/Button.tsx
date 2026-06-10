@@ -6,6 +6,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: 'sm' | 'md' | 'lg';
   icon?: React.ReactNode;
   iconPosition?: 'left' | 'right';
+  loading?: boolean;
   children: React.ReactNode;
 }
 
@@ -17,70 +18,79 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       size = 'md',
       icon,
       iconPosition = 'left',
+      loading = false,
       children,
       disabled,
       ...props
     },
     ref
   ) => {
+    const isDisabled = disabled || loading;
+
     return (
       <button
         ref={ref}
-        disabled={disabled}
+        disabled={isDisabled}
+        aria-busy={loading || undefined}
         className={cn(
-          // Base styles
-          'inline-flex items-center justify-center gap-2 font-semibold rounded-xl',
-          'transition-all duration-300 ease-smooth',
-          'transform-gpu', // Enable GPU acceleration for smooth animations
-          // Focus state with glow
-          'focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2',
-          'focus:ring-offset-background-light dark:focus:ring-offset-background-dark',
-          // Hover scale + active press
-          'hover:scale-[1.03] active:scale-[0.98]',
-          // Disabled state
-          disabled && 'opacity-50 cursor-not-allowed hover:scale-100 active:scale-100',
+          // Base — square 4px, 1.5px ink border, uppercase Archivo
+          'inline-flex items-center justify-center gap-2 rounded border-[1.5px]',
+          'font-display font-semibold uppercase tracking-[.04em]',
+          'transition-[transform,background-color,color,border-color] duration-200 ease-studio',
+          'transform-gpu',
+          // Focus ring — functional electric blue
+          'focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue focus-visible:ring-offset-2 focus-visible:ring-offset-studio',
+          // Hover lift (skip when disabled)
+          !isDisabled && 'hover:-translate-y-0.5',
           // Variants
           variant === 'primary' && [
-            'bg-primary text-white',
-            'shadow-md shadow-primary/20',
-            'hover:bg-primary-hover hover:shadow-glow',
-            'active:shadow-md',
+            'border-ink bg-ink text-studio',
+            !isDisabled && 'hover:border-accent hover:bg-accent',
           ],
-          variant === 'secondary' && [
-            'bg-white dark:bg-surface-dark',
-            'border border-surface-border-light dark:border-surface-border',
-            'text-slate-900 dark:text-white',
-            'hover:border-primary dark:hover:border-primary',
-            'hover:bg-primary-subtle dark:hover:bg-primary-subtle',
-            'hover:shadow-glow-sm',
+          // secondary + outline + ghost all map to the ghost treatment
+          (variant === 'ghost' ||
+            variant === 'secondary' ||
+            variant === 'outline') && [
+            'border-ink bg-transparent text-ink',
+            !isDisabled && 'hover:bg-ink/[.04]',
           ],
-          variant === 'ghost' && [
-            'bg-transparent',
-            'text-slate-700 dark:text-slate-300',
-            'hover:bg-primary-subtle',
-            'hover:text-primary dark:hover:text-primary-light',
-          ],
-          variant === 'outline' && [
-            'bg-transparent',
-            'border border-slate-300 dark:border-slate-600',
-            'text-slate-900 dark:text-white',
-            'hover:border-primary dark:hover:border-primary',
-            'hover:text-primary dark:hover:text-primary-light',
-            'hover:shadow-glow-sm',
-          ],
+          // Disabled
+          isDisabled && 'cursor-not-allowed opacity-50',
           // Sizes
-          size === 'sm' && 'h-8 px-3 text-sm',
-          size === 'md' && 'h-10 px-4 text-[15px]',
-          size === 'lg' && 'h-12 px-6 text-base',
+          size === 'sm' && 'px-[18px] py-[10px] text-[13px]',
+          size === 'md' && 'px-[26px] py-4 text-sm',
+          size === 'lg' && 'px-[30px] py-[18px] text-[15px]',
           className
         )}
         {...props}
       >
-        {icon && iconPosition === 'left' && (
+        {loading && (
+          <svg
+            className="size-4 animate-spin"
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden="true"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="3"
+            />
+            <path
+              className="opacity-90"
+              fill="currentColor"
+              d="M4 12a8 8 0 0 1 8-8V0C5.4 0 0 5.4 0 12h4z"
+            />
+          </svg>
+        )}
+        {!loading && icon && iconPosition === 'left' && (
           <span className="flex-shrink-0">{icon}</span>
         )}
         {children}
-        {icon && iconPosition === 'right' && (
+        {!loading && icon && iconPosition === 'right' && (
           <span className="flex-shrink-0">{icon}</span>
         )}
       </button>

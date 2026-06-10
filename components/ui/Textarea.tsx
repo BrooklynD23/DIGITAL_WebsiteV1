@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import { TextareaHTMLAttributes, forwardRef } from 'react';
+import { TextareaHTMLAttributes, forwardRef, useId } from 'react';
 
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
@@ -7,30 +7,47 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
 }
 
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({ className, label, error, ...props }, ref) => {
+  ({ className, label, error, id, ...props }, ref) => {
+    const generatedId = useId();
+    const textareaId = id ?? generatedId;
+    const errorId = `${textareaId}-error`;
+
     return (
-      <label className="flex flex-col flex-1">
+      <div className="flex flex-1 flex-col">
         {label && (
-          <p className="text-slate-900 dark:text-white text-base font-medium leading-normal pb-2">
+          <label
+            htmlFor={textareaId}
+            className="pb-2 font-mono text-[11px] font-medium uppercase tracking-[.16em] text-ink-soft"
+          >
             {label}
-          </p>
+          </label>
         )}
         <textarea
           ref={ref}
+          id={textareaId}
+          aria-invalid={error ? true : undefined}
+          aria-describedby={error ? errorId : undefined}
           className={cn(
-            'form-textarea flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg',
-            'text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50',
-            'border border-slate-300 dark:border-surface-border',
-            'bg-slate-50 dark:bg-[#111418] focus:border-primary',
-            'min-h-40 placeholder:text-slate-400 dark:placeholder:text-[#9cabba]',
-            'p-[15px] text-base font-normal leading-normal transition-all',
-            error && 'border-red-500 focus:ring-red-500/50',
+            'flex min-h-40 w-full min-w-0 flex-1 rounded border border-line bg-white/55',
+            'px-4 py-[14px] font-body text-base leading-normal text-ink',
+            'placeholder:text-ink-soft/70',
+            'transition-[border-color,box-shadow] duration-200 ease-studio',
+            'focus:outline-none focus-visible:border-accent-blue focus-visible:ring-2 focus-visible:ring-accent-blue',
+            error && 'border-accent focus-visible:border-accent focus-visible:ring-accent',
             className
           )}
           {...props}
         />
-        {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
-      </label>
+        {error && (
+          <p
+            id={errorId}
+            role="alert"
+            className="mt-1 font-mono text-[12px] text-accent"
+          >
+            {error}
+          </p>
+        )}
+      </div>
     );
   }
 );

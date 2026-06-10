@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Card, CardHeader, CardTitle, CardDescription, Button, Badge } from '@/components/ui';
+import { Button, Card, Eyebrow, Icon, OutlineHeading, Section } from '@/components/ui';
 
 export const metadata: Metadata = {
   title: 'DIGITAL Pillars - DIGITAL @ Cal Poly Pomona',
@@ -25,7 +25,7 @@ const digitalPillars = [
   {
     letter: 'G',
     title: 'Generating',
-    icon: 'auto_awesome',
+    icon: 'lightbulb',
     description: 'Creating innovative solutions and novel approaches. We generate ideas, prototypes, and documentation that push the boundaries of what student teams can achieve.',
     details: ['Concept ideation', 'Rapid prototyping', 'Design iteration'],
   },
@@ -39,14 +39,14 @@ const digitalPillars = [
   {
     letter: 'T',
     title: 'Testing',
-    icon: 'science',
+    icon: 'check_circle',
     description: 'Rigorous validation ensures our designs meet performance, reliability, and safety standards. Testing drives continuous improvement.',
     details: ['Performance benchmarks', 'Stress testing', 'Quality assurance'],
   },
   {
     letter: 'A',
     title: 'Analyzing',
-    icon: 'analytics',
+    icon: 'search',
     description: 'Data-driven decision making guides our engineering process. We analyze results, identify patterns, and optimize based on evidence.',
     details: ['Performance metrics', 'Failure analysis', 'Optimization studies'],
   },
@@ -59,199 +59,249 @@ const digitalPillars = [
   },
 ];
 
+const missionHighlights = [
+  'comfortable to hold',
+  'intuitive to use',
+  'powerful enough',
+  'efficient enough',
+  'speedy enough',
+  'versatile enough',
+];
+
+const frameworkPhases = [
+  {
+    icon: 'design_services',
+    label: 'Phase 01',
+    title: 'Design Phase',
+    description: 'Device, Generating, and Analyzing guide our initial concepts and requirements.',
+  },
+  {
+    icon: 'build',
+    label: 'Phase 02',
+    title: 'Build Phase',
+    description: 'Implementation and Integrating bring designs to life through hands-on engineering.',
+  },
+  {
+    icon: 'rocket_launch',
+    label: 'Phase 03',
+    title: 'Growth Phase',
+    description: 'Testing and Learning drive continuous improvement and knowledge transfer.',
+  },
+];
+
+// Self-contained scroll-in observer: toggles `.in` on `.reveal` elements once
+// in view. Kept inline so the page stays a server component (metadata export).
+// Reduced-motion is handled globally in globals.css.
+const revealScript = `
+(function () {
+  if (typeof window === 'undefined') return;
+  var run = function () {
+    var els = document.querySelectorAll('.reveal:not(.in)');
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(function (el) { el.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.2 });
+    els.forEach(function (el) { io.observe(el); });
+  };
+  if (document.readyState !== 'loading') run();
+  else document.addEventListener('DOMContentLoaded', run);
+})();
+`;
+
 export default function PillarsPage() {
   return (
-    <main className="flex flex-col items-center">
-      {/* Hero Section */}
-      <section className="relative w-full py-16 md:py-24 px-4 md:px-10 overflow-hidden">
-        <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-primary/8 rounded-full blur-[100px] -translate-y-1/4 translate-x-1/4 pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-primary/5 rounded-full blur-[80px] translate-y-1/4 -translate-x-1/4 pointer-events-none" />
+    <>
+      <script dangerouslySetInnerHTML={{ __html: revealScript }} />
 
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          <Badge variant="flagship" className="mb-4">Our Framework</Badge>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white mb-6">
-            The <span className="text-gradient">DIGITAL</span> Pillars
-          </h1>
-          <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
-            Seven interconnected principles that guide our mission to build a smartphone from scratch -
-            comfortable to hold, intuitive to use, and powerful enough for all-day performance.
+      {/* Hero */}
+      <Section className="pt-[140px] pb-[80px]">
+        <div className="reveal max-w-3xl">
+          <Eyebrow>Our Framework</Eyebrow>
+          <OutlineHeading
+            as="h1"
+            size="hero"
+            outline="DIGITAL"
+            after=" Pillars"
+            dot
+            className="mt-6"
+          >
+            The{' '}
+          </OutlineHeading>
+          <p className="mt-8 max-w-[60ch] font-body text-[clamp(16px,1.5vw,19px)] leading-[1.55] text-ink-soft">
+            Seven interconnected principles that guide our mission to build a smartphone from
+            scratch - comfortable to hold, intuitive to use, and powerful enough for all-day
+            performance.
           </p>
         </div>
-      </section>
+      </Section>
 
-      {/* Acronym Display */}
-      <section className="w-full py-12 px-4 md:px-10 bg-gray-50 dark:bg-[#0d131a]">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex flex-wrap justify-center gap-3 md:gap-4">
+      {/* Acronym Display — industrial square tiles */}
+      <Section band>
+        <div className="reveal">
+          <p className="font-mono text-[11px] uppercase tracking-label text-ink-soft">
+            D · I · G · I · T · A · L
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3 md:gap-4">
             {digitalPillars.map((pillar, index) => (
-              <div
-                key={index}
-                className="group flex flex-col items-center"
-              >
-                <div className="size-14 md:size-16 rounded-xl bg-white dark:bg-surface-dark border border-surface-border-light dark:border-surface-border flex items-center justify-center font-bold text-2xl md:text-3xl text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-white group-hover:shadow-glow group-hover:scale-110">
+              <div key={index} className="group flex flex-col items-center gap-2">
+                <div className="flex size-16 items-center justify-center rounded border border-line bg-white/[.42] font-display text-3xl font-extrabold text-ink backdrop-blur-[6px] transition-colors duration-300 ease-studio group-hover:border-accent group-hover:bg-accent group-hover:text-studio md:size-[72px]">
                   {pillar.letter}
                 </div>
-                <span className="mt-2 text-xs font-medium text-slate-500 dark:text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <span className="font-mono text-[10px] uppercase tracking-label text-ink-soft opacity-0 transition-opacity duration-300 ease-studio group-hover:opacity-100">
                   {pillar.title}
                 </span>
               </div>
             ))}
           </div>
         </div>
-      </section>
+      </Section>
 
-      {/* Pillars Grid */}
-      <section className="w-full py-16 md:py-20 px-4 md:px-10">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {digitalPillars.map((pillar, index) => (
-              <Card
-                key={index}
-                variant="interactive"
-                padding="lg"
-                className="group h-full flex flex-col"
-              >
-                {/* Header with letter and icon */}
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex items-center gap-4">
-                    <div className="size-12 rounded-xl bg-primary-subtle flex items-center justify-center text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-white">
-                      <span className="material-symbols-outlined text-2xl">
-                        {pillar.icon}
-                      </span>
-                    </div>
-                    <div className="size-10 rounded-lg border-2 border-primary/30 flex items-center justify-center font-bold text-lg text-primary">
-                      {pillar.letter}
-                    </div>
-                  </div>
-                </div>
-
-                <CardHeader className="flex-1">
-                  <CardTitle className="text-xl">{pillar.title}</CardTitle>
-                  <CardDescription className="text-sm leading-relaxed">
-                    {pillar.description}
-                  </CardDescription>
-                </CardHeader>
-
-                {/* Details list */}
-                <div className="mt-4 pt-4 border-t border-surface-border-light dark:border-surface-border">
-                  <ul className="space-y-2">
-                    {pillar.details.map((detail, detailIndex) => (
-                      <li key={detailIndex} className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
-                        <span className="size-1.5 rounded-full bg-primary/60" />
-                        {detail}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </Card>
-            ))}
-          </div>
+      {/* Pillars Grid — glass cards */}
+      <Section band>
+        <div className="reveal mb-12 max-w-2xl">
+          <Eyebrow>The Seven Pillars</Eyebrow>
+          <OutlineHeading outline="Layer" after=" by Layer" dot className="mt-6">
+            Built{' '}
+          </OutlineHeading>
         </div>
-      </section>
-
-      {/* Mission Statement Section */}
-      <section className="w-full py-16 md:py-20 px-4 md:px-10 bg-white dark:bg-[#161b22] border-y border-gray-200 dark:border-[#283039]">
-        <div className="max-w-5xl mx-auto">
-          <Card variant="featured" padding="lg" className="relative overflow-hidden">
-            {/* Background decoration */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-48 h-48 bg-primary/5 rounded-full blur-2xl translate-y-1/2 -translate-x-1/2 pointer-events-none" />
-
-            <div className="relative text-center">
-              <div className="flex justify-center mb-6">
-                <div className="size-16 rounded-2xl bg-primary text-white flex items-center justify-center">
-                  <span className="material-symbols-outlined text-3xl">lightbulb</span>
-                </div>
+        <div className="grid gap-[30px] [grid-template-columns:repeat(auto-fit,minmax(240px,1fr))]">
+          {digitalPillars.map((pillar, index) => (
+            <Card
+              key={index}
+              variant="interactive"
+              padding="md"
+              className="reveal flex h-full flex-col"
+            >
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-xs uppercase tracking-[.1em] text-accent">
+                  {String(index + 1).padStart(2, '0')} · {pillar.letter}
+                </span>
+                <Icon name={pillar.icon} size="lg" className="text-ink" />
               </div>
 
-              <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-6">
-                Our Mission
-              </h2>
+              <h3 className="mt-4 font-display text-[21px] font-bold uppercase tracking-[-.01em] text-ink">
+                {pillar.title}
+              </h3>
+              <p className="mt-2 font-body text-[15px] leading-[1.55] text-ink-soft">
+                {pillar.description}
+              </p>
 
-              <blockquote className="text-lg md:text-xl text-slate-600 dark:text-slate-300 leading-relaxed max-w-3xl mx-auto">
-                &ldquo;Build a smartphone from scratch that is{' '}
-                <span className="text-primary font-semibold">comfortable to hold</span>,{' '}
-                <span className="text-primary font-semibold">intuitive to use</span>,{' '}
-                <span className="text-primary font-semibold">powerful enough</span> to maintain strong performance,{' '}
-                <span className="text-primary font-semibold">efficient enough</span> to endure a whole day of extensive use,{' '}
-                <span className="text-primary font-semibold">speedy enough</span> to feel snappy and responsive, and{' '}
-                <span className="text-primary font-semibold">versatile enough</span> to serve as a foundation for future innovations.&rdquo;
-              </blockquote>
-            </div>
-          </Card>
+              <ul className="mt-6 space-y-3 border-t border-line pt-6">
+                {pillar.details.map((detail, detailIndex) => (
+                  <li
+                    key={detailIndex}
+                    className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-label text-ink-soft"
+                  >
+                    <span className="size-1.5 shrink-0 rounded-full bg-accent" />
+                    {detail}
+                  </li>
+                ))}
+              </ul>
+            </Card>
+          ))}
         </div>
-      </section>
+      </Section>
 
-      {/* How Pillars Connect Section */}
-      <section className="w-full py-16 md:py-20 px-4 md:px-10">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-6">
-            A Connected Framework
-          </h2>
-          <p className="text-lg text-slate-600 dark:text-slate-400 mb-12 max-w-2xl mx-auto">
+      {/* Mission Statement — featured glass card */}
+      <Section band>
+        <div className="reveal mb-12 max-w-2xl">
+          <Eyebrow>Our Mission</Eyebrow>
+          <OutlineHeading outline="Scratch" dot className="mt-6">
+            From{' '}
+          </OutlineHeading>
+        </div>
+        <Card variant="featured" padding="lg" className="reveal">
+          <Icon name="lightbulb" size="xl" className="text-accent" label="Mission" />
+          <blockquote className="mt-8 max-w-[60ch] font-display text-[clamp(20px,2.6vw,32px)] font-semibold uppercase leading-[1.15] tracking-[-.02em] text-ink">
+            &ldquo;Build a smartphone from scratch that is{' '}
+            <span className="text-accent">comfortable to hold</span>,{' '}
+            <span className="text-accent">intuitive to use</span>,{' '}
+            <span className="text-accent">powerful enough</span> to maintain strong performance,{' '}
+            <span className="text-accent">efficient enough</span> to endure a whole day of
+            extensive use, <span className="text-accent">speedy enough</span> to feel snappy and
+            responsive, and <span className="text-accent">versatile enough</span> to serve as a
+            foundation for future innovations.&rdquo;
+          </blockquote>
+          <div className="mt-8 flex flex-wrap gap-x-4 gap-y-2 border-t border-line pt-6">
+            {missionHighlights.map((tag) => (
+              <span
+                key={tag}
+                className="font-mono text-[10px] uppercase tracking-label text-ink-soft"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        </Card>
+      </Section>
+
+      {/* Connected Framework — Design / Build / Growth */}
+      <Section band>
+        <div className="reveal mb-12 max-w-2xl">
+          <Eyebrow>How It Connects</Eyebrow>
+          <OutlineHeading outline="Framework" dot className="mt-6">
+            A Connected{' '}
+          </OutlineHeading>
+          <p className="mt-8 max-w-[60ch] font-body text-[clamp(16px,1.5vw,19px)] leading-[1.55] text-ink-soft">
             Our seven pillars work together in a continuous cycle of innovation. Each pillar
             informs and strengthens the others, creating a robust engineering methodology.
           </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="p-6 rounded-xl bg-gray-50 dark:bg-[#1b2127] border border-gray-200 dark:border-[#3b4754]">
-              <div className="size-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mx-auto mb-4">
-                <span className="material-symbols-outlined text-2xl">design_services</span>
-              </div>
-              <h3 className="font-bold text-slate-900 dark:text-white mb-2">Design Phase</h3>
-              <p className="text-sm text-slate-600 dark:text-slate-400">
-                Device, Generating, and Analyzing guide our initial concepts and requirements.
-              </p>
-            </div>
-
-            <div className="p-6 rounded-xl bg-gray-50 dark:bg-[#1b2127] border border-gray-200 dark:border-[#3b4754]">
-              <div className="size-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mx-auto mb-4">
-                <span className="material-symbols-outlined text-2xl">build</span>
-              </div>
-              <h3 className="font-bold text-slate-900 dark:text-white mb-2">Build Phase</h3>
-              <p className="text-sm text-slate-600 dark:text-slate-400">
-                Implementation and Integrating bring designs to life through hands-on engineering.
-              </p>
-            </div>
-
-            <div className="p-6 rounded-xl bg-gray-50 dark:bg-[#1b2127] border border-gray-200 dark:border-[#3b4754]">
-              <div className="size-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mx-auto mb-4">
-                <span className="material-symbols-outlined text-2xl">rocket_launch</span>
-              </div>
-              <h3 className="font-bold text-slate-900 dark:text-white mb-2">Growth Phase</h3>
-              <p className="text-sm text-slate-600 dark:text-slate-400">
-                Testing and Learning drive continuous improvement and knowledge transfer.
-              </p>
-            </div>
-          </div>
         </div>
-      </section>
+        <div className="grid gap-[30px] [grid-template-columns:repeat(auto-fit,minmax(240px,1fr))]">
+          {frameworkPhases.map((phase) => (
+            <Card key={phase.title} variant="glass" padding="md" className="reveal">
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-xs uppercase tracking-[.1em] text-accent">
+                  {phase.label}
+                </span>
+                <Icon name={phase.icon} size="lg" className="text-ink" />
+              </div>
+              <h3 className="mt-4 font-display text-[21px] font-bold uppercase tracking-[-.01em] text-ink">
+                {phase.title}
+              </h3>
+              <p className="mt-2 font-body text-[15px] leading-[1.55] text-ink-soft">
+                {phase.description}
+              </p>
+            </Card>
+          ))}
+        </div>
+      </Section>
 
-      {/* CTA Section */}
-      <section className="w-full py-16 md:py-20 px-4 md:px-10 bg-gray-50 dark:bg-[#0d131a]">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-4">
-            Ready to Be Part of Something DIGITAL?
-          </h2>
-          <p className="text-slate-600 dark:text-slate-400 mb-8 max-w-xl mx-auto">
+      {/* CTA */}
+      <Section band>
+        <div className="reveal max-w-2xl">
+          <Eyebrow>Join Us</Eyebrow>
+          <OutlineHeading outline="DIGITAL" dot className="mt-6">
+            Ready to Be Part of Something{' '}
+          </OutlineHeading>
+          <p className="mt-8 max-w-[60ch] font-body text-[clamp(16px,1.5vw,19px)] leading-[1.55] text-ink-soft">
             Join our team of passionate engineers and contribute to groundbreaking projects.
             Whether you are experienced or just starting out, there is a place for you.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="mt-10 flex flex-col gap-4 sm:flex-row">
             <Link href="/get-involved">
-              <Button size="lg">
+              <Button
+                size="lg"
+                icon={<Icon name="arrow_forward" size="md" />}
+                iconPosition="right"
+                className="w-full sm:w-auto"
+              >
                 Get Involved
-                <span className="material-symbols-outlined text-lg ml-1">arrow_forward</span>
               </Button>
             </Link>
             <Link href="/contact">
-              <Button variant="outline" size="lg">
+              <Button variant="ghost" size="lg" className="w-full sm:w-auto">
                 Contact Us
               </Button>
             </Link>
           </div>
         </div>
-      </section>
-    </main>
+      </Section>
+    </>
   );
 }
