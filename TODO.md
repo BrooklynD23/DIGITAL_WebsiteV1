@@ -15,7 +15,7 @@ committed — see the standing rule in `CLAUDE.md` and `AGENT.md`.
 - [x] 2. Project data trim — keep Modular Smartphone, remove Embedded / Robotics / Software
          Hatchery / Smart Mirror / Drone Swarm, add "Heads-up Display Glasses" placeholder
          (status: More info soon)
-- [ ] 3. Relocate scroll teardown to be the Smartphone project page; create a new
+- [x] 3. Relocate scroll teardown to be the Smartphone project page; create a new
          landing/home page; rework teardown copy to funnel users into sub-teams
          (Executive / Hardware / Software / Outreach)
 - [ ] 4. Launch-config: Vercel Analytics + Speed Insights, `app/sitemap.ts`,
@@ -31,6 +31,7 @@ committed — see the standing rule in `CLAUDE.md` and `AGENT.md`.
 |--------|-----------|-----------|------------------------------------------------------------|--------------------------------|
 | v0.1.0 | #0001     | `a632480` | docs: add TODO work log + CLAUDE/AGENT conventions (#0001) | Docs scaffolding — Sprint 1 #1 |
 | v0.2.0 | #0003     | `3e11de1` | feat(projects): trim to Modular Smartphone + add Heads-up Display Glasses placeholder (#0003) | Project data trim — Sprint 1 #2 |
+| v0.3.0 | #0005     | `a1399a0` | feat(routing): teardown becomes Smartphone page; new landing home + sub-team funnel (#0005) | Teardown relocated + new home + sub-team funnel — Sprint 1 #3 |
 
 ---
 
