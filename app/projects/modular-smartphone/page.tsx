@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import {
   Badge,
   Button,
@@ -20,6 +21,12 @@ export const metadata: Metadata = {
   description:
     'Redefining repairability and customization in consumer electronics. A fully open-source, modular smartphone built from the ground up by DIGITAL engineers.',
 };
+
+const statusVariant = {
+  active: 'active',
+  completed: 'completed',
+  paused: 'paused',
+} as const;
 
 // Sub-team funnel data — four disciplines the device disassembles into
 const subTeams = [
@@ -64,11 +71,15 @@ const subTeams = [
 export default function ModularSmartphonePage() {
   const project = getProjectBySlug('modular-smartphone');
 
-  // Should never be null — this is a static dedicated page
-  if (!project) return null;
+  // Should never be missing — this is a static dedicated page — but render a
+  // proper 404 rather than an empty page if the data ever disappears.
+  if (!project) {
+    notFound();
+  }
 
-  const projectTeam = project.teamMembers
-    ? teamMembers.filter((m) => project.teamMembers?.includes(m.id))
+  const memberIds = project.teamMembers;
+  const projectTeam = memberIds
+    ? teamMembers.filter((m) => memberIds.includes(m.id))
     : teamMembers.slice(0, 4);
 
   const timelineSteps: TimelineStep[] = (project.timeline ?? []).map((phase) => ({
@@ -93,12 +104,14 @@ export default function ModularSmartphonePage() {
               </OutlineHeading>
 
               <div className="flex flex-wrap items-center gap-3">
-                <Badge variant="active" pulse>
-                  Active
+                <Badge variant={statusVariant[project.status]} pulse>
+                  {project.status}
                 </Badge>
-                <Badge variant="flagship" pulse>
-                  Flagship
-                </Badge>
+                {project.isFlagship && (
+                  <Badge variant="flagship" pulse>
+                    Flagship
+                  </Badge>
+                )}
               </div>
 
               <p className="max-w-[34ch] text-[clamp(16px,1.5vw,19px)] leading-[1.55] text-ink-soft">
@@ -338,11 +351,9 @@ export default function ModularSmartphonePage() {
         <div className="mx-auto max-w-content px-7">
           <div className="mx-auto max-w-2xl text-center">
             <Eyebrow className="reveal">Find Your Sub-Team</Eyebrow>
-            <h2 className="reveal mt-5 font-display text-[clamp(28px,3.6vw,42px)] font-bold uppercase leading-none tracking-[-.02em] text-ink">
+            <OutlineHeading className="reveal mt-5" outline="apart" dot>
               The device came{' '}
-              <span className="text-outline">apart</span>
-              <span className="text-accent">.</span>
-            </h2>
+            </OutlineHeading>
             <p className="reveal mx-auto mt-6 max-w-[52ch] text-[clamp(16px,1.5vw,19px)] leading-[1.55] text-ink-soft">
               Every layer you just scrolled through belongs to a discipline.
               Pick the one that pulls you in — no experience required.
