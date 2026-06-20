@@ -1,9 +1,6 @@
+import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
-import { projects, getProjectBySlug } from '@/lib/data/projects';
-import { teamMembers } from '@/lib/data/team';
-import type { Metadata } from 'next';
 import {
   Badge,
   Button,
@@ -14,86 +11,61 @@ import {
   Timeline,
   type TimelineStep,
 } from '@/components/ui';
+import { getProjectBySlug } from '@/lib/data/projects';
+import { teamMembers } from '@/lib/data/team';
+import { Teardown } from '@/components/teardown/Teardown';
 
-export function generateStaticParams() {
-  // Exclude 'modular-smartphone' — it has a dedicated static segment at
-  // app/projects/modular-smartphone/page.tsx. Including it here would cause
-  // a duplicate-route build error.
-  return projects
-    .filter((p) => p.slug !== 'modular-smartphone')
-    .map((project) => ({
-      slug: project.slug,
-    }));
-}
+export const metadata: Metadata = {
+  title: 'The Modular Smartphone — DIGITAL @ Cal Poly Pomona',
+  description:
+    'Redefining repairability and customization in consumer electronics. A fully open-source, modular smartphone built from the ground up by DIGITAL engineers.',
+};
 
-interface PageProps {
-  params: Promise<{ slug: string }>;
-}
+// Sub-team funnel data — four disciplines the device disassembles into
+const subTeams = [
+  {
+    key: 'executive',
+    index: '01',
+    label: 'Executive',
+    description:
+      'Strategy, sponsorships, and org-wide direction. Keep the whole machine running.',
+    icon: 'account_balance' as const,
+    href: '/team',
+  },
+  {
+    key: 'hardware',
+    index: '02',
+    label: 'Hardware',
+    description:
+      'PCB design, schematics, and physical prototyping — the atoms that become the device.',
+    icon: 'memory' as const,
+    href: '/team',
+  },
+  {
+    key: 'software',
+    index: '03',
+    label: 'Software',
+    description:
+      'Firmware, embedded C++, and the custom kernel stack that breathes life into the board.',
+    icon: 'code' as const,
+    href: '/team',
+  },
+  {
+    key: 'outreach',
+    index: '04',
+    label: 'Outreach',
+    description:
+      'Brand, events, and community — the layer that connects the lab to the world.',
+    icon: 'campaign' as const,
+    href: '/team',
+  },
+] as const;
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const project = getProjectBySlug(slug);
+export default function ModularSmartphonePage() {
+  const project = getProjectBySlug('modular-smartphone');
 
-  if (!project) {
-    return { title: 'Project Not Found - DIGITAL @ Cal Poly Pomona' };
-  }
-
-  return {
-    title: `${project.title} - DIGITAL @ Cal Poly Pomona`,
-    description: project.shortDescription,
-  };
-}
-
-const statusVariant = {
-  active: 'active',
-  completed: 'completed',
-  paused: 'paused',
-} as const;
-
-export default async function ProjectDetailsPage({ params }: PageProps) {
-  const { slug } = await params;
-  const project = getProjectBySlug(slug);
-
-  if (!project) {
-    notFound();
-  }
-
-  // Coming-soon: render a minimal placeholder page — no stats/timeline/modules/specs/team
-  if (project.comingSoon) {
-    return (
-      <>
-        <section className="border-b border-line">
-          <div className="mx-auto max-w-content px-7 py-16 md:py-24">
-            <div className="flex flex-col gap-6 max-w-[50ch]">
-              <Eyebrow>{project.category}</Eyebrow>
-
-              <OutlineHeading as="h1" size="hero" outline={project.title} dot>
-                {''}
-              </OutlineHeading>
-
-              <div className="flex flex-wrap items-center gap-3">
-                <span className="rounded border border-line px-3 py-1 font-mono text-[11px] uppercase tracking-[.1em] text-ink-soft">
-                  Coming Soon
-                </span>
-              </div>
-
-              <p className="text-[clamp(16px,1.5vw,19px)] leading-[1.55] text-ink-soft">
-                More info soon.
-              </p>
-
-              <div className="pt-2">
-                <Link href="/projects">
-                  <Button variant="ghost" icon={<Icon name="arrow_back" size="sm" />} iconPosition="left">
-                    Back to Projects
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
-      </>
-    );
-  }
+  // Should never be null — this is a static dedicated page
+  if (!project) return null;
 
   const projectTeam = project.teamMembers
     ? teamMembers.filter((m) => project.teamMembers?.includes(m.id))
@@ -108,26 +80,25 @@ export default async function ProjectDetailsPage({ params }: PageProps) {
 
   return (
     <>
-      {/* Hero */}
+      {/* ░░░ HERO ░░░ */}
       <section className="border-b border-line">
         <div className="mx-auto max-w-content px-7 py-16 md:py-24">
           <div className="flex flex-col items-center gap-12 lg:flex-row">
+            {/* Copy side */}
             <div className="z-10 flex flex-1 flex-col gap-6">
-              <Eyebrow>{project.category}</Eyebrow>
+              <Eyebrow>{project.category} · Flagship Project</Eyebrow>
 
-              <OutlineHeading as="h1" size="hero" outline={project.title.replace('The ', '')} dot>
-                {project.title.startsWith('The ') ? 'The ' : ''}
+              <OutlineHeading as="h1" size="hero" outline="Modular" dot>
+                The{' '}
               </OutlineHeading>
 
               <div className="flex flex-wrap items-center gap-3">
-                <Badge variant={statusVariant[project.status]} pulse>
-                  {project.status}
+                <Badge variant="active" pulse>
+                  Active
                 </Badge>
-                {project.isFlagship && (
-                  <Badge variant="flagship" pulse>
-                    Flagship
-                  </Badge>
-                )}
+                <Badge variant="flagship" pulse>
+                  Flagship
+                </Badge>
               </div>
 
               <p className="max-w-[34ch] text-[clamp(16px,1.5vw,19px)] leading-[1.55] text-ink-soft">
@@ -169,7 +140,7 @@ export default async function ProjectDetailsPage({ params }: PageProps) {
         </div>
       </section>
 
-      {/* Stats */}
+      {/* ░░░ STATS ░░░ */}
       {project.stats && project.stats.length > 0 && (
         <section className="border-b border-line">
           <div className="mx-auto grid max-w-content grid-cols-1 gap-8 px-7 py-12 md:grid-cols-3">
@@ -190,7 +161,26 @@ export default async function ProjectDetailsPage({ params }: PageProps) {
         </section>
       )}
 
-      {/* Timeline */}
+      {/* ░░░ SIGNATURE TEARDOWN ░░░ */}
+      {/*
+        The scroll-driven teardown lives here — the Modular Smartphone is the
+        centrepiece. Scrolling disassembles the device layer by layer; each
+        layer maps to a discipline of the project (chassis → PCB → battery →
+        display → modules). This is the core interactive narrative for the page.
+      */}
+      <Teardown
+        eyebrow="Scroll to disassemble"
+        heading={
+          <>
+            twelve layers,
+            <br />
+            one device.
+          </>
+        }
+        caption="Scroll and the Modular Smartphone comes apart — chassis, board, battery, display — every sub-assembly peeled back in sequence. Reverse the scroll to reassemble. This is what DIGITAL builds."
+      />
+
+      {/* ░░░ TIMELINE ░░░ */}
       {timelineSteps.length > 0 && (
         <section className="border-t border-line">
           <div className="mx-auto max-w-content px-7 py-[120px]">
@@ -205,7 +195,7 @@ export default async function ProjectDetailsPage({ params }: PageProps) {
         </section>
       )}
 
-      {/* System modules */}
+      {/* ░░░ SYSTEM MODULES ░░░ */}
       {project.modules && project.modules.length > 0 && (
         <section className="border-t border-line">
           <div className="mx-auto max-w-content px-7 py-[120px]">
@@ -246,7 +236,7 @@ export default async function ProjectDetailsPage({ params }: PageProps) {
         </section>
       )}
 
-      {/* Specifications */}
+      {/* ░░░ SPECIFICATIONS ░░░ */}
       {project.specifications && project.specifications.length > 0 && (
         <section className="border-t border-line">
           <div className="mx-auto max-w-content px-7 py-[120px]">
@@ -274,7 +264,7 @@ export default async function ProjectDetailsPage({ params }: PageProps) {
         </section>
       )}
 
-      {/* Tech stack */}
+      {/* ░░░ TECH STACK ░░░ */}
       {project.techStack.length > 0 && (
         <section className="border-t border-line">
           <div className="mx-auto max-w-content px-7 py-[120px]">
@@ -296,7 +286,7 @@ export default async function ProjectDetailsPage({ params }: PageProps) {
         </section>
       )}
 
-      {/* Team */}
+      {/* ░░░ TEAM ░░░ */}
       <section className="border-t border-line">
         <div className="mx-auto max-w-content px-7 py-[120px]">
           <div className="flex flex-wrap items-end justify-between gap-4">
@@ -339,17 +329,71 @@ export default async function ProjectDetailsPage({ params }: PageProps) {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="border-t border-line">
-        <div className="mx-auto flex max-w-content flex-col items-center px-7 py-[140px] text-center">
+      {/* ░░░ SUB-TEAM FUNNEL ░░░ */}
+      {/*
+        The device came apart into its disciplines — now find your sub-team.
+        Four cards, one per department, each linking to the /team page.
+      */}
+      <section className="border-t border-line py-[120px]">
+        <div className="mx-auto max-w-content px-7">
+          <div className="mx-auto max-w-2xl text-center">
+            <Eyebrow className="reveal">Find Your Sub-Team</Eyebrow>
+            <h2 className="reveal mt-5 font-display text-[clamp(28px,3.6vw,42px)] font-bold uppercase leading-none tracking-[-.02em] text-ink">
+              The device came{' '}
+              <span className="text-outline">apart</span>
+              <span className="text-accent">.</span>
+            </h2>
+            <p className="reveal mx-auto mt-6 max-w-[52ch] text-[clamp(16px,1.5vw,19px)] leading-[1.55] text-ink-soft">
+              Every layer you just scrolled through belongs to a discipline.
+              Pick the one that pulls you in — no experience required.
+            </p>
+          </div>
+
+          <div className="mt-14 grid gap-[30px] [grid-template-columns:repeat(auto-fit,minmax(240px,1fr))]">
+            {subTeams.map((team) => (
+              <Link key={team.key} href={team.href} className="group block">
+                <Card
+                  variant="glass"
+                  className="reveal flex h-full flex-col transition-transform duration-200 ease-studio group-hover:-translate-y-0.5"
+                >
+                  <span className="font-mono text-[12px] uppercase tracking-[.1em] text-accent">
+                    {team.index}
+                  </span>
+                  <div className="mt-4 flex size-12 items-center justify-center rounded border border-line text-ink">
+                    <Icon name={team.icon} size="lg" />
+                  </div>
+                  <h3 className="mt-4 font-display text-[21px] font-bold uppercase tracking-[-.01em] text-ink">
+                    {team.label}
+                  </h3>
+                  <p className="mt-2 flex-1 text-[15px] leading-[1.55] text-ink-soft">
+                    {team.description}
+                  </p>
+                  <div className="mt-5 inline-flex items-center gap-1 font-mono text-[11px] uppercase tracking-[.16em] text-ink transition-colors duration-200 group-hover:text-accent">
+                    Meet the team
+                    <Icon
+                      name="arrow_forward"
+                      size="sm"
+                      className="transition-transform duration-200 group-hover:translate-x-1"
+                    />
+                  </div>
+                </Card>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ░░░ CTA ░░░ */}
+      <section className="border-t border-line py-[140px]">
+        <div className="mx-auto flex max-w-content flex-col items-center px-7 text-center">
           <Icon name="rocket_launch" size="xl" className="text-accent" />
           <Eyebrow className="mt-6">Get Involved</Eyebrow>
           <OutlineHeading className="mt-4" outline="Future" dot>
             Ready to Build the{' '}
           </OutlineHeading>
           <p className="mx-auto mt-6 max-w-[50ch] text-[clamp(16px,1.5vw,19px)] leading-[1.55] text-ink-soft">
-            Join DIGITAL and be part of groundbreaking projects. No experience required - just
-            passion and willingness to learn.
+            Join DIGITAL and contribute to the Modular Smartphone. No prior
+            experience required — just the drive to build something real.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link href="/contact">

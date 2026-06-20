@@ -4,7 +4,6 @@ import Image from 'next/image';
 import { Button, Card, Eyebrow, Icon, OutlineHeading } from '@/components/ui';
 import { stats, sponsors } from '@/lib/data/siteConfig';
 import { projects } from '@/lib/data/projects';
-import { Teardown } from '@/components/teardown/Teardown';
 
 export const metadata: Metadata = {
   title: 'DIGITAL - Engineering Club @ Cal Poly Pomona',
@@ -20,7 +19,9 @@ const statItems = [
 ];
 
 export default function HomePage() {
-  const featuredProjects = projects.slice(0, 4);
+  // Show only non-comingSoon projects in the bento; grid degrades gracefully
+  // to fewer items if fewer projects are available.
+  const bentoProjects = projects.filter((p) => !p.comingSoon).slice(0, 4);
 
   return (
     <>
@@ -47,6 +48,7 @@ export default function HomePage() {
             Hatchery Foundation. We bridge the gap between theory and reality.
           </p>
           <div className="mt-[34px] flex flex-wrap gap-[14px]">
+            {/* Primary CTA — into the flagship project + teardown experience */}
             <Link href="/projects/modular-smartphone">
               <Button
                 size="lg"
@@ -62,24 +64,23 @@ export default function HomePage() {
               </Button>
             </Link>
           </div>
+
+          {/* TODO: hero video / three.js 3D model */}
+          {/*
+            ┌──────────────────────────────────────────────────────────┐
+            │  PLACEHOLDER — future hero media region                  │
+            │  Options (per DESIGN.md §6 and site roadmap):            │
+            │   A) Higgsfield cinematic video (full-bleed, muted/loop) │
+            │   B) three.js interactive 3D model of the smartphone     │
+            │  Do NOT implement until assets/deps are ready.           │
+            └──────────────────────────────────────────────────────────┘
+          */}
+
           <div className="scrollcue mt-[56px] flex items-center gap-[14px] font-mono text-[11px] uppercase leading-none tracking-wide text-ink-soft">
             Scroll
           </div>
         </div>
       </section>
-
-      {/* ░░░ SIGNATURE TEARDOWN ░░░ */}
-      <Teardown
-        eyebrow="Scroll to disassemble"
-        heading={
-          <>
-            twelve layers,
-            <br />
-            one device.
-          </>
-        }
-        caption="Scroll down and the Modular Smartphone comes apart — board by board, part by part. Scroll back up and it reassembles. Every layer is tied to your scroll."
-      />
 
       {/* ░░░ STATS BAR ░░░ */}
       <section className="border-t border-line py-[120px]">
@@ -124,6 +125,11 @@ export default function HomePage() {
       </section>
 
       {/* ░░░ FEATURED PROJECTS BENTO ░░░ */}
+      {/*
+        Grid degrades gracefully: if only 1 project is present it fills the
+        full row; 2 projects split 2-col; 3+ use the large + small tile pattern.
+        The flagship (modular-smartphone) always links to its dedicated page.
+      */}
       <section className="border-t border-line py-[120px]">
         <div className="wrap">
           <div className="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
@@ -149,103 +155,122 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="grid auto-rows-[300px] grid-cols-1 gap-[30px] md:grid-cols-3">
-            {/* Main featured project — spans 2 cols */}
-            {featuredProjects[0] && (
-              <Link
-                href={`/projects/${featuredProjects[0].slug}`}
-                className="reveal group relative overflow-hidden rounded-lg border border-line bg-ink md:col-span-2"
-              >
-                <Image
-                  src={featuredProjects[0].image}
-                  alt={featuredProjects[0].title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 66vw"
-                  className="object-cover opacity-60 transition-transform duration-700 ease-studio group-hover:scale-105 group-hover:opacity-40"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/40 to-transparent" />
-                <div className="absolute bottom-0 left-0 p-8">
-                  <div className="mb-3 font-mono text-[11px] uppercase tracking-[.1em] text-accent">
-                    01 · Flagship
+          {bentoProjects.length === 0 ? (
+            // Empty state — projects are filtered or data is empty
+            <p className="font-mono text-[11px] uppercase tracking-label text-ink-soft">
+              Projects coming soon.
+            </p>
+          ) : (
+            <div
+              className={[
+                'grid gap-[30px]',
+                bentoProjects.length === 1
+                  ? 'grid-cols-1 auto-rows-[400px]'
+                  : bentoProjects.length === 2
+                  ? 'grid-cols-1 auto-rows-[300px] md:grid-cols-2'
+                  : 'auto-rows-[300px] grid-cols-1 md:grid-cols-3',
+              ].join(' ')}
+            >
+              {/* Main featured project — spans 2 cols when 3+ projects present */}
+              {bentoProjects[0] && (
+                <Link
+                  href={`/projects/${bentoProjects[0].slug}`}
+                  className={[
+                    'reveal group relative overflow-hidden rounded-lg border border-line bg-ink',
+                    bentoProjects.length >= 3 ? 'md:col-span-2' : '',
+                  ].join(' ')}
+                >
+                  <Image
+                    src={bentoProjects[0].image}
+                    alt={bentoProjects[0].title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 66vw"
+                    className="object-cover opacity-60 transition-transform duration-700 ease-studio group-hover:scale-105 group-hover:opacity-40"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/40 to-transparent" />
+                  <div className="absolute bottom-0 left-0 p-8">
+                    <div className="mb-3 font-mono text-[11px] uppercase tracking-[.1em] text-accent">
+                      01 · Flagship
+                    </div>
+                    <h3 className="mb-2 font-display text-2xl font-bold uppercase tracking-[-.01em] text-studio md:text-3xl">
+                      {bentoProjects[0].title}
+                    </h3>
+                    <p className="mb-4 max-w-lg text-sm leading-[1.55] text-studio/70">
+                      {bentoProjects[0].shortDescription}
+                    </p>
+                    <span className="inline-block border-b border-accent pb-1 font-mono text-[11px] uppercase tracking-label text-studio">
+                      View Specs
+                    </span>
                   </div>
-                  <h3 className="mb-2 font-display text-2xl font-bold uppercase tracking-[-.01em] text-studio md:text-3xl">
-                    {featuredProjects[0].title}
-                  </h3>
-                  <p className="mb-4 max-w-lg text-sm leading-[1.55] text-studio/70">
-                    {featuredProjects[0].shortDescription}
-                  </p>
-                  <span className="inline-block border-b border-accent pb-1 font-mono text-[11px] uppercase tracking-label text-studio">
-                    View Specs
-                  </span>
-                </div>
-              </Link>
-            )}
+                </Link>
+              )}
 
-            {/* Secondary projects */}
-            {featuredProjects.slice(1, 3).map((project, idx) => (
-              <Link
-                key={project.id}
-                href={`/projects/${project.slug}`}
-                className="reveal group relative overflow-hidden rounded-lg border border-line bg-ink"
-              >
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-cover opacity-60 transition-transform duration-700 ease-studio group-hover:scale-105 group-hover:opacity-40"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/40 to-transparent" />
-                <div className="absolute bottom-0 left-0 p-6">
-                  <div className="mb-2 font-mono text-[11px] uppercase tracking-[.1em] text-accent">
-                    {String(idx + 2).padStart(2, '0')}
-                  </div>
-                  <h3 className="mb-1 font-display text-xl font-bold uppercase tracking-[-.01em] text-studio">
-                    {project.title}
-                  </h3>
-                  <p className="line-clamp-2 text-sm leading-[1.55] text-studio/70">
-                    {project.shortDescription}
-                  </p>
-                </div>
-              </Link>
-            ))}
-
-            {/* Wide project card — spans 2 cols */}
-            {featuredProjects[3] && (
-              <Link
-                href={`/projects/${featuredProjects[3].slug}`}
-                className="reveal group relative overflow-hidden rounded-lg border border-line bg-ink md:col-span-2"
-              >
-                <Image
-                  src={featuredProjects[3].image}
-                  alt={featuredProjects[3].title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 66vw"
-                  className="object-cover opacity-60 transition-transform duration-700 ease-studio group-hover:scale-105 group-hover:opacity-40"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/40 to-transparent" />
-                <div className="absolute bottom-0 left-0 flex w-full flex-col gap-4 p-6 md:flex-row md:items-end md:justify-between">
-                  <div>
+              {/* Secondary projects (slots 2 and 3) */}
+              {bentoProjects.slice(1, 3).map((project, idx) => (
+                <Link
+                  key={project.id}
+                  href={`/projects/${project.slug}`}
+                  className="reveal group relative overflow-hidden rounded-lg border border-line bg-ink"
+                >
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    className="object-cover opacity-60 transition-transform duration-700 ease-studio group-hover:scale-105 group-hover:opacity-40"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/40 to-transparent" />
+                  <div className="absolute bottom-0 left-0 p-6">
                     <div className="mb-2 font-mono text-[11px] uppercase tracking-[.1em] text-accent">
-                      04
+                      {String(idx + 2).padStart(2, '0')}
                     </div>
                     <h3 className="mb-1 font-display text-xl font-bold uppercase tracking-[-.01em] text-studio">
-                      {featuredProjects[3].title}
+                      {project.title}
                     </h3>
-                    <p className="max-w-md text-sm leading-[1.55] text-studio/70">
-                      {featuredProjects[3].shortDescription}
+                    <p className="line-clamp-2 text-sm leading-[1.55] text-studio/70">
+                      {project.shortDescription}
                     </p>
                   </div>
-                  <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-studio/10 text-studio transition-colors group-hover:bg-accent">
-                    <Icon name="arrow_outward" size="md" />
-                  </span>
-                </div>
-              </Link>
-            )}
-          </div>
+                </Link>
+              ))}
+
+              {/* Wide project card (slot 4) — spans 2 cols when present */}
+              {bentoProjects[3] && (
+                <Link
+                  href={`/projects/${bentoProjects[3].slug}`}
+                  className="reveal group relative overflow-hidden rounded-lg border border-line bg-ink md:col-span-2"
+                >
+                  <Image
+                    src={bentoProjects[3].image}
+                    alt={bentoProjects[3].title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 66vw"
+                    className="object-cover opacity-60 transition-transform duration-700 ease-studio group-hover:scale-105 group-hover:opacity-40"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/40 to-transparent" />
+                  <div className="absolute bottom-0 left-0 flex w-full flex-col gap-4 p-6 md:flex-row md:items-end md:justify-between">
+                    <div>
+                      <div className="mb-2 font-mono text-[11px] uppercase tracking-[.1em] text-accent">
+                        04
+                      </div>
+                      <h3 className="mb-1 font-display text-xl font-bold uppercase tracking-[-.01em] text-studio">
+                        {bentoProjects[3].title}
+                      </h3>
+                      <p className="max-w-md text-sm leading-[1.55] text-studio/70">
+                        {bentoProjects[3].shortDescription}
+                      </p>
+                    </div>
+                    <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-studio/10 text-studio transition-colors group-hover:bg-accent">
+                      <Icon name="arrow_outward" size="md" />
+                    </span>
+                  </div>
+                </Link>
+              )}
+            </div>
+          )}
         </div>
       </section>
 
