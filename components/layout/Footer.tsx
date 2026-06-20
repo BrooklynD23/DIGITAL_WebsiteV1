@@ -86,10 +86,20 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Copyright readout */}
-        <div className="mt-10 flex flex-wrap justify-between gap-4 border-t border-line pt-6">
+        {/* Legal links + Copyright readout */}
+        <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-6">
           <span>© {new Date().getFullYear()} DIGITAL @ Cal Poly Pomona</span>
-          <span>{siteConfig.fullName}</span>
+          <div className="flex flex-wrap gap-x-5 gap-y-1">
+            <Link href="/privacy" className="transition-colors duration-200 hover:text-ink">
+              Privacy
+            </Link>
+            <Link href="/terms" className="transition-colors duration-200 hover:text-ink">
+              Terms
+            </Link>
+            <Link href="/cookies" className="transition-colors duration-200 hover:text-ink">
+              Cookies
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
