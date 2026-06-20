@@ -12,7 +12,7 @@ committed — see the standing rule in `CLAUDE.md` and `AGENT.md`.
 ### Tasks
 
 - [x] 1. Docs scaffolding (TODO.md, CLAUDE.md, AGENT.md)
-- [ ] 2. Project data trim — keep Modular Smartphone, remove Embedded / Robotics / Software
+- [x] 2. Project data trim — keep Modular Smartphone, remove Embedded / Robotics / Software
          Hatchery / Smart Mirror / Drone Swarm, add "Heads-up Display Glasses" placeholder
          (status: More info soon)
 - [ ] 3. Relocate scroll teardown to be the Smartphone project page; create a new
@@ -30,6 +30,7 @@ committed — see the standing rule in `CLAUDE.md` and `AGENT.md`.
 | Build  | Commit #  | SHA       | Message                                                    | Notes                          |
 |--------|-----------|-----------|------------------------------------------------------------|--------------------------------|
 | v0.1.0 | #0001     | `a632480` | docs: add TODO work log + CLAUDE/AGENT conventions (#0001) | Docs scaffolding — Sprint 1 #1 |
+| v0.2.0 | #0003     | `3e11de1` | feat(projects): trim to Modular Smartphone + add Heads-up Display Glasses placeholder (#0003) | Project data trim — Sprint 1 #2 |
 
 ---
 
