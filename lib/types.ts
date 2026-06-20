@@ -37,9 +37,10 @@ export interface Project {
   title: string;
   shortDescription: string;
   fullDescription: string;
-  category: 'hardware' | 'software' | 'embedded' | 'robotics' | 'iot';
+  category: 'hardware' | 'software' | 'embedded' | 'robotics' | 'iot' | 'wearable';
   status: 'active' | 'completed' | 'paused';
   isFlagship: boolean;
+  comingSoon?: boolean;
   image: string;
   gallery?: string[];
   techStack: string[];

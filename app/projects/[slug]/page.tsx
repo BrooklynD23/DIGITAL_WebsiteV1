@@ -53,6 +53,43 @@ export default async function ProjectDetailsPage({ params }: PageProps) {
     notFound();
   }
 
+  // Coming-soon: render a minimal placeholder page — no stats/timeline/modules/specs/team
+  if (project.comingSoon) {
+    return (
+      <>
+        <section className="border-b border-line">
+          <div className="mx-auto max-w-content px-7 py-16 md:py-24">
+            <div className="flex flex-col gap-6 max-w-[50ch]">
+              <Eyebrow>{project.category}</Eyebrow>
+
+              <OutlineHeading as="h1" size="hero" outline={project.title} dot>
+                {''}
+              </OutlineHeading>
+
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="rounded border border-line px-3 py-1 font-mono text-[11px] uppercase tracking-[.1em] text-ink-soft">
+                  Coming Soon
+                </span>
+              </div>
+
+              <p className="text-[clamp(16px,1.5vw,19px)] leading-[1.55] text-ink-soft">
+                More info soon.
+              </p>
+
+              <div className="pt-2">
+                <Link href="/projects">
+                  <Button variant="ghost" icon={<Icon name="arrow_back" size="sm" />} iconPosition="left">
+                    Back to Projects
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+      </>
+    );
+  }
+
   const projectTeam = project.teamMembers
     ? teamMembers.filter((m) => project.teamMembers?.includes(m.id))
     : teamMembers.slice(0, 4);

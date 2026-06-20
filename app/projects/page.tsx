@@ -9,7 +9,7 @@ import { Badge, Button, Eyebrow, Icon, Input, OutlineHeading } from '@/component
 
 // Note: Metadata lives in app/projects/layout.tsx (this is a client component).
 
-type Category = 'all' | 'hardware' | 'software' | 'embedded' | 'robotics' | 'iot';
+type Category = 'all' | 'hardware' | 'software' | 'embedded' | 'robotics' | 'iot' | 'wearable';
 
 const filters: { label: string; value: Category }[] = [
   { label: 'All', value: 'all' },
@@ -175,63 +175,103 @@ export default function ProjectsPage() {
           ref={gridRef}
           className="grid gap-[30px] [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]"
         >
-          {filteredProjects.map((project, index) => (
-            <Link
-              key={project.id}
-              href={`/projects/${project.slug}`}
-              className={cn(
-                'reveal group flex flex-col rounded-lg border border-white/60 bg-white/[.42] p-[30px] shadow-card backdrop-blur-[6px]',
-                'transition-[transform,border-color] duration-300 ease-studio',
-                'hover:-translate-y-0.5 hover:border-white/80',
-                'focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue focus-visible:ring-offset-2 focus-visible:ring-offset-studio'
-              )}
-              style={{ transitionDelay: `${index * 60}ms` }}
-            >
-              {/* Index + status */}
-              <div className="mb-5 flex items-center justify-between">
-                <span className="font-mono text-[12px] uppercase tracking-[.1em] text-accent">
-                  {String(index + 1).padStart(2, '0')} · {project.category}
-                </span>
-                <Badge variant={statusVariant[project.status]} size="sm">
-                  {project.status}
-                </Badge>
-              </div>
-
-              <h3 className="font-display text-[21px] font-bold uppercase leading-none tracking-[-.01em] text-ink transition-colors duration-200 group-hover:text-accent">
-                {project.title}
-              </h3>
-
-              <p className="mt-3 line-clamp-3 text-[15px] leading-[1.55] text-ink-soft">
-                {project.shortDescription}
-              </p>
-
-              {/* Tech stack chips */}
-              <div className="mt-5 flex flex-wrap gap-2">
-                {project.techStack.slice(0, 4).map((tech) => (
-                  <span
-                    key={tech}
-                    className="rounded border border-line px-2 py-0.5 font-mono text-[10px] uppercase tracking-[.1em] text-ink-soft"
-                  >
-                    {tech}
-                  </span>
-                ))}
-                {project.techStack.length > 4 && (
-                  <span className="rounded border border-line px-2 py-0.5 font-mono text-[10px] uppercase tracking-[.1em] text-ink-soft">
-                    +{project.techStack.length - 4}
-                  </span>
+          {filteredProjects.map((project, index) =>
+            project.comingSoon ? (
+              <Link
+                key={project.id}
+                href={`/projects/${project.slug}`}
+                className={cn(
+                  'reveal group flex flex-col rounded-lg border border-white/40 bg-white/[.22] p-[30px] shadow-card backdrop-blur-[6px]',
+                  'transition-[transform,border-color] duration-300 ease-studio',
+                  'hover:-translate-y-0.5 hover:border-white/60',
+                  'focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue focus-visible:ring-offset-2 focus-visible:ring-offset-studio'
                 )}
-              </div>
+                style={{ transitionDelay: `${index * 60}ms` }}
+              >
+                {/* Index + coming-soon badge */}
+                <div className="mb-5 flex items-center justify-between">
+                  <span className="font-mono text-[12px] uppercase tracking-[.1em] text-accent">
+                    {String(index + 1).padStart(2, '0')} · {project.category}
+                  </span>
+                  <span className="rounded border border-line/60 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[.1em] text-ink-soft">
+                    Coming Soon
+                  </span>
+                </div>
 
-              <span className="mt-6 inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[.16em] text-ink">
-                View Specs
-                <Icon
-                  name="arrow_forward"
-                  size="sm"
-                  className="transition-transform duration-200 group-hover:translate-x-1"
-                />
-              </span>
-            </Link>
-          ))}
+                <h3 className="font-display text-[21px] font-bold uppercase leading-none tracking-[-.01em] text-ink/60">
+                  {project.title}
+                </h3>
+
+                <p className="mt-3 text-[15px] leading-[1.55] text-ink-soft/60">
+                  More info soon.
+                </p>
+
+                <span className="mt-auto pt-6 inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[.16em] text-ink-soft/60">
+                  More Info Soon
+                  <Icon
+                    name="hourglass_empty"
+                    size="sm"
+                  />
+                </span>
+              </Link>
+            ) : (
+              <Link
+                key={project.id}
+                href={`/projects/${project.slug}`}
+                className={cn(
+                  'reveal group flex flex-col rounded-lg border border-white/60 bg-white/[.42] p-[30px] shadow-card backdrop-blur-[6px]',
+                  'transition-[transform,border-color] duration-300 ease-studio',
+                  'hover:-translate-y-0.5 hover:border-white/80',
+                  'focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue focus-visible:ring-offset-2 focus-visible:ring-offset-studio'
+                )}
+                style={{ transitionDelay: `${index * 60}ms` }}
+              >
+                {/* Index + status */}
+                <div className="mb-5 flex items-center justify-between">
+                  <span className="font-mono text-[12px] uppercase tracking-[.1em] text-accent">
+                    {String(index + 1).padStart(2, '0')} · {project.category}
+                  </span>
+                  <Badge variant={statusVariant[project.status]} size="sm">
+                    {project.status}
+                  </Badge>
+                </div>
+
+                <h3 className="font-display text-[21px] font-bold uppercase leading-none tracking-[-.01em] text-ink transition-colors duration-200 group-hover:text-accent">
+                  {project.title}
+                </h3>
+
+                <p className="mt-3 line-clamp-3 text-[15px] leading-[1.55] text-ink-soft">
+                  {project.shortDescription}
+                </p>
+
+                {/* Tech stack chips */}
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {project.techStack.slice(0, 4).map((tech) => (
+                    <span
+                      key={tech}
+                      className="rounded border border-line px-2 py-0.5 font-mono text-[10px] uppercase tracking-[.1em] text-ink-soft"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                  {project.techStack.length > 4 && (
+                    <span className="rounded border border-line px-2 py-0.5 font-mono text-[10px] uppercase tracking-[.1em] text-ink-soft">
+                      +{project.techStack.length - 4}
+                    </span>
+                  )}
+                </div>
+
+                <span className="mt-6 inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[.16em] text-ink">
+                  View Specs
+                  <Icon
+                    name="arrow_forward"
+                    size="sm"
+                    className="transition-transform duration-200 group-hover:translate-x-1"
+                  />
+                </span>
+              </Link>
+            )
+          )}
         </div>
 
         {/* No results */}
