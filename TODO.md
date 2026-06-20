@@ -27,9 +27,9 @@ committed — see the standing rule in `CLAUDE.md` and `AGENT.md`.
 
 ### Dev Build / Version Control
 
-| Build  | Commit # | Message                                                              | Notes                          |
-|--------|----------|----------------------------------------------------------------------|--------------------------------|
-| v0.1.0 | #0001    | docs: add TODO work log + CLAUDE/AGENT conventions (#0001)           | Docs scaffolding — Sprint 1 #1 |
+| Build  | Commit #  | SHA       | Message                                                    | Notes                          |
+|--------|-----------|-----------|------------------------------------------------------------|--------------------------------|
+| v0.1.0 | #0001     | `a632480` | docs: add TODO work log + CLAUDE/AGENT conventions (#0001) | Docs scaffolding — Sprint 1 #1 |
 
 ---
 
