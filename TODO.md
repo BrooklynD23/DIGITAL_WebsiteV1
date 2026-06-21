@@ -22,7 +22,7 @@ committed — see the standing rule in `CLAUDE.md` and `AGENT.md`.
          `app/robots.ts`, `vercel.json` security headers (CSP report-only first),
          skip-to-content link, Twitter card + JSON-LD Organization schema
 - [x] 5. Legal starter pages: `/privacy`, `/terms`, `/cookies` + footer links
-- [ ] 6. Teardown asset encoding (`npm run encode:teardown`) + inline empty-state UI on
+- [x] 6. Teardown asset encoding (`npm run encode:teardown`) + inline empty-state UI on
          filtered list pages
 
 ### Dev Build / Version Control
@@ -34,6 +34,7 @@ committed — see the standing rule in `CLAUDE.md` and `AGENT.md`.
 | v0.3.0 | #0005     | `a1399a0` | feat(routing): teardown becomes Smartphone page; new landing home + sub-team funnel (#0005) | Teardown relocated + new home + sub-team funnel — Sprint 1 #3 |
 | v0.4.0 | #0007     | `fc5093e` | feat(launch): analytics, sitemap/robots, security headers, a11y skip-link, twitter/JSON-LD (#0007) | Launch-config pack — Sprint 1 #4 |
 | v0.5.0 | #0009     | `4a50a1e` | feat(legal): draft Privacy/Terms/Cookies pages + footer links (#0009) | Legal starter pages + footer links — Sprint 1 #5 |
+| v0.6.0 | #0012     | `dd14637` | perf(teardown): encode AVIF/WebP assets; feat: empty-state UI on filtered lists (#0012) | Teardown asset encoding + empty-state UI — Sprint 1 #6 |
 
 ---
 
