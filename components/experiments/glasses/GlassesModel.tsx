@@ -85,20 +85,55 @@ function normalize(obj: THREE.Object3D, target = 3.0): THREE.Object3D {
   return wrapper;
 }
 
+/** 1x1 transparent PNG — FBX-referenced textures are missing on disk; redirect
+ *  their fetches here so the loader never 404s (we replace materials anyway). */
+const BLANK_PX =
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==';
+
+const ACETATE = new THREE.MeshPhysicalMaterial({
+  color: '#17171c',
+  roughness: 0.32,
+  metalness: 0.08,
+  clearcoat: 1,
+  clearcoatRoughness: 0.22,
+});
+const LENS = new THREE.MeshPhysicalMaterial({
+  color: '#2a3a3f',
+  roughness: 0.06,
+  metalness: 0,
+  transmission: 0.85,
+  transparent: true,
+  opacity: 0.5,
+  thickness: 0.25,
+});
+
 function FbxModel({ url, keep }: { url: string; keep?: string }) {
-  const fbx = useLoader(FBXLoader, url);
+  const fbx = useLoader(FBXLoader, url, (loader) => {
+    const mgr = new THREE.LoadingManager();
+    mgr.setURLModifier((u) => (/\.(png|jpe?g|tga|tif|bmp)$/i.test(u) ? BLANK_PX : u));
+    loader.manager = mgr;
+  });
   const obj = useMemo(() => {
-    let src: THREE.Object3D = fbx;
+    const clone = fbx.clone(true);
     if (keep) {
-      const clone = fbx.clone(true);
       const drop: THREE.Object3D[] = [];
       clone.traverse((o) => {
         if ((o as THREE.Mesh).isMesh && o.name !== keep) drop.push(o);
       });
       drop.forEach((o) => o.parent?.remove(o));
-      src = clone;
     }
-    return normalize(src, 2.7);
+    // PBR pass: acetate frame; if the mesh has multiple material groups,
+    // treat any material whose name hints at glass/lens as the lens.
+    clone.traverse((o) => {
+      const mesh = o as THREE.Mesh;
+      if (!mesh.isMesh) return;
+      const assign = (m: THREE.Material) =>
+        /lens|glass|transparent/i.test(m.name ?? '') ? LENS : ACETATE;
+      mesh.material = Array.isArray(mesh.material)
+        ? mesh.material.map(assign)
+        : assign(mesh.material);
+    });
+    return normalize(clone, 2.7);
   }, [fbx, keep]);
   return <primitive object={obj} />;
 }
