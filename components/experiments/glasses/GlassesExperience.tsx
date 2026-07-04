@@ -35,7 +35,7 @@ export default function GlassesExperience() {
   const containerRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef(0);
   const lenisRef = useRef<Lenis | null>(null);
-  const snap = useRef({ gliding: false, lastV: 0 });
+  const snap = useRef({ glideUntil: 0, lastV: 0 });
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -47,11 +47,11 @@ export default function GlassesExperience() {
     const lenis = lenisRef.current;
     if (!el || !lenis) return;
     const dist = el.offsetHeight - window.innerHeight;
-    snap.current.gliding = true;
+    snap.current.glideUntil = performance.now() + 1100;
     lenis.scrollTo(el.offsetTop + dist * frac, {
       duration: 0.9,
       onComplete: () => {
-        snap.current.gliding = false;
+        snap.current.glideUntil = 0;
         snap.current.lastV = frac;
       },
     });
@@ -63,7 +63,7 @@ export default function GlassesExperience() {
     const dir = v > s.lastV ? 1 : v < s.lastV ? -1 : 0;
     s.lastV = v;
     // Snap only inside the panels zone, only with Lenis, never mid-glide.
-    if (s.gliding || !lenisRef.current || v < PANEL_CENTERS[0] - 0.03) return;
+    if (performance.now() < s.glideUntil || !lenisRef.current || v < PANEL_CENTERS[0] - 0.03) return;
     let nearest = 0;
     for (let i = 1; i < PANEL_CENTERS.length; i++) {
       if (Math.abs(PANEL_CENTERS[i] - v) < Math.abs(PANEL_CENTERS[nearest] - v)) nearest = i;
@@ -103,8 +103,10 @@ export default function GlassesExperience() {
     const frac = NAV_TARGET[href] ?? 0.78;
     const dist = el.offsetHeight - window.innerHeight;
     const y = el.offsetTop + dist * frac;
-    if (lenisRef.current) lenisRef.current.scrollTo(y, { duration: 1.4 });
-    else window.scrollTo({ top: y, behavior: 'smooth' });
+    if (lenisRef.current) {
+      snap.current.glideUntil = performance.now() + 1500;
+      lenisRef.current.scrollTo(y, { duration: 1.4 });
+    } else window.scrollTo({ top: y, behavior: 'smooth' });
   };
 
   // --- Scroll-driven overlay transforms -------------------------------------
