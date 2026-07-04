@@ -9,6 +9,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import {
+  AnimatePresence,
   motion, useTransform, useMotionValueEvent, useMotionValue, useSpring,
   type MotionValue,
 } from 'framer-motion';
@@ -115,24 +116,24 @@ export default function HudOverlay({ scrollYProgress, words, hud }: HudOverlayPr
         <Bracket pos="bl" />
         <Bracket pos="br" />
 
-        {/* Row 1 — ambient data, aligned to bracket edges */}
-        {active && (
-          <div className="flex items-start justify-between px-3 pt-3">
-            <motion.span {...item(0.05)} className={`${CHIP} flex items-center gap-1.5`}
-              style={{ color: T.phosphor, backgroundColor: T.glass, textShadow: T.glow }}>
-              <Clock3 size={11} strokeWidth={1.5} /> {hud.time}
-            </motion.span>
-            <motion.span {...item(0.12)} className={`${CHIP} flex items-center gap-1.5`}
-              style={{ color: T.phosphor, backgroundColor: T.glass, textShadow: T.glow }}>
-              <BatteryMedium size={12} strokeWidth={1.5} /> {hud.battery}
-            </motion.span>
-          </div>
-        )}
-
-        {/* Row 2 — focal RSVP word + reticle */}
-        <div className="flex flex-col items-center justify-center">
+        <AnimatePresence>
+          {/* Row 1 — ambient data, aligned to bracket edges */}
           {active && (
-            <motion.div {...item(0)} className="flex flex-col items-center">
+            <motion.div key="hud-ambient" exit={item(0.05).exit} className="flex items-start justify-between px-3 pt-3">
+              <motion.span {...item(0.05)} className={`${CHIP} flex items-center gap-1.5`}
+                style={{ color: T.phosphor, backgroundColor: T.glass, textShadow: T.glow }}>
+                <Clock3 size={11} strokeWidth={1.5} /> {hud.time}
+              </motion.span>
+              <motion.span {...item(0.12)} className={`${CHIP} flex items-center gap-1.5`}
+                style={{ color: T.phosphor, backgroundColor: T.glass, textShadow: T.glow }}>
+                <BatteryMedium size={12} strokeWidth={1.5} /> {hud.battery}
+              </motion.span>
+            </motion.div>
+          )}
+
+          {/* Row 2 — focal RSVP word + reticle */}
+          {active && (
+            <motion.div key="hud-focus" {...item(0)} className="flex flex-col items-center justify-center">
               <span className="mb-2 block h-2.5 w-px" style={{ backgroundColor: T.phosphorDim }} />
               <span className="rounded-md px-5 py-2" style={{ backgroundColor: T.glass }}>
                 <span key={idx} className="font-display text-3xl font-semibold tracking-tight sm:text-[2.25rem]"
@@ -144,17 +145,17 @@ export default function HudOverlay({ scrollYProgress, words, hud }: HudOverlayPr
               <span className="mt-2 block h-px w-10" style={{ backgroundColor: T.phosphor, boxShadow: T.glow }} />
             </motion.div>
           )}
-        </div>
 
-        {/* Row 3 — status line */}
-        {active && (
-          <div className="flex justify-center pb-3">
-            <motion.span {...item(0.18)} className={`${CHIP} flex items-center gap-1.5 uppercase`}
-              style={{ color: T.phosphor, backgroundColor: T.glass, textShadow: T.glow }}>
-              <Radio size={11} strokeWidth={1.5} /> {hud.label} · {hud.wpm} WPM · {hud.caption}
-            </motion.span>
-          </div>
-        )}
+          {/* Row 3 — status line */}
+          {active && (
+            <motion.div key="hud-status" exit={item(0.18).exit} className="flex justify-center pb-3">
+              <motion.span {...item(0.18)} className={`${CHIP} flex items-center gap-1.5 uppercase`}
+                style={{ color: T.phosphor, backgroundColor: T.glass, textShadow: T.glow }}>
+                <Radio size={11} strokeWidth={1.5} /> {hud.label} · {hud.wpm} WPM · {hud.caption}
+              </motion.span>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </motion.div>
   );
