@@ -70,6 +70,15 @@ export const GLASSES_PALETTE = {
   charcoal: '#111827', deep: '#0b0e16', accent: '#e3b341',
 } as const;
 
+export const HUD_THEME = {
+  phosphor: 'rgba(127,230,163,0.95)',
+  phosphorDim: 'rgba(127,230,163,0.5)',
+  focus: '#ffffff',
+  glass: 'rgba(6,10,8,0.55)',
+  glow: '0 0 6px rgba(127,230,163,0.55), 0 0 18px rgba(127,230,163,0.22)',
+  fringe: '1px 0 0 rgba(255,80,80,0.28), -1px 0 0 rgba(90,130,255,0.28)',
+} as const;
+
 export const GLASSES_CONTENT: GlassesContent = {
   nav: [
     { label: 'The idea', href: '#info-approach' },
