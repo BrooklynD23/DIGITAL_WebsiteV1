@@ -14,7 +14,7 @@
 import { useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
 import Lenis from 'lenis';
-import { GLASSES_CONTENT } from '@/lib/data/experiments/glasses';
+import { GLASSES_CONTENT, GLASSES_PALETTE } from '@/lib/data/experiments/glasses';
 import GlassesScene from './GlassesScene';
 import ExperienceNav from './ExperienceNav';
 import FloatingDecor from './FloatingDecor';
@@ -80,8 +80,8 @@ export default function GlassesExperience() {
   // --- Scroll-driven overlay transforms -------------------------------------
   const bg = useTransform(
     scrollYProgress,
-    [0, 0.18, 0.42, 0.8],
-    ['#FACC15', '#FACC15', '#111827', '#0b0e16']
+    [0, 0.16, 0.3, 0.42, 0.8],
+    [GLASSES_PALETTE.paper, GLASSES_PALETTE.paper, GLASSES_PALETTE.dusk, GLASSES_PALETTE.charcoal, GLASSES_PALETTE.deep]
   );
   const heroOpacity = useTransform(scrollYProgress, [0, 0.1, 0.18], [1, 1, 0]);
   const heroY = useTransform(scrollYProgress, [0, 0.18], [0, -30]);
@@ -93,11 +93,28 @@ export default function GlassesExperience() {
   const { hero, reveal, nav, cta, hud, pov, info } = GLASSES_CONTENT;
 
   return (
-    <div ref={containerRef} className="relative h-[460vh] bg-[#FACC15]">
+    <div ref={containerRef} className="relative h-[460vh] bg-[#e9dfc8]">
       <motion.div
         style={{ backgroundColor: bg }}
         className="sticky top-0 h-screen w-full overflow-hidden"
       >
+        {/* Radial sweep + film grain so no beat reads as a flat fill */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-[1] opacity-60"
+          style={{
+            background:
+              'radial-gradient(120% 90% at 50% 38%, rgba(255,255,255,0.28) 0%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.22) 100%)',
+          }}
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-[1] opacity-[0.05] mix-blend-overlay"
+          style={{
+            backgroundImage:
+              "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E\")",
+          }}
+        />
         <ExperienceNav nav={nav} cta={cta} onNavigate={onNavigate} />
 
         {/* POV "reading world" — sits behind the glasses, blurry -> clear */}

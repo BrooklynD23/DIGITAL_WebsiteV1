@@ -57,7 +57,7 @@ function Panel({
         <div className="mt-6 flex flex-wrap justify-center gap-x-6 gap-y-2">
           {section.specs.map((sp) => (
             <span key={sp.k} className="font-mono text-xs uppercase tracking-[0.18em] text-white/55">
-              <span className="text-[#FACC15]">{sp.k}</span> {sp.v}
+              <span className="text-[#e3b341]">{sp.k}</span> {sp.v}
             </span>
           ))}
         </div>

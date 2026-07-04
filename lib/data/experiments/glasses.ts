@@ -65,6 +65,11 @@ export interface GlassesContent {
   readonly info: ReadonlyArray<GlassesInfoSection>;
 }
 
+export const GLASSES_PALETTE = {
+  paper: '#e9dfc8', paperEdge: '#d9cba6', dusk: '#6f6654',
+  charcoal: '#111827', deep: '#0b0e16', accent: '#e3b341',
+} as const;
+
 export const GLASSES_CONTENT: GlassesContent = {
   nav: [
     { label: 'The idea', href: '#info-approach' },
