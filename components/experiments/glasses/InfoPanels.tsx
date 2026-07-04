@@ -14,14 +14,20 @@ interface InfoPanelsProps {
   scrollYProgress: MotionValue<number>;
 }
 
-/** Each section owns a band in [0.68, 1.0]; crossfade with small lead/tail.
- *  Starts at 0.68 so the reveal headline has fully faded before panels appear. */
+const BASE = 0.74;
+const TOTAL = 4; // GLASSES_CONTENT.info.length
+const SPAN = (1 - BASE) / TOTAL;
+/** Panel i's full-opacity center - shared with nav + scroll snapping. */
+export const PANEL_CENTERS: readonly number[] = Array.from(
+  { length: TOTAL },
+  (_, i) => BASE + SPAN / 2 + i * SPAN
+);
+/** Fade fully INSIDE the band (dead zone at each edge) so adjacent
+ *  panels can never both be visible: at any boundary both are at 0. */
 function band(i: number, total: number): [number, number, number, number] {
-  const base = 0.74;
-  const span = (1 - base) / total;
-  const start = base + i * span;
-  const end = start + span;
-  return [start - 0.02, start + 0.02, end - 0.02, end + 0.02];
+  const start = BASE + i * ((1 - BASE) / total);
+  const end = start + (1 - BASE) / total;
+  return [start + 0.004, start + 0.022, end - 0.022, end - 0.004];
 }
 
 function Panel({

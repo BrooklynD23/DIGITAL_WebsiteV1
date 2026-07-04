@@ -20,29 +20,59 @@ import ExperienceNav from './ExperienceNav';
 import FloatingDecor from './FloatingDecor';
 import PovBackground from './PovBackground';
 import HudOverlay from './HudOverlay';
-import InfoPanels from './InfoPanels';
+import InfoPanels, { PANEL_CENTERS } from './InfoPanels';
 
 /** Where each nav target lands along the scroll track (0..1). Keys match info-section ids. */
 // Land on each panel's CENTER (full opacity) so a nav jump never stops in a crossfade gap
 // where two panels overlap. Centers derive from InfoPanels band base 0.74, span 0.065.
 const NAV_TARGET: Record<string, number> = {
-  '#info-approach': 0.84,
-  '#info-platform': 0.9,
-  '#info-join': 0.97,
+  '#info-approach': PANEL_CENTERS[1],
+  '#info-platform': PANEL_CENTERS[2],
+  '#info-join': PANEL_CENTERS[3],
 };
 
 export default function GlassesExperience() {
   const containerRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef(0);
   const lenisRef = useRef<Lenis | null>(null);
+  const snap = useRef({ gliding: false, lastV: 0 });
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end end'],
   });
 
+  const glideTo = (frac: number) => {
+    const el = containerRef.current;
+    const lenis = lenisRef.current;
+    if (!el || !lenis) return;
+    const dist = el.offsetHeight - window.innerHeight;
+    snap.current.gliding = true;
+    lenis.scrollTo(el.offsetTop + dist * frac, {
+      duration: 0.9,
+      onComplete: () => {
+        snap.current.gliding = false;
+        snap.current.lastV = frac;
+      },
+    });
+  };
+
   useMotionValueEvent(scrollYProgress, 'change', (v) => {
     progressRef.current = v;
+    const s = snap.current;
+    const dir = v > s.lastV ? 1 : v < s.lastV ? -1 : 0;
+    s.lastV = v;
+    // Snap only inside the panels zone, only with Lenis, never mid-glide.
+    if (s.gliding || !lenisRef.current || v < PANEL_CENTERS[0] - 0.03) return;
+    let nearest = 0;
+    for (let i = 1; i < PANEL_CENTERS.length; i++) {
+      if (Math.abs(PANEL_CENTERS[i] - v) < Math.abs(PANEL_CENTERS[nearest] - v)) nearest = i;
+    }
+    const drift = v - PANEL_CENTERS[nearest];
+    const HYST = 0.008; // ignore sub-threshold jitter
+    if (dir > 0 && drift > HYST && nearest < PANEL_CENTERS.length - 1) glideTo(PANEL_CENTERS[nearest + 1]);
+    else if (dir < 0 && drift < -HYST && nearest > 0) glideTo(PANEL_CENTERS[nearest - 1]);
+    else if (Math.abs(drift) > HYST) glideTo(PANEL_CENTERS[nearest]);
   });
 
   // Lenis inertial scroll (respects reduced-motion by skipping smoothing).
