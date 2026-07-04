@@ -22,5 +22,10 @@
       "Bash(sed -n '24,29p' app/get-involved/page.tsx)",
       "Bash(sed -n '59,62p' app/contact/page.tsx)"
     ]
+  },
+  "mcpServers": {
+    "higgsfield": {
+      "url": "https://mcp.higgsfield.ai/mcp"
+    }
   }
 }

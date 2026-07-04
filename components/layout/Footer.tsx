@@ -1,4 +1,7 @@
+'use client';
+
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Globe, AtSign, MessageSquare, Code, FileText } from 'lucide-react';
 import { siteConfig } from '@/lib/data/siteConfig';
 
@@ -18,6 +21,10 @@ const socials = [
 ];
 
 export function Footer() {
+  const pathname = usePathname();
+  // Standalone experiment routes render their own chrome — hide the site footer.
+  if (pathname?.startsWith('/experiments')) return null;
+
   return (
     <footer className="border-t border-line py-[54px] font-mono text-[13px] leading-[1.6] text-ink-soft">
       <div className="mx-auto max-w-content px-7">

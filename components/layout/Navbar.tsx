@@ -113,6 +113,9 @@ export function Navbar() {
     setMobileMenuOpen(false);
   }, [pathname]);
 
+  // Standalone experiment routes render their own chrome — hide the site nav.
+  if (pathname?.startsWith('/experiments')) return null;
+
   return (
     <>
       {/* Floating glass pill — desktop (ione-style: icons + segmented bar) */}
