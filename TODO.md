@@ -36,6 +36,7 @@ committed — see the standing rule in `CLAUDE.md` and `AGENT.md`.
 | v0.5.0 | #0009     | `4a50a1e` | feat(legal): draft Privacy/Terms/Cookies pages + footer links (#0009) | Legal starter pages + footer links — Sprint 1 #5 |
 | v0.6.0 | #0012     | `dd14637` | perf(teardown): encode AVIF/WebP assets; feat: empty-state UI on filtered lists (#0012) | Teardown asset encoding + empty-state UI — Sprint 1 #6 |
 | v0.6.1 | #0014     | `713150a` | docs: add landing/HUD/cross-linking design spec (#0014) | Approved design spec — Modules landing, glasses-page realism, cross-linking IA |
+| v0.6.2 | #0016     | `dc6a5e4` | docs: add implementation plan for landing/glasses/IA tracks (#0016) | 12-task Codex-delegable plan derived from the approved spec |
 
 ---
 
