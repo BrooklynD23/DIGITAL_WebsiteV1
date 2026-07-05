@@ -41,6 +41,7 @@ export default function ModuleField({ progressRef, introDone, onIntroEnd }: Modu
   const mesh = useRef<THREE.InstancedMesh>(null);
   const [, setLogoReady] = useState(false);
   const intro = useRef(0); // 0→1 over ~2.8s
+  const introFired = useRef(false);
   const dummy = useMemo(() => new THREE.Object3D(), []);
 
   const forms = useMemo(() => {
@@ -75,7 +76,10 @@ export default function ModuleField({ progressRef, introDone, onIntroEnd }: Modu
 
     if (!introDone) {
       intro.current = Math.min(1, intro.current + delta / 2.8);
-      if (intro.current >= 1) onIntroEnd();
+      if (intro.current >= 1 && !introFired.current) {
+        introFired.current = true;
+        onIntroEnd();
+      }
     }
 
     const p = progressRef.current;
