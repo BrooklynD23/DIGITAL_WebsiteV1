@@ -23,23 +23,23 @@ export const LANDING_PALETTE = {
 } as const;
 
 export const LANDING_CONTENT = {
-  meta: { title: 'DIGITAL — Built from Modules', description: 'A student platform for building real technology at Cal Poly Pomona.' },
+  meta: { title: 'DIGITAL — Built from Modules', description: 'A student engineering club at Cal Poly Pomona building real hardware and software, one module at a time.' },
   logoSrc: '/assets/landing/DIGITAL_LOGO-removebg-preview.png',
   wordmark: 'DIGITAL',
   eyebrow: 'DIGITAL @ Cal Poly Pomona',
-  tagline: 'A student platform for building real technology.',
+  tagline: 'Students building real technology, one module at a time.',
   skipLabel: 'Skip intro',
   mission: [
-    { id: 'explore', label: 'WE EXPLORE', line: 'Real systems, real trade-offs, real constraints — hands-on from day one.' },
+    { id: 'explore', label: 'WE EXPLORE', line: 'Real constraints, real trade-offs — we test the theory against how things actually work.' },
     { id: 'design', label: 'WE DESIGN', line: 'Hardware, software, mechanical, business — every discipline has a seat.' },
-    { id: 'build', label: 'WE BUILD', line: 'Projects that rival commercial products, built by student teams.' },
-    { id: 'communicate', label: 'WE COMMUNICATE', line: 'Ideas scoped, funded, and translated into value for people and industry.' },
+    { id: 'build', label: 'WE BUILD', line: 'Every project is an education — you build the whole system, not just your slice of it.' },
+    { id: 'communicate', label: 'WE COMMUNICATE', line: 'We scope the work, raise the funding, and pitch it like a business.' },
   ] as readonly MissionBeat[],
   chamber: {
-    eyebrow: 'What we are building',
+    eyebrow: "What we're building",
     portals: [
-      { id: 'phone', eyebrow: '01 · Flagship', title: 'The Modular Smartphone', caption: 'A repairable, upgradeable phone — take it apart layer by layer.', href: '/projects/modular-smartphone' },
-      { id: 'glasses', eyebrow: '02 · Wearable', title: 'Smart Reading', caption: 'Heads-up glasses that bring the words to your eyes.', href: '/experiments/glasses' },
+      { id: 'phone', eyebrow: '01 · Flagship', title: 'The Modular Smartphone', caption: 'A phone you can repair, upgrade, and take apart layer by layer.', href: '/projects/modular-smartphone' },
+      { id: 'glasses', eyebrow: '02 · Wearable', title: 'Smart Reading', caption: 'Text projected into your line of sight — read without looking down.', href: '/experiments/glasses' },
     ] as readonly LandingPortal[],
   },
   club: {
