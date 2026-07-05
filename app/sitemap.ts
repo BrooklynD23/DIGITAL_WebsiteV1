@@ -9,7 +9,7 @@ const routes = [
   '/pillars',
   '/projects',
   '/projects/modular-smartphone',
-  '/projects/heads-up-display-glasses',
+  '/projects/smart-reading',
   '/team',
   '/contact',
   '/get-involved',

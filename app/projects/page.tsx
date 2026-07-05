@@ -39,9 +39,9 @@ export default function ProjectsPage() {
         searchQuery === '' ||
         project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         project.shortDescription.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchesFilter && matchesSearch && !project.isFlagship;
+      return matchesFilter && matchesSearch && project.slug !== flagship?.slug;
     });
-  }, [activeFilter, searchQuery]);
+  }, [activeFilter, searchQuery, flagship?.slug]);
 
   // Reveal-on-scroll wiring (.reveal -> .reveal.in). Re-runs as cards mount.
   useEffect(() => {

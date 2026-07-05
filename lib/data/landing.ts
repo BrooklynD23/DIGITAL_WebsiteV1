@@ -39,7 +39,7 @@ export const LANDING_CONTENT = {
     eyebrow: "What we're building",
     portals: [
       { id: 'phone', eyebrow: '01 · Flagship', title: 'The Modular Smartphone', caption: 'A phone you can repair, upgrade, and take apart layer by layer.', href: '/projects/modular-smartphone' },
-      { id: 'glasses', eyebrow: '02 · Wearable', title: 'Smart Reading', caption: 'Text projected into your line of sight — read without looking down.', href: '/experiments/glasses' },
+      { id: 'glasses', eyebrow: '02 · Wearable', title: 'Smart Reading', caption: 'Text projected into your line of sight — read without looking down.', href: '/projects/smart-reading' },
     ] as readonly LandingPortal[],
   },
   club: {

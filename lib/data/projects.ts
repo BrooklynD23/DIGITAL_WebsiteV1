@@ -60,17 +60,23 @@ export const projects: Project[] = [
     teamMembers: ['sarah-kim', 'david-park', 'kevin-wang'],
   },
   {
-    id: 'heads-up-display-glasses',
-    slug: 'heads-up-display-glasses',
-    title: 'Heads-up Display Glasses',
-    shortDescription: 'More info soon.',
-    fullDescription: 'More info soon.',
+    id: 'smart-reading',
+    slug: 'smart-reading',
+    title: 'Smart Reading',
+    shortDescription:
+      'FPGA-based heads-up glasses that show one word at a time, right where you look. Built with dyslexic readers in mind.',
+    fullDescription:
+      'Smart Reading uses RSVP — rapid serial visual presentation — to stream text one word at a time at a fixed focal point, so the eyes never have to chase the line. An FPGA renders the stream in real time on an open, documented hardware platform, mentored by Dr. Mohamed El Hadedy.',
     category: 'wearable',
     status: 'active',
-    isFlagship: false,
-    comingSoon: true,
+    isFlagship: true,
     image: '/images/placeholders/projects/modular-phone.svg',
-    techStack: [],
+    techStack: ['FPGA', 'RSVP', 'Optics', 'Verilog', 'Embedded C'],
+    stats: [
+      { label: 'Method', value: 'RSVP' },
+      { label: 'Compute', value: 'FPGA' },
+      { label: 'Build Cycle', value: '8 months' },
+    ],
   },
 ];
 
