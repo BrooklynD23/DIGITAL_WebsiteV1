@@ -9,9 +9,11 @@ import ModuleField from './ModuleField';
 export interface LandingSceneProps {
   progressRef: MutableRefObject<number>;
   onPortal: (href: string) => void;
+  introDone: boolean;
+  onIntroEnd: () => void;
 }
 
-export default function LandingScene({ progressRef, onPortal }: LandingSceneProps) {
+export default function LandingScene({ progressRef, onPortal, introDone, onIntroEnd }: LandingSceneProps) {
   void onPortal; // consumed by ProductChamber in Task 7
   return (
     <Canvas
@@ -24,7 +26,7 @@ export default function LandingScene({ progressRef, onPortal }: LandingSceneProp
       <directionalLight position={[4, 6, 5]} intensity={1.2} />
       <directionalLight position={[0, 3, -6]} intensity={0.7} color="#fff2df" />
       <Suspense fallback={null}>
-        <ModuleField progressRef={progressRef} />
+        <ModuleField progressRef={progressRef} introDone={introDone} onIntroEnd={onIntroEnd} />
       </Suspense>
     </Canvas>
   );

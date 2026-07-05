@@ -20,6 +20,7 @@ export default function LandingExperience() {
   const router = useRouter();
   const [webgl, setWebgl] = useState(true);
   const [reduce, setReduce] = useState(false);
+  const [introDone, setIntroDone] = useState(false);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -103,7 +104,21 @@ export default function LandingExperience() {
               "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E\")",
           }}
         />
-        <LandingScene progressRef={progressRef} onPortal={onPortal} />
+        <LandingScene
+          progressRef={progressRef}
+          onPortal={onPortal}
+          introDone={introDone}
+          onIntroEnd={() => setIntroDone(true)}
+        />
+        {!introDone && (
+          <button
+            type="button"
+            onClick={() => setIntroDone(true)}
+            className="absolute bottom-8 right-8 z-30 rounded-full border border-ink/30 px-4 py-1.5 font-mono text-[11px] uppercase tracking-[0.2em] text-ink/70 transition-colors hover:border-ink hover:text-ink"
+          >
+            {LANDING_CONTENT.skipLabel}
+          </button>
+        )}
         {/* MissionBeats overlay mounts here in Task 7 */}
       </motion.div>
       {/* ClubStrip mounts after the track in Task 7 */}
