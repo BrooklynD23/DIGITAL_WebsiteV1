@@ -23,6 +23,7 @@ export const LANDING_PALETTE = {
 } as const;
 
 export const LANDING_CONTENT = {
+  meta: { title: 'DIGITAL — Built from Modules', description: 'A student platform for building real technology at Cal Poly Pomona.' },
   logoSrc: '/assets/landing/DIGITAL_LOGO-removebg-preview.png',
   wordmark: 'DIGITAL',
   eyebrow: 'DIGITAL @ Cal Poly Pomona',

@@ -50,6 +50,7 @@ export default function LandingExperience() {
     return () => {
       cancelAnimationFrame(raf);
       lenis.destroy();
+      delete (window as Window & { __lenis?: Lenis }).__lenis;
       lenisRef.current = null;
     };
   }, [reduce]);

@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
+import { LANDING_CONTENT } from '@/lib/data/landing';
 
 export const metadata: Metadata = {
-  title: 'DIGITAL — Built from Modules',
-  description: 'A student platform for building real technology at Cal Poly Pomona.',
+  title: LANDING_CONTENT.meta.title,
+  description: LANDING_CONTENT.meta.description,
 };
 
 export default function LandingPreviewLayout({ children }: { children: React.ReactNode }) {
