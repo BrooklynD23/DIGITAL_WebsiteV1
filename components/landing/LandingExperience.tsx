@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation';
 import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
 import Lenis from 'lenis';
 import { LANDING_CONTENT, LANDING_PALETTE } from '@/lib/data/landing';
+import EscapeHatch from '@/components/ui/EscapeHatch';
 import LandingScene from './LandingScene';
 import MissionBeats from './MissionBeats';
 import ClubStrip from './ClubStrip';
@@ -103,6 +104,8 @@ export default function LandingExperience() {
           style={{ backgroundColor: bg }}
           className="sticky top-0 h-screen w-full overflow-hidden"
         >
+          <EscapeHatch tone="light" />
+
           {/* sweep + grain (same treatment as the glasses regrade) */}
           <div
             aria-hidden

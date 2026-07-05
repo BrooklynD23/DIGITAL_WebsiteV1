@@ -63,6 +63,7 @@ export interface GlassesContent {
   readonly hud: GlassesHud;
   readonly pov: GlassesPov;
   readonly info: ReadonlyArray<GlassesInfoSection>;
+  readonly next: { readonly eyebrow: string; readonly title: string; readonly href: string };
 }
 
 export const GLASSES_PALETTE = {
@@ -155,4 +156,5 @@ export const GLASSES_CONTENT: GlassesContent = {
       ],
     },
   ],
+  next: { eyebrow: 'Next project', title: 'The Modular Smartphone', href: '/projects/modular-smartphone' },
 };

@@ -80,6 +80,10 @@ export const projects: Project[] = [
   },
 ];
 
+export const NEXT_PROJECT_CARDS = {
+  'modular-smartphone': { eyebrow: 'Next project', title: 'Smart Reading', href: '/projects/smart-reading' },
+} as const;
+
 export function getProjectBySlug(slug: string): Project | undefined {
   return projects.find((p) => p.slug === slug);
 }

@@ -12,9 +12,10 @@ import {
   Timeline,
   type TimelineStep,
 } from '@/components/ui';
-import { getProjectBySlug } from '@/lib/data/projects';
+import { getProjectBySlug, NEXT_PROJECT_CARDS } from '@/lib/data/projects';
 import { teamMembers } from '@/lib/data/team';
 import { Teardown } from '@/components/teardown/Teardown';
+import NextProjectCard from '@/components/ui/NextProjectCard';
 
 export const metadata: Metadata = {
   title: 'The Modular Smartphone — DIGITAL @ Cal Poly Pomona',
@@ -417,6 +418,11 @@ export default function ModularSmartphonePage() {
             </Link>
           </div>
         </div>
+      </section>
+
+      {/* ░░░ NEXT PROJECT ░░░ */}
+      <section className="border-t border-line py-24 text-center">
+        <NextProjectCard {...NEXT_PROJECT_CARDS['modular-smartphone']} tone="light" />
       </section>
     </>
   );

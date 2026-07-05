@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Globe, AtSign, MessageSquare, Code, FileText } from 'lucide-react';
 import { siteConfig } from '@/lib/data/siteConfig';
+import { isImmersiveRoute } from '@/lib/immersiveRoutes';
 
 const quickLinks = [
   { href: '/projects', label: 'Projects' },
@@ -22,8 +23,8 @@ const socials = [
 
 export function Footer() {
   const pathname = usePathname();
-  // Standalone experiment routes render their own chrome — hide the site footer.
-  if (pathname?.startsWith('/experiments')) return null;
+  // Immersive routes render their own chrome — hide the site footer.
+  if (isImmersiveRoute(pathname)) return null;
 
   return (
     <footer className="border-t border-line py-[54px] font-mono text-[13px] leading-[1.6] text-ink-soft">

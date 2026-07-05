@@ -15,6 +15,8 @@ import { useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
 import Lenis from 'lenis';
 import { GLASSES_CONTENT, GLASSES_PALETTE } from '@/lib/data/experiments/glasses';
+import EscapeHatch from '@/components/ui/EscapeHatch';
+import NextProjectCard from '@/components/ui/NextProjectCard';
 import GlassesScene from './GlassesScene';
 import ExperienceNav from './ExperienceNav';
 import FloatingDecor from './FloatingDecor';
@@ -121,8 +123,9 @@ export default function GlassesExperience() {
   // Beat AFTER the POV/HUD has fully cleared (≤0.60) and BEFORE the panels (≥0.74), on charcoal.
   const revealOpacity = useTransform(scrollYProgress, [0.6, 0.64, 0.7, 0.74], [0, 1, 1, 0]);
   const revealY = useTransform(scrollYProgress, [0.6, 0.64], [24, 0]);
+  const nextCardOpacity = useTransform(scrollYProgress, [0.955, 0.975], [0, 1]);
 
-  const { hero, reveal, nav, cta, hud, pov, info } = GLASSES_CONTENT;
+  const { hero, reveal, nav, cta, hud, pov, info, next } = GLASSES_CONTENT;
 
   return (
     <div ref={containerRef} className="relative h-[460vh] bg-[#e9dfc8]">
@@ -130,6 +133,8 @@ export default function GlassesExperience() {
         style={{ backgroundColor: bg }}
         className="sticky top-0 h-screen w-full overflow-hidden"
       >
+        <EscapeHatch tone="light" />
+
         {/* Radial sweep + film grain so no beat reads as a flat fill */}
         <div
           aria-hidden
@@ -201,6 +206,14 @@ export default function GlassesExperience() {
 
         {/* Phase-3 detail panels */}
         <InfoPanels sections={info} scrollYProgress={scrollYProgress} />
+
+        {/* Next-project handoff — appears past the final panel */}
+        <motion.div
+          style={{ opacity: nextCardOpacity }}
+          className="pointer-events-auto absolute inset-x-0 bottom-[8%] z-20 text-center"
+        >
+          <NextProjectCard {...next} tone="dark" />
+        </motion.div>
 
         {/* Scroll cue */}
         <motion.div

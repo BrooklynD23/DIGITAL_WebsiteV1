@@ -16,6 +16,7 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { isImmersiveRoute } from '@/lib/immersiveRoutes';
 
 export const NAVBAR_HEIGHT = 72;
 
@@ -113,8 +114,8 @@ export function Navbar() {
     setMobileMenuOpen(false);
   }, [pathname]);
 
-  // Standalone experiment routes render their own chrome — hide the site nav.
-  if (pathname?.startsWith('/experiments')) return null;
+  // Immersive routes render their own chrome — hide the site nav.
+  if (isImmersiveRoute(pathname)) return null;
 
   return (
     <>
