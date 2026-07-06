@@ -37,6 +37,21 @@ committed — see the standing rule in `CLAUDE.md` and `AGENT.md`.
 | v0.6.0 | #0012     | `dd14637` | perf(teardown): encode AVIF/WebP assets; feat: empty-state UI on filtered lists (#0012) | Teardown asset encoding + empty-state UI — Sprint 1 #6 |
 | v0.6.1 | #0014     | `713150a` | docs: add landing/HUD/cross-linking design spec (#0014) | Approved design spec — Modules landing, glasses-page realism, cross-linking IA |
 | v0.6.2 | #0016     | `dc6a5e4` | docs: add implementation plan for landing/glasses/IA tracks (#0016) | 12-task Codex-delegable plan derived from the approved spec |
+| v0.7.0 | #0018     | `52eb363` | feat(glasses): scroll-hero experience baseline from prior session (#0018) | Baseline for the landing/glasses/IA plan — Task 0 |
+| v0.7.1 | #0019     | `4f26b7e` | feat(glasses): warm-paper palette regrade + hairline decor (#0019) | Task 1 (B1) |
+| v0.7.2 | #0020     | `a93e670` | feat(glasses): sequential panel fades + direction-aware snap (#0020) | Task 2 (B2) |
+| v0.7.3 | #0021     | `63d57ea` | fix(glasses): snap glide flag self-releases after interruption (#0021) | Task 2 review fix |
+| v0.7.4 | #0022     | `9ee0325` | feat(glasses): waveguide HUD design system (#0022) | Task 3 (B3) |
+| v0.7.5 | #0023     | `3e2318a` | fix(glasses): animate HUD exits via AnimatePresence (#0023) | Task 3 review fix |
+| v0.7.6 | #0024     | `1cf75e5` | feat(glasses): PBR materials + local environment lighting (#0024) | Task 4 (B4) |
+| v0.7.7 | #0026     | `901257e` | feat(landing): scaffold /landing-preview route + scroll orchestrator (#0026) | Task 5 (A1) |
+| v0.7.8 | #0027     | `72169eb` | fix(landing): data-sourced metadata + __lenis cleanup (#0027) | Task 5 review fix |
+| v0.7.9 | #0028     | `36e502f` | feat(landing): instanced module formations + logo assembly intro (#0028) | Task 6 (A2) |
+| v0.7.10 | #0029    | `2bed1cd` | fix(landing): one-shot intro completion guard (#0029) | Task 6 review fix |
+| v0.7.11 | #0030    | `c3b18e8` | feat(landing): product chamber portals, mission beats, club strip (#0030) | Task 7 (A3) |
+| v0.7.12 | #0031    | `5e3abb4` | feat(landing): brand-voice copy pass (#0031) | Task 8 (A4) — brand-voice-strategist copy pass |
+| v0.7.13 | #0032    | `5bff37c` | feat(ia): promote glasses experience to /projects/smart-reading (#0032) | Task 9 (C1) — route promotion; removed dead /projects/[slug] catch-all (both projects now have dedicated routes) |
+| v0.7.14 | #0033    | `3d4175e` | feat(ia): immersive chrome guard, escape hatch, next-project loop (#0033) | Task 10 (C2) |
 
 ---
 
