@@ -19,6 +19,7 @@ import { useFrame, useLoader } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
 import { FBXLoader } from 'three-stdlib';
 import * as THREE from 'three';
+import { GLASSES_CONTENT } from '@/lib/data/experiments/glasses';
 
 /** Optional GLB swap point (unused while FBX/procedural is active). */
 export const MODEL_URL: string | null = null;
@@ -65,6 +66,59 @@ interface GlassesModelProps {
   progressRef: MutableRefObject<number>;
 }
 
+/** One-time HUD snapshot rendered into a canvas: phosphor corner brackets + RSVP readout. */
+function createHudGlimpseTexture(): THREE.CanvasTexture {
+  const canvas = document.createElement('canvas');
+  canvas.width = 512;
+  canvas.height = 256;
+  const ctx = canvas.getContext('2d');
+  if (ctx) {
+    const phosphor = 'rgba(127,230,163,0.95)';
+    const margin = 24;
+    const arm = 30;
+    ctx.strokeStyle = phosphor;
+    ctx.lineWidth = 3;
+    const corners: Array<[number, number, number, number]> = [
+      [margin, margin, 1, 1],
+      [canvas.width - margin, margin, -1, 1],
+      [margin, canvas.height - margin, 1, -1],
+      [canvas.width - margin, canvas.height - margin, -1, -1],
+    ];
+    corners.forEach(([x, y, dx, dy]) => {
+      ctx.beginPath();
+      ctx.moveTo(x, y + arm * dy);
+      ctx.lineTo(x, y);
+      ctx.lineTo(x + arm * dx, y);
+      ctx.stroke();
+    });
+    ctx.fillStyle = phosphor;
+    ctx.font = '28px "DM Mono", monospace';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    const { label, wpm } = GLASSES_CONTENT.hud;
+    ctx.fillText(`${label} · ${wpm} WPM`, canvas.width / 2, canvas.height / 2);
+  }
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.needsUpdate = true;
+  return texture;
+}
+
+/** Adds the in-lens HUD glimpse plane as a child of the normalized wrapper. */
+function attachHudGlimpse(wrapper: THREE.Group, size: THREE.Vector3): void {
+  const geo = new THREE.PlaneGeometry(size.x * 0.38, size.y * 0.55);
+  const mat = new THREE.MeshBasicMaterial({
+    map: createHudGlimpseTexture(),
+    transparent: true,
+    opacity: 0,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false,
+  });
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.name = 'hud-glimpse';
+  mesh.position.set(-size.x * 0.22, 0, size.z / 2 + 0.01);
+  wrapper.add(mesh);
+}
+
 /**
  * Recenter to origin + scale so the largest dimension fits a target size.
  * The recentered model is nested inside a wrapper that carries the scale, so scaling can't
@@ -79,9 +133,13 @@ function normalize(obj: THREE.Object3D, target = 3.0): THREE.Object3D {
   box.getCenter(center);
   clone.position.sub(center); // center content at the wrapper's origin
   const maxDim = Math.max(size.x, size.y, size.z) || 1;
+  const scale = target / maxDim;
   const wrapper = new THREE.Group();
   wrapper.add(clone);
-  wrapper.scale.setScalar(target / maxDim);
+  wrapper.scale.setScalar(scale);
+  // wrapper's own scale already applies to children's local coordinates —
+  // position/size the glimpse using the UNSCALED size, not size*scale.
+  attachHudGlimpse(wrapper, size);
   return wrapper;
 }
 
@@ -294,6 +352,13 @@ export default function GlassesModel({ progressRef }: GlassesModelProps) {
     g.rotation.y = lerp(g.rotation.y, targetYaw + parallaxY, k);
     const sc = lerp(g.scale.x, baseScale, k);
     g.scale.set(sc, sc, sc);
+
+    // In-lens HUD glimpse: only visible on the fly-back beat.
+    const hud = g.getObjectByName('hud-glimpse') as THREE.Mesh | undefined;
+    if (hud && hud.material instanceof THREE.MeshBasicMaterial) {
+      hud.material.opacity =
+        smoothstep((p - 0.6) / 0.04) * (1 - smoothstep((p - 0.68) / 0.04)) * 0.85;
+    }
   });
 
   return (
