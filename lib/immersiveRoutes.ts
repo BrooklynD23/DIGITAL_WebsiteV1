@@ -2,6 +2,7 @@
 export const IMMERSIVE_PREFIXES = [
   '/experiments',
   '/landing-preview',
+  '/landing-v2',
   '/projects/smart-reading',
 ] as const;
 
