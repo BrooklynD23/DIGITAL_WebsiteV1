@@ -68,7 +68,7 @@ export default function ProjectsPage() {
   }, [filteredProjects]);
 
   return (
-    <>
+    <div className="pt-28">
       {/* Flagship hero — dark ink device-render treatment */}
       <section className="border-b border-line">
         <div className="mx-auto max-w-content px-7 py-16 md:py-24">
@@ -318,6 +318,6 @@ export default function ProjectsPage() {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 }

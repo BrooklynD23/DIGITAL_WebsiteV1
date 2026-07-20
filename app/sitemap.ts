@@ -13,6 +13,9 @@ const routes = [
   '/team',
   '/contact',
   '/get-involved',
+  '/privacy',
+  '/terms',
+  '/cookies',
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

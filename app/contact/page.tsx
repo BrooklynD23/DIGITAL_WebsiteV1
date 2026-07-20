@@ -1,8 +1,10 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useEffect, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { siteConfig } from '@/lib/data/siteConfig';
+import { contactTopicOptions, resolveContactTopic } from '@/lib/data/contactTopics';
 import {
   Card,
   Button,
@@ -16,14 +18,8 @@ import {
 // Note: Metadata must be in a separate layout.tsx for client components
 // See app/contact/layout.tsx for SEO metadata
 
-const topicOptions = [
-  { value: 'general', label: 'General Inquiry' },
-  { value: 'join', label: 'Joining the Team' },
-  { value: 'project', label: 'Modular Phone Project' },
-  { value: 'sponsorship', label: 'Sponsorship & Partnership' },
-];
-
-export default function ContactPage() {
+function ContactForm() {
+  const searchParams = useSearchParams();
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [formData, setFormData] = useState({
     name: '',
@@ -31,6 +27,14 @@ export default function ContactPage() {
     topic: '',
     message: '',
   });
+
+  useEffect(() => {
+    const typeParam = searchParams.get('type');
+    const topic = resolveContactTopic(typeParam);
+    if (topic) {
+      setFormData((prev) => (prev.topic ? prev : { ...prev, topic }));
+    }
+  }, [searchParams]);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -123,7 +127,7 @@ export default function ContactPage() {
                   value={formData.topic}
                   onChange={(e) => setFormData({ ...formData, topic: e.target.value })}
                   placeholder="Select a topic..."
-                  options={topicOptions}
+                  options={[...contactTopicOptions]}
                 />
 
                 <Textarea
@@ -307,5 +311,13 @@ export default function ContactPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ContactPage() {
+  return (
+    <Suspense fallback={null}>
+      <ContactForm />
+    </Suspense>
   );
 }

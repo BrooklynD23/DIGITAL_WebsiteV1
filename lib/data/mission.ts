@@ -2,8 +2,7 @@
  * Canonical purpose statement for DIGITAL @ Cal Poly Pomona.
  *
  * The strings below are copied VERBATIM from the approved mission copy in
- * `lib/data/landing.ts` (LANDING_CONTENT.tagline + LANDING_CONTENT.mission).
- * This module is the single source of truth referenced by pages and by the
+ * `lib/data/homeLanding.ts`. This module is the single source of truth referenced by pages and by the
  * marketing skill at `.cursor/skills/digital-marketing/`. Do not reword these
  * strings here without following that skill's copy workflow (claims.md entry
  * + human sign-off).
@@ -46,7 +45,7 @@ export const MISSION_BEATS: readonly PurposeBeat[] = [
 /**
  * The canonical purpose statement, assembled verbatim from the tagline and
  * the four mission beats. In copy conflicts this string wins over
- * `landing.ts`, which in turn wins over inline page copy.
+ * `homeLanding.ts`, which in turn wins over inline page copy.
  */
 export const PURPOSE_STATEMENT: string = [
   MISSION_TAGLINE,
