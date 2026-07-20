@@ -32,6 +32,10 @@ is to make the product's real value obvious in as few, plain words as possible.
 6. **Match the data shape.** When asked to write into a TypeScript data file, preserve the
    existing interface/field names exactly and only change string values, unless told otherwise.
    Keep it type-clean so the build stays green.
+7. **Read the brand system first.** Before writing, read `docs/design/BRAND.md` for the
+   page's narrative spine (promise → proof → invitation) and voice pillars, plus the route's
+   `docs/design/*.DESIGN.md` for any page-specific constraints (e.g. copy-measure caps,
+   cadence rules for animated text). Write to the spine, not just the style rules below.
 
 ## Output
 
