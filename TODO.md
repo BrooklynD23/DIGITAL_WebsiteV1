@@ -54,6 +54,7 @@ committed — see the standing rule in `CLAUDE.md` and `AGENT.md`.
 | v0.7.14 | #0033    | `3d4175e` | feat(ia): immersive chrome guard, escape hatch, next-project loop (#0033) | Task 10 (C2) |
 | v0.7.15 | #0036    | `a539e99` | docs(design): add route-scoped DESIGN.md for landing, smartphone, glasses (#0036) | Route-scoped style refs in docs/design/ (21 TSI format); DESIGN.md §0.1 + §15 migration; agent routing in CLAUDE.md/AGENT.md/AGENTS.md |
 | v0.8.0  | #0038    | `07943a8` | feat(site): promote Newsreader home landing + PhoneV2 experience; retire legacy landing routes (#0038) | Prior-session feature work committed: new `/` landing, PhoneV2 at `/projects/modular-smartphone`, `/review` hub, legacy landing routes removed |
+| v0.8.1  | #0040    | `9b87676` | docs: add brand-story + GSAP text choreography design spec (#0040) | Approved spec — BRAND.md + brand-guardian agent, GSAP text layer (smartphone), story-first copy + type revision for smartphone/glasses/landing |
 
 ---
 
