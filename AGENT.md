@@ -30,8 +30,24 @@ failures first.
 ## Key Reference Files
 
 - `DESIGN.md` — design system source of truth
+- `docs/design/` — route-scoped style references (see below)
 - `TODO.md` — living work log (sprint tasks + Dev Build / Version Control table)
 - `CLAUDE.md` — full project conventions
+
+---
+
+## Design Docs — Route-Scoped Style References
+
+Before **any** UI/UX change, read the DESIGN.md governing that route. Changes beyond
+token-faithful adjustments require explicit **Head Designer (user) approval before
+implementation** — propose the change and wait for sign-off; never overhaul first.
+
+| Route | Governing style reference |
+|-------|---------------------------|
+| `/` (home landing; also holds subsidiary-page direction for `/contact`, `/get-involved`) | `docs/design/landing.DESIGN.md` |
+| `/projects/modular-smartphone` | `docs/design/smartphone.DESIGN.md` |
+| `/projects/smart-reading` | `docs/design/glasses.DESIGN.md` |
+| All other routes | root `DESIGN.md` (industrial studio system) |
 
 ---
 

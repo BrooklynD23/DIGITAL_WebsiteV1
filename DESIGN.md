@@ -27,6 +27,20 @@ Stack: **Next.js 14 (App Router) + React 18 + TypeScript + Tailwind CSS 3**. The
 is a single static HTML file; this document translates its CSS into Tailwind tokens and
 React components.
 
+### 0.1 Route-Scoped Design Systems
+
+Three immersive routes carry deliberately isolated visual languages. Each has its own
+style reference under [`docs/design/`](./docs/design/), which is **authoritative for that
+route only**; this document governs everything else. Agents making UI/UX changes must read
+the governing doc first, and any change beyond token-faithful adjustments requires explicit
+Head Designer approval before implementation.
+
+| Route | Style reference | Theme summary |
+|-------|-----------------|---------------|
+| `/` (home landing, plus subsidiary-page direction for `/contact`, `/get-involved`) | [`docs/design/landing.DESIGN.md`](./docs/design/landing.DESIGN.md) | Warm editorial — cream canvas, forest green, gold; Newsreader + IBM Plex |
+| `/projects/modular-smartphone` | [`docs/design/smartphone.DESIGN.md`](./docs/design/smartphone.DESIGN.md) | Dark technical bench — navy canvas, indigo CTA, 7 subsystem accents |
+| `/projects/smart-reading` | [`docs/design/glasses.DESIGN.md`](./docs/design/glasses.DESIGN.md) | Ambient wearable — paper beige, phosphor-green HUD, gold accent |
+
 ---
 
 ## 1. Design Philosophy
@@ -628,3 +642,15 @@ When refactoring any page or component to this system:
 | Date | Change |
 |------|--------|
 | 2026-06-01 | Initial DESIGN.md — industrial studio system derived from `Refractor/`, content preserved from current repo. |
+
+---
+
+## 15. Subsystem Accent Scale (Scoped: `/projects/modular-smartphone`)
+
+**Migrated.** The route-local token and accent system for the modular smartphone
+experience (background/panel/CTA tokens plus the seven subsystem accents) now lives in
+[`docs/design/smartphone.DESIGN.md`](./docs/design/smartphone.DESIGN.md), which is the
+authoritative style reference for `/projects/modular-smartphone`. See
+[§0.1 Route-Scoped Design Systems](#01-route-scoped-design-systems). The scoping rule
+still holds: those tokens must not leak into `/`, `/projects`, `/pillars`, or any shared
+component.
