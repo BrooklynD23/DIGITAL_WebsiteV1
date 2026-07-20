@@ -52,6 +52,7 @@ committed — see the standing rule in `CLAUDE.md` and `AGENT.md`.
 | v0.7.12 | #0031    | `5e3abb4` | feat(landing): brand-voice copy pass (#0031) | Task 8 (A4) — brand-voice-strategist copy pass |
 | v0.7.13 | #0032    | `5bff37c` | feat(ia): promote glasses experience to /projects/smart-reading (#0032) | Task 9 (C1) — route promotion; removed dead /projects/[slug] catch-all (both projects now have dedicated routes) |
 | v0.7.14 | #0033    | `3d4175e` | feat(ia): immersive chrome guard, escape hatch, next-project loop (#0033) | Task 10 (C2) |
+| v0.7.15 | #0036    | `a539e99` | docs(design): add route-scoped DESIGN.md for landing, smartphone, glasses (#0036) | Route-scoped style refs in docs/design/ (21 TSI format); DESIGN.md §0.1 + §15 migration; agent routing in CLAUDE.md/AGENT.md/AGENTS.md |
 
 ---
 
@@ -63,3 +64,15 @@ committed — see the standing rule in `CLAUDE.md` and `AGENT.md`.
 - **Org logo + favicon / OG image** — final asset files needed from the design lead.
 - **Heads-up Display Glasses copy** — project description, team lead, and timeline TBD;
   placeholder reads "More info soon" until the team provides details.
+
+### Site variant decisions (pending shareholder sign-off)
+
+Open `/review` to compare candidates side-by-side. Record the decision here, then execute cleanup:
+
+| Decision | Options | Winner (TBD) | Cleanup when decided |
+|----------|---------|--------------|----------------------|
+| Homepage | `/` (Newsreader landing v2) | `/` | Removed `/landing-preview` and `/landing-v2` |
+| Smartphone | `/projects/modular-smartphone` (PhoneV2 experience) | `/projects/modular-smartphone` | Promoted from `/phone-v2`; old teardown page removed |
+| Smart Reading | `/projects/smart-reading` (settled) | `/projects/smart-reading` | Remove `/experiments/glasses` redirect after 6 months |
+
+After decisions: run `./run.sh check`, update this table with commit SHA, remove `/review` page.
