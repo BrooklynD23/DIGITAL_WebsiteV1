@@ -18,6 +18,11 @@ sign-off; never overhaul first.
 | `/projects/smart-reading` | `docs/design/glasses.DESIGN.md` |
 | All other routes | root `DESIGN.md` (industrial studio system) |
 
+**Copy and wording** are governed separately, across all routes, by
+[`docs/design/BRAND.md`](./docs/design/BRAND.md). Before changing any string in `lib/data/`,
+read it. Copy changes go through the `brand-voice-strategist` agent to write and the
+`brand-guardian` agent to review before committing.
+
 ## Quick Constraints
 
 - Verify with `./run.sh check` before committing.
