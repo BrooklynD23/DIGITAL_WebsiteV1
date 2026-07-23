@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import { animate } from 'animejs';
+import { TextReveal } from '@/components/motion/TextReveal';
 import EscapeHatch from '@/components/ui/EscapeHatch';
 import { phoneV2Copy } from '@/lib/data/phoneV2';
 import { Loader } from './Loader';
@@ -83,7 +84,10 @@ export default function PhoneV2Experience() {
         <Loader onComplete={completeLoader} accent={CTA} reduceMotion={reduceMotion} />
       ) : null}
 
-      <Hero accent={CTA} />
+      <Hero
+        accent={CTA}
+        revealReady={loaderDismissedRef.current || reduceMotion}
+      />
 
       <section id="phone-toolbox" className="relative border-b border-white/10 bg-[#0F172A] px-6 py-16 text-[#F1F5F9] md:px-8 lg:px-10">
         <div className="mx-auto grid max-w-[1360px] gap-10 md:grid-cols-[minmax(0,0.42fr)_minmax(0,0.58fr)] md:items-start">
@@ -91,9 +95,14 @@ export default function PhoneV2Experience() {
             <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[#94A3B8]">
               {phoneV2Copy.toolbox.eyebrow}
             </p>
-            <h2 className="mt-4 font-display text-[clamp(30px,5vw,58px)] font-bold uppercase leading-[0.9] tracking-[-0.04em]">
+            <TextReveal
+              as="h2"
+              split="lines"
+              trigger="scroll"
+              className="mt-4 font-display text-[clamp(28px,4.5vw,52px)] font-bold uppercase leading-[0.9] tracking-[-0.04em]"
+            >
               {phoneV2Copy.toolbox.headline}
-            </h2>
+            </TextReveal>
             <p className="mt-4 text-[16px] leading-[1.6] text-[#CBD5E1]">
               {phoneV2Copy.toolbox.description}
             </p>
@@ -126,9 +135,14 @@ export default function PhoneV2Experience() {
             <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[#475569]">
               {phoneV2Copy.buildScope.eyebrow}
             </p>
-            <h2 className="mt-4 font-display text-[clamp(28px,4.8vw,56px)] font-bold uppercase leading-[0.92] tracking-[-0.04em]">
+            <TextReveal
+              as="h2"
+              split="lines"
+              trigger="scroll"
+              className="mt-4 font-display text-[clamp(28px,4.5vw,52px)] font-bold uppercase leading-[0.92] tracking-[-0.04em]"
+            >
               {phoneV2Copy.buildScope.headline}
-            </h2>
+            </TextReveal>
             <p className="mt-4 max-w-[34ch] text-[16px] leading-[1.6] text-[#334155]">
               {phoneV2Copy.buildScope.description}
             </p>

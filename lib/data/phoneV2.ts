@@ -103,9 +103,9 @@ export const phoneV2Copy: {
   schematicAriaLabel: 'Exploded smartphone schematic',
   hero: {
     eyebrow: 'DIGITAL / PHONE V2',
-    headline: ['Build the phone.', 'Build the team.', 'Build the system.'],
+    headline: ['One device.', 'Owned in parts.', 'Take a subsystem.'],
     subline:
-      'From schematic to ship-ready stack, every subsystem stays visible, accountable, and owned by students who want real engineering depth.',
+      'Own one layer end to end, then prove it works with the rest.',
     primaryCta: 'Explore the build',
     secondaryCta: 'Jump to systems',
     skipLabel: 'Skip intro',
@@ -114,9 +114,9 @@ export const phoneV2Copy: {
   },
   toolbox: {
     eyebrow: 'Builder / tools',
-    headline: "Complete builder's toolbox",
+    headline: 'One workflow. Clear subsystem owners.',
     description:
-      'One interface for architecture, tooling, ownership, and the trade-offs that keep the project honest.',
+      'See what the phone needs, who owns it, and which trade-off comes next.',
     lensLabel: 'HUD / lens',
     specHeading: 'Toolchain spec',
     specLead: 'What the team needs to build without hand-waving.',
@@ -131,11 +131,11 @@ export const phoneV2Copy: {
       id: 'systems-architecture',
       title: 'Systems Architecture',
       description:
-        'Set the contract between the frame, the electronics, and the team before any layer starts drifting.',
+        "Clear boundaries align the parts and define each team's handoff.",
       bullets: [
-        'Map dependencies before the first board spin.',
-        'Keep module boundaries explicit and reviewable.',
-        'Use integration risks to drive the build order.',
+        'You decide where the frame ends and the board begins.',
+        'Every boundary gets reviewed before it is built.',
+        'What could break first is what you build first.',
       ],
       accent: '#F87171',
       activePartIds: ['phone-display-panel', 'phone-midframe'],
@@ -151,11 +151,11 @@ export const phoneV2Copy: {
       id: 'hardware-pcb',
       title: 'Hardware / PCB',
       description:
-        'Trace the power rails, the board stack, and every connector that makes the phone physical.',
+        'The system plan becomes rails, traces, and serviceable connections.',
       bullets: [
-        'Route power, ground, and signal with intent.',
-        'Keep the PCB easy to inspect and service.',
-        'Treat every connector as an integration decision.',
+        'Power and signal get a deliberate path.',
+        'Every connector defines a handoff.',
+        'The finished board stays open to inspection and repair.',
       ],
       accent: '#FBBF24',
       activePartIds: ['phone-main-pcb', 'phone-flex-cables'],
@@ -171,11 +171,11 @@ export const phoneV2Copy: {
       id: 'firmware-embedded',
       title: 'Firmware / Embedded',
       description:
-        'Give the hardware a reliable boot path, deterministic control loops, and a clear debug story.',
+        'Each board gets a boot path, clear timing, and a way to debug it.',
       bullets: [
-        'Own the startup sequence from reset to runtime.',
-        'Expose debug hooks before features pile up.',
-        'Keep timing and power budgets visible.',
+        'Startup moves from reset to a known state.',
+        'Debug hooks expose what happens next.',
+        "Timing and power budgets define the board's operating limits.",
       ],
       accent: '#4ADE80',
       activePartIds: ['phone-battery', 'phone-flex-cables'],
@@ -191,11 +191,11 @@ export const phoneV2Copy: {
       id: 'operating-system',
       title: 'Operating System',
       description:
-        'Treat the phone like a platform: permissions, services, and app surfaces all need a coherent model.',
+        'Working hardware becomes a platform with clear rules.',
       bullets: [
-        'Define the OS boundary and service surface.',
-        'Make the shell predictable for real users.',
-        'Keep state transitions stable under load.',
+        'Services define what each layer can do.',
+        'The shell exposes services without crossing their boundaries.',
+        'Stable state transitions keep services running under load.',
       ],
       accent: '#22D3EE',
       activePartIds: ['phone-screen-ui', 'phone-front-glass'],
@@ -211,11 +211,11 @@ export const phoneV2Copy: {
       id: 'apps-ux',
       title: 'Apps / UX',
       description:
-        'Build the surface people actually touch, with direct feedback, legible states, and fast comprehension.',
+        'The whole system becomes legible at the point of touch.',
       bullets: [
-        'Keep the interface readable at a glance.',
-        'Use motion to clarify cause and effect.',
-        'Make every tap feel like it belongs in the system.',
+        'Each screen shows what matters first.',
+        'Motion connects an action to its result.',
+        'Feedback shows whether each tap worked.',
       ],
       accent: '#60A5FA',
       activePartIds: ['phone-front-glass', 'phone-screen-ui'],
@@ -231,11 +231,11 @@ export const phoneV2Copy: {
       id: 'mechanical-cad',
       title: 'Mechanical / CAD',
       description:
-        'Own the enclosure, fit, and assembly order so the modular phone can survive reality.',
+        'The enclosure makes repair, fit, and assembly possible.',
       bullets: [
-        'Check tolerance before parts are frozen.',
-        'Design for repair, replacement, and reuse.',
-        'Make the assembly path obvious in CAD and in hand.',
+        'CAD defines the enclosure and assembly path.',
+        'Tolerance checks prove the parts fit before they freeze.',
+        'That path keeps replaceable parts accessible.',
       ],
       accent: '#C084FC',
       activePartIds: ['phone-back-cover', 'phone-midframe'],
@@ -251,11 +251,11 @@ export const phoneV2Copy: {
       id: 'integration-testing',
       title: 'Integration / Testing',
       description:
-        'Prove the whole stack works, then keep proving it as the layers change under load.',
+        'The full phone proves its subsystems work together as they change.',
       bullets: [
-        'Test the seam where disciplines meet.',
-        'Use failures to tighten the build contract.',
-        'Make regression checks part of the flow.',
+        'Tests start where disciplines meet.',
+        'Failures expose the contract that needs work.',
+        'Regression checks keep each fix from breaking the next.',
       ],
       accent: '#FACC15',
       activePartIds: ['phone-screws', 'phone-haptics'],
@@ -270,9 +270,9 @@ export const phoneV2Copy: {
   ] as const,
   buildScope: {
     eyebrow: 'Light mode / build scope',
-    headline: 'Build scope',
+    headline: 'Own one clear boundary',
     description:
-      'A modular scope keeps the phone legible: each subsystem owns a boundary, a checklist, and a review path.',
+      'A clear boundary gives each subsystem an owner, a review path, and a test before it joins the phone.',
     scopeTitle: 'Scope cards',
     scopeItems: [
       'one owner per subsystem',
@@ -283,9 +283,9 @@ export const phoneV2Copy: {
   },
   finalCta: {
     eyebrow: 'Reassembly',
-    headline: 'Pick a subsystem. Own a part of the build.',
+    headline: 'Take a subsystem. Build the whole phone.',
     description:
-      'Join a team that values real systems thinking, repeatable testing, and transparent ownership.',
+      'Bring one part from first decision to final test, then make it work with everything around it.',
     primaryLabel: 'Join DIGITAL',
     secondaryLabel: 'View Teams',
     tertiaryLabel: 'See Projects',
@@ -293,9 +293,9 @@ export const phoneV2Copy: {
   },
   mobileStage: {
     eyebrow: 'Subsystems',
-    headline: 'Scroll the stack.',
+    headline: 'Every subsystem stays in view.',
     description:
-      'Each section keeps the schematic above the copy, trims the detail card, and removes pinning for smaller screens.',
+      'Follow the build one subsystem at a time, with the phone diagram above each section.',
   },
   mobileSummary: ['Systems', 'Hardware', 'Firmware', 'Apps', 'Testing'],
   routeFacts: {

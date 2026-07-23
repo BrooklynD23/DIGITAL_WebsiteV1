@@ -1,10 +1,11 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { animate, createTimeline, onScroll, stagger } from 'animejs';
 import { PhoneSchematicSvg } from './PhoneSchematicSvg';
 import { SpecCard } from './SpecCard';
 import { TickScrubber } from './TickScrubber';
+import { TextReveal } from '@/components/motion/TextReveal';
 import { phoneV2Copy } from '@/lib/data/phoneV2';
 
 const ACTIVE_STYLE = 'transition-all duration-700 ease-out';
@@ -36,6 +37,7 @@ export function SubsystemStage({ accentBase, reduceMotion }: SubsystemStageProps
   const stageRef = useRef<HTMLDivElement | null>(null);
   const phoneRef = useRef<SVGSVGElement | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isDesktop, setIsDesktop] = useState(false);
 
   const current = sections[activeIndex] ?? sections[0];
   const currentAccent = current.accent ?? accentBase;
@@ -45,8 +47,16 @@ export function SubsystemStage({ accentBase, reduceMotion }: SubsystemStageProps
     [current, reduceMotion]
   );
 
+  useLayoutEffect(() => {
+    const mediaQuery = window.matchMedia('(min-width: 768px)');
+    const update = () => setIsDesktop(mediaQuery.matches);
+    update();
+    mediaQuery.addEventListener('change', update);
+    return () => mediaQuery.removeEventListener('change', update);
+  }, []);
+
   useEffect(() => {
-    if (!stageRef.current) return;
+    if (!stageRef.current || !isDesktop) return;
 
     if (reduceMotion || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       setActiveIndex(0);
@@ -77,14 +87,15 @@ export function SubsystemStage({ accentBase, reduceMotion }: SubsystemStageProps
     });
 
     return () => {
-      timeline.pause();
+      timeline.revert();
     };
-  }, [reduceMotion, sections.length]);
+  }, [isDesktop, reduceMotion, sections.length]);
 
   useEffect(() => {
     const svg = phoneRef.current;
     if (
       !svg ||
+      !isDesktop ||
       reduceMotion ||
       window.matchMedia('(prefers-reduced-motion: reduce)').matches
     ) {
@@ -115,7 +126,7 @@ export function SubsystemStage({ accentBase, reduceMotion }: SubsystemStageProps
     }
 
     return () => animations.forEach((animation) => animation.pause());
-  }, [activeIds, reduceMotion]);
+  }, [activeIds, isDesktop, reduceMotion]);
 
   return (
     <section id="phone-systems" className="relative border-b border-white/10 bg-[#0F172A] text-[#F1F5F9]">
@@ -129,7 +140,7 @@ export function SubsystemStage({ accentBase, reduceMotion }: SubsystemStageProps
           <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[#94A3B8]">
             {phoneV2Copy.mobileStage.eyebrow}
           </p>
-          <h2 className="mt-3 font-display text-[clamp(28px,5vw,52px)] font-bold uppercase leading-[0.92] tracking-[-0.04em]">
+          <h2 className="mt-3 font-display text-[clamp(28px,6vw,48px)] font-bold uppercase leading-[0.92] tracking-[-0.04em]">
             {phoneV2Copy.mobileStage.headline}
           </h2>
           <p className="mt-3 text-[15px] leading-[1.55] text-[#CBD5E1]">
@@ -164,9 +175,15 @@ export function SubsystemStage({ accentBase, reduceMotion }: SubsystemStageProps
                     >
                       {String(index + 1).padStart(2, '0')} / 07
                     </p>
-                    <h3 className="mt-4 max-w-[12ch] font-display text-[clamp(32px,4.8vw,68px)] font-extrabold uppercase leading-[0.9] tracking-[-0.05em] text-[#F1F5F9]">
+                    <TextReveal
+                      as="h3"
+                      split="words"
+                      trigger="scroll"
+                      className="mt-4 max-w-[12ch] font-display text-[clamp(34px,5vw,72px)] font-extrabold uppercase leading-[0.9] tracking-[-0.05em] text-[#F1F5F9]"
+                      disabled={!isDesktop}
+                    >
                       {section.title}
-                    </h3>
+                    </TextReveal>
                     <p className="mt-5 max-w-[34ch] text-[16px] leading-[1.6] text-[#CBD5E1]">
                       {section.description}
                     </p>
@@ -236,7 +253,7 @@ export function SubsystemStage({ accentBase, reduceMotion }: SubsystemStageProps
                 <p className="font-mono text-[10px] uppercase tracking-[0.24em]" style={{ color: section.accent }}>
                   {String(index + 1).padStart(2, '0')} / 07
                 </p>
-                <h3 className="mt-3 font-display text-[clamp(30px,6vw,44px)] font-extrabold uppercase leading-[0.92] tracking-[-0.04em]">
+                <h3 className="mt-3 font-display text-[clamp(28px,6vw,48px)] font-extrabold uppercase leading-[0.92] tracking-[-0.04em]">
                   {section.title}
                 </h3>
                 <p className="mt-3 text-[15px] leading-[1.55] text-[#CBD5E1]">{section.description}</p>

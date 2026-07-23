@@ -60,7 +60,7 @@ only and must never leak into `/`, `/projects`, `/pillars`, or any shared compon
 - **Role:** All headlines, section titles, and button labels. Always uppercase, tight negative tracking, sub-1.0 line height.
 - **Loaded via:** `next/font/google` in `app/layout.tsx`, exposed as `font-display`; substitute stack `system-ui, sans-serif`.
 - **Weights loaded:** 500, 600, 700, 800. This page uses **800 (extrabold)** for hero/loader/subsystem/final headlines, **700 (bold)** for toolbox/HUD/build-scope headings, **600 (semibold)** for button labels.
-- **Sizes used:** `clamp(48px,10vw,150px)` loader wordmark; `clamp(44px,7vw,100px)` hero; `clamp(40px,7vw,92px)` final CTA; `clamp(32px,4.8vw,68px)` subsystem titles; `clamp(30px,5vw,58px)` toolbox; `clamp(28px,4.8vw,56px)` build scope; `clamp(28px,3vw,42px)` HUD title; 13px buttons.
+- **Sizes used:** `clamp(48px,10vw,150px)` loader wordmark; `clamp(44px,7vw,100px)` hero and final CTA; `clamp(34px,5vw,72px)` subsystem titles; `clamp(28px,4.5vw,52px)` toolbox and build scope; `clamp(28px,6vw,48px)` mobile stage and card titles; `clamp(28px,3vw,42px)` HUD title; 13px buttons.
 
 ### Hanken Grotesk (body)
 
@@ -81,13 +81,13 @@ only and must never leak into `/`, `/projects`, `/pillars`, or any shared compon
 | Role | Size | Line Height | Letter Spacing | Token |
 |------|------|-------------|----------------|-------|
 | Loader wordmark | `clamp(48px,10vw,150px)` | 0.85 | -0.04em | `--phone-type-wordmark` |
-| Hero headline | `clamp(44px,7vw,100px)` | 0.88 | -0.05em | `--phone-type-hero` |
-| Final CTA headline | `clamp(40px,7vw,92px)` | 0.88 | -0.05em | `--phone-type-final` |
-| Subsystem title | `clamp(32px,4.8vw,68px)` | 0.9 | -0.05em | `--phone-type-subsystem` |
-| Toolbox headline | `clamp(30px,5vw,58px)` | 0.9 | -0.04em | `--phone-type-section` |
-| Build-scope headline | `clamp(28px,4.8vw,56px)` | 0.92 | -0.04em | `--phone-type-section-alt` |
-| Mobile stage headline | `clamp(28px,5vw,52px)` | 0.92 | -0.04em | `--phone-type-mobile-stage` |
-| Mobile card title | `clamp(30px,6vw,44px)` | 0.92 | -0.04em | `--phone-type-mobile-card` |
+| Hero headline (GSAP word-reveal, mount) | `clamp(44px,7vw,100px)` | 0.88 | -0.05em | `--phone-type-hero` |
+| Final CTA headline (GSAP word-reveal, scroll) | `clamp(44px,7vw,100px)` | 0.88 | -0.05em | `--phone-type-final` |
+| Subsystem title (GSAP word-reveal, scroll) | `clamp(34px,5vw,72px)` | 0.9 | -0.05em | `--phone-type-subsystem` |
+| Toolbox headline (GSAP line-reveal, scroll) | `clamp(28px,4.5vw,52px)` | 0.9 | -0.04em | `--phone-type-section` |
+| Build-scope headline (GSAP line-reveal, scroll) | `clamp(28px,4.5vw,52px)` | 0.92 | -0.04em | `--phone-type-section-alt` |
+| Mobile stage headline | `clamp(28px,6vw,48px)` | 0.92 | -0.04em | `--phone-type-mobile-stage` |
+| Mobile card title | `clamp(28px,6vw,48px)` | 0.92 | -0.04em | `--phone-type-mobile-card` |
 | HUD title | `clamp(28px,3vw,42px)` | 0.95 | -0.02em | `--phone-type-hud` |
 | Body large | 17px (md), 16px base | 1.6 | normal | `--phone-type-body-lg` |
 | Body | 15px | 1.55 | normal | `--phone-type-body` |
@@ -163,19 +163,19 @@ Pure line art: strokes `#94A3B8` (default part) or `#F1F5F9` (bright detail line
 
 **Role:** The single light-mode band — a deliberate inversion beat between the subsystem stage and the finale.
 
-Background `#F1F5F9`, text `#0F172A`, same 1360px grid (`[minmax(0,0.44fr)_minmax(0,0.56fr)]`, `py-16`). Eyebrow in `#475569`; headline `clamp(28px,4.8vw,56px)` bold; description `#334155` capped at 34ch. The right column is the light SpecCard variant (`dark={false}`) with the indigo `#818CF8` accent dot — subsystem accents do not appear here.
+Background `#F1F5F9`, text `#0F172A`, same 1360px grid (`[minmax(0,0.44fr)_minmax(0,0.56fr)]`, `py-16`). Eyebrow in `#475569`; headline `clamp(28px,4.5vw,52px)` bold; description `#334155` capped at 34ch. The right column is the light SpecCard variant (`dark={false}`) with the indigo `#818CF8` accent dot — subsystem accents do not appear here.
 
 ### FinalCta
 
 **Role:** Reassembly finale — the phone snaps back together as the join pitch lands.
 
-Dark section (`py-20`) with corner glows: indigo `rgba(129,140,248,0.16)` at 25% 25%, green `rgba(74,222,128,0.10)` at 80% 75%. Grid `[minmax(0,0.52fr)_minmax(0,0.48fr)]`. Headline `clamp(40px,7vw,92px)` extrabold capped at 12ch. Three CTAs: primary solid indigo (as hero), secondary ghost, tertiary ghost without background fill whose text brightens `#CBD5E1`→`#F1F5F9` on hover. A mono 11px `#94A3B8` support line carries meeting/Discord facts from `lib/data`. The schematic (max-w-[760px], progress 0.86, no active parts) starts exploded; when the section is ≥35% visible, an IntersectionObserver fires a one-shot timeline animating every `[data-phone-part]` to translate 0 / rotate 0 / scale 1 / opacity 1 over 1050ms `inOut(3)`, staggered 45ms from center. Under reduced motion it renders assembled immediately.
+Dark section (`py-20`) with corner glows: indigo `rgba(129,140,248,0.16)` at 25% 25%, green `rgba(74,222,128,0.10)` at 80% 75%. Grid `[minmax(0,0.52fr)_minmax(0,0.48fr)]`. Headline `clamp(44px,7vw,100px)` extrabold capped at 12ch. Three CTAs: primary solid indigo (as hero), secondary ghost, tertiary ghost without background fill whose text brightens `#CBD5E1`→`#F1F5F9` on hover. A mono 11px `#94A3B8` support line carries meeting/Discord facts from `lib/data`. The schematic (max-w-[760px], progress 0.86, no active parts) starts exploded; when the section is ≥35% visible, an IntersectionObserver fires a one-shot timeline animating every `[data-phone-part]` to translate 0 / rotate 0 / scale 1 / opacity 1 over 1050ms `inOut(3)`, staggered 45ms from center. Under reduced motion the final schematic renders assembled after the preference state is detected.
 
 ### Mobile stage variant
 
 **Role:** Below `md` (768px), the pinned scrollytelling collapses into a stacked card list.
 
-An intro block (eyebrow / `clamp(28px,5vw,52px)` headline / description, from `phoneV2Copy.mobileStage`) precedes seven cards, each `rounded-[10px] border-white/10 bg-white/[0.03] p-4`: a mobile schematic (5 parts, progress 0.42, max-w-[420px], section accent) above the accent-colored index, `clamp(30px,6vw,44px)` title, description, accent-dotted bullets (`tracking-[0.16em]`), and a collapsed dark SpecCard. No pinning, no scroll-driven animation.
+An intro block (eyebrow / `clamp(28px,6vw,48px)` headline / description, from `phoneV2Copy.mobileStage`) precedes seven cards, each `rounded-[10px] border-white/10 bg-white/[0.03] p-4`: a mobile schematic (5 parts, progress 0.42, max-w-[420px], section accent) above the accent-colored index, `clamp(28px,6vw,48px)` title, description, accent-dotted bullets (`tracking-[0.16em]`), and a collapsed dark SpecCard. No pinning or scroll-driven anime.js/GSAP timelines initialize below 768px.
 
 ### EscapeHatch
 
@@ -188,14 +188,25 @@ Fixed at `left-6 top-6`, `z-50`, DM Mono 11px uppercase `tracking-[0.2em]`. Rend
 ## Motion & Interaction
 
 - **Library:** anime.js (`animate`, `createTimeline`, `stagger`, `svg.createDrawable`, `onScroll` from `'animejs'`). Supplemented by Tailwind CSS transitions.
+- **Text reveals (GSAP, added 2026-07):** hero headline/subline, toolbox headline, build-scope
+  headline, subsystem titles, and the final-CTA headline animate via `components/motion/TextReveal`
+  (GSAP `SplitText` + `ScrollTrigger`, registered once in `components/motion/gsapSetup.ts`).
+  Word/line targets animate `yPercent: 110 → 0`, `opacity: 0 → 1`, 900ms `power3.out` — chosen
+  as GSAP's named equivalent to anime.js's `out(3)` curve, keeping this addition inside the
+  page's existing easing family per the Don't rule below. Hero elements use
+  `trigger="mount"` but remain disabled until the loader is dismissed; everything below the fold triggers once on scroll-enter
+  (`ScrollTrigger` `start: 'top 85%'`, `once: true`). GSAP and anime.js never target the same
+  DOM node — GSAP owns text spans inside headlines; anime.js continues to own the schematic
+  SVG parts, loader, and scroll-scrub timeline untouched. Under `prefers-reduced-motion`,
+  `TextReveal` skips `SplitText` entirely and renders plain text.
 - **Signature easings:** `out(3)` for nearly all entrances/fades; `inOut(3)` for the reassembly; `linear` for the scroll-scrub timeline; CSS `ease-out` for hover/opacity transitions.
 - **Loader timing:** timeline defaults 620ms `out(3)`. Draw-on of 4 outline groups: 900ms, stagger 70ms, from t=0. Wordmark: opacity 0→1, y 12→0, 420ms at t=120ms. Tagline: y 8→0, 360ms at t=240ms. Scrubber: 360ms at t=280ms. Skip fade: 220ms. Root settle pulse after dismiss: opacity 0.96→1, 220ms.
-- **Scroll pin/scrub:** SubsystemStage pins its right column with CSS `sticky top-0 h-[100svh]` inside a `md:min-h-[700svh]` track. An anime timeline with `autoplay: onScroll({ enter: 'top top', leave: 'bottom bottom', sync: true })` and one `sections.length × 1000`ms segment converts progress into a discrete `activeIndex` (`Math.floor(p × 7)`, clamped). Note: the `onUpdate` handler normalizes progress that may arrive as 0–100 (`self.progress > 1 ? self.progress / 100 : self.progress`).
+- **Scroll pin/scrub:** On desktop only, SubsystemStage pins its right column with CSS `sticky top-0 h-[100svh]` inside a `md:min-h-[700svh]` track. An anime timeline with `autoplay: onScroll({ enter: 'top top', leave: 'bottom bottom', sync: true })` and one `sections.length × 1000`ms segment converts progress into a discrete `activeIndex` (`Math.floor(p × 7)`, clamped). The breakpoint gate uses `(min-width: 768px)` and initializes in `useLayoutEffect`, so no hidden desktop timeline runs on mobile. Note: the `onUpdate` handler normalizes progress that may arrive as 0–100 (`self.progress > 1 ? self.progress / 100 : self.progress`).
 - **Subsystem transitions:** on index change — active SVG parts opacity 0.65→1, 640ms `out(3)`, stagger 40ms; inactive parts 0.9→0.58, 520ms `out(3)`, stagger 18ms; text articles cross-fade via inline opacity (1 / 0.48 upcoming / 0.34 past) with 700ms ease-out on content; part glow/opacity CSS transition 420ms ease-out; scrubber ticks 300ms ease-out.
 - **Reassembly (FinalCta):** IntersectionObserver threshold 0.35, one-shot; all parts to identity transform, 1050ms `inOut(3)`, stagger 45ms from center.
 - **Hover:** primary CTA `-translate-y-0.5` lift, 200ms ease-out; ghost buttons border/background color shift, 200ms ease-out. Focus: 2px `#818CF8` ring with 2px offset against `#0F172A`.
 - **Breakpoint behavior:** the desktop/mobile split is Tailwind `md:` — **768px** (the project defines no custom `screens`; no 820px value exists in this code). Below 768px: the subsystem stage swaps to stacked cards, the hero scrubber hides, and schematics render the 5-part mobile subset.
-- **prefers-reduced-motion:** tracked live via `matchMedia` in PhoneV2Experience and re-checked defensively in stage/CTA effects. When set: the loader never mounts (immediate `onComplete`), the subsystem stage drops `min-h` pinning and the scroll timeline (activeIndex stays 0, all 14 parts shown, articles fully opaque, accents shown per-section statically), part animations are skipped, and the final phone renders assembled with no timeline.
+- **prefers-reduced-motion:** tracked live via `matchMedia` in PhoneV2Experience and re-checked defensively in stage/CTA effects. When detected: the loader is dismissed before its timeline initializes; `TextReveal` leaves semantic text unsplit; the desktop subsystem stage drops `min-h` pinning and its scroll timeline (activeIndex stays 0, all 14 desktop schematic parts are shown, articles remain fully opaque, and accents stay static); mobile cards retain their five-part schematic subset; part animations are skipped; and the final phone renders assembled with no timeline.
 
 ---
 
@@ -209,8 +220,9 @@ Fixed at `left-6 top-6`, `z-50`, DM Mono 11px uppercase `tracking-[0.2em]`. Rend
 - Keep display type uppercase Archivo with negative tracking (-0.02em to -0.05em) and sub-1.0 leading; keep all technical labels DM Mono uppercase at 10–11px with 0.16–0.28em tracking.
 - Draw all new schematic geometry as stroke-only line art in `#94A3B8`/`#F1F5F9` with `vectorEffect="non-scaling-stroke"`, reserving fills for accent micro-dots.
 - Route every user-facing string through `lib/data/phoneV2.ts` — never hard-code copy in components.
-- Preserve the full reduced-motion path (no loader, no pinning, assembled phone, all parts visible) for any new animated element.
+- Preserve the full reduced-motion path (no loader, no pinning, assembled final phone, all 14 desktop schematic parts or the five-part mobile subset visible) for any new animated element.
 - Use `out(3)` for entrances and `inOut(3)` for large assembly moves to stay in the page's motion voice.
+- Use `power3.out` for any new GSAP text reveal — it is this page's anime.js `out(3)` curve, ported to GSAP's naming, staying inside the documented easing family.
 
 ### Don't
 
@@ -221,7 +233,7 @@ Fixed at `left-6 top-6`, `z-50`, DM Mono 11px uppercase `tracking-[0.2em]`. Rend
 - Don't add photography, textures, or filled illustrations; the wireframe schematic is the page's only imagery.
 - Don't use subsystem accents for body text, headings, or button fills — they are dots, index labels, and strokes only.
 - Don't exceed the copy measure caps (34–46ch) or let headlines run wider than ~12ch on the big beats.
-- Don't introduce a new easing curve, spring, or duration regime outside the 200–1050ms `ease-out` / `out(3)` / `inOut(3)` family.
+- Don't introduce a new easing curve, spring, or duration regime outside the 200–1050ms `ease-out` / `out(3)` / `inOut(3)` (anime.js) / `power3.out` (GSAP text only) family.
 
 ---
 
@@ -283,7 +295,7 @@ The page has **no photographs, icon sets, or raster assets**. Its only imagery i
 1. **SpecCard:** "Build an `<aside>` on `#1E293B` with `border-white/10`, `rounded-[10px]`, `p-5`, shadow `0 16px 40px rgba(2,6,23,0.16)`. Top row: an 8px accent dot beside a DM Mono 10px uppercase heading at `tracking-[0.24em]` in `#94A3B8`, then an optional 14px lead in `#F1F5F9`. Below, stack `rounded` chips (`border-white/10 bg-white/[0.02]`, `px-3 py-2`) holding DM Mono 11px uppercase `tracking-[0.18em]` `#CBD5E1` spec lines."
 2. **Primary CTA:** "A Next.js `Link` with `bg-[#818CF8]`, text `#0F172A`, `rounded-[4px]`, `px-5 py-3`, Archivo (`font-display`) 13px semibold uppercase `tracking-[0.04em]`; hover `-translate-y-0.5` over 200ms ease-out; `focus-visible` 2px `#818CF8` ring with 2px offset against `#0F172A`."
 3. **TickScrubber:** "A `pointer-events-none` right-aligned cluster: seven 8px `rounded-full` ticks (6px in compact mode), `#F1F5F9` when index ≤ active, `#94A3B8/45` otherwise, 300ms ease-out transitions; beneath, a DM Mono 10px uppercase `tracking-[0.24em]` label in `#F1F5F9` with an optional `#94A3B8` detail line; `role='img'` with a combined aria-label."
-4. **Subsystem beat (desktop):** "A `min-h-[100svh]` flex-centered article: mono 10px `tracking-[0.24em]` index `NN / 07` colored with the section accent when active (else `#94A3B8`); Archivo extrabold uppercase title `clamp(32px,4.8vw,68px)`, leading 0.9, tracking -0.05em, max 12ch; 16px `#CBD5E1` description max 34ch; bullets with 6px accent dots in mono 11px `tracking-[0.18em]`. Inactive articles dim to opacity 0.48 (upcoming) / 0.34 (past)."
+4. **Subsystem beat (desktop):** "A `min-h-[100svh]` flex-centered article: mono 10px `tracking-[0.24em]` index `NN / 07` colored with the section accent when active (else `#94A3B8`); Archivo extrabold uppercase title `clamp(34px,5vw,72px)`, leading 0.9, tracking -0.05em, max 12ch; 16px `#CBD5E1` description max 34ch; bullets with 6px accent dots in mono 11px `tracking-[0.18em]`. Inactive articles dim to opacity 0.48 (upcoming) / 0.34 (past)."
 5. **Hero glow layer:** "An absolute-inset backdrop on `#0F172A`: `radial-gradient(circle at 70% 30%, rgba(129,140,248,0.13), transparent 28%), radial-gradient(circle at 20% 80%, rgba(74,222,128,0.08), transparent 24%)` — no other decoration."
 
 ---
@@ -291,6 +303,19 @@ The page has **no photographs, icon sets, or raster assets**. Its only imagery i
 ## Scale Philosophy
 
 The type scale is **viewport-fluid at the top, fixed at the bottom**. Every display size is a `clamp(min, vw, max)` expression tuned per beat (150px loader wordmark down to 42px HUD title), so headlines scale continuously with the viewport instead of stepping at breakpoints — the *only* structural breakpoint is layout (`md`), never type size. Body and label sizes are pinned pixels (17/16/15/14/13/11/10) so spec text reads like fixed instrument labeling at any width. Hierarchy is carried by three coupled axes that move together: as size grows, tracking goes more negative (-0.02em → -0.05em) and leading drops (0.95 → 0.85); as size shrinks into mono-label territory, tracking widens dramatically (0.16em → 0.28em). Agents must not: convert clamps to breakpoint-stepped sizes, add intermediate display sizes, loosen the negative tracking on display type, apply wide mono tracking to Archivo (or vice versa), or introduce sizes outside the pinned pixel set for labels and body copy.
+
+**2026-07 revision:** the section-headline register (formerly five near-distinct clamps
+between 28–58px: HUD title, mobile stage, mobile card, toolbox, build-scope) is deliberately
+collapsed to three exact values: subsystem titles (largest, `clamp(34px,5vw,72px)`, the
+page's most-repeated story beat), one shared section size for Toolbox/Build-Scope
+(`clamp(28px,4.5vw,52px)`), and one shared mobile-headline size
+(`clamp(28px,6vw,48px)`). Hero and Final-CTA headlines are unified to the same
+`clamp(44px,7vw,100px)` as an intentional bookend — the page's opening promise and closing
+invitation now read at the same scale. Do not reintroduce a distinct clamp for a new section
+headline without first checking whether it belongs to one of these three registers.
+Whisper-weight (300) was considered per the general brand direction but rejected for this
+page: no weight lighter than 500 is loaded, and the bold/extrabold uppercase register is this
+page's established identity (see Do's below), not an oversight to fix.
 
 ---
 
@@ -324,12 +349,12 @@ The type scale is **viewport-fluid at the top, fixed at the bottom**. Every disp
   /* Type scale */
   --phone-type-wordmark: clamp(48px, 10vw, 150px);
   --phone-type-hero: clamp(44px, 7vw, 100px);
-  --phone-type-final: clamp(40px, 7vw, 92px);
-  --phone-type-subsystem: clamp(32px, 4.8vw, 68px);
-  --phone-type-section: clamp(30px, 5vw, 58px);
-  --phone-type-section-alt: clamp(28px, 4.8vw, 56px);
-  --phone-type-mobile-stage: clamp(28px, 5vw, 52px);
-  --phone-type-mobile-card: clamp(30px, 6vw, 44px);
+  --phone-type-final: clamp(44px, 7vw, 100px);
+  --phone-type-subsystem: clamp(34px, 5vw, 72px);
+  --phone-type-section: clamp(28px, 4.5vw, 52px);
+  --phone-type-section-alt: clamp(28px, 4.5vw, 52px);
+  --phone-type-mobile-stage: clamp(28px, 6vw, 48px);
+  --phone-type-mobile-card: clamp(28px, 6vw, 48px);
   --phone-type-hud: clamp(28px, 3vw, 42px);
   --phone-type-body-lg: 16px; /* 17px at >= 768px (hero subline) */
   --phone-type-body: 15px;

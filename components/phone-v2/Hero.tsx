@@ -1,13 +1,15 @@
 import Link from 'next/link';
+import { TextReveal } from '@/components/motion/TextReveal';
 import { PhoneSchematicSvg } from './PhoneSchematicSvg';
 import { phoneV2Copy } from '@/lib/data/phoneV2';
 import { TickScrubber } from './TickScrubber';
 
 export interface HeroProps {
   readonly accent: string;
+  readonly revealReady: boolean;
 }
 
-export function Hero({ accent }: HeroProps) {
+export function Hero({ accent, revealReady }: HeroProps) {
   return (
     <section className="relative overflow-hidden border-b border-white/10 bg-[#0F172A] text-[#F1F5F9]">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(129,140,248,0.13),transparent_28%),radial-gradient(circle_at_20%_80%,rgba(74,222,128,0.08),transparent_24%)]" />
@@ -17,15 +19,30 @@ export function Hero({ accent }: HeroProps) {
             {phoneV2Copy.hero.eyebrow}
           </p>
           <h1 className="mt-6 font-display text-[clamp(44px,7vw,100px)] font-extrabold uppercase leading-[0.88] tracking-[-0.05em] text-[#F1F5F9]">
-            {phoneV2Copy.hero.headline.map((line) => (
-              <span key={line} className="block">
+            {phoneV2Copy.hero.headline.map((line, index) => (
+              <TextReveal
+                key={line}
+                as="span"
+                split="words"
+                trigger="mount"
+                delay={index * 0.12}
+                className="block"
+                disabled={!revealReady}
+              >
                 {line}
-              </span>
+              </TextReveal>
             ))}
           </h1>
-          <p className="mt-6 max-w-[34ch] text-[16px] leading-[1.6] text-[#CBD5E1] md:text-[17px]">
+          <TextReveal
+            as="p"
+            split="lines"
+            trigger="mount"
+            delay={0.4}
+            className="mt-6 max-w-[34ch] text-[16px] leading-[1.6] text-[#CBD5E1] md:text-[17px]"
+            disabled={!revealReady}
+          >
             {phoneV2Copy.hero.subline}
-          </p>
+          </TextReveal>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
               href="#phone-toolbox"
@@ -64,4 +81,3 @@ export function Hero({ accent }: HeroProps) {
     </section>
   );
 }
-
