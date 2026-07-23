@@ -4,7 +4,7 @@
 
 **Theme:** light (with full-bleed dark bands)
 
-The home landing (`/`) is a warm editorial system, deliberately isolated from the root `DESIGN.md` industrial-studio kit. It reads like a letterpress broadsheet crossed with an engineering logbook: a soft parchment page (`#F7F6F2`), near-black green-tinted ink (`#111311`), and two reserved accents — forest green (`#1E4D2B`) for hover states and pathway titles, and harvest gold (`#C28E0E`) for the loader bar, glyph marks, and the single primary CTA on the dark join band. Newsreader serif carries every headline at medium weight; IBM Plex Mono carries every label, eyebrow, nav item, and button in tightly letter-spaced micro sizes; IBM Plex Sans carries body copy. Structure is drawn, not shaded: hairline rgba borders, ✳-star section dividers, `+` crosshair registration marks, and diagonal-stripe placeholder plates. Depth comes from full-bleed inversions to near-black (`#0A0C0A`) rather than shadows. Motion is a single gesture — rise 18px, fade in — orchestrated by a loader curtain and an IntersectionObserver.
+The home landing (`/`) is a warm editorial system, deliberately isolated from the root `DESIGN.md` industrial-studio kit. It reads like a letterpress broadsheet crossed with an engineering logbook: a soft parchment page (`#F7F6F2`), near-black green-tinted ink (`#111311`), and two reserved accents — forest green (`#1E4D2B`) for hover states and pathway titles, and harvest gold (`#C28E0E`) for the loader bar, glyph marks, and the single primary CTA on the dark join band. Newsreader serif carries the opening promise and closing invitation; IBM Plex Sans carries proof-section headings and body copy; IBM Plex Mono carries every label, eyebrow, nav item, and button in tightly letter-spaced micro sizes. Structure is drawn, not shaded: hairline rgba borders, ✳-star section dividers, `+` crosshair registration marks, and diagonal-stripe placeholder plates. Depth comes from full-bleed inversions to near-black (`#0A0C0A`) rather than shadows. Motion is a single gesture — rise 18px, fade in — orchestrated by a loader curtain and an IntersectionObserver.
 
 All copy, links, and the loader duration live in `lib/data/homeLanding.ts` (`homeLandingCopy`). Never inline copy into components.
 
@@ -38,11 +38,16 @@ Cream-derived hairlines (dark sections) — always `rgba(242,240,232, α)`: `.12
 
 ### Newsreader (serif) — `--font-home-serif`
 
-The voice of the page. Every `h1`/`h2` headline and the large stat numerals. Loaded via `next/font/google` in `app/page.tsx` with weights **400, 500, 600**; headings render at **500 (medium)** with an occasional **600 (semibold)** inline span for emphasis (e.g. "Smartphone Project"). Substitute if unavailable: any high-contrast text serif (e.g. Source Serif), never a display slab.
+Reserved for exactly two moments: the Hero headline (the page's promise) and the Join
+heading (the closing invitation, which restates the promise at the same scale) — plus the
+large stat numerals. Thesis, Pathways, and Results headings moved to IBM Plex Sans in the
+2026-07 revision; see Scale Philosophy. Loaded via `next/font/google` in `app/page.tsx` with
+weights **400, 500, 600**. Substitute if unavailable: any high-contrast text serif (e.g.
+Source Serif), never a display slab.
 
 ### IBM Plex Sans — `--font-home-sans`
 
-Workhorse body text; the `.home-landing` root `font-family`. Weights **400, 500, 600**. Card titles use **600** at 14px; body paragraphs use **400** at 12–13px with generous 1.7–1.75 line height.
+Workhorse body text; the `.home-landing` root `font-family`. Weights **400, 500, 600**. Card titles use **600** at 14px; body paragraphs use **400** at 12–13px with generous 1.7–1.75 line height. Since the 2026-07 revision, the Thesis, Pathways, and Results section headings also use **600 (semibold)** at `clamp(26px,3.4vw,42px)` — the "proof" register, distinct from Newsreader's "promise" register.
 
 ### IBM Plex Mono — `--font-home-mono`
 
@@ -53,10 +58,10 @@ The annotation layer: loader, nav, eyebrows, buttons, kickers, stat labels, foot
 | Role | Size | Line Height | Letter Spacing | Token |
 |---|---|---|---|---|
 | Hero headline (serif 500) | `clamp(34px,5vw,58px)` | 1.14 | −0.01em | `--dg-type-hero` |
-| Join heading (serif 500) | `clamp(28px,3.6vw,46px)` | 1.2 | normal | `--dg-type-join` |
-| Results heading (serif 500) | `clamp(26px,3.2vw,40px)` | 1.2 | normal | `--dg-type-results` |
-| Thesis heading (serif 500) | `clamp(26px,3vw,38px)` | 1.25 | normal | `--dg-type-thesis` |
-| Pathways heading (serif 500) | `clamp(24px,3vw,36px)` | 1.3 | normal | `--dg-type-pathways` |
+| Join heading (serif 500) | `clamp(34px,5vw,58px)` | 1.14 | −0.01em | `--dg-type-join` |
+| Results heading (sans 600) | `clamp(26px,3.4vw,42px)` | 1.2 | normal | `--dg-type-results` |
+| Thesis heading (sans 600) | `clamp(26px,3.4vw,42px)` | 1.2 | normal | `--dg-type-thesis` |
+| Pathways heading (sans 600) | `clamp(26px,3.4vw,42px)` | 1.2 | normal | `--dg-type-pathways` |
 | Loader wordmark (mono 500) | `clamp(30px,4.5vw,44px)` | normal | .42em (+matching text-indent) | `--dg-type-loader` |
 | Stat numeral (serif 500) | 24px (`text-2xl`) | Tailwind default | normal | `--dg-type-stat` |
 | Card title (sans 600) | 14px | normal | .02em | `--dg-type-card-title` |
@@ -121,22 +126,22 @@ Centered header, top padding `clamp(48px,8vh,90px)`. H1 in Newsreader 500 `clamp
 ### Thesis Gap Cards
 
 **Role:** The argument — three "gaps" stacked beside a serif thesis, on the first dark band.
-Full-bleed `#0A0C0A` section, cream text. Split grid `repeat(auto-fit,minmax(min(100%,380px),1fr))` with `rgba(242,240,232,.12)` rules between and around. Left cell: eyebrow (mono 10px uppercase /.24em `#8B948C`) over a Newsreader 500 heading `clamp(26px,3vw,38px)`/1.25 in `#F2F0E8`, max 420px. Right column: three rows, each `border-b rgba(242,240,232,.12)`, padded `clamp(24px,3.5vw,44px)` × `clamp(24px,3vw,36px)`, hover background `#111511`. Each row: a 26px square chip (`rounded-[3px]`, border `rgba(242,240,232,.3)`) holding a gold `#C28E0E` mono glyph (⌗ ⊞ ⇄, from data), a 14px semibold /.02em title in `#F2F0E8`, and 12.5px/1.7 body in `#8B948C` max 460px. The band is bookended by inline star-divider rows (18px gap, 18px/10px padding).
+Full-bleed `#0A0C0A` section, cream text. Split grid `repeat(auto-fit,minmax(min(100%,380px),1fr))` with `rgba(242,240,232,.12)` rules between and around. Left cell: eyebrow (mono 10px uppercase /.24em `#8B948C`) over an IBM Plex Sans 600 heading `clamp(26px,3.4vw,42px)`/1.2 in `#F2F0E8`, max 420px. Right column: three rows, each `border-b rgba(242,240,232,.12)`, padded `clamp(24px,3.5vw,44px)` × `clamp(24px,3vw,36px)`, hover background `#111511`. Each row: a 26px square chip (`rounded-[3px]`, border `rgba(242,240,232,.3)`) holding a gold `#C28E0E` mono glyph (⌗ ⊞ ⇄, from data), a 14px semibold /.02em title in `#F2F0E8`, and 12.5px/1.7 body in `#8B948C` max 460px. The band is bookended by inline star-divider rows (18px gap, 18px/10px padding).
 
 ### Pathways Way Cards
 
 **Role:** Two engagement modes presented as twin specimen cards under a drafted "org chart" connector.
-Light section, centered, `py clamp(64px,10vh,110px)`. Eyebrow + Newsreader heading `clamp(24px,3vw,36px)`/1.3 max 640px (with a 600-weight span). Connector diagram: a 34px vertical 1px line at `.3` ink topped by a `+` (mono 12px, `.5` ink), then a `min(340px,70%)` horizontal 1px line with 26px vertical ticks at each end. Cards: `min(300px,86vw)` wide, background `#FCFBF8`, border `rgba(17,19,17,.15)` (hover `.4`), square corners, padding `34px 26px`, centered column with 14px gap. Inside: 34px glyph chip (`rounded-[4px]`, border `.25` ink, mono 15px `#111311`), title 14px semibold /.02em in **forest green `#1E4D2B`**, body 12px/1.75 `#5A615B`. Section ends with the same solid-ink CTA block as the hero.
+Light section, centered, `py clamp(64px,10vh,110px)`. Eyebrow + IBM Plex Sans 600 heading `clamp(26px,3.4vw,42px)`/1.2 max 640px, sourced from `homeLandingCopy.pathways.heading`. Connector diagram: a 34px vertical 1px line at `.3` ink topped by a `+` (mono 12px, `.5` ink), then a `min(340px,70%)` horizontal 1px line with 26px vertical ticks at each end. Cards: `min(300px,86vw)` wide, background `#FCFBF8`, border `rgba(17,19,17,.15)` (hover `.4`), square corners, padding `34px 26px`, centered column with 14px gap. Inside: 34px glyph chip (`rounded-[4px]`, border `.25` ink, mono 15px `#111311`), title 14px semibold /.02em in **forest green `#1E4D2B`**, body 12px/1.75 `#5A615B`. Section ends with the same solid-ink CTA block as the hero.
 
 ### Build Record / Results Cards
 
 **Role:** Horizontal-scrolling case-study ledger pairing a striped photo plate with a data card.
-Light section, left-aligned eyebrow and Newsreader heading `clamp(26px,3.2vw,40px)`/1.2. Row: `flex gap-[22px] overflow-x-auto pb-4`; each case is a flex-none pair with 14px internal gap. Image plate: `clamp(160px,18vw,220px)` wide, `rounded-[10px]`, striped background, border `.12` ink, centered mono caption 9px/1.8/.14em at `.45` ink in `[ BRACKETS ]`. Card: `min(520px,78vw)`, `rounded-[8px]`, `#FCFBF8`, border `.15` ink (hover `.35`); the whole card is a `Link`. Internal rows separated by `.12` ink hairlines: header (28px glyph chip + kicker 9px uppercase /.16em `#5A615B` + 16px semibold title), summary line 12.5px, a 3-column stat grid (`.12` ink column rules; serif 500 24px numeral over 8.5px uppercase /.14em label), and a "Learnings" footer (8.5px/.16em label + 12px/1.8 lines).
+Light section, left-aligned eyebrow and IBM Plex Sans 600 heading `clamp(26px,3.4vw,42px)`/1.2. Row: `flex gap-[22px] overflow-x-auto pb-4`; each case is a flex-none pair with 14px internal gap. Image plate: `clamp(160px,18vw,220px)` wide, `rounded-[10px]`, striped background, border `.12` ink, centered mono caption 9px/1.8/.14em at `.45` ink in `[ BRACKETS ]`. Card: `min(520px,78vw)`, `rounded-[8px]`, `#FCFBF8`, border `.15` ink (hover `.35`); the whole card is a `Link`. Internal rows separated by `.12` ink hairlines: header (28px glyph chip + kicker 9px uppercase /.16em `#5A615B` + 16px semibold title), summary line 12.5px, a 3-column stat grid (`.12` ink column rules; serif 500 24px numeral over 8.5px uppercase /.14em label), and a "Learnings" footer (8.5px/.16em label + 12px/1.8 lines).
 
 ### Join CTA Band
 
 **Role:** The close — second dark band, and the only place gold becomes a button.
-`#0A0C0A`, centered, `py clamp(80px,13vh,140px)`. Newsreader 500 heading `clamp(28px,3.6vw,46px)`/1.2 `#F2F0E8` max 640px; body 13px/1.75 `#8B948C` max 460px. Two CTAs, 14px gap: primary — solid gold `#C28E0E`, `rounded-[2px]`, `px-[26px] py-3`, mono 10.5px/.12em text in `#0A0C0A`, hover `#D8A62A`; secondary — transparent with border `rgba(242,240,232,.3)` and `#F2F0E8` text, hover border **and** text turn gold `#C28E0E`.
+`#0A0C0A`, centered, `py clamp(80px,13vh,140px)`. Newsreader 500 heading `clamp(34px,5vw,58px)`/1.14/−0.01em `#F2F0E8` max 640px; body 13px/1.75 `#8B948C` max 460px. Two CTAs, 14px gap: primary — solid gold `#C28E0E`, `rounded-[2px]`, `px-[26px] py-3`, mono 10.5px/.12em text in `#0A0C0A`, hover `#D8A62A`; secondary — transparent with border `rgba(242,240,232,.3)` and `#F2F0E8` text, hover border **and** text turn gold `#C28E0E`.
 
 ### Footer
 
@@ -162,7 +167,7 @@ Four variants, all `rounded-[2px]` with mono 10–10.5px /.12em labels: (1) **In
 
 ### Do
 
-- Keep every headline in Newsreader at weight 500 — reserve 600 for a single inline emphasis span.
+- Keep Newsreader 500 for the Hero and Join promise register; use IBM Plex Sans 600 for Thesis, Pathways, and Results proof headings.
 - Set every label, button, eyebrow, and caption in IBM Plex Mono with its prescribed tracking; wide letter-spacing is the system's texture.
 - Draw structure with 1px rgba-of-ink (or rgba-of-cream on dark) hairlines; add a border before you ever consider a shadow.
 - Use the ✳ star divider between light sections and its dark inline variant to bookend dark bands.
@@ -179,7 +184,7 @@ Four variants, all `rounded-[2px]` with mono 10–10.5px /.12em labels: (1) **In
 - Don't use gold for body text, backgrounds, or borders at rest, and don't introduce new accent hues.
 - Don't set buttons in sans or serif, enlarge CTA type past 10.5px, or drop the .12em tracking.
 - Don't animate anything except opacity and translateY, and never re-trigger a reveal on scroll-up.
-- Don't uppercase serif headings or tighten their tracking beyond the hero's −0.01em.
+- Don't uppercase display headings or tighten Newsreader tracking beyond the Hero/Join −0.01em.
 - Don't replace the striped placeholder plates with unframed photography — imagery must sit inside the drafted frames.
 
 ## Surfaces
@@ -219,13 +224,22 @@ Example Component Prompts:
 
 1. "Add a new gap row to the thesis band: border-b `rgba(242,240,232,.12)`, padding `clamp(24px,3.5vw,44px)` x `clamp(24px,3vw,36px)`, hover bg `#111511`; a 26px `rounded-[3px]` chip with `rgba(242,240,232,.3)` border holding a gold `#C28E0E` IBM Plex Mono glyph; title 14px semibold tracking .02em `#F2F0E8`; body 12.5px leading 1.7 `#8B948C` max-w 460px. Copy goes in `homeLandingCopy.thesis.gaps`, and the row gets `data-reveal` with a delay continuing the `120 + index * 110` stagger."
 2. "Create a third pathways card: `min(300px,86vw)` wide, bg `#FCFBF8`, square corners, border `rgba(17,19,17,.15)` hover `.4`, padding `34px 26px`, centered column gap 14px; 34px `rounded-[4px]` glyph chip (border `.25` ink, mono 15px `#111311`); title 14px semibold `#1E4D2B`; body 12px leading 1.75 `#5A615B`. Add the copy object to `homeLandingCopy.pathways.ways`."
-3. "Add a section eyebrow + heading: eyebrow in IBM Plex Mono 10px uppercase tracking .24em (`#5A615B` on light, `#8B948C` on dark) with `data-reveal`; heading in Newsreader weight 500, `clamp(26px,3vw,38px)`, leading 1.2–1.3, wrapped in an `overflow-hidden` div, with `data-reveal data-reveal-delay='110'`."
+3. "Add a proof-section eyebrow + heading: eyebrow in IBM Plex Mono 10px uppercase tracking .24em (`#5A615B` on light, `#8B948C` on dark) with `data-reveal`; heading in IBM Plex Sans 600, `clamp(26px,3.4vw,42px)`, leading 1.2, wrapped in an `overflow-hidden` div, with `data-reveal data-reveal-delay='110'`."
 4. "Add a CTA pair to a dark band: primary `rounded-[2px]` bg `#C28E0E` text `#0A0C0A` px-[26px] py-3 mono 10.5px tracking .12em hover `#D8A62A`; secondary transparent, border `rgba(242,240,232,.3)`, text `#F2F0E8`, hover border and text `#C28E0E`; wrap both in a flex row gap-[14px] with `data-reveal data-reveal-delay='200'`."
 5. "Insert a light section divider between two sections: flex row, padding 14px 18px, gap 18px, four ✳ stars (mono 11px, `rgba(17,19,17,.5)`) alternating with 1px flex-1 lines (`rgba(17,19,17,.25)`), `aria-hidden='true'` — i.e. reuse the `Divider` component in `HomeLanding.tsx`."
 
 ## Scale Philosophy
 
-The scale is a deliberate two-pole system with a hollowed-out middle. At one pole, fluid serif headlines (`clamp()` ranges topping out at 36–58px) do all the emotional work; at the other, a dense ladder of mono micro-sizes (8.5 → 13px, differentiated by half-point steps and tracking) does all the informational work. Sans body copy occupies a narrow 12–13px band between them. There is almost no "medium" type — no 18–22px subheads — and that absence is the point: the page reads as proclamation plus annotation. An agent must not flatten this: do not introduce intermediate sizes, do not bump micro labels up "for readability" (raise contrast or tracking instead), do not convert clamps to fixed pixels, and do not let any mono label exceed 13px or any serif heading fall below its clamp minimum. When adding a new text role, adopt the nearest existing row of the type-scale table rather than inventing a size.
+The scale is a deliberate three-register system with a hollowed-out middle. Newsreader at `clamp(34px,5vw,58px)` states the opening promise and closing invitation. IBM Plex Sans 600 at `clamp(26px,3.4vw,42px)` carries every proof-section heading. A dense ladder of mono micro-sizes (8.5 → 13px, differentiated by half-point steps and tracking) carries the informational layer, while sans body copy stays within 12–13px. There is no 18–22px subhead tier: the page reads as promise, proof, and annotation. An agent must not flatten this: do not introduce intermediate sizes, bump micro labels up "for readability" (raise contrast or tracking instead), convert clamps to fixed pixels, or let any mono label exceed 13px. When adding a new text role, adopt the nearest existing row of the type-scale table rather than inventing a size.
+
+**2026-07 revision:** the serif/sans role split is now strict — Newsreader appears only at
+the Hero and Join headings (promise, stated and then restated at the close, both at
+`clamp(34px,5vw,58px)`), and every other section heading (Thesis, Pathways, Results) moved to
+IBM Plex Sans 600, collapsing three near-distinct serif clamps (26–40, 26–38, 24–36) into one
+shared `clamp(26px,3.4vw,42px)`. The Pathways heading is now sourced from
+`homeLandingCopy.pathways.heading` for the first time — it was previously hardcoded inline in
+`HomeLanding.tsx`, a violation of this project's "content lives in `lib/data/`" rule, fixed as
+part of this pass.
 
 ## Subsidiary Pages (Contact, Get Involved)
 
@@ -274,10 +288,10 @@ Any future restyling of these two pages toward the landing's warm editorial lang
 
   /* Type scale */
   --dg-type-hero: clamp(34px, 5vw, 58px);
-  --dg-type-join: clamp(28px, 3.6vw, 46px);
-  --dg-type-results: clamp(26px, 3.2vw, 40px);
-  --dg-type-thesis: clamp(26px, 3vw, 38px);
-  --dg-type-pathways: clamp(24px, 3vw, 36px);
+  --dg-type-join: clamp(34px, 5vw, 58px);
+  --dg-type-results: clamp(26px, 3.4vw, 42px);
+  --dg-type-thesis: clamp(26px, 3.4vw, 42px);
+  --dg-type-pathways: clamp(26px, 3.4vw, 42px);
   --dg-type-loader: clamp(30px, 4.5vw, 44px);
   --dg-type-stat: 24px;
   --dg-type-card-title: 14px;

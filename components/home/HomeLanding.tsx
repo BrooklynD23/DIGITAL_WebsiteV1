@@ -229,7 +229,7 @@ export default function HomeLanding() {
               <h2
                 data-reveal
                 data-reveal-delay="110"
-                className="m-0 max-w-[420px] font-[family-name:var(--font-home-serif)] text-[clamp(26px,3vw,38px)] font-medium leading-[1.25] text-[#F2F0E8]"
+                className="m-0 max-w-[420px] font-[family-name:var(--font-home-sans)] text-[clamp(26px,3.4vw,42px)] font-semibold leading-[1.2] text-[#F2F0E8]"
               >
                 {copy.thesis.heading}
               </h2>
@@ -274,10 +274,9 @@ export default function HomeLanding() {
           <h2
             data-reveal
             data-reveal-delay="110"
-            className="mx-auto m-0 max-w-[640px] font-[family-name:var(--font-home-serif)] text-[clamp(24px,3vw,36px)] font-medium leading-[1.3] text-[#111311]"
+            className="mx-auto m-0 max-w-[640px] font-[family-name:var(--font-home-sans)] text-[clamp(26px,3.4vw,42px)] font-semibold leading-[1.2] text-[#111311]"
           >
-            Two ways to build with DIGITAL, both grounded in real systems, real constraints, and our
-            flagship <span className="font-semibold">Smartphone Project</span>
+            {copy.pathways.heading}
           </h2>
         </div>
         <div
@@ -336,7 +335,7 @@ export default function HomeLanding() {
           <h2
             data-reveal
             data-reveal-delay="110"
-            className="m-0 font-[family-name:var(--font-home-serif)] text-[clamp(26px,3.2vw,40px)] font-medium leading-[1.2] text-[#111311]"
+            className="m-0 font-[family-name:var(--font-home-sans)] text-[clamp(26px,3.4vw,42px)] font-semibold leading-[1.2] text-[#111311]"
           >
             {copy.results.heading}
           </h2>
@@ -415,7 +414,7 @@ export default function HomeLanding() {
         <div className="mb-6 overflow-hidden">
           <h2
             data-reveal
-            className="mx-auto m-0 max-w-[640px] font-[family-name:var(--font-home-serif)] text-[clamp(28px,3.6vw,46px)] font-medium leading-[1.2] text-[#F2F0E8]"
+            className="mx-auto m-0 max-w-[640px] font-[family-name:var(--font-home-serif)] text-[clamp(34px,5vw,58px)] font-medium leading-[1.14] tracking-[-0.01em] text-[#F2F0E8]"
           >
             {copy.join.heading}
           </h2>
