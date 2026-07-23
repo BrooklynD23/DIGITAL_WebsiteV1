@@ -12,6 +12,7 @@ export interface TextRevealProps {
   readonly stagger?: number;
   readonly delay?: number;
   readonly className?: string;
+  readonly disabled?: boolean;
   readonly children: string;
 }
 
@@ -27,6 +28,7 @@ export function TextReveal({
   stagger = 0.06,
   delay = 0,
   className,
+  disabled = false,
   children,
 }: TextRevealProps) {
   const ref = useRef<HTMLElement | null>(null);
@@ -34,6 +36,10 @@ export function TextReveal({
   useLayoutEffect(() => {
     const el = ref.current;
     if (!el) return;
+
+    if (disabled) {
+      return;
+    }
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       return;
@@ -69,7 +75,7 @@ export function TextReveal({
       tween.kill();
       splitInstance.revert();
     };
-  }, [split, trigger, stagger, delay]);
+  }, [split, trigger, stagger, delay, disabled]);
 
   return createElement(
     Component,
