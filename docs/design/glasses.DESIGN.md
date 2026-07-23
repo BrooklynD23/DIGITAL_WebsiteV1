@@ -86,7 +86,7 @@ Sizes are Tailwind utilities as written in code (px equivalents given).
 |---|---|---|---|---|
 | Hero headline (H1) | `text-5xl` (48px) → `sm:text-7xl` (72px) | `leading-[0.92]` | `tracking-tight` | `--type-hero` |
 | Reveal headline (H2) | `text-4xl` (36px) → `sm:text-6xl` (60px) | `leading-[0.95]` | `tracking-tight` | `--type-reveal` |
-| Panel title (H2) | `text-3xl` (30px) → `sm:text-4xl` (36px) | `leading-[1.02]` | `tracking-tight` | `--type-panel-title` |
+| Panel title (H2) | `text-4xl` (36px) → `sm:text-6xl` (60px) | `leading-[0.95]` | `tracking-tight` | `--type-panel-title` |
 | RSVP focal word | `text-3xl` (30px) → `sm:text-[2.25rem]` (36px) | default | `tracking-tight` | `--type-hud-word` |
 | Next-card title | `text-xl` (20px) | default | `tracking-tight` | `--type-next-title` |
 | Body / lede / panel body | `text-base` (16px) | `leading-relaxed` (1.625) | normal | `--type-body` |
@@ -400,7 +400,7 @@ pill. Do not add drop shadows to panels or cards.
 ## Scale Philosophy
 
 The scale is a two-voice system: compressed Archivo display (uppercase, tracking-tight,
-sub-1.0 line heights — 0.92 hero, 0.95 reveal, 1.02 panels) against small, widely-tracked
+sub-1.0 line heights — 0.92 hero, 0.95 reveal and panels) against small, widely-tracked
 DM Mono data (10–12px, 0.18–0.3em tracking). Body copy sits at a single fixed 16px
 (`leading-relaxed`) everywhere. Responsive sizing is stepwise at the one `sm` breakpoint —
 not fluid `clamp()` — and each display role moves exactly one Tailwind step. Agents must
@@ -408,6 +408,14 @@ not: introduce intermediate display sizes, loosen display line heights above the
 listed, apply display tracking to body text, exceed 12px on any mono label, or add
 `clamp()`-based fluid type — the stepped scale is intentional and matched to the beat
 choreography.
+
+**2026-07 revision:** Panel titles (`InfoPanels.tsx`) now match the Reveal headline exactly
+(`text-4xl sm:text-6xl`, was a distinct smaller size). The page's headline-scale register
+collapses from three near-distinct sizes to two: Hero (one-time opening statement, largest)
+and Reveal+Panels (four equal-weight story beats sharing one size). The shared
+`components/ui/NextProjectCard.tsx` title (20px) sits outside both registers — it is a
+cross-route component governed by the root `DESIGN.md`, not this page, and is left as an
+acknowledged exception rather than a drift to fix here.
 
 ---
 

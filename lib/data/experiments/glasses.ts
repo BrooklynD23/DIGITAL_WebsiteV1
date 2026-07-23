@@ -90,12 +90,12 @@ export const GLASSES_CONTENT: GlassesContent = {
   hero: {
     eyebrow: 'DIGITAL @ CAL POLY POMONA · SMART READING',
     headline: 'Read without the chase.',
-    lede: 'Smart Reading is a heads-up display that shows one word at a time, right where you are looking. Your eyes stay still. The words come to you. Built with dyslexic readers in mind.',
+    lede: 'The words move so your eyes do not have to. Smart Reading holds each word at one fixed point and lets you choose the pace. Built with dyslexic readers in mind.',
     footnote: 'Scroll to see what the wearer sees.',
   },
   reveal: {
     headline: 'One word at a time.',
-    sub: 'No darting back and forth. No losing your line. Steady, even reading.',
+    sub: 'Keep your place. Set your pace. Let each word come to you.',
   },
   hud: {
     label: 'RSVP',
@@ -109,14 +109,14 @@ export const GLASSES_CONTENT: GlassesContent = {
     clear: '/assets/experiments/glasses/BookBG_Clear.png',
     words: ['The', 'words', 'arrive', 'one', 'at', 'a', 'time,', 'right', 'where', 'you', 'look.'],
     paragraph:
-      'The words arrive one at a time, right where you look. A page no longer asks your eyes to hunt across the line, to jump ahead and snap back, to find their place again and again. Here the line holds still and the reading comes to you, at the pace you choose, steady and clear. What once took effort to gather now simply appears, word after word, until the meaning is yours.',
+      'The words move while your focus stays in one place. Each word arrives at the pace you choose, without asking your eyes to hunt across a line or find their place again. The stream stays steady. The meaning stays connected. Word by word, the page comes to you.',
   },
   info: [
     {
       id: 'info-why',
-      title: 'It is the eyes, not the mind.',
+      title: 'Your eyes do the chasing.',
       body:
-        'You understand the words. The hard part is the work your eyes do to reach them: jumping ahead, snapping back, finding the line again. Smart Reading takes that work away.',
+        'You understand the words. Smart Reading removes the repeated jumps across a line and holds your place for you, so your attention can stay with the meaning.',
       specs: [
         { k: 'AUDIENCE', v: '~5–20% of people' },
         { k: 'LOAD', v: 'Saccades & fixations' },
@@ -126,7 +126,7 @@ export const GLASSES_CONTENT: GlassesContent = {
       id: 'info-approach',
       title: 'The text moves, you hold still.',
       body:
-        'RSVP, rapid serial visual presentation, shows one word at a time at a single fixed point. You set the speed. Studies show that steady pacing lifts both reading speed and comprehension.',
+        'Your eyes stay still. The words move instead. You set how fast. RSVP shows one word at a time at a fixed point.',
       specs: [
         { k: 'METHOD', v: 'RSVP' },
         { k: 'PACE', v: 'You set the WPM' },
@@ -135,9 +135,9 @@ export const GLASSES_CONTENT: GlassesContent = {
     },
     {
       id: 'info-platform',
-      title: 'Open hardware, made to open up.',
+      title: 'Open hardware, built to continue.',
       body:
-        'An FPGA renders the stream in real time. The firmware is open and the design is documented in modular parts, so each cohort can build on the last.',
+        'An FPGA renders the stream in real time. The firmware stays open. The design stays modular, so each cohort can improve one part without starting the whole system over.',
       specs: [
         { k: 'COMPUTE', v: 'FPGA' },
         { k: 'SOURCE', v: 'Open' },
@@ -148,7 +148,7 @@ export const GLASSES_CONTENT: GlassesContent = {
       id: 'info-join',
       title: 'Build it with us.',
       body:
-        'We need engineering, optics, firmware, design, and research. Smart Reading is a student project at Cal Poly Pomona, mentored by Dr. Mohamed El Hadedy. No experience required.',
+        'Bring engineering, optics, firmware, design, or research. Build Smart Reading at Cal Poly Pomona with mentorship from Dr. Mohamed El Hadedy. No experience required.',
       specs: [
         { k: 'WHERE', v: 'Cal Poly Pomona' },
         { k: 'MENTOR', v: 'Dr. El Hadedy' },

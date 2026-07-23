@@ -53,7 +53,7 @@ function Panel({
       style={{ opacity, y }}
       className="absolute inset-x-0 top-[26%] mx-auto max-w-2xl px-6 text-center"
     >
-      <h2 className="font-display text-3xl font-extrabold uppercase leading-[1.02] tracking-tight text-white sm:text-4xl">
+      <h2 className="font-display text-4xl font-extrabold uppercase leading-[0.95] tracking-tight text-white sm:text-6xl">
         {section.title}
       </h2>
       <p className="mx-auto mt-4 max-w-lg font-body text-base leading-relaxed text-white/70">
