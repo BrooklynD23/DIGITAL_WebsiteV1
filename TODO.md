@@ -56,6 +56,7 @@ committed — see the standing rule in `CLAUDE.md` and `AGENT.md`.
 | v0.8.0  | #0038    | `07943a8` | feat(site): promote Newsreader home landing + PhoneV2 experience; retire legacy landing routes (#0038) | Prior-session feature work committed: new `/` landing, PhoneV2 at `/projects/modular-smartphone`, `/review` hub, legacy landing routes removed |
 | v0.8.1  | #0040    | `9b87676` | docs: add brand-story + GSAP text choreography design spec (#0040) | Approved spec — BRAND.md + brand-guardian agent, GSAP text layer (smartphone), story-first copy + type revision for smartphone/glasses/landing |
 | v0.9.0  | #0042    | `2cf0b99` | docs: add BRAND.md + brand-guardian review agent (#0042) | Phase 1 of brand-story-gsap plan — voice pillars, per-page spine, brand-voice-strategist/brand-guardian routing |
+| v0.10.0 | #0043    | `91d478e` | feat(smartphone): GSAP text reveals + story-first copy + type collapse (#0043) | Phase 2 of brand-story-gsap plan |
 
 ---
 
