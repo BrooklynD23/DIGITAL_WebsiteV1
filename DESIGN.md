@@ -632,7 +632,7 @@ When refactoring any page or component to this system:
 - **Visual source of truth:** `Refractor/hardware-teardown-site/index.html` (+ `README.md`,
   `scroll-frame-sequence.skill.md`, `assets/frames/`).
 - **Content source of truth:** `lib/data/*`, `app/**/page.tsx`.
-- **This system supersedes:** `docs/plans/2025-01-29-ui-revamp-design.md` and the prior
+- **This system supersedes:** `docs/archive/plans/2025-01-29-ui-revamp-design.md` and the prior
   blue/dark Tailwind theme.
 
 ---

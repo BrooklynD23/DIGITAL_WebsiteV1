@@ -1,6 +1,9 @@
 # Maintainer Guide
 
-This guide explains how to update and maintain the DIGITAL website.
+How to update and maintain the DIGITAL website. For route maps and immersive-route
+behavior, see [`ROUTES.md`](./ROUTES.md). For design rules, see [`DESIGN.md`](../DESIGN.md)
+and route-scoped docs under [`docs/design/`](./design/). For copy voice, see
+[`docs/design/BRAND.md`](./design/BRAND.md).
 
 ## Table of Contents
 
@@ -8,13 +11,14 @@ This guide explains how to update and maintain the DIGITAL website.
 2. [Updating Team Members](#updating-team-members)
 3. [Updating Projects](#updating-projects)
 4. [Updating Site Configuration](#updating-site-configuration)
-5. [Updating Get Involved Options](#updating-get-involved-options)
-6. [Replacing Placeholder Images](#replacing-placeholder-images)
-7. [Adding New Pages](#adding-new-pages)
-8. [UI Components Guide](#ui-components-guide)
-9. [Styling Guide](#styling-guide)
-10. [Deployment](#deployment)
-11. [Troubleshooting](#troubleshooting)
+5. [Updating Immersive Experience Copy](#updating-immersive-experience-copy)
+6. [Updating Get Involved Options](#updating-get-involved-options)
+7. [Replacing Placeholder Images](#replacing-placeholder-images)
+8. [Adding New Pages](#adding-new-pages)
+9. [UI Components Guide](#ui-components-guide)
+10. [Styling Guide](#styling-guide)
+11. [Deployment](#deployment)
+12. [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -28,11 +32,15 @@ This guide explains how to update and maintain the DIGITAL website.
 | Change social links | `lib/data/siteConfig.ts` |
 | Update stats | `lib/data/siteConfig.ts` |
 | Update sponsors | `lib/data/siteConfig.ts` |
+| Homepage landing copy | `lib/data/homeLanding.ts` |
+| Smartphone experience copy | `lib/data/phoneV2.ts` |
+| Smart Reading copy | `lib/data/experiments/glasses.ts` |
 | Add/edit involvement options | `lib/data/involvement.ts` |
-| Replace images | `public/images/` |
-| Edit page content | `app/[page]/page.tsx` |
-| Modify UI components | `components/ui/` |
+| Replace images | `public/images/` or `public/assets/` |
+| Edit standard page content | `app/[page]/page.tsx` + data files |
+| Modify shared UI | `components/ui/` |
 | Update navigation | `components/layout/Navbar.tsx` |
+| Immersive chrome rules | `lib/immersiveRoutes.ts` |
 
 ---
 
@@ -209,6 +217,25 @@ To get your form ID:
 1. Go to [formspree.io](https://formspree.io)
 2. Create an account and new form
 3. Copy the endpoint URL
+
+---
+
+## Updating Immersive Experience Copy
+
+Immersive routes hide the global Navbar/Footer (`lib/immersiveRoutes.ts`). Copy for each
+experience lives in dedicated data files — **never** hard-code strings in experience components.
+
+| Route | Data file | Component |
+|-------|-----------|-----------|
+| `/` | `lib/data/homeLanding.ts` | `components/home/HomeLanding.tsx` |
+| `/projects/modular-smartphone` | `lib/data/phoneV2.ts` | `components/phone-v2/PhoneV2Experience.tsx` |
+| `/projects/smart-reading` | `lib/data/experiments/glasses.ts` | `components/experiments/glasses/GlassesExperience.tsx` |
+
+**Copy workflow:** Read [`docs/design/BRAND.md`](./design/BRAND.md) first. Route copy changes
+through the `brand-voice-strategist` agent and `brand-guardian` review before commit.
+
+**GSAP text reveals:** The smartphone route uses `components/motion/TextReveal.tsx`.
+Register plugins once via `components/motion/gsapSetup.ts`. Respect `prefers-reduced-motion`.
 
 ---
 
@@ -545,26 +572,26 @@ Uses Google Material Symbols. Find icons at [fonts.google.com/icons](https://fon
 
 ## Styling Guide
 
-### Design System: "Refined Futurism"
+The site uses **multiple design systems** depending on route:
 
-The UI follows Apple-inspired restraint with subtle futuristic accents:
-- Clean layouts with generous whitespace
-- Subtle glow effects only on interactive elements
-- Smooth 300ms transitions
-- Scale animations on hover (1.02-1.03x)
+| Scope | Reference | Theme |
+|-------|-----------|-------|
+| Standard pages (`/about`, `/team`, etc.) | `DESIGN.md` | Industrial studio — grey sweep, signal-red accent |
+| `/` homepage | `docs/design/landing.DESIGN.md` | Warm editorial — cream, forest green, gold |
+| `/projects/modular-smartphone` | `docs/design/smartphone.DESIGN.md` | Dark technical bench — navy, indigo CTA |
+| `/projects/smart-reading` | `docs/design/glasses.DESIGN.md` | Ambient wearable — paper beige, phosphor HUD |
 
-### Colors
+**Signal-red (`#d8412f`)** is reserved per `DESIGN.md` — eyebrows, margin notes, progress rail,
+active nav, primary CTA hover. Do not use decoratively.
+
+### Tailwind tokens (industrial studio routes)
 
 | Token | Tailwind Class | Usage |
 |-------|----------------|-------|
-| Primary | `bg-primary`, `text-primary` | Buttons, links, accents |
-| Primary Subtle | `bg-primary-subtle` | Hover backgrounds |
-| Primary Glow | `shadow-glow` | Hover effects |
-| Background Light | `bg-background-light` | Light mode background |
-| Background Dark | `bg-background-dark` | Dark mode background |
-| Surface Dark | `bg-surface-dark` | Cards in dark mode |
-| Border Light | `border-surface-border-light` | Borders in light mode |
-| Border Dark | `border-surface-border` | Borders in dark mode |
+| Primary accent | `text-signal`, `bg-signal` | Callouts, active states |
+| Background | `bg-studio` | Page sweep gradient base |
+| Surface | `bg-surface` | Cards, panels |
+| Border | `border-hairline` | Subtle dividers |
 
 ### Custom Shadows
 
@@ -630,18 +657,13 @@ If connected to GitHub, Vercel automatically deploys on every push to `main`.
 
 ### Manual Deployment
 
-1. Build the project:
-   ```bash
-   npm run build
-   ```
+```bash
+./run.sh build    # preflight + static export
+```
 
-2. The static files are in the `out/` directory
+The static files are in the `out/` directory. Upload to any static host.
 
-3. Upload to any static hosting (Netlify, GitHub Pages, etc.)
-
-### Environment Check
-
-Before deploying, verify:
+### Pre-deploy checklist
 - [ ] All images load correctly
 - [ ] Contact form works (test with Formspree)
 - [ ] All links work
@@ -696,5 +718,6 @@ Run `npm install` to reinstall dependencies.
 - Check [Next.js Documentation](https://nextjs.org/docs)
 - Check [Tailwind CSS Documentation](https://tailwindcss.com/docs)
 - Check [Material Symbols](https://fonts.google.com/icons) for icon names
-- Review the design document: `docs/plans/2025-01-29-ui-revamp-design.md`
+- Documentation hub: [`docs/README.md`](./README.md)
+- Design system: [`DESIGN.md`](../DESIGN.md) + [`docs/design/`](./design/)
 - Review existing code patterns in the codebase

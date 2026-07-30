@@ -58,7 +58,8 @@ committed — see the standing rule in `CLAUDE.md` and `AGENT.md`.
 | v0.9.0  | #0042    | `2cf0b99` | docs: add BRAND.md + brand-guardian review agent (#0042) | Phase 1 of brand-story-gsap plan — voice pillars, per-page spine, brand-voice-strategist/brand-guardian routing |
 | v0.10.0 | #0043    | `91d478e` | feat(smartphone): GSAP text reveals + story-first copy + type collapse (#0043) | Phase 2 of brand-story-gsap plan |
 | v0.11.0 | #0044    | `4834920` | feat(glasses): story-first copy + panel-title type collapse (#0044) | Phase 3 of brand-story-gsap plan |
-| v0.12.0 | #0045    | `90d46de` | feat(landing): story-first copy + serif/sans role split (#0045) | Phase 4 of brand-story-gsap plan — completes docs/superpowers/specs/2026-07-19-brand-story-gsap-design.md |
+| v0.12.0 | #0045    | `90d46de` | feat(landing): story-first copy + serif/sans role split (#0045) | Phase 4 of brand-story-gsap plan — completes `docs/archive/specs/2026-07-19-brand-story-gsap-design.md` |
+| v0.12.1 | #0046    | `d622fba` | docs: consolidate archive, refresh README, pre-merge audit (#0046) | Docs hub + archive; Bugbot/Security audit report |
 
 ---
 
