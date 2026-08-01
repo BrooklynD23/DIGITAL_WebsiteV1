@@ -1,5 +1,5 @@
 /** When true, renderers use <picture> AVIF/WebP srcsets (requires npm run encode:teardown). */
-export const TEARDOWN_ENCODED_ASSETS = false;
+export const TEARDOWN_ENCODED_ASSETS = true;
 
 /** Responsive widths emitted by scripts/encode-teardown-assets.mjs */
 export const TEARDOWN_WIDTHS = [760, 1100, 1700] as const;

@@ -1,8 +1,10 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useEffect, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { siteConfig } from '@/lib/data/siteConfig';
+import { contactTopicOptions, resolveContactTopic } from '@/lib/data/contactTopics';
 import {
   Card,
   Button,
@@ -16,15 +18,18 @@ import {
 // Note: Metadata must be in a separate layout.tsx for client components
 // See app/contact/layout.tsx for SEO metadata
 
-const topicOptions = [
-  { value: 'general', label: 'General Inquiry' },
-  { value: 'join', label: 'Joining the Team' },
-  { value: 'project', label: 'Modular Phone Project' },
-  { value: 'sponsorship', label: 'Sponsorship & Partnership' },
-];
+/**
+ * The Formspree endpoint ships as a placeholder until a real form ID is provisioned.
+ * Submitting against it would 404 and read as a transient network error, so the form
+ * blocks submission and says so instead. Tracked in docs/PRE-LAUNCH.md.
+ */
+const isFormspreeConfigured = !siteConfig.formspreeEndpoint.includes('YOUR_FORM_ID');
 
-export default function ContactPage() {
-  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+function ContactForm() {
+  const searchParams = useSearchParams();
+  const [status, setStatus] = useState<
+    'idle' | 'submitting' | 'success' | 'error' | 'unconfigured'
+  >('idle');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -32,8 +37,24 @@ export default function ContactPage() {
     message: '',
   });
 
+  useEffect(() => {
+    const typeParam = searchParams.get('type');
+    const topic = resolveContactTopic(typeParam);
+    if (topic) {
+      setFormData((prev) => (prev.topic ? prev : { ...prev, topic }));
+    }
+  }, [searchParams]);
+
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
+    // The endpoint is still the checked-in placeholder — fail visibly rather than
+    // POSTing into a 404 and reporting a generic network error. See docs/PRE-LAUNCH.md.
+    if (!isFormspreeConfigured) {
+      setStatus('unconfigured');
+      return;
+    }
+
     setStatus('submitting');
 
     try {
@@ -123,7 +144,7 @@ export default function ContactPage() {
                   value={formData.topic}
                   onChange={(e) => setFormData({ ...formData, topic: e.target.value })}
                   placeholder="Select a topic..."
-                  options={topicOptions}
+                  options={[...contactTopicOptions]}
                 />
 
                 <Textarea
@@ -137,6 +158,16 @@ export default function ContactPage() {
                 {status === 'error' && (
                   <p role="alert" className="font-mono text-[12px] text-accent">
                     Something went wrong. Please try again or email us directly.
+                  </p>
+                )}
+
+                {status === 'unconfigured' && (
+                  <p role="alert" className="font-mono text-[12px] text-accent">
+                    This form isn&apos;t connected yet. Please email us directly at{' '}
+                    <a href={`mailto:${siteConfig.contact.email}`} className="underline">
+                      {siteConfig.contact.email}
+                    </a>
+                    .
                   </p>
                 )}
 
@@ -307,5 +338,13 @@ export default function ContactPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ContactPage() {
+  return (
+    <Suspense fallback={null}>
+      <ContactForm />
+    </Suspense>
   );
 }

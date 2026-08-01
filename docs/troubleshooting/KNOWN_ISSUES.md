@@ -1,6 +1,6 @@
 # Known Issues & Troubleshooting
 
-This document covers common issues encountered during development and their solutions.
+Common development and build issues. For preflight checks, use `./run.sh check` at the repo root.
 
 ---
 
@@ -191,8 +191,9 @@ Run `npm install` from the same terminal environment where you run `npm run dev`
 
 ## General Tips
 
-1. **Keep dependencies aligned**: Match `eslint-config-next` version with your Next.js version
-2. **Don't use --force blindly**: `npm audit fix --force` can introduce breaking changes
-3. **Clean install when stuck**: When facing mysterious issues, a clean reinstall often helps
-4. **Check next.config.js**: Many build/dev issues stem from configuration
-5. **Separate environments**: If using WSL, run all npm commands from WSL consistently
+1. **Run preflight first:** `./run.sh check` catches TypeScript, lint, and missing-route issues early
+2. **Keep dependencies aligned**: Match `eslint-config-next` version with your Next.js version
+3. **Don't use --force blindly**: `npm audit fix --force` can introduce breaking changes
+4. **Clean install when stuck**: When facing mysterious issues, a clean reinstall often helps
+5. **Check next.config.js**: Many build/dev issues stem from configuration
+6. **Separate environments**: If using WSL, run all npm commands from WSL consistently

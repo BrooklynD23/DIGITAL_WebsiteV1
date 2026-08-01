@@ -24,8 +24,16 @@ yarn-error.log*
 .env
 .env*.local
 
-# Vercel
-.vercel
+# Vercel (project link metadata — org/project IDs, not for version control)
+.vercel/
+
+# Cursor local config (may contain MCP tokens, project refs, or machine settings)
+.cursor/mcp.json
+.cursor/mcp.local.json
+.cursor/settings.json
+
+# Claude local settings (machine-specific permissions & MCP endpoints)
+.claude/settings.local.json
 
 # TypeScript
 *.tsbuildinfo

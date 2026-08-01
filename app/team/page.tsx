@@ -225,16 +225,27 @@ export default function TeamPage() {
             );
           })}
 
-          {/* No results */}
+          {/* Empty state — shown only when active filter + search yields zero results */}
           {filteredMembers.length === 0 && (
-            <div className="border-t border-line py-20 text-center">
-              <span className="mb-4 inline-flex text-ink-soft">
-                <Icon name="search_off" size="xl" />
-              </span>
-              <h3 className="font-display text-[21px] font-bold uppercase tracking-[-.01em] text-ink">
+            <div className="flex flex-col items-center rounded-lg border border-dashed border-line py-24 text-center">
+              <Icon name="search_off" size="xl" className="text-ink-soft" />
+              <Eyebrow className="mt-5">No Results</Eyebrow>
+              <h3 className="mt-2 font-display text-[21px] font-bold uppercase tracking-[-.01em] text-ink">
                 No members found
               </h3>
-              <p className="mt-2 text-[15px] text-ink-soft">Try adjusting your search or filter</p>
+              <p className="mt-3 max-w-[36ch] text-[15px] leading-[1.55] text-ink-soft">
+                No members match your current search or filter. Try a different keyword or clear
+                the active filter.
+              </p>
+              <button
+                onClick={() => {
+                  setActiveFilter('all');
+                  setSearchQuery('');
+                }}
+                className="mt-6 rounded border border-ink bg-ink px-5 py-2.5 font-mono text-[11px] uppercase tracking-[.16em] text-studio transition-[background-color,border-color] duration-200 ease-studio hover:border-accent hover:bg-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue focus-visible:ring-offset-2 focus-visible:ring-offset-studio"
+              >
+                Clear Filters
+              </button>
             </div>
           )}
         </div>

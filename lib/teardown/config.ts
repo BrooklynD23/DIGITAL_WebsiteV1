@@ -112,4 +112,11 @@ export const TEARDOWN_CFG: TeardownConfig = {
   layers: REGISTERED_LAYERS.map((l) => ({ ...l })),
   /** Set true + install `lenis` to enable inertial scroll (see DESIGN.md §6). */
   smoothScroll: false,
+  /** Scroll-scrubbed video assets (renderer: 'video' — generated via Higgsfield, GOP=1 re-encode). */
+  videoSrc: '/assets/teardown/teardown.mp4',
+  videoWebm: '/assets/teardown/teardown.webm',
+  videoPoster: '/assets/teardown/teardown-poster.jpg',
+  /** Canvas image-sequence (renderer: 'canvas' — ione-style; frames extracted from the clip). */
+  canvasFrameCount: 97,
+  canvasFrameDir: '/assets/teardown/frames',
 };

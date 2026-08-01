@@ -4,288 +4,209 @@ This document outlines all routes and pages in the DIGITAL website.
 
 ## Route Overview
 
+### Production routes (public nav + sitemap)
+
 | Route | Page | Description |
 |-------|------|-------------|
-| `/` | Homepage | Main landing page with hero, stats, featured projects, and CTA |
-| `/pillars` | DIGITAL Pillars | Showcase of the DIGITAL acronym and mission framework |
-| `/about` | About/Mission | Club mission, values, flagship project showcase, roadmap |
-| `/team` | Team Members | Filterable team directory with all members |
+| `/` | Homepage | Newsreader landing — thesis, pathways, build record, join CTA (own nav/footer) |
+| `/pillars` | DIGITAL Pillars | The DIGITAL acronym and engineering framework |
+| `/about` | About | Mission, values, flagship project, roadmap |
+| `/team` | Team | Filterable team directory |
 | `/contact` | Contact | Contact form and club information |
-| `/projects` | Projects Showcase | Filterable grid of all projects |
-| `/projects/[slug]` | Project Details | Individual project page with specs, timeline, team |
-| `/get-involved` | Get Involved | Scalable involvement options for students, alumni, companies |
+| `/projects` | Projects | Filterable project grid |
+| `/projects/modular-smartphone` | Modular Smartphone | Immersive exploded-smartphone scrollytelling (PhoneV2 experience) |
+| `/projects/smart-reading` | Smart Reading | Immersive R3F scroll experience (wearable project) |
+| `/get-involved` | Get Involved | Membership, alumni, and sponsor paths |
+| `/privacy` | Privacy Policy | Legal — privacy |
+| `/terms` | Terms of Service | Legal — terms |
+| `/cookies` | Cookie Policy | Legal — cookies |
+
+### Preview / candidate routes (not in sitemap or public nav)
+
+| Route | Status | Description |
+|-------|--------|-------------|
+| `/review` | Internal | Stakeholder hub for remaining variant review (`noindex`) |
 
 ---
 
-## Page Details
+## Stakeholder review hub
+
+**File:** `app/review/page.tsx`  
+**Data:** `lib/data/reviewRoutes.ts`
+
+Internal-only page for comparing experience variants before promotion. Not linked from Navbar, Footer, or sitemap. Open at `/review` during stakeholder meetings.
+
+**Decision groups:**
+1. **Smart Reading** — `/projects/smart-reading` (production); the legacy `/experiments/glasses` URL has been retired
+
+---
+
+## Immersive routes
+
+These routes hide the global Navbar and Footer (`lib/immersiveRoutes.ts`):
+
+- `/` (homepage has own nav/footer)
+- `/experiments/*`
+- `/projects/modular-smartphone`
+- `/projects/smart-reading`
+
+Each immersive experience includes an `EscapeHatch` component linking back to `/`.
+
+Route-scoped style references (authoritative per route; root `DESIGN.md` governs everything else):
+
+- `/` → `docs/design/landing.DESIGN.md`
+- `/projects/modular-smartphone` → `docs/design/smartphone.DESIGN.md`
+- `/projects/smart-reading` → `docs/design/glasses.DESIGN.md`
+
+---
+
+## Page details
 
 ### Homepage (`/`)
-**File:** `app/page.tsx`
+**Files:** `app/page.tsx`, `components/home/HomeLanding.tsx`
 
-**Sections:**
-1. **Hero** - Main headline with gradient text, badge, CTA buttons, hero image with overlay elements
-2. **Stats Bar** - Active members, prototypes, lines of code, sponsors
-3. **Mission** - Brief mission statement
-4. **Featured Projects** - Bento grid of 4 featured projects
-5. **Sponsors** - Text display of industry partners (Cal Poly Pomona Project Hatchery, MEP-WiSE)
-6. **CTA** - "Ready to Join the Circuit?" call-to-action with Card component
+Newsreader / IBM Plex landing with loader, sticky anchor nav, thesis gaps, pathways, build-record cards, and join CTA. Hides global Navbar/Footer.
 
-**Data Sources:**
-- `lib/data/siteConfig.ts` - Stats, sponsors
-- `lib/data/projects.ts` - Featured projects
-
-**UI Components Used:**
-- `Button` - Primary and secondary CTAs
-- `Badge` - "Now Recruiting" with pulse animation
-- `Card` - Hero image container, CTA section
+**Data:** `lib/data/homeLanding.ts`
 
 ---
 
-### DIGITAL Pillars Page (`/pillars`)
+### DIGITAL Pillars (`/pillars`)
 **File:** `app/pillars/page.tsx`
 
-**Purpose:** Showcase the DIGITAL acronym and explain the club's engineering framework.
-
-**Sections:**
-1. **Hero** - "The DIGITAL Pillars" with gradient text, "Our Framework" badge
-2. **Interactive Acronym Display** - Horizontal display of D-I-G-I-T-A-L letters with hover effects
-3. **Pillars Grid** - 7 cards explaining each pillar:
-   - **D**evice - Hardware architecture, ergonomic design, component selection
-   - **I**mplementation - PCB fabrication, firmware development, mechanical assembly
-   - **G**enerating - Concept ideation, rapid prototyping, design iteration
-   - **I**ntegrating - System architecture, module interconnects, cross-team collaboration
-   - **T**esting - Performance benchmarks, stress testing, quality assurance
-   - **A**nalyzing - Performance metrics, failure analysis, optimization studies
-   - **L**earning - Peer mentorship, technical workshops, documentation culture
-4. **Mission Statement** - Featured card with the full mission statement
-5. **Connected Framework** - Three cards showing Design→Build→Growth phases
-6. **CTA** - Links to Get Involved and Contact pages
-
-**UI Components Used:**
-- `Card`, `CardHeader`, `CardTitle`, `CardDescription` - Pillar cards and mission statement
-- `Badge` - "Our Framework" hero badge
-- `Button` - CTA buttons
+Interactive DIGITAL acronym, seven pillar cards, mission statement, framework phases, CTA.
 
 ---
 
-### About Page (`/about`)
+### About (`/about`)
 **File:** `app/about/page.tsx`
 
-**Sections:**
-1. **Hero** - "Building the Future, Modularly" with lab image
-2. **Affiliations** - Cal Poly Pomona, Project Hatchery, CPP Engineering
-3. **Mission Cards** - Industry Standard, Peer Mentorship, Radical Innovation
-4. **Flagship Project** - Modular Smartphone showcase with features
-5. **Roadmap** - Project timeline (Concept, PCB Fabrication, Integration)
-6. **Team Preview** - Executive board members
-7. **CTA** - "Ready to Build?" call-to-action
+Mission cards, flagship project showcase, roadmap, executive team preview, CTA.
 
-**Data Sources:**
-- `lib/data/team.ts` - Executive team members
+**Data:** `lib/data/team.ts`
 
 ---
 
-### Team Page (`/team`)
-**Files:**
-- `app/team/page.tsx` (main page)
-- `app/team/layout.tsx` (SEO metadata)
+### Team (`/team`)
+**Files:** `app/team/page.tsx`, `app/team/layout.tsx`
 
-**Features:**
-- Search bar (filters by name or role)
-- Department filter tabs: All, Executive, Hardware, Software, Outreach
-- Responsive grid layout
-- "Join" cards for each department
+Search, department filters, responsive member grid.
 
-**Sections by Department:**
-1. **Executive Board** - Large cards with photos, titles, social links
-2. **Hardware Team** - Compact cards
-3. **Software Team** - Compact cards
-4. **Outreach & Design** - Compact cards
-
-**Data Sources:**
-- `lib/data/team.ts` - All team members
+**Data:** `lib/data/team.ts`
 
 ---
 
-### Contact Page (`/contact`)
-**Files:**
-- `app/contact/page.tsx` (main page)
-- `app/contact/layout.tsx` (SEO metadata)
+### Contact (`/contact`)
+**Files:** `app/contact/page.tsx`, `app/contact/layout.tsx`
 
-**Sections:**
-1. **Contact Form** (left column)
-   - Full Name (required)
-   - Email Address (required)
-   - Topic dropdown (General, Joining, Project, Sponsorship)
-   - Message textarea (required)
-   - Submit button with loading state
-   - Success/error messages
+Contact form with topic dropdown, info sidebar, social links, campus map.
 
-2. **Info Sidebar** (right column)
-   - Contact Info card (email, meeting times, location)
-   - Social links card (LinkedIn, Instagram, Discord)
-   - Campus map/image
+**Query parameters:**
+- `?type=<involvement-type>` — pre-selects the topic dropdown via `lib/data/contactTopics.ts`
 
-3. **Footer** - Project Hatchery attribution
+Supported `type` values map from `lib/data/involvement.ts`:
+`membership`, `project-team`, `leadership`, `mentorship`, `alumni-network`, `mentor`, `speaker`, `sponsor`, `recruit`, `workshop`, `donate`
 
-**Data Sources:**
-- `lib/data/siteConfig.ts` - Contact info, social links, Formspree endpoint
-
-**Query Parameters:**
-- `?type=<involvement-type>` - Pre-selects topic based on Get Involved page links
+**Data:** `lib/data/siteConfig.ts`, `lib/data/contactTopics.ts`
 
 ---
 
-### Projects Showcase (`/projects`)
-**Files:**
-- `app/projects/page.tsx` (main page)
-- `app/projects/layout.tsx` (SEO metadata)
+### Projects (`/projects`)
+**Files:** `app/projects/page.tsx`, `app/projects/layout.tsx`
 
-**Sections:**
-1. **Flagship Hero** - Large hero for the flagship project (Modular Smartphone)
-2. **Search & Filter**
-   - Search bar (filters by title or description)
-   - Category chips: All, Hardware, Software, Embedded, Robotics
-3. **Projects Grid** - 3-column responsive grid of project cards
-4. **CTA** - "Have a Project Idea?" call-to-action
+Flagship hero, search/filter, project grid, CTA.
 
-**Project Card Features:**
-- Image with gradient overlay
-- Status badge (Active, Completed, Paused)
-- Title and description
-- Tech stack tags (max 3 shown)
-
-**Data Sources:**
-- `lib/data/projects.ts` - All projects
+**Data:** `lib/data/projects.ts`
 
 ---
 
-### Project Details (`/projects/[slug]`)
-**File:** `app/projects/[slug]/page.tsx`
+### Modular Smartphone (`/projects/modular-smartphone`)
+**Files:** `app/projects/modular-smartphone/page.tsx`, `app/projects/modular-smartphone/layout.tsx`
 
-**Dynamic Routes:**
-- `/projects/modular-smartphone`
-- `/projects/embedded-systems`
-- `/projects/robotics-initiative`
-- `/projects/iot-dashboard`
-- `/projects/smart-mirror`
-- `/projects/drone-swarm`
+Immersive Anime.js exploded-smartphone scrollytelling (`PhoneV2Experience`). Hides global Navbar/Footer.
 
-**Sections:**
-1. **Hero** - Project title, description, status badge, image
-2. **Quick Stats** - 4-column grid of key metrics
-3. **Description** - Full project description
-4. **Modules Grid** - Technical components with colored icons
-5. **Timeline** - Project phases with status indicators
-6. **Specifications Table** - Technical specs (if available)
-7. **Image Gallery** - Project photos (if available)
-8. **Team Preview** - Project team members (shows executive team)
-9. **CTA** - Navigation to projects list
-
-**Data Sources:**
-- `lib/data/projects.ts` - Project data by slug
-- `lib/data/team.ts` - Team members for preview
+**Data:** `lib/data/phoneV2.ts`, `lib/data/projects.ts`
 
 ---
 
-### Get Involved Page (`/get-involved`)
+### Smart Reading (`/projects/smart-reading`)
+**File:** `app/projects/smart-reading/page.tsx`
+
+Client-only R3F immersive scroll experience (`GlassesExperience`).
+
+**Data:** `lib/data/experiments/glasses.ts`, `lib/data/projects.ts`
+
+---
+
+### Get Involved (`/get-involved`)
 **File:** `app/get-involved/page.tsx`
 
-**Purpose:** Scalable page for different audiences to find involvement opportunities
+Student, alumni, and company involvement cards with deep-links to `/contact?type=...`.
 
-**Sections:**
-1. **Hero** - "Get Involved with DIGITAL" with badge "Open to Everyone"
-2. **Students Section** - 4 options:
-   - Become a Member (featured)
-   - Join a Project Team
-   - Apply for Leadership
-   - Get Mentorship
-3. **Alumni Section** - 3 options:
-   - Join Alumni Network (featured)
-   - Mentor Students
-   - Speak at an Event
-4. **Companies Section** - 4 options:
-   - Become a Sponsor (featured)
-   - Recruit Talent
-   - Host a Workshop
-   - Donate Equipment
-5. **Meeting Info** - General meeting details with perks list
-6. **CTA** - "Not Sure Where to Start?" with contact links
-
-**Data Sources:**
-- `lib/data/involvement.ts` - All involvement categories and options
-- `lib/data/involvement.ts` - Meeting information
-
-**UI Components Used:**
-- `Card` - Interactive cards for each option, featured card for meeting info
-- `CardHeader`, `CardTitle`, `CardDescription` - Card subcomponents
-- `Badge` - "Popular" badges on featured options, "Open to Everyone" hero badge
-- `Button` - CTAs throughout
-
-**Scalability:**
-To add new involvement options, edit `lib/data/involvement.ts`. See `MAINTAINER_GUIDE.md` for details.
+**Data:** `lib/data/involvement.ts`
 
 ---
 
-### 404 Page (`/not-found`)
+### Legal pages
+
+| Route | File |
+|-------|------|
+| `/privacy` | `app/privacy/page.tsx` |
+| `/terms` | `app/terms/page.tsx` |
+| `/cookies` | `app/cookies/page.tsx` |
+
+Linked from Footer legal row. Included in `app/sitemap.ts`.
+
+---
+
+### 404 (`not-found`)
 **File:** `app/not-found.tsx`
 
-Simple 404 error page with:
-- Error icon
-- "Page Not Found" message
-- Link back to homepage
-
 ---
 
-## Layouts
+## Navigation structure
 
-### Root Layout (`app/layout.tsx`)
-Applied to all pages. Includes:
-- HTML structure with dark mode class
-- Google Fonts (Space Grotesk, Noto Sans)
-- Material Symbols icon font
-- Navbar component
-- Footer component
-- Global styles
+**Navbar** (`components/layout/Navbar.tsx`):
 
-### Nested Layouts
-- `app/team/layout.tsx` - SEO metadata for team page
-- `app/contact/layout.tsx` - SEO metadata for contact page
-- `app/projects/layout.tsx` - SEO metadata for projects pages
-
----
-
-## Navigation Structure
-
-**File:** `components/layout/Navbar.tsx`
-
-Current navigation links (in order):
 1. Home (`/`)
 2. Pillars (`/pillars`)
 3. Projects (`/projects`)
-4. About Us (`/about`)
+4. About (`/about`)
 5. Team (`/team`)
 6. Get Involved (`/get-involved`)
 7. Contact (`/contact`)
 
-Plus "Join Us" CTA button linking to `/contact`
+**Footer quick links:** Projects, Team, About, Contact  
+**Footer legal:** Privacy, Terms, Cookies
 
 ---
 
-## Static Generation
+## Static generation
 
-All pages are statically generated at build time. The project uses Next.js static export (`output: 'export'`).
+All pages are statically generated at build time (`output: 'export'` in `next.config.js`).
 
-Dynamic routes (`/projects/[slug]`) use `generateStaticParams()` to pre-render all project pages based on the slugs in `lib/data/projects.ts`.
+Project detail pages use dedicated route files — there is no dynamic `[slug]` catch-all.
 
 ---
 
-## Data Files Summary
+## Sitemap
+
+**File:** `app/sitemap.ts`
+
+Includes production routes and legal pages. Excludes the internal review hub (`/review`).
+
+---
+
+## Data files summary
 
 | File | Purpose |
 |------|---------|
-| `lib/data/siteConfig.ts` | Site metadata, contact info, social links, community links (Discord, GitHub, Notion), stats, sponsors |
-| `lib/data/projects.ts` | All project data with full details |
-| `lib/data/team.ts` | Team member information |
-| `lib/data/involvement.ts` | Get Involved categories, options, and meeting info |
-| `lib/types.ts` | TypeScript type definitions for all data structures |
+| `lib/data/siteConfig.ts` | Site metadata, contact, social, stats, sponsors |
+| `lib/data/projects.ts` | Project data |
+| `lib/data/team.ts` | Team members |
+| `lib/data/involvement.ts` | Get Involved options |
+| `lib/data/contactTopics.ts` | Contact form topics + `?type=` mapping |
+| `lib/data/reviewRoutes.ts` | Stakeholder review hub metadata |
+| `lib/data/homeLanding.ts` | Homepage landing copy |
+| `lib/data/phoneV2.ts` | Modular smartphone experience copy |
+| `lib/data/experiments/glasses.ts` | Smart Reading experience copy |

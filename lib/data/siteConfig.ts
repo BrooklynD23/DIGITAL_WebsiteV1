@@ -5,6 +5,12 @@ export const siteConfig: SiteConfig = {
   fullName: 'DIGITAL @ Cal Poly Pomona',
   description: 'A student-run engineering organization at Cal Poly Pomona dedicated to bridging the gap between academic theory and industry practice.',
   url: 'https://digitalcpp.org',
+  assets: {
+    logo: '/assets/landing/DIGITAL_V1_Logo1.png',
+    logoDark: '/assets/landing/DIGITAL_V1_Logo1_DarkMode.png',
+    logoFull: '/assets/landing/DIGITAL_V1_Logo1_Full.png',
+    landingHero: '/assets/landing/Landing-Page-Hero.png',
+  },
   contact: {
     email: 'contact@digitalcpp.org',
     location: 'Building 17, Room 1635',

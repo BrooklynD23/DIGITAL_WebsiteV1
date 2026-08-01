@@ -1,0 +1,124 @@
+.home-landing {
+  --dg-bg: #f7f6f2;
+  --dg-ink: #111311;
+  --dg-green: #1e4d2b;
+  --dg-gold: #c28e0e;
+  --dg-dark: #0a0c0a;
+  --dg-cream: #f2f0e8;
+  --dg-muted: #5a615b;
+  --dg-muted-dark: #8b948c;
+  --dg-card: #fcfbf8;
+  --dg-stripe-a: #e7e4dc;
+  --dg-stripe-b: #efede6;
+
+  scroll-behavior: smooth;
+  background: var(--dg-bg);
+  color: var(--dg-ink);
+  font-family: var(--font-home-sans), 'IBM Plex Sans', sans-serif;
+  overflow-x: hidden;
+}
+
+.home-landing a {
+  text-decoration: none;
+}
+
+.home-landing a:not([class*='bg-']) {
+  color: inherit;
+}
+
+.home-landing a:not([class*='bg-']):hover {
+  color: var(--dg-green);
+}
+
+.home-landing ::selection {
+  background: rgba(194, 142, 14, 0.3);
+}
+
+@keyframes dg-barfill {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes dg-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.15;
+  }
+}
+
+.home-landing__loader-bar {
+  animation: dg-barfill 1.8s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+.home-landing__loader-status {
+  animation: dg-blink 1.2s ease-in-out infinite;
+}
+
+.home-landing [data-reveal],
+.home-landing [data-hero-word] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.home-landing [data-hero-word] {
+  transform: translateY(108%);
+}
+
+.home-landing [data-reveal].is-visible,
+.home-landing [data-hero-word].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.home-landing__hero-line {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+
+.home-landing__divider {
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.home-landing__divider-line {
+  flex: 1;
+  height: 1px;
+  background: rgba(17, 19, 17, 0.25);
+}
+
+.home-landing__divider-star {
+  font-family: var(--font-home-mono), 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: rgba(17, 19, 17, 0.5);
+}
+
+.home-landing__stripe {
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--dg-stripe-a) 0 14px,
+    var(--dg-stripe-b) 14px 28px
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-landing *,
+  .home-landing *::before,
+  .home-landing *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

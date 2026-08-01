@@ -1,6 +1,11 @@
+'use client';
+
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Globe, AtSign, MessageSquare, Code, FileText } from 'lucide-react';
 import { siteConfig } from '@/lib/data/siteConfig';
+import { isImmersiveRoute } from '@/lib/immersiveRoutes';
+import { BrandLogo } from '@/components/layout/BrandLogo';
 
 const quickLinks = [
   { href: '/projects', label: 'Projects' },
@@ -18,15 +23,22 @@ const socials = [
 ];
 
 export function Footer() {
+  const pathname = usePathname();
+  // Immersive routes render their own chrome — hide the site footer.
+  if (isImmersiveRoute(pathname)) return null;
+
   return (
     <footer className="border-t border-line py-[54px] font-mono text-[13px] leading-[1.6] text-ink-soft">
       <div className="mx-auto max-w-content px-7">
         <div className="flex flex-wrap justify-between gap-x-12 gap-y-8">
           {/* Brand + description */}
           <div className="max-w-xs">
-            <p className="font-display text-base font-bold uppercase tracking-[.06em] text-ink">
-              DIGITAL
-            </p>
+            <div className="flex items-center gap-2">
+              <BrandLogo size={24} />
+              <p className="font-display text-base font-bold uppercase tracking-[.06em] text-ink">
+                DIGITAL
+              </p>
+            </div>
             <p className="mt-3">{siteConfig.description}</p>
           </div>
 
@@ -86,10 +98,20 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Copyright readout */}
-        <div className="mt-10 flex flex-wrap justify-between gap-4 border-t border-line pt-6">
+        {/* Legal links + Copyright readout */}
+        <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-6">
           <span>© {new Date().getFullYear()} DIGITAL @ Cal Poly Pomona</span>
-          <span>{siteConfig.fullName}</span>
+          <div className="flex flex-wrap gap-x-5 gap-y-1">
+            <Link href="/privacy" className="transition-colors duration-200 hover:text-ink">
+              Privacy
+            </Link>
+            <Link href="/terms" className="transition-colors duration-200 hover:text-ink">
+              Terms
+            </Link>
+            <Link href="/cookies" className="transition-colors duration-200 hover:text-ink">
+              Cookies
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

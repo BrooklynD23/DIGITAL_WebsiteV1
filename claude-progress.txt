@@ -1,0 +1,23 @@
+# Claude / Codex Progress Log
+# ============================
+# Project: DIGITAL_WebsiteV1
+# Last Updated: 2026-07-17
+# Status: IN PROGRESS — /phone-v2 scaffolded; fidelity finish needed
+
+## Active handoff
+**Read this next:** `docs/plans/2026-07-17-phone-v2-codex-sol-handoff.md`
+
+## Branch
+`swarm/feature-6`
+
+## Summary
+- Fable confirmed Anime.js exploded-phone brief for `/phone-v2`
+- Codex rescue scaffolded route/components/data/DESIGN§15 (uncommitted)
+- First Sol model attempt failed (ChatGPT account); second run wrote files then stalled verifying
+- Composer audits + local tsc/lint/build: GREEN after `npm install`
+- Remaining: real animejs v4 (remove vendor shim alias), immersive chrome, reduced-motion/mobile fixes, animated reassembly, scrubber/motion fidelity, copy extraction
+
+## Do not
+- Rewrite from scratch
+- Touch landing-v2 / teardown / frames
+- Commit unless human asks

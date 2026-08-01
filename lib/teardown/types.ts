@@ -29,7 +29,7 @@ export interface RegisteredLayer {
   depth: number;
 }
 
-export type TeardownRenderer = 'sequence' | 'registered';
+export type TeardownRenderer = 'sequence' | 'registered' | 'video' | 'canvas';
 
 export interface TeardownConfig {
   renderer: TeardownRenderer;
@@ -48,4 +48,14 @@ export interface TeardownConfig {
   layers: RegisteredLayer[];
   /** Enable Lenis smooth scroll on desktop scrub */
   smoothScroll: boolean;
+  /** Scroll-scrubbed video source (mp4, all-keyframe). Used when renderer === 'video'. */
+  videoSrc?: string;
+  /** Optional VP9 all-intra WebM source, preferred over mp4 when supported. */
+  videoWebm?: string;
+  /** Poster still shown before the video can seek (SSR/first paint). */
+  videoPoster?: string;
+  /** Frame count for the canvas image-sequence renderer (renderer === 'canvas'). */
+  canvasFrameCount?: number;
+  /** Directory of f-NNNN.webp frames for the canvas renderer. */
+  canvasFrameDir?: string;
 }

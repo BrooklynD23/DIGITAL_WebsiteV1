@@ -2,10 +2,13 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { TEARDOWN_CFG } from '@/lib/teardown/config';
-import type { TeardownConfig } from '@/lib/teardown/types';
+import type { TeardownConfig, TeardownRenderer } from '@/lib/teardown/types';
 import { MOBILE_MAX_WIDTH } from '@/lib/teardown/utils';
+import Lenis from 'lenis';
 import { createSequenceRenderer } from './engine/sequenceRenderer';
 import { createRegisteredRenderer } from './engine/registeredRenderer';
+import { createVideoRenderer } from './engine/videoRenderer';
+import { createCanvasSeqRenderer } from './engine/canvasSeqRenderer';
 import { TeardownMobilePoster } from './TeardownMobilePoster';
 import { BatteryProgress } from './BatteryProgress';
 
@@ -28,7 +31,15 @@ export function Teardown({
   ),
   caption = 'Scroll down and the Modular Smartphone comes apart — board by board, part by part. Scroll back up and it reassembles. Every layer is tied to your scroll.',
 }: TeardownProps) {
-  const cfg = { ...TEARDOWN_CFG, ...config };
+  // Dev/preview A/B: ?renderer=video|sequence|registered overrides the configured renderer.
+  const [rendererOverride, setRendererOverride] =
+    useState<TeardownRenderer | null>(null);
+
+  const cfg = {
+    ...TEARDOWN_CFG,
+    ...config,
+    ...(rendererOverride ? { renderer: rendererOverride } : {}),
+  };
   const N = cfg.frameCount;
   const layerCount =
     cfg.renderer === 'registered' ? cfg.layers.length : cfg.frameCount;
@@ -42,6 +53,18 @@ export function Teardown({
   const stateLabelRef = useRef<HTMLDivElement | null>(null);
   const stateNoteRef = useRef<HTMLDivElement | null>(null);
   const stateWrapRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const param = new URLSearchParams(window.location.search).get('renderer');
+    if (
+      param === 'video' ||
+      param === 'sequence' ||
+      param === 'registered' ||
+      param === 'canvas'
+    ) {
+      setRendererOverride(param);
+    }
+  }, []);
 
   useEffect(() => {
     const mobileMq = window.matchMedia(
@@ -62,6 +85,30 @@ export function Teardown({
     };
   }, []);
 
+  // Lenis inertial smooth-scroll for the scrubbed renderers (ione-style). Lenis
+  // drives the real document scroll, so the render effect's scroll listener
+  // picks up its interpolated position automatically.
+  useEffect(() => {
+    if (showMobilePoster) return;
+    const wantsLenis =
+      cfg.renderer === 'canvas' ||
+      cfg.renderer === 'video' ||
+      cfg.smoothScroll;
+    if (!wantsLenis) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
+    let rafId = requestAnimationFrame(function raf(time) {
+      lenis.raf(time);
+      rafId = requestAnimationFrame(raf);
+    });
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      lenis.destroy();
+    };
+  }, [showMobilePoster, cfg.renderer, cfg.smoothScroll]);
+
   useEffect(() => {
     if (showMobilePoster) return;
 
@@ -77,7 +124,16 @@ export function Teardown({
     const renderer =
       cfg.renderer === 'registered'
         ? createRegisteredRenderer({ cfg, phone })
-        : createSequenceRenderer({ cfg, phone });
+        : cfg.renderer === 'video'
+          ? createVideoRenderer({ cfg, phone })
+          : cfg.renderer === 'canvas'
+            ? createCanvasSeqRenderer({ cfg, phone })
+            : createSequenceRenderer({ cfg, phone });
+
+    // Canvas/video scrubbing is fed by Lenis-smoothed scroll; track it directly
+    // (lerp = 1) so we don't compound two smoothing passes into visible lag.
+    const effLerp =
+      cfg.renderer === 'canvas' || cfg.renderer === 'video' ? 1 : cfg.lerp;
 
     let progress = 0;
     let targetP = 0;
@@ -131,7 +187,7 @@ export function Teardown({
     };
 
     const render = () => {
-      progress += (targetP - progress) * cfg.lerp;
+      progress += (targetP - progress) * effLerp;
       if (Math.abs(targetP - progress) < 0.0004) progress = targetP;
 
       renderer.renderProgress(progress);
