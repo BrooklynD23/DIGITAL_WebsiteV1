@@ -32,10 +32,12 @@ export interface PhoneToolboxCopy {
   readonly eyebrow: string;
   readonly headline: string;
   readonly description: string;
-  readonly lensLabel: string;
+  readonly railLabel: string;
   readonly specHeading: string;
   readonly specLead: string;
   readonly specLines: readonly string[];
+  /** The four workflow stages, drawn as pads on the WorkflowRail trace. */
+  readonly workflowStages: readonly [string, string, string, string];
 }
 
 export interface PhoneSubsystemCopy {
@@ -48,6 +50,13 @@ export interface PhoneSubsystemCopy {
   readonly specHeading: string;
   readonly specLines: readonly string[];
   readonly scrubberLabel: string;
+  /**
+   * How far apart the schematic sits for this section, 0 (assembled) to 1 (fully
+   * exploded). The seven values descend monotonically, so scrolling the stage
+   * reads as the phone coming back together — boundaries first, finished device
+   * last — handing off to the FinalCta reassembly.
+   */
+  readonly explode: number;
 }
 
 export interface PhoneBuildScopeCopy {
@@ -117,14 +126,16 @@ export const phoneV2Copy: {
     headline: 'One workflow. Clear subsystem owners.',
     description:
       'See what the phone needs, who owns it, and which trade-off comes next.',
-    lensLabel: 'HUD / lens',
+    railLabel: 'Workflow / rail',
     specHeading: 'Toolchain spec',
     specLead: 'What the team needs to build without hand-waving.',
+    // 'workflow: plan, prototype, test, integrate' moved out of this list and
+    // into workflowStages below — the rail draws it, so the line would repeat it.
     specLines: [
       'stack: systems, firmware, hardware, software',
-      'workflow: plan, prototype, test, integrate',
       'output: a repairable modular phone',
     ],
+    workflowStages: ['plan', 'prototype', 'test', 'integrate'],
   },
   subsystemSections: [
     {
@@ -146,6 +157,7 @@ export const phoneV2Copy: {
         'mode: system view',
       ],
       scrubberLabel: 'SYSTEMS',
+      explode: 0.95,
     },
     {
       id: 'hardware-pcb',
@@ -166,6 +178,7 @@ export const phoneV2Copy: {
         'mode: hardware detail',
       ],
       scrubberLabel: 'HARDWARE',
+      explode: 0.84,
     },
     {
       id: 'firmware-embedded',
@@ -186,6 +199,7 @@ export const phoneV2Copy: {
         'mode: embedded runtime',
       ],
       scrubberLabel: 'FIRMWARE',
+      explode: 0.72,
     },
     {
       id: 'operating-system',
@@ -206,6 +220,7 @@ export const phoneV2Copy: {
         'mode: platform layer',
       ],
       scrubberLabel: 'OS',
+      explode: 0.58,
     },
     {
       id: 'apps-ux',
@@ -226,6 +241,7 @@ export const phoneV2Copy: {
         'mode: application layer',
       ],
       scrubberLabel: 'APPS',
+      explode: 0.44,
     },
     {
       id: 'mechanical-cad',
@@ -246,6 +262,7 @@ export const phoneV2Copy: {
         'mode: CAD / assembly',
       ],
       scrubberLabel: 'MECHANICAL',
+      explode: 0.3,
     },
     {
       id: 'integration-testing',
@@ -266,6 +283,7 @@ export const phoneV2Copy: {
         'mode: integration pass',
       ],
       scrubberLabel: 'TESTING',
+      explode: 0.12,
     },
   ] as const,
   buildScope: {

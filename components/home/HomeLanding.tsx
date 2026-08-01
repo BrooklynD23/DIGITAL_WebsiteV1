@@ -1,8 +1,11 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { homeLandingCopy } from '@/lib/data/homeLanding';
+import { siteConfig } from '@/lib/data/siteConfig';
+import { BrandLogo } from '@/components/layout/BrandLogo';
 import './home-landing.css';
 
 const copy = homeLandingCopy;
@@ -100,6 +103,7 @@ export default function HomeLanding() {
           style={{ transform: loaderExiting ? 'translateY(-100%)' : 'translateY(0)' }}
         >
           <div className="flex flex-col items-center gap-[10px]">
+            <BrandLogo variant="dark" size={72} priority />
             <div className="font-[family-name:var(--font-home-mono)] text-[clamp(30px,4.5vw,44px)] font-medium tracking-[.42em] text-[#F2F0E8] [text-indent:.42em]">
               {copy.loader.title}
             </div>
@@ -117,13 +121,15 @@ export default function HomeLanding() {
       ) : null}
 
       <nav className="sticky top-0 z-50 grid grid-cols-[1fr_auto_1fr] items-center border-b border-[rgba(17,19,17,.12)] bg-[rgba(247,246,242,.92)] px-[18px] py-[10px] backdrop-blur-[10px]">
-        <Link href="#top" className="flex items-center gap-2 justify-self-start hover:text-[#111311]">
-          <span className="relative inline-block size-[14px] border-[1.5px] border-[#111311]">
-            <span className="absolute inset-[3px] bg-[#C28E0E]" />
-          </span>
-          <span className="font-[family-name:var(--font-home-mono)] text-[13px] font-medium tracking-[.12em]">
-            DIGITAL
-          </span>
+        <Link href="#top" className="justify-self-start hover:opacity-80">
+          <Image
+            src={siteConfig.assets.logoFull}
+            alt="DIGITAL @ Cal Poly Pomona"
+            width={88}
+            height={32}
+            className="h-[32px] w-auto"
+            priority
+          />
         </Link>
         <div className="hidden justify-self-center gap-[26px] sm:flex">
           {[
@@ -174,33 +180,16 @@ export default function HomeLanding() {
         </div>
         <div
           data-hero-word
-          className="home-landing__stripe relative mx-auto h-[clamp(360px,72vh,640px)] max-w-full overflow-hidden border border-[rgba(17,19,17,.1)]"
+          className="relative mx-auto h-[clamp(360px,72vh,640px)] max-w-full overflow-hidden border border-[rgba(17,19,17,.1)]"
         >
-          <div className="absolute inset-0">
-            <div className="absolute left-1/2 top-1/2 h-[70%] w-[min(420px,70%)] -translate-x-1/2 -translate-y-1/2 border border-[rgba(17,19,17,.25)]" />
-            <div className="absolute left-1/2 top-1/2 grid h-1/2 w-[min(300px,50%)] -translate-x-1/2 -translate-y-1/2 grid-cols-4 grid-rows-4">
-              {['1/1', '1/2', '1/3', '1/4', '2/1', '2/4', '3/1', '3/4', '4/1', '4/2', '4/3', '4/4'].map(
-                (area) => (
-                  <span
-                    key={area}
-                    style={{ gridArea: area }}
-                    className="flex items-center justify-center font-[family-name:var(--font-home-mono)] text-[13px] text-[rgba(17,19,17,.4)]"
-                  >
-                    +
-                  </span>
-                )
-              )}
-            </div>
-          </div>
-          <div className="absolute bottom-14 left-1/2 flex w-[min(440px,70%)] -translate-x-1/2 flex-col gap-[9px]">
-            <div className="h-px bg-[rgba(17,19,17,.25)]" />
-            <div className="mx-6 h-px bg-[rgba(17,19,17,.2)]" />
-            <div className="mx-12 h-px bg-[rgba(17,19,17,.15)]" />
-            <div className="mx-[72px] h-px bg-[rgba(17,19,17,.1)]" />
-          </div>
-          <div className="absolute left-1/2 top-[14px] -translate-x-1/2 font-[family-name:var(--font-home-mono)] text-[9.5px] tracking-[.2em] text-[rgba(17,19,17,.45)]">
-            {copy.hero.visualLabel}
-          </div>
+          <Image
+            src={copy.hero.imageSrc}
+            alt={copy.hero.imageAlt}
+            fill
+            className="object-cover"
+            sizes="100vw"
+            priority
+          />
         </div>
       </header>
 
@@ -342,8 +331,6 @@ export default function HomeLanding() {
         </div>
         <div className="flex gap-[22px] overflow-x-auto pb-4">
           {copy.results.cases.map((cs, index) => {
-            const href =
-              cs.title === 'The Smartphone Project' ? copy.links.smartphoneProject : copy.links.join;
             return (
               <div
                 key={cs.title}
@@ -357,7 +344,7 @@ export default function HomeLanding() {
                   </span>
                 </div>
                 <Link
-                  href={href}
+                  href={cs.href}
                   className="flex w-[min(520px,78vw)] flex-col overflow-hidden rounded-[8px] border border-[rgba(17,19,17,.15)] bg-[#FCFBF8] hover:border-[rgba(17,19,17,.35)]"
                 >
                   <div className="flex items-center gap-3 border-b border-[rgba(17,19,17,.12)] px-5 py-4">
@@ -445,12 +432,13 @@ export default function HomeLanding() {
       <footer className="border-t border-[rgba(242,240,232,.12)] bg-[#0A0C0A] px-[18px] py-9 text-[#8B948C]">
         <div className="mx-auto flex max-w-[1100px] flex-wrap items-start justify-between gap-6">
           <div className="flex flex-col gap-2">
-            <span className="font-[family-name:var(--font-home-mono)] text-sm font-medium tracking-[.2em] text-[#F2F0E8]">
-              DIGITAL
-            </span>
-            <span className="font-[family-name:var(--font-home-mono)] text-[9.5px] uppercase tracking-[.16em]">
-              @ Cal Poly Pomona
-            </span>
+            <Image
+              src={siteConfig.assets.logoFull}
+              alt="DIGITAL @ Cal Poly Pomona"
+              width={200}
+              height={52}
+              className="h-auto w-[min(200px,56vw)] invert"
+            />
           </div>
           <div className="flex flex-col gap-[7px] text-right font-[family-name:var(--font-home-mono)] text-[9.5px] uppercase tracking-[.14em]">
             {copy.footer.taglines.map((line) => (

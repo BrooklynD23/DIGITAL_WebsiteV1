@@ -19,11 +19,14 @@
 }
 
 .home-landing a {
-  color: inherit;
   text-decoration: none;
 }
 
-.home-landing a:hover {
+.home-landing a:not([class*='bg-']) {
+  color: inherit;
+}
+
+.home-landing a:not([class*='bg-']):hover {
   color: var(--dg-green);
 }
 

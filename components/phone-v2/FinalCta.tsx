@@ -41,11 +41,12 @@ export function FinalCta({ accent, reduceMotion }: FinalCtaProps) {
         }).add(
           phone.querySelectorAll('[data-phone-part="true"]'),
           {
+            // Opacity is owned by CSS in PhoneSchematicSvg — animating it here
+            // would leave a stale inline value that outranks the stylesheet.
             translateX: 0,
             translateY: 0,
             rotate: 0,
             scale: 1,
-            opacity: 1,
             duration: 1050,
             delay: stagger(45, { from: 'center' }),
           },

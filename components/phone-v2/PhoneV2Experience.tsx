@@ -8,7 +8,7 @@ import EscapeHatch from '@/components/ui/EscapeHatch';
 import { phoneV2Copy } from '@/lib/data/phoneV2';
 import { Loader } from './Loader';
 import { Hero } from './Hero';
-import { HUD } from './HUD';
+import { WorkflowRail } from './WorkflowRail';
 import { SpecCard } from './SpecCard';
 import { SubsystemStage } from './SubsystemStage';
 import { FinalCta } from './FinalCta';
@@ -108,22 +108,15 @@ export default function PhoneV2Experience() {
             </p>
           </div>
 
-          <div className="grid gap-6 lg:grid-cols-[minmax(0,0.46fr)_minmax(0,0.54fr)]">
-            <HUD
-              label={phoneV2Copy.toolbox.lensLabel}
-              title={phoneV2Copy.toolbox.specHeading}
-              description={phoneV2Copy.toolbox.specLead}
-              lines={phoneV2Copy.toolbox.specLines}
-              accent={CTA}
-            />
-            <SpecCard
-              heading={phoneV2Copy.toolbox.specHeading}
-              lead={phoneV2Copy.toolbox.specLead}
-              lines={phoneV2Copy.toolbox.specLines}
-              accent={CTA}
-              className="self-start"
-            />
-          </div>
+          <WorkflowRail
+            label={phoneV2Copy.toolbox.railLabel}
+            title={phoneV2Copy.toolbox.specHeading}
+            description={phoneV2Copy.toolbox.specLead}
+            stages={phoneV2Copy.toolbox.workflowStages}
+            lines={phoneV2Copy.toolbox.specLines}
+            accent={CTA}
+            reduceMotion={reduceMotion}
+          />
         </div>
       </section>
 

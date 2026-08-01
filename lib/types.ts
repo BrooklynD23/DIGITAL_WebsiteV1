@@ -56,6 +56,12 @@ export interface SiteConfig {
   fullName: string;
   description: string;
   url: string;
+  assets: {
+    logo: string;
+    logoDark: string;
+    logoFull: string;
+    landingHero: string;
+  };
   contact: {
     email: string;
     location: string;

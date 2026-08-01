@@ -29,6 +29,7 @@ export interface HomeCase {
   readonly stat3label: string;
   readonly learn1: string;
   readonly learn2: string;
+  readonly href: string;
 }
 
 export const homeLandingCopy = {
@@ -48,16 +49,18 @@ export const homeLandingCopy = {
     subline:
       'Student-led teams build real engineering systems at Cal Poly Pomona',
     cta: 'Get involved',
-    visualLabel: '[ HERO VISUAL — DROP ABSTRACT BUILD IMAGERY HERE ]',
+    imageSrc: '/assets/landing/Landing-Page-Hero.png',
+    imageAlt:
+      'Engineering workspace with technical drawings, schematics, and drafting tools',
   },
   thesis: {
-    eyebrow: 'Our thesis',
-    heading: 'The gap closes when you build',
+    eyebrow: 'Our Founding Philosophy',
+    heading: 'Bridging industry gaps with accessible projects',
     gaps: [
       {
         glyph: '⌗',
         title: 'Theory Gap',
-        body: 'Turn lecture notes into working prototypes with real parts, budgets, and deadlines.',
+        body: 'Opportunity to apply practical experience outside of theoretical lectures.',
       },
       {
         glyph: '⊞',
@@ -107,6 +110,23 @@ export const homeLandingCopy = {
         stat3label: 'Semesters',
         learn1: 'Set interfaces across hardware and software teams',
         learn2: 'Make repairability an architecture decision',
+        href: '/projects/modular-smartphone',
+      },
+      {
+        glyph: '◎',
+        imageLabel: 'PROJECT PHOTO — WEARABLE PROTOTYPE',
+        kicker: 'Wearable Systems',
+        title: 'Smart Accessibility Glasses',
+        line: 'Build heads-up reading glasses that move the text, not the reader\'s eyes.',
+        stat1: 'RSVP',
+        stat1label: 'Method',
+        stat2: 'FPGA',
+        stat2label: 'Compute',
+        stat3: '8 mo',
+        stat3label: 'Build cycle',
+        learn1: 'Design the display pipeline from FPGA compute to wearable optics',
+        learn2: 'Translate a reader\'s perceptual needs into hardware timing specifications',
+        href: '/projects/smart-reading',
       },
       {
         glyph: '◨',
@@ -122,6 +142,7 @@ export const homeLandingCopy = {
         stat3label: 'Pitch cycles',
         learn1: 'Map technical scope to budget and sponsorship',
         learn2: 'Explain system trade-offs beyond engineering teams',
+        href: '/get-involved',
       },
     ] satisfies readonly HomeCase[],
   },
@@ -143,6 +164,7 @@ export const homeLandingCopy = {
     join: '/get-involved',
     contact: '/contact',
     smartphoneProject: '/projects/modular-smartphone',
+    smartReading: '/projects/smart-reading',
   },
   motion: {
     loaderMs: 1900,

@@ -7,6 +7,7 @@
 
 import { motion } from 'framer-motion';
 import type { GlassesContent } from '@/lib/data/experiments/glasses';
+import { BrandLogo } from '@/components/layout/BrandLogo';
 
 interface ExperienceNavProps {
   nav: GlassesContent['nav'];
@@ -18,7 +19,8 @@ export default function ExperienceNav({ nav, cta, onNavigate }: ExperienceNavPro
   return (
     <nav className="pointer-events-none fixed inset-x-0 top-4 z-50 flex justify-center px-4">
       <div className="pointer-events-auto flex items-center gap-1 rounded-full border border-black/80 bg-white/70 p-1.5 backdrop-blur-md">
-        <span className="px-3 font-display text-sm font-extrabold uppercase tracking-tight text-black">
+        <span className="flex items-center gap-2 px-3 font-display text-sm font-extrabold uppercase tracking-tight text-black">
+          <BrandLogo size={20} />
           DIGITAL
         </span>
         {nav.map((item) => (

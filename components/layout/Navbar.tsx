@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { isImmersiveRoute } from '@/lib/immersiveRoutes';
+import { BrandLogo } from '@/components/layout/BrandLogo';
 
 export const NAVBAR_HEIGHT = 72;
 
@@ -156,8 +157,9 @@ export function Navbar() {
         >
           <Link
             href="/"
-            className="rounded-full px-4 py-2 font-display text-[12px] font-bold uppercase tracking-[.06em] text-ink"
+            className="flex items-center gap-2 rounded-full px-3 py-2 font-display text-[12px] font-bold uppercase tracking-[.06em] text-ink"
           >
+            <BrandLogo size={22} />
             DIGITAL
           </Link>
           <button

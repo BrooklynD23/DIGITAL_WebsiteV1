@@ -28,7 +28,28 @@ export interface PhoneSchematicSvgProps {
   readonly className?: string;
   readonly mobile?: boolean;
   readonly assembled?: boolean;
+  /**
+   * How far un-owned parts recede while some parts are focused.
+   * 'ghost' drops them to a hairline (subsystem stage, where one team owns the
+   * frame); 'dim' keeps them legible (loader, where every outline is still being
+   * drawn). Ignored when `activePartIds` is empty — nothing is focused, so
+   * nothing recedes.
+   */
+  readonly focusMode?: 'ghost' | 'dim';
+  /**
+   * Ease the explode transform between renders. Enable only where React drives
+   * `progress` between discrete states (the subsystem stage, which steps through
+   * seven explode values). Must stay false wherever anime.js writes transform
+   * per-frame (the FinalCta reassembly) — a CSS transition would interpolate
+   * between those frames and smear the animation.
+   */
+  readonly transitionGeometry?: boolean;
 }
+
+const INACTIVE_OPACITY = {
+  ghost: 0.18,
+  dim: 0.58,
+} as const;
 
 interface PartTransform {
   readonly x: number;
@@ -75,13 +96,35 @@ const BODY_STYLE: CSSProperties = {
 
 export const PhoneSchematicSvg = forwardRef<SVGSVGElement, PhoneSchematicSvgProps>(
   function PhoneSchematicSvg(
-    { accent, activePartIds, progress, className, mobile = false, assembled = false },
+    {
+      accent,
+      activePartIds,
+      progress,
+      className,
+      mobile = false,
+      assembled = false,
+      focusMode = 'dim',
+      transitionGeometry = false,
+    },
     ref
   ) {
     const exploded = assembled ? 0 : progress;
     const activeSet = new Set(activePartIds);
     const visibleParts = mobile ? MOBILE_PARTS : null;
 
+    // Nothing is focused when no part is named, so nothing should recede.
+    const hasFocus = activePartIds.length > 0;
+    const inactiveOpacity = assembled || !hasFocus ? 1 : INACTIVE_OPACITY[focusMode];
+
+    /**
+     * Owns geometry only — transform, glow, and the cascade delay.
+     *
+     * Opacity is deliberately NOT set here: it belongs to the CSS block below,
+     * keyed off `data-active`. React and anime.js both write inline styles, so
+     * any property set in both places ends up in a race that React wins on the
+     * next render. Motion code may animate child strokes inside a part group,
+     * but must leave the group's own opacity to CSS.
+     */
     const partStyle = (partId: PhonePartId): CSSProperties => {
       const transform = PART_TRANSFORMS[partId];
       const focus = activeSet.has(partId) ? 1.18 : 1;
@@ -90,24 +133,31 @@ export const PhoneSchematicSvg = forwardRef<SVGSVGElement, PhoneSchematicSvgProp
       const y = transform.y * spread;
       const rotate = transform.rotate * spread;
       const scale = assembled ? 1 : transform.scale * (1 + exploded * 0.02) * focus;
+      if (visibleParts && !visibleParts.has(partId)) {
+        return { display: 'none' };
+      }
       return {
-        opacity:
-          visibleParts && !visibleParts.has(partId)
-            ? 0
-            : assembled
-              ? 1
-              : activeSet.has(partId)
-                ? 1
-                : 0.58,
         transform: `translate3d(${x}px, ${y}px, 0) rotate(${rotate}deg) scale(${scale})`,
         transformBox: 'fill-box',
         transformOrigin: 'center center',
-        transition: 'filter 420ms ease-out, opacity 420ms ease-out',
+        // `transition` is a shorthand, and an inline shorthand replaces the
+        // stylesheet's declaration outright — so opacity MUST be listed here or
+        // the CSS block's opacity transition is silently dropped and part
+        // highlighting snaps instead of cross-fading.
+        transition: transitionGeometry
+          ? 'opacity 420ms ease-out, filter 420ms ease-out, transform 900ms cubic-bezier(0.33, 1, 0.68, 1)'
+          : 'opacity 420ms ease-out, filter 420ms ease-out',
+        transitionDelay: `${PART_IDS.indexOf(partId) * 18}ms`,
         filter: activeSet.has(partId)
           ? `drop-shadow(0 0 20px ${accent}66)`
           : 'drop-shadow(0 0 0 rgba(0,0,0,0))',
       };
     };
+
+    const rootStyle = {
+      ...BODY_STYLE,
+      '--phone-part-inactive': inactiveOpacity,
+    } as CSSProperties;
 
     const strokeBase = (partId: PhonePartId) =>
       activeSet.has(partId) ? accent : '#94A3B8';
@@ -121,7 +171,7 @@ export const PhoneSchematicSvg = forwardRef<SVGSVGElement, PhoneSchematicSvgProp
         className={className}
         role="img"
         aria-label={phoneV2Copy.schematicAriaLabel}
-        style={BODY_STYLE}
+        style={rootStyle}
       >
         {/* Placeholder CAD paths: swap these technical strokes with real CAD-derived geometry later. */}
         <defs>
@@ -131,8 +181,31 @@ export const PhoneSchematicSvg = forwardRef<SVGSVGElement, PhoneSchematicSvgProp
           </linearGradient>
         </defs>
         <style>{`
+          /*
+           * Single owner of part opacity. Each schematic instance sets
+           * --phone-part-inactive on its own <svg> root, and the custom property
+           * inherits down to that instance's parts, so several schematics can sit
+           * on one page at different focus levels.
+           */
+          [data-phone-part="true"] {
+            opacity: var(--phone-part-inactive, 0.58);
+            /* Fallback only. Every rendered part also carries an inline
+               transition shorthand from partStyle(), which outranks this
+               declaration — the inline string is the one that actually runs. */
+            transition: opacity 420ms ease-out;
+          }
+          [data-phone-part="true"][data-active="true"] {
+            opacity: 1;
+          }
           [data-phone-part="true"][data-active="false"] [fill]:not([fill="none"]) {
             fill-opacity: 0.08;
+          }
+          @media (prefers-reduced-motion: reduce) {
+            /* !important is required: the geometry transition is an inline style,
+               and inline styles outrank the stylesheet without it. */
+            [data-phone-part="true"] {
+              transition: none !important;
+            }
           }
         `}</style>
 
@@ -225,7 +298,10 @@ export const PhoneSchematicSvg = forwardRef<SVGSVGElement, PhoneSchematicSvgProp
               strokeWidth={1}
               vectorEffect="non-scaling-stroke"
             />
+            {/* Service rows. `data-screen-line` is the handle the OS and Apps
+                ambient loops animate — see components/phone-v2/subsystemLoops.ts. */}
             <path
+              data-screen-line="true"
               d="M -58 -138 H 58"
               fill="none"
               stroke="#F1F5F9"
@@ -234,6 +310,7 @@ export const PhoneSchematicSvg = forwardRef<SVGSVGElement, PhoneSchematicSvgProp
               vectorEffect="non-scaling-stroke"
             />
             <path
+              data-screen-line="true"
               d="M -58 -108 H 34"
               fill="none"
               stroke="#94A3B8"
@@ -242,6 +319,7 @@ export const PhoneSchematicSvg = forwardRef<SVGSVGElement, PhoneSchematicSvgProp
               vectorEffect="non-scaling-stroke"
             />
             <path
+              data-screen-line="true"
               d="M -58 -78 H 48"
               fill="none"
               stroke="#94A3B8"
@@ -249,8 +327,31 @@ export const PhoneSchematicSvg = forwardRef<SVGSVGElement, PhoneSchematicSvgProp
               strokeWidth={1.1}
               vectorEffect="non-scaling-stroke"
             />
+            {/* Scanline: parked above the panel at rest, swept down by the OS loop. */}
+            <path
+              data-screen-scan="true"
+              d="M -78 -170 H 78"
+              fill="none"
+              stroke={accent}
+              strokeOpacity={0}
+              strokeWidth={1.6}
+              vectorEffect="non-scaling-stroke"
+            />
+            {/* Tap ripple: invisible at rest, expanded by the Apps loop. */}
+            <circle
+              data-screen-tap="true"
+              cx={14}
+              cy={-42}
+              r={7}
+              fill="none"
+              stroke={accent}
+              strokeOpacity={0}
+              strokeWidth={1.4}
+              vectorEffect="non-scaling-stroke"
+              style={{ transformBox: 'fill-box', transformOrigin: 'center center' }}
+            />
             <circle cx={60} cy={-138} r={8.5} fill="none" stroke="#F1F5F9" strokeOpacity={0.85} strokeWidth={1.2} />
-            <circle cx={60} cy={-138} r={2.5} fill={accent} fillOpacity={0.9} />
+            <circle data-screen-indicator="true" cx={60} cy={-138} r={2.5} fill={accent} fillOpacity={0.9} />
           </g>
 
           <g id="phone-main-pcb" data-phone-part="true" data-active={activeSet.has('phone-main-pcb')} style={partStyle('phone-main-pcb')}>

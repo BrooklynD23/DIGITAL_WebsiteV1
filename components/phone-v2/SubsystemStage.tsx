@@ -1,11 +1,12 @@
 'use client';
 
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { animate, createTimeline, onScroll, stagger } from 'animejs';
+import { createTimeline, onScroll } from 'animejs';
 import { PhoneSchematicSvg } from './PhoneSchematicSvg';
 import { SpecCard } from './SpecCard';
 import { TickScrubber } from './TickScrubber';
 import { TextReveal } from '@/components/motion/TextReveal';
+import { createSubsystemLoop } from './subsystemLoops';
 import { phoneV2Copy } from '@/lib/data/phoneV2';
 
 const ACTIVE_STYLE = 'transition-all duration-700 ease-out';
@@ -91,10 +92,12 @@ export function SubsystemStage({ accentBase, reduceMotion }: SubsystemStageProps
     };
   }, [isDesktop, reduceMotion, sections.length]);
 
+  // Ambient loop for the section in view. Only one runs at a time, and it is
+  // reverted on change so the schematic returns to its authored state.
   useEffect(() => {
-    const svg = phoneRef.current;
+    const root = phoneRef.current;
     if (
-      !svg ||
+      !root ||
       !isDesktop ||
       reduceMotion ||
       window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -102,31 +105,13 @@ export function SubsystemStage({ accentBase, reduceMotion }: SubsystemStageProps
       return;
     }
 
-    const activeSelector = activeIds.map((id) => `#${id}`).join(', ');
-    const inactiveSelector = PART_IDS.filter((id) => !activeIds.includes(id)).map((id) => `#${id}`).join(', ');
+    const loop = createSubsystemLoop(current.id, root);
+    if (!loop) return;
 
-    const animations: ReturnType<typeof animate>[] = [];
-
-    if (activeSelector) {
-      animations.push(animate(svg.querySelectorAll(activeSelector), {
-        opacity: [0.65, 1],
-        duration: 640,
-        ease: 'out(3)',
-        delay: stagger(40),
-      }));
-    }
-
-    if (inactiveSelector) {
-      animations.push(animate(svg.querySelectorAll(inactiveSelector), {
-        opacity: [0.9, 0.58],
-        duration: 520,
-        ease: 'out(3)',
-        delay: stagger(18),
-      }));
-    }
-
-    return () => animations.forEach((animation) => animation.pause());
-  }, [activeIds, isDesktop, reduceMotion]);
+    return () => {
+      loop.revert();
+    };
+  }, [current.id, isDesktop, reduceMotion]);
 
   return (
     <section id="phone-systems" className="relative border-b border-white/10 bg-[#0F172A] text-[#F1F5F9]">
@@ -221,8 +206,10 @@ export function SubsystemStage({ accentBase, reduceMotion }: SubsystemStageProps
                   ref={phoneRef}
                   accent={currentAccent}
                   activePartIds={activeIds}
-                  progress={0.68}
+                  progress={current.explode}
                   assembled={false}
+                  focusMode="ghost"
+                  transitionGeometry
                   className="mx-auto w-full max-w-[860px]"
                 />
               </div>

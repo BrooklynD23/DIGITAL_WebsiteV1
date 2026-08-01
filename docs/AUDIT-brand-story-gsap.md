@@ -2,7 +2,7 @@
 
 **Date:** 2026-07-30  
 **Orchestrator:** GPT-5.6 Sol Medium  
-**Subagents:** Composer 2.5 (Bugbot + Security Review)  
+**Subagents:** [Security branch audit](75efd712-9d88-47b0-bcca-d61e91671c40) · [Bugbot branch audit](0c2605af-3b39-4a70-9945-26640577a128) (Composer 2.5)  
 **Scope:** Branch changes vs `main` — **audit only, no fixes applied**
 
 ---
@@ -11,14 +11,14 @@
 
 | Review | Verdict | Findings |
 |--------|---------|----------|
-| Security Review | Pass | 0 medium+ security issues |
-| Bugbot | Action required | 2 high, 6 medium, 1 low |
+| [Security branch audit](75efd712-9d88-47b0-bcca-d61e91671c40) | Pass | 0 medium+ security issues |
+| [Bugbot branch audit](0c2605af-3b39-4a70-9945-26640577a128) | Action required | 2 high, 6 medium, 1 low |
 
-The branch is structurally sound for a static-export marketing site. Security posture is appropriate (report-only CSP, no API routes, whitelisted contact topics). Bugbot flagged **routing and static-export UX gaps** that should be triaged before or immediately after merge.
+The branch is structurally sound for a static-export marketing site. Security posture is appropriate (report-only CSP, no API routes, whitelisted contact topics). Bugbot flagged **static-export HTML gaps, routing regressions, and a11y/motion issues** that should be triaged before or immediately after merge.
 
 ---
 
-## Security Review (Composer 2.5)
+## Security Review
 
 **Verdict:** No medium, high, or critical security issues in production paths.
 
@@ -43,37 +43,36 @@ The branch is structurally sound for a static-export marketing site. Security po
 
 ---
 
-## Bugbot (Composer 2.5)
+## Bugbot
 
 | Severity | Location | Finding |
 |----------|----------|---------|
-| High | `app/contact/page.tsx:317-322` | Contact route wraps `useSearchParams()` form in `Suspense` with `fallback={null}` — static export may ship empty contact HTML until hydration |
-| High | `app/projects/page.tsx:179-183` | `comingSoon` projects still link to `/projects/${slug}` but `[slug]` catch-all was removed — 404 for placeholder projects |
-| Medium | `app/phone-v2/page.tsx:8-13` | Legacy redirects use client-only `router.replace()` with no static/meta redirect — blank page without JS |
-| Medium | `app/review/page.tsx:36` | Nested `<main>` inside layout's `#main-content` — duplicate landmark |
-| Medium | `components/experiments/glasses/GlassesExperience.tsx:114-126` | Lenis disabled for reduced motion but scroll-scrubbed transforms still run |
-| Medium | `components/experiments/glasses/FloatingDecor.tsx:74-81` | Infinite animation loops without `prefers-reduced-motion` guard |
-| Medium | `components/home/home-landing.css:14` | `scroll-behavior: smooth` not disabled in reduced-motion media query |
-| Medium | `components/home/HomeLanding.tsx:100-120` | Full-screen loader has no skip/dismiss — 1.9s minimum wait |
-| Medium | `lib/data/contactTopics.ts:15-18` | `project-team` maps to `join` topic instead of `project` |
-| Low | `components/experiments/glasses/InfoPanels.tsx:17-23` | `PANEL_CENTERS` hardcodes `TOTAL = 4` — drifts if sections change |
-
----
-
-## Documentation changes (this commit)
-
-- Added [`docs/README.md`](./README.md) — documentation hub
-- Archived superseded plans/specs/handoffs to [`docs/archive/`](./archive/)
-- Rewrote root [`README.md`](../README.md) for current stack and routes
-- Updated [`MAINTAINER_GUIDE.md`](./MAINTAINER_GUIDE.md), [`KNOWN_ISSUES.md`](./troubleshooting/KNOWN_ISSUES.md), [`IMAGE_REPLACEMENT_GUIDE.md`](./IMAGE_REPLACEMENT_GUIDE.md)
+| High | `app/projects/page.tsx:179-182` | `comingSoon` cards still link to `/projects/${slug}` but `[slug]` catch-all was removed — placeholder projects 404 |
+| High | `app/projects/smart-reading/page.tsx:10-12` | `dynamic(..., { ssr: false })` ships empty static HTML until client JS — blank page for crawlers, previews, no-JS users |
+| Medium | `app/phone-v2/page.tsx:8-13` | Legacy `/phone-v2` and `/experiments/glasses` redirects are client-only `useEffect` — blank page without JS or before hydration |
+| Medium | `components/layout/Footer.tsx:27-28` | Global footer (Privacy/Terms/Cookies) suppressed on `/` via `isImmersiveRoute`; `HomeLanding` footer omits legal links |
+| Medium | `app/projects/smart-reading/page.tsx:1-17` | No `layout.tsx` metadata export — shared links fall back to generic site title/description (unlike PhoneV2 route) |
+| Medium | `app/review/page.tsx:36` | Nested `<main>` inside layout's `#main-content` — duplicate landmark, skip-link confusion |
+| Medium | `components/experiments/glasses/FloatingDecor.tsx:75-80` | Infinite `y`/`rotate` loops with no `prefers-reduced-motion` guard |
+| Medium | `components/experiments/glasses/InfoPanels.tsx:17-23` | `PANEL_CENTERS` hardcodes `TOTAL = 4` while panels use `sections.length` — snap/nav drift if content changes |
+| Low | `.claude/settings.local.json:24-26` | Machine-specific absolute paths committed — won't resolve for other contributors |
 
 ---
 
 ## Recommended merge order
 
-1. **Before merge (high):** Fix `comingSoon` project links; validate contact page static HTML
-2. **Soon after merge (medium):** Reduced-motion gaps on glasses/home; contact topic mapping; legacy redirect hardening
-3. **Launch hygiene:** Formspree endpoint, CSP enforcement, `./run.sh check` green on CI
+1. **Before merge (high):** Disable links on `comingSoon` project cards; add static fallback shell + metadata for Smart Reading route
+2. **Soon after merge (medium):** Legal links in home footer; server/meta redirects for legacy URLs; Smart Reading `layout.tsx` metadata; reduced-motion guard on `FloatingDecor`; derive `PANEL_CENTERS` from `sections.length`; fix nested `<main>` on `/review`
+3. **Launch hygiene:** Formspree endpoint, CSP enforcement, `./run.sh check` green on CI; strip or gitignore machine-local Claude paths
+
+---
+
+## Documentation changes (commit #0046)
+
+- Added [`docs/README.md`](./README.md) — documentation hub
+- Archived superseded plans/specs/handoffs to [`docs/archive/`](./archive/)
+- Rewrote root [`README.md`](../README.md) for current stack and routes
+- Updated [`MAINTAINER_GUIDE.md`](./MAINTAINER_GUIDE.md), [`KNOWN_ISSUES.md`](./troubleshooting/KNOWN_ISSUES.md), [`IMAGE_REPLACEMENT_GUIDE.md`](./IMAGE_REPLACEMENT_GUIDE.md)
 
 ---
 

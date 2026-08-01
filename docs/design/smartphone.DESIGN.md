@@ -59,15 +59,15 @@ only and must never leak into `/`, `/projects`, `/pillars`, or any shared compon
 
 - **Role:** All headlines, section titles, and button labels. Always uppercase, tight negative tracking, sub-1.0 line height.
 - **Loaded via:** `next/font/google` in `app/layout.tsx`, exposed as `font-display`; substitute stack `system-ui, sans-serif`.
-- **Weights loaded:** 500, 600, 700, 800. This page uses **800 (extrabold)** for hero/loader/subsystem/final headlines, **700 (bold)** for toolbox/HUD/build-scope headings, **600 (semibold)** for button labels.
-- **Sizes used:** `clamp(48px,10vw,150px)` loader wordmark; `clamp(44px,7vw,100px)` hero and final CTA; `clamp(34px,5vw,72px)` subsystem titles; `clamp(28px,4.5vw,52px)` toolbox and build scope; `clamp(28px,6vw,48px)` mobile stage and card titles; `clamp(28px,3vw,42px)` HUD title; 13px buttons.
+- **Weights loaded:** 500, 600, 700, 800. This page uses **800 (extrabold)** for hero/loader/subsystem/final headlines, **700 (bold)** for toolbox/rail/build-scope headings, **600 (semibold)** for button labels.
+- **Sizes used:** `clamp(48px,10vw,150px)` loader wordmark; `clamp(44px,7vw,100px)` hero and final CTA; `clamp(34px,5vw,72px)` subsystem titles; `clamp(28px,4.5vw,52px)` toolbox and build scope; `clamp(28px,6vw,48px)` mobile stage and card titles; `clamp(28px,3vw,42px)` rail title; 13px buttons.
 
 ### Hanken Grotesk (body)
 
 - **Role:** Default body text — paragraph copy, sublines, descriptions (inherited; no explicit `font-body` class appears in the phone-v2 files).
 - **Loaded via:** `next/font/google`, `font-body`; substitute stack `system-ui, sans-serif`.
 - **Weights loaded:** 400, 500, 600; this page uses 400 (regular) for all paragraphs.
-- **Sizes used:** 17px (hero subline ≥ md), 16px (section descriptions), 15px (HUD/mobile descriptions, loader subline), 14px (SpecCard lead).
+- **Sizes used:** 17px (hero subline ≥ md), 16px (section descriptions), 15px (rail/mobile descriptions, loader subline), 14px (SpecCard lead).
 
 ### DM Mono (mono)
 
@@ -88,7 +88,7 @@ only and must never leak into `/`, `/projects`, `/pillars`, or any shared compon
 | Build-scope headline (GSAP line-reveal, scroll) | `clamp(28px,4.5vw,52px)` | 0.92 | -0.04em | `--phone-type-section-alt` |
 | Mobile stage headline | `clamp(28px,6vw,48px)` | 0.92 | -0.04em | `--phone-type-mobile-stage` |
 | Mobile card title | `clamp(28px,6vw,48px)` | 0.92 | -0.04em | `--phone-type-mobile-card` |
-| HUD title | `clamp(28px,3vw,42px)` | 0.95 | -0.02em | `--phone-type-hud` |
+| Rail title | `clamp(28px,3vw,42px)` | 0.95 | -0.02em | `--phone-type-rail` |
 | Body large | 17px (md), 16px base | 1.6 | normal | `--phone-type-body-lg` |
 | Body | 15px | 1.55 | normal | `--phone-type-body` |
 | SpecCard lead | 14px | 1.55 | normal | `--phone-type-lead` |
@@ -103,10 +103,10 @@ only and must never leak into `/`, `/projects`, `/pillars`, or any shared compon
 - **Density:** Generous editorial spacing. Sections use `py-16` (64px) standard, `py-20` (80px) final CTA, `py-10` (40px) hero/loader vertical padding.
 - **Horizontal gutters:** `px-6` (24px) base → `md:px-8` (32px) → `lg:px-10` (40px).
 - **Content max width:** `max-w-[1360px]` for every section container (wider than the site-wide 1180px `max-w-content` — intentional).
-- **Vertical rhythm within blocks:** eyebrow → headline `mt-4`–`mt-6`; headline → description `mt-3`–`mt-5`; description → bullets/CTAs `mt-4`–`mt-8`; grid gaps `gap-8`/`gap-10` (subsystem columns `md:gap-8 lg:gap-12`, HUD/spec pair `gap-6`).
+- **Vertical rhythm within blocks:** eyebrow → headline `mt-4`–`mt-6`; headline → description `mt-3`–`mt-5`; description → bullets/CTAs `mt-4`–`mt-8`; grid gaps `gap-8`/`gap-10` (subsystem columns `md:gap-8 lg:gap-12`, toolbox rail block).
 - **Measure caps:** copy is width-limited in characters — `max-w-[34ch]` (descriptions), `[36ch]`, `[38ch]`, `[40ch]`, `[28ch]` (loader tagline), `[46ch]` (support line), `[12ch]` (big headlines forced to wrap).
-- **Border radius:** `4px` buttons (`rounded-[4px]`); `10px` cards (`rounded-[10px]` SpecCard, mobile subsystem cards); `rounded` (4px) spec-line chips; `rounded-full` dots, ticks, HUD rings. Schematic rects use SVG `rx` of 10–40.
-- **Dots & ticks:** accent bullets `size-1.5` (6px); SpecCard dot `size-2` (8px); scrubber ticks `h-2 w-2` (8px) or `h-1.5 w-1.5` compact; HUD center pupil `size-1.5` inside a `size-5` ring.
+- **Border radius:** `4px` buttons (`rounded-[4px]`); `10px` cards (`rounded-[10px]` SpecCard, mobile subsystem cards); `rounded` (4px) spec-line chips; `rounded-full` dots and ticks. Schematic rects use SVG `rx` of 10–40.
+- **Dots & ticks:** accent bullets `size-1.5` (6px); SpecCard dot `size-2` (8px); scrubber ticks `h-2 w-2` (8px) or `h-1.5 w-1.5` compact; workflow-rail drilled centre r=3.2 inside a 26px pad.
 - **Borders:** 1px everywhere; `border-white/10` hairlines on dark, `border-white/14` ghost buttons (hover `/24`), `#CBD5E1` on light.
 
 ---
@@ -115,9 +115,41 @@ only and must never leak into `/`, `/projects`, `/pillars`, or any shared compon
 
 ### Loader
 
-**Role:** Full-screen boot sequence overlay shown once on entry (skipped entirely under reduced motion).
+**Role:** Full-screen power-on sequence shown on entry (skipped entirely under reduced motion). Plays on every visit — no storage gate, so the `/cookies` notice stays accurate.
 
-Fixed overlay, `z-[60]`, `#0F172A` background with a layered radial highlight (`rgba(255,255,255,0.06)` at 50% 30%) over a near-opaque navy vertical gradient. Content column max-w-6xl: a giant Archivo extrabold wordmark ("DIGITAL", `clamp(48px,10vw,150px)`, leading 0.85, tracking -0.04em), a DM Mono 11px tagline at `tracking-[0.24em]` in `#94A3B8`, a 15px `#CBD5E1` subline, a compact TickScrubber whose active tick and progress mirror the SVG draw progress (7 ticks), and the PhoneSchematicSvg (max-w-[860px]) with front-glass + display-panel active, un-assembled at progress 0. Four outline groups (front glass, display panel, midframe, back cover) are line-drawn via anime.js `svg.createDrawable`. Any wheel, scroll, keydown, or pointerdown skips it: timeline pauses and the overlay fades out over 220ms `out(3)`, after which the page root pulses opacity 0.96→1 (220ms `out(3)`).
+*Extended to seven beats (2026-07).* The overlay previously ran ~1.1s: four outline groups drew
+in, the chrome faded up, and any input killed it. It rendered a TickScrubber with **seven** ticks
+labelled "Boot" while nothing in the sequence had seven of anything — the ticks were raw draw
+progress. It now delivers the beats it advertises: **one stage per subsystem**, driven read-only
+from `phoneV2Copy.subsystemSections` via `components/phone-v2/loaderSequence.ts`.
+
+Fixed overlay, `z-[60]`, `touch-none`, `#0F172A` background with a layered radial highlight
+(`rgba(255,255,255,0.06)` at 50% 30%) over a near-opaque navy vertical gradient. Content column
+max-w-6xl: a giant Archivo extrabold wordmark ("DIGITAL", `clamp(48px,10vw,150px)`, leading 0.85,
+tracking -0.04em), a DM Mono 11px tagline at `tracking-[0.24em]` in `#94A3B8`, a 15px `#CBD5E1`
+subline, a compact TickScrubber, and the PhoneSchematicSvg (max-w-[860px]) at `focusMode="dim"`,
+un-assembled.
+
+**Per stage:** the subsystem's `activePartIds` light (CSS `data-active`), its `accent` takes over
+the schematic (`#F87171` → `#FBBF24` → `#4ADE80` → `#22D3EE` → `#60A5FA` → `#C084FC` → `#FACC15`),
+its parts' strokes draw in via `svg.createDrawable`, and the scrubber advances one tick with that
+stage's `scrubberLabel` as its detail. During the 260ms opening — before stage 0 — the schematic
+shows no active part and wears the route's indigo `#818CF8`, so the chassis arrives in brand
+colour before the subsystems claim theirs.
+
+All 14 part groups are drawn exactly once. Deduping `activePartIds` by first appearance covers
+only 10 and leaves stage 4 empty, so `LOADER_STAGE_EXTRA_PARTS` in `loaderSequence.ts` assigns
+camera module (stage 1), antenna module (stage 2), and speakers + buttons (stage 4). `phone-screws`
+is fill-only with no strokes to draw — the schematic's own `[data-active="false"] [fill]` rule
+holds it at `fill-opacity: 0.08` until stage 6 lights it, so it pops in as the finale for free.
+
+**Explode runs upward**, `0.12 → 0.95` (the `min`/`max` of the section `explode` values, eased
+`easeInOutCubic`) — the inverse of the subsystem stage, which reassembles. Ending at the maximum
+matches Hero's `progress={0.96}`, so the handoff is seamless.
+
+All drawables are created in a single pass at effect start so the whole phone begins hidden:
+`createDrawable` guards on `pathLength` and initialises an element only once, so creating them
+lazily per stage would leave later parts visible from the first frame.
 
 ### Hero
 
@@ -129,13 +161,35 @@ Fixed overlay, `z-[60]`, `#0F172A` background with a layered radial highlight (`
 
 **Role:** Progress indicator — a row of dot "ticks" plus a mono label/detail pair, right-aligned.
 
-`pointer-events-none`, `role="img"` with a combined aria-label. Ticks are `rounded-full` dots: `#F1F5F9` when index ≤ activeIndex, `#94A3B8` at 45% opacity otherwise, with a secondary opacity ramp driven by normalized progress; all transitions 300ms ease-out. Sizes: 8px default, 6px `compact`. Below the ticks: label in `#F1F5F9`, optional detail line in `#94A3B8`, both DM Mono 10px uppercase `tracking-[0.24em]`. Used in the loader (compact, draw-progress), hero (static 7/7), and subsystem stage (per-section label + `01 / 07` detail).
+`pointer-events-none`, `role="img"` with a combined aria-label. Ticks are `rounded-full` dots: `#F1F5F9` when index ≤ activeIndex, `#94A3B8` at 45% opacity otherwise, with a secondary opacity ramp driven by normalized progress; all transitions 300ms ease-out. Sizes: 8px default, 6px `compact`. Below the ticks: label in `#F1F5F9`, optional detail line in `#94A3B8`, both DM Mono 10px uppercase `tracking-[0.24em]`. Used in the loader (compact; `label` holds constant at "Boot" while `detail` carries the current stage's `scrubberLabel` — SYSTEMS / HARDWARE / FIRMWARE / OS / APPS / MECHANICAL / TESTING — and `activeIndex` advances one tick per beat, `-1` during the opening), hero (static 7/7), and subsystem stage (per-section label + `01 / 07` detail).
 
-### HUD
+### WorkflowRail
 
-**Role:** Decorative "lens" reticle with a labeled spec block beneath — the toolbox section's visual anchor.
+**Role:** The toolbox section's visual anchor — a routed board trace carrying the four workflow stages, with a labeled spec block beneath.
 
-A square frame (max-w-[440px], `aspect-square`) built from concentric pure-CSS rings: outer `rounded-full` circle with `border-[#94A3B8]/30` and a radial sheen (white 6% → navy fade), an inner ring inset 12% at `border-[#F1F5F9]/15`, vertical + horizontal crosshairs (`#94A3B8`/35, 62% span, 1px), a dashed orbit circle (64%, `border-dashed border-[#94A3B8]/20`), a 20px center ring at `#F1F5F9`/70, and a 6px accent-colored pupil. Below (`mt-5`, max-w-[34ch]): 10px mono label, Archivo bold HUD title (`clamp(28px,3vw,42px)`, leading 0.95, tracking -0.02em), 15px `#CBD5E1` description, then mono 11px `tracking-[0.18em]` bullet list with 6px accent dots.
+*Replaced the former HUD "lens" reticle (2026-07).* The reticle was targeting/aerospace
+language on a page whose every other mark is orthographic line-art derived from the phone's
+own geometry, and it encoded nothing — the section headline is "One workflow. Clear subsystem
+owners," which a crosshair does not state. The rail draws the stages instead, in the page's own
+service-manual vernacular. The same change removed a duplication: the toolbox previously rendered
+`specHeading`/`specLead`/`specLines` twice, once in the HUD and again in an adjacent SpecCard.
+The SpecCard is gone from this section; the rail carries the block.
+
+A 440×200 `viewBox` SVG (`max-w-[440px]`): one accent-stroked trace of horizontal runs with 45°
+mitres at each level change — how signal is actually routed on a PCB — broken by a gap at each of
+four pads. Pads are 26px `rx=3` squares, stroke `#F1F5F9`/0.35 at 1.3px, each with a 3.2px
+accent-filled drilled centre (the one filled mark, per the page's stroke-only rule), a DM Mono 9px
+`01`–`04` index above at `letter-spacing 0.18em`, and a DM Mono 10px uppercase stage label below at
+`0.24em`. Stage names come from `phoneV2Copy.toolbox.workflowStages`. Below (`mt-5`, max-w-[34ch]):
+10px mono label (`railLabel`), Archivo bold title (`clamp(28px,3vw,42px)`, leading 0.95, tracking
+-0.02em), 15px `#CBD5E1` description, then mono 11px `tracking-[0.18em]` bullet list with 6px accent
+dots — the type block is carried over unchanged from the HUD.
+
+**Motion:** one looping anime.js timeline. The trace draws in via `svg.createDrawable` (1500ms
+`inOut(2)`), each pad answers as the signal reaches it (`strokeOpacity` 0.35 → 1 → 0.35, `scale`
+1 → 1.22 → 1, 520ms, stagger 340ms from t=220ms), then the trace retracts at t=2100ms.
+`loopDelay` 700ms. Fully skipped under `prefers-reduced-motion`, which leaves the rail as static
+line art.
 
 ### SpecCard
 
@@ -157,7 +211,19 @@ Desktop (`md:` and up): the container stretches to `md:min-h-[700svh]` (7 × 100
 
 **Role:** The page's single illustration — a 920×760 viewBox exploded wireframe smartphone made of 14 named part groups (back cover, display panel, midframe, front glass, screen UI, main PCB, battery, camera module, antenna module, speakers, buttons, haptics, flex cables, screws).
 
-Pure line art: strokes `#94A3B8` (default part) or `#F1F5F9` (bright detail lines at opacities 0.42–0.96), 1–1.7px width with `vectorEffect="non-scaling-stroke"`. Active parts swap their primary stroke to the current accent; small filled circles (camera lenses, PCB test point, screen status dot, all six screws) fill with the accent at 0.78–0.9 opacity. The only fill surface is the back cover's `phone-v2-surface` linear gradient (`#F1F5F9` 18% → `#94A3B8` 4%); an embedded style rule collapses fills on inactive parts to `fill-opacity: 0.08`. Each part carries a hand-tuned explode transform (translate up to ±194px, rotate ±17°, scale ≤1.04) multiplied by the `progress` prop; active parts spread 1.2× further and scale 1.18×. `assembled` zeroes all transforms. The whole SVG wears `drop-shadow(0 38px 60px rgba(15, 23, 42, 0.45))`. Part opacity/filter transitions run 420ms ease-out. A `mobile` prop restricts rendering to 5 parts (front glass, screen UI, PCB, battery, back cover). The geometry is explicitly placeholder CAD, per in-file comments, to be replaced with real CAD-derived paths.
+Pure line art: strokes `#94A3B8` (default part) or `#F1F5F9` (bright detail lines at opacities 0.42–0.96), 1–1.7px width with `vectorEffect="non-scaling-stroke"`. Active parts swap their primary stroke to the current accent; small filled circles (camera lenses, PCB test point, screen status dot, all six screws) fill with the accent at 0.78–0.9 opacity. The only fill surface is the back cover's `phone-v2-surface` linear gradient (`#F1F5F9` 18% → `#94A3B8` 4%); an embedded style rule collapses fills on inactive parts to `fill-opacity: 0.08`. Each part carries a hand-tuned explode transform (translate up to ±194px, rotate ±17°, scale ≤1.04) multiplied by the `progress` prop; active parts spread 1.2× further and scale 1.18×. `assembled` zeroes all transforms. The whole SVG wears `drop-shadow(0 38px 60px rgba(15, 23, 42, 0.45))`. Part opacity/filter transitions run 420ms ease-out, with an 18ms-per-part cascade delay in part-list order.
+
+**Opacity ownership (added 2026-07).** Part-group opacity is owned solely by the embedded
+style rule, driven by each group's `data-active` attribute and the `--phone-part-inactive`
+custom property set on the `<svg>` root. React sets no `opacity` in the part style object, and
+motion code must not animate it either — both write inline styles, so a property written from
+both sides races, and React wins on the next render. Motion may animate elements *inside* a part
+group (strokes, ripples, scanlines); the group's own opacity and transform stay with CSS and
+React respectively. A `focusMode` prop picks how far un-owned parts recede while some part is
+focused: `'ghost'` (0.18, subsystem stage) or `'dim'` (0.58, default — loader and hero, where
+every outline is still being drawn). When `activePartIds` is empty nothing is focused, so nothing
+recedes and all parts sit at opacity 1. A `mobile` prop restricts rendering to 5 parts (front
+glass, screen UI, PCB, battery, back cover); parts outside that set are `display: none`. The geometry is explicitly placeholder CAD, per in-file comments, to be replaced with real CAD-derived paths.
 
 ### Build Scope (light section)
 
@@ -200,9 +266,52 @@ Fixed at `left-6 top-6`, `z-50`, DM Mono 11px uppercase `tracking-[0.2em]`. Rend
   SVG parts, loader, and scroll-scrub timeline untouched. Under `prefers-reduced-motion`,
   `TextReveal` skips `SplitText` entirely and renders plain text.
 - **Signature easings:** `out(3)` for nearly all entrances/fades; `inOut(3)` for the reassembly; `linear` for the scroll-scrub timeline; CSS `ease-out` for hover/opacity transitions.
-- **Loader timing:** timeline defaults 620ms `out(3)`. Draw-on of 4 outline groups: 900ms, stagger 70ms, from t=0. Wordmark: opacity 0→1, y 12→0, 420ms at t=120ms. Tagline: y 8→0, 360ms at t=240ms. Scrubber: 360ms at t=280ms. Skip fade: 220ms. Root settle pulse after dismiss: opacity 0.96→1, 220ms.
+- **Loader timing (seven beats, 2026-07):** constants live in `components/phone-v2/loaderSequence.ts` — `OPEN_MS 260`, `STAGE_MS 320` × 7 = 2240, `CLOSE_MS 300` → `TIMELINE_MS 2800`, plus a 220ms outro fade ≈ **3.0s perceived**.
+
+  | t (ms) | Beat |
+  |---|---|
+  | 0 | wordmark `opacity [0,1]`, `translateY [12,0]`, 380ms `out(3)` |
+  | 120 | tagline, 320ms |
+  | 200 | scrubber, 320ms |
+  | 260 | **stage 0** draw tween, 240ms, `stagger(step)` |
+  | 580 / 900 / 1220 / 1540 / 1860 / 2180 | stages 1–6 |
+  | 260 → 2500 | explode ramp `0.12 → 0.95`, `easeInOutCubic` |
+  | 2500 → 2800 | close — holds the finished phone |
+  | 2800 | `onComplete` → fade root 220ms `out(3)` → hand off |
+
+  The per-stage cascade is bounded — `step = min(34, 180 / (count - 1))` — so one stage's draw
+  cannot run into the stage after next. Stage index, explode and tick progress are all derived at
+  render from a single `elapsed` state value fed by the timeline's `currentTime` (not `progress`,
+  which loses meaning when playback rate changes).
+
+- **Loader input model:** inverts the old "any input skips". **Scroll fast-forwards** — a `wheel`
+  listener (no `once`, so repeat gestures keep working) latches `timeline.speed = 4`, compressing
+  the sequence to ≈0.9s without discarding it; `speed` returns to 1 once `currentTime` enters the
+  close window, so the final frame settles before the fade. **Key or tap skips outright** (bare
+  modifier keys ignored). On pointers, a drag past 8px fast-forwards and a tap skips — binding
+  skip to `pointerdown` would make every swipe an instant skip and leave fast-forward unreachable
+  on touch, which is also why the root carries `touch-none`. While the overlay is up,
+  `document.body` is `overflow: hidden` with scrollbar-width padding compensation, so the page
+  cannot scroll behind a fast-forwarding visitor and nothing shifts when it clears.
 - **Scroll pin/scrub:** On desktop only, SubsystemStage pins its right column with CSS `sticky top-0 h-[100svh]` inside a `md:min-h-[700svh]` track. An anime timeline with `autoplay: onScroll({ enter: 'top top', leave: 'bottom bottom', sync: true })` and one `sections.length × 1000`ms segment converts progress into a discrete `activeIndex` (`Math.floor(p × 7)`, clamped). The breakpoint gate uses `(min-width: 768px)` and initializes in `useLayoutEffect`, so no hidden desktop timeline runs on mobile. Note: the `onUpdate` handler normalizes progress that may arrive as 0–100 (`self.progress > 1 ? self.progress / 100 : self.progress`).
-- **Subsystem transitions:** on index change — active SVG parts opacity 0.65→1, 640ms `out(3)`, stagger 40ms; inactive parts 0.9→0.58, 520ms `out(3)`, stagger 18ms; text articles cross-fade via inline opacity (1 / 0.48 upcoming / 0.34 past) with 700ms ease-out on content; part glow/opacity CSS transition 420ms ease-out; scrubber ticks 300ms ease-out.
+- **Subsystem transitions:** on index change — SVG part opacity is a pure CSS transition (420ms ease-out, 18ms-per-part cascade), driven by `data-active` and `--phone-part-inactive`; owned parts land at 1, un-owned at 0.18 (`focusMode="ghost"`). No anime.js animation touches part opacity — see "Opacity ownership" under PhoneSchematicSvg for why. Text articles cross-fade via inline opacity (1 / 0.48 upcoming / 0.34 past) with 700ms ease-out on content; part glow CSS transition 420ms ease-out; scrubber ticks 300ms ease-out.
+- **Ambient subsystem loops (added 2026-07):** `components/phone-v2/subsystemLoops.ts` builds one
+  looping anime.js timeline per eligible section, so a section reads as the subsystem *working*
+  rather than the same diagram with a different part lit. Only the active section's timeline runs;
+  `SubsystemStage` reverts it on index change, restoring the schematic's authored state. Each loop
+  targets `data-`-attributed elements *inside* the screen-UI group — never a part group's own
+  opacity or transform. Currently implemented:
+  - **Operating System** (`operating-system`): the three `data-screen-line` service rows draw in via
+    `svg.createDrawable` (640ms, stagger 200ms), the `data-screen-indicator` status dot blinks
+    0.9 → 0.12 → 0.9 over 1400ms, and the `data-screen-scan` scanline sweeps the panel 296px in
+    1700ms `linear`; rows retract at t=2300ms. `loopDelay` 420ms.
+  - **Apps / UX** (`apps-ux`): the `data-screen-tap` ripple scales 0.4 → 2.8 while fading out
+    (940ms `out(3)`), then the service rows answer at t=280ms with a 7px nudge and a brightness
+    lift (780ms, stagger 95ms) — action, then result. `loopDelay` 640ms.
+
+  Both loops are gated behind the same desktop + `prefers-reduced-motion` checks as the scroll
+  timeline, and return `null` when their hooks are absent (e.g. the five-part mobile subset).
+  Remaining sections have no loop yet; add them here as they land.
 - **Reassembly (FinalCta):** IntersectionObserver threshold 0.35, one-shot; all parts to identity transform, 1050ms `inOut(3)`, stagger 45ms from center.
 - **Hover:** primary CTA `-translate-y-0.5` lift, 200ms ease-out; ghost buttons border/background color shift, 200ms ease-out. Focus: 2px `#818CF8` ring with 2px offset against `#0F172A`.
 - **Breakpoint behavior:** the desktop/mobile split is Tailwind `md:` — **768px** (the project defines no custom `screens`; no 820px value exists in this code). Below 768px: the subsystem stage swaps to stacked cards, the hero scrubber hides, and schematics render the 5-part mobile subset.
@@ -263,8 +372,8 @@ The page has **no photographs, icon sets, or raster assets**. Its only imagery i
 
 - Stroke-only line art: `#94A3B8` for default part outlines, `#F1F5F9` for bright detail lines (opacities 0.28–0.96), widths 1–1.7px, always `vectorEffect="non-scaling-stroke"`.
 - The single fill surface is the back cover's faint `#F1F5F9`→`#94A3B8` gradient; inactive parts' fills collapse to `fill-opacity: 0.08`.
-- Highlight behavior: active parts swap stroke to the current accent, gain `drop-shadow(0 0 20px {accent}66)`, sit at opacity 1 while inactive parts rest at 0.58; accent-filled micro-circles (lenses, test points, screws) at 0.78–0.9 fill opacity.
-- Explode behavior: per-part transforms scaled by `progress` (hero 0.96, stage 0.68, final 0.86, mobile 0.42, loader 0); `assembled` collapses all transforms.
+- Highlight behavior: active parts swap stroke to the current accent, gain `drop-shadow(0 0 20px {accent}66)`, and sit at opacity 1. Un-owned parts rest at `0.18` in the subsystem stage (`focusMode="ghost"` — one team owns the frame, so the rest drop to a hairline) and at `0.58` everywhere else (`focusMode="dim"`, the default). Accent-filled micro-circles (lenses, test points, screws) at 0.78–0.9 fill opacity.
+- Explode behavior: per-part transforms scaled by `progress` (hero 0.96, final 0.86, mobile 0.42, loader 0); `assembled` collapses all transforms. The desktop subsystem stage no longer uses a single value — each section carries its own `explode` in `lib/data/phoneV2.ts`, descending monotonically **0.95 → 0.84 → 0.72 → 0.58 → 0.44 → 0.30 → 0.12** across the seven sections, so scrolling the stage reads as the phone coming back together and hands off to the FinalCta reassembly. Transitions between those states run 900ms `cubic-bezier(0.33, 1, 0.68, 1)` (the CSS equivalent of `out(3)`), enabled by the schematic's `transitionGeometry` prop — which must stay off wherever anime.js writes transform per-frame.
 - Mobile renders only 5 of the 14 parts.
 
 ---
@@ -273,7 +382,7 @@ The page has **no photographs, icon sets, or raster assets**. Its only imagery i
 
 - **Page model:** one full-bleed vertical experience — Loader (overlay) → Hero (100svh) → Toolbox → SubsystemStage (700svh pinned) → Build Scope (light) → FinalCta. Dark sections chain with `border-b border-white/10`.
 - **Container:** every section centers a `max-w-[1360px]` block with `px-6 / md:px-8 / lg:px-10` gutters.
-- **Split ratios (all `minmax(0, fr)` grids at `md:`):** Hero 40/60 (flex widths); Toolbox 42/58, inner HUD/spec pair 46/54; SubsystemStage 47/53; Build Scope 44/56; FinalCta 52/48.
+- **Split ratios (all `minmax(0, fr)` grids at `md:`):** Hero 40/60 (flex widths); Toolbox 42/58, SubsystemStage 47/53; Build Scope 44/56; FinalCta 52/48.
 - **Section rhythm:** `py-16` standard, `py-20` finale, `py-10` hero; intra-block steps of `mt-3`–`mt-8`.
 - **Breakpoints as implemented:** the only structural breakpoint is Tailwind `md` (**768px** — no custom `screens` in `tailwind.config.ts`; an 820px figure does not appear anywhere in this code). `lg` (1024px) only widens gutters and grid gaps. Below `md`: single column, stacked subsystem cards, hidden hero scrubber, 5-part mobile schematic, no pinning.
 - **Pinning:** desktop subsystem stage only — CSS sticky right column inside a 7×100svh scroll track.
@@ -302,10 +411,10 @@ The page has **no photographs, icon sets, or raster assets**. Its only imagery i
 
 ## Scale Philosophy
 
-The type scale is **viewport-fluid at the top, fixed at the bottom**. Every display size is a `clamp(min, vw, max)` expression tuned per beat (150px loader wordmark down to 42px HUD title), so headlines scale continuously with the viewport instead of stepping at breakpoints — the *only* structural breakpoint is layout (`md`), never type size. Body and label sizes are pinned pixels (17/16/15/14/13/11/10) so spec text reads like fixed instrument labeling at any width. Hierarchy is carried by three coupled axes that move together: as size grows, tracking goes more negative (-0.02em → -0.05em) and leading drops (0.95 → 0.85); as size shrinks into mono-label territory, tracking widens dramatically (0.16em → 0.28em). Agents must not: convert clamps to breakpoint-stepped sizes, add intermediate display sizes, loosen the negative tracking on display type, apply wide mono tracking to Archivo (or vice versa), or introduce sizes outside the pinned pixel set for labels and body copy.
+The type scale is **viewport-fluid at the top, fixed at the bottom**. Every display size is a `clamp(min, vw, max)` expression tuned per beat (150px loader wordmark down to 42px rail title), so headlines scale continuously with the viewport instead of stepping at breakpoints — the *only* structural breakpoint is layout (`md`), never type size. Body and label sizes are pinned pixels (17/16/15/14/13/11/10) so spec text reads like fixed instrument labeling at any width. Hierarchy is carried by three coupled axes that move together: as size grows, tracking goes more negative (-0.02em → -0.05em) and leading drops (0.95 → 0.85); as size shrinks into mono-label territory, tracking widens dramatically (0.16em → 0.28em). Agents must not: convert clamps to breakpoint-stepped sizes, add intermediate display sizes, loosen the negative tracking on display type, apply wide mono tracking to Archivo (or vice versa), or introduce sizes outside the pinned pixel set for labels and body copy.
 
 **2026-07 revision:** the section-headline register (formerly five near-distinct clamps
-between 28–58px: HUD title, mobile stage, mobile card, toolbox, build-scope) is deliberately
+between 28–58px: rail title, mobile stage, mobile card, toolbox, build-scope) is deliberately
 collapsed to three exact values: subsystem titles (largest, `clamp(34px,5vw,72px)`, the
 page's most-repeated story beat), one shared section size for Toolbox/Build-Scope
 (`clamp(28px,4.5vw,52px)`), and one shared mobile-headline size
