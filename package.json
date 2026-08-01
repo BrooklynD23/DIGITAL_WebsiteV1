@@ -2,11 +2,15 @@
   "name": "digital-website",
   "version": "1.0.0",
   "private": true,
+  "engines": {
+    "node": "24.x"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "validate:vercel": "node scripts/validate-vercel-json.mjs",
     "encode:teardown": "node scripts/encode-teardown-assets.mjs"
   },
   "dependencies": {

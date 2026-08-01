@@ -24,7 +24,7 @@ alongside standard club pages (about, team, projects, get involved, contact).
 
 ### Prerequisites
 
-- Node.js 18.17+
+- Node.js 24.x (matches Vercel and `package.json` engines)
 - npm
 
 ### Install and run
@@ -132,7 +132,9 @@ Before UI/UX changes, read the governing style reference:
 
 ## Deployment
 
-Push to `main` on GitHub; Vercel auto-deploys. The build outputs static files to `out/`.
+Vercel production deploys from the `deployment` branch only, after CI passes on `main`. See
+[`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) for the full CI/CD pipeline, branch protection, and
+Vercel dashboard checklist. The build outputs static files to `out/`.
 
 Security headers and CSP (report-only) are configured in `vercel.json`.
 
@@ -141,6 +143,7 @@ Security headers and CSP (report-only) are configured in `vercel.json`.
 See [`docs/README.md`](docs/README.md) for the full documentation index:
 
 - [Routes & Pages](docs/ROUTES.md)
+- [Deployment & CI/CD](docs/DEPLOYMENT.md)
 - [Maintainer Guide](docs/MAINTAINER_GUIDE.md)
 - [Known Issues](docs/troubleshooting/KNOWN_ISSUES.md)
 - [Agent Conventions](AGENT.md)

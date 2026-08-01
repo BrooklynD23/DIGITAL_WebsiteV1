@@ -1,5 +1,12 @@
 {
-  "_comment": "CSP is intentionally REPORT-ONLY. Do NOT change Content-Security-Policy-Report-Only to Content-Security-Policy until after post-deploy validation in the browser console / CSP report endpoint confirms zero violations.",
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "git": {
+    "deploymentEnabled": {
+      "main": false,
+      "deployment": true
+    }
+  },
+  "ignoreCommand": "if [ \"$VERCEL_GIT_COMMIT_REF\" = \"deployment\" ]; then exit 1; else exit 0; fi",
   "headers": [
     {
       "source": "/(.*)",
