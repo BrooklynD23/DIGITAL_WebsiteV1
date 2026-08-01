@@ -60,6 +60,7 @@ committed — see the standing rule in `CLAUDE.md` and `AGENT.md`.
 | v0.11.0 | #0044    | `4834920` | feat(glasses): story-first copy + panel-title type collapse (#0044) | Phase 3 of brand-story-gsap plan |
 | v0.12.0 | #0045    | `90d46de` | feat(landing): story-first copy + serif/sans role split (#0045) | Phase 4 of brand-story-gsap plan — completes `docs/archive/specs/2026-07-19-brand-story-gsap-design.md` |
 | v0.12.1 | #0046    | `280ee82` | docs: consolidate archive, refresh README, pre-merge audit (#0046) | Docs hub + archive; Bugbot/Security audit report |
+| v0.13.0 | #0047    | `3dc144d` | fix(audit): close pre-merge audit findings across landing, PhoneV2, Smart Reading (#0047) | Remediates all 8 live findings from `docs/AUDIT-brand-story-gsap.md` — Smart Reading static shell + route metadata, legacy `/phone-v2` and `/experiments/glasses` deleted, comingSoon card guard, landing footer legal links, `/review` landmark, reduced-motion decor, content-derived panel bands. Adds `docs/PRE-LAUNCH.md`; fixes stale `run.sh` `[slug]` route check. `./run.sh check` green; static export verified against exported HTML |
 
 ---
 
@@ -67,7 +68,8 @@ committed — see the standing rule in `CLAUDE.md` and `AGENT.md`.
 
 - **Custom domain** — awaiting DNS credentials / domain decision from club leadership.
 - **Real Formspree endpoint** — contact form is using a placeholder; needs the club's
-  verified Formspree form ID.
+  verified Formspree form ID. As of #0047 the form refuses to submit and points visitors to
+  email instead, rather than POSTing into a 404. See [`docs/PRE-LAUNCH.md`](./docs/PRE-LAUNCH.md).
 - **Org logo + favicon / OG image** — final asset files needed from the design lead.
 - **Heads-up Display Glasses copy** — project description, team lead, and timeline TBD;
   placeholder reads "More info soon" until the team provides details.
