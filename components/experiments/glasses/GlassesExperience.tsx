@@ -22,16 +22,20 @@ import ExperienceNav from './ExperienceNav';
 import FloatingDecor from './FloatingDecor';
 import PovBackground from './PovBackground';
 import HudOverlay from './HudOverlay';
-import InfoPanels, { PANEL_CENTERS } from './InfoPanels';
+import InfoPanels from './InfoPanels';
+import { panelCenters } from './panelBands';
 
-/** Where each nav target lands along the scroll track (0..1). Keys match info-section ids. */
-// Land on each panel's CENTER (full opacity) so a nav jump never stops in a crossfade gap
-// where two panels overlap. Centers derive from InfoPanels band base 0.74, span 0.065.
-const NAV_TARGET: Record<string, number> = {
-  '#info-approach': PANEL_CENTERS[1],
-  '#info-platform': PANEL_CENTERS[2],
-  '#info-join': PANEL_CENTERS[3],
-};
+/** Panel centers for the current section count — add a section and these follow. */
+const PANEL_CENTERS = panelCenters(GLASSES_CONTENT.info.length);
+
+/**
+ * Where each nav target lands along the scroll track (0..1). Keys are `#<section id>`,
+ * derived from the content itself so nav, snapping, and panels can never drift apart.
+ * Landing on a panel's CENTER (full opacity) keeps a nav jump out of the crossfade gaps.
+ */
+const NAV_TARGET: Record<string, number> = Object.fromEntries(
+  GLASSES_CONTENT.info.map((section, i) => [`#${section.id}`, PANEL_CENTERS[i]])
+);
 
 export default function GlassesExperience() {
   const containerRef = useRef<HTMLDivElement>(null);

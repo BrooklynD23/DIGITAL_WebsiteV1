@@ -177,14 +177,12 @@ export default function ProjectsPage() {
         >
           {filteredProjects.map((project, index) =>
             project.comingSoon ? (
-              <Link
+              // Placeholder projects have no detail route — render a static card rather
+              // than a link that would 404.
+              <article
                 key={project.id}
-                href={`/projects/${project.slug}`}
                 className={cn(
-                  'reveal group flex flex-col rounded-lg border border-white/40 bg-white/[.22] p-[30px] shadow-card backdrop-blur-[6px]',
-                  'transition-[transform,border-color] duration-300 ease-studio',
-                  'hover:-translate-y-0.5 hover:border-white/60',
-                  'focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue focus-visible:ring-offset-2 focus-visible:ring-offset-studio'
+                  'reveal flex flex-col rounded-lg border border-white/40 bg-white/[.22] p-[30px] shadow-card backdrop-blur-[6px]'
                 )}
                 style={{ transitionDelay: `${index * 60}ms` }}
               >
@@ -213,7 +211,7 @@ export default function ProjectsPage() {
                     size="sm"
                   />
                 </span>
-              </Link>
+              </article>
             ) : (
               <Link
                 key={project.id}

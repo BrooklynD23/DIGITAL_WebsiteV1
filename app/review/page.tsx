@@ -33,7 +33,7 @@ function StatusBadge({ status }: { status: ReviewRouteStatus }) {
 
 export default function ReviewPage() {
   return (
-    <main className="mx-auto max-w-content px-7 py-[120px] md:py-[140px]">
+    <div className="mx-auto max-w-content px-7 py-[120px] md:py-[140px]">
       <div className="max-w-3xl">
         <Eyebrow>Internal review</Eyebrow>
         <h1 className="mt-4 font-display text-[clamp(32px,5vw,56px)] font-extrabold uppercase leading-[.95] tracking-[-.03em] text-ink">
@@ -117,6 +117,6 @@ export default function ReviewPage() {
       <p className="mt-14 border-t border-line pt-8 font-mono text-[11px] uppercase tracking-[.16em] text-ink-soft">
         Not indexed · not in sitemap · not in public nav
       </p>
-    </main>
+    </div>
   );
 }

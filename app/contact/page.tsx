@@ -18,9 +18,18 @@ import {
 // Note: Metadata must be in a separate layout.tsx for client components
 // See app/contact/layout.tsx for SEO metadata
 
+/**
+ * The Formspree endpoint ships as a placeholder until a real form ID is provisioned.
+ * Submitting against it would 404 and read as a transient network error, so the form
+ * blocks submission and says so instead. Tracked in docs/PRE-LAUNCH.md.
+ */
+const isFormspreeConfigured = !siteConfig.formspreeEndpoint.includes('YOUR_FORM_ID');
+
 function ContactForm() {
   const searchParams = useSearchParams();
-  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [status, setStatus] = useState<
+    'idle' | 'submitting' | 'success' | 'error' | 'unconfigured'
+  >('idle');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -38,6 +47,14 @@ function ContactForm() {
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
+    // The endpoint is still the checked-in placeholder — fail visibly rather than
+    // POSTing into a 404 and reporting a generic network error. See docs/PRE-LAUNCH.md.
+    if (!isFormspreeConfigured) {
+      setStatus('unconfigured');
+      return;
+    }
+
     setStatus('submitting');
 
     try {
@@ -141,6 +158,16 @@ function ContactForm() {
                 {status === 'error' && (
                   <p role="alert" className="font-mono text-[12px] text-accent">
                     Something went wrong. Please try again or email us directly.
+                  </p>
+                )}
+
+                {status === 'unconfigured' && (
+                  <p role="alert" className="font-mono text-[12px] text-accent">
+                    This form isn&apos;t connected yet. Please email us directly at{' '}
+                    <a href={`mailto:${siteConfig.contact.email}`} className="underline">
+                      {siteConfig.contact.email}
+                    </a>
+                    .
                   </p>
                 )}
 

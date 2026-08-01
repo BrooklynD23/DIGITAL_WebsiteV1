@@ -446,6 +446,18 @@ export default function HomeLanding() {
             ))}
           </div>
         </div>
+
+        <div className="mx-auto mt-8 flex max-w-[1100px] flex-wrap gap-x-5 gap-y-2 border-t border-[rgba(242,240,232,.12)] pt-6 font-[family-name:var(--font-home-mono)] text-[9.5px] uppercase tracking-[.14em]">
+          {copy.footer.legal.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="transition-colors duration-200 hover:text-[#F2F0E8]"
+            >
+              {link.label}
+            </Link>
+          ))}
+        </div>
       </footer>
     </div>
   );

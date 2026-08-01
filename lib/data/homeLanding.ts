@@ -159,6 +159,13 @@ export const homeLandingCopy = {
       'Technical Entrepreneurship',
       'Student-Led Innovation',
     ],
+    // The global Footer is hidden on `/` (isImmersiveRoute), so the landing carries
+    // its own legal links. Targets mirror components/layout/Footer.tsx.
+    legal: [
+      { label: 'Privacy', href: '/privacy' },
+      { label: 'Terms', href: '/terms' },
+      { label: 'Cookies', href: '/cookies' },
+    ],
   },
   links: {
     join: '/get-involved',

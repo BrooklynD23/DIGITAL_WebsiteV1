@@ -1,6 +1,5 @@
 /** Routes that render their own chrome — global Navbar/Footer hide on these. */
 export const IMMERSIVE_PREFIXES = [
-  '/experiments',
   '/projects/modular-smartphone',
   '/projects/smart-reading',
 ] as const;

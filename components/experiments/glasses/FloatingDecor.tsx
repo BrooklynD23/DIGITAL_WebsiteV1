@@ -7,7 +7,7 @@
  * scrolls into the transition (driven by scrollYProgress).
  */
 
-import { motion, useTransform, type MotionValue } from 'framer-motion';
+import { motion, useReducedMotion, useTransform, type MotionValue } from 'framer-motion';
 
 interface DecorItem {
   id: string;
@@ -68,6 +68,9 @@ function Shape({ shape, size, color }: { shape: DecorItem['shape']; size: number
 export default function FloatingDecor({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) {
   const opacity = useTransform(scrollYProgress, [0, 0.16, 0.32], [1, 1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.18, 0.34], [1, 1, 0.2]);
+  // Honour prefers-reduced-motion: no infinite float loops, no hover spring.
+  // The scroll-linked opacity/scale stay — they track deliberate user input.
+  const reduceMotion = useReducedMotion();
 
   return (
     <motion.div style={{ opacity, scale }} className="absolute inset-0 z-10" aria-hidden>
@@ -76,10 +79,17 @@ export default function FloatingDecor({ scrollYProgress }: { scrollYProgress: Mo
           key={it.id}
           className="pointer-events-auto absolute"
           style={{ left: it.left, top: it.top }}
-          animate={{ y: [0, -it.range, 0], rotate: [0, 6, 0] }}
-          transition={{ duration: it.dur, delay: it.delay, repeat: Infinity, ease: 'easeInOut' }}
+          animate={reduceMotion ? undefined : { y: [0, -it.range, 0], rotate: [0, 6, 0] }}
+          transition={
+            reduceMotion
+              ? undefined
+              : { duration: it.dur, delay: it.delay, repeat: Infinity, ease: 'easeInOut' }
+          }
         >
-          <motion.div whileHover={{ scale: 1.25, rotate: 12 }} transition={{ type: 'spring', stiffness: 300, damping: 12 }}>
+          <motion.div
+            whileHover={reduceMotion ? undefined : { scale: 1.25, rotate: 12 }}
+            transition={reduceMotion ? undefined : { type: 'spring', stiffness: 300, damping: 12 }}
+          >
             <Shape shape={it.shape} size={it.size} color={it.color} />
           </motion.div>
         </motion.div>

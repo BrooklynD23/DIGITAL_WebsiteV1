@@ -80,6 +80,12 @@ export const HUD_THEME = {
   fringe: '1px 0 0 rgba(255,80,80,0.28), -1px 0 0 rgba(90,130,255,0.28)',
 } as const;
 
+export const smartReadingMetadata = {
+  title: 'Smart Reading — DIGITAL @ Cal Poly Pomona',
+  description:
+    'FPGA-based heads-up glasses that stream text one word at a time, built with dyslexic readers in mind.',
+} as const;
+
 export const GLASSES_CONTENT: GlassesContent = {
   nav: [
     { label: 'The idea', href: '#info-approach' },

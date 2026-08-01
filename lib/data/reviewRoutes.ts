@@ -29,19 +29,13 @@ export const reviewDecisionGroups: readonly ReviewDecisionGroup[] = [
   {
     id: 'smart-reading',
     title: 'Smart Reading',
-    question: 'Smart Reading route is settled — confirm or retire the legacy URL.',
+    question: 'Smart Reading route is settled; the legacy URL has been retired.',
     options: [
       {
         label: 'Production experience',
         href: '/projects/smart-reading',
         description: 'Immersive R3F scroll experience for the smart-glasses project.',
         status: 'production',
-      },
-      {
-        label: 'Legacy redirect stub',
-        href: '/experiments/glasses',
-        description: 'Client redirect to /projects/smart-reading — safe to remove after sign-off.',
-        status: 'legacy',
       },
     ],
   },

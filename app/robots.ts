@@ -8,6 +8,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
+      // Internal stakeholder hub — already noindex and absent from the sitemap.
+      disallow: ['/review'],
     },
     sitemap: `${base}/sitemap.xml`,
   };

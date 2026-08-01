@@ -113,7 +113,8 @@ run_checks() {
     "app/get-involved/page.tsx"
     "app/pillars/page.tsx"
     "app/projects/page.tsx"
-    "app/projects/[slug]/page.tsx"
+    "app/projects/modular-smartphone/page.tsx"
+    "app/projects/smart-reading/page.tsx"
     "app/team/page.tsx"
   )
   for p in "${ROUTE_PAGES[@]}"; do

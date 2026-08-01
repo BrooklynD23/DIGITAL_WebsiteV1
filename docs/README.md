@@ -28,6 +28,7 @@ Central map for the DIGITAL @ Cal Poly Pomona website repository.
 | Doc | Purpose |
 |-----|---------|
 | [`ROUTES.md`](ROUTES.md) | Production routes, immersive chrome, data file map |
+| [`PRE-LAUNCH.md`](PRE-LAUNCH.md) | Production config that can't be set in-repo — do before launch |
 | [`MAINTAINER_GUIDE.md`](MAINTAINER_GUIDE.md) | How to update team, projects, config, pages |
 | [`troubleshooting/KNOWN_ISSUES.md`](troubleshooting/KNOWN_ISSUES.md) | Common dev/build issues |
 | [`IMAGE_REPLACEMENT_GUIDE.md`](IMAGE_REPLACEMENT_GUIDE.md) | Placeholder image inventory (partially legacy — see note inside) |

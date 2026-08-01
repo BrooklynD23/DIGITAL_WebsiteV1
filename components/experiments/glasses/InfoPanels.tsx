@@ -8,26 +8,11 @@
 
 import { motion, useTransform, type MotionValue } from 'framer-motion';
 import type { GlassesContent } from '@/lib/data/experiments/glasses';
+import { band } from './panelBands';
 
 interface InfoPanelsProps {
   sections: GlassesContent['info'];
   scrollYProgress: MotionValue<number>;
-}
-
-const BASE = 0.74;
-const TOTAL = 4; // GLASSES_CONTENT.info.length
-const SPAN = (1 - BASE) / TOTAL;
-/** Panel i's full-opacity center - shared with nav + scroll snapping. */
-export const PANEL_CENTERS: readonly number[] = Array.from(
-  { length: TOTAL },
-  (_, i) => BASE + SPAN / 2 + i * SPAN
-);
-/** Fade fully INSIDE the band (dead zone at each edge) so adjacent
- *  panels can never both be visible: at any boundary both are at 0. */
-function band(i: number, total: number): [number, number, number, number] {
-  const start = BASE + i * ((1 - BASE) / total);
-  const end = start + (1 - BASE) / total;
-  return [start + 0.004, start + 0.022, end - 0.022, end - 0.004];
 }
 
 function Panel({

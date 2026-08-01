@@ -146,7 +146,9 @@ Light section, left-aligned eyebrow and IBM Plex Sans 600 heading `clamp(26px,3.
 ### Footer
 
 **Role:** Colophon strip continuing the dark band.
-`#0A0C0A`, top hairline `rgba(242,240,232,.12)`, `px-[18px] py-9`, base text `#8B948C`. Content max 1100px, space-between wrap. Left: "DIGITAL" mono 14px (`text-sm`) medium /.2em in `#F2F0E8` over "@ CAL POLY POMONA" 9.5px uppercase /.16em. Right: right-aligned stack (7px gap) of four taglines from data, mono 9.5px uppercase /.14em.
+`#0A0C0A`, top hairline `rgba(242,240,232,.12)`, `px-[18px] py-9`, base text `#8B948C`. Content max 1100px, space-between wrap. Left: the full DIGITAL wordmark image (`siteConfig.assets.logoFull` via `next/image`, `w-[min(200px,56vw)]`, `invert` for the dark band). Right: right-aligned stack (7px gap) of four taglines from data, mono 9.5px uppercase /.14em.
+
+**Legal row.** Below the colophon, separated by a `mt-8 pt-6` hairline (`rgba(242,240,232,.12)`): Privacy / Terms / Cookies from `homeLandingCopy.footer.legal`, mono 9.5px uppercase /.14em, `gap-x-5 gap-y-2`, hover to `#F2F0E8` (color-only, per Buttons). The landing carries its own legal links because the global `Footer` is suppressed on `/` by `isImmersiveRoute`; labels and destinations mirror `components/layout/Footer.tsx` so the two footers stay consistent.
 
 ### Buttons / CTAs
 

@@ -27,12 +27,6 @@ This document outlines all routes and pages in the DIGITAL website.
 |-------|--------|-------------|
 | `/review` | Internal | Stakeholder hub for remaining variant review (`noindex`) |
 
-### Legacy routes
-
-| Route | Behavior |
-|-------|----------|
-| `/experiments/glasses` | Client redirect to `/projects/smart-reading` |
-
 ---
 
 ## Stakeholder review hub
@@ -43,7 +37,7 @@ This document outlines all routes and pages in the DIGITAL website.
 Internal-only page for comparing experience variants before promotion. Not linked from Navbar, Footer, or sitemap. Open at `/review` during stakeholder meetings.
 
 **Decision groups:**
-1. **Smart Reading** — `/projects/smart-reading` (production) vs `/experiments/glasses` (legacy redirect)
+1. **Smart Reading** — `/projects/smart-reading` (production); the legacy `/experiments/glasses` URL has been retired
 
 ---
 
@@ -133,8 +127,6 @@ Immersive Anime.js exploded-smartphone scrollytelling (`PhoneV2Experience`). Hid
 
 **Data:** `lib/data/phoneV2.ts`, `lib/data/projects.ts`
 
-**Legacy:** `/phone-v2` redirects here.
-
 ---
 
 ### Smart Reading (`/projects/smart-reading`)
@@ -164,15 +156,6 @@ Student, alumni, and company involvement cards with deep-links to `/contact?type
 | `/cookies` | `app/cookies/page.tsx` |
 
 Linked from Footer legal row. Included in `app/sitemap.ts`.
-
----
-
-### Legacy / redirect routes
-
-| Route | Behavior |
-|-------|----------|
-| `/phone-v2` | Client redirect to `/projects/modular-smartphone` |
-| `/experiments/glasses` | Client redirect to `/projects/smart-reading` |
 
 ---
 
@@ -210,7 +193,7 @@ Project detail pages use dedicated route files — there is no dynamic `[slug]` 
 
 **File:** `app/sitemap.ts`
 
-Includes production routes and legal pages. Excludes internal review (`/review`) and legacy redirects (`/phone-v2`, `/experiments/glasses`).
+Includes production routes and legal pages. Excludes the internal review hub (`/review`).
 
 ---
 
