@@ -61,6 +61,7 @@ committed — see the standing rule in `CLAUDE.md` and `AGENT.md`.
 | v0.12.0 | #0045    | `90d46de` | feat(landing): story-first copy + serif/sans role split (#0045) | Phase 4 of brand-story-gsap plan — completes `docs/archive/specs/2026-07-19-brand-story-gsap-design.md` |
 | v0.12.1 | #0046    | `280ee82` | docs: consolidate archive, refresh README, pre-merge audit (#0046) | Docs hub + archive; Bugbot/Security audit report |
 | v0.13.0 | #0047    | `3dc144d` | fix(audit): close pre-merge audit findings across landing, PhoneV2, Smart Reading (#0047) | Remediates all 8 live findings from `docs/AUDIT-brand-story-gsap.md` — Smart Reading static shell + route metadata, legacy `/phone-v2` and `/experiments/glasses` deleted, comingSoon card guard, landing footer legal links, `/review` landmark, reduced-motion decor, content-derived panel bands. Adds `docs/PRE-LAUNCH.md`; fixes stale `run.sh` `[slug]` route check. `./run.sh check` green; static export verified against exported HTML |
+| v0.13.1 | #0049    | `70440a4` | chore(ci): add GitHub Actions pipeline and fix vercel.json schema (#0049) | Fixes Vercel `_comment` schema failure; CI + auto-promote to `deployment` branch; `docs/DEPLOYMENT.md` runbook |
 
 ---
 
