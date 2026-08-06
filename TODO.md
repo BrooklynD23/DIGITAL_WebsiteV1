@@ -62,6 +62,7 @@ committed — see the standing rule in `CLAUDE.md` and `AGENT.md`.
 | v0.12.1 | #0046    | `280ee82` | docs: consolidate archive, refresh README, pre-merge audit (#0046) | Docs hub + archive; Bugbot/Security audit report |
 | v0.13.0 | #0047    | `3dc144d` | fix(audit): close pre-merge audit findings across landing, PhoneV2, Smart Reading (#0047) | Remediates all 8 live findings from `docs/AUDIT-brand-story-gsap.md` — Smart Reading static shell + route metadata, legacy `/phone-v2` and `/experiments/glasses` deleted, comingSoon card guard, landing footer legal links, `/review` landmark, reduced-motion decor, content-derived panel bands. Adds `docs/PRE-LAUNCH.md`; fixes stale `run.sh` `[slug]` route check. `./run.sh check` green; static export verified against exported HTML |
 | v0.13.1 | #0049    | `70440a4` | chore(ci): add GitHub Actions pipeline and fix vercel.json schema (#0049) | Fixes Vercel `_comment` schema failure; CI + auto-promote to `deployment` branch; `docs/DEPLOYMENT.md` runbook |
+| v0.13.2 | #0050    | _pending_ | docs(ui-revision): repository audit, research, directions, transition diagnosis, plan, test matrix (#0050) | Planning-only for the site-wide UI revision — `docs/ui-revision/01`–`06`. No code changed. Migrates every non-immersive route onto the landing's design system, adds `/community`, rebuilds `/team`, fixes the smartphone entry handoff, adds a progressive-enhancement cursor. Blocked on Head Designer sign-off for one new `--ds-error` token (`landing.DESIGN.md:344`) and a call on `/review` removal |
 
 ---
 
