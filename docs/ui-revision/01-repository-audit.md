@@ -224,7 +224,7 @@ export interface TeamMember {
 
 | Issue | Evidence | Severity |
 |---|---|---|
-| **`Eyebrow` fails contrast on every secondary page** — `#d8412f` on `#d6d4d3` ≈ **3.4:1** at 12px, below AA for small text. It is the most-used primitive (12 files) | `globals.css:98-105`, `Eyebrow.tsx:15` | High |
+| **`Eyebrow` fails contrast on every secondary page** — `#d8412f` on `#d6d4d3` measures **3.01:1** at 12px, against the 4.5:1 AA minimum for small text. It is the most-used primitive (12 files) | `globals.css:98-105`, `Eyebrow.tsx:15` | High |
 | **Hover-only reveals with no keyboard or touch path** — pillar names (`pillars:155`), member role (`about:357`), map (`contact:308`). On mobile `/pillars` is seven unlabelled letters | — | High |
 | **Mobile nav sheet stays tabbable when closed** — always mounted; closed state is only `pointer-events-none -translate-y-2 opacity-0` (`Navbar.tsx:199`), which does not remove focusability. No Escape handler, no focus trap, no focus return | `Navbar.tsx:192-241` | High |
 | **The landing has no `focus-visible` styling at all** — `DESIGN.md:527` calls this non-negotiable | `HomeLanding.tsx` | High |
