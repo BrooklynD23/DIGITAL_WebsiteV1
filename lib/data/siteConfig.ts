@@ -3,7 +3,7 @@ import { SiteConfig } from '../types';
 export const siteConfig: SiteConfig = {
   name: 'DIGITAL',
   fullName: 'DIGITAL @ Cal Poly Pomona',
-  description: 'A student-run engineering organization at Cal Poly Pomona dedicated to bridging the gap between academic theory and industry practice.',
+  description: 'DIGITAL is a student-run engineering club at Cal Poly Pomona. Students build real systems: a modular smartphone, smart reading glasses, and technical ventures.',
   url: 'https://digitalcpp.org',
   assets: {
     logo: '/assets/landing/DIGITAL_V1_Logo1.png',

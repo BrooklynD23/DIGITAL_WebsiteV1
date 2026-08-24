@@ -26,7 +26,7 @@ const ibmPlexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   title: 'DIGITAL - Engineering Club @ Cal Poly Pomona',
   description:
-    'A student-led, project-based engineering organization at Cal Poly Pomona — turning students into builders of real systems.',
+    'Student-run engineering club at Cal Poly Pomona. We turn coursework into built systems.',
 };
 
 export default function HomePage() {
