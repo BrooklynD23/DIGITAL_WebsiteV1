@@ -5,10 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
   Home,
-  Layers3,
   Smartphone,
-  Info,
-  Users,
   UserPlus,
   Mail,
   Menu,
@@ -28,12 +25,11 @@ interface NavLink {
   icon: LucideIcon;
 }
 
+// Interim ribbon (2026-08 site consolidation): About / Pillars / Team return to
+// the ribbon as each page is rebuilt on the landing design system.
 const navLinks: NavLink[] = [
   { href: '/', label: 'Home', sublabel: 'start & mission', icon: Home },
-  { href: '/pillars', label: 'Pillars', sublabel: 'the framework', icon: Layers3 },
   { href: '/projects', label: 'Projects', sublabel: 'what we build', icon: Smartphone },
-  { href: '/about', label: 'About', sublabel: 'who we are', icon: Info },
-  { href: '/team', label: 'Team', sublabel: 'the people', icon: Users },
   { href: '/get-involved', label: 'Join', sublabel: 'get involved', icon: UserPlus },
   { href: '/contact', label: 'Contact', sublabel: 'reach us', icon: Mail },
 ];
