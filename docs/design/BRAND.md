@@ -37,6 +37,11 @@ invites the reader to join it — nothing sits outside the spine.
 | `/projects/smart-reading` | Reading without the chase. The text moves so your eyes don't have to. |
 | `/` | Students become builders. The gap between coursework and real systems closes here. |
 
+The mission commitments (WE EXPLORE / WE DESIGN / WE BUILD / WE COMMUNICATE) and the vision line —
+*"Real systems, built by students, handed to the next cohort."* — are **canonical copy** living in
+`lib/data/mission.ts` (`MISSION_BEATS`, `VISION_LINE`). The homepage mission band renders them
+verbatim; no other route may restate or paraphrase them without the copy workflow below.
+
 ## Message Hierarchy
 
 Every story beat — a hero, a section, a card — follows the same three-part shape:

@@ -145,6 +145,12 @@ export default function HomeLanding() {
               {item.label}
             </a>
           ))}
+          <Link
+            href={copy.links.join}
+            className="font-[family-name:var(--font-home-mono)] text-[10.5px] tracking-[.1em] text-[#5A615B] hover:text-[#111311]"
+          >
+            {copy.nav.join}
+          </Link>
         </div>
         <Link
           href={copy.links.contact}
@@ -152,6 +158,32 @@ export default function HomeLanding() {
         >
           {copy.nav.cta}
         </Link>
+        <div className="mt-[9px] flex justify-center gap-[18px] border-t border-[rgba(17,19,17,.12)] pb-[2px] pt-[8px] [grid-column:1/-1] sm:hidden">
+          {[
+            { href: '#thesis', label: copy.nav.thesis },
+            { href: '#pathways', label: copy.nav.pathways },
+            { href: '#results', label: copy.nav.results },
+            { href: copy.links.join, label: copy.nav.join },
+          ].map((item) =>
+            item.href.startsWith('#') ? (
+              <a
+                key={item.label}
+                href={item.href}
+                className="font-[family-name:var(--font-home-mono)] text-[10px] tracking-[.1em] text-[#5A615B] hover:text-[#111311]"
+              >
+                {item.label}
+              </a>
+            ) : (
+              <Link
+                key={item.label}
+                href={item.href}
+                className="font-[family-name:var(--font-home-mono)] text-[10px] tracking-[.1em] text-[#5A615B] hover:text-[#111311]"
+              >
+                {item.label}
+              </Link>
+            )
+          )}
+        </div>
       </nav>
 
       <header id="top" className="px-[18px] pb-0 pt-[clamp(48px,8vh,90px)] text-center">
@@ -394,6 +426,61 @@ export default function HomeLanding() {
               </div>
             );
           })}
+        </div>
+      </section>
+
+      <Divider />
+
+      <section
+        id="mission"
+        className="grid border-y border-[rgba(17,19,17,.12)] [grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr))]"
+      >
+        <div className="flex flex-col items-center justify-center gap-5 px-[clamp(24px,4vw,56px)] py-[clamp(60px,10vh,110px)] text-center">
+          <div
+            data-reveal
+            className="font-[family-name:var(--font-home-mono)] text-[10px] uppercase tracking-[.24em] text-[#5A615B]"
+          >
+            {copy.mission.eyebrow}
+          </div>
+          <div className="overflow-hidden">
+            <h2
+              data-reveal
+              data-reveal-delay="110"
+              className="m-0 max-w-[420px] font-[family-name:var(--font-home-sans)] text-[clamp(26px,3.4vw,42px)] font-semibold leading-[1.2] text-[#111311]"
+            >
+              {copy.mission.heading}
+            </h2>
+          </div>
+          <p
+            data-reveal
+            data-reveal-delay="120"
+            className="m-0 max-w-[460px] text-[13px] leading-[1.75] text-[#5A615B]"
+          >
+            {copy.mission.statement}
+          </p>
+          <div data-reveal data-reveal-delay="140" className="mt-1 flex flex-col items-center gap-[7px]">
+            <span className="font-[family-name:var(--font-home-mono)] text-[9px] uppercase tracking-[.18em] text-[#5A615B]">
+              {copy.mission.visionLabel}
+            </span>
+            <p className="m-0 max-w-[420px] text-[14px] font-semibold leading-[1.5] tracking-[.02em] text-[#111311]">
+              {copy.mission.vision}
+            </p>
+          </div>
+        </div>
+        <div className="flex flex-col border-l border-[rgba(17,19,17,.12)]">
+          {copy.mission.beats.map((beat, index) => (
+            <div
+              key={beat.label}
+              data-reveal
+              data-reveal-delay={String(120 + index * 110)}
+              className="flex flex-1 flex-col justify-center gap-[7px] border-b border-[rgba(17,19,17,.12)] px-[clamp(24px,3.5vw,44px)] py-[clamp(20px,3vh,34px)] last:border-b-0 hover:bg-[#FCFBF8]"
+            >
+              <span className="font-[family-name:var(--font-home-mono)] text-[9.5px] uppercase tracking-[.18em] text-[#5A615B]">
+                {beat.label}
+              </span>
+              <p className="m-0 max-w-[460px] text-[13px] leading-[1.65] text-[#111311]">{beat.line}</p>
+            </div>
+          ))}
         </div>
       </section>
 

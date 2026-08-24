@@ -3,6 +3,8 @@
  * Sourced from DIGITAL Landing v2 design export.
  */
 
+import { MISSION_BEATS, VISION_LINE } from './mission';
+
 export interface HomeGap {
   readonly glyph: string;
   readonly title: string;
@@ -32,6 +34,11 @@ export interface HomeCase {
   readonly href: string;
 }
 
+export interface HomeMissionBeat {
+  readonly label: string;
+  readonly line: string;
+}
+
 export const homeLandingCopy = {
   loader: {
     title: 'DIGITAL',
@@ -42,6 +49,7 @@ export const homeLandingCopy = {
     thesis: 'Thesis',
     pathways: 'Pathways',
     results: 'Results',
+    join: 'Join',
     cta: 'Talk to us',
   },
   hero: {
@@ -144,6 +152,18 @@ export const homeLandingCopy = {
         href: '/get-involved',
       },
     ] satisfies readonly HomeCase[],
+  },
+  mission: {
+    eyebrow: 'Who We Are',
+    heading: 'A student organization that builds.',
+    statement:
+      "DIGITAL is Cal Poly Pomona's student-run engineering club. Four commitments define the work:",
+    visionLabel: 'Vision',
+    vision: VISION_LINE,
+    beats: MISSION_BEATS.map((beat) => ({
+      label: beat.label,
+      line: beat.line,
+    })) satisfies readonly HomeMissionBeat[],
   },
   join: {
     heading: 'Close the gap. Build with us.',

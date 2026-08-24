@@ -18,6 +18,14 @@ export interface PurposeBeat {
 export const MISSION_TAGLINE =
   'Students building real technology, one module at a time.' as const;
 
+/**
+ * Vision line — drafted against docs/design/BRAND.md and approved verbatim by
+ * the Head Designer during the 2026-08 site-consolidation session. Canonical;
+ * do not reword here without the brand copy workflow.
+ */
+export const VISION_LINE =
+  'Real systems, built by students, handed to the next cohort.' as const;
+
 /** Mission beats — verbatim from LANDING_CONTENT.mission. */
 export const MISSION_BEATS: readonly PurposeBeat[] = [
   {

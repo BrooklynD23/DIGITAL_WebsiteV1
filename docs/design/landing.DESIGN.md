@@ -111,7 +111,9 @@ Fixed full-viewport panel, `z-[100]`, background `#0A0C0A`, column-centered with
 ### Sticky Nav
 
 **Role:** Persistent thin instrument bar; the only fixed chrome on the page.
-`sticky top-0 z-50`, 3-column grid (`1fr auto 1fr`), 18px horizontal / 10px vertical padding, background `rgba(247,246,242,.92)` with `backdrop-blur-[10px]`, bottom hairline `rgba(17,19,17,.12)`. Left: logo — a 14px square with 1.5px `#111311` border and a gold `#C28E0E` inner square inset 3px, beside "DIGITAL" in mono 13px medium /.12em. Center (hidden below `sm`): three anchor links (Thesis / Pathways / Results) mono 10.5px/.1em in `#5A615B`, hover `#111311`. Right: "Talk to us" pill — `rounded-[2px]`, border `rgba(17,19,17,.35)`, `px-4 py-[7px]`, mono 10px/.12em ink text; hover inverts to solid `#111311` with `#F7F6F2` text.
+`sticky top-0 z-50`, 3-column grid (`1fr auto 1fr`), 18px horizontal / 10px vertical padding, background `rgba(247,246,242,.92)` with `backdrop-blur-[10px]`, bottom hairline `rgba(17,19,17,.12)`. Left: logo — a 14px square with 1.5px `#111311` border and a gold `#C28E0E` inner square inset 3px, beside "DIGITAL" in mono 13px medium /.12em. Center (hidden below `sm`): three anchor links (Thesis / Pathways / Results) mono 10.5px/.1em in `#5A615B`, hover `#111311`, plus a route link **Join** (`/get-involved`) in the identical style — the ribbon carries every primary destination (2026-08 site-consolidation). Right: "Talk to us" pill — `rounded-[2px]`, border `rgba(17,19,17,.35)`, `px-4 py-[7px]`, mono 10px/.12em ink text; hover inverts to solid `#111311` with `#F7F6F2` text.
+
+**Mobile link row (below `sm`).** A fourth grid row spanning `[grid-column:1/-1]`, hairline-topped `rgba(17,19,17,.12)`, `mt-[9px] pt-[8px] pb-[2px]`, centered `gap-[18px]`: the same four links (Thesis / Pathways / Results / Join) at mono 10px/.1em `#5A615B`, hover `#111311`. This is the sub-640px nav fallback; anchors stay smooth-scroll, Join routes internally.
 
 ### Hero
 
@@ -137,6 +139,16 @@ Light section, centered, `py clamp(64px,10vh,110px)`. Eyebrow + IBM Plex Sans 60
 
 **Role:** Horizontal-scrolling case-study ledger pairing a striped photo plate with a data card.
 Light section, left-aligned eyebrow and IBM Plex Sans 600 heading `clamp(26px,3.4vw,42px)`/1.2. Row: `flex gap-[22px] overflow-x-auto pb-4`; each case is a flex-none pair with 14px internal gap. Image plate: `clamp(160px,18vw,220px)` wide, `rounded-[10px]`, striped background, border `.12` ink, centered mono caption 9px/1.8/.14em at `.45` ink in `[ BRACKETS ]`. Card: `min(520px,78vw)`, `rounded-[8px]`, `#FCFBF8`, border `.15` ink (hover `.35`); the whole card is a `Link`. Internal rows separated by `.12` ink hairlines: header (28px glyph chip + kicker 9px uppercase /.16em `#5A615B` + 16px semibold title), summary line 12.5px, a 3-column stat grid (`.12` ink column rules; serif 500 24px numeral over 8.5px uppercase /.14em label), and a "Learnings" footer (8.5px/.16em label + 12px/1.8 lines).
+
+### Mission Band
+
+**Role:** The organization statement — who DIGITAL is, its mission commitments, and its vision. Added 2026-08 (Head Designer approved: new light band between Results and Join).
+
+Light section on parchment between the results rail and the join band, opening with a standard ✳ `Divider` and closed by the join band's dark seam (no divider — matching the results→join seam). Split grid identical to Thesis Gap Cards but ink-derived hairlines: `[grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr))]`, outer `border-y` + inner `border-l` at `rgba(17,19,17,.12)`. Left cell (`py clamp(60px,10vh,110px)`): eyebrow mono 10px uppercase /.24em `#5A615B`; IBM Plex Sans 600 heading `clamp(26px,3.4vw,42px)`/1.2 max 420px; org statement 13px/1.75 `#5A615B` max 460px; then a vision block — micro label mono 9px uppercase /.18em `#5A615B` over the vision sentence set at the card-title row (14px semibold /.02em, line-height 1.5, ink `#111311`, max 420px). Newsreader is **not** used here — the serif stays reserved for Hero and Join only.
+
+Right column: four beat rows, each `border-b rgba(17,19,17,.12)` (`last:border-b-0`), padded `clamp(24px,3.5vw,44px)` × `clamp(20px,3vh,34px)`, hover background `#FCFBF8`. Each row: a mono label 9.5px uppercase /.18em `#5A615B` (WE EXPLORE / WE DESIGN / WE BUILD / WE COMMUNICATE) over a 13px/1.65 ink line, max 460px. No glyph chips — the band is typographic, distinct from the thesis rows it mirrors.
+
+All copy routes through `homeLandingCopy.mission`, which imports `MISSION_BEATS` and `VISION_LINE` verbatim from `lib/data/mission.ts` (canonical source; do not restate mission/vision strings anywhere else). Reveal delays follow the standard stagger (heading 110, statement 120, vision 140, rows `120 + index × 110`).
 
 ### Join CTA Band
 
@@ -210,7 +222,7 @@ No photography ships today. Imagery slots are drafted as **striped placeholder p
 
 ## Layout
 
-Single-column, center-axis page composed of full-width horizontal bands: loader → sticky nav → hero → ✳ divider → dark thesis band → ✳ divider → pathways → ✳ divider → results → dark join band → footer. There is no global max-width container; sections run edge-to-edge with an 18px gutter, while individual text blocks self-constrain (420–760px) and the footer caps at 1100px. Vertical rhythm uses viewport-relative clamps that escalate toward the close: hero `clamp(48px,8vh,90px)` top, results `clamp(56px,9vh,96px)`, pathways `clamp(64px,10vh,110px)`, join `clamp(80px,13vh,140px)`. Alignment is centered in hero, pathways, and join; left-aligned in results and inside all card interiors on the dark band. Responsiveness is intrinsic, not breakpoint-driven: `clamp()` type and padding, `auto-fit minmax(min(100%,380px),1fr)` for the thesis split, `min()` card widths, flex-wrap CTA clusters, and a horizontally scrolling results rail. The only breakpoint switch is Tailwind `sm:` revealing the center nav links (`hidden … sm:flex`).
+Single-column, center-axis page composed of full-width horizontal bands: loader → sticky nav → hero → ✳ divider → dark thesis band → ✳ divider → pathways → ✳ divider → results → ✳ divider → mission band (light) → dark join band → footer. There is no global max-width container; sections run edge-to-edge with an 18px gutter, while individual text blocks self-constrain (420–760px) and the footer caps at 1100px. Vertical rhythm uses viewport-relative clamps that escalate toward the close: hero `clamp(48px,8vh,90px)` top, results `clamp(56px,9vh,96px)`, pathways `clamp(64px,10vh,110px)`, join `clamp(80px,13vh,140px)`. Alignment is centered in hero, pathways, mission left cell, and join; left-aligned in results and inside all card interiors on the dark bands. Responsiveness is intrinsic, not breakpoint-driven: `clamp()` type and padding, `auto-fit minmax(min(100%,380px),1fr)` for the thesis and mission splits, `min()` card widths, flex-wrap CTA clusters, and a horizontally scrolling results rail. The only breakpoint switch is Tailwind `sm:` revealing the center nav links (`hidden … sm:flex`) and their mobile fallback row.
 
 ## Agent Prompt Guide
 
