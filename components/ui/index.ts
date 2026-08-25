@@ -16,4 +16,3 @@ export { Timeline, ProgressBar, MilestoneBar } from './Timeline';
 export type { TimelineStep } from './Timeline';
 export { Eyebrow } from './Eyebrow';
 export { Section } from './Section';
-export { OutlineHeading } from './OutlineHeading';

@@ -9,28 +9,68 @@ export default function GlobalError({
 }) {
   return (
     <html lang="en">
-      <body className="bg-studio text-ink">
-        <main className="flex min-h-screen items-center justify-center px-4 py-24">
-          <div className="mx-auto max-w-xl text-center">
-            <p className="font-mono text-[12px] uppercase tracking-[.22em] text-accent">
-              System Fault
+      <body
+        style={{
+          margin: 0,
+          background: '#F7F6F2',
+          color: '#111311',
+          fontFamily: "'IBM Plex Sans', system-ui, sans-serif",
+        }}
+      >
+        {/* Self-contained inline tokens — global-error renders without globals.css */}
+        <main
+          style={{
+            display: 'flex',
+            minHeight: '100vh',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '96px 24px',
+            textAlign: 'center',
+          }}
+        >
+          <div style={{ maxWidth: 576, margin: '0 auto' }}>
+            <p
+              style={{
+                margin: 0,
+                fontSize: 10,
+                letterSpacing: '.24em',
+                textTransform: 'uppercase',
+                color: '#5A615B',
+              }}
+            >
+              System fault
             </p>
-            <h1 className="mt-4 font-display text-[clamp(40px,7vw,76px)] font-extrabold uppercase leading-[.92] tracking-[-.03em] text-ink">
-              Something Went{' '}
-              <span className="[-webkit-text-stroke:2px_var(--ink)] text-transparent">Wrong</span>
-              <span className="text-accent">.</span>
+            <h1
+              style={{
+                marginTop: 10,
+                fontSize: 'clamp(34px, 6vw, 58px)',
+                fontWeight: 500,
+                lineHeight: 1.14,
+                letterSpacing: '-0.01em',
+              }}
+            >
+              Something went wrong.
             </h1>
-            <p className="mx-auto mt-6 max-w-md text-[clamp(16px,1.5vw,19px)] leading-[1.55] text-ink-soft">
+            <p style={{ margin: '10px auto 0', maxWidth: 448, fontSize: 13, lineHeight: 1.75, color: '#5A615B' }}>
               A critical error occurred. Please try again.
             </p>
-            <div className="mt-8 flex justify-center">
-              <button
-                onClick={() => reset()}
-                className="inline-flex items-center justify-center rounded border-[1.5px] border-ink bg-ink px-[26px] py-4 font-display text-sm font-semibold uppercase tracking-[.04em] text-studio transition-[transform,background-color,border-color] duration-200 ease-studio hover:-translate-y-0.5 hover:border-accent hover:bg-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue focus-visible:ring-offset-2 focus-visible:ring-offset-studio"
-              >
-                Try again
-              </button>
-            </div>
+            <button
+              onClick={() => reset()}
+              style={{
+                marginTop: 28,
+                borderRadius: 2,
+                border: 'none',
+                background: '#111311',
+                color: '#F7F6F2',
+                padding: '11px 24px',
+                fontFamily: "'IBM Plex Mono', monospace",
+                fontSize: 10.5,
+                letterSpacing: '.12em',
+                cursor: 'pointer',
+              }}
+            >
+              Try again
+            </button>
           </div>
         </main>
       </body>

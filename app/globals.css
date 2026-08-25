@@ -193,16 +193,6 @@
       transition-duration: 0.01ms !important;
     }
 
-    /* disable the scroll cue dash + reveal transitions explicitly */
-    .scrollcue::after {
-      animation: none !important;
-    }
-
-    .reveal {
-      opacity: 1 !important;
-      transform: none !important;
-      transition: none !important;
-    }
   }
 }
 
@@ -212,46 +202,9 @@
     @apply mx-auto max-w-content px-7;
   }
 
-  /* accent mono kicker above section headings */
-  .eyebrow {
-    font:
-      500 12px/1 'DM Mono',
-      monospace;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--accent);
-  }
 
-  /* signature outline keyword treatment for headlines */
-  .text-outline {
-    -webkit-text-stroke: 2px var(--ink);
-    color: transparent;
-  }
 
-  /* scroll-into-view reveal */
-  .reveal {
-    opacity: 0;
-    transform: translateY(28px);
-    transition:
-      opacity 0.8s var(--ease),
-      transform 0.8s var(--ease);
-  }
 
-  .reveal.in {
-    opacity: 1;
-    transform: none;
-  }
-
-  /* scroll cue animated dash (DESIGN §5.7) */
-  .scrollcue::after {
-    content: '';
-    height: 1px;
-    width: 80px;
-    background: var(--ink-soft);
-    transform-origin: left;
-    animation: cue 2.4s var(--ease) infinite;
-  }
-}
 
 @layer utilities {
   /* functional electric-blue focus ring (replaces old .focus-glow) */

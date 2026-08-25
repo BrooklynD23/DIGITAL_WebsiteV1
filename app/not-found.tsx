@@ -1,27 +1,30 @@
 import Link from 'next/link';
-import { Button, Eyebrow } from '@/components/ui';
 
 export default function NotFound() {
   return (
-    <div className="flex min-h-[70vh] items-center justify-center px-4 py-24">
+    <div className="flex min-h-[70vh] items-center justify-center bg-dg-bg px-[var(--dg-gutter)] py-24 text-dg-ink">
       <div className="mx-auto max-w-xl text-center">
-        <Eyebrow>Error 404</Eyebrow>
-        <h1 className="mt-4 font-display text-[clamp(72px,16vw,180px)] font-extrabold uppercase leading-[.86] tracking-[-.03em] text-ink">
-          4<span className="text-outline">0</span>4
-        </h1>
-        <h2 className="mt-2 font-display text-[clamp(24px,3.6vw,42px)] font-bold uppercase leading-none tracking-[-.02em] text-ink">
-          Page Not Found
-          <span className="text-accent">.</span>
-        </h2>
-        <p className="mx-auto mt-6 max-w-md text-[clamp(16px,1.5vw,19px)] leading-[1.55] text-ink-soft">
-          The page you&apos;re looking for doesn&apos;t exist or has been moved.
+        <p className="m-0 font-homeMono text-[10px] uppercase tracking-[.24em] text-dg-muted">
+          Error 404
         </p>
-        <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <Link href="/">
-            <Button>Go Home</Button>
+        <h1 className="mt-[10px] font-homeSerif text-[clamp(64px,14vw,140px)] font-medium leading-none tracking-[-0.01em]">
+          404
+        </h1>
+        <p className="mx-auto m-0 mt-[10px] max-w-md text-[13px] leading-[1.75] text-dg-muted">
+          This page doesn&apos;t exist or has moved. The bench is still where you left it.
+        </p>
+        <div className="mt-7 flex flex-col items-center justify-center gap-[14px] sm:flex-row">
+          <Link
+            href="/"
+            className="rounded-cta bg-dg-ink px-6 py-[11px] font-homeMono text-[10.5px] tracking-[.12em] text-dg-bg transition-colors duration-200 hover:bg-dg-green focus:outline-none focus-visible:ring-2 focus-visible:ring-dg-green"
+          >
+            Go home
           </Link>
-          <Link href="/projects">
-            <Button variant="ghost">View Projects</Button>
+          <Link
+            href="/projects"
+            className="rounded-cta border border-dg-line-hover px-6 py-[11px] font-homeMono text-[10.5px] tracking-[.12em] text-dg-ink transition-colors duration-200 hover:bg-dg-ink hover:text-dg-bg focus:outline-none focus-visible:ring-2 focus-visible:ring-dg-green"
+          >
+            View projects
           </Link>
         </div>
       </div>

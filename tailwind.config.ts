@@ -77,20 +77,6 @@ const config: Config = {
       },
       transitionTimingFunction: { studio: 'cubic-bezier(.22,.61,.36,1)' },
       letterSpacing: { eyebrow: '.22em', label: '.16em', wide: '.3em' },
-      keyframes: {
-        'reveal-up': {
-          '0%': { opacity: '0', transform: 'translateY(28px)' },
-          '100%': { opacity: '1', transform: 'none' },
-        },
-        cue: {
-          '0%,100%': { transform: 'scaleX(.3)', opacity: '.4' },
-          '50%': { transform: 'scaleX(1)', opacity: '1' },
-        },
-      },
-      animation: {
-        'reveal-up': 'reveal-up .8s cubic-bezier(.22,.61,.36,1)',
-        cue: 'cue 2.4s cubic-bezier(.22,.61,.36,1) infinite',
-      },
     },
   },
   plugins: [
