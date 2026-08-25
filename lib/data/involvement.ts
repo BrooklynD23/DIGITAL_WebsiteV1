@@ -22,13 +22,13 @@ export const involvementCategories: InvolvementCategory[] = [
   {
     id: 'students',
     title: 'Students',
-    subtitle: 'Join our engineering community and gain hands-on experience',
+    subtitle: 'Pick a seat at the bench.',
     icon: 'school',
     options: [
       {
         id: 'membership',
         title: 'Become a Member',
-        description: 'Join DIGITAL and start building real-world projects with industry-standard tools.',
+        description: 'Join DIGITAL and start building real systems with the team.',
         icon: 'person_add',
         link: '/contact?type=membership',
         linkText: 'Apply Now',
@@ -37,7 +37,7 @@ export const involvementCategories: InvolvementCategory[] = [
       {
         id: 'project-team',
         title: 'Join a Project Team',
-        description: 'Work on hardware, software, or embedded systems with experienced mentors.',
+        description: 'Work hardware, software, or embedded with experienced leads.',
         icon: 'groups',
         link: '/contact?type=project-team',
         linkText: 'View Teams',
@@ -45,7 +45,7 @@ export const involvementCategories: InvolvementCategory[] = [
       {
         id: 'leadership',
         title: 'Apply for Leadership',
-        description: 'Take on executive roles and help shape the future of DIGITAL.',
+        description: 'Run a side of the club — budgets, outreach, or engineering.',
         icon: 'supervisor_account',
         link: '/contact?type=leadership',
         linkText: 'Apply',
@@ -53,7 +53,7 @@ export const involvementCategories: InvolvementCategory[] = [
       {
         id: 'mentorship',
         title: 'Get Mentorship',
-        description: 'Connect with senior members and industry professionals for guidance.',
+        description: 'Get unstuck fast — pair with senior members and industry mentors.',
         icon: 'support_agent',
         link: '/contact?type=mentorship',
         linkText: 'Request Mentor',
@@ -63,13 +63,13 @@ export const involvementCategories: InvolvementCategory[] = [
   {
     id: 'alumni',
     title: 'Alumni',
-    subtitle: 'Stay connected and give back to the community',
+    subtitle: 'Stay connected — and stay building',
     icon: 'workspace_premium',
     options: [
       {
         id: 'alumni-network',
         title: 'Join Alumni Network',
-        description: 'Stay connected with DIGITAL, attend events, and network with current members.',
+        description: 'Keep your name on the roster, come to demos, meet the current team.',
         icon: 'hub',
         link: '/contact?type=alumni-network',
         linkText: 'Connect',
@@ -78,7 +78,7 @@ export const involvementCategories: InvolvementCategory[] = [
       {
         id: 'mentor-students',
         title: 'Mentor Students',
-        description: 'Share your industry experience and guide the next generation of engineers.',
+        description: 'Share what industry taught you with students on the bench.',
         icon: 'school',
         link: '/contact?type=mentor',
         linkText: 'Become a Mentor',
@@ -86,7 +86,7 @@ export const involvementCategories: InvolvementCategory[] = [
       {
         id: 'speak-event',
         title: 'Speak at an Event',
-        description: 'Share your career journey and insights at our workshops or general meetings.',
+        description: 'Present your work at a workshop or a general meeting.',
         icon: 'podium',
         link: '/contact?type=speaker',
         linkText: 'Propose Talk',
@@ -96,13 +96,13 @@ export const involvementCategories: InvolvementCategory[] = [
   {
     id: 'companies',
     title: 'Companies & Organizations',
-    subtitle: 'Partner with us to access top engineering talent',
+    subtitle: 'Meet the students while they build',
     icon: 'business',
     options: [
       {
         id: 'sponsor',
         title: 'Become a Sponsor',
-        description: 'Support student innovation and get visibility among future engineers.',
+        description: 'Fund a build and work with the team doing it.',
         icon: 'handshake',
         link: '/contact?type=sponsor',
         linkText: 'Sponsor Us',
@@ -111,7 +111,7 @@ export const involvementCategories: InvolvementCategory[] = [
       {
         id: 'recruit',
         title: 'Recruit Talent',
-        description: 'Connect with skilled students for internships and full-time positions.',
+        description: 'Hire from the bench — interns and full-time grads who have shipped.',
         icon: 'work',
         link: '/contact?type=recruit',
         linkText: 'Post Opportunity',
@@ -119,7 +119,7 @@ export const involvementCategories: InvolvementCategory[] = [
       {
         id: 'workshop',
         title: 'Host a Workshop',
-        description: 'Showcase your technology and engage directly with our engineering community.',
+        description: 'Bring your platform to a workshop and put it in student hands.',
         icon: 'co_present',
         link: '/contact?type=workshop',
         linkText: 'Propose Workshop',
@@ -127,7 +127,7 @@ export const involvementCategories: InvolvementCategory[] = [
       {
         id: 'donate',
         title: 'Donate Equipment',
-        description: 'Contribute hardware, tools, or software licenses to support our projects.',
+        description: 'Give boards, tools, or licenses a second life inside a build.',
         icon: 'volunteer_activism',
         link: '/contact?type=donate',
         linkText: 'Donate',
@@ -139,7 +139,7 @@ export const involvementCategories: InvolvementCategory[] = [
 // Meeting info for the page
 export const meetingInfo = {
   title: 'General Meetings',
-  description: 'Join us every week to learn about engineering topics, network with peers, and work on projects together.',
+  description: 'Thursday nights are build nights. Subsystem standups first, workshop after.',
   schedule: 'Thursdays @ 6:00 PM',
   location: 'Building 17, Room 1635',
   campus: 'Cal Poly Pomona',

@@ -1,233 +1,198 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  Button,
-  Badge,
-  Icon,
-  Eyebrow,
-  Section,
-} from '@/components/ui';
-import { involvementCategories, meetingInfo } from '@/lib/data/involvement';
+  involvementCategories,
+  meetingInfo,
+  type InvolvementCategory,
+  type InvolvementOption,
+} from '@/lib/data/involvement';
 import { siteConfig } from '@/lib/data/siteConfig';
+import { PageShell } from '@/components/layout/PageShell';
+import { Reveal } from '@/components/ui/Reveal';
 
 export const metadata: Metadata = {
   title: 'Get Involved - DIGITAL @ Cal Poly Pomona',
-  description: 'Join DIGITAL as a student, alumni, or industry partner. Multiple ways to get involved with our engineering community.',
+  description:
+    'Three ways in: students take a seat at the bench, alumni stay building, companies fund and hire from real builds.',
 };
 
 const categoryIndex = ['01', '02', '03'];
 
-export default function GetInvolvedPage() {
+function OptionCard({ option, index }: { option: InvolvementOption; index: number }) {
   return (
-    <div className="flex flex-col items-center">
-      {/* Hero Section */}
-      <Section className="pt-[120px] pb-16 md:pb-24" wrap>
-        <div className="mx-auto max-w-3xl text-center">
-          <div className="mb-4 flex justify-center">
-            <Badge variant="flagship">Open to Everyone</Badge>
-          </div>
-          <h1 className="font-display text-[clamp(40px,7vw,76px)] font-extrabold uppercase leading-[.92] tracking-[-.03em] text-ink">
-            Get Involved with <span className="text-outline">DIGITAL</span>
-            <span className="text-accent">.</span>
-          </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-[clamp(16px,1.5vw,19px)] leading-[1.55] text-ink-soft">
-            Whether you&apos;re a student looking to build skills, an alumni wanting to give back,
-            or a company seeking engineering talent — there&apos;s a place for you here.
-          </p>
+    <Link
+      href={option.link}
+      className="flex flex-col border border-dg-line-card bg-dg-card p-[22px] transition-colors duration-200 hover:border-dg-line-strong focus:outline-none focus-visible:ring-2 focus-visible:ring-dg-green"
+    >
+      <div className="mb-[12px] flex items-start justify-between">
+        <span
+          className={
+            option.featured
+              ? 'inline-flex size-[28px] items-center justify-center rounded-chip-sm border border-dg-ink bg-dg-ink font-homeMono text-[11px] text-dg-bg'
+              : 'inline-flex size-[28px] items-center justify-center rounded-chip-sm border border-dg-line font-homeMono text-[11px] text-dg-muted'
+          }
+        >
+          {String(index + 1).padStart(2, '0')}
+        </span>
+        {option.featured ? (
+          <span className="font-homeMono text-[8.5px] uppercase tracking-[.16em] text-dg-green">
+            Start here
+          </span>
+        ) : null}
+      </div>
+      <h3 className="m-0 text-[14px] font-semibold tracking-[.02em] text-dg-ink">
+        {option.title}
+      </h3>
+      <p className="m-0 mt-[6px] flex-1 text-[12px] leading-[1.7] text-dg-muted">
+        {option.description}
+      </p>
+      <div className="mt-[14px] border-t border-dg-line-soft pt-[12px]">
+        <span className="font-homeMono text-[10px] uppercase tracking-[.14em] text-dg-muted group-hover:text-dg-green">
+          {option.linkText || 'Learn more'} →
+        </span>
+      </div>
+    </Link>
+  );
+}
+
+function CategorySection({
+  category,
+  index,
+}: {
+  category: InvolvementCategory;
+  index: number;
+}) {
+  return (
+    <section aria-labelledby={`path-${category.id}`}>
+      <Reveal className="mb-[14px] border-b border-dg-line-soft pb-[12px]">
+        <p className="m-0 font-homeMono text-[9.5px] uppercase tracking-[.18em] text-dg-muted">
+          {categoryIndex[index]} / Path
+        </p>
+        <h2
+          id={`path-${category.id}`}
+          className="m-0 mt-[4px] font-homeSans text-[length:var(--dg-type-results)] font-semibold leading-[1.2] text-dg-ink"
+        >
+          {category.title}
+        </h2>
+        <p className="m-0 mt-[4px] text-[13px] leading-[1.65] text-dg-muted">{category.subtitle}</p>
+      </Reveal>
+      <div className="grid grid-cols-1 gap-[22px] sm:grid-cols-2 lg:grid-cols-4">
+        {category.options.map((option, i) => (
+          <Reveal key={option.id} delay={120 + i * 110}>
+            <OptionCard option={option} index={i} />
+          </Reveal>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+export default function GetInvolvedPage() {
+  const communityLinks = [
+    { label: 'Discord', href: siteConfig.community.discord },
+    { label: 'Notion', href: siteConfig.community.notion },
+    { label: 'GitHub', href: siteConfig.community.github },
+  ];
+
+  return (
+    <PageShell
+      eyebrow="Get Involved"
+      title="Take a seat at the bench."
+      metaRow={[meetingInfo.schedule, meetingInfo.location]}
+    >
+      <div className="mx-auto max-w-[var(--dg-footer-max)]">
+        <div className="flex flex-col gap-[clamp(40px,7vh,72px)]">
+          {involvementCategories.map((category, i) => (
+            <CategorySection key={category.id} category={category} index={i} />
+          ))}
         </div>
-      </Section>
 
-      {/* Involvement Categories */}
-      {involvementCategories.map((category, i) => (
-        <Section key={category.id} band wrap as="section">
-          {/* Category Header */}
-          <div className="mb-10 flex items-center gap-4">
-            <span className="inline-flex size-12 items-center justify-center rounded border border-line text-accent">
-              <Icon name={category.icon} size="lg" />
-            </span>
-            <div>
-              <Eyebrow>{categoryIndex[i]} / Path</Eyebrow>
-              <h2 className="mt-1 font-display text-[clamp(28px,3.6vw,42px)] font-bold uppercase leading-none tracking-[-.02em] text-ink">
-                {category.title}
+        {/* Meetings — dark contrast band */}
+        <Reveal delay={110}>
+          <section
+            aria-labelledby="meetings-heading"
+            className="mt-[clamp(48px,9vh,96px)] grid border-y border-dg-line-dark [grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr))] text-dg-cream"
+          >
+            <div className="flex flex-col justify-center gap-[14px] px-[clamp(24px,3.5vw,44px)] py-[clamp(32px,6vh,56px)]">
+              <h2
+                id="meetings-heading"
+                className="m-0 font-homeSans text-[length:var(--dg-type-results)] font-semibold leading-[1.2]"
+              >
+                {meetingInfo.title}
               </h2>
-              <p className="mt-2 text-[15px] leading-[1.55] text-ink-soft">{category.subtitle}</p>
-            </div>
-          </div>
-
-          {/* Options Grid */}
-          <div className="grid grid-cols-1 gap-[30px] md:grid-cols-2 lg:grid-cols-4">
-            {category.options.map((option) => (
-              <Link key={option.id} href={option.link} className="group block h-full">
-                <Card
-                  variant={option.featured ? 'featured' : 'interactive'}
-                  padding="md"
-                  className="flex h-full flex-col"
-                >
-                  <div className="mb-4 flex items-start justify-between">
-                    <span
-                      className={
-                        option.featured
-                          ? 'inline-flex size-10 items-center justify-center rounded border border-accent/40 bg-accent/[.08] text-accent'
-                          : 'inline-flex size-10 items-center justify-center rounded border border-line text-ink'
-                      }
-                    >
-                      <Icon name={option.icon} size="md" />
-                    </span>
-                    {option.featured && (
-                      <Badge variant="flagship" size="sm">
-                        Popular
-                      </Badge>
-                    )}
-                  </div>
-
-                  <CardHeader className="flex-1">
-                    <CardTitle className="text-[17px]">{option.title}</CardTitle>
-                    <CardDescription>{option.description}</CardDescription>
-                  </CardHeader>
-
-                  <div className="mt-4 border-t border-line pt-4">
-                    <span className="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[.16em] text-accent transition-[gap] duration-200 ease-studio group-hover:gap-2.5">
-                      {option.linkText || 'Learn More'}
-                      <Icon name="arrow_forward" size="sm" />
-                    </span>
-                  </div>
-                </Card>
-              </Link>
-            ))}
-          </div>
-        </Section>
-      ))}
-
-      {/* Meeting Info Section — instrument readout */}
-      <Section band wrap as="section">
-        <Card variant="featured" padding="lg">
-          <div className="grid items-start gap-10 md:grid-cols-2">
-            <div>
-              <div className="mb-4 flex items-center gap-3">
-                <span className="inline-flex size-12 items-center justify-center rounded border border-accent/40 bg-accent/[.08] text-accent">
-                  <Icon name="event" size="lg" />
-                </span>
-                <h2 className="font-display text-[clamp(28px,3.6vw,42px)] font-bold uppercase leading-none tracking-[-.02em] text-ink">
-                  {meetingInfo.title}
-                </h2>
-              </div>
-
-              <p className="mb-8 text-[15px] leading-[1.55] text-ink-soft">
+              <p className="m-0 max-w-[460px] text-[13px] leading-[1.75] text-dg-muted-dark">
                 {meetingInfo.description}
               </p>
-
-              {/* Readout */}
-              <dl className="mb-8 divide-y divide-line border-y border-line">
-                <div className="flex items-center justify-between gap-4 py-3">
-                  <dt className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[.16em] text-ink-soft">
-                    <Icon name="schedule" size="sm" />
+              <dl className="m-0 mt-[8px]">
+                <div className="flex items-baseline justify-between gap-4 border-t border-dg-line-dark py-[10px]">
+                  <dt className="font-homeMono text-[9.5px] uppercase tracking-[.16em] text-dg-muted-dark">
                     Schedule
                   </dt>
-                  <dd className="font-mono text-[13px] uppercase tracking-[.1em] text-ink">
+                  <dd className="m-0 font-homeMono text-[13px] text-dg-cream">
                     {meetingInfo.schedule}
                   </dd>
                 </div>
-                <div className="flex items-center justify-between gap-4 py-3">
-                  <dt className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[.16em] text-ink-soft">
-                    <Icon name="location_on" size="sm" />
+                <div className="flex items-baseline justify-between gap-4 border-y border-dg-line-dark py-[10px]">
+                  <dt className="font-homeMono text-[9.5px] uppercase tracking-[.16em] text-dg-muted-dark">
                     Location
                   </dt>
-                  <dd className="text-right font-mono text-[13px] uppercase tracking-[.1em] text-ink">
+                  <dd className="m-0 text-right font-homeMono text-[13px] text-dg-cream">
                     {meetingInfo.location}, {meetingInfo.campus}
                   </dd>
                 </div>
               </dl>
-
-              <Link href="/contact">
-                <Button
-                  icon={<Icon name="notifications" size="sm" />}
-                  iconPosition="right"
-                >
-                  Get Meeting Reminders
-                </Button>
+              <Link
+                href="/contact?type=membership"
+                className="mt-[10px] self-start rounded-cta bg-dg-gold px-[26px] py-3 font-homeMono text-[10.5px] tracking-[.12em] text-dg-dark transition-colors duration-200 hover:bg-dg-gold-bright focus:outline-none focus-visible:ring-2 focus-visible:ring-dg-green"
+              >
+                Get involved
               </Link>
             </div>
-
-            <div className="rounded-lg border border-line bg-white/40 p-6">
-              <Eyebrow>What to Expect</Eyebrow>
-              <ul className="mt-4 space-y-3">
-                {meetingInfo.perks.map((perk, index) => (
-                  <li key={index} className="flex items-center gap-3">
-                    <span className="inline-flex size-6 items-center justify-center rounded-full border border-accent/40 bg-accent/[.08] text-accent">
-                      <Icon name="check" size="sm" />
+            <div className="flex flex-col justify-center border-l border-dg-line-dark px-[clamp(24px,3.5vw,44px)] py-[clamp(32px,6vh,56px)]">
+              <p className="m-0 mb-[12px] font-homeMono text-[9.5px] uppercase tracking-[.18em] text-dg-muted-dark">
+                What to expect
+              </p>
+              <ul className="m-0 flex list-none flex-col gap-[10px] p-0">
+                {meetingInfo.perks.map((perk) => (
+                  <li key={perk} className="flex items-baseline gap-[10px] text-[13px] leading-[1.6]">
+                    <span aria-hidden="true" className="font-homeMono text-[11px] text-dg-star-dark">
+                      ✳
                     </span>
-                    <span className="text-[15px] text-ink">{perk}</span>
+                    {perk}
                   </li>
                 ))}
               </ul>
             </div>
-          </div>
-        </Card>
-      </Section>
+          </section>
+        </Reveal>
 
-      {/* Quick Contact CTA */}
-      <Section band wrap as="section">
-        <div className="mx-auto max-w-3xl text-center">
-          <Eyebrow>Need a hand?</Eyebrow>
-          <h2 className="mt-3 font-display text-[clamp(28px,3.6vw,42px)] font-bold uppercase leading-none tracking-[-.02em] text-ink">
-            Not Sure Where to <span className="text-outline">Start</span>
-            <span className="text-accent">?</span>
-          </h2>
-          <p className="mx-auto mt-4 max-w-xl text-[15px] leading-[1.55] text-ink-soft">
-            Reach out to our outreach team and we&apos;ll help you find the perfect way to get involved.
+        {/* Closing strip */}
+        <Reveal delay={140} className="mt-[26px] border-t border-dg-line-soft pt-6 text-center">
+          <p className="m-0 font-homeMono text-[9.5px] uppercase tracking-[.14em] text-dg-muted">
+            Not sure where to start?{' '}
+            <Link
+              href="/contact"
+              className="text-dg-ink underline underline-offset-2 hover:text-dg-green focus:outline-none focus-visible:ring-2 focus-visible:ring-dg-green"
+            >
+              Talk to us
+            </Link>{' '}
+            — or jump in directly:
           </p>
-          <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Link href="/contact">
-              <Button size="lg">Contact Outreach Team</Button>
-            </Link>
-            <Link href="/about">
-              <Button variant="ghost" size="lg">
-                Learn More About Us
-              </Button>
-            </Link>
+          <div className="mt-3 flex flex-wrap justify-center gap-x-5 gap-y-2 font-homeMono text-[10px] uppercase tracking-[.14em]">
+            {communityLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-dg-muted transition-colors duration-200 hover:text-dg-green focus:outline-none focus-visible:ring-2 focus-visible:ring-dg-green"
+              >
+                {link.label} ↗
+              </a>
+            ))}
           </div>
-
-          {/* Quick Access Community Links */}
-          <div className="mt-10 border-t border-line pt-8">
-            <p className="mb-4 font-mono text-[11px] uppercase tracking-[.16em] text-ink-soft">
-              Ready to jump in? Join our community directly:
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-3">
-              <a
-                href={siteConfig.community.discord}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded border-[1.5px] border-ink px-5 py-2.5 font-display text-[13px] font-semibold uppercase tracking-[.04em] text-ink transition-[transform,background-color,color] duration-200 ease-studio hover:-translate-y-0.5 hover:bg-ink/[.04] focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue"
-              >
-                <Icon name="chat" size="sm" />
-                Join Discord
-              </a>
-              <a
-                href={siteConfig.community.notion}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded border-[1.5px] border-ink px-5 py-2.5 font-display text-[13px] font-semibold uppercase tracking-[.04em] text-ink transition-[transform,background-color,color] duration-200 ease-studio hover:-translate-y-0.5 hover:bg-ink/[.04] focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue"
-              >
-                <Icon name="article" size="sm" />
-                View Notion
-              </a>
-              <a
-                href={siteConfig.community.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded border-[1.5px] border-ink px-5 py-2.5 font-display text-[13px] font-semibold uppercase tracking-[.04em] text-ink transition-[transform,background-color,color] duration-200 ease-studio hover:-translate-y-0.5 hover:bg-ink/[.04] focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue"
-              >
-                <Icon name="code" size="sm" />
-                View GitHub
-              </a>
-            </div>
-          </div>
-        </div>
-      </Section>
-    </div>
+        </Reveal>
+      </div>
+    </PageShell>
   );
 }
