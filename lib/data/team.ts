@@ -1,126 +1,116 @@
-import { TeamMember } from '../types';
+/**
+ * Team roster.
+ *
+ * Every record below is an explicitly-marked placeholder until the club
+ * provides real names, photos, and links (tracked in TODO.md backlog).
+ * Placeholder records render with the visible "To be announced" treatment —
+ * we never ship invented individuals or fabricated contact details.
+ */
 
-export const teamMembers: TeamMember[] = [
-  // Executive Board
+export type RoleCategory =
+  | 'president'
+  | 'vice-president'
+  | 'secretary'
+  | 'treasurer'
+  | 'project-lead'
+  | 'project-manager';
+
+export interface TeamMember {
+  readonly id: string;
+  /** Placeholder text when unfilled; rendered with the placeholder treatment. */
+  readonly name: string;
+  /** Display title. */
+  readonly role: string;
+  readonly roleCategory: RoleCategory;
+  /** Required for 'project-lead' — the project they run. */
+  readonly project?: string;
+  readonly bio?: string;
+  readonly image?: string;
+  /** Required whenever `image` is set. */
+  readonly imageAlt?: string;
+  readonly links?: {
+    readonly linkedin?: string;
+    readonly github?: string;
+    readonly portfolio?: string;
+    readonly email?: string;
+  };
+  readonly order: number;
+  readonly term?: string;
+  readonly isPlaceholder: boolean;
+}
+
+const TBD = 'To be announced';
+
+export const teamMembers: readonly TeamMember[] = [
   {
-    id: 'alex-chen',
-    name: 'Alex Chen',
+    id: 'president',
+    name: TBD,
     role: 'President',
-    department: 'executive',
-    title: 'President',
-    image: '/images/placeholders/team/avatar-placeholder.svg',
-    links: {
-      linkedin: 'https://linkedin.com/in/',
-      email: 'president@digitalcpp.org',
-    },
+    roleCategory: 'president',
+    order: 1,
+    term: '2026–27',
+    isPlaceholder: true,
   },
   {
-    id: 'sarah-kim',
-    name: 'Sarah Kim',
-    role: 'VP of Engineering',
-    department: 'executive',
-    title: 'VP of Engineering',
-    image: '/images/placeholders/team/avatar-placeholder.svg',
-    links: {
-      linkedin: 'https://linkedin.com/in/',
-      github: 'https://github.com/',
-    },
+    id: 'vice-president',
+    name: TBD,
+    role: 'Vice President',
+    roleCategory: 'vice-president',
+    order: 2,
+    term: '2026–27',
+    isPlaceholder: true,
   },
   {
-    id: 'marcus-johnson',
-    name: 'Marcus Johnson',
-    role: 'Treasurer',
-    department: 'executive',
-    title: 'Treasurer',
-    image: '/images/placeholders/team/avatar-placeholder.svg',
-    links: {
-      linkedin: 'https://linkedin.com/in/',
-    },
-  },
-  {
-    id: 'emily-rodriguez',
-    name: 'Emily Rodriguez',
+    id: 'secretary',
+    name: TBD,
     role: 'Secretary',
-    department: 'executive',
-    title: 'Secretary',
-    image: '/images/placeholders/team/avatar-placeholder.svg',
-    links: {
-      linkedin: 'https://linkedin.com/in/',
-    },
-  },
-  // Hardware Team
-  {
-    id: 'david-park',
-    name: 'David Park',
-    role: 'Hardware Lead',
-    department: 'hardware',
-    title: 'Hardware Lead',
-    image: '/images/placeholders/team/avatar-placeholder.svg',
+    roleCategory: 'secretary',
+    order: 3,
+    term: '2026–27',
+    isPlaceholder: true,
   },
   {
-    id: 'jessica-lee',
-    name: 'Jessica Lee',
-    role: 'PCB Designer',
-    department: 'hardware',
-    title: 'PCB Designer',
-    image: '/images/placeholders/team/avatar-placeholder.svg',
+    id: 'treasurer',
+    name: TBD,
+    role: 'Treasurer',
+    roleCategory: 'treasurer',
+    order: 4,
+    term: '2026–27',
+    isPlaceholder: true,
   },
   {
-    id: 'ryan-nguyen',
-    name: 'Ryan Nguyen',
-    role: 'Hardware Engineer',
-    department: 'hardware',
-    title: 'Hardware Engineer',
-    image: '/images/placeholders/team/avatar-placeholder.svg',
+    id: 'lead-smartphone',
+    name: TBD,
+    role: 'Project Lead — Modular Smartphone',
+    roleCategory: 'project-lead',
+    project: 'Modular Smartphone',
+    order: 5,
+    isPlaceholder: true,
   },
   {
-    id: 'amanda-torres',
-    name: 'Amanda Torres',
-    role: 'Hardware Engineer',
-    department: 'hardware',
-    title: 'Hardware Engineer',
-    image: '/images/placeholders/team/avatar-placeholder.svg',
-  },
-  // Software Team
-  {
-    id: 'kevin-wang',
-    name: 'Kevin Wang',
-    role: 'Software Lead',
-    department: 'software',
-    title: 'Software Lead',
-    image: '/images/placeholders/team/avatar-placeholder.svg',
+    id: 'lead-smart-reading',
+    name: TBD,
+    role: 'Project Lead — Smart Reading',
+    roleCategory: 'project-lead',
+    project: 'Smart Reading',
+    order: 6,
+    isPlaceholder: true,
   },
   {
-    id: 'sophia-martinez',
-    name: 'Sophia Martinez',
-    role: 'Full-Stack Developer',
-    department: 'software',
-    title: 'Full-Stack Developer',
-    image: '/images/placeholders/team/avatar-placeholder.svg',
+    id: 'lead-venture-studies',
+    name: TBD,
+    role: 'Project Lead — Venture Studies',
+    roleCategory: 'project-lead',
+    project: 'Venture Studies',
+    order: 7,
+    isPlaceholder: true,
   },
-  {
-    id: 'james-wilson',
-    name: 'James Wilson',
-    role: 'Embedded Developer',
-    department: 'software',
-    title: 'Embedded Developer',
-    image: '/images/placeholders/team/avatar-placeholder.svg',
-  },
-  // Outreach & Design
-  {
-    id: 'olivia-brown',
-    name: 'Olivia Brown',
-    role: 'Outreach Lead',
-    department: 'outreach',
-    title: 'Outreach Lead',
-    image: '/images/placeholders/team/avatar-placeholder.svg',
-  },
-  {
-    id: 'ethan-davis',
-    name: 'Ethan Davis',
-    role: 'Graphic Designer',
-    department: 'outreach',
-    title: 'Graphic Designer',
-    image: '/images/placeholders/team/avatar-placeholder.svg',
-  },
+];
+
+/** Grouping used by the /team page bands. */
+export const executiveRoles: readonly RoleCategory[] = [
+  'president',
+  'vice-president',
+  'secretary',
+  'treasurer',
 ];

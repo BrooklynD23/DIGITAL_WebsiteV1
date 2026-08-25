@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Badge, Button, Card, Eyebrow, Icon, OutlineHeading, Section } from '@/components/ui';
-import { teamMembers } from '@/lib/data/team';
+import { teamMembers, executiveRoles } from '@/lib/data/team';
 import { siteConfig } from '@/lib/data/siteConfig';
 
 export const metadata: Metadata = {
@@ -101,7 +101,10 @@ const revealScript = `
 `;
 
 export default function AboutPage() {
-  const executiveTeam = teamMembers.filter((m) => m.department === 'executive').slice(0, 3);
+  const executiveTeam = teamMembers
+    .filter((m) => executiveRoles.includes(m.roleCategory))
+    .sort((a, b) => a.order - b.order)
+    .slice(0, 3);
 
   return (
     <>
@@ -336,26 +339,20 @@ export default function AboutPage() {
             <Link
               key={member.id}
               href="/team"
-              className="reveal group relative h-80 w-64 overflow-hidden rounded-lg border border-white/60 bg-white/[.42] shadow-card focus-glow"
+              className="reveal group relative flex h-80 w-64 flex-col justify-between overflow-hidden rounded-lg border border-white/60 bg-white/[.42] p-6 shadow-card focus-glow"
             >
-              <Image
-                src={member.image}
-                alt={`Portrait of ${member.name}`}
-                fill
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 33vw, 256px"
-                className="object-cover transition-transform duration-500 ease-studio group-hover:scale-105"
-                loading="lazy"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/40 to-transparent" />
-              <div className="absolute bottom-0 left-0 w-full p-6 text-left">
+              <span className="inline-flex size-12 items-center justify-center rounded border border-line font-mono text-base text-ink-soft">
+                ?
+              </span>
+              <div>
                 <p className="font-mono text-[10px] uppercase tracking-label text-accent">
-                  {member.title}
+                  {member.role}
                 </p>
                 <h3 className="mt-1 font-display text-xl font-bold uppercase tracking-[-.01em] text-studio">
                   {member.name}
                 </h3>
-                <p className="mt-2 font-body text-sm text-studio/80 opacity-0 transition-opacity duration-300 ease-studio group-hover:opacity-100">
-                  {member.department === 'executive' ? "Computer Engineering '25" : member.role}
+                <p className="mt-2 font-body text-sm text-ink-soft">
+                  {member.term ?? '2026–27'}
                 </p>
               </div>
             </Link>
