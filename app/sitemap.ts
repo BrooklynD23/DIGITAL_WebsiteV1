@@ -7,7 +7,6 @@ const routes = [
   '/',
   '/about',
   '/community',
-  '/pillars',
   '/projects',
   '/projects/modular-smartphone',
   '/projects/smart-reading',
