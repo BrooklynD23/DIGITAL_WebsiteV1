@@ -1,27 +1,6 @@
 import type { Metadata } from 'next';
-import { Newsreader, IBM_Plex_Sans, IBM_Plex_Mono } from 'next/font/google';
 import HomeLanding from '@/components/home/HomeLanding';
-
-const newsreader = Newsreader({
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
-  variable: '--font-home-serif',
-  display: 'swap',
-});
-
-const ibmPlexSans = IBM_Plex_Sans({
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
-  variable: '--font-home-sans',
-  display: 'swap',
-});
-
-const ibmPlexMono = IBM_Plex_Mono({
-  subsets: ['latin'],
-  weight: ['400', '500'],
-  variable: '--font-home-mono',
-  display: 'swap',
-});
+import { landingFonts } from '@/lib/fonts';
 
 export const metadata: Metadata = {
   title: 'DIGITAL - Engineering Club @ Cal Poly Pomona',
@@ -31,7 +10,9 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   return (
-    <div className={`${newsreader.variable} ${ibmPlexSans.variable} ${ibmPlexMono.variable}`}>
+    <div
+      className={`${landingFonts.serif.variable} ${landingFonts.sans.variable} ${landingFonts.mono.variable}`}
+    >
       <HomeLanding />
     </div>
   );

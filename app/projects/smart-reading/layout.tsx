@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { smartReadingMetadata } from '@/lib/data/experiments/glasses';
+import { studioFonts } from '@/lib/fonts';
 
 export const metadata: Metadata = {
   title: smartReadingMetadata.title,
@@ -11,5 +12,11 @@ export default function SmartReadingLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return children;
+  return (
+    <div
+      className={`${studioFonts.display.variable} ${studioFonts.body.variable} ${studioFonts.mono.variable}`}
+    >
+      {children}
+    </div>
+  );
 }

@@ -6,6 +6,8 @@
    THEME TOKENS — studio grey/black industrial system.
    Mirrored into tailwind.config.ts. Copied from the Refractor
    reference :root block. Never hardcode raw hex in components.
+   NOTE: consumed only by routes not yet migrated onto the
+   landing design system; retires with the site-consolidation.
 ============================================================ */
 :root {
   --studio: #d6d4d3; /* studio sweep base — matches renders */
@@ -22,6 +24,124 @@
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
+/* ============================================================
+   LANDING TOKENS — warm editorial system (landing.DESIGN.md),
+   promoted to :root verbatim so every route consumes tokens.
+   Raw layer (--dg-*) mirrors the published spec block.
+============================================================ */
+:root {
+  /* Colors */
+  --dg-bg: #f7f6f2;
+  --dg-ink: #111311;
+  --dg-green: #1e4d2b;
+  --dg-gold: #c28e0e;
+  --dg-gold-bright: #d8a62a;
+  --dg-dark: #0a0c0a;
+  --dg-dark-hover: #111511;
+  --dg-cream: #f2f0e8;
+  --dg-muted: #5a615b;
+  --dg-muted-dark: #8b948c;
+  --dg-card: #fcfbf8;
+  --dg-stripe-a: #e7e4dc;
+  --dg-stripe-b: #efede6;
+  --dg-selection: rgba(194, 142, 14, 0.3);
+  --dg-nav-bg: rgba(247, 246, 242, 0.92);
+
+  /* Ink-derived hairlines (light sections) */
+  --dg-line-hair: rgba(17, 19, 17, 0.1);
+  --dg-line-soft: rgba(17, 19, 17, 0.12);
+  --dg-line-card: rgba(17, 19, 17, 0.15);
+  --dg-line-struct: rgba(17, 19, 17, 0.2);
+  --dg-line: rgba(17, 19, 17, 0.25);
+  --dg-line-accent: rgba(17, 19, 17, 0.3);
+  --dg-line-hover: rgba(17, 19, 17, 0.35);
+  --dg-line-strong: rgba(17, 19, 17, 0.4);
+  --dg-ink-45: rgba(17, 19, 17, 0.45);
+  --dg-ink-50: rgba(17, 19, 17, 0.5);
+
+  /* Cream-derived hairlines (dark sections) */
+  --dg-line-dark: rgba(242, 240, 232, 0.12);
+  --dg-line-track: rgba(242, 240, 232, 0.16);
+  --dg-line-dark-mid: rgba(242, 240, 232, 0.18);
+  --dg-line-dark-strong: rgba(242, 240, 232, 0.3);
+  --dg-star-dark: rgba(242, 240, 232, 0.35);
+
+  /* Type scale */
+  --dg-type-hero: clamp(34px, 5vw, 58px);
+  --dg-type-join: clamp(34px, 5vw, 58px);
+  --dg-type-results: clamp(26px, 3.4vw, 42px);
+  --dg-type-thesis: clamp(26px, 3.4vw, 42px);
+  --dg-type-pathways: clamp(26px, 3.4vw, 42px);
+  --dg-type-loader: clamp(30px, 4.5vw, 44px);
+  --dg-type-stat: 24px;
+  --dg-type-card-title: 14px;
+  --dg-type-body: 13px;
+  --dg-type-card-body: 12.5px;
+  --dg-type-wordmark: 13px;
+  --dg-type-subline: 11px;
+  --dg-type-nav: 10.5px;
+  --dg-type-cta: 10.5px;
+  --dg-type-eyebrow: 10px;
+  --dg-type-micro: 9.5px;
+
+  /* Shape */
+  --dg-radius-cta: 2px;
+  --dg-radius-chip-sm: 3px;
+  --dg-radius-chip: 4px;
+  --dg-radius-card: 8px;
+  --dg-radius-plate: 10px;
+
+  /* Spacing & layout */
+  --dg-gutter: 18px;
+  --dg-divider-gap: 18px;
+  --dg-card-gap: 22px;
+  --dg-section-hero-top: clamp(48px, 8vh, 90px);
+  --dg-section-results: clamp(56px, 9vh, 96px);
+  --dg-section-pathways: clamp(64px, 10vh, 110px);
+  --dg-section-join: clamp(80px, 13vh, 140px);
+  --dg-footer-max: 1100px;
+  --dg-hero-max: 760px;
+  --dg-heading-max: 640px;
+
+  /* Motion */
+  --dg-ease-reveal: cubic-bezier(0.22, 1, 0.36, 1);
+  --dg-ease-loader-exit: cubic-bezier(0.76, 0, 0.24, 1);
+  --dg-ease-loader-bar: cubic-bezier(0.65, 0, 0.35, 1);
+  --dg-duration-reveal: 0.8s;
+  --dg-duration-loader-exit: 850ms;
+  --dg-duration-loader-bar: 1.8s;
+
+  /* ============================================================
+     SEMANTIC LAYER — what pages and primitives consume.
+  ============================================================ */
+  --ds-bg: var(--dg-bg);
+  --ds-bg-inverse: var(--dg-dark);
+  --ds-surface: var(--dg-card);
+  --ds-surface-hover: var(--dg-dark-hover);
+  --ds-text: var(--dg-ink);
+  --ds-text-inverse: var(--dg-cream);
+  --ds-text-muted: var(--dg-muted);
+  --ds-text-muted-inverse: var(--dg-muted-dark);
+  --ds-accent: var(--dg-gold);
+  --ds-accent-2: var(--dg-green);
+  --ds-border: var(--dg-line-card);
+  --ds-border-soft: var(--dg-line-soft);
+  --ds-border-strong: var(--dg-line-strong);
+  --ds-border-inverse: var(--dg-line-dark);
+  --ds-border-inverse-strong: var(--dg-line-dark-strong);
+  --ds-focus: var(--dg-green); /* forest ring replaces studio electric blue on secondary pages */
+  --ds-selection: var(--dg-selection);
+  /* PENDING HEAD DESIGNER SIGN-OFF (ui-revision D2): desaturated brick,
+     not the studio signal red; validated ≥4.5:1 on #F7F6F2. Always paired
+     with an icon + text, never colour alone. Unused until approved. */
+  --ds-error: #9c3a2a;
+  --ds-success: var(--dg-green);
+  --ds-z-nav: 50;
+  --ds-z-overlay: 60;
+  --ds-z-cursor: 90;
+  --ds-z-loader: 100;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -29,36 +149,12 @@
 
   body {
     @apply antialiased;
-    color: var(--ink);
-    background: var(--studio);
+    color: var(--ds-text);
+    background: var(--ds-bg);
   }
 
-  /* studio sweep + faint grain so the page reads as one continuous
-     backdrop with the render frames (no visible seam) */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    background:
-      radial-gradient(70vmax 70vmax at 50% 38%, var(--studio-hi) 0%, transparent 60%),
-      radial-gradient(90vmax 90vmax at 50% 120%, var(--studio-lo) 0%, transparent 70%);
-  }
-
-  body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    opacity: 0.04;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-
-  section {
-    position: relative;
-    z-index: 2;
+  ::selection {
+    background: var(--ds-selection);
   }
 
   /* Respect reduced motion preferences */

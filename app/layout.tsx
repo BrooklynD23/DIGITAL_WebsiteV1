@@ -1,32 +1,11 @@
 import type { Metadata } from 'next';
-import { Archivo, Hanken_Grotesk, DM_Mono } from 'next/font/google';
 import './globals.css';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { siteConfig } from '@/lib/data/siteConfig';
+import { landingFonts, studioFonts } from '@/lib/fonts';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-
-const archivo = Archivo({
-  subsets: ['latin'],
-  variable: '--font-display',
-  weight: ['500', '600', '700', '800'],
-  display: 'swap',
-});
-
-const hankenGrotesk = Hanken_Grotesk({
-  subsets: ['latin'],
-  variable: '--font-body',
-  weight: ['400', '500', '600'],
-  display: 'swap',
-});
-
-const dmMono = DM_Mono({
-  subsets: ['latin'],
-  variable: '--font-mono',
-  weight: ['400', '500'],
-  display: 'swap',
-});
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || siteConfig.url;
 
@@ -71,7 +50,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${archivo.variable} ${hankenGrotesk.variable} ${dmMono.variable} font-body text-ink bg-studio overflow-x-hidden antialiased`}
+        className={[
+          landingFonts.serif.variable,
+          landingFonts.sans.variable,
+          landingFonts.mono.variable,
+          // Studio stack: consumed by routes not yet migrated onto the landing
+          // system; retires from <body> once the consolidation completes.
+          studioFonts.display.variable,
+          studioFonts.body.variable,
+          studioFonts.mono.variable,
+          'font-homeSans text-dg-ink bg-dg-bg overflow-x-hidden antialiased',
+        ].join(' ')}
       >
         {/* Skip-to-content link — visually hidden until focused */}
         <a
