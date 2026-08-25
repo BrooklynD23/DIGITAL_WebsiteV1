@@ -79,6 +79,10 @@ committed — see the standing rule in `CLAUDE.md` and `AGENT.md`.
 | v0.15.4 | #0051    | `454241c` | feat(legal): editorial prose treatment on privacy/terms/cookies (#0051) | PageShell intro + token prose column; content unchanged |
 | v0.15.5 | #0051    | `c438901` | refactor(consolidation): About ribbon tab, error pages on landing tokens, dead studio CSS retired (#0051) | Ribbon: Home/Projects/About/Community/Join/Contact; not-found/error/global-error rebuilt; `.eyebrow`/`.text-outline`/`.scrollcue`/`.reveal` blocks + OutlineHeading + dead keyframes removed |
 | v0.15.6 | #0051    | `548ad6f` | fix(globals): close @layer components block after CSS retirement (#0051) | Build-breaking unclosed block caught post-commit and fixed forward |
+| v0.16.0 | #0051    | `8d56134` | fix(phone-v2): one-owner overlapping handoff; loader from first paint; armed TextReveal pre-state (#0051) | ui-revision 04 §4: `booting→handoff→ready` state machine; overlay renders in prerendered HTML (JS dismisses, never summons); `text-reveal-armed` opacity-0 pre-state + noscript/failure un-arm; page-level 0.96→1 opacity deleted (light-wash gone); fonts gate capped at 1000ms; ~30fps throttled scrubber updates. Verified against production build; smartphone.DESIGN.md spec hole amended |
+| v0.16.1 | #0051    | `cff33d1` | test(a11y): consolidation sweep vs test matrix; results recorded in 07-sweep-results.md (#0051) | Automated gates + static assertions pass (h1-per-route fixed on /pillars stub); contrast all ≥4.5:1 incl. new error token; manual browser rows listed for next session |
+| v0.16.2 | #0051    | `287fb51` | feat(cursor): progressive-enhancement crosshair cursor per ui-revision D8 (#0051) | Mounts only on fine-pointer + motion-allowed; native cursor hidden after first painted frame; fields restore I-beam; dark bands flip to cream; zero server HTML; absent from ssr bundle |
+| v0.16.3 | #0051    | — | docs: README deferred-work refresh + final #0051 log rows (#0051) | Cursor/handoff/sweep marked shipped; manual browser-session rows remain for next session |
 
 ---
 

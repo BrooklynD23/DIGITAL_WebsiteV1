@@ -102,9 +102,10 @@ input** — see also the Backlog section in [`TODO.md`](TODO.md):
    photos, and links for 2026–27; also OG image + favicon assets from the design lead.
 4. **Heads-up Display Glasses copy** — project description/team/timeline from that team.
 
-Open engineering polish (no org input needed): smartphone handoff motion audit against a
-production build, full keyboard/reduced-motion sweep per `docs/ui-revision/06-test-matrix.md`,
-and the optional progressive-enhancement cursor (`docs/ui-revision/05` §4).
+Open engineering polish (no org input needed): a browser session for the manual test-matrix
+rows — responsive widths, cross-browser, keyboard walk, 60fps handoff recording
+(`docs/ui-revision/07-sweep-results.md` lists exactly what remains). The smartphone handoff
+fixes, accessibility sweep gates, and the progressive-enhancement cursor all shipped in #0051.
 
 ## Configuration
 
