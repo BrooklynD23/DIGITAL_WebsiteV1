@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import dynamic from 'next/dynamic';
 import './globals.css';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
@@ -6,6 +7,12 @@ import { siteConfig } from '@/lib/data/siteConfig';
 import { landingFonts, studioFonts } from '@/lib/fonts';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+
+// Progressive enhancement — never in server HTML; the site is fully
+// functional with it absent (ui-revision D8).
+const CursorProvider = dynamic(() => import('@/components/ui/CursorProvider'), {
+  ssr: false,
+});
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || siteConfig.url;
 
@@ -79,6 +86,9 @@ export default function RootLayout({
         {/* Vercel Analytics & Speed Insights — cookieless, static-export compatible */}
         <Analytics />
         <SpeedInsights />
+
+        {/* Custom cursor — progressive enhancement only */}
+        <CursorProvider />
 
         {/* JSON-LD Organization schema */}
         <script
