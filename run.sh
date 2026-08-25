@@ -109,6 +109,7 @@ run_checks() {
   ROUTE_PAGES=(
     "app/page.tsx"
     "app/about/page.tsx"
+    "app/community/page.tsx"
     "app/contact/page.tsx"
     "app/get-involved/page.tsx"
     "app/pillars/page.tsx"

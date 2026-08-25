@@ -14,6 +14,7 @@ export interface SiteLink {
 /** Ribbon destinations — mirrored by the landing's own sticky nav. */
 export const primaryNavLinks: readonly SiteLink[] = [
   { label: 'Projects', href: '/projects' },
+  { label: 'Community', href: '/community' },
   { label: 'Join', href: '/get-involved' },
   { label: 'Contact', href: '/contact' },
 ];
@@ -22,6 +23,7 @@ export const primaryNavLinks: readonly SiteLink[] = [
 export const footerQuickLinks: readonly SiteLink[] = [
   { label: 'Home', href: '/' },
   { label: 'Projects', href: '/projects' },
+  { label: 'Community', href: '/community' },
   { label: 'About', href: '/about' },
   { label: 'Team', href: '/team' },
   { label: 'Join', href: '/get-involved' },
