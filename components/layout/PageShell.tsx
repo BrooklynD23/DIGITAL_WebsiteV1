@@ -7,7 +7,7 @@ interface PageShellProps {
   title: string;
   /** Optional mono metadata row under the intro (e.g. "THURSDAYS · 6 PM"). */
   metaRow?: readonly string[];
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 /**

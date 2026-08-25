@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Eyebrow, OutlineHeading, Section } from '@/components/ui';
+import { PageShell } from '@/components/layout/PageShell';
 import { siteConfig } from '@/lib/data/siteConfig';
 
 export const metadata: Metadata = {
@@ -16,39 +16,29 @@ export default function PrivacyPage() {
   return (
     <>
       {/* Hero */}
-      <Section className="pt-[140px] pb-[60px]">
-        <div className="max-w-[720px]">
-          <Eyebrow>Legal</Eyebrow>
-          <OutlineHeading as="h1" size="section" outline="Policy" className="mt-6">
-            Privacy{' '}
-          </OutlineHeading>
-          <p className="mt-6 font-mono text-[13px] leading-[1.6] text-ink-soft">
-            Last updated: {LAST_UPDATED}
-          </p>
-        </div>
-      </Section>
+      <PageShell eyebrow="Legal" title="Privacy Policy" metaRow={[`Last updated: ${LAST_UPDATED}`]} />
 
       {/* Draft notice */}
-      <Section as="div" className="pb-0">
+      <div>
         <div className="max-w-[720px] rounded-lg border border-accent/40 bg-accent/[.06] px-6 py-5">
-          <p className="font-mono text-[12px] uppercase tracking-[.16em] text-accent">
+          <p className="font-homeMono text-[10px] uppercase tracking-[.16em] text-dg-muted">
             Draft — pending review
           </p>
-          <p className="mt-2 font-body text-[15px] leading-[1.55] text-ink-soft">
+          <p className="mt-2 font-homeSans text-[13px] leading-[1.75] text-dg-muted">
             This is a starter document and should be reviewed by the organization (and legal
             counsel where appropriate) before being relied upon. It is provided in good faith
             as a reasonable starting point for a non-commercial student engineering club.
           </p>
         </div>
-      </Section>
+      </div>
 
       {/* Body */}
-      <Section band noBorder className="pt-[60px]">
-        <div className="max-w-[720px] space-y-10 font-body text-[clamp(16px,1.5vw,18px)] leading-[1.65] text-ink-soft">
+      <div className="pt-[60px] pb-[60px]">
+        <div className="max-w-[720px] space-y-10 font-homeSans text-[14px] leading-[1.8] text-dg-muted">
 
           {/* 1 */}
           <div>
-            <h2 className="font-display text-[21px] font-bold uppercase tracking-[-.01em] text-ink">
+            <h2 className="mt-0 font-homeSans text-[16px] font-semibold leading-[1.35] text-dg-ink">
               1. About This Policy
             </h2>
             <p className="mt-4">
@@ -58,7 +48,7 @@ export default function PrivacyPage() {
               website at{' '}
               <a
                 href={siteConfig.url}
-                className="text-accent-blue underline underline-offset-2 transition-colors hover:text-ink"
+                className="text-dg-ink underline underline-offset-2 transition-colors hover:text-dg-green"
               >
                 {siteConfig.url}
               </a>{' '}
@@ -72,13 +62,13 @@ export default function PrivacyPage() {
 
           {/* 2 */}
           <div>
-            <h2 className="font-display text-[21px] font-bold uppercase tracking-[-.01em] text-ink">
+            <h2 className="mt-0 font-homeSans text-[16px] font-semibold leading-[1.35] text-dg-ink">
               2. Information We Collect
             </h2>
             <p className="mt-4">
               We collect only what is necessary to operate the Site and respond to inquiries.
             </p>
-            <h3 className="mt-6 font-display text-[16px] font-bold uppercase tracking-[-.01em] text-ink">
+            <h3 className="mt-6 font-homeSans text-[14px] font-semibold leading-[1.4] text-dg-ink">
               2a. Contact Form Submissions
             </h3>
             <p className="mt-3">
@@ -88,7 +78,7 @@ export default function PrivacyPage() {
               that data via Formspree so we can respond to your inquiry. We do not store form
               submissions on our own servers.
             </p>
-            <h3 className="mt-6 font-display text-[16px] font-bold uppercase tracking-[-.01em] text-ink">
+            <h3 className="mt-6 font-homeSans text-[14px] font-semibold leading-[1.4] text-dg-ink">
               2b. Analytics (Cookieless)
             </h3>
             <p className="mt-3">
@@ -100,7 +90,7 @@ export default function PrivacyPage() {
               browser type, Core Web Vitals scores). No personally identifiable information is
               associated with these analytics events.
             </p>
-            <h3 className="mt-6 font-display text-[16px] font-bold uppercase tracking-[-.01em] text-ink">
+            <h3 className="mt-6 font-homeSans text-[14px] font-semibold leading-[1.4] text-dg-ink">
               2c. Server Logs
             </h3>
             <p className="mt-3">
@@ -114,7 +104,7 @@ export default function PrivacyPage() {
 
           {/* 3 */}
           <div>
-            <h2 className="font-display text-[21px] font-bold uppercase tracking-[-.01em] text-ink">
+            <h2 className="mt-0 font-homeSans text-[16px] font-semibold leading-[1.35] text-dg-ink">
               3. How We Use Your Information
             </h2>
             <p className="mt-4">
@@ -134,7 +124,7 @@ export default function PrivacyPage() {
 
           {/* 4 */}
           <div>
-            <h2 className="font-display text-[21px] font-bold uppercase tracking-[-.01em] text-ink">
+            <h2 className="mt-0 font-homeSans text-[16px] font-semibold leading-[1.35] text-dg-ink">
               4. Third-Party Processors
             </h2>
             <p className="mt-4">
@@ -149,7 +139,7 @@ export default function PrivacyPage() {
                   href="https://vercel.com/legal/privacy-policy"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-accent-blue underline underline-offset-2 transition-colors hover:text-ink"
+                  className="text-dg-ink underline underline-offset-2 transition-colors hover:text-dg-green"
                 >
                   vercel.com/legal/privacy-policy
                 </a>
@@ -160,7 +150,7 @@ export default function PrivacyPage() {
                   href="https://formspree.io/legal/privacy-policy"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-accent-blue underline underline-offset-2 transition-colors hover:text-ink"
+                  className="text-dg-ink underline underline-offset-2 transition-colors hover:text-dg-green"
                 >
                   formspree.io/legal/privacy-policy
                 </a>
@@ -170,7 +160,7 @@ export default function PrivacyPage() {
 
           {/* 5 */}
           <div>
-            <h2 className="font-display text-[21px] font-bold uppercase tracking-[-.01em] text-ink">
+            <h2 className="mt-0 font-homeSans text-[16px] font-semibold leading-[1.35] text-dg-ink">
               5. Data Retention
             </h2>
             <p className="mt-4">
@@ -185,7 +175,7 @@ export default function PrivacyPage() {
 
           {/* 6 */}
           <div>
-            <h2 className="font-display text-[21px] font-bold uppercase tracking-[-.01em] text-ink">
+            <h2 className="mt-0 font-homeSans text-[16px] font-semibold leading-[1.35] text-dg-ink">
               6. Your Rights and Choices
             </h2>
             <p className="mt-4">
@@ -205,7 +195,7 @@ export default function PrivacyPage() {
               To exercise any rights, contact us at{' '}
               <a
                 href={`mailto:${EMAIL}`}
-                className="text-accent-blue underline underline-offset-2 transition-colors hover:text-ink"
+                className="text-dg-ink underline underline-offset-2 transition-colors hover:text-dg-green"
               >
                 {EMAIL}
               </a>
@@ -215,7 +205,7 @@ export default function PrivacyPage() {
 
           {/* 7 */}
           <div>
-            <h2 className="font-display text-[21px] font-bold uppercase tracking-[-.01em] text-ink">
+            <h2 className="mt-0 font-homeSans text-[16px] font-semibold leading-[1.35] text-dg-ink">
               7. Children&rsquo;s Privacy
             </h2>
             <p className="mt-4">
@@ -228,7 +218,7 @@ export default function PrivacyPage() {
 
           {/* 8 */}
           <div>
-            <h2 className="font-display text-[21px] font-bold uppercase tracking-[-.01em] text-ink">
+            <h2 className="mt-0 font-homeSans text-[16px] font-semibold leading-[1.35] text-dg-ink">
               8. External Links
             </h2>
             <p className="mt-4">
@@ -240,7 +230,7 @@ export default function PrivacyPage() {
 
           {/* 9 */}
           <div>
-            <h2 className="font-display text-[21px] font-bold uppercase tracking-[-.01em] text-ink">
+            <h2 className="mt-0 font-homeSans text-[16px] font-semibold leading-[1.35] text-dg-ink">
               9. Changes to This Policy
             </h2>
             <p className="mt-4">
@@ -252,14 +242,14 @@ export default function PrivacyPage() {
 
           {/* 10 */}
           <div>
-            <h2 className="font-display text-[21px] font-bold uppercase tracking-[-.01em] text-ink">
+            <h2 className="mt-0 font-homeSans text-[16px] font-semibold leading-[1.35] text-dg-ink">
               10. Contact
             </h2>
             <p className="mt-4">
               If you have questions or concerns about this Privacy Policy, please reach out:
             </p>
             <address className="mt-4 not-italic">
-              <p className="font-mono text-[13px] leading-[1.8] text-ink-soft">
+              <p className="font-mono text-[13px] leading-[1.8] text-dg-muted">
                 {ORG}
                 <br />
                 {siteConfig.contact.location}
@@ -268,7 +258,7 @@ export default function PrivacyPage() {
                 <br />
                 <a
                   href={`mailto:${EMAIL}`}
-                  className="text-accent-blue underline underline-offset-2 transition-colors hover:text-ink"
+                  className="text-dg-ink underline underline-offset-2 transition-colors hover:text-dg-green"
                 >
                   {EMAIL}
                 </a>
@@ -277,7 +267,7 @@ export default function PrivacyPage() {
           </div>
 
         </div>
-      </Section>
+      </div>
     </>
   );
 }

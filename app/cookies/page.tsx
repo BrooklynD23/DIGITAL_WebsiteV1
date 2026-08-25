@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Eyebrow, OutlineHeading, Section } from '@/components/ui';
+import { PageShell } from '@/components/layout/PageShell';
 import { siteConfig } from '@/lib/data/siteConfig';
 
 export const metadata: Metadata = {
@@ -16,35 +16,25 @@ export default function CookiesPage() {
   return (
     <>
       {/* Hero */}
-      <Section className="pt-[140px] pb-[60px]">
-        <div className="max-w-[720px]">
-          <Eyebrow>Legal</Eyebrow>
-          <OutlineHeading as="h1" size="section" outline="Notice" className="mt-6">
-            Cookie{' '}
-          </OutlineHeading>
-          <p className="mt-6 font-mono text-[13px] leading-[1.6] text-ink-soft">
-            Last updated: {LAST_UPDATED}
-          </p>
-        </div>
-      </Section>
+      <PageShell eyebrow="Legal" title="Cookies Notice" metaRow={[`Last updated: ${LAST_UPDATED}`]} />
 
       {/* Draft notice */}
-      <Section as="div" className="pb-0">
+      <div>
         <div className="max-w-[720px] rounded-lg border border-accent/40 bg-accent/[.06] px-6 py-5">
-          <p className="font-mono text-[12px] uppercase tracking-[.16em] text-accent">
+          <p className="font-homeMono text-[10px] uppercase tracking-[.16em] text-dg-muted">
             Draft — pending review
           </p>
-          <p className="mt-2 font-body text-[15px] leading-[1.55] text-ink-soft">
+          <p className="mt-2 font-homeSans text-[13px] leading-[1.75] text-dg-muted">
             This is a starter document and should be reviewed by the organization (and legal
             counsel where appropriate) before being relied upon. It is provided in good faith
             as a reasonable starting point for a non-commercial student engineering club.
           </p>
         </div>
-      </Section>
+      </div>
 
       {/* Body */}
-      <Section band noBorder className="pt-[60px]">
-        <div className="max-w-[720px] space-y-10 font-body text-[clamp(16px,1.5vw,18px)] leading-[1.65] text-ink-soft">
+      <div className="pt-[60px] pb-[60px]">
+        <div className="max-w-[720px] space-y-10 font-homeSans text-[14px] leading-[1.8] text-dg-muted">
 
           {/* Summary */}
           <div className="rounded-lg border border-line bg-white/40 px-6 py-5 backdrop-blur-[6px]">
@@ -59,7 +49,7 @@ export default function CookiesPage() {
 
           {/* 1 */}
           <div>
-            <h2 className="font-display text-[21px] font-bold uppercase tracking-[-.01em] text-ink">
+            <h2 className="mt-0 font-homeSans text-[16px] font-semibold leading-[1.35] text-dg-ink">
               1. What Are Cookies?
             </h2>
             <p className="mt-4">
@@ -71,7 +61,7 @@ export default function CookiesPage() {
 
           {/* 2 */}
           <div>
-            <h2 className="font-display text-[21px] font-bold uppercase tracking-[-.01em] text-ink">
+            <h2 className="mt-0 font-homeSans text-[16px] font-semibold leading-[1.35] text-dg-ink">
               2. Cookies on This Site
             </h2>
             <p className="mt-4">
@@ -79,14 +69,14 @@ export default function CookiesPage() {
               student club. We have deliberately chosen a technology stack that minimizes
               cookie use:
             </p>
-            <h3 className="mt-6 font-display text-[16px] font-bold uppercase tracking-[-.01em] text-ink">
+            <h3 className="mt-6 font-homeSans text-[14px] font-semibold leading-[1.4] text-dg-ink">
               Tracking &amp; Advertising Cookies
             </h3>
             <p className="mt-3">
               We use <strong>none</strong>. There are no third-party advertising networks,
               no retargeting pixels, and no cross-site tracking on this website.
             </p>
-            <h3 className="mt-6 font-display text-[16px] font-bold uppercase tracking-[-.01em] text-ink">
+            <h3 className="mt-6 font-homeSans text-[14px] font-semibold leading-[1.4] text-dg-ink">
               Analytics
             </h3>
             <p className="mt-3">
@@ -97,7 +87,7 @@ export default function CookiesPage() {
               anonymous and aggregated (e.g., page views by country, browser type, Core Web
               Vitals). No personal profile is created.
             </p>
-            <h3 className="mt-6 font-display text-[16px] font-bold uppercase tracking-[-.01em] text-ink">
+            <h3 className="mt-6 font-homeSans text-[14px] font-semibold leading-[1.4] text-dg-ink">
               Strictly Necessary / Functional Storage
             </h3>
             <p className="mt-3">
@@ -111,7 +101,7 @@ export default function CookiesPage() {
 
           {/* 3 */}
           <div>
-            <h2 className="font-display text-[21px] font-bold uppercase tracking-[-.01em] text-ink">
+            <h2 className="mt-0 font-homeSans text-[16px] font-semibold leading-[1.35] text-dg-ink">
               3. Third-Party Services and Cookies
             </h2>
             <p className="mt-4">
@@ -124,7 +114,7 @@ export default function CookiesPage() {
 
           {/* 4 */}
           <div>
-            <h2 className="font-display text-[21px] font-bold uppercase tracking-[-.01em] text-ink">
+            <h2 className="mt-0 font-homeSans text-[16px] font-semibold leading-[1.35] text-dg-ink">
               4. Managing Cookies in Your Browser
             </h2>
             <p className="mt-4">
@@ -156,7 +146,7 @@ export default function CookiesPage() {
 
           {/* 5 */}
           <div>
-            <h2 className="font-display text-[21px] font-bold uppercase tracking-[-.01em] text-ink">
+            <h2 className="mt-0 font-homeSans text-[16px] font-semibold leading-[1.35] text-dg-ink">
               5. Changes to This Notice
             </h2>
             <p className="mt-4">
@@ -168,14 +158,14 @@ export default function CookiesPage() {
 
           {/* 6 */}
           <div>
-            <h2 className="font-display text-[21px] font-bold uppercase tracking-[-.01em] text-ink">
+            <h2 className="mt-0 font-homeSans text-[16px] font-semibold leading-[1.35] text-dg-ink">
               6. Contact
             </h2>
             <p className="mt-4">
               Questions about cookies or this notice? Reach us at:
             </p>
             <address className="mt-4 not-italic">
-              <p className="font-mono text-[13px] leading-[1.8] text-ink-soft">
+              <p className="font-mono text-[13px] leading-[1.8] text-dg-muted">
                 {ORG}
                 <br />
                 {siteConfig.contact.location}
@@ -184,7 +174,7 @@ export default function CookiesPage() {
                 <br />
                 <a
                   href={`mailto:${EMAIL}`}
-                  className="text-accent-blue underline underline-offset-2 transition-colors hover:text-ink"
+                  className="text-dg-ink underline underline-offset-2 transition-colors hover:text-dg-green"
                 >
                   {EMAIL}
                 </a>
@@ -193,7 +183,7 @@ export default function CookiesPage() {
           </div>
 
         </div>
-      </Section>
+      </div>
     </>
   );
 }
