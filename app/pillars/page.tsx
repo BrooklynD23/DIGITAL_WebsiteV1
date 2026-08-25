@@ -18,9 +18,9 @@ export default function PillarsRedirectPage() {
       <script
         dangerouslySetInnerHTML={{ __html: 'location.replace("/about#how-we-work");' }}
       />
-      <p className="m-0 font-homeMono text-[10px] uppercase tracking-[.18em] text-dg-muted">
+      <h1 className="m-0 font-homeMono text-[10px] uppercase tracking-[.18em] text-dg-muted">
         The pillars moved
-      </p>
+      </h1>
       <p className="m-0 max-w-[420px] text-[13px] leading-[1.7] text-dg-ink">
         You&apos;re being taken to{' '}
         <Link href="/about#how-we-work" className="underline underline-offset-2 hover:text-dg-green">
