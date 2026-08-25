@@ -1,11 +1,13 @@
 'use client';
 
-import { useState, useMemo, useEffect, useRef } from 'react';
+import { useState, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { projects, getFlagshipProject } from '@/lib/data/projects';
+import type { Project } from '@/lib/types';
 import { cn } from '@/lib/utils';
-import { Badge, Button, Eyebrow, Icon, Input, OutlineHeading } from '@/components/ui';
+import { PageShell } from '@/components/layout/PageShell';
+import { Reveal } from '@/components/ui/Reveal';
 
 // Note: Metadata lives in app/projects/layout.tsx (this is a client component).
 
@@ -19,16 +21,87 @@ const filters: { label: string; value: Category }[] = [
   { label: 'Robotics', value: 'robotics' },
 ];
 
-const statusVariant = {
-  active: 'active',
-  completed: 'completed',
-  paused: 'paused',
-} as const;
+const fieldControl =
+  'w-full rounded-cta border border-dg-line-soft bg-dg-card px-[12px] py-[10px] font-homeSans text-[13px] leading-[1.5] text-dg-ink transition-colors duration-200 placeholder:text-dg-muted-dark focus:border-dg-green focus:outline-none focus-visible:ring-2 focus-visible:ring-dg-green';
+
+function StatusLabel({ status }: { status: Project['status'] }) {
+  return (
+    <span className="font-homeMono text-[8.5px] uppercase tracking-[.16em] text-dg-muted">
+      {status}
+    </span>
+  );
+}
+
+function ProjectCard({ project, index }: { project: Project; index: number }) {
+  if (project.comingSoon) {
+    // Placeholder projects have no detail route — render a static card rather
+    // than a link that would 404.
+    return (
+      <article className="flex flex-col border border-dashed border-dg-line-accent bg-dg-bg p-[22px]">
+        <div className="mb-[14px] flex items-center justify-between">
+          <span className="font-homeMono text-[9.5px] uppercase tracking-[.14em] text-dg-muted">
+            {String(index + 1).padStart(2, '0')} · {project.category}
+          </span>
+          <span className="font-homeMono text-[8.5px] uppercase tracking-[.16em] text-dg-muted-dark">
+            Coming soon
+          </span>
+        </div>
+        <h3 className="m-0 text-[16px] font-semibold tracking-[.02em] text-dg-muted">
+          {project.title}
+        </h3>
+        <p className="m-0 mt-[8px] text-[12px] leading-[1.7] text-dg-muted-dark">
+          More info soon.
+        </p>
+      </article>
+    );
+  }
+
+  return (
+    <Link
+      href={`/projects/${project.slug}`}
+      className={cn(
+        'group flex flex-col border border-dg-line-card bg-dg-card p-[22px]',
+        'transition-colors duration-200 hover:border-dg-line-strong',
+        'focus:outline-none focus-visible:ring-2 focus-visible:ring-dg-green'
+      )}
+    >
+      <div className="mb-[14px] flex items-center justify-between">
+        <span className="font-homeMono text-[9.5px] uppercase tracking-[.14em] text-dg-muted">
+          {String(index + 1).padStart(2, '0')} · {project.category}
+        </span>
+        <StatusLabel status={project.status} />
+      </div>
+      <h3 className="m-0 text-[16px] font-semibold tracking-[.02em] text-dg-ink transition-colors duration-200 group-hover:text-dg-green">
+        {project.title}
+      </h3>
+      <p className="m-0 mt-[8px] line-clamp-3 flex-1 text-[12.5px] leading-[1.7] text-dg-muted">
+        {project.shortDescription}
+      </p>
+      <div className="mt-[14px] flex flex-wrap gap-[6px]">
+        {project.techStack.slice(0, 4).map((tech) => (
+          <span
+            key={tech}
+            className="rounded-cta border border-dg-line-soft px-2 py-0.5 font-homeMono text-[9px] uppercase tracking-[.1em] text-dg-muted"
+          >
+            {tech}
+          </span>
+        ))}
+        {project.techStack.length > 4 && (
+          <span className="rounded-cta border border-dg-line-soft px-2 py-0.5 font-homeMono text-[9px] uppercase tracking-[.1em] text-dg-muted">
+            +{project.techStack.length - 4}
+          </span>
+        )}
+      </div>
+      <span className="mt-[16px] font-homeMono text-[10px] uppercase tracking-[.14em] text-dg-ink group-hover:text-dg-green">
+        View specs →
+      </span>
+    </Link>
+  );
+}
 
 export default function ProjectsPage() {
   const [activeFilter, setActiveFilter] = useState<Category>('all');
   const [searchQuery, setSearchQuery] = useState('');
-  const gridRef = useRef<HTMLDivElement>(null);
 
   const flagship = getFlagshipProject();
 
@@ -43,279 +116,157 @@ export default function ProjectsPage() {
     });
   }, [activeFilter, searchQuery, flagship?.slug]);
 
-  // Reveal-on-scroll wiring (.reveal -> .reveal.in). Re-runs as cards mount.
-  useEffect(() => {
-    const root = gridRef.current;
-    if (!root) return;
-    const els = Array.from(root.querySelectorAll<HTMLElement>('.reveal'));
-    if (typeof IntersectionObserver === 'undefined') {
-      els.forEach((el) => el.classList.add('in'));
-      return;
-    }
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('in');
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
-    els.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, [filteredProjects]);
-
   return (
-    <div className="pt-28">
-      {/* Flagship hero — dark ink device-render treatment */}
-      <section className="border-b border-line">
-        <div className="mx-auto max-w-content px-7 py-16 md:py-24">
-          <div className="flex flex-col items-center gap-12 lg:flex-row">
-            <div className="z-10 flex flex-1 flex-col gap-6">
-              <Eyebrow>Flagship Project</Eyebrow>
-              <OutlineHeading as="h1" size="hero" outline="Modular" after=" Smartphone" dot>
-                The{' '}
-              </OutlineHeading>
-              <p className="max-w-[34ch] text-[clamp(16px,1.5vw,19px)] leading-[1.55] text-ink-soft">
-                {flagship?.fullDescription ||
-                  'A fully modular, repairable smartphone built from scratch by students.'}
+    <PageShell
+      eyebrow="Build Record"
+      title="What we're building."
+      metaRow={[`${projects.length} projects`, flagship ? `Flagship · ${flagship.title}` : '']}
+    >
+      <div className="mx-auto max-w-[var(--dg-footer-max)]">
+        {/* Flagship band */}
+        {flagship ? (
+          <Reveal className="mb-[clamp(40px,7vh,72px)] grid items-center gap-[22px] [grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr))]">
+            <div className="flex flex-col items-start gap-[12px]">
+              <p className="m-0 font-homeMono text-[10px] uppercase tracking-[.24em] text-dg-muted">
+                Flagship · {flagship.status}
               </p>
-              <div className="flex flex-wrap items-center gap-3">
-                {flagship && (
-                  <Badge variant="flagship" pulse>
-                    Flagship
-                  </Badge>
-                )}
-                {flagship && (
-                  <Badge variant={statusVariant[flagship.status]} pulse>
-                    {flagship.status}
-                  </Badge>
-                )}
-              </div>
-              <div className="pt-2">
-                <Link href={`/projects/${flagship?.slug || 'modular-smartphone'}`}>
-                  <Button
-                    size="lg"
-                    icon={<Icon name="arrow_forward" size="sm" />}
-                    iconPosition="right"
-                  >
-                    Explore the Specs
-                  </Button>
-                </Link>
-              </div>
-            </div>
-
-            {/* Device render tile */}
-            <div className="w-full flex-1">
-              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg border border-white/10 bg-ink shadow-card">
-                <Image
-                  src={flagship?.image || '/images/placeholders/projects/modular-phone.svg'}
-                  alt="The Modular Smartphone"
-                  fill
-                  className="object-cover"
-                  priority
-                />
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/40 to-transparent" />
-                <span className="absolute bottom-5 left-5 font-mono text-[12px] uppercase tracking-[.1em] text-studio">
-                  00 · {flagship?.category ?? 'hardware'}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Project grid */}
-      <section className="mx-auto max-w-content px-7 py-16 md:py-24">
-        <Eyebrow>The Catalogue</Eyebrow>
-        <OutlineHeading className="mt-4" outline="Projects" dot>
-          Explore Our{' '}
-        </OutlineHeading>
-
-        {/* Search & filter */}
-        <div className="mb-10 mt-10 flex flex-col gap-4 md:flex-row md:items-end">
-          <div className="max-w-md flex-1">
-            <Input
-              type="text"
-              label="Search"
-              placeholder="Search projects by name or domain..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
-
-          <div className="flex gap-2 overflow-x-auto pb-1 md:pb-0">
-            {filters.map((filter) => {
-              const isActive = activeFilter === filter.value;
-              return (
-                <button
-                  key={filter.value}
-                  onClick={() => setActiveFilter(filter.value)}
-                  aria-pressed={isActive}
-                  className={cn(
-                    'shrink-0 rounded border px-4 py-2.5 font-mono text-[11px] uppercase tracking-[.1em]',
-                    'transition-[background-color,border-color,color] duration-200 ease-studio',
-                    'focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue focus-visible:ring-offset-2 focus-visible:ring-offset-studio',
-                    isActive
-                      ? 'border-ink bg-ink text-studio'
-                      : 'border-line text-ink-soft hover:border-ink hover:text-ink'
-                  )}
-                >
-                  {filter.label}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Cards */}
-        <div
-          ref={gridRef}
-          className="grid gap-[30px] [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]"
-        >
-          {filteredProjects.map((project, index) =>
-            project.comingSoon ? (
-              // Placeholder projects have no detail route — render a static card rather
-              // than a link that would 404.
-              <article
-                key={project.id}
-                className={cn(
-                  'reveal flex flex-col rounded-lg border border-white/40 bg-white/[.22] p-[30px] shadow-card backdrop-blur-[6px]'
-                )}
-                style={{ transitionDelay: `${index * 60}ms` }}
-              >
-                {/* Index + coming-soon badge */}
-                <div className="mb-5 flex items-center justify-between">
-                  <span className="font-mono text-[12px] uppercase tracking-[.1em] text-accent">
-                    {String(index + 1).padStart(2, '0')} · {project.category}
-                  </span>
-                  <span className="rounded border border-line/60 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[.1em] text-ink-soft">
-                    Coming Soon
-                  </span>
-                </div>
-
-                <h3 className="font-display text-[21px] font-bold uppercase leading-none tracking-[-.01em] text-ink/60">
-                  {project.title}
-                </h3>
-
-                <p className="mt-3 text-[15px] leading-[1.55] text-ink-soft/60">
-                  More info soon.
-                </p>
-
-                <span className="mt-auto pt-6 inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[.16em] text-ink-soft/60">
-                  More Info Soon
-                  <Icon
-                    name="hourglass_empty"
-                    size="sm"
-                  />
-                </span>
-              </article>
-            ) : (
+              <h2 className="m-0 max-w-[420px] font-homeSans text-[length:var(--dg-type-results)] font-semibold leading-[1.2] text-dg-ink">
+                {flagship.title}
+              </h2>
+              <p className="m-0 max-w-[460px] text-[13px] leading-[1.75] text-dg-muted">
+                {flagship.fullDescription || flagship.shortDescription}
+              </p>
               <Link
-                key={project.id}
-                href={`/projects/${project.slug}`}
-                className={cn(
-                  'reveal group flex flex-col rounded-lg border border-white/60 bg-white/[.42] p-[30px] shadow-card backdrop-blur-[6px]',
-                  'transition-[transform,border-color] duration-300 ease-studio',
-                  'hover:-translate-y-0.5 hover:border-white/80',
-                  'focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue focus-visible:ring-offset-2 focus-visible:ring-offset-studio'
-                )}
-                style={{ transitionDelay: `${index * 60}ms` }}
+                href={`/projects/${flagship.slug}`}
+                className="mt-[6px] inline-block rounded-cta bg-dg-ink px-6 py-[11px] font-homeMono text-[10.5px] tracking-[.12em] text-dg-bg transition-colors duration-200 hover:bg-dg-green focus:outline-none focus-visible:ring-2 focus-visible:ring-dg-green"
               >
-                {/* Index + status */}
-                <div className="mb-5 flex items-center justify-between">
-                  <span className="font-mono text-[12px] uppercase tracking-[.1em] text-accent">
-                    {String(index + 1).padStart(2, '0')} · {project.category}
-                  </span>
-                  <Badge variant={statusVariant[project.status]} size="sm">
-                    {project.status}
-                  </Badge>
-                </div>
-
-                <h3 className="font-display text-[21px] font-bold uppercase leading-none tracking-[-.01em] text-ink transition-colors duration-200 group-hover:text-accent">
-                  {project.title}
-                </h3>
-
-                <p className="mt-3 line-clamp-3 text-[15px] leading-[1.55] text-ink-soft">
-                  {project.shortDescription}
-                </p>
-
-                {/* Tech stack chips */}
-                <div className="mt-5 flex flex-wrap gap-2">
-                  {project.techStack.slice(0, 4).map((tech) => (
-                    <span
-                      key={tech}
-                      className="rounded border border-line px-2 py-0.5 font-mono text-[10px] uppercase tracking-[.1em] text-ink-soft"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                  {project.techStack.length > 4 && (
-                    <span className="rounded border border-line px-2 py-0.5 font-mono text-[10px] uppercase tracking-[.1em] text-ink-soft">
-                      +{project.techStack.length - 4}
-                    </span>
-                  )}
-                </div>
-
-                <span className="mt-6 inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[.16em] text-ink">
-                  View Specs
-                  <Icon
-                    name="arrow_forward"
-                    size="sm"
-                    className="transition-transform duration-200 group-hover:translate-x-1"
-                  />
-                </span>
+                Explore the build
               </Link>
-            )
-          )}
-        </div>
-
-        {/* Empty state — shown only when active filter + search yields zero results */}
-        {filteredProjects.length === 0 && (
-          <div className="flex flex-col items-center rounded-lg border border-dashed border-line py-24 text-center">
-            <Icon name="search_off" size="xl" className="text-ink-soft" />
-            <Eyebrow className="mt-5">No Results</Eyebrow>
-            <h3 className="mt-2 font-display text-[21px] font-bold uppercase tracking-[-.01em] text-ink">
-              No projects found
-            </h3>
-            <p className="mt-3 max-w-[36ch] text-[15px] leading-[1.55] text-ink-soft">
-              No projects match your current search or filter. Try a different keyword or clear
-              the active filter.
-            </p>
-            <button
-              onClick={() => {
-                setActiveFilter('all');
-                setSearchQuery('');
-              }}
-              className="mt-6 rounded border border-ink bg-ink px-5 py-2.5 font-mono text-[11px] uppercase tracking-[.16em] text-studio transition-[background-color,border-color] duration-200 ease-studio hover:border-accent hover:bg-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue focus-visible:ring-offset-2 focus-visible:ring-offset-studio"
+            </div>
+            <Link
+              href={`/projects/${flagship.slug}`}
+              aria-label={`Open ${flagship.title}`}
+              className="relative block h-[clamp(220px,30vw,320px)] overflow-hidden rounded-plate border border-dg-line-hair focus:outline-none focus-visible:ring-2 focus-visible:ring-dg-green"
             >
-              Clear Filters
-            </button>
-          </div>
-        )}
-      </section>
-
-      {/* CTA */}
-      <section className="border-t border-line">
-        <div className="mx-auto flex max-w-content flex-col items-center px-7 py-[120px] text-center">
-          <Icon name="lightbulb" size="xl" className="text-accent" />
-          <Eyebrow className="mt-6">Pitch Us</Eyebrow>
-          <OutlineHeading className="mt-4" outline="Idea" dot>
-            Have a Project{' '}
-          </OutlineHeading>
-          <p className="mx-auto mt-6 max-w-[50ch] text-[clamp(16px,1.5vw,19px)] leading-[1.55] text-ink-soft">
-            We&apos;re always looking for ambitious projects. Pitch your idea and get the support
-            of our engineering team.
-          </p>
-          <div className="mt-8">
-            <Link href="/contact">
-              <Button size="lg">Submit Your Idea</Button>
+              <Image
+                src={flagship.image || '/images/placeholders/projects/modular-phone.svg'}
+                alt=""
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover opacity-90"
+                priority
+              />
+              <span className="absolute bottom-3 left-3 bg-dg-bg px-2 py-1 font-homeMono text-[9px] uppercase tracking-[.14em] text-dg-ink-45">
+                [ 00 · FLAGSHIP RENDER ]
+              </span>
             </Link>
+          </Reveal>
+        ) : null}
+
+        {/* Catalogue */}
+        <section aria-labelledby="catalogue-heading">
+          <Reveal className="mb-[18px] border-b border-dg-line-soft pb-[12px]">
+            <h2
+              id="catalogue-heading"
+              className="m-0 font-homeSans text-[length:var(--dg-type-results)] font-semibold leading-[1.2] text-dg-ink"
+            >
+              The catalogue
+            </h2>
+          </Reveal>
+
+          <Reveal delay={110} className="mb-[22px] flex flex-col gap-[14px] md:flex-row md:items-end md:justify-between">
+            <div className="w-full md:max-w-md">
+              <label htmlFor="project-search" className="mb-[6px] block font-homeMono text-[9.5px] uppercase tracking-[.18em] text-dg-muted">
+                Search
+              </label>
+              <input
+                id="project-search"
+                type="text"
+                placeholder="Search by name or domain..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className={fieldControl}
+              />
+            </div>
+            <div className="flex gap-[8px] overflow-x-auto pb-1 md:pb-0" role="group" aria-label="Filter projects">
+              {filters.map((filter) => {
+                const isActive = activeFilter === filter.value;
+                return (
+                  <button
+                    key={filter.value}
+                    onClick={() => setActiveFilter(filter.value)}
+                    aria-pressed={isActive}
+                    className={cn(
+                      'shrink-0 rounded-cta border px-4 py-[8px] font-homeMono text-[10px] uppercase tracking-[.12em]',
+                      'transition-colors duration-200',
+                      'focus:outline-none focus-visible:ring-2 focus-visible:ring-dg-green',
+                      isActive
+                        ? 'border-dg-ink bg-dg-ink text-dg-bg'
+                        : 'border-dg-line-hover bg-transparent text-dg-muted hover:border-dg-line-strong hover:text-dg-ink'
+                    )}
+                  >
+                    {filter.label}
+                  </button>
+                );
+              })}
+            </div>
+          </Reveal>
+
+          <p className="sr-only" aria-live="polite">
+            {filteredProjects.length} {filteredProjects.length === 1 ? 'project' : 'projects'} shown
+          </p>
+
+          <div className="grid gap-[22px] [grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr))]">
+            {filteredProjects.map((project, index) => (
+              <Reveal key={project.id} delay={120 + (index % 4) * 110}>
+                <ProjectCard project={project} index={index} />
+              </Reveal>
+            ))}
           </div>
-        </div>
-      </section>
-    </div>
+
+          {filteredProjects.length === 0 && (
+            <div className="mt-[22px] border border-dashed border-dg-line-accent p-[clamp(32px,6vh,64px)] text-center">
+              <p className="m-0 text-[14px] font-semibold tracking-[.02em] text-dg-ink">
+                No projects found
+              </p>
+              <p className="mx-auto m-0 mt-[6px] max-w-[36ch] text-[12.5px] leading-[1.7] text-dg-muted">
+                Nothing matches this search or filter. Clear it and browse the full record.
+              </p>
+              <button
+                onClick={() => {
+                  setActiveFilter('all');
+                  setSearchQuery('');
+                }}
+                className="mt-4 rounded-cta border border-dg-line-hover px-4 py-[8px] font-homeMono text-[10px] tracking-[.12em] text-dg-ink transition-colors duration-200 hover:bg-dg-ink hover:text-dg-bg focus:outline-none focus-visible:ring-2 focus-visible:ring-dg-green"
+              >
+                Clear filters
+              </button>
+            </div>
+          )}
+        </section>
+
+        {/* Pitch band — dark close */}
+        <Reveal delay={110}>
+          <section className="mt-[clamp(48px,9vh,96px)] border-y border-dg-line-dark bg-dg-dark px-[clamp(24px,4vw,56px)] py-[clamp(40px,8vh,80px)] text-center text-dg-cream">
+            <p className="m-0 font-homeMono text-[10px] uppercase tracking-[.24em] text-dg-muted-dark">
+              Pitch us
+            </p>
+            <h2 className="mx-auto m-0 mt-[10px] max-w-[var(--dg-heading-max)] font-homeSans text-[length:var(--dg-type-results)] font-semibold leading-[1.2]">
+              Have a project the club should build?
+            </h2>
+            <p className="mx-auto m-0 mt-[10px] max-w-[460px] text-[13px] leading-[1.75] text-dg-muted-dark">
+              Bring a problem with real constraints. We&apos;ll scope it with you and put student
+              owners on it.
+            </p>
+            <Link
+              href="/contact?type=project"
+              className="mt-[20px] inline-block rounded-cta bg-dg-gold px-[26px] py-3 font-homeMono text-[10.5px] tracking-[.12em] text-dg-dark transition-colors duration-200 hover:bg-dg-gold-bright focus:outline-none focus-visible:ring-2 focus-visible:ring-dg-green"
+            >
+              Submit your idea
+            </Link>
+          </section>
+        </Reveal>
+      </div>
+    </PageShell>
   );
 }
