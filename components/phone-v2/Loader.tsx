@@ -25,6 +25,9 @@ import {
 } from './loaderSequence';
 
 export interface LoaderProps {
+  /** Fired once, at the START of the outro fade — the parent begins the hero reveal now. */
+  readonly onHandoffStart: () => void;
+  /** Fired once, after the fade completes — the parent unmounts this overlay. */
   readonly onComplete: () => void;
   readonly accent: string;
   readonly reduceMotion: boolean;
@@ -33,170 +36,209 @@ export interface LoaderProps {
 /** Pressing Shift on its own is not intent to skip. */
 const BARE_MODIFIERS = new Set(['Shift', 'Control', 'Alt', 'Meta']);
 
-export function Loader({ onComplete, accent, reduceMotion }: LoaderProps) {
+/** Upper bound on waiting for webfonts before starting the timeline (cause 7 cap). */
+const FONTS_READY_CAP_MS = 1000;
+
+export function Loader({
+  onHandoffStart,
+  onComplete,
+  accent,
+  reduceMotion,
+}: LoaderProps) {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const svgRef = useRef<SVGSVGElement | null>(null);
-  const didCompleteRef = useRef(false);
+  const handoffStartedRef = useRef(false);
 
   /**
-   * Single source of truth: elapsed timeline time in ms. Stage index, explode
-   * ramp and tick progress are all derived at render, so one setState per frame
-   * drives the whole sequence. `currentTime` is used rather than `progress`
-   * because it stays meaningful when playback rate changes mid-fast-forward.
+   * Single source of truth: elapsed timeline time in ms (throttled to ~30fps).
+   * Stage index, explode ramp and tick progress are all derived at render.
+   * `currentTime` is used rather than `progress` because it stays meaningful
+   * when playback rate changes mid-fast-forward.
    */
   const [elapsed, setElapsed] = useState(0);
 
   useEffect(() => {
-    if (reduceMotion) {
-      onComplete();
-      return;
-    }
+    // Reduced motion: the parent has already jumped to `ready`; do nothing so
+    // the timeline never initializes and this overlay unmounts immediately.
+    if (reduceMotion) return;
 
     const root = rootRef.current;
     const svgNode = svgRef.current;
     if (!root || !svgNode) return;
 
-    const wordmark = root.querySelector('[data-loader-wordmark]');
-    const tagline = root.querySelector('[data-loader-tagline]');
-    const scrubber = root.querySelector('[data-loader-scrubber]');
-    if (!wordmark || !tagline || !scrubber) return;
-
-    // Every stage's strokes are made drawable up front, in one pass, so the
-    // whole phone starts hidden. createDrawable initialises an element only
-    // once (it guards on pathLength), so creating these lazily per stage would
-    // leave later parts fully visible from the first frame.
-    const strokeBuckets = collectStageStrokes(svgNode);
-    const drawables = strokeBuckets.map((bucket) =>
-      bucket.length > 0 ? svg.createDrawable(bucket) : null
-    );
-
+    let cancelled = false;
     let fade: ReturnType<typeof animate> | null = null;
     let didFastForward = false;
     let didRestoreSpeed = false;
+    let lastQuantized = -1;
 
     const finish = () => {
-      if (didCompleteRef.current) return;
-      didCompleteRef.current = true;
       onComplete();
     };
 
-    const dismiss = () => {
-      if (didCompleteRef.current || fade) return;
-      // Pause first, or per-frame setState keeps running through the fade.
-      timeline.pause();
-      fade = animate(root, {
-        opacity: [1, 0],
-        duration: OUTRO_FADE_MS,
-        ease: 'out(3)',
-        onComplete: finish,
-      });
-    };
+    const startTimeline = () => {
+      if (cancelled) return;
 
-    const fastForward = () => {
-      if (didCompleteRef.current || fade || didFastForward) return;
-      didFastForward = true;
-      timeline.speed = FAST_FORWARD_RATE;
-    };
+      const wordmark = root.querySelector('[data-loader-wordmark]');
+      const tagline = root.querySelector('[data-loader-tagline]');
+      const scrubber = root.querySelector('[data-loader-scrubber]');
+      if (!wordmark || !tagline || !scrubber) return;
 
-    const timeline = createTimeline({
-      autoplay: true,
-      defaults: { ease: 'out(3)' },
-      onUpdate: (self) => {
-        setElapsed(self.currentTime);
-        // Let the closing frame settle at normal speed after a fast-forward, so
-        // the last stage's 420ms CSS transitions land before the fade. Guarded
-        // so the setter runs once rather than every frame of the close window.
-        // `didFastForward` stays latched, so a late wheel cannot re-accelerate.
-        if (didFastForward && !didRestoreSpeed && self.currentTime >= OPEN_MS + STAGES_MS) {
-          didRestoreSpeed = true;
-          self.speed = 1;
-        }
-      },
-      onComplete: () => dismiss(),
-    });
-
-    timeline
-      .add(wordmark, { opacity: [0, 1], translateY: [12, 0], duration: 380 }, 0)
-      .add(tagline, { opacity: [0, 1], translateY: [8, 0], duration: 320 }, 120)
-      .add(scrubber, { opacity: [0, 1], translateY: [8, 0], duration: 320 }, 200);
-
-    drawables.forEach((drawable, index) => {
-      if (!drawable) return;
-      const count = strokeBuckets[index].length;
-      // Bound the cascade so a stage's draw cannot run into the stage after next.
-      const step = count > 1 ? Math.min(34, 180 / (count - 1)) : 0;
-      timeline.add(
-        drawable,
-        { draw: ['0 0', '0 1'], duration: 240, delay: stagger(step) },
-        OPEN_MS + index * STAGE_MS
+      // Every stage's strokes are made drawable up front, in one pass, so the
+      // whole phone starts hidden. createDrawable initialises an element only
+      // once (it guards on pathLength), so creating these lazily per stage would
+      // leave later parts fully visible from the first frame.
+      const strokeBuckets = collectStageStrokes(svgNode);
+      const drawables = strokeBuckets.map((bucket) =>
+        bucket.length > 0 ? svg.createDrawable(bucket) : null
       );
+
+      const dismiss = () => {
+        if (handoffStartedRef.current || fade) return;
+        handoffStartedRef.current = true;
+        // Pause first, or per-frame state updates keep running through the fade.
+        timeline.pause();
+        // ONE overlapping transition: the hero reveal begins as this fade runs.
+        onHandoffStart();
+        fade = animate(root, {
+          opacity: [1, 0],
+          duration: OUTRO_FADE_MS,
+          ease: 'out(3)',
+          onComplete: finish,
+        });
+      };
+
+      const fastForward = () => {
+        if (handoffStartedRef.current || fade || didFastForward) return;
+        didFastForward = true;
+        timeline.speed = FAST_FORWARD_RATE;
+      };
+
+      const timeline = createTimeline({
+        autoplay: true,
+        defaults: { ease: 'out(3)' },
+        onUpdate: (self) => {
+          // Throttle to ~30fps of state updates — the SVG re-renders per
+          // update, so full-rate setState was wasted work (cause 8).
+          const quantized = Math.round(self.currentTime / 33) * 33;
+          if (quantized !== lastQuantized) {
+            lastQuantized = quantized;
+            setElapsed(quantized);
+          }
+          // Let the closing frame settle at normal speed after a fast-forward,
+          // so the last stage's 420ms CSS transitions land before the fade.
+          if (didFastForward && !didRestoreSpeed && self.currentTime >= OPEN_MS + STAGES_MS) {
+            didRestoreSpeed = true;
+            self.speed = 1;
+          }
+        },
+        onComplete: () => dismiss(),
+      });
+
+      timeline
+        .add(wordmark, { opacity: [0, 1], translateY: [12, 0], duration: 380 }, 0)
+        .add(tagline, { opacity: [0, 1], translateY: [8, 0], duration: 320 }, 120)
+        .add(scrubber, { opacity: [0, 1], translateY: [8, 0], duration: 320 }, 200);
+
+      drawables.forEach((drawable, index) => {
+        if (!drawable) return;
+        const count = strokeBuckets[index].length;
+        // Bound the cascade so a stage's draw cannot run into the stage after next.
+        const step = count > 1 ? Math.min(34, 180 / (count - 1)) : 0;
+        timeline.add(
+          drawable,
+          { draw: ['0 0', '0 1'], duration: 240, delay: stagger(step) },
+          OPEN_MS + index * STAGE_MS
+        );
+      });
+
+      // Holds the finished phone before the handoff. Opacity 1 → 1 is a no-op;
+      // this occupies time so the sequence runs its full length.
+      timeline.add(root, { opacity: [1, 1], duration: CLOSE_MS }, OPEN_MS + STAGES_MS);
+
+      const onWheel = () => fastForward();
+      const onKeyDown = (event: KeyboardEvent) => {
+        if (BARE_MODIFIERS.has(event.key)) return;
+        dismiss();
+      };
+
+      // Pointer gesture: a drag fast-forwards, a tap skips. Binding skip to
+      // pointerdown (as this component used to) would make every swipe an instant
+      // skip and leave fast-forward unreachable on touch.
+      let originX = 0;
+      let originY = 0;
+      let dragged = false;
+      const onPointerDown = (event: PointerEvent) => {
+        originX = event.clientX;
+        originY = event.clientY;
+        dragged = false;
+      };
+      const onPointerMove = (event: PointerEvent) => {
+        if (dragged) return;
+        if (Math.hypot(event.clientX - originX, event.clientY - originY) > DRAG_THRESHOLD_PX) {
+          dragged = true;
+          fastForward();
+        }
+      };
+      const onPointerUp = () => {
+        if (!dragged) dismiss();
+      };
+      const onPointerCancel = () => {
+        dragged = false;
+      };
+
+      window.addEventListener('wheel', onWheel, { passive: true });
+      window.addEventListener('keydown', onKeyDown);
+      root.addEventListener('pointerdown', onPointerDown);
+      root.addEventListener('pointermove', onPointerMove);
+      root.addEventListener('pointerup', onPointerUp);
+      root.addEventListener('pointercancel', onPointerCancel);
+
+      cleanupFns.push(() => window.removeEventListener('wheel', onWheel));
+      cleanupFns.push(() => window.removeEventListener('keydown', onKeyDown));
+      cleanupFns.push(() => root.removeEventListener('pointerdown', onPointerDown));
+      cleanupFns.push(() => root.removeEventListener('pointermove', onPointerMove));
+      cleanupFns.push(() => root.removeEventListener('pointerup', onPointerUp));
+      cleanupFns.push(() => root.removeEventListener('pointercancel', onPointerCancel));
+
+      // The overlay is a multi-second modal now, so the page must not scroll
+      // behind it — otherwise a fast-forwarding visitor lands partway into the
+      // hero. Compensate for the scrollbar so clearing it causes no layout shift.
+      const { style } = document.body;
+      const previousOverflow = style.overflow;
+      const previousPaddingRight = style.paddingRight;
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      style.overflow = 'hidden';
+      if (scrollbarWidth > 0) style.paddingRight = `${scrollbarWidth}px`;
+      cleanupFns.push(() => {
+        style.overflow = previousOverflow;
+        style.paddingRight = previousPaddingRight;
+      });
+
+      cleanupFns.push(() => timeline.revert());
+    };
+
+    const cleanupFns: Array<() => void> = [];
+
+    // Gate the sequence on real readiness — webfonts — with a hard cap so the
+    // approved budget can never stretch (cause 7).
+    const fontsReady: Promise<unknown> =
+      typeof document !== 'undefined' && 'fonts' in document
+        ? document.fonts.ready
+        : Promise.resolve();
+    Promise.race([
+      fontsReady,
+      new Promise((resolve) => window.setTimeout(resolve, FONTS_READY_CAP_MS)),
+    ]).then(() => {
+      startTimeline();
     });
-
-    // Holds the finished phone before the handoff. Opacity 1 → 1 is a no-op;
-    // this occupies time so the sequence runs its full length.
-    timeline.add(root, { opacity: [1, 1], duration: CLOSE_MS }, OPEN_MS + STAGES_MS);
-
-    const onWheel = () => fastForward();
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (BARE_MODIFIERS.has(event.key)) return;
-      dismiss();
-    };
-
-    // Pointer gesture: a drag fast-forwards, a tap skips. Binding skip to
-    // pointerdown (as this component used to) would make every swipe an instant
-    // skip and leave fast-forward unreachable on touch.
-    let originX = 0;
-    let originY = 0;
-    let dragged = false;
-    const onPointerDown = (event: PointerEvent) => {
-      originX = event.clientX;
-      originY = event.clientY;
-      dragged = false;
-    };
-    const onPointerMove = (event: PointerEvent) => {
-      if (dragged) return;
-      if (Math.hypot(event.clientX - originX, event.clientY - originY) > DRAG_THRESHOLD_PX) {
-        dragged = true;
-        fastForward();
-      }
-    };
-    const onPointerUp = () => {
-      if (!dragged) dismiss();
-    };
-    const onPointerCancel = () => {
-      dragged = false;
-    };
-
-    window.addEventListener('wheel', onWheel, { passive: true });
-    window.addEventListener('keydown', onKeyDown);
-    root.addEventListener('pointerdown', onPointerDown);
-    root.addEventListener('pointermove', onPointerMove);
-    root.addEventListener('pointerup', onPointerUp);
-    root.addEventListener('pointercancel', onPointerCancel);
-
-    // The overlay is a multi-second modal now, so the page must not scroll
-    // behind it — otherwise a fast-forwarding visitor lands partway into the
-    // hero. Compensate for the scrollbar so clearing it causes no layout shift.
-    const { style } = document.body;
-    const previousOverflow = style.overflow;
-    const previousPaddingRight = style.paddingRight;
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-    style.overflow = 'hidden';
-    if (scrollbarWidth > 0) style.paddingRight = `${scrollbarWidth}px`;
 
     return () => {
-      window.removeEventListener('wheel', onWheel);
-      window.removeEventListener('keydown', onKeyDown);
-      root.removeEventListener('pointerdown', onPointerDown);
-      root.removeEventListener('pointermove', onPointerMove);
-      root.removeEventListener('pointerup', onPointerUp);
-      root.removeEventListener('pointercancel', onPointerCancel);
-      timeline.revert();
+      cancelled = true;
+      cleanupFns.forEach((fn) => fn());
       fade?.revert();
-      style.overflow = previousOverflow;
-      style.paddingRight = previousPaddingRight;
     };
-  }, [onComplete, reduceMotion]);
+  }, [onComplete, onHandoffStart, reduceMotion]);
 
   // Derived render state — see `elapsed` above.
   const stageProgress = clamp01((elapsed - OPEN_MS) / STAGES_MS);

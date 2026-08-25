@@ -171,6 +171,12 @@
     transform: none;
   }
 
+  /* Smartphone loader handoff: armed pre-state for TextReveal (ui-revision 04).
+     The route's <noscript> block un-arms it when JS never runs. */
+  .text-reveal-armed {
+    opacity: 0;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     [data-reveal] {
       opacity: 1 !important;

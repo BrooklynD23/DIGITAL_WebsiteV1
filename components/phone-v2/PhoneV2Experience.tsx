@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
-import { animate } from 'animejs';
 import { TextReveal } from '@/components/motion/TextReveal';
 import EscapeHatch from '@/components/ui/EscapeHatch';
 import { phoneV2Copy } from '@/lib/data/phoneV2';
@@ -20,46 +19,45 @@ const TEXT = '#F1F5F9';
 const TEXT_DIM = '#94A3B8';
 const CTA = '#818CF8';
 
+/**
+ * Handoff state machine (ui-revision 04 §4):
+ * - `booting`  — overlay opaque from FIRST PAINT (it renders in the
+ *                prerendered HTML; JS dismisses, never summons). Hero text is
+ *                armed (`.text-reveal-armed`, opacity 0).
+ * - `handoff`  — 220ms overlap: the Loader fades itself out while the hero's
+ *                TextReveal timelines start. One owner: this component.
+ * - `ready`    — overlay unmounted; scroll unlocked.
+ *
+ * Reduced motion jumps `booting → ready` on the first client effect, before
+ * the Loader initializes its timeline. There is no page-level opacity
+ * animation — deleting it also removed the light-wash flash at handoff.
+ */
+type HandoffPhase = 'booting' | 'handoff' | 'ready';
+
 export default function PhoneV2Experience() {
-  const [showLoader, setShowLoader] = useState(false);
+  const [phase, setPhase] = useState<HandoffPhase>('booting');
   const [reduceMotion, setReduceMotion] = useState(false);
   const rootRef = useRef<HTMLDivElement | null>(null);
-  const loaderDismissedRef = useRef(false);
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const update = () => setReduceMotion(mq.matches);
+    const update = () => {
+      setReduceMotion(mq.matches);
+      if (mq.matches) {
+        setPhase((current) => (current === 'booting' ? 'ready' : current));
+      }
+    };
     update();
     mq.addEventListener('change', update);
     return () => mq.removeEventListener('change', update);
   }, []);
 
-  useEffect(() => {
-    if (reduceMotion) {
-      loaderDismissedRef.current = true;
-      setShowLoader(false);
-      return;
-    }
+  const beginHandoff = useCallback(() => {
+    setPhase((current) => (current === 'booting' ? 'handoff' : current));
+  }, []);
 
-    const raf = window.requestAnimationFrame(() => {
-      if (!loaderDismissedRef.current) {
-        setShowLoader(true);
-      }
-    });
-    return () => window.cancelAnimationFrame(raf);
-  }, [reduceMotion]);
-
-  const completeLoader = useCallback(() => {
-    if (loaderDismissedRef.current) return;
-    loaderDismissedRef.current = true;
-    if (rootRef.current) {
-      animate(rootRef.current, {
-        opacity: [0.96, 1],
-        duration: 220,
-        ease: 'out(3)',
-      });
-    }
-    setShowLoader(false);
+  const completeHandoff = useCallback(() => {
+    setPhase((current) => (current === 'handoff' ? 'ready' : current));
   }, []);
 
   return (
@@ -80,14 +78,16 @@ export default function PhoneV2Experience() {
     >
       <EscapeHatch tone="dark" />
 
-      {showLoader ? (
-        <Loader onComplete={completeLoader} accent={CTA} reduceMotion={reduceMotion} />
+      {phase !== 'ready' ? (
+        <Loader
+          onHandoffStart={beginHandoff}
+          onComplete={completeHandoff}
+          accent={CTA}
+          reduceMotion={reduceMotion}
+        />
       ) : null}
 
-      <Hero
-        accent={CTA}
-        revealReady={loaderDismissedRef.current || reduceMotion}
-      />
+      <Hero accent={CTA} revealReady={phase !== 'booting'} />
 
       <section id="phone-toolbox" className="relative border-b border-white/10 bg-[#0F172A] px-6 py-16 text-[#F1F5F9] md:px-8 lg:px-10">
         <div className="mx-auto grid max-w-[1360px] gap-10 md:grid-cols-[minmax(0,0.42fr)_minmax(0,0.58fr)] md:items-start">

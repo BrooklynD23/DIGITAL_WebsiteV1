@@ -265,6 +265,20 @@ Fixed at `left-6 top-6`, `z-50`, DM Mono 11px uppercase `tracking-[0.2em]`. Rend
   DOM node — GSAP owns text spans inside headlines; anime.js continues to own the schematic
   SVG parts, loader, and scroll-scrub timeline untouched. Under `prefers-reduced-motion`,
   `TextReveal` skips `SplitText` entirely and renders plain text.
+- **Disabled = armed (2026-08 handoff revision, ui-revision 04 §4):** a disabled `TextReveal`
+  renders an **armed pre-state** — class `text-reveal-armed`, `opacity: 0` — never visible plain
+  text. This closes the spec hole where the prerendered headline sat fully lit behind the loader,
+  was uncovered by the outro fade, then re-hidden and replayed. A `<noscript>` block on the route
+  layout un-arms the class when JS never runs, and any SplitText/tween failure un-arms before it
+  returns, so content is never withheld when animation fails.
+- **One-owner overlapping handoff (2026-08):** `PhoneV2Experience` holds a three-state machine —
+  `booting → handoff → ready`. The loader mounts from **first paint** (it is part of the
+  prerendered HTML; JS dismisses it, never summons it). When the loader's fade begins it fires
+  `onHandoffStart`, which flips the phase to `handoff`: the hero's armed reveals start *through*
+  the departing overlay (Balanced variant, 220ms overlap). `onComplete` (fade end) moves to
+  `ready` and unmounts the overlay. The page-level `opacity [0.96→1]` animation is deleted —
+  with it, the light-wash flash at handoff disappears. Timeline start is gated on
+  `document.fonts.ready` with a hard 1000ms cap so the approved budget cannot stretch.
 - **Signature easings:** `out(3)` for nearly all entrances/fades; `inOut(3)` for the reassembly; `linear` for the scroll-scrub timeline; CSS `ease-out` for hover/opacity transitions.
 - **Loader timing (seven beats, 2026-07):** constants live in `components/phone-v2/loaderSequence.ts` — `OPEN_MS 260`, `STAGE_MS 320` × 7 = 2240, `CLOSE_MS 300` → `TIMELINE_MS 2800`, plus a 220ms outro fade ≈ **3.0s perceived**.
 

@@ -16,6 +16,11 @@ export default function ModularSmartphoneLayout({
     <div
       className={`${studioFonts.display.variable} ${studioFonts.body.variable} ${studioFonts.mono.variable}`}
     >
+      {/* Failure fallback for the loader handoff: if JS never runs, the hero's
+          armed (opacity-0) pre-state would hide the headline forever. Un-arm it. */}
+      <noscript>
+        <style>{'.text-reveal-armed { opacity: 1 !important; }'}</style>
+      </noscript>
       {children}
     </div>
   );
