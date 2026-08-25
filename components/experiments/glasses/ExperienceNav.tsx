@@ -19,7 +19,7 @@ export default function ExperienceNav({ nav, cta, onNavigate }: ExperienceNavPro
   return (
     <nav className="pointer-events-none fixed inset-x-0 top-4 z-50 flex justify-center px-4">
       <div className="pointer-events-auto flex items-center gap-1 rounded-full border border-black/80 bg-white/70 p-1.5 backdrop-blur-md">
-        <span className="flex items-center gap-2 px-3 font-display text-sm font-extrabold uppercase tracking-tight text-black">
+        <span className="flex items-center gap-2 px-3 font-display text-sm font-extrabold tracking-tight text-black">
           <BrandLogo size={20} />
           DIGITAL
         </span>
@@ -30,7 +30,7 @@ export default function ExperienceNav({ nav, cta, onNavigate }: ExperienceNavPro
             onClick={() => onNavigate(item.href)}
             whileHover={{ scale: 1.05 }}
             transition={{ type: 'spring', stiffness: 400, damping: 22 }}
-            className="rounded-full border border-transparent px-4 py-1.5 font-display text-sm font-bold uppercase tracking-tight text-black transition-colors hover:border-black/80 hover:bg-black hover:text-white"
+            className="rounded-full border border-transparent px-4 py-1.5 font-display text-sm font-bold tracking-tight text-black transition-colors hover:border-black/80 hover:bg-black hover:text-white"
           >
             {item.label}
           </motion.button>
@@ -40,7 +40,7 @@ export default function ExperienceNav({ nav, cta, onNavigate }: ExperienceNavPro
           onClick={() => onNavigate(cta.href)}
           whileHover={{ scale: 1.05 }}
           transition={{ type: 'spring', stiffness: 400, damping: 22 }}
-          className="ml-1 rounded-full bg-black px-4 py-1.5 font-display text-sm font-bold uppercase tracking-tight text-white transition-colors hover:bg-[#d8412f]"
+          className="ml-1 rounded-full bg-black px-4 py-1.5 font-display text-sm font-bold tracking-tight text-white transition-colors hover:bg-[#d8412f]"
         >
           {cta.label}
         </motion.button>

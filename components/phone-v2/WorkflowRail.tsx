@@ -149,7 +149,7 @@ export function WorkflowRail({
 
       <div className="mt-5 max-w-[34ch]">
         <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[#94A3B8]">{label}</p>
-        <h3 className="mt-3 font-display text-[clamp(28px,3vw,42px)] font-bold uppercase leading-[0.95] tracking-[-0.02em] text-[#F1F5F9]">
+        <h3 className="mt-3 font-display text-[clamp(28px,3vw,42px)] font-bold leading-[0.95] tracking-[-0.02em] text-[#F1F5F9]">
           {title}
         </h3>
         <p className="mt-3 text-[15px] leading-[1.55] text-[#CBD5E1]">{description}</p>

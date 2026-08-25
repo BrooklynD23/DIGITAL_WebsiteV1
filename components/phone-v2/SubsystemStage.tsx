@@ -125,7 +125,7 @@ export function SubsystemStage({ accentBase, reduceMotion }: SubsystemStageProps
           <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[#94A3B8]">
             {phoneV2Copy.mobileStage.eyebrow}
           </p>
-          <h2 className="mt-3 font-display text-[clamp(28px,6vw,48px)] font-bold uppercase leading-[0.92] tracking-[-0.04em]">
+          <h2 className="mt-3 font-display text-[clamp(28px,6vw,48px)] font-bold leading-[0.92] tracking-[-0.04em]">
             {phoneV2Copy.mobileStage.headline}
           </h2>
           <p className="mt-3 text-[15px] leading-[1.55] text-[#CBD5E1]">
@@ -164,7 +164,7 @@ export function SubsystemStage({ accentBase, reduceMotion }: SubsystemStageProps
                       as="h3"
                       split="words"
                       trigger="scroll"
-                      className="mt-4 max-w-[12ch] font-display text-[clamp(34px,5vw,72px)] font-extrabold uppercase leading-[0.9] tracking-[-0.05em] text-[#F1F5F9]"
+                      className="mt-4 max-w-[12ch] font-display text-[clamp(34px,5vw,72px)] font-extrabold leading-[0.9] tracking-[-0.05em] text-[#F1F5F9]"
                       disabled={!isDesktop}
                     >
                       {section.title}
@@ -240,7 +240,7 @@ export function SubsystemStage({ accentBase, reduceMotion }: SubsystemStageProps
                 <p className="font-mono text-[10px] uppercase tracking-[0.24em]" style={{ color: section.accent }}>
                   {String(index + 1).padStart(2, '0')} / 07
                 </p>
-                <h3 className="mt-3 font-display text-[clamp(28px,6vw,48px)] font-extrabold uppercase leading-[0.92] tracking-[-0.04em]">
+                <h3 className="mt-3 font-display text-[clamp(28px,6vw,48px)] font-extrabold leading-[0.92] tracking-[-0.04em]">
                   {section.title}
                 </h3>
                 <p className="mt-3 text-[15px] leading-[1.55] text-[#CBD5E1]">{section.description}</p>

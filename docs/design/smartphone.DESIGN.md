@@ -57,7 +57,7 @@ only and must never leak into `/`, `/projects`, `/pillars`, or any shared compon
 
 ### Archivo (display)
 
-- **Role:** All headlines, section titles, and button labels. Always uppercase, tight negative tracking, sub-1.0 line height.
+- **Role:** All headlines, section titles, and button labels. Sentence case (2026-08 de-caps revision, Head Designer approved: display headlines no longer force uppercase), tight negative tracking, sub-1.0 line height.
 - **Loaded via:** `next/font/google` in `app/layout.tsx`, exposed as `font-display`; substitute stack `system-ui, sans-serif`.
 - **Weights loaded:** 500, 600, 700, 800. This page uses **800 (extrabold)** for hero/loader/subsystem/final headlines, **700 (bold)** for toolbox/rail/build-scope headings, **600 (semibold)** for button labels.
 - **Sizes used:** `clamp(48px,10vw,150px)` loader wordmark; `clamp(44px,7vw,100px)` hero and final CTA; `clamp(34px,5vw,72px)` subsystem titles; `clamp(28px,4.5vw,52px)` toolbox and build scope; `clamp(28px,6vw,48px)` mobile stage and card titles; `clamp(28px,3vw,42px)` rail title; 13px buttons.
@@ -326,7 +326,7 @@ Fixed at `left-6 top-6`, `z-50`, DM Mono 11px uppercase `tracking-[0.2em]`. Rend
 - Keep the page on the `#0F172A` navy canvas with `border-white/10` hairline section dividers.
 - Use `#818CF8` for every CTA fill, focus ring, and default (non-subsystem) accent dot.
 - Apply exactly one subsystem accent per section, sourced from that section's `accent` field in `lib/data/phoneV2.ts` — index eyebrow, bullet dots, card dot, schematic highlight all share it.
-- Keep display type uppercase Archivo with negative tracking (-0.02em to -0.05em) and sub-1.0 leading; keep all technical labels DM Mono uppercase at 10–11px with 0.16–0.28em tracking.
+- Keep display type in sentence case (2026-08 de-caps revision) Archivo with negative tracking (-0.02em to -0.05em) and sub-1.0 leading; keep all technical labels DM Mono uppercase at 10–11px with 0.16–0.28em tracking.
 - Draw all new schematic geometry as stroke-only line art in `#94A3B8`/`#F1F5F9` with `vectorEffect="non-scaling-stroke"`, reserving fills for accent micro-dots.
 - Route every user-facing string through `lib/data/phoneV2.ts` — never hard-code copy in components.
 - Preserve the full reduced-motion path (no loader, no pinning, assembled final phone, all 14 desktop schematic parts or the five-part mobile subset visible) for any new animated element.

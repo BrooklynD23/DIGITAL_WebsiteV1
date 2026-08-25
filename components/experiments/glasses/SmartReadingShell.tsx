@@ -29,7 +29,7 @@ export default function SmartReadingShell() {
           >
             {hero.eyebrow}
           </p>
-          <h1 className="font-display text-4xl font-extrabold uppercase leading-[0.95] tracking-tight sm:text-6xl">
+          <h1 className="font-display text-4xl font-extrabold leading-[0.95] tracking-tight sm:text-6xl">
             {hero.headline}
           </h1>
           <p
@@ -41,7 +41,7 @@ export default function SmartReadingShell() {
         </header>
 
         <section className="flex flex-col gap-3">
-          <h2 className="font-display text-2xl font-bold uppercase leading-tight tracking-tight sm:text-3xl">
+          <h2 className="font-display text-2xl font-bold leading-tight tracking-tight sm:text-3xl">
             {reveal.headline}
           </h2>
           <p
@@ -54,7 +54,7 @@ export default function SmartReadingShell() {
 
         {info.map((section) => (
           <section key={section.id} id={section.id} className="flex flex-col gap-3">
-            <h2 className="font-display text-2xl font-bold uppercase leading-tight tracking-tight sm:text-3xl">
+            <h2 className="font-display text-2xl font-bold leading-tight tracking-tight sm:text-3xl">
               {section.title}
             </h2>
             <p

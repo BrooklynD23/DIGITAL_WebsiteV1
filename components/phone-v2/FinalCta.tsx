@@ -80,7 +80,7 @@ export function FinalCta({ accent, reduceMotion }: FinalCtaProps) {
               as="h2"
               split="words"
               trigger="scroll"
-              className="mt-4 max-w-[12ch] font-display text-[clamp(44px,7vw,100px)] font-extrabold uppercase leading-[0.88] tracking-[-0.05em]"
+              className="mt-4 max-w-[12ch] font-display text-[clamp(44px,7vw,100px)] font-extrabold leading-[0.88] tracking-[-0.05em]"
             >
               {phoneV2Copy.finalCta.headline}
             </TextReveal>
@@ -90,19 +90,19 @@ export function FinalCta({ accent, reduceMotion }: FinalCtaProps) {
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
                 href="/get-involved"
-                className="inline-flex items-center justify-center rounded-[4px] bg-[#818CF8] px-5 py-3 font-display text-[13px] font-semibold uppercase tracking-[0.04em] text-[#0F172A] transition-transform duration-200 ease-out hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#818CF8] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0F172A]"
+                className="inline-flex items-center justify-center rounded-[4px] bg-[#818CF8] px-5 py-3 font-display text-[13px] font-semibold tracking-[0.04em] text-[#0F172A] transition-transform duration-200 ease-out hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#818CF8] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0F172A]"
               >
                 {phoneV2Copy.finalCta.primaryLabel}
               </Link>
               <Link
                 href="/pillars"
-                className="inline-flex items-center justify-center rounded-[4px] border border-white/14 bg-white/5 px-5 py-3 font-display text-[13px] font-semibold uppercase tracking-[0.04em] text-[#F1F5F9] transition-colors duration-200 ease-out hover:border-white/24 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#818CF8] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0F172A]"
+                className="inline-flex items-center justify-center rounded-[4px] border border-white/14 bg-white/5 px-5 py-3 font-display text-[13px] font-semibold tracking-[0.04em] text-[#F1F5F9] transition-colors duration-200 ease-out hover:border-white/24 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#818CF8] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0F172A]"
               >
                 {phoneV2Copy.finalCta.secondaryLabel}
               </Link>
               <Link
                 href="/projects"
-                className="inline-flex items-center justify-center rounded-[4px] border border-white/14 px-5 py-3 font-display text-[13px] font-semibold uppercase tracking-[0.04em] text-[#CBD5E1] transition-colors duration-200 ease-out hover:border-white/24 hover:bg-white/10 hover:text-[#F1F5F9] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#818CF8] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0F172A]"
+                className="inline-flex items-center justify-center rounded-[4px] border border-white/14 px-5 py-3 font-display text-[13px] font-semibold tracking-[0.04em] text-[#CBD5E1] transition-colors duration-200 ease-out hover:border-white/24 hover:bg-white/10 hover:text-[#F1F5F9] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#818CF8] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0F172A]"
               >
                 {phoneV2Copy.finalCta.tertiaryLabel}
               </Link>

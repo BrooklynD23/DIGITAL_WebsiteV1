@@ -175,7 +175,7 @@ export default function GlassesExperience() {
           <p className="font-mono text-xs uppercase tracking-[0.26em] text-black/70">
             {hero.eyebrow}
           </p>
-          <h1 className="mt-4 font-display text-5xl font-extrabold uppercase leading-[0.92] tracking-tight text-black sm:text-7xl">
+          <h1 className="mt-4 font-display text-5xl font-extrabold leading-[0.92] tracking-tight text-black sm:text-7xl">
             {hero.headline}
           </h1>
           <p className="mt-5 max-w-md font-body text-base leading-relaxed text-black/75">
@@ -185,7 +185,7 @@ export default function GlassesExperience() {
             <button
               type="button"
               onClick={() => onNavigate(cta.href)}
-              className="pointer-events-auto rounded-full bg-black px-6 py-2.5 font-display text-sm font-bold uppercase tracking-tight text-white transition-colors hover:bg-[#d8412f]"
+              className="pointer-events-auto rounded-full bg-black px-6 py-2.5 font-display text-sm font-bold tracking-tight text-white transition-colors hover:bg-[#d8412f]"
             >
               {cta.label}
             </button>
@@ -200,7 +200,7 @@ export default function GlassesExperience() {
           style={{ opacity: revealOpacity, y: revealY }}
           className="pointer-events-none absolute inset-x-0 top-[16%] z-20 px-6 text-center"
         >
-          <h2 className="mx-auto max-w-3xl font-display text-4xl font-extrabold uppercase leading-[0.95] tracking-tight text-white sm:text-6xl">
+          <h2 className="mx-auto max-w-3xl font-display text-4xl font-extrabold leading-[0.95] tracking-tight text-white sm:text-6xl">
             {reveal.headline}
           </h2>
           <p className="mx-auto mt-4 max-w-md font-body text-base leading-relaxed text-white/65">

@@ -99,7 +99,7 @@ export default function PhoneV2Experience() {
               as="h2"
               split="lines"
               trigger="scroll"
-              className="mt-4 font-display text-[clamp(28px,4.5vw,52px)] font-bold uppercase leading-[0.9] tracking-[-0.04em]"
+              className="mt-4 font-display text-[clamp(28px,4.5vw,52px)] font-bold leading-[0.9] tracking-[-0.04em]"
             >
               {phoneV2Copy.toolbox.headline}
             </TextReveal>
@@ -132,7 +132,7 @@ export default function PhoneV2Experience() {
               as="h2"
               split="lines"
               trigger="scroll"
-              className="mt-4 font-display text-[clamp(28px,4.5vw,52px)] font-bold uppercase leading-[0.92] tracking-[-0.04em]"
+              className="mt-4 font-display text-[clamp(28px,4.5vw,52px)] font-bold leading-[0.92] tracking-[-0.04em]"
             >
               {phoneV2Copy.buildScope.headline}
             </TextReveal>

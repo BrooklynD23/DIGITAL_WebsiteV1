@@ -221,7 +221,7 @@ export function Loader({ onComplete, accent, reduceMotion }: LoaderProps) {
           */}
           <div
             data-loader-wordmark
-            className="font-display text-[clamp(48px,10vw,150px)] font-extrabold uppercase leading-[0.85] tracking-[-0.04em] opacity-0"
+            className="font-display text-[clamp(48px,10vw,150px)] font-extrabold leading-[0.85] tracking-[-0.04em] opacity-0"
           >
             {phoneV2Copy.loaderWordmark}
           </div>
