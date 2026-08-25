@@ -131,9 +131,9 @@
   --ds-border-inverse-strong: var(--dg-line-dark-strong);
   --ds-focus: var(--dg-green); /* forest ring replaces studio electric blue on secondary pages */
   --ds-selection: var(--dg-selection);
-  /* PENDING HEAD DESIGNER SIGN-OFF (ui-revision D2): desaturated brick,
-     not the studio signal red; validated ≥4.5:1 on #F7F6F2. Always paired
-     with an icon + text, never colour alone. Unused until approved. */
+  /* Error — approved by the Head Designer (2026-08 session): desaturated brick,
+     not the studio signal red; 6.36:1 on #F7F6F2. Always paired with an icon or
+     text, never colour alone. */
   --ds-error: #9c3a2a;
   --ds-success: var(--dg-green);
   --ds-z-nav: 50;

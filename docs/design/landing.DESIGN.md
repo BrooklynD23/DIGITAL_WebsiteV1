@@ -351,7 +351,14 @@ Any future restyling of these two pages toward the landing's warm editorial lang
 
 ## Governance
 
-- This document is **authoritative for `/` (the home landing)** and for the subsidiary-page restyling direction noted in "Subsidiary Pages." The root `DESIGN.md` (industrial studio) governs every other route, including `/contact` and `/get-involved` as they exist today.
+- This document is **authoritative for `/` (the home landing)** and, since the 2026-08
+  site consolidation, for the secondary routes rebuilt on this system (`/contact`,
+  `/get-involved`, `/team`, `/community`, `/about` incl. folded pillars content, and the
+  legal pages). The root `DESIGN.md` (industrial studio) governs only routes not yet
+  migrated. The two immersive experiences keep their route-scoped docs.
+- Semantic-layer tokens (`--ds-*`) sit on top of the raw block: `--ds-error` is an
+  approved desaturated brick `#9C3A2A` (6.36:1 on parchment) — never colour alone,
+  always paired with text or an icon; `--ds-success` and `--ds-focus` reuse forest green.
 - Values in this doc are extracted as-implemented from `app/page.tsx`, `components/home/HomeLanding.tsx`, `components/home/home-landing.css`, and `lib/data/homeLanding.ts`. If code and this doc diverge, reconcile deliberately — do not silently drift either side.
 - Token-faithful adjustments (reusing documented colors, type rows, spacing, and motion exactly as specified) may proceed within the landing. **Any change beyond that — new tokens, new type sizes, new motion patterns, palette shifts, or any restyling of the subsidiary pages — requires explicit Head Designer approval BEFORE implementation.**
 - Agents must read this document in full before touching landing UI, and must route all copy changes through `lib/data/homeLanding.ts`.
