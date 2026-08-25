@@ -72,18 +72,29 @@ committed — see the standing rule in `CLAUDE.md` and `AGENT.md`.
 | v0.14.6 | #0051    | `95d0c7b` | feat(team): honest placeholder roster + landing-token rebuild; about exec cards de-faked (#0051) | `lib/data/team.ts` rewritten: no invented people — every record `isPlaceholder`, roleCategory model, project named on lead cards; filters + `aria-live` count; About's fake portraits/"Computer Engineering '25" claims removed |
 | v0.14.7 | #0051    | `6eb3135` | feat(community): new /community route, empty-safe modules, ribbon + sitemap wiring (#0051) | Discord module (real invite, expectations), LinkedIn/YouTube empty states render complete with zero content; no third-party scripts/iframes; added to ribbon, footer links, sitemap, run.sh checks |
 | v0.14.8 | #0051    | `5a75b51` | feat(immersive): sentence-case display type on smartphone + glasses pages (#0051) | De-caps revision (Head Designer approved): display headlines drop `uppercase`; DM Mono technical labels stay uppercase; both DESIGN docs' type rules amended. Smartphone handoff motion fixes (ui-revision Batch 6) remain open |
+| v0.15.0 | #0051    | `72e86e6` | feat(tokens): sign off --ds-error brick #9C3A2A; governance note for migrated routes (#0051) | Head Designer approved the brick; PENDING comment removed; landing.DESIGN.md governance now names it authoritative for rebuilt secondary routes |
+| v0.15.1 | #0051    | `9bf9b62` | feat(get-involved): landing-token rebuild + brand copy pass; ?type= contract intact (#0051) | All involvement option links preserved (verified in static export); meeting band becomes dark contrast section with gold CTA; AI-ish copy replaced verb-first |
+| v0.15.2 | #0051    | `9591a3e` | feat(projects): landing-token rebuild; search/filter preserved; stale team refs removed (#0051) | Flagship band, catalogue grid, empty state, dark pitch band; `projects.ts` teamMembers referencing retired fake people deleted |
+| v0.15.3 | #0051    | `bdc11f4` | feat(about): rebuild on landing tokens; pillars folded into About; /pillars redirects (#0051) | Pillar copy brand-passed into `lib/data/about.ts`; device requirement kept verbatim; `/pillars` → redirect stub to `/about#how-we-work`, dropped from sitemap |
+| v0.15.4 | #0051    | `454241c` | feat(legal): editorial prose treatment on privacy/terms/cookies (#0051) | PageShell intro + token prose column; content unchanged |
+| v0.15.5 | #0051    | `c438901` | refactor(consolidation): About ribbon tab, error pages on landing tokens, dead studio CSS retired (#0051) | Ribbon: Home/Projects/About/Community/Join/Contact; not-found/error/global-error rebuilt; `.eyebrow`/`.text-outline`/`.scrollcue`/`.reveal` blocks + OutlineHeading + dead keyframes removed |
+| v0.15.6 | #0051    | `548ad6f` | fix(globals): close @layer components block after CSS retirement (#0051) | Build-breaking unclosed block caught post-commit and fixed forward |
 
 ---
 
 ## Backlog / Blocked (needs org input)
 
 - **Custom domain** — awaiting DNS credentials / domain decision from club leadership.
+  *Deferred to next session (2026-08): see README "Deferred work".*
 - **Real Formspree endpoint** — contact form is using a placeholder; needs the club's
   verified Formspree form ID. As of #0047 the form refuses to submit and points visitors to
   email instead, rather than POSTing into a 404. See [`docs/PRE-LAUNCH.md`](./docs/PRE-LAUNCH.md).
+  *Deferred to next session (2026-08): see README "Deferred work".*
 - **Org logo + favicon / OG image** — final asset files needed from the design lead.
 - **Heads-up Display Glasses copy** — project description, team lead, and timeline TBD;
   placeholder reads "More info soon" until the team provides details.
+- **Real roster names/photos** — `/team` ships honest "To be announced" placeholders since
+  #0051; publish confirmed 2026–27 officers, leads, and links as leadership verifies them.
 
 ### Site variant decisions (pending shareholder sign-off)
 

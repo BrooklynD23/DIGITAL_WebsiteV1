@@ -46,11 +46,11 @@ implementation** — propose the change and wait for sign-off; never overhaul fi
 
 | Route | Governing style reference |
 |-------|---------------------------|
-| `/` (home landing; also holds subsidiary-page direction) | `docs/design/landing.DESIGN.md` |
-| `/contact`, `/get-involved`, `/team`, `/community` (rebuilt on the landing system, 2026-08) | `docs/design/landing.DESIGN.md` |
+| `/` home landing | `docs/design/landing.DESIGN.md` |
+| `/contact`, `/get-involved`, `/about` (incl. folded pillars), `/team`, `/community`, legal pages, error pages | `docs/design/landing.DESIGN.md` (secondary routes rebuilt 2026-08) |
 | `/projects/modular-smartphone` | `docs/design/smartphone.DESIGN.md` |
 | `/projects/smart-reading` | `docs/design/glasses.DESIGN.md` |
-| Remaining old-kit routes (`/pillars`, `/about`, `/projects`, legal pages — pending migration) | root `DESIGN.md` (industrial studio system) |
+| `/pillars` (redirect stub → `/about`) and `/review` (internal hub, removal pending) | root `DESIGN.md` legacy — do not extend |
 
 **Copy and wording** are governed separately, across all routes, by
 [`docs/design/BRAND.md`](./docs/design/BRAND.md). Before changing any string in `lib/data/`,
