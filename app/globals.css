@@ -197,14 +197,11 @@
 }
 
 @layer components {
-  /* layout primitive — content container */
+  /* layout primitive — content container (legacy consumers only) */
   .wrap {
     @apply mx-auto max-w-content px-7;
   }
-
-
-
-
+}
 
 @layer utilities {
   /* functional electric-blue focus ring (replaces old .focus-glow) */
