@@ -83,6 +83,7 @@ committed — see the standing rule in `CLAUDE.md` and `AGENT.md`.
 | v0.16.1 | #0051    | `cff33d1` | test(a11y): consolidation sweep vs test matrix; results recorded in 07-sweep-results.md (#0051) | Automated gates + static assertions pass (h1-per-route fixed on /pillars stub); contrast all ≥4.5:1 incl. new error token; manual browser rows listed for next session |
 | v0.16.2 | #0051    | `287fb51` | feat(cursor): progressive-enhancement crosshair cursor per ui-revision D8 (#0051) | Mounts only on fine-pointer + motion-allowed; native cursor hidden after first painted frame; fields restore I-beam; dark bands flip to cream; zero server HTML; absent from ssr bundle |
 | v0.16.3 | #0051    | — | docs: README deferred-work refresh + final #0051 log rows (#0051) | Cursor/handoff/sweep marked shipped; manual browser-session rows remain for next session |
+| v0.17.0 | #0052    | — | docs(design): rewrite DESIGN.md as the DIGITAL brand system (#0052) | Root DESIGN.md becomes the brand layer: venture-studio positioning, "Make something worth putting your name on" thesis, FIND→PROVE→MAKE→SHIP→SIGN pipeline, ISO 7200 Sign-Off Block device, DG-### artifact IDs, discipline codes, unified paper/ink + signal-red + blueprint palette (gold/forest demoted to semantic), three-register Newsreader/Plex type law, sheet-model layout, build-record project anatomy, applications + on-brand rubric, research digest. Route docs become expressions; open diffs tracked in reconciliation register R1–R6 |
 
 ---
 
