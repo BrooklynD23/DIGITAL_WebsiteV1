@@ -35,7 +35,7 @@ invites the reader to join it — nothing sits outside the spine.
 |---|---|
 | `/projects/modular-smartphone` | One device, owned in parts. You don't join a club — you take a subsystem. |
 | `/projects/smart-reading` | Reading without the chase. The text moves so your eyes don't have to. |
-| `/` | Students become builders. The gap between coursework and real systems closes here. |
+| `/` | Make something worth putting your name on. — the studio thesis, stated in the hero. |
 
 The mission commitments (WE EXPLORE / WE DESIGN / WE BUILD / WE COMMUNICATE) and the vision line —
 *"Real systems, built by students, handed to the next cohort."* — are **canonical copy** living in

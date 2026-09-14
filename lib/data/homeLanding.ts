@@ -53,9 +53,8 @@ export const homeLandingCopy = {
     cta: 'Talk to us',
   },
   hero: {
-    lines: ['Coursework teaches systems.', 'DIGITAL puts them in your hands.', 'Students become builders.'],
-    subline:
-      'Student-led teams build real engineering systems at Cal Poly Pomona',
+    lines: ['Make something worth', 'putting your name on.'],
+    subline: 'A student-run venture studio at Cal Poly Pomona.',
     cta: 'Get involved',
     imageSrc: '/assets/landing/Landing-Page-Hero.png',
     imageAlt:
