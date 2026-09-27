@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Eyebrow, OutlineHeading, Section } from '@/components/ui';
+import { PageShell } from '@/components/layout/PageShell';
 import { siteConfig } from '@/lib/data/siteConfig';
 
 export const metadata: Metadata = {
@@ -16,46 +16,36 @@ export default function TermsPage() {
   return (
     <>
       {/* Hero */}
-      <Section className="pt-[140px] pb-[60px]">
-        <div className="max-w-[720px]">
-          <Eyebrow>Legal</Eyebrow>
-          <OutlineHeading as="h1" size="section" outline="Use" className="mt-6">
-            Terms of{' '}
-          </OutlineHeading>
-          <p className="mt-6 font-mono text-[13px] leading-[1.6] text-ink-soft">
-            Last updated: {LAST_UPDATED}
-          </p>
-        </div>
-      </Section>
+      <PageShell eyebrow="Legal" title="Terms of Service" metaRow={[`Last updated: ${LAST_UPDATED}`]} />
 
       {/* Draft notice */}
-      <Section as="div" className="pb-0">
+      <div>
         <div className="max-w-[720px] rounded-lg border border-accent/40 bg-accent/[.06] px-6 py-5">
-          <p className="font-mono text-[12px] uppercase tracking-[.16em] text-accent">
+          <p className="font-homeMono text-[10px] uppercase tracking-[.16em] text-dg-muted">
             Draft — pending review
           </p>
-          <p className="mt-2 font-body text-[15px] leading-[1.55] text-ink-soft">
+          <p className="mt-2 font-homeSans text-[13px] leading-[1.75] text-dg-muted">
             This is a starter document and should be reviewed by the organization (and legal
             counsel where appropriate) before being relied upon. It is provided in good faith
             as a reasonable starting point for a non-commercial student engineering club.
           </p>
         </div>
-      </Section>
+      </div>
 
       {/* Body */}
-      <Section band noBorder className="pt-[60px]">
-        <div className="max-w-[720px] space-y-10 font-body text-[clamp(16px,1.5vw,18px)] leading-[1.65] text-ink-soft">
+      <div className="pt-[60px] pb-[60px]">
+        <div className="max-w-[720px] space-y-10 font-homeSans text-[14px] leading-[1.8] text-dg-muted">
 
           {/* 1 */}
           <div>
-            <h2 className="font-display text-[21px] font-bold uppercase tracking-[-.01em] text-ink">
+            <h2 className="mt-0 font-homeSans text-[16px] font-semibold leading-[1.35] text-dg-ink">
               1. Acceptance of Terms
             </h2>
             <p className="mt-4">
               By accessing or using the website at{' '}
               <a
                 href={siteConfig.url}
-                className="text-accent-blue underline underline-offset-2 transition-colors hover:text-ink"
+                className="text-dg-ink underline underline-offset-2 transition-colors hover:text-dg-green"
               >
                 {siteConfig.url}
               </a>{' '}
@@ -71,7 +61,7 @@ export default function TermsPage() {
 
           {/* 2 */}
           <div>
-            <h2 className="font-display text-[21px] font-bold uppercase tracking-[-.01em] text-ink">
+            <h2 className="mt-0 font-homeSans text-[16px] font-semibold leading-[1.35] text-dg-ink">
               2. Use of the Site
             </h2>
             <p className="mt-4">
@@ -103,10 +93,10 @@ export default function TermsPage() {
 
           {/* 3 */}
           <div>
-            <h2 className="font-display text-[21px] font-bold uppercase tracking-[-.01em] text-ink">
+            <h2 className="mt-0 font-homeSans text-[16px] font-semibold leading-[1.35] text-dg-ink">
               3. Intellectual Property
             </h2>
-            <h3 className="mt-6 font-display text-[16px] font-bold uppercase tracking-[-.01em] text-ink">
+            <h3 className="mt-6 font-homeSans text-[14px] font-semibold leading-[1.4] text-dg-ink">
               3a. Organization Content
             </h3>
             <p className="mt-3">
@@ -116,7 +106,7 @@ export default function TermsPage() {
               property laws. You may not reproduce, distribute, or create derivative works
               from Organization Content without prior written permission from DIGITAL.
             </p>
-            <h3 className="mt-6 font-display text-[16px] font-bold uppercase tracking-[-.01em] text-ink">
+            <h3 className="mt-6 font-homeSans text-[14px] font-semibold leading-[1.4] text-dg-ink">
               3b. Open-Source Projects
             </h3>
             <p className="mt-3">
@@ -126,7 +116,7 @@ export default function TermsPage() {
               Nothing in these Terms restricts rights granted to you under those separate
               open-source licenses.
             </p>
-            <h3 className="mt-6 font-display text-[16px] font-bold uppercase tracking-[-.01em] text-ink">
+            <h3 className="mt-6 font-homeSans text-[14px] font-semibold leading-[1.4] text-dg-ink">
               3c. Third-Party Content
             </h3>
             <p className="mt-3">
@@ -139,7 +129,7 @@ export default function TermsPage() {
 
           {/* 4 */}
           <div>
-            <h2 className="font-display text-[21px] font-bold uppercase tracking-[-.01em] text-ink">
+            <h2 className="mt-0 font-homeSans text-[16px] font-semibold leading-[1.35] text-dg-ink">
               4. Disclaimer of Warranties
             </h2>
             <p className="mt-4">
@@ -154,7 +144,7 @@ export default function TermsPage() {
 
           {/* 5 */}
           <div>
-            <h2 className="font-display text-[21px] font-bold uppercase tracking-[-.01em] text-ink">
+            <h2 className="mt-0 font-homeSans text-[16px] font-semibold leading-[1.35] text-dg-ink">
               5. Limitation of Liability
             </h2>
             <p className="mt-4">
@@ -169,7 +159,7 @@ export default function TermsPage() {
 
           {/* 6 */}
           <div>
-            <h2 className="font-display text-[21px] font-bold uppercase tracking-[-.01em] text-ink">
+            <h2 className="mt-0 font-homeSans text-[16px] font-semibold leading-[1.35] text-dg-ink">
               6. External Links
             </h2>
             <p className="mt-4">
@@ -183,7 +173,7 @@ export default function TermsPage() {
 
           {/* 7 */}
           <div>
-            <h2 className="font-display text-[21px] font-bold uppercase tracking-[-.01em] text-ink">
+            <h2 className="mt-0 font-homeSans text-[16px] font-semibold leading-[1.35] text-dg-ink">
               7. Governing Law
             </h2>
             <p className="mt-4">
@@ -197,7 +187,7 @@ export default function TermsPage() {
 
           {/* 8 */}
           <div>
-            <h2 className="font-display text-[21px] font-bold uppercase tracking-[-.01em] text-ink">
+            <h2 className="mt-0 font-homeSans text-[16px] font-semibold leading-[1.35] text-dg-ink">
               8. Changes to These Terms
             </h2>
             <p className="mt-4">
@@ -209,14 +199,14 @@ export default function TermsPage() {
 
           {/* 9 */}
           <div>
-            <h2 className="font-display text-[21px] font-bold uppercase tracking-[-.01em] text-ink">
+            <h2 className="mt-0 font-homeSans text-[16px] font-semibold leading-[1.35] text-dg-ink">
               9. Contact
             </h2>
             <p className="mt-4">
               Questions about these Terms? Contact us at:
             </p>
             <address className="mt-4 not-italic">
-              <p className="font-mono text-[13px] leading-[1.8] text-ink-soft">
+              <p className="font-mono text-[13px] leading-[1.8] text-dg-muted">
                 {ORG}
                 <br />
                 {siteConfig.contact.location}
@@ -225,7 +215,7 @@ export default function TermsPage() {
                 <br />
                 <a
                   href={`mailto:${EMAIL}`}
-                  className="text-accent-blue underline underline-offset-2 transition-colors hover:text-ink"
+                  className="text-dg-ink underline underline-offset-2 transition-colors hover:text-dg-green"
                 >
                   {EMAIL}
                 </a>
@@ -234,7 +224,7 @@ export default function TermsPage() {
           </div>
 
         </div>
-      </Section>
+      </div>
     </>
   );
 }

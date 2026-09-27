@@ -57,7 +57,7 @@ only and must never leak into `/`, `/projects`, `/pillars`, or any shared compon
 
 ### Archivo (display)
 
-- **Role:** All headlines, section titles, and button labels. Always uppercase, tight negative tracking, sub-1.0 line height.
+- **Role:** All headlines, section titles, and button labels. Sentence case (2026-08 de-caps revision, Head Designer approved: display headlines no longer force uppercase), tight negative tracking, sub-1.0 line height.
 - **Loaded via:** `next/font/google` in `app/layout.tsx`, exposed as `font-display`; substitute stack `system-ui, sans-serif`.
 - **Weights loaded:** 500, 600, 700, 800. This page uses **800 (extrabold)** for hero/loader/subsystem/final headlines, **700 (bold)** for toolbox/rail/build-scope headings, **600 (semibold)** for button labels.
 - **Sizes used:** `clamp(48px,10vw,150px)` loader wordmark; `clamp(44px,7vw,100px)` hero and final CTA; `clamp(34px,5vw,72px)` subsystem titles; `clamp(28px,4.5vw,52px)` toolbox and build scope; `clamp(28px,6vw,48px)` mobile stage and card titles; `clamp(28px,3vw,42px)` rail title; 13px buttons.
@@ -265,6 +265,20 @@ Fixed at `left-6 top-6`, `z-50`, DM Mono 11px uppercase `tracking-[0.2em]`. Rend
   DOM node — GSAP owns text spans inside headlines; anime.js continues to own the schematic
   SVG parts, loader, and scroll-scrub timeline untouched. Under `prefers-reduced-motion`,
   `TextReveal` skips `SplitText` entirely and renders plain text.
+- **Disabled = armed (2026-08 handoff revision, ui-revision 04 §4):** a disabled `TextReveal`
+  renders an **armed pre-state** — class `text-reveal-armed`, `opacity: 0` — never visible plain
+  text. This closes the spec hole where the prerendered headline sat fully lit behind the loader,
+  was uncovered by the outro fade, then re-hidden and replayed. A `<noscript>` block on the route
+  layout un-arms the class when JS never runs, and any SplitText/tween failure un-arms before it
+  returns, so content is never withheld when animation fails.
+- **One-owner overlapping handoff (2026-08):** `PhoneV2Experience` holds a three-state machine —
+  `booting → handoff → ready`. The loader mounts from **first paint** (it is part of the
+  prerendered HTML; JS dismisses it, never summons it). When the loader's fade begins it fires
+  `onHandoffStart`, which flips the phase to `handoff`: the hero's armed reveals start *through*
+  the departing overlay (Balanced variant, 220ms overlap). `onComplete` (fade end) moves to
+  `ready` and unmounts the overlay. The page-level `opacity [0.96→1]` animation is deleted —
+  with it, the light-wash flash at handoff disappears. Timeline start is gated on
+  `document.fonts.ready` with a hard 1000ms cap so the approved budget cannot stretch.
 - **Signature easings:** `out(3)` for nearly all entrances/fades; `inOut(3)` for the reassembly; `linear` for the scroll-scrub timeline; CSS `ease-out` for hover/opacity transitions.
 - **Loader timing (seven beats, 2026-07):** constants live in `components/phone-v2/loaderSequence.ts` — `OPEN_MS 260`, `STAGE_MS 320` × 7 = 2240, `CLOSE_MS 300` → `TIMELINE_MS 2800`, plus a 220ms outro fade ≈ **3.0s perceived**.
 
@@ -326,7 +340,7 @@ Fixed at `left-6 top-6`, `z-50`, DM Mono 11px uppercase `tracking-[0.2em]`. Rend
 - Keep the page on the `#0F172A` navy canvas with `border-white/10` hairline section dividers.
 - Use `#818CF8` for every CTA fill, focus ring, and default (non-subsystem) accent dot.
 - Apply exactly one subsystem accent per section, sourced from that section's `accent` field in `lib/data/phoneV2.ts` — index eyebrow, bullet dots, card dot, schematic highlight all share it.
-- Keep display type uppercase Archivo with negative tracking (-0.02em to -0.05em) and sub-1.0 leading; keep all technical labels DM Mono uppercase at 10–11px with 0.16–0.28em tracking.
+- Keep display type in sentence case (2026-08 de-caps revision) Archivo with negative tracking (-0.02em to -0.05em) and sub-1.0 leading; keep all technical labels DM Mono uppercase at 10–11px with 0.16–0.28em tracking.
 - Draw all new schematic geometry as stroke-only line art in `#94A3B8`/`#F1F5F9` with `vectorEffect="non-scaling-stroke"`, reserving fills for accent micro-dots.
 - Route every user-facing string through `lib/data/phoneV2.ts` — never hard-code copy in components.
 - Preserve the full reduced-motion path (no loader, no pinning, assembled final phone, all 14 desktop schematic parts or the five-part mobile subset visible) for any new animated element.

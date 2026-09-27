@@ -1,26 +1,19 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Globe, AtSign, MessageSquare, Code, FileText } from 'lucide-react';
 import { siteConfig } from '@/lib/data/siteConfig';
 import { isImmersiveRoute } from '@/lib/immersiveRoutes';
-import { BrandLogo } from '@/components/layout/BrandLogo';
+import {
+  footerQuickLinks,
+  legalLinks,
+  socialLinks,
+} from '@/lib/data/siteLinks';
 
-const quickLinks = [
-  { href: '/projects', label: 'Projects' },
-  { href: '/team', label: 'Team' },
-  { href: '/about', label: 'About' },
-  { href: '/contact', label: 'Contact' },
-];
-
-const socials = [
-  { href: siteConfig.social.linkedin, label: 'LinkedIn', Icon: Globe, external: true },
-  { href: `mailto:${siteConfig.contact.email}`, label: 'Email', Icon: AtSign, external: false },
-  { href: siteConfig.community.discord, label: 'Discord', Icon: MessageSquare, external: true },
-  { href: siteConfig.community.github, label: 'GitHub', Icon: Code, external: true },
-  { href: siteConfig.community.notion, label: 'Notion', Icon: FileText, external: true },
-];
+const monoMicro =
+  'font-homeMono text-[9.5px] uppercase tracking-[.14em] leading-[1.9]';
+const linkHover = 'transition-colors duration-200 hover:text-dg-cream';
 
 export function Footer() {
   const pathname = usePathname();
@@ -28,90 +21,80 @@ export function Footer() {
   if (isImmersiveRoute(pathname)) return null;
 
   return (
-    <footer className="border-t border-line py-[54px] font-mono text-[13px] leading-[1.6] text-ink-soft">
-      <div className="mx-auto max-w-content px-7">
-        <div className="flex flex-wrap justify-between gap-x-12 gap-y-8">
-          {/* Brand + description */}
-          <div className="max-w-xs">
-            <div className="flex items-center gap-2">
-              <BrandLogo size={24} />
-              <p className="font-display text-base font-bold uppercase tracking-[.06em] text-ink">
-                DIGITAL
-              </p>
-            </div>
-            <p className="mt-3">{siteConfig.description}</p>
-          </div>
-
-          {/* Quick links */}
-          <div>
-            <p className="uppercase tracking-[.16em] text-ink">Links</p>
-            <ul className="mt-3 flex flex-col gap-2">
-              {quickLinks.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="transition-colors duration-200 hover:text-ink"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contact */}
-          <div>
-            <p className="uppercase tracking-[.16em] text-ink">Contact</p>
-            <ul className="mt-3 flex flex-col gap-2">
-              <li>{siteConfig.contact.location}</li>
-              <li>{siteConfig.contact.campus}</li>
-              <li>
-                <a
-                  href={`mailto:${siteConfig.contact.email}`}
-                  className="transition-colors duration-200 hover:text-ink"
-                >
-                  {siteConfig.contact.email}
-                </a>
-              </li>
-              <li>{siteConfig.contact.meetingTime}</li>
-            </ul>
-          </div>
-
-          {/* Social */}
-          <div>
-            <p className="uppercase tracking-[.16em] text-ink">Connect</p>
-            <div className="mt-3 flex gap-2">
-              {socials.map(({ href, label, Icon, external }) => (
-                <a
-                  key={label}
-                  href={href}
-                  aria-label={label}
-                  {...(external
-                    ? { target: '_blank', rel: 'noopener noreferrer' }
-                    : {})}
-                  className="flex size-9 items-center justify-center rounded transition-colors duration-200 hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue"
-                >
-                  <Icon size={18} strokeWidth={1.75} aria-hidden="true" />
-                </a>
-              ))}
-            </div>
-          </div>
+    <footer className="border-t border-dg-line-dark bg-dg-dark px-[var(--dg-gutter)] py-9 text-dg-muted-dark">
+      <div className="mx-auto flex max-w-[var(--dg-footer-max)] flex-wrap items-start justify-between gap-x-12 gap-y-8">
+        {/* Colophon mark */}
+        <div className="flex flex-col gap-3">
+          <Image
+            src={siteConfig.assets.logoFull}
+            alt="DIGITAL @ Cal Poly Pomona"
+            width={200}
+            height={52}
+            className="h-auto w-[min(200px,56vw)] invert"
+          />
+          <p className={`${monoMicro} max-w-[300px] normal-case tracking-[.06em]`}>
+            {siteConfig.contact.meetingTime} · {siteConfig.contact.location}
+          </p>
         </div>
 
-        {/* Legal links + Copyright readout */}
-        <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-6">
-          <span>© {new Date().getFullYear()} DIGITAL @ Cal Poly Pomona</span>
-          <div className="flex flex-wrap gap-x-5 gap-y-1">
-            <Link href="/privacy" className="transition-colors duration-200 hover:text-ink">
-              Privacy
+        {/* Route links */}
+        <nav aria-label="Footer" className={monoMicro}>
+          <p className="text-dg-muted-dark">Index</p>
+          <ul className="mt-2 flex flex-col">
+            {footerQuickLinks.map((link) => (
+              <li key={link.href}>
+                <Link href={link.href} className={linkHover}>
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        {/* Contact */}
+        <div className={monoMicro}>
+          <p className="text-dg-muted-dark">Contact</p>
+          <ul className="mt-2 flex flex-col">
+            <li>
+              <a href={`mailto:${siteConfig.contact.email}`} className={linkHover}>
+                {siteConfig.contact.email}
+              </a>
+            </li>
+            <li>{siteConfig.contact.campus}</li>
+          </ul>
+        </div>
+
+        {/* Socials — visible text labels, external affordance */}
+        <div className={monoMicro}>
+          <p className="text-dg-muted-dark">Elsewhere</p>
+          <ul className="mt-2 flex flex-col">
+            {socialLinks.map((social) => (
+              <li key={social.label}>
+                <a
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={linkHover}
+                >
+                  {social.label} ↗
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      {/* Legal row */}
+      <div
+        className={`mx-auto mt-8 flex max-w-[var(--dg-footer-max)] flex-wrap items-center justify-between gap-x-5 gap-y-2 border-t border-dg-line-dark pt-6 ${monoMicro}`}
+      >
+        <span>© {new Date().getFullYear()} DIGITAL @ Cal Poly Pomona</span>
+        <div className="flex flex-wrap gap-x-5 gap-y-2">
+          {legalLinks.map((link) => (
+            <Link key={link.href} href={link.href} className={linkHover}>
+              {link.label}
             </Link>
-            <Link href="/terms" className="transition-colors duration-200 hover:text-ink">
-              Terms
-            </Link>
-            <Link href="/cookies" className="transition-colors duration-200 hover:text-ink">
-              Cookies
-            </Link>
-          </div>
+          ))}
         </div>
       </div>
     </footer>

@@ -6,7 +6,7 @@ const base = process.env.NEXT_PUBLIC_SITE_URL || siteConfig.url;
 const routes = [
   '/',
   '/about',
-  '/pillars',
+  '/community',
   '/projects',
   '/projects/modular-smartphone',
   '/projects/smart-reading',

@@ -3,6 +3,8 @@
  * Sourced from DIGITAL Landing v2 design export.
  */
 
+import { MISSION_BEATS, VISION_LINE } from './mission';
+
 export interface HomeGap {
   readonly glyph: string;
   readonly title: string;
@@ -32,6 +34,11 @@ export interface HomeCase {
   readonly href: string;
 }
 
+export interface HomeMissionBeat {
+  readonly label: string;
+  readonly line: string;
+}
+
 export const homeLandingCopy = {
   loader: {
     title: 'DIGITAL',
@@ -42,6 +49,7 @@ export const homeLandingCopy = {
     thesis: 'Thesis',
     pathways: 'Pathways',
     results: 'Results',
+    join: 'Join',
     cta: 'Talk to us',
   },
   hero: {
@@ -55,17 +63,17 @@ export const homeLandingCopy = {
   },
   thesis: {
     eyebrow: 'Our Founding Philosophy',
-    heading: 'Bridging industry gaps with accessible projects',
+    heading: 'Coursework describes systems. We build them.',
     gaps: [
       {
         glyph: '⌗',
         title: 'Theory Gap',
-        body: 'Opportunity to apply practical experience outside of theoretical lectures.',
+        body: 'Take the concept from slide deck to working hardware.',
       },
       {
         glyph: '⊞',
         title: 'Access Gap',
-        body: 'Take on cross-disciplinary engineering problems usually reserved for industry.',
+        body: 'Work cross-disciplinary problems usually reserved for industry.',
       },
       {
         glyph: '⇄',
@@ -76,8 +84,7 @@ export const homeLandingCopy = {
   },
   pathways: {
     eyebrow: 'How we work',
-    heading:
-      'Choose one of two ways to build a real system with DIGITAL.',
+    heading: 'Two ways in. Both build real systems.',
     ways: [
       {
         glyph: '⌗',
@@ -108,7 +115,7 @@ export const homeLandingCopy = {
         stat2label: 'Members',
         stat3: '3',
         stat3label: 'Semesters',
-        learn1: 'Set interfaces across hardware and software teams',
+        learn1: 'Set the interfaces both teams build against',
         learn2: 'Make repairability an architecture decision',
         href: '/projects/modular-smartphone',
       },
@@ -124,8 +131,8 @@ export const homeLandingCopy = {
         stat2label: 'Compute',
         stat3: '8 mo',
         stat3label: 'Build cycle',
-        learn1: 'Design the display pipeline from FPGA compute to wearable optics',
-        learn2: 'Translate a reader\'s perceptual needs into hardware timing specifications',
+        learn1: 'Design the pipeline from silicon to wearable optics',
+        learn2: "Translate a reader's needs into hardware timing",
         href: '/projects/smart-reading',
       },
       {
@@ -141,10 +148,22 @@ export const homeLandingCopy = {
         stat3: '2',
         stat3label: 'Pitch cycles',
         learn1: 'Map technical scope to budget and sponsorship',
-        learn2: 'Explain system trade-offs beyond engineering teams',
+        learn2: 'Defend trade-offs in front of sponsors',
         href: '/get-involved',
       },
     ] satisfies readonly HomeCase[],
+  },
+  mission: {
+    eyebrow: 'Who We Are',
+    heading: 'A student organization that builds.',
+    statement:
+      "DIGITAL is Cal Poly Pomona's student-run engineering club. Four commitments define the work:",
+    visionLabel: 'Vision',
+    vision: VISION_LINE,
+    beats: MISSION_BEATS.map((beat) => ({
+      label: beat.label,
+      line: beat.line,
+    })) satisfies readonly HomeMissionBeat[],
   },
   join: {
     heading: 'Close the gap. Build with us.',
@@ -154,10 +173,10 @@ export const homeLandingCopy = {
   },
   footer: {
     taglines: [
-      'Project-Based Engineering Organization',
-      'Interdisciplinary Systems Design',
-      'Technical Entrepreneurship',
-      'Student-Led Innovation',
+      'We build real systems',
+      'Hardware, software, business',
+      'Scope, fund, pitch',
+      'Run by students',
     ],
     // The global Footer is hidden on `/` (isImmersiveRoute), so the landing carries
     // its own legal links. Targets mirror components/layout/Footer.tsx.

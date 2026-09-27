@@ -65,7 +65,8 @@ fonts of its own.
 - Substitute: `system-ui, sans-serif`.
 - Weights loaded: 500, 600, 700, 800. Used here: 800 (`font-extrabold`) for headlines,
   700 (`font-bold`) for nav/CTA/next-card title, 600 (`font-semibold`) for the RSVP word.
-- Always `uppercase` + `tracking-tight` in this experience.
+- Sentence case + `tracking-tight` in this experience (2026-08 de-caps revision, Head Designer
+  approved: display headlines no longer force uppercase; DM Mono labels stay uppercase).
 
 ### Hanken Grotesk (`font-body`, `--font-body`)
 - Role: lede, reveal sub, panel body, POV text-wall.

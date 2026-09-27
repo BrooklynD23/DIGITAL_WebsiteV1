@@ -96,7 +96,7 @@ export const GLASSES_CONTENT: GlassesContent = {
   hero: {
     eyebrow: 'DIGITAL @ CAL POLY POMONA · SMART READING',
     headline: 'Read without the chase.',
-    lede: 'The words move so your eyes do not have to. Smart Reading holds each word at one fixed point and lets you choose the pace. Built with dyslexic readers in mind.',
+    lede: "The words move so your eyes don't have to. Smart Reading holds each word at one fixed point and lets you choose the pace. Built with dyslexic readers in mind.",
     footnote: 'Scroll to see what the wearer sees.',
   },
   reveal: {

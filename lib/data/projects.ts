@@ -57,7 +57,6 @@ export const projects: Project[] = [
       { label: 'Battery', value: '3000mAh Li-Po (Swappable)' },
       { label: 'Connectivity', value: 'WiFi 6, BLE 5.0' },
     ],
-    teamMembers: ['sarah-kim', 'david-park', 'kevin-wang'],
   },
   {
     id: 'smart-reading',

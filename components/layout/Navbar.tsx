@@ -1,108 +1,38 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import {
-  Home,
-  Layers3,
-  Smartphone,
-  Info,
-  Users,
-  UserPlus,
-  Mail,
-  Menu,
-  X,
-  type LucideIcon,
-} from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { isImmersiveRoute } from '@/lib/immersiveRoutes';
 import { BrandLogo } from '@/components/layout/BrandLogo';
+import { primaryNavLinks, type SiteLink } from '@/lib/data/siteLinks';
 
 export const NAVBAR_HEIGHT = 72;
-
-interface NavLink {
-  href: string;
-  label: string;
-  sublabel: string;
-  icon: LucideIcon;
-}
-
-const navLinks: NavLink[] = [
-  { href: '/', label: 'Home', sublabel: 'start & mission', icon: Home },
-  { href: '/pillars', label: 'Pillars', sublabel: 'the framework', icon: Layers3 },
-  { href: '/projects', label: 'Projects', sublabel: 'what we build', icon: Smartphone },
-  { href: '/about', label: 'About', sublabel: 'who we are', icon: Info },
-  { href: '/team', label: 'Team', sublabel: 'the people', icon: Users },
-  { href: '/get-involved', label: 'Join', sublabel: 'get involved', icon: UserPlus },
-  { href: '/contact', label: 'Contact', sublabel: 'reach us', icon: Mail },
-];
 
 function isActiveRoute(pathname: string, href: string): boolean {
   if (href === '/') return pathname === '/';
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-const glassPill = cn(
-  'border border-white/75 bg-[rgba(255,255,255,0.42)]',
-  'shadow-pill backdrop-blur-[18px] backdrop-saturate-[1.45]',
-  'before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit]',
-  'before:bg-gradient-to-b before:from-white/50 before:to-transparent before:opacity-80'
-);
+const linkBase =
+  'font-homeMono text-[10.5px] tracking-[.1em] text-dg-muted hover:text-dg-ink';
 
-function NavItem({
-  link,
-  active,
-  onNavigate,
-}: {
-  link: NavLink;
-  active: boolean;
-  onNavigate?: () => void;
-}) {
-  const Icon = link.icon;
-
+function NavLinkItem({ link, active }: { link: SiteLink; active: boolean }) {
   return (
     <Link
       href={link.href}
-      onClick={onNavigate}
       aria-current={active ? 'page' : undefined}
       className={cn(
-        'relative flex items-center gap-2.5 rounded-full px-3 pb-[7px] pt-2 leading-none',
-        'transition-all duration-200 ease-studio',
-        'focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue',
-        active
-          ? cn(
-              'bg-white/95 shadow-active',
-              'after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit]',
-              'after:p-[1px] after:[background:linear-gradient(135deg,rgba(28,108,255,.28),rgba(216,65,47,.22),rgba(255,255,255,.9))]',
-              'after:[-webkit-mask:linear-gradient(#fff_0_0)_content-box,linear-gradient(#fff_0_0)]',
-              'after:[-webkit-mask-composite:xor] after:[mask-composite:exclude]'
-            )
-          : 'hover:bg-white/55'
+        'relative pb-[3px] pt-[3px] transition-colors duration-200',
+        'focus:outline-none focus-visible:ring-2 focus-visible:ring-dg-green',
+        linkBase,
+        active &&
+          'text-dg-ink after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-dg-line-strong'
       )}
     >
-      <Icon
-        size={15}
-        strokeWidth={1.6}
-        className={cn(
-          'shrink-0',
-          active ? 'text-accent' : 'text-ink-soft'
-        )}
-        aria-hidden
-      />
-      <span className="flex flex-col gap-[3px]">
-        <span
-          className={cn(
-            'font-display text-[12px] font-bold uppercase tracking-[.06em]',
-            active ? 'text-accent' : 'text-ink'
-          )}
-        >
-          {link.label}
-        </span>
-        <span className="font-mono text-[10px] leading-none text-ink-soft">
-          {link.sublabel}
-        </span>
-      </span>
+      {link.label}
     </Link>
   );
 }
@@ -110,67 +40,96 @@ function NavItem({
 export function Navbar() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const sheetRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [pathname]);
 
+  // Escape closes the sheet; focus returns to the toggle.
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return;
+      setMobileMenuOpen(false);
+      menuButtonRef.current?.focus();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [mobileMenuOpen]);
+
+  // Focus trap while the sheet is open.
+  useEffect(() => {
+    if (!mobileMenuOpen || !sheetRef.current) return;
+    const sheet = sheetRef.current;
+    const focusables = sheet.querySelectorAll<HTMLElement>('a[href], button');
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    const trap = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab' || focusables.length === 0) return;
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+    sheet.addEventListener('keydown', trap);
+    first?.focus();
+    return () => sheet.removeEventListener('keydown', trap);
+  }, [mobileMenuOpen]);
+
   // Immersive routes render their own chrome — hide the site nav.
   if (isImmersiveRoute(pathname)) return null;
 
-  return (
-    <>
-      {/* Floating glass pill — desktop (ione-style: icons + segmented bar) */}
-      <nav
-        aria-label="Primary"
-        className={cn(
-          'fixed left-1/2 top-[18px] z-50 hidden -translate-x-1/2 items-center gap-0 rounded-full p-[6px] lg:flex',
-          'relative overflow-hidden',
-          glassPill
-        )}
-      >
-        {navLinks.map((link, index) => {
-          const active = isActiveRoute(pathname, link.href);
-          return (
-            <div key={link.href} className="flex items-center">
-              {index > 0 && (
-                <span
-                  className="mx-[2px] h-7 w-px shrink-0 bg-line/50"
-                  aria-hidden
-                />
-              )}
-              <NavItem link={link} active={active} />
-            </div>
-          );
-        })}
-      </nav>
+  const links = [{ label: 'Home', href: '/' }, ...primaryNavLinks];
 
-      {/* Compact pill + sheet — mobile/tablet */}
-      <div className="lg:hidden">
-        <nav
-          aria-label="Primary"
-          className={cn(
-            'fixed left-1/2 top-[18px] z-50 flex -translate-x-1/2 items-center gap-1 rounded-full p-[7px]',
-            'relative overflow-hidden',
-            glassPill
-          )}
+  return (
+    <nav
+      aria-label="Primary"
+      className="sticky top-0 z-50 border-b border-dg-line-soft bg-dg-nav-bg px-[var(--dg-gutter)] py-[10px] backdrop-blur-[10px]"
+    >
+      <div className="grid grid-cols-[1fr_auto_1fr] items-center">
+        <Link
+          href="/"
+          className="flex items-center gap-[10px] justify-self-start hover:opacity-80"
         >
-          <Link
-            href="/"
-            className="flex items-center gap-2 rounded-full px-3 py-2 font-display text-[12px] font-bold uppercase tracking-[.06em] text-ink"
-          >
-            <BrandLogo size={22} />
+          <BrandLogo size={22} />
+          <span className="font-homeMono text-[13px] font-medium tracking-[.12em] text-dg-ink">
             DIGITAL
+          </span>
+        </Link>
+
+        {/* Desktop links — single-line mono items, switch at 820px */}
+        <div className="hidden items-center gap-[26px] nav:flex">
+          {links.map((link) => (
+            <NavLinkItem
+              key={link.href}
+              link={link}
+              active={isActiveRoute(pathname, link.href)}
+            />
+          ))}
+        </div>
+
+        <div className="flex justify-self-end">
+          <Link
+            href="/contact"
+            className="hidden rounded-cta border border-dg-line-hover px-4 py-[7px] font-homeMono text-[10px] tracking-[.12em] text-dg-ink transition-colors duration-200 hover:bg-dg-ink hover:text-dg-bg nav:inline-block focus:outline-none focus-visible:ring-2 focus-visible:ring-dg-green"
+          >
+            Talk to us
           </Link>
           <button
+            ref={menuButtonRef}
             type="button"
             onClick={() => setMobileMenuOpen((open) => !open)}
             aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={mobileMenuOpen}
             className={cn(
-              'flex size-9 items-center justify-center rounded-full text-ink',
-              'transition-colors duration-200 hover:bg-white/60',
-              'focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue'
+              'flex size-9 items-center justify-center rounded-cta text-dg-ink nav:hidden',
+              'transition-colors duration-200 hover:bg-dg-card',
+              'focus:outline-none focus-visible:ring-2 focus-visible:ring-dg-green'
             )}
           >
             {mobileMenuOpen ? (
@@ -179,59 +138,32 @@ export function Navbar() {
               <Menu size={18} strokeWidth={1.75} aria-hidden="true" />
             )}
           </button>
-        </nav>
+        </div>
+      </div>
 
-        {mobileMenuOpen && (
-          <div
-            className="fixed inset-0 z-40 bg-ink/10 backdrop-blur-[2px]"
-            onClick={() => setMobileMenuOpen(false)}
-            aria-hidden="true"
-          />
-        )}
-
+      {/* Mobile sheet — unmounted when closed, so it can never be tabbed into */}
+      {mobileMenuOpen ? (
         <div
-          className={cn(
-            'fixed left-1/2 top-[74px] z-50 w-[min(92vw,360px)] -translate-x-1/2 overflow-hidden rounded-lg',
-            glassPill,
-            'transition-[opacity,transform] duration-200 ease-studio',
-            mobileMenuOpen
-              ? 'pointer-events-auto opacity-100'
-              : 'pointer-events-none -translate-y-2 opacity-0'
-          )}
+          ref={sheetRef}
+          className="absolute inset-x-[var(--dg-gutter)] top-[calc(100%+8px)] overflow-hidden rounded-card border border-dg-line-soft bg-dg-card shadow-none"
         >
           <ul className="flex flex-col p-2">
-            {navLinks.map((link) => {
+            {links.map((link) => {
               const active = isActiveRoute(pathname, link.href);
-              const Icon = link.icon;
               return (
                 <li key={link.href}>
                   <Link
                     href={link.href}
                     aria-current={active ? 'page' : undefined}
                     className={cn(
-                      'flex items-center gap-3 rounded px-4 py-3',
+                      'flex items-center justify-between rounded px-4 py-3 font-homeMono text-[11px] tracking-[.12em]',
                       'transition-colors duration-200',
-                      active ? 'bg-white/95 shadow-active' : 'hover:bg-white/55'
+                      active ? 'bg-dg-bg text-dg-ink' : 'text-dg-muted hover:bg-dg-bg'
                     )}
                   >
-                    <Icon
-                      size={16}
-                      strokeWidth={1.6}
-                      className={active ? 'text-accent' : 'text-ink-soft'}
-                      aria-hidden
-                    />
-                    <span className="flex flex-1 items-baseline justify-between gap-3">
-                      <span
-                        className={cn(
-                          'font-display text-[13px] font-bold uppercase tracking-[.06em]',
-                          active ? 'text-accent' : 'text-ink'
-                        )}
-                      >
-                        {link.label}
-                      </span>
-                      <span className="font-mono text-[10px] text-ink-soft">
-                        {link.sublabel}
-                      </span>
+                    {link.label}
+                    <span aria-hidden="true" className="text-dg-ink-50">
+                      {active ? '●' : '·'}
                     </span>
                   </Link>
                 </li>
@@ -239,7 +171,7 @@ export function Navbar() {
             })}
           </ul>
         </div>
-      </div>
-    </>
+      ) : null}
+    </nav>
   );
 }

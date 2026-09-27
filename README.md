@@ -77,15 +77,35 @@ DIGITAL_WebsiteV1/
 
 | Route | Experience |
 |-------|------------|
-| `/` | Editorial home landing (own nav/footer) |
+| `/` | Editorial home landing (own nav/footer, mission band) |
 | `/projects/modular-smartphone` | PhoneV2 exploded-smartphone scrollytelling |
 | `/projects/smart-reading` | Immersive smart-glasses scroll (R3F) |
 | `/projects` | Project grid |
-| `/about`, `/team`, `/pillars` | Club info |
+| `/about`, `/team`, `/community` | Club info (`/pillars` folded into `/about`) |
 | `/get-involved`, `/contact` | Join paths + form |
 | `/privacy`, `/terms`, `/cookies` | Legal pages |
 
 Full route map: [`docs/ROUTES.md`](docs/ROUTES.md).
+
+## Deferred work — next session (2026-08 consolidation follow-up)
+
+The site-consolidation branch (`feature/site-consolidation`) completed the design-system
+migration of all public routes. The following items are **deferred pending org/leadership
+input** — see also the Backlog section in [`TODO.md`](TODO.md):
+
+1. **Real Formspree endpoint** — club leadership provisions a Formspree form and supplies
+   the form ID hash; set `siteConfig.formspreeEndpoint`, verify submission end-to-end, and
+   add `connect-src https://formspree.io` to the CSP report-only policy first.
+2. **Custom domain DNS** — leadership points `digitalcpp.org` at Vercel; then set
+   `NEXT_PUBLIC_SITE_URL` so canonicals/metadata resolve to production.
+3. **Real roster content** — team placeholders ("To be announced") await confirmed names,
+   photos, and links for 2026–27; also OG image + favicon assets from the design lead.
+4. **Heads-up Display Glasses copy** — project description/team/timeline from that team.
+
+Open engineering polish (no org input needed): a browser session for the manual test-matrix
+rows — responsive widths, cross-browser, keyboard walk, 60fps handoff recording
+(`docs/ui-revision/07-sweep-results.md` lists exactly what remains). The smartphone handoff
+fixes, accessibility sweep gates, and the progressive-enhancement cursor all shipped in #0051.
 
 ## Configuration
 

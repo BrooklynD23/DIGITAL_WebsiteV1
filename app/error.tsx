@@ -2,7 +2,6 @@
 
 import { useEffect } from 'react'
 import Link from 'next/link'
-import { Button, Eyebrow } from '@/components/ui'
 
 export default function Error({
   error,
@@ -16,20 +15,29 @@ export default function Error({
   }, [error])
 
   return (
-    <div className="flex min-h-[70vh] items-center justify-center px-4 py-24">
+    <div className="flex min-h-[70vh] items-center justify-center bg-dg-bg px-[var(--dg-gutter)] py-24 text-dg-ink">
       <div className="mx-auto max-w-xl text-center">
-        <Eyebrow>System Fault</Eyebrow>
-        <h1 className="mt-4 font-display text-[clamp(40px,7vw,76px)] font-extrabold uppercase leading-[.92] tracking-[-.03em] text-ink">
-          Something Went <span className="text-outline">Wrong</span>
-          <span className="text-accent">.</span>
-        </h1>
-        <p className="mx-auto mt-6 max-w-md text-[clamp(16px,1.5vw,19px)] leading-[1.55] text-ink-soft">
-          An unexpected error occurred. Please try again.
+        <p className="m-0 font-homeMono text-[10px] uppercase tracking-[.24em] text-dg-muted">
+          System fault
         </p>
-        <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <Button onClick={() => reset()}>Try again</Button>
-          <Link href="/">
-            <Button variant="ghost">Go Home</Button>
+        <h1 className="mt-[10px] font-homeSerif text-[clamp(34px,6vw,58px)] font-medium leading-[1.14] tracking-[-0.01em]">
+          Something went wrong.
+        </h1>
+        <p className="mx-auto m-0 mt-[10px] max-w-md text-[13px] leading-[1.75] text-dg-muted">
+          An unexpected error occurred. Try again, or head back to the bench.
+        </p>
+        <div className="mt-7 flex flex-col items-center justify-center gap-[14px] sm:flex-row">
+          <button
+            onClick={() => reset()}
+            className="rounded-cta bg-dg-ink px-6 py-[11px] font-homeMono text-[10.5px] tracking-[.12em] text-dg-bg transition-colors duration-200 hover:bg-dg-green focus:outline-none focus-visible:ring-2 focus-visible:ring-dg-green"
+          >
+            Try again
+          </button>
+          <Link
+            href="/"
+            className="rounded-cta border border-dg-line-hover px-6 py-[11px] font-homeMono text-[10.5px] tracking-[.12em] text-dg-ink transition-colors duration-200 hover:bg-dg-ink hover:text-dg-bg focus:outline-none focus-visible:ring-2 focus-visible:ring-dg-green"
+          >
+            Go home
           </Link>
         </div>
       </div>

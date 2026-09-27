@@ -1,19 +1,13 @@
 'use client';
 
-import { useState, FormEvent, useEffect, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
-import Image from 'next/image';
+import { useState, FormEvent, useEffect, useRef } from 'react';
+import Link from 'next/link';
 import { siteConfig } from '@/lib/data/siteConfig';
 import { contactTopicOptions, resolveContactTopic } from '@/lib/data/contactTopics';
-import {
-  Card,
-  Button,
-  Input,
-  Textarea,
-  Select,
-  Icon,
-  Eyebrow,
-} from '@/components/ui';
+import { socialLinks } from '@/lib/data/siteLinks';
+import { PageShell } from '@/components/layout/PageShell';
+import { Reveal } from '@/components/ui/Reveal';
+import { useReveal } from '@/lib/useReveal';
 
 // Note: Metadata must be in a separate layout.tsx for client components
 // See app/contact/layout.tsx for SEO metadata
@@ -25,11 +19,29 @@ import {
  */
 const isFormspreeConfigured = !siteConfig.formspreeEndpoint.includes('YOUR_FORM_ID');
 
+const fieldLabel =
+  'mb-[6px] block font-homeMono text-[9.5px] uppercase tracking-[.18em] text-dg-muted';
+const fieldControl =
+  'w-full rounded-cta border border-dg-line-soft bg-dg-bg px-[12px] py-[10px] font-homeSans text-[13px] leading-[1.5] text-dg-ink transition-colors duration-200 placeholder:text-dg-muted-dark focus:border-dg-green focus:outline-none focus-visible:ring-2 focus-visible:ring-dg-green';
+
+type FieldName = 'name' | 'email' | 'topic' | 'message';
+
+function FieldError({ message }: { message?: string }) {
+  if (!message) return null;
+  return (
+    <p role="alert" className="mt-[6px] font-homeMono text-[11px] tracking-[.06em] text-[color:var(--ds-error)]">
+      {message}
+    </p>
+  );
+}
+
 function ContactForm() {
-  const searchParams = useSearchParams();
+  const rootRef = useReveal<HTMLDivElement>();
+  const successRef = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<
     'idle' | 'submitting' | 'success' | 'error' | 'unconfigured'
   >('idle');
+  const [fieldErrors, setFieldErrors] = useState<Partial<Record<FieldName, string>>>({});
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -37,13 +49,31 @@ function ContactForm() {
     message: '',
   });
 
+  // Deep links like /contact?type=sponsor pre-select the topic. Read the query
+  // from the URL in an effect (not useSearchParams) so the page prerenders its
+  // full markup into the static export.
   useEffect(() => {
-    const typeParam = searchParams.get('type');
+    const typeParam = new URLSearchParams(window.location.search).get('type');
     const topic = resolveContactTopic(typeParam);
     if (topic) {
       setFormData((prev) => (prev.topic ? prev : { ...prev, topic }));
     }
-  }, [searchParams]);
+  }, []);
+
+  useEffect(() => {
+    if (status === 'success') successRef.current?.focus();
+  }, [status]);
+
+  function validate(): boolean {
+    const errors: Partial<Record<FieldName, string>> = {};
+    if (!formData.name.trim()) errors.name = 'Enter your name.';
+    if (!formData.email.trim()) errors.email = 'Enter your email.';
+    else if (!/^\S+@\S+\.\S+$/.test(formData.email)) errors.email = 'Enter a valid email address.';
+    if (!formData.topic) errors.topic = 'Pick a topic.';
+    if (!formData.message.trim()) errors.message = 'Write a short message.';
+    setFieldErrors(errors);
+    return Object.keys(errors).length === 0;
+  }
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -54,6 +84,8 @@ function ContactForm() {
       setStatus('unconfigured');
       return;
     }
+
+    if (!validate()) return;
 
     setStatus('submitting');
 
@@ -78,273 +110,173 @@ function ContactForm() {
     }
   }
 
+  const inputProps = (name: FieldName) => ({
+    value: formData[name],
+    onChange: (
+      e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    ) => {
+      setFormData((prev) => ({ ...prev, [name]: e.target.value }));
+      if (fieldErrors[name]) setFieldErrors((prev) => ({ ...prev, [name]: undefined }));
+    },
+    'aria-invalid': fieldErrors[name] ? true : undefined,
+  });
+
   return (
-    <div className="flex justify-center px-4 pt-[120px] pb-16 md:px-7 md:pb-24">
-      <div className="flex w-full max-w-content flex-col gap-12">
-        {/* Page Heading */}
-        <div className="flex flex-col gap-4 text-center md:text-left">
-          <Eyebrow>Get in Touch</Eyebrow>
-          <h1 className="font-display text-[clamp(40px,7vw,76px)] font-extrabold uppercase leading-[.92] tracking-[-.03em] text-ink">
-            Let&apos;s Build <span className="text-outline">Something</span> Cool
-            <span className="text-accent">.</span>
-          </h1>
-          <p className="max-w-2xl text-[clamp(16px,1.5vw,19px)] leading-[1.55] text-ink-soft">
-            Have questions about our modular phone project, the Project Hatchery Foundation, or
-            just want to geek out about hardware? We&apos;re all ears.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:gap-12">
-          {/* Left Column: Form */}
-          <Card variant="glass" padding="lg" className="lg:col-span-7">
-            {status === 'success' ? (
-              <div className="py-12 text-center">
-                <div className="mx-auto mb-6 flex size-16 items-center justify-center rounded-full border border-accent/40 bg-accent/[.08] text-accent">
-                  <Icon name="check_circle" size="xl" />
-                </div>
-                <h2 className="font-display text-[21px] font-bold uppercase tracking-[-.01em] text-ink">
-                  Message Sent!
-                </h2>
-                <p className="mt-2 text-[15px] text-ink-soft">
-                  Thank you for reaching out. We&apos;ll get back to you soon.
-                </p>
-                <button
-                  onClick={() => setStatus('idle')}
-                  className="mt-6 rounded font-mono text-[11px] uppercase tracking-[.16em] text-accent underline-offset-4 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue"
-                >
-                  Send another message
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="flex flex-col gap-6" noValidate>
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                  <Input
-                    label="Full Name *"
-                    type="text"
-                    required
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="Ada Lovelace"
-                    autoComplete="name"
-                  />
-                  <Input
-                    label="Email Address *"
-                    type="email"
-                    required
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    placeholder="ada@cpp.edu"
-                    autoComplete="email"
-                  />
-                </div>
-
-                <Select
-                  label="Topic *"
-                  required
-                  value={formData.topic}
-                  onChange={(e) => setFormData({ ...formData, topic: e.target.value })}
-                  placeholder="Select a topic..."
-                  options={[...contactTopicOptions]}
-                />
-
-                <Textarea
-                  label="Message *"
-                  required
-                  value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  placeholder="Tell us what's on your mind..."
-                />
-
-                {status === 'error' && (
-                  <p role="alert" className="font-mono text-[12px] text-accent">
-                    Something went wrong. Please try again or email us directly.
+    <div ref={rootRef}>
+      <PageShell
+        eyebrow="Contact"
+        title="Tell us what you want to build."
+        metaRow={[siteConfig.contact.meetingTime, siteConfig.contact.location]}
+      >
+        <div className="mx-auto max-w-[var(--dg-footer-max)]">
+          <div className="grid items-start gap-[22px] [grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr))]">
+            {/* Form */}
+            <Reveal delay={110} className="rounded-card border border-dg-line-card bg-dg-card p-[clamp(24px,3vw,36px)]">
+              {status === 'success' ? (
+                <div ref={successRef} role="status" tabIndex={-1} className="flex flex-col items-center gap-[14px] py-[clamp(32px,5vh,56px)] text-center focus:outline-none">
+                  <span className="inline-flex size-[34px] items-center justify-center rounded-chip border border-dg-line font-homeMono text-[15px] text-dg-gold">✳</span>
+                  <h2 className="m-0 text-[14px] font-semibold tracking-[.02em] text-dg-ink">
+                    Message sent.
+                  </h2>
+                  <p className="m-0 max-w-[460px] text-[13px] leading-[1.75] text-dg-muted">
+                    Thank you for reaching out. We&apos;ll get back to you soon.
                   </p>
-                )}
+                  <button
+                    onClick={() => setStatus('idle')}
+                    className="mt-1 rounded-cta border border-dg-line-hover px-4 py-[8px] font-homeMono text-[10px] tracking-[.12em] text-dg-ink transition-colors duration-200 hover:bg-dg-ink hover:text-dg-bg focus:outline-none focus-visible:ring-2 focus-visible:ring-dg-green"
+                  >
+                    Send another message
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="flex flex-col gap-[18px]" noValidate>
+                  <div className="grid grid-cols-1 gap-[18px] sm:grid-cols-2">
+                    <div>
+                      <label htmlFor="contact-name" className={fieldLabel}>Full Name *</label>
+                      <input id="contact-name" type="text" required autoComplete="name"
+                        placeholder="Ada Lovelace" className={`${fieldControl} ${fieldErrors.name ? 'border-[color:var(--ds-error)]' : ''}`} {...inputProps('name')} />
+                      <FieldError message={fieldErrors.name} />
+                    </div>
+                    <div>
+                      <label htmlFor="contact-email" className={fieldLabel}>Email Address *</label>
+                      <input id="contact-email" type="email" required autoComplete="email"
+                        placeholder="ada@cpp.edu" className={`${fieldControl} ${fieldErrors.email ? 'border-[color:var(--ds-error)]' : ''}`} {...inputProps('email')} />
+                      <FieldError message={fieldErrors.email} />
+                    </div>
+                  </div>
 
-                {status === 'unconfigured' && (
-                  <p role="alert" className="font-mono text-[12px] text-accent">
-                    This form isn&apos;t connected yet. Please email us directly at{' '}
-                    <a href={`mailto:${siteConfig.contact.email}`} className="underline">
-                      {siteConfig.contact.email}
-                    </a>
-                    .
-                  </p>
-                )}
+                  <div>
+                    <label htmlFor="contact-topic" className={fieldLabel}>Topic *</label>
+                    <select id="contact-topic" required
+                      className={`${fieldControl} ${!formData.topic ? 'text-dg-muted-dark' : ''}`} {...inputProps('topic')}>
+                      <option value="">Select a topic...</option>
+                      {[...contactTopicOptions].map((opt) => (
+                        <option key={opt.value} value={opt.value}>{opt.label}</option>
+                      ))}
+                    </select>
+                    <FieldError message={fieldErrors.topic} />
+                  </div>
 
-                <div className="flex justify-end pt-2">
-                  <Button
+                  <div>
+                    <label htmlFor="contact-message" className={fieldLabel}>Message *</label>
+                    <textarea id="contact-message" required rows={6}
+                      placeholder="Tell us what's on your mind..." className={fieldControl} {...inputProps('message')} />
+                    <FieldError message={fieldErrors.message} />
+                  </div>
+
+                  {status === 'error' && (
+                    <p role="alert" className="font-homeMono text-[12px] text-[color:var(--ds-error)]">
+                      Something went wrong. Please try again or email us directly.
+                    </p>
+                  )}
+
+                  {status === 'unconfigured' && (
+                    <p role="alert" className="font-homeMono text-[12px] leading-[1.7] text-[color:var(--ds-error)]">
+                      This form isn&apos;t connected yet. Please email us directly at{' '}
+                      <a href={`mailto:${siteConfig.contact.email}`} className="underline">
+                        {siteConfig.contact.email}
+                      </a>
+                      .
+                    </p>
+                  )}
+
+                  <button
                     type="submit"
-                    loading={status === 'submitting'}
-                    icon={status === 'submitting' ? undefined : <Icon name="arrow_forward" size="sm" />}
-                    iconPosition="right"
+                    disabled={status === 'submitting'}
+                    className="mt-[6px] self-start rounded-cta bg-dg-ink px-6 py-[11px] font-homeMono text-[10.5px] tracking-[.12em] text-dg-bg transition-colors duration-200 hover:bg-dg-green disabled:opacity-60 focus:outline-none focus-visible:ring-2 focus-visible:ring-dg-green"
                   >
                     {status === 'submitting' ? 'Sending...' : 'Send Message'}
-                  </Button>
+                  </button>
+                </form>
+              )}
+            </Reveal>
+
+            {/* Info column */}
+            <div className="flex flex-col gap-[22px]">
+              <Reveal delay={140} className="rounded-card border border-dg-line-card bg-dg-card">
+                <div className="border-b border-dg-line-soft px-[clamp(20px,2.5vw,28px)] py-4">
+                  <h2 className="m-0 text-[14px] font-semibold tracking-[.02em] text-dg-ink">Contact info</h2>
                 </div>
-              </form>
-            )}
-          </Card>
-
-          {/* Right Column: Info & Location */}
-          <div className="flex flex-col gap-6 lg:col-span-5">
-            {/* Contact Info Card — instrument readout */}
-            <Card variant="glass" padding="md">
-              <div className="mb-6 flex items-center gap-2">
-                <span className="text-accent">
-                  <Icon name="perm_contact_calendar" size="md" />
-                </span>
-                <h2 className="font-display text-[17px] font-bold uppercase tracking-[-.01em] text-ink">
-                  Contact Info
-                </h2>
-              </div>
-              <dl className="divide-y divide-line border-y border-line">
-                <a
-                  href={`mailto:${siteConfig.contact.email}`}
-                  className="group flex items-start gap-4 py-4 transition-colors duration-200 ease-studio focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue"
-                >
-                  <span className="mt-0.5 shrink-0 text-accent">
-                    <Icon name="mail" size="md" />
-                  </span>
-                  <div>
-                    <dt className="font-mono text-[11px] uppercase tracking-[.16em] text-ink-soft">
-                      Email Us
-                    </dt>
-                    <dd className="font-mono text-[13px] text-ink transition-colors group-hover:text-accent">
-                      {siteConfig.contact.email}
-                    </dd>
+                <dl className="m-0">
+                  <a href={`mailto:${siteConfig.contact.email}`} className="group flex flex-col gap-[2px] border-b border-dg-line-soft px-[clamp(20px,2.5vw,28px)] py-4 hover:bg-dg-bg focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-dg-green">
+                    <dt className="font-homeMono text-[9.5px] uppercase tracking-[.16em] text-dg-muted">Email us</dt>
+                    <dd className="m-0 font-homeMono text-[13px] text-dg-ink group-hover:text-dg-green">{siteConfig.contact.email}</dd>
+                  </a>
+                  <div className="flex flex-col gap-[2px] border-b border-dg-line-soft px-[clamp(20px,2.5vw,28px)] py-4">
+                    <dt className="font-homeMono text-[9.5px] uppercase tracking-[.16em] text-dg-muted">Meetings</dt>
+                    <dd className="m-0 font-homeMono text-[13px] text-dg-ink">{siteConfig.contact.meetingTime}</dd>
+                    <p className="m-0 text-[12.5px] text-dg-muted">{siteConfig.contact.campus}</p>
                   </div>
-                </a>
-
-                <div className="flex items-start gap-4 py-4">
-                  <span className="mt-0.5 shrink-0 text-accent">
-                    <Icon name="schedule" size="md" />
-                  </span>
-                  <div>
-                    <dt className="font-mono text-[11px] uppercase tracking-[.16em] text-ink-soft">
-                      Meeting Times
-                    </dt>
-                    <dd className="font-mono text-[13px] text-ink">
-                      {siteConfig.contact.meetingTime}
-                    </dd>
-                    <p className="mt-1 text-[13px] text-ink-soft">Bi-weekly project syncing</p>
+                  <div className="flex flex-col gap-[2px] px-[clamp(20px,2.5vw,28px)] py-4">
+                    <dt className="font-homeMono text-[9.5px] uppercase tracking-[.16em] text-dg-muted">Location</dt>
+                    <dd className="m-0 font-homeMono text-[13px] text-dg-ink">{siteConfig.contact.location}</dd>
                   </div>
+                </dl>
+              </Reveal>
+
+              <Reveal delay={170} className="rounded-card border border-dg-line-card bg-dg-card">
+                <div className="border-b border-dg-line-soft px-[clamp(20px,2.5vw,28px)] py-4">
+                  <h2 className="m-0 text-[14px] font-semibold tracking-[.02em] text-dg-ink">Elsewhere</h2>
                 </div>
+                <ul className="m-0 flex flex-col px-[clamp(20px,2.5vw,28px)] py-4 font-homeMono text-[11px] uppercase tracking-[.14em]">
+                  {socialLinks.map((social) => (
+                    <li key={social.label}>
+                      <a href={social.href} target="_blank" rel="noopener noreferrer"
+                        className="flex items-center justify-between border-b border-dg-line-soft py-[10px] text-dg-muted last:border-b-0 last:pb-0 hover:text-dg-green focus:outline-none focus-visible:ring-2 focus-visible:ring-dg-green">
+                        {social.label}
+                        <span aria-hidden="true">↗</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </Reveal>
 
-                <div className="flex items-start gap-4 py-4">
-                  <span className="mt-0.5 shrink-0 text-accent">
-                    <Icon name="location_on" size="md" />
+              {/* Drafted campus plate — imagery stays inside the frame convention */}
+              <Reveal delay={200} className="relative overflow-hidden rounded-plate border border-dg-line-hair">
+                <div className="flex h-48 items-center justify-center p-3 text-center" style={{ background: 'repeating-linear-gradient(-45deg, var(--dg-stripe-a) 0 14px, var(--dg-stripe-b) 14px 28px)' }}>
+                  <span className="font-homeMono text-[9px] leading-[1.8] tracking-[.14em] text-dg-ink-45">
+                    [ CAMPUS MAP — CAL POLY POMONA ]
                   </span>
-                  <div>
-                    <dt className="font-mono text-[11px] uppercase tracking-[.16em] text-ink-soft">
-                      Location
-                    </dt>
-                    <dd className="font-mono text-[13px] text-ink">
-                      {siteConfig.contact.location}
-                    </dd>
-                    <p className="mt-1 text-[13px] text-ink-soft">{siteConfig.contact.campus}</p>
-                  </div>
                 </div>
-              </dl>
-            </Card>
-
-            {/* Socials */}
-            <Card variant="glass" padding="md">
-              <h2 className="font-display text-[17px] font-bold uppercase tracking-[-.01em] text-ink">
-                Join the Community
-              </h2>
-              <p className="mt-2 text-[15px] leading-[1.55] text-ink-soft">
-                Follow our journey as we build the future of modular tech.
-              </p>
-              <div className="mt-5 flex flex-wrap gap-3">
-                <a
-                  href={siteConfig.social.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex size-11 items-center justify-center rounded border border-line text-ink-soft transition-colors duration-200 ease-studio hover:border-accent hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue"
-                >
-                  <Icon name="link" size="md" label="LinkedIn" />
-                </a>
-                <a
-                  href={siteConfig.social.instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex size-11 items-center justify-center rounded border border-line text-ink-soft transition-colors duration-200 ease-studio hover:border-accent hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue"
-                >
-                  <Icon name="photo_camera" size="md" label="Instagram" />
-                </a>
-                <a
-                  href={siteConfig.community.discord}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex size-11 items-center justify-center rounded border border-line text-ink-soft transition-colors duration-200 ease-studio hover:border-accent hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue"
-                >
-                  <Icon name="chat" size="md" label="Discord" />
-                </a>
-                <a
-                  href={siteConfig.community.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex size-11 items-center justify-center rounded border border-line text-ink-soft transition-colors duration-200 ease-studio hover:border-accent hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue"
-                >
-                  <Icon name="code" size="md" label="GitHub" />
-                </a>
-                <a
-                  href={siteConfig.community.notion}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex size-11 items-center justify-center rounded border border-line text-ink-soft transition-colors duration-200 ease-studio hover:border-accent hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue"
-                >
-                  <Icon name="article" size="md" label="Notion" />
-                </a>
-              </div>
-            </Card>
-
-            {/* Map / Visual */}
-            <div className="group relative h-48 w-full overflow-hidden rounded-lg border border-line">
-              <Image
-                src="/images/placeholders/general/campus-aerial.svg"
-                alt="Aerial view of Cal Poly Pomona campus"
-                fill
-                className="object-cover opacity-70 grayscale transition-all duration-500 ease-studio group-hover:opacity-100 group-hover:grayscale-0"
-              />
-              <div className="absolute bottom-3 left-3 rounded border border-line bg-studio/85 px-3 py-1.5 backdrop-blur-[6px]">
-                <span className="flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[.1em] text-ink">
-                  <span className="text-accent">
-                    <Icon name="school" size="sm" />
-                  </span>
-                  Cal Poly Pomona
-                </span>
-              </div>
+              </Reveal>
             </div>
           </div>
-        </div>
 
-        {/* Bottom Section: Project Hatchery CTA */}
-        <div className="mt-4 flex flex-col items-center justify-between gap-4 border-t border-line pt-8 text-center md:flex-row md:text-left">
-          <div className="flex items-center gap-3">
-            <span className="inline-flex size-10 items-center justify-center rounded border border-line text-accent">
-              <Icon name="rocket_launch" size="md" />
-            </span>
-            <div>
-              <p className="font-display text-[13px] font-bold uppercase tracking-[-.01em] text-ink">
-                Backed by Project Hatchery
-              </p>
-              <p className="text-[13px] text-ink-soft">Empowering student-led innovation</p>
-            </div>
-          </div>
-          <p className="font-mono text-[13px] text-ink-soft">
-            © {new Date().getFullYear()} DIGITAL Club. All rights reserved.
-          </p>
+          {/* Sponsor strip */}
+          <Reveal delay={230} className="mt-[26px] border-t border-dg-line-soft pt-6 text-center">
+            <p className="font-homeMono text-[9.5px] uppercase tracking-[.14em] text-dg-muted">
+              Backed by Cal Poly Pomona Project Hatchery · College of Engineering MEP-WiSE ·{' '}
+              <Link href="/get-involved" className="underline underline-offset-2 hover:text-dg-green">
+                Get involved
+              </Link>
+            </p>
+          </Reveal>
         </div>
-      </div>
+      </PageShell>
     </div>
   );
 }
 
 export default function ContactPage() {
-  return (
-    <Suspense fallback={null}>
-      <ContactForm />
-    </Suspense>
-  );
+  return <ContactForm />;
 }
