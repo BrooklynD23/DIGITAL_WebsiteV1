@@ -59,3 +59,7 @@ design-lab/round2/references/agentic/
 design-lab/round2/assets/kb/source/
 # impeccable decision-page session logs
 .impeccable/questions/
+# Critique evidence videos/frames are large and regenerable (scripts in design-lab/scripts/r2-crit-*)
+design-lab/renders/r2/crit/**/*.webm
+design-lab/renders/r2/crit/**/frames*/
+design-lab/renders/r2/crit/**/gframes/

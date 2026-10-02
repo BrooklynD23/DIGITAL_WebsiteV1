@@ -1,0 +1,16 @@
+== signal 
+/design-lab/r2/signal/ @1440x900: 11 viewports, 10.4 vh
+per viewport: 36 12 11 11 12 49 30 14 11 25 25
+avg 21 · p90 36 · max 49 · quiet(<=12) 45%  [budget: avg<=30, p90<=70, max<=100, quiet>=45%]
+== signal --width=390 --height=844
+/design-lab/r2/signal/ @390x844: 12 viewports, 11.3 vh
+per viewport: 36 12 11 11 12 39 31 12 12 10 25 21
+avg 19 · p90 36 · max 39 · quiet(<=12) 58%  [budget: avg<=30, p90<=70, max<=100, quiet>=45%]
+== apple 
+/design-lab/r2/apple/ @1440x900: 10 viewports, 9.7 vh
+per viewport: 29 12 11 12 21 10 11 28 23 23
+avg 18 · p90 29 · max 29 · quiet(<=12) 50%  [budget: avg<=30, p90<=70, max<=100, quiet>=45%]
+== apple --width=390 --height=844
+/design-lab/r2/apple/ @390x844: 11 viewports, 10.4 vh
+per viewport: 29 12 11 12 12 11 10 23 34 25 23
+avg 18 · p90 29 · max 34 · quiet(<=12) 55%  [budget: avg<=30, p90<=70, max<=100, quiet>=45%]

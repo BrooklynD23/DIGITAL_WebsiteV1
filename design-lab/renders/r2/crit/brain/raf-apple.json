@@ -1,0 +1,69 @@
+{
+  "results": [
+    {
+      "scenario": "desktop · load (hero beat ends) → rest",
+      "r2": 0,
+      "cursor": 182,
+      "ticks": 0,
+      "top": [],
+      "errors": 0
+    },
+    {
+      "scenario": "desktop · scroll whole page (every beat fires) → rest",
+      "r2": 0,
+      "cursor": 180,
+      "ticks": 0,
+      "top": [],
+      "errors": 0
+    },
+    {
+      "scenario": "desktop · interactions (MCP, doc+compact, gate Esc/Enter, k slider) → rest",
+      "r2": 0,
+      "cursor": 181,
+      "ticks": 0,
+      "top": [],
+      "errors": 0
+    },
+    {
+      "scenario": "desktop · reduced motion · load → rest",
+      "r2": 0,
+      "cursor": 0,
+      "ticks": 0,
+      "top": [],
+      "errors": 0
+    },
+    {
+      "scenario": "desktop · reduced motion · scroll → rest",
+      "r2": 0,
+      "cursor": 0,
+      "ticks": 0,
+      "top": [],
+      "errors": 0
+    },
+    {
+      "scenario": "mobile 390 · load → rest",
+      "r2": 0,
+      "cursor": 0,
+      "ticks": 0,
+      "top": [],
+      "errors": 0
+    },
+    {
+      "scenario": "mobile 390 · scroll → rest",
+      "r2": 0,
+      "cursor": 0,
+      "ticks": 0,
+      "top": [],
+      "errors": 0
+    }
+  ],
+  "log": {
+    "mcp": "Issue tracker disconnected.",
+    "engWaiting": "Needs 24 slots, 10 free. Choose.",
+    "engDone": "History summarised, pinned rows kept. 50% full.",
+    "gatePending": "Edit waits. Enter approves, Esc denies.",
+    "gateDenied": "Denied: the refusal returns as the result.",
+    "gateApproved": "Approved: Edit runs.",
+    "evals": "This run: 6 of 8 passed."
+  }
+}

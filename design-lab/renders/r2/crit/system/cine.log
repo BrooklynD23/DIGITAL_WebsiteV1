@@ -1,0 +1,5 @@
+/design-lab/r2/apple/ [{"n":"home-stages","m":"once","scroll":{"cine":0,"other":21},"rest":{"cine":0,"other":0},"st":"idle"}]
+/design-lab/r2/apple/sidekick/ [{"n":"sidekick-explode","m":"scrub","scroll":{"cine":0,"other":7},"scrub":{"cine":56,"other":10},"rest":{"cine":0,"other":0},"t":[0,1.786023],"st":"idle"},{"n":"sidekick-swap","m":"once","scroll":{"cine":52,"other":4},"rest":{"cine":0,"other":0},"st":"ended"}]
+/design-lab/r2/apple/shades/ [{"n":"shades-fixate","m":"once","scroll":{"cine":0,"other":0},"rest":{"cine":0,"other":0},"st":"ended"},{"n":"shades-lightpath","m":"scrub","scroll":{"cine":29,"other":7},"scrub":{"cine":57,"other":10},"rest":{"cine":0,"other":0},"t":[0,1.865417],"st":"idle"}]
+/design-lab/r2/apple/brain/ [{"n":"brain-orb","m":"once","scroll":{"cine":0,"other":0},"rest":{"cine":0,"other":0},"st":"ended"},{"n":"brain-context","m":"scrub","scroll":{"cine":5,"other":50},"scrub":{"cine":52,"other":10},"rest":{"cine":0,"other":0},"t":[0.6975,5],"st":"idle"}]
+wrote cine.json

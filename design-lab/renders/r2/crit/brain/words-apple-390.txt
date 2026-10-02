@@ -1,0 +1,3 @@
+/design-lab/r2/apple/brain/ @390x844: 13 viewports, 12.4 vh
+per viewport: 21 51 30 28 47 6 23 34 37 34 41 57 37
+avg 34 · p90 51 · max 57 · quiet(<=12) 8%  [budget: avg<=30, p90<=70, max<=100, quiet>=45%]

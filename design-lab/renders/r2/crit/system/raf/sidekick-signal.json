@@ -1,0 +1,50 @@
+[
+  {
+    "scenario": "desktop · load → rest",
+    "r2": 0,
+    "cursor": 182,
+    "ticks": 0,
+    "top": [],
+    "errors": 0
+  },
+  {
+    "scenario": "desktop · after scroll + controls → rest",
+    "r2": 0,
+    "cursor": 181,
+    "ticks": 0,
+    "top": [],
+    "errors": 0
+  },
+  {
+    "scenario": "desktop · reduced motion · after scroll → rest",
+    "r2": 0,
+    "cursor": 0,
+    "ticks": 0,
+    "top": [],
+    "errors": 0
+  },
+  {
+    "scenario": "mobile 390 · scroll 0.25 → rest",
+    "r2": 0,
+    "cursor": 0,
+    "ticks": 0,
+    "top": [],
+    "errors": 0
+  },
+  {
+    "scenario": "mobile 390 · scroll 0.5 → rest",
+    "r2": 0,
+    "cursor": 0,
+    "ticks": 0,
+    "top": [],
+    "errors": 0
+  },
+  {
+    "scenario": "mobile 390 · scroll 0.75 → rest",
+    "r2": 0,
+    "cursor": 0,
+    "ticks": 0,
+    "top": [],
+    "errors": 0
+  }
+]

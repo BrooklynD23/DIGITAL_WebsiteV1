@@ -1,0 +1,12 @@
+PASS  signal · r2 rAF   0 / 3 s · console errors 0 · desktop · load → rest
+PASS  signal · r2 rAF   0 / 3 s · console errors 0 · desktop · scrub pin + demos → rest (while scrolling: 57 rAF)
+PASS  signal · r2 rAF   0 / 3 s · console errors 0 · desktop · reduced motion · scroll → rest
+PASS  signal · r2 rAF   0 / 3 s · console errors 0 · mobile 390 · load → rest
+PASS  signal · r2 rAF   0 / 3 s · console errors 0 · mobile 390 · after scroll → rest
+PASS  apple · r2 rAF   0 / 3 s · console errors 0 · desktop · load → rest
+PASS  apple · r2 rAF   0 / 3 s · console errors 0 · desktop · scrub pin + demos → rest (while scrolling: 103 rAF)
+PASS  apple · r2 rAF   0 / 3 s · console errors 0 · desktop · reduced motion · scroll → rest
+PASS  apple · r2 rAF   0 / 3 s · console errors 0 · mobile 390 · load → rest
+PASS  apple · r2 rAF   0 / 3 s · console errors 0 · mobile 390 · after scroll → rest
+GATE PASS: 0 rAF at rest
+done-raf

@@ -1,0 +1,738 @@
+[
+ {
+  "path": "/design-lab/r2/apple/",
+  "load": [
+   {
+    "name": "home-stages",
+    "mode": "once",
+    "aspectProp": "16x9",
+    "status": "idle",
+    "top": 4258,
+    "h": 315,
+    "w": 560,
+    "poster": "home-stages-poster.webp",
+    "posterLoading": "lazy",
+    "video": null,
+    "button": null
+   }
+  ],
+  "perClip": [
+   {
+    "name": "home-stages",
+    "mode": "once",
+    "rafWhileScrolling": {
+     "cine": 0,
+     "other": 21
+    },
+    "afterEnter": {
+     "name": "home-stages",
+     "mode": "once",
+     "aspectProp": "16x9",
+     "status": "idle",
+     "top": 7134,
+     "h": 315,
+     "w": 560,
+     "poster": "home-stages-poster.webp",
+     "posterLoading": "lazy",
+     "video": {
+      "src": "home-stages-16x9.webm",
+      "preload": "metadata",
+      "readyState": 4,
+      "paused": true,
+      "t": 0,
+      "visible": "true"
+     },
+     "button": "Play animation"
+    },
+    "rafAtRest": {
+     "cine": 0,
+     "other": 0
+    },
+    "settled": {
+     "name": "home-stages",
+     "mode": "once",
+     "aspectProp": "16x9",
+     "status": "idle",
+     "top": 7134,
+     "h": 315,
+     "w": 560,
+     "poster": "home-stages-poster.webp",
+     "posterLoading": "lazy",
+     "video": {
+      "src": "home-stages-16x9.webm",
+      "preload": "metadata",
+      "readyState": 4,
+      "paused": true,
+      "t": 0,
+      "visible": "true"
+     },
+     "button": "Play animation"
+    }
+   }
+  ],
+  "reduced": [
+   {
+    "name": "home-stages",
+    "mode": "once",
+    "aspectProp": "16x9",
+    "status": "idle",
+    "top": 4258,
+    "h": 315,
+    "w": 560,
+    "poster": "home-stages-poster.webp",
+    "posterLoading": "lazy",
+    "video": null,
+    "button": "Play animation"
+   }
+  ],
+  "mobile": [
+   {
+    "name": "home-stages",
+    "mode": "once",
+    "aspectProp": "16x9",
+    "status": "playing",
+    "top": 7280,
+    "h": 157,
+    "w": 280,
+    "poster": "home-stages-poster.webp",
+    "posterLoading": "lazy",
+    "video": {
+     "src": "home-stages-16x9.webm",
+     "preload": "auto",
+     "readyState": 4,
+     "paused": false,
+     "t": 1.06,
+     "visible": "true"
+    },
+    "button": "Pause animation"
+   }
+  ]
+ },
+ {
+  "path": "/design-lab/r2/apple/sidekick/",
+  "load": [
+   {
+    "name": "sidekick-explode",
+    "mode": "scrub",
+    "aspectProp": "16x9",
+    "status": "idle",
+    "top": 2164,
+    "h": 497,
+    "w": 884,
+    "poster": "sidekick-explode-poster.webp",
+    "posterLoading": "lazy",
+    "video": {
+     "src": "sidekick-explode-16x9.webm",
+     "preload": "metadata",
+     "readyState": 4,
+     "paused": true,
+     "t": 0,
+     "visible": "true"
+    },
+    "button": null
+   },
+   {
+    "name": "sidekick-swap",
+    "mode": "once",
+    "aspectProp": "16x9",
+    "status": "idle",
+    "top": 12685,
+    "h": 551,
+    "w": 980,
+    "poster": "sidekick-swap-poster.webp",
+    "posterLoading": "lazy",
+    "video": {
+     "src": "sidekick-swap-16x9.webm",
+     "preload": "metadata",
+     "readyState": 4,
+     "paused": true,
+     "t": 0,
+     "visible": "true"
+    },
+    "button": "Play animation"
+   }
+  ],
+  "perClip": [
+   {
+    "name": "sidekick-explode",
+    "mode": "scrub",
+    "rafWhileScrolling": {
+     "cine": 0,
+     "other": 7
+    },
+    "rafScrubbing": {
+     "cine": 56,
+     "other": 10
+    },
+    "scrubTime": [
+     0,
+     1.786023
+    ],
+    "rafAtRest": {
+     "cine": 0,
+     "other": 0
+    },
+    "settled": {
+     "name": "sidekick-explode",
+     "mode": "scrub",
+     "aspectProp": "16x9",
+     "status": "idle",
+     "top": 3378,
+     "h": 497,
+     "w": 884,
+     "poster": "sidekick-explode-poster.webp",
+     "posterLoading": "lazy",
+     "video": {
+      "src": "sidekick-explode-16x9.webm",
+      "preload": "auto",
+      "readyState": 4,
+      "paused": true,
+      "t": 2.04,
+      "visible": "true"
+     },
+     "button": null
+    }
+   },
+   {
+    "name": "sidekick-swap",
+    "mode": "once",
+    "rafWhileScrolling": {
+     "cine": 52,
+     "other": 4
+    },
+    "afterEnter": {
+     "name": "sidekick-swap",
+     "mode": "once",
+     "aspectProp": "16x9",
+     "status": "playing",
+     "top": 12685,
+     "h": 551,
+     "w": 980,
+     "poster": "sidekick-swap-poster.webp",
+     "posterLoading": "lazy",
+     "video": {
+      "src": "sidekick-swap-16x9.webm",
+      "preload": "auto",
+      "readyState": 4,
+      "paused": false,
+      "t": 0.72,
+      "visible": "true"
+     },
+     "button": "Pause animation"
+    },
+    "rafAtRest": {
+     "cine": 0,
+     "other": 0
+    },
+    "settled": {
+     "name": "sidekick-swap",
+     "mode": "once",
+     "aspectProp": "16x9",
+     "status": "ended",
+     "top": 12685,
+     "h": 551,
+     "w": 980,
+     "poster": "sidekick-swap-poster.webp",
+     "posterLoading": "lazy",
+     "video": {
+      "src": "sidekick-swap-16x9.webm",
+      "preload": "auto",
+      "readyState": 4,
+      "paused": true,
+      "t": 4,
+      "visible": "true"
+     },
+     "button": "Replay animation"
+    }
+   }
+  ],
+  "reduced": [
+   {
+    "name": "sidekick-explode",
+    "mode": "scrub",
+    "aspectProp": "16x9",
+    "status": "idle",
+    "top": 2108,
+    "h": 497,
+    "w": 884,
+    "poster": "sidekick-explode-poster.webp",
+    "posterLoading": "lazy",
+    "video": null,
+    "button": null
+   },
+   {
+    "name": "sidekick-swap",
+    "mode": "once",
+    "aspectProp": "16x9",
+    "status": "idle",
+    "top": 5401,
+    "h": 551,
+    "w": 980,
+    "poster": "sidekick-swap-poster.webp",
+    "posterLoading": "lazy",
+    "video": null,
+    "button": "Play animation"
+   }
+  ],
+  "mobile": [
+   {
+    "name": "sidekick-explode",
+    "mode": "scrub",
+    "aspectProp": "16x9",
+    "status": "idle",
+    "top": 4537,
+    "h": 201,
+    "w": 358,
+    "poster": "sidekick-explode-poster.webp",
+    "posterLoading": "lazy",
+    "video": {
+     "src": "sidekick-explode-16x9.webm",
+     "preload": "auto",
+     "readyState": 4,
+     "paused": true,
+     "t": 6,
+     "visible": "true"
+    },
+    "button": null
+   },
+   {
+    "name": "sidekick-swap",
+    "mode": "once",
+    "aspectProp": "16x9",
+    "status": "idle",
+    "top": 10897,
+    "h": 201,
+    "w": 358,
+    "poster": "sidekick-swap-poster.webp",
+    "posterLoading": "lazy",
+    "video": {
+     "src": "sidekick-swap-16x9.webm",
+     "preload": "auto",
+     "readyState": 4,
+     "paused": true,
+     "t": 0,
+     "visible": "true"
+    },
+    "button": "Play animation"
+   }
+  ]
+ },
+ {
+  "path": "/design-lab/r2/apple/shades/",
+  "load": [
+   {
+    "name": "shades-fixate",
+    "mode": "once",
+    "aspectProp": "auto",
+    "status": "idle",
+    "top": 2077,
+    "h": 500,
+    "w": 889,
+    "poster": "shades-fixate-poster.webp",
+    "posterLoading": "lazy",
+    "video": {
+     "src": "shades-fixate-16x9.webm",
+     "preload": "metadata",
+     "readyState": 4,
+     "paused": true,
+     "t": 0,
+     "visible": "true"
+    },
+    "button": "Play animation"
+   },
+   {
+    "name": "shades-lightpath",
+    "mode": "scrub",
+    "aspectProp": "auto",
+    "status": "idle",
+    "top": 3720,
+    "h": 588,
+    "w": 1045,
+    "poster": "shades-lightpath-poster.webp",
+    "posterLoading": "lazy",
+    "video": {
+     "src": "shades-lightpath-16x9.webm",
+     "preload": "metadata",
+     "readyState": 4,
+     "paused": true,
+     "t": 6,
+     "visible": "true"
+    },
+    "button": null
+   }
+  ],
+  "perClip": [
+   {
+    "name": "shades-fixate",
+    "mode": "once",
+    "rafWhileScrolling": {
+     "cine": 0,
+     "other": 0
+    },
+    "afterEnter": {
+     "name": "shades-fixate",
+     "mode": "once",
+     "aspectProp": "auto",
+     "status": "playing",
+     "top": 2077,
+     "h": 500,
+     "w": 889,
+     "poster": "shades-fixate-poster.webp",
+     "posterLoading": "lazy",
+     "video": {
+      "src": "shades-fixate-16x9.webm",
+      "preload": "auto",
+      "readyState": 4,
+      "paused": false,
+      "t": 1.05,
+      "visible": "true"
+     },
+     "button": "Pause animation"
+    },
+    "rafAtRest": {
+     "cine": 0,
+     "other": 0
+    },
+    "settled": {
+     "name": "shades-fixate",
+     "mode": "once",
+     "aspectProp": "auto",
+     "status": "ended",
+     "top": 2077,
+     "h": 500,
+     "w": 889,
+     "poster": "shades-fixate-poster.webp",
+     "posterLoading": "lazy",
+     "video": {
+      "src": "shades-fixate-16x9.webm",
+      "preload": "auto",
+      "readyState": 4,
+      "paused": true,
+      "t": 4,
+      "visible": "true"
+     },
+     "button": "Replay animation"
+    }
+   },
+   {
+    "name": "shades-lightpath",
+    "mode": "scrub",
+    "rafWhileScrolling": {
+     "cine": 29,
+     "other": 7
+    },
+    "rafScrubbing": {
+     "cine": 57,
+     "other": 10
+    },
+    "scrubTime": [
+     0,
+     1.865417
+    ],
+    "rafAtRest": {
+     "cine": 0,
+     "other": 0
+    },
+    "settled": {
+     "name": "shades-lightpath",
+     "mode": "scrub",
+     "aspectProp": "auto",
+     "status": "idle",
+     "top": 4936,
+     "h": 588,
+     "w": 1045,
+     "poster": "shades-lightpath-poster.webp",
+     "posterLoading": "lazy",
+     "video": {
+      "src": "shades-lightpath-16x9.webm",
+      "preload": "auto",
+      "readyState": 4,
+      "paused": true,
+      "t": 2.04,
+      "visible": "true"
+     },
+     "button": null
+    }
+   }
+  ],
+  "reduced": [
+   {
+    "name": "shades-fixate",
+    "mode": "once",
+    "aspectProp": "auto",
+    "status": "idle",
+    "top": 2077,
+    "h": 500,
+    "w": 889,
+    "poster": "shades-fixate-poster.webp",
+    "posterLoading": "lazy",
+    "video": null,
+    "button": "Play animation"
+   },
+   {
+    "name": "shades-lightpath",
+    "mode": "scrub",
+    "aspectProp": "auto",
+    "status": "idle",
+    "top": 8616,
+    "h": 0,
+    "w": 0,
+    "poster": "shades-lightpath-poster.webp",
+    "posterLoading": "lazy",
+    "video": null,
+    "button": null
+   }
+  ],
+  "mobile": [
+   {
+    "name": "shades-fixate",
+    "mode": "once",
+    "aspectProp": "auto",
+    "status": "ended",
+    "top": 1949,
+    "h": 448,
+    "w": 358,
+    "poster": "shades-fixate-poster-4x5.webp",
+    "posterLoading": "lazy",
+    "video": {
+     "src": "shades-fixate-4x5.webm",
+     "preload": "auto",
+     "readyState": 4,
+     "paused": true,
+     "t": 4,
+     "visible": "true"
+    },
+    "button": "Replay animation"
+   },
+   {
+    "name": "shades-lightpath",
+    "mode": "scrub",
+    "aspectProp": "auto",
+    "status": "idle",
+    "top": 6785,
+    "h": 448,
+    "w": 358,
+    "poster": "shades-lightpath-poster-4x5.webp",
+    "posterLoading": "lazy",
+    "video": {
+     "src": "shades-lightpath-4x5.webm",
+     "preload": "auto",
+     "readyState": 4,
+     "paused": true,
+     "t": 6,
+     "visible": "true"
+    },
+    "button": null
+   }
+  ]
+ },
+ {
+  "path": "/design-lab/r2/apple/brain/",
+  "load": [
+   {
+    "name": "brain-orb",
+    "mode": "once",
+    "aspectProp": "auto",
+    "status": "playing",
+    "top": 320,
+    "h": 360,
+    "w": 640,
+    "poster": "brain-orb-poster.webp",
+    "posterLoading": "lazy",
+    "video": {
+     "src": "brain-orb-16x9.webm",
+     "preload": "auto",
+     "readyState": 4,
+     "paused": false,
+     "t": 1.61,
+     "visible": "true"
+    },
+    "button": "Pause animation"
+   },
+   {
+    "name": "brain-context",
+    "mode": "scrub",
+    "aspectProp": "auto",
+    "status": "idle",
+    "top": 4626,
+    "h": 293,
+    "w": 520,
+    "poster": "brain-context-poster.webp",
+    "posterLoading": "lazy",
+    "video": {
+     "src": "brain-context-16x9.webm",
+     "preload": "metadata",
+     "readyState": 4,
+     "paused": true,
+     "t": 0,
+     "visible": "true"
+    },
+    "button": null
+   }
+  ],
+  "perClip": [
+   {
+    "name": "brain-orb",
+    "mode": "once",
+    "rafWhileScrolling": {
+     "cine": 0,
+     "other": 0
+    },
+    "afterEnter": {
+     "name": "brain-orb",
+     "mode": "once",
+     "aspectProp": "auto",
+     "status": "playing",
+     "top": 320,
+     "h": 360,
+     "w": 640,
+     "poster": "brain-orb-poster.webp",
+     "posterLoading": "lazy",
+     "video": {
+      "src": "brain-orb-16x9.webm",
+      "preload": "auto",
+      "readyState": 4,
+      "paused": false,
+      "t": 3.68,
+      "visible": "true"
+     },
+     "button": "Pause animation"
+    },
+    "rafAtRest": {
+     "cine": 0,
+     "other": 0
+    },
+    "settled": {
+     "name": "brain-orb",
+     "mode": "once",
+     "aspectProp": "auto",
+     "status": "ended",
+     "top": 320,
+     "h": 360,
+     "w": 640,
+     "poster": "brain-orb-poster.webp",
+     "posterLoading": "lazy",
+     "video": {
+      "src": "brain-orb-16x9.webm",
+      "preload": "auto",
+      "readyState": 4,
+      "paused": true,
+      "t": 6,
+      "visible": "true"
+     },
+     "button": "Replay animation"
+    }
+   },
+   {
+    "name": "brain-context",
+    "mode": "scrub",
+    "rafWhileScrolling": {
+     "cine": 5,
+     "other": 50
+    },
+    "rafScrubbing": {
+     "cine": 52,
+     "other": 10
+    },
+    "scrubTime": [
+     0.6975,
+     5
+    ],
+    "rafAtRest": {
+     "cine": 0,
+     "other": 0
+    },
+    "settled": {
+     "name": "brain-context",
+     "mode": "scrub",
+     "aspectProp": "auto",
+     "status": "idle",
+     "top": 5037,
+     "h": 293,
+     "w": 520,
+     "poster": "brain-context-poster.webp",
+     "posterLoading": "lazy",
+     "video": {
+      "src": "brain-context-16x9.webm",
+      "preload": "auto",
+      "readyState": 4,
+      "paused": true,
+      "t": 5,
+      "visible": "true"
+     },
+     "button": null
+    }
+   }
+  ],
+  "reduced": [
+   {
+    "name": "brain-orb",
+    "mode": "once",
+    "aspectProp": "auto",
+    "status": "idle",
+    "top": 320,
+    "h": 360,
+    "w": 640,
+    "poster": "brain-orb-poster.webp",
+    "posterLoading": "lazy",
+    "video": null,
+    "button": "Play animation"
+   },
+   {
+    "name": "brain-context",
+    "mode": "scrub",
+    "aspectProp": "auto",
+    "status": "idle",
+    "top": 4989,
+    "h": 293,
+    "w": 520,
+    "poster": "brain-context-poster.webp",
+    "posterLoading": "lazy",
+    "video": null,
+    "button": null
+   }
+  ],
+  "mobile": [
+   {
+    "name": "brain-orb",
+    "mode": "once",
+    "aspectProp": "auto",
+    "status": "idle",
+    "top": 300,
+    "h": 448,
+    "w": 358,
+    "poster": "brain-orb-poster-4x5.webp",
+    "posterLoading": "lazy",
+    "video": {
+     "src": "brain-orb-4x5.webm",
+     "preload": "auto",
+     "readyState": 4,
+     "paused": true,
+     "t": 0,
+     "visible": "true"
+    },
+    "button": "Play animation"
+   },
+   {
+    "name": "brain-context",
+    "mode": "scrub",
+    "aspectProp": "auto",
+    "status": "idle",
+    "top": 4245,
+    "h": 448,
+    "w": 358,
+    "poster": "brain-context-poster-4x5.webp",
+    "posterLoading": "lazy",
+    "video": {
+     "src": "brain-context-4x5.webm",
+     "preload": "auto",
+     "readyState": 4,
+     "paused": true,
+     "t": 5,
+     "visible": "true"
+    },
+    "button": null
+   }
+  ]
+ }
+]
