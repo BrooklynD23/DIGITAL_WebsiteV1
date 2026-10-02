@@ -1,0 +1,12 @@
+import { chromium } from 'playwright';
+import { readdirSync, existsSync } from 'node:fs';
+import { join } from 'node:path';
+import { homedir } from 'node:os';
+const root = join(homedir(), '.cache', 'ms-playwright');
+const d = readdirSync(root).filter((x) => x.startsWith('chromium_headless_shell-')).sort().reverse()[0];
+const b = await chromium.launch({ executablePath: join(root, d, 'chrome-headless-shell-linux64', 'chrome-headless-shell') });
+const p = await b.newPage({ viewport: { width: Number(process.argv[2] ?? 390), height: 844 } });
+await p.goto('http://localhost:3100/design-lab/a/', { waitUntil: 'networkidle' });
+await p.waitForTimeout(1500);
+console.log(await p.evaluate(() => [...document.querySelectorAll('body *')].filter(e => e.getBoundingClientRect().right > window.innerWidth + 1).slice(0, 12).map(e => `${e.tagName}.${(e.className?.baseVal ?? e.className ?? '').toString().slice(0,40)} r=${Math.round(e.getBoundingClientRect().right)} "${(e.textContent??'').trim().slice(0,30)}"`)));
+await b.close();
