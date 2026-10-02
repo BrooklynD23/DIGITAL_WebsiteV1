@@ -18,9 +18,16 @@ const HIDE_GLOBAL_CHROME = [
   '[style*="ds-z-cursor"] { display: none !important; }',
 ].join(' ');
 
+// Lab-only: keep the production CursorProvider from starting its permanent 60/s rAF loop on r2 routes
+// (critiques: 180 callbacks / 3 s at rest). It mounts only when this exact media query matches, so on r2 paths
+// the query reports "no fine hover" to that one caller. Runs during HTML parse, before the provider's effect.
+// Production code and every other query are untouched; nothing in r2 uses this query.
+const CURSOR_OPT_OUT = `(function(){try{var q='(any-hover: hover) and (pointer: fine)';var mm=window.matchMedia.bind(window);window.matchMedia=function(s){if(s===q&&location.pathname.indexOf('/design-lab/r2')===0)return mm('not all');return mm(s);};}catch(e){}})();`;
+
 export default function Round2Layout({ children }: { readonly children: ReactNode }) {
   return (
     <>
+      <script dangerouslySetInnerHTML={{ __html: CURSOR_OPT_OUT }} />
       <style dangerouslySetInnerHTML={{ __html: HIDE_GLOBAL_CHROME }} />
       {children}
     </>

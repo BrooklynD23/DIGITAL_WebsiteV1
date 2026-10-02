@@ -38,6 +38,10 @@
   --r2-spring-effects: linear(0, 0.05, 0.158, 0.287, 0.413, 0.528, 0.626, 0.708, 0.774, 0.826, 0.868, 0.9, 0.925, 0.944, 0.958, 0.969, 0.977, 0.983, 0.987, 0.991, 0.993, 0.995, 0.996, 0.997, 1);
   --r2-spring-effects-dur: 300ms;
   --r2-reveal-y: 30px;
+  /* entrance easing used by page reveals (replaces 4 off-token cubic-bezier(0.16, 1, 0.3, 1) copies) */
+  --r2-ease-entrance: cubic-bezier(0.16, 1, 0.3, 1);
+  /* top offset for pins under the sticky chrome: Signal = its 52px strip; Apple = the 52px LocalNav */
+  --r2-sticky-top: var(--r2-nav-h);
 
   --r2-space-1: 4px;
   --r2-space-2: 8px;
@@ -161,6 +165,10 @@
   --r2-cta-ink: #ffffff;
   --r2-cta-bg-hover: #b3321f; /* red only on the CTA hover / anchor */
   --r2-cta-ink-hover: #ffffff;
+  /* global bar (dark strip above the local nav, both tones) */
+  --r2-bar-bg: #161617;
+  --r2-bar-ink: #f5f5f7;
+  --r2-bar-ink-2: #a1a1a6;
 
   /* Apple's six sizes: 80 / 56 / 48 / 28 / 21 / 17 (+12 footnote), weight 600 display */
   --r2-fs-hero: 80px;
@@ -248,8 +256,12 @@
   scrollbar-color: var(--r2-hairline-strong) var(--r2-ground);
 }
 
-/* ---------- Signal ground: oscilloscope graticule (a measuring instrument, so the grid is the world) ---------- */
+/* ---------- Signal ground: oscilloscope graticule (a measuring instrument, so the grid is the world) ----------
+   One pitch scale: data-pitch="base" (80px, default) | "fine" (40px) | "scope" (10 × 8 divisions of the box).
+   Component: <Graticule pitch> (_system/ui/Graticule.tsx). */
 .r2-graticule {
+  --r2-grat-x: 80px;
+  --r2-grat-y: 80px;
   background-color: var(--r2-ground);
   background-image:
     linear-gradient(var(--r2-graticule-major), var(--r2-graticule-major)),
@@ -259,14 +271,22 @@
   background-size:
     100% 1px,
     1px 100%,
-    100% 80px,
-    80px 100%;
+    100% var(--r2-grat-y),
+    var(--r2-grat-x) 100%;
   background-position:
     0 50%,
     50% 0,
     0 0,
     0 0;
   background-repeat: no-repeat, no-repeat, repeat, repeat;
+}
+.r2-graticule[data-pitch='fine'] {
+  --r2-grat-x: 40px;
+  --r2-grat-y: 40px;
+}
+.r2-graticule[data-pitch='scope'] {
+  --r2-grat-x: 10%;
+  --r2-grat-y: 12.5%;
 }
 
 /* ---------- scroll progress (--p) ---------- */

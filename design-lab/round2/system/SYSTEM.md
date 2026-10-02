@@ -7,12 +7,12 @@ Shared by every round-2 page in both worlds. Code: `app/design-lab/r2/_system/` 
 ```ts
 import { DotStage, DotGlyph, frame, VERBS, useScrollDrive, GlyphSeat, GLYPHS, StateMark,
          SPRING, EASE, DURATION, useScrollProgress, useReducedMotion } from '@/app/design-lab/r2/_system';
-import { fontSignal, fontApple, fontReading } from '@/app/design-lab/r2/_system/fonts'; // W0-TYPE
+import { fontSignal, fontApple, fontReadingText } from '@/app/design-lab/r2/_system/fonts'; // W0-TYPE
 ```
 
 `app/design-lab/r2/layout.tsx` already loads `tokens/worlds.css` and hides the production Navbar, Footer, skip link and crosshair cursor on every r2 route. Each page ships its own nav and skip link.
 
-**Pair a world with its font class on the page root:** `world-signal ${fontSignal}` or `world-apple ${fontApple}` (SHADES reading surfaces add `fontReading`). The font class wins `--font-display/-text/-mono` and feeds weight, stretch and `--track-*` into the type tokens.
+**Pair a world with its font class on the page root:** `world-signal ${fontSignal}` or `world-apple ${fontApple}` (SHADES pages add `fontReadingText`). The font class wins `--font-display/-text/-mono` and feeds weight, stretch and `--track-*` into the type tokens.
 
 ## 2. Dot engine (`_system/dots/`)
 
@@ -58,7 +58,7 @@ import { fontSignal, fontApple, fontReading } from '@/app/design-lab/r2/_system/
 
 There are 20 components (`GlyphSlab … GlyphEval`, also listed in `GLYPHS` with name, set and meaning), plus `<StateMark state="live|pending|stale|paused" />`.
 
-- Props: `state` (`idle` | `working` | `done`), `size` (16 inline / 24 UI / 64 tile), `label` (omit for `aria-hidden`), `live` (force the working animation on).
+- Props: `state` (`idle` | `working` | `done`), `size` (16 inline / 24 UI / 64 tile), `label` (omit for `aria-hidden`), `live` (force the working animation on), `anchor` (draw the red trigger dot; **default off**, W3a).
 - Grid: 24 units, live area 2–22. Strokes are 1px and non-scaling. Dots sit on a 2-unit pitch (r 0.75), nodes are r 1 and the anchor is r 1.5, with at most one red anchor per glyph.
 - State axis (one SVG source, read by CSS through `data-state`):
   - **idle**: dotted outline, 60% ink, rest pose.
@@ -67,6 +67,7 @@ There are 20 components (`GlyphSlab … GlyphEval`, also listed in `GLYPHS` with
   - State changes transition over 280–320ms.
 - Working motion runs only while the glyph is hovered, inside a hovered or focused `[data-glyph-host]` row, inside a host with `data-active="true"` (the active scroll entry), or when `live` is set. It is pure CSS (no JS, no rAF) and is disabled under reduced motion.
 - Honesty rule: a glyph appears only next to a real state value. Default to `idle`, and use `done` only with a source.
+- **Red rule (W3a):** no glyph draws red unless asked. `GlyphSeat` and `GlyphNight` show the open slot as a dashed ring, and `GlyphHarnessGate` draws its waiting call in ink. Pass `anchor` on the one glyph that is the viewport's trigger: Signal allows one marker per viewport, Apple uses red for the CTA hover or anchor only. Dot verbs work the same way (`anchor` opt-in); `seat` with `anchor` now fills the open slot at seat size inside a ring.
 
 ## 4. Tokens (`_system/tokens/`)
 
@@ -92,16 +93,41 @@ There are 20 components (`GlyphSlab … GlyphEval`, also listed in `GLYPHS` with
 | Red | `--r2-trigger` is the single marker only. Red text, if unavoidable, uses `--r2-trigger-ink` `#ef6a55` (6.4:1; a darker red fails on near-black) | CTA hover / anchor only: `--r2-cta-bg-hover` `#b3321f` (6.2:1 with white text) |
 | CTA | none filled | `--r2-cta-bg/ink`, one filled CTA in the 52px local nav |
 
-## 5. Performance rules (hard gates)
+## 5. W3a shared pieces and migration (page agents)
 
-1. **0 rAF callbacks at rest.** Verify with `node design-lab/scripts/r2-sys-raf.mjs <route>`, which attributes callbacks and separates out the production cursor loop.
+| Was (page copy) | Now | Import |
+|---|---|---|
+| Hand-built Apple local navs (`apple/sidekick`, `apple/shades`) | `<LocalNav title titleHref links utility? cta? tone?>`: `utility` slot, mobile section menu (≤734px), 44px CTA target | `../../_chrome` |
+| 4 CTA labels / destinations | Omit `cta` and every page gets `LOCAL_CTA`, "Join build night" → `#join` | `../../_chrome` |
+| WorldNav always showed Join; Signal was always sticky | `<WorldNav world current sticky? join?>`. Pages that have a LocalNav pass `join={false}`. `sticky` is per world (Signal: keep true everywhere) | `../../_chrome` |
+| 8 join endings | `<JoinChapter world id? headline? lead? primary? secondary? visual? trigger? backers? primaryStyle?>`. Club facts plus a "Back a build" row (`/contact?type=sponsor`, `recruit`, `workshop`, `donate`). Signal uses an outlined action. Apple uses a chevron link, so the LocalNav pill is the page's one filled CTA. `children` takes a page's seat rows | `../../_chrome` |
+| Hardcoded club facts / Discord URL | `CLUB`, `BACKER_PATHS` (from `lib/data/siteConfig` and `involvement`) | `../../_chrome` |
+| `_home` usePlayOnEntry, `_shades/PlayOnce`, FixateClip, SwapClip, HeroStage | `usePlayOnEntry(ref, stageRef \| fn, { threshold, armBelowFold, delay })`, `<PlayOnce>` (CSS `data-run`), `<PlayOnceStage verb …>` | `../../_system` |
+| `useStageScrub`, `useStackDrive`, ApplePinned, SignalTeardown drives | `useScrollSteps(pinRef, { count, lead, playShare, onFrame, onStep })` gives `{ enhanced, active, jumpTo, scrollToProgress }`, plus pure `stepAt` / `stepRestPoint`. Not enhanced (reduced motion, pre-hydration) calls nothing: render the static layout | `../../_system` |
+| 4 highlights strips | `<Highlights items={[{ id, media, title, caption }]} title? id? label?>` (Apple world; snap-x, edge-disabled 44px arrows) | `../../_system` |
+| 4 graticules at 3 pitches | `<Graticule pitch="base\|fine\|scope">`, or `className="r2-graticule" data-pitch="…"` | `../../_system` |
+| Inline chevron / play SVGs | `<Chevron dir>`, `<PlayMark playing>` | `../../_system` |
+| `_brain/SceneStage` canvas contract | `<DotStage verb scene={(t, opts) => Frame}>` (client-side only, since functions can't cross the server boundary) | `../../_system` |
+| BRAIN math | `paintFrame`, `project`, `fibDir`, `seg`, `dot`, `line`, `lerp`, `clamp`, `hash`, `easeInOut`, `coreOrb`, `latticeDisc`, `insideFrame` | `../../_system` |
+| `atkinsonNext.variable` + page `--font-read` | `fontReadingText`: Atkinson for `--font-text` / `--font-read` only, keeping the world's display face and mono | `../../_system/fonts` |
+| Off-token easing, hand-computed pin tops | `--r2-ease-entrance`, `--r2-sticky-top` | worlds.css |
+
+Also in W3a:
+- Monaspace Krypton is now a Latin subset: 445 KB down to 41 KB, with the texture-healing alternates dropped.
+- WorldNav and WorldFooter links use `prefetch={false}`.
+- The production cursor's rAF loop is opted out on r2 routes. The r2 layout makes its one media query report no match, so that loop now runs 0 callbacks at rest.
+- A one-pass stage that scrolls offscreen completes to its rest pose instead of freezing mid-motion.
+
+## 6. Performance rules (hard gates)
+
+1. **0 rAF callbacks at rest.** Verify with `node design-lab/scripts/r2-sys-raf.mjs <route> [--rest-only] [--settle=ms]`, which attributes callbacks and separates out the production cursor loop. Pages with a timed intro (BRAIN hero, about 6 s) need `--settle=9000`. Use `r2-sys-routes.mjs` to sweep all 8 routes for console errors.
 2. A stage runs only during a time drive, an interaction or a scroll drive. It sleeps when settled, offscreen (IntersectionObserver), in a hidden tab, or under reduced motion.
 3. At most one moving glyph or stage per viewport on real pages. Never loop ambiently.
 4. Keep ≤1,200 dots per stage, with DPR capped at 2. Prefer `DotGlyph` under 96px.
 5. Scroll work uses CSS `view()` first. JS fallbacks use one listener, coalesced, with no layout reads outside the ticker frame.
 6. Animate compositor properties only (transform, opacity). Never animate top, left, width or blur in a scroll path.
 
-## 6. Accessibility rules
+## 7. Accessibility rules
 
 1. Reduced motion is a designed state: stages show the rest pose, `play()` jump-cuts to rest, scroll drives pin to rest, glyph animations and reveals are off, and content is identical.
 2. No-JS: the DotStage server HTML is the SVG rest pose. Glyphs are static SVG, and reveals are visible by default.

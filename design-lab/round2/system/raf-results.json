@@ -2,7 +2,7 @@
   {
     "scenario": "desktop · load → rest",
     "r2": 0,
-    "cursor": 179,
+    "cursor": 0,
     "ticks": 0,
     "top": [],
     "errors": 0
@@ -10,22 +10,22 @@
   {
     "scenario": "desktop · after interaction → rest",
     "r2": 0,
-    "cursor": 180,
+    "cursor": 0,
     "ticks": 0,
     "top": [],
     "during": {
       "playing": {
-        "r2": 36,
-        "cursor": 36,
+        "r2": 35,
+        "cursor": 0,
         "ticks": 1,
         "top": [
           [
             "at loop (webpack-internal:///(app-pages-browser)/./app/design-lab/r2/_system/dots/ticker.ts:29:33) <- at <anonymous>:18:7",
-            36
+            35
           ]
         ]
       },
-      "scroll": 36
+      "scroll": 35
     },
     "errors": 0
   },

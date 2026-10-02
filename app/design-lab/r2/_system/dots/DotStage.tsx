@@ -24,7 +24,7 @@ import { REST_T, frame, verbSpec } from './engine';
 import { clamp } from './math';
 import { paintFrame, type Inks } from './paint';
 import { insideFrame, once, subscribe } from './ticker';
-import type { FrameOpts, Verb } from './types';
+import type { Frame, FrameOpts, Verb } from './types';
 import s from './stage.module.css';
 
 export interface DotStageHandle {
@@ -62,6 +62,12 @@ export interface DotStageProps extends FrameOpts {
   readonly className?: string;
   readonly style?: CSSProperties;
   readonly onSettle?: () => void;
+  /**
+   * Composed scene: replaces the verb lookup with your own pure, deterministic (t, opts) → Frame
+   * (dots z-sorted, ≤1,200). Keeps the whole stage contract (shared ticker, sleep rules, SSR rest pose at
+   * the initial t, reduced motion). `verb` still names the stage for its default label.
+   */
+  readonly scene?: (t: number, opts: FrameOpts) => Frame;
 }
 
 const MAX_SIZE = 600;
@@ -81,6 +87,7 @@ function DotStageInner(props: DotStageProps, ref: ForwardedRef<DotStageHandle>) 
     className,
     style,
     onSettle,
+    scene,
     seed,
     density,
     shape,
@@ -99,8 +106,8 @@ function DotStageInner(props: DotStageProps, ref: ForwardedRef<DotStageHandle>) 
 
   const wrapRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const live = useRef({ verb, opts, duration: duration ?? spec.duration, loop, onSettle });
-  live.current = { verb, opts, duration: duration ?? spec.duration, loop, onSettle };
+  const live = useRef({ verb, opts, duration: duration ?? spec.duration, loop, onSettle, scene });
+  live.current = { verb, opts, duration: duration ?? spec.duration, loop, onSettle, scene };
 
   const st = useRef({
     t: clamp(progress ?? initialT),
@@ -134,8 +141,8 @@ function DotStageInner(props: DotStageProps, ref: ForwardedRef<DotStageHandle>) 
       return;
     }
     S.inks ??= readInks();
-    const { verb: v, opts: o } = live.current;
-    paintFrame(ctx, frame(v, S.t, o), o.size ?? 320, S.dpr, S.inks);
+    const { verb: v, opts: o, scene: sc } = live.current;
+    paintFrame(ctx, sc ? sc(S.t, o) : frame(v, S.t, o), o.size ?? 320, S.dpr, S.inks);
     S.dirty = false;
     if (wrapRef.current && !wrapRef.current.dataset.ready) wrapRef.current.dataset.ready = 'true';
   }, [readInks]);
@@ -286,7 +293,17 @@ function DotStageInner(props: DotStageProps, ref: ForwardedRef<DotStageHandle>) 
         if (S.visible) {
           if (S.dirty) draw();
           ensureTick();
-        } else halt();
+        } else {
+          halt();
+          // A one-pass drive (or a settle) that leaves the screen completes to its rest pose instead of
+          // freezing mid-motion; loops just pause and resume on re-entry.
+          if (S.mode === 'settling' || (S.mode === 'playing' && !S.loop)) {
+            S.mode = 'idle';
+            S.t = REST_T;
+            S.dirty = true;
+            live.current.onSettle?.();
+          }
+        }
       },
       { rootMargin: '64px' },
     );
@@ -312,7 +329,7 @@ function DotStageInner(props: DotStageProps, ref: ForwardedRef<DotStageHandle>) 
   // Verb / options changed: repaint synchronously at the current t.
   useEffect(() => {
     draw();
-  }, [verb, opts, draw]);
+  }, [verb, opts, scene, draw]);
 
   // Controlled drives.
   useEffect(() => {
@@ -354,7 +371,14 @@ function DotStageInner(props: DotStageProps, ref: ForwardedRef<DotStageHandle>) 
       aria-label={label ?? `${spec.label}: ${spec.means}`}
       data-verb={verb}
     >
-      <DotGlyph verb={verb} t={progress ?? initialT} {...opts} size={size} className={s.fallback} />
+      <DotGlyph
+        verb={verb}
+        t={progress ?? initialT}
+        {...opts}
+        size={size}
+        className={s.fallback}
+        frameData={scene ? scene(progress ?? initialT, opts) : undefined}
+      />
       <canvas ref={canvasRef} className={s.canvas} aria-hidden="true" />
     </div>
   );

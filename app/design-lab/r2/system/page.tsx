@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { fontSignal } from '../_system/fonts';
 import { VERBS } from '../_system/dots/engine';
 import { GLYPHS } from '../_system/icons/glyphs';
+import { ChromeDemo } from './_parts/ChromeDemo';
 import { IconMatrix, StateMarks } from './_parts/IconMatrix';
 import { MotionDemo } from './_parts/MotionDemo';
 import { Renderers } from './_parts/Renderers';
@@ -22,6 +23,7 @@ const SECTIONS = [
   ['icons', 'Glyphs'],
   ['motion', 'Motion'],
   ['worlds', 'Worlds'],
+  ['chrome', 'Chrome'],
 ] as const;
 
 export default function SystemSpecimen() {
@@ -131,7 +133,7 @@ export default function SystemSpecimen() {
           </div>
         </section>
 
-        <section id="worlds" className={`${s.section} ${s.sectionFlush}`} aria-labelledby="worlds-h">
+        <section id="worlds" className={s.section} aria-labelledby="worlds-h">
           <div className={s.wrap}>
             <h2 id="worlds-h" className={s.h2}>
               Two worlds, one vocabulary
@@ -141,6 +143,19 @@ export default function SystemSpecimen() {
             </p>
           </div>
           <Worlds />
+        </section>
+
+        <section id="chrome" className={`${s.section} ${s.sectionFlush}`} aria-labelledby="chrome-h">
+          <div className={s.wrap}>
+            <h2 id="chrome-h" className={s.h2}>
+              Shared chrome
+            </h2>
+            <p className={s.sectionLead}>
+              LocalNav with a utility slot and the one CTA, the Highlights strip, JoinChapter in both worlds, and the
+              graticule pitch scale.
+            </p>
+          </div>
+          <ChromeDemo />
         </section>
       </div>
     </div>

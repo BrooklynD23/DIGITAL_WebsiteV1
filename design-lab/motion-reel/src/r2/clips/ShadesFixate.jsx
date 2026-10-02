@@ -1,5 +1,5 @@
 import { AbsoluteFill, useCurrentFrame, useVideoConfig } from 'remotion';
-import { C } from '../tokens.js';
+import { useC } from '../tokens.js';
 import { FONT } from '../fonts.js';
 import { DotLayer, Stage } from '../DotLayer.jsx';
 import { frame as engineFrame, clamp, easeOut } from '../engine.js';
@@ -15,6 +15,7 @@ const ENGINE = 560;
 const WORD = ['f', 'o', 'cus']; // ORP = 2nd letter of a 5-letter word (≈ 35% in)
 
 export const ShadesFixate = () => {
+  const C = useC();
   const fr = useCurrentFrame();
   const { width, height } = useVideoConfig();
   const tall = height > width;
@@ -27,10 +28,12 @@ export const ShadesFixate = () => {
   // the centre point hands over to the word: hide the engine's point dot as the word arrives
   const dots = f.dots.filter((d) => !(Math.abs(d.x) < 1e-6 && Math.abs(d.y) < 1e-6) || land < 0.5);
   const size = tall ? 84 : 88;
+  // the horizontal reticle ticks sit in the word's line: fade them out as the word lands so they never read as dashes
+  const lines = f.lines.map((l) => (Math.abs(l.y1) < 1e-6 && Math.abs(l.y2) < 1e-6 ? { ...l, a: l.a * (1 - land) } : l));
   return (
     <AbsoluteFill style={{ background: C.ground }}>
       <Stage width={width} height={height}>
-        <DotLayer f={{ dots, lines: f.lines }} cx={cx} cy={cy} size={draw} k={draw / ENGINE} stroke={1.4} />
+        <DotLayer f={{ dots, lines }} cx={cx} cy={cy} size={draw} k={draw / ENGINE} stroke={1.4} />
       </Stage>
       {land > 0 && (
         <div

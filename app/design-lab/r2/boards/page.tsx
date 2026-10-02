@@ -1,5 +1,5 @@
-import { allBoards, thermometerSummary, BoardSvg } from '../_system/boards';
-import type { BoardData } from '../_system/boards';
+import { allBoards, getBoard, thermometerSummary, BoardSvg, BoardLayers } from '../_system/boards';
+import type { BoardData, LayerBoardId } from '../_system/boards';
 import { BoardExplorer } from './BoardExplorer';
 import s from './boards.module.css';
 
@@ -24,17 +24,17 @@ function BoardSpecimen({ board }: { readonly board: BoardData }) {
       </header>
       <div className={s.views}>
         <figure className={s.fig}>
-          <BoardSvg board={board} parked stableFrame={false} className={s.svg} />
+          <BoardLayers board={board.id as LayerBoardId} proj="flat" stableFrame={false} />
           <figcaption>
-            Flat · top view, both copper layers{c.parked ? ` · incl. ${c.parked} parked parts (right)` : ''}
+            Flat · top view, both copper layers{c.parked ? ` · ${c.parked} parked parts not drawn` : ''}
           </figcaption>
         </figure>
         <figure className={s.fig}>
-          <BoardSvg board={board} iso stableFrame={false} className={s.svg} />
+          <BoardLayers board={board.id as LayerBoardId} stableFrame={false} />
           <figcaption>Isometric · assembled</figcaption>
         </figure>
         <figure className={s.fig}>
-          <BoardExplorer board={board} />
+          <BoardExplorer board={board.id as LayerBoardId} />
           <figcaption>Exploded · drag to separate layers</figcaption>
         </figure>
       </div>
@@ -53,6 +53,11 @@ export default function BoardsSpecimenPage() {
           <p className={s.lede}>
             Outline, copper, pads, vias and silkscreen are parsed from the club&apos;s KiCad 9 board files. Nothing here
             is hand-drawn. Personal fields, values and text were stripped at conversion.
+          </p>
+          <p className={s.lede}>
+            Drawn with <code>BoardLayers</code>: one cached SVG file per layer, one composited box per layer. Scroll
+            benches: <a href="/design-lab/r2/boards/bench-layers/">BoardLayers</a> ·{' '}
+            <a href="/design-lab/r2/boards/bench-svg/">BoardSvg (old path)</a>.
           </p>
         </header>
         {allBoards.map((b) => (
@@ -84,10 +89,24 @@ export default function BoardsSpecimenPage() {
         <div className={s.lightRow}>
           {allBoards.map((b) => (
             <figure key={b.id} className={s.fig}>
-              <BoardSvg board={b} iso explode={0.55} state="copper" className={s.svg} />
+              <BoardLayers board={b.id as LayerBoardId} explode={0.55} state="copper" />
               <figcaption>{b.title} · exploded 0.55 · focus: copper</figcaption>
             </figure>
           ))}
+        </div>
+        <header className={s.intro} style={{ marginTop: 64 }}>
+          <p className={s.eyebrow}>Parity check · fingerprint module</p>
+          <h2 className={s.h2}>Inline BoardSvg (left) vs file-backed BoardLayers (right)</h2>
+        </header>
+        <div className={s.lightRow}>
+          <figure className={s.fig} style={{ maxWidth: 420 }}>
+            <BoardSvg board={getBoard('fingerprint')} stableFrame={false} className={s.svg} />
+            <figcaption>BoardSvg · inline paths · keep for small static figures</figcaption>
+          </figure>
+          <figure className={s.fig} style={{ maxWidth: 420 }}>
+            <BoardLayers board="fingerprint" proj="flat" stableFrame={false} />
+            <figcaption>BoardLayers · per-layer files · use for large or animated figures</figcaption>
+          </figure>
         </div>
       </div>
     </main>

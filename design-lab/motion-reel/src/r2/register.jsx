@@ -1,6 +1,6 @@
 import { Composition } from 'remotion';
 import './fonts.js';
-import { ASPECTS, FPS } from './tokens.js';
+import { ASPECTS, FPS, PALETTES, PaletteContext, WORLDS } from './tokens.js';
 import { HomeStages, HOME_STAGES_FRAMES } from './clips/HomeStages.jsx';
 import { SidekickExplode, SIDEKICK_EXPLODE_FRAMES } from './clips/SidekickExplode.jsx';
 import { SidekickSwap, SIDEKICK_SWAP_FRAMES } from './clips/SidekickSwap.jsx';
@@ -21,13 +21,29 @@ export const CLIPS = [
   { name: 'brain-context', component: BrainContext, frames: BRAIN_CONTEXT_FRAMES },
 ];
 
+/** Wrap a clip so it renders with one world's palette. */
+const inWorld = (Component, world) => {
+  const Wrapped = () => (
+    <PaletteContext.Provider value={PALETTES[world]}>
+      <Component />
+    </PaletteContext.Provider>
+  );
+  Wrapped.displayName = `${Component.name}-${world}`;
+  return Wrapped;
+};
+
+/** Composition id: signal keeps the original ids (<name>--<aspect>); apple = <name>--apple--<aspect>. */
+export const compId = (name, world, aspect) => (world === 'signal' ? `${name}--${aspect}` : `${name}--${world}--${aspect}`);
+
+const VARIANTS = CLIPS.flatMap((c) => WORLDS.map((world) => ({ ...c, world, component: inWorld(c.component, world) })));
+
 export const R2Compositions = () => (
   <>
-    {CLIPS.flatMap((c) =>
+    {VARIANTS.flatMap((c) =>
       Object.entries(ASPECTS).map(([aspect, { width, height }]) => (
         <Composition
-          key={`${c.name}--${aspect}`}
-          id={`${c.name}--${aspect}`}
+          key={compId(c.name, c.world, aspect)}
+          id={compId(c.name, c.world, aspect)}
           component={c.component}
           durationInFrames={c.frames}
           fps={FPS}

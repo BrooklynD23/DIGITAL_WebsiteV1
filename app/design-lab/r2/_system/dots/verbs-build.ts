@@ -272,8 +272,9 @@ export function seat(t: number, c: VerbContext): Frame {
   pts.forEach(([x, y], i) => {
     if (i === 0) {
       dots.push(dot(x, y, c.r * 2.2, 0.9 * (1 - e)));
-      dots.push(dot(x, y, c.r * 2.6, 0.85 * e, 'hollow'));
-      if (c.opts.anchor && e > 0.5) dots.push(dot(x, y, c.r * 1.3, (e - 0.5) * 2, 'anchor'));
+      // Open slot: a dashed ring. With `anchor`, the red trigger fills the slot at seat size, ring around it.
+      dots.push(dot(x, y, c.r * (c.opts.anchor ? 3.4 : 2.6), 0.85 * e, 'hollow'));
+      if (c.opts.anchor && e > 0.5) dots.push(dot(x, y, c.r * 2.2, (e - 0.5) * 2, 'anchor'));
     } else {
       dots.push(dot(x, y, c.r * 2.2, 0.9));
     }

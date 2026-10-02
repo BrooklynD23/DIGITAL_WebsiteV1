@@ -1,8 +1,9 @@
 import Link from 'next/link';
+import { CLUB } from './club';
 import { PAGES, href, type World } from './routes';
 import styles from './chrome.module.css';
 
-// Shared footer for both r2 worlds. Owner: W1-HOME. Exported API is stable: { world }.
+// Shared footer for both r2 worlds. Owner: W1-HOME (refined W3a). Exported API is stable: { world }. Facts from ./club.
 export function WorldFooter({ world }: { readonly world: World }) {
   return (
     <footer className={styles.footer} data-chrome="footer" data-world-chrome={world}>
@@ -11,18 +12,18 @@ export function WorldFooter({ world }: { readonly world: World }) {
         <ul className={styles.footLinks}>
           {PAGES.map((p) => (
             <li key={p.id}>
-              <Link href={href(world, p.id)}>
+              <Link href={href(world, p.id)} prefetch={false}>
                 {world === 'signal' && p.channel ? <span className={styles.channel}>{p.channel}</span> : null}
                 {p.label}
               </Link>
             </li>
           ))}
           <li>
-            <a href="https://discord.gg/Vsg3qcNVzv" rel="noopener noreferrer" target="_blank">Discord</a>
+            <a href={CLUB.discord} rel="noopener noreferrer" target="_blank">Discord</a>
           </li>
         </ul>
         <p className={styles.meta}>
-          <span>Build night · Thursdays 6:00 PM · Building 17, Room 1635</span>
+          <span>Build night · {CLUB.when} · {CLUB.where}</span>
           <span>DIGITAL @ Cal Poly Pomona · design lab, round 2 · not production</span>
         </p>
       </div>

@@ -123,3 +123,100 @@ export function useReducedMotion(): boolean {
   }, []);
   return reduced;
 }
+
+/* ------------------------------------------------------------------ pinned steps */
+
+export interface StepAt {
+  /** Active step index. */
+  readonly i: number;
+  /** Local progress inside the step's play window, 0..1 (1 = the step's rest pose). */
+  readonly t: number;
+}
+
+export interface StepOptions {
+  /** Steps in the pin. */
+  readonly count: number;
+  /** Share of the pin held before step 0 starts (hero hold). Default 0. */
+  readonly lead?: number;
+  /** Share of each step spent playing; the rest holds the rest pose. Default 0.72. */
+  readonly playShare?: number;
+}
+
+/** Pure: pin progress p → { step, local t }. Converges the 4 hand-rolled page drives (home, sidekick ×2, teardown). */
+export function stepAt(p: number, { count, lead = 0, playShare = 0.72 }: StepOptions): StepAt {
+  if (p < lead) return { i: 0, t: 0 };
+  const seg = (1 - lead) / count;
+  const i = Math.min(count - 1, Math.floor((p - lead) / seg));
+  const u = (p - lead - i * seg) / seg;
+  return { i, t: Math.min(1, Math.max(0, u / playShare)) };
+}
+
+/** Pure: progress at which step i has just reached its rest pose (jump buttons, timebase ticks). */
+export function stepRestPoint(i: number, { count, lead = 0, playShare = 0.72 }: StepOptions): number {
+  const seg = (1 - lead) / count;
+  return Math.min(1, lead + (i + playShare + 0.06) * seg);
+}
+
+export interface ScrollSteps {
+  /** True with JS and without reduced motion. False = render the static (collapsed, all-visible) layout. */
+  readonly enhanced: boolean;
+  /** Active step (React state; changes only when the step changes, never per frame). */
+  readonly active: number;
+  /** Scroll the page so the pin sits at progress p. */
+  readonly scrollToProgress: (p: number, smooth?: boolean) => void;
+  /** Scroll to step i's rest point. */
+  readonly jumpTo: (i: number) => void;
+}
+
+/**
+ * useScrollSteps(pinRef, { count, lead, playShare, onStep, onFrame })
+ * - onFrame(p, at) runs inside the shared ticker frame on every scroll frame while the pin is near view.
+ * - onStep(i, prev) runs once per step change (settle the departing stage here).
+ * - When not enhanced (reduced motion / before hydration) NOTHING is called: the page shows its static layout.
+ *   (Fixes the home P0 where the static branch reported p = 1 and pages read it as "left the hero".)
+ * Range is 'contain' (pin). 0 rAF at rest.
+ */
+export function useScrollSteps<T extends HTMLElement>(
+  pin: RefObject<T>,
+  options: StepOptions & {
+    readonly onFrame?: (p: number, at: StepAt) => void;
+    readonly onStep?: (i: number, prev: number) => void;
+    readonly cssVar?: string | false;
+  },
+): ScrollSteps {
+  const reduced = useReducedMotion();
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => setHydrated(true), []);
+  const enhanced = hydrated && !reduced;
+  const [active, setActive] = useState(0);
+  const activeRef = useRef(0);
+  const opt = useRef(options);
+  opt.current = options;
+
+  const onProgress = enhanced
+    ? (p: number): void => {
+        const o = opt.current;
+        const at = stepAt(p, o);
+        if (at.i !== activeRef.current) {
+          const prev = activeRef.current;
+          activeRef.current = at.i;
+          setActive(at.i);
+          o.onStep?.(at.i, prev);
+        }
+        o.onFrame?.(p, at);
+      }
+    : undefined;
+  useScrollProgress(pin, { range: 'contain', onProgress, cssVar: options.cssVar });
+
+  const scrollToProgress = (p: number, smooth = true): void => {
+    const el = pin.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const top = window.scrollY + rect.top + Math.max(0, rect.height - window.innerHeight) * p;
+    const r = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top: Math.round(top), behavior: r || !smooth ? 'auto' : 'smooth' });
+  };
+  const jumpTo = (i: number): void => scrollToProgress(stepRestPoint(i, opt.current));
+
+  return { enhanced, active, scrollToProgress, jumpTo };
+}

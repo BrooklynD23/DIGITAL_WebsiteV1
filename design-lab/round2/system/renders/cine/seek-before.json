@@ -1,0 +1,98 @@
+[
+  {
+    "file": "brain-context-16x9.mp4",
+    "size": "1920x1080",
+    "mb": 0.57,
+    "median": 33.9,
+    "p90": 54.5,
+    "max": 71
+  },
+  {
+    "file": "brain-context-16x9.webm",
+    "size": "1920x1080",
+    "mb": 0.47,
+    "median": 25.6,
+    "p90": 42.6,
+    "max": 53.1
+  },
+  {
+    "file": "brain-context-4x5.mp4",
+    "size": "1080x1350",
+    "mb": 0.54,
+    "median": 32.9,
+    "p90": 45.3,
+    "max": 57
+  },
+  {
+    "file": "brain-context-4x5.webm",
+    "size": "1080x1350",
+    "mb": 0.45,
+    "median": 31.8,
+    "p90": 50.7,
+    "max": 60
+  },
+  {
+    "file": "shades-lightpath-16x9.mp4",
+    "size": "1920x1080",
+    "mb": 0.34,
+    "median": 33.1,
+    "p90": 45.5,
+    "max": 55.9
+  },
+  {
+    "file": "shades-lightpath-16x9.webm",
+    "size": "1920x1080",
+    "mb": 0.28,
+    "median": 20.9,
+    "p90": 39.4,
+    "max": 56.2
+  },
+  {
+    "file": "shades-lightpath-4x5.mp4",
+    "size": "1080x1350",
+    "mb": 0.36,
+    "median": 25.5,
+    "p90": 36.1,
+    "max": 48.3
+  },
+  {
+    "file": "shades-lightpath-4x5.webm",
+    "size": "1080x1350",
+    "mb": 0.31,
+    "median": 18.3,
+    "p90": 25.6,
+    "max": 33.6
+  },
+  {
+    "file": "sidekick-explode-16x9.mp4",
+    "size": "1920x1080",
+    "mb": 1.21,
+    "median": 46.1,
+    "p90": 94.3,
+    "max": 125.7
+  },
+  {
+    "file": "sidekick-explode-16x9.webm",
+    "size": "1920x1080",
+    "mb": 1.37,
+    "median": 45.9,
+    "p90": 79.5,
+    "max": 100
+  },
+  {
+    "file": "sidekick-explode-4x5.mp4",
+    "size": "1080x1350",
+    "mb": 1.43,
+    "median": 40.9,
+    "p90": 60.4,
+    "max": 63.9
+  },
+  {
+    "file": "sidekick-explode-4x5.webm",
+    "size": "1080x1350",
+    "mb": 1.19,
+    "median": 32.5,
+    "p90": 48.6,
+    "max": 52.5
+  }
+]

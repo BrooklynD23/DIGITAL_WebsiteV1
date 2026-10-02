@@ -1,20 +1,23 @@
 import { AbsoluteFill, useCurrentFrame, useVideoConfig } from 'remotion';
-import { C } from '../tokens.js';
+import { useC } from '../tokens.js';
 import { FONT } from '../fonts.js';
 import { Stage } from '../DotLayer.jsx';
 import { TAU, clamp, easeOut, lerp } from '../engine.js';
 
 // shades-lightpath (6 s, scrub): the SHADES signal path as a line/dot diagram.
-//   text → RSVP timing → control → display → optics → the eye's fixation point
+//   text source → word timing (FPGA chip + word clock) → control (handheld pill) → display → optics →
+//   the eye's fixation point. Matches the page's SVG fallback (_shades/LightPath.tsx) and copy.
 // A word packet runs the leader at constant speed; the leader turns from dotted (planned) to solid
 // (live) behind it and each stage's outline goes from dotted to solid as it is reached.
 // Built for scrubbing: one monotonic motion, no cuts. Rest (last frame) = path live, fixation marked red.
 
 export const SHADES_LIGHTPATH_FRAMES = 180;
 
-const STAGES = ['TEXT', 'RSVP TIMING', 'CONTROL', 'DISPLAY', 'OPTICS', 'FIXATION'];
+const STAGES = ['TEXT SOURCE', 'WORD TIMING', 'CONTROL', 'DISPLAY', 'OPTICS', 'FIXATION POINT'];
 const START = 14;
 const END = 160;
+/** Arrival of the packet at stage i, as a fraction of the clip (frame / 180). Mirrored in the manifest `markers`. */
+export const SHADES_LIGHTPATH_MARKERS = STAGES.map((_, i) => +((START + ((END - START) * i) / 5) / SHADES_LIGHTPATH_FRAMES).toFixed(4));
 
 /** Node centres along the path: a row (16:9) or a gentle zig-zag column (4:5). */
 function nodes(width, height) {
@@ -36,6 +39,7 @@ const ink = (a, lo = 0.35) => lerp(lo, 1, a);
 const dash = (a) => (a >= 1 ? undefined : '2 5');
 
 function Text({ a }) {
+  const C = useC();
   const rows = [9, 11, 8, 10, 6];
   return (
     <g>
@@ -49,39 +53,48 @@ function Text({ a }) {
 }
 
 function Timing({ a, p }) {
-  // a word clock: ticks at a fixed interval; the active tick advances with the packet
-  const active = Math.floor(clamp(p * 5 - 1, 0, 0.999) * 7 * 4) % 7;
+  // word timing on the FPGA: a QFP chip, with the word clock (a pulse train) running under it
+  const C = useC();
+  const pins = [-24, -12, 0, 12, 24];
+  const phase = clamp(p * 5 - 1, 0, 1); // pulse train scrolls while the packet sits here
+  const train = Array.from({ length: 5 }, (_, k) => -40 + k * 20 - (phase * 20) % 20);
   return (
     <g>
-      <line x1={-60} y1={0} x2={60} y2={0} stroke={C.ink} strokeOpacity={ink(a, 0.3)} strokeWidth={1.5} strokeDasharray={dash(a)} />
-      {Array.from({ length: 7 }, (_, k) => {
-        const x = -60 + k * 20;
-        const hot = a > 0 && a < 1.01 && k === active && p < 0.42;
-        return <line key={k} x1={x} y1={-14} x2={x} y2={14} stroke={C.ink} strokeOpacity={hot ? 1 : ink(a, 0.3) * 0.8} strokeWidth={hot ? 3 : 1.5} />;
-      })}
+      <g fill="none" stroke={C.ink} strokeWidth={1.5} strokeOpacity={ink(a)}>
+        {pins.map((d) => (
+          <g key={d}>
+            <line x1={d} y1={-36} x2={d} y2={-46} />
+            <line x1={d} y1={36} x2={d} y2={46} />
+            <line x1={-36} y1={d} x2={-46} y2={d} />
+            <line x1={36} y1={d} x2={46} y2={d} />
+          </g>
+        ))}
+        <rect x={-36} y={-36} width={72} height={72} rx={3} strokeDasharray={dash(a)} />
+        <rect x={-16} y={-16} width={32} height={32} strokeOpacity={ink(a) * 0.6} />
+      </g>
+      <g stroke={C.ink} strokeWidth={1.5} strokeOpacity={ink(a, 0.3)} fill="none" strokeLinejoin="round">
+        <path d={train.map((x) => `M${x} 74h6v-10h8v10h6`).join('')} />
+      </g>
     </g>
   );
 }
 
 function Control({ a }) {
-  const pins = [-24, -8, 8, 24];
+  // the reader's handheld control: a rounded pill with pause and play buttons
+  const C = useC();
   return (
     <g fill="none" stroke={C.ink} strokeWidth={1.5} strokeOpacity={ink(a)}>
-      <rect x={-38} y={-38} width={76} height={76} rx={6} strokeDasharray={dash(a)} />
-      {pins.map((d) => (
-        <g key={d}>
-          <line x1={d} y1={-38} x2={d} y2={-50} />
-          <line x1={d} y1={38} x2={d} y2={50} />
-          <line x1={-38} y1={d} x2={-50} y2={d} />
-          <line x1={38} y1={d} x2={50} y2={d} />
-        </g>
-      ))}
-      <circle cx={0} cy={0} r={5} fill={C.ink} fillOpacity={ink(a)} stroke="none" />
+      <rect x={-52} y={-28} width={104} height={56} rx={28} strokeDasharray={dash(a)} />
+      <circle cx={-18} cy={0} r={13} />
+      <circle cx={18} cy={0} r={13} />
+      <path d="M-22 -5v10M-14 -5v10" strokeLinecap="round" />
+      <path d="M14 -6l9 6-9 6z" fill={C.ink} fillOpacity={ink(a)} stroke="none" />
     </g>
   );
 }
 
 function Display({ a }) {
+  const C = useC();
   return (
     <g>
       <rect x={-56} y={-38} width={112} height={76} rx={4} fill="none" stroke={C.ink} strokeOpacity={ink(a)} strokeWidth={1.5} strokeDasharray={dash(a)} />
@@ -96,6 +109,7 @@ function Display({ a }) {
 }
 
 function Optics({ a }) {
+  const C = useC();
   // biconvex lens drawn as two dotted arcs; rays drawn by the parent
   const arc = (side) =>
     Array.from({ length: 15 }, (_, k) => {
@@ -112,6 +126,7 @@ function Optics({ a }) {
 }
 
 function Eye({ a, fix }) {
+  const C = useC();
   const pts = Array.from({ length: 28 }, (_, k) => {
     const t = (k / 28) * TAU;
     return [Math.cos(t) * 62, Math.sin(t) * 30 * (1 - 0.15 * Math.cos(t) ** 2)];
@@ -130,6 +145,7 @@ function Eye({ a, fix }) {
 }
 
 export const ShadesLightpath = () => {
+  const C = useC();
   const fr = useCurrentFrame();
   const { width, height } = useVideoConfig();
   const tall = height > width;
@@ -196,7 +212,7 @@ export const ShadesLightpath = () => {
               </g>
               <text
                 x={0}
-                y={(tall ? 76 : 80) * GS}
+                y={(tall ? 96 : 100) * GS}
                 textAnchor="middle"
                 fontFamily={FONT.mono}
                 fontSize={tall ? 22 : 22}

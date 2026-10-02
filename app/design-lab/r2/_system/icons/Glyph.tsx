@@ -18,6 +18,12 @@ export interface GlyphProps {
   readonly label?: string;
   /** Force the working animation on (ignores hover gating; still off under reduced motion). */
   readonly live?: boolean;
+  /**
+   * Draw the glyph's red trigger dot (seat, night, harness-gate). Default false: the page decides where its
+   * one red mark per viewport goes. Without it, seat/night show the open slot as a dashed ring and the
+   * harness-gate's waiting call is drawn in ink.
+   */
+  readonly anchor?: boolean;
   readonly className?: string;
   readonly style?: CSSProperties;
 }
@@ -28,6 +34,7 @@ export function GlyphFrame({
   size = 24,
   label,
   live,
+  anchor,
   className,
   style,
   children,
@@ -43,6 +50,7 @@ export function GlyphFrame({
       data-glyph={name}
       data-state={state}
       data-live={live ? 'true' : undefined}
+      data-anchor={anchor ? 'true' : undefined}
       style={{ ['--u' as string]: String(size / 24), ...style }}
       {...a11y}
     >

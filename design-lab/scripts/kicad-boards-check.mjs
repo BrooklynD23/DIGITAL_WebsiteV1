@@ -25,11 +25,18 @@ try {
     await page.waitForTimeout(300);
     const info = await page.evaluate(() => ({
       overflow: document.documentElement.scrollWidth - window.innerWidth,
-      boards: [...document.querySelectorAll('svg[data-board]:not([data-iso])')].slice(0, 2).map((svg) => {
-        const edge = svg.querySelector('[data-layer="edge"] path');
-        const r = edge.getBoundingClientRect();
-        return { id: svg.dataset.board, aspect: +(r.width / r.height).toFixed(3) };
-      }),
+      boards: [
+        ...[...document.querySelectorAll('svg[data-board]:not([data-iso])')].map((svg) => {
+          const r = svg.querySelector('[data-layer="edge"] path').getBoundingClientRect();
+          return { via: 'BoardSvg', id: svg.dataset.board, aspect: +(r.width / r.height).toFixed(3) };
+        }),
+        ...[...document.querySelectorAll('[data-board][data-proj="flat"]')].map((el) => {
+          const r = el.querySelector('[data-board-layer="edge"] use').getBoundingClientRect();
+          return { via: 'BoardLayers', id: el.dataset.board, aspect: +(r.width / r.height).toFixed(3) };
+        }),
+      ],
+      usesLoaded: [...document.querySelectorAll('[data-board-layer] use')].filter((u) => u.getBoundingClientRect().width > 0).length,
+      usesTotal: document.querySelectorAll('[data-board-layer] use').length,
       explodeOut: document.querySelector('output')?.textContent,
     }));
     console.log(vp.width, JSON.stringify(info), `errors=${errors.length}`, errors.slice(0, 3).join(' | '));

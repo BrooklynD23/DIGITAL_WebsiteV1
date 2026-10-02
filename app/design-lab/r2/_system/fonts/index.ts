@@ -17,8 +17,12 @@ import './fonts.css';
 // Signal Capture — GitHub's brand trio
 export const hubotSans = localFont({ src: './hubot-sans/HubotSans-latin-var.woff2', weight: '200 900', display: 'swap', preload: false, variable: '--fs-hubot', declarations: [{ prop: 'font-stretch', value: '75% 125%' }] });
 export const monaSans = localFont({ src: './mona-sans/MonaSans-latin-var.woff2', weight: '200 900', display: 'swap', preload: false, variable: '--fs-mona', declarations: [{ prop: 'font-stretch', value: '75% 125%' }] });
-/** Full (unsubset) variable file, 445 KB. Subset to Latin before production (see research doc). */
-export const monaspaceKrypton = localFont({ src: './monaspace/MonaspaceKrypton-var.woff2', weight: '200 800', display: 'swap', preload: false, variable: '--fs-krypton' });
+/**
+ * Latin subset (W3a): 445 KB → 41 KB. Basic Latin + Latin-1 + punctuation, arrows, math (≤ ≥ − × ≈), full wght axis.
+ * Made with subset-font (harfbuzz) and noLayoutClosure, so texture-healing `calt` alternates are dropped
+ * (readouts render the default glyphs). Source: MonaspaceKrypton-var.woff2 beside it (unreferenced, not shipped).
+ */
+export const monaspaceKrypton = localFont({ src: './monaspace/MonaspaceKrypton-latin-var.woff2', weight: '200 800', display: 'swap', preload: false, variable: '--fs-krypton' });
 
 // Apple page played straight — Vercel's Geist pair
 export const geist = localFont({ src: './geist/Geist-latin-var.woff2', weight: '100 900', display: 'swap', preload: false, variable: '--fs-geist' });
@@ -35,3 +39,9 @@ export const fontSignal = cls(hubotSans.variable, monaSans.variable, monaspaceKr
 export const fontApple = cls(geist.variable, geistMono.variable, 'font-apple');
 /** SHADES reading surfaces: Atkinson Hyperlegible Next for text (and RSVP word), Geist Mono for labels. */
 export const fontReading = cls(atkinsonNext.variable, geistMono.variable, 'font-reading');
+/**
+ * SHADES pages inside a world (W3a): overrides ONLY --font-text (and the --font-read alias) with Atkinson, so the
+ * world's display face and mono readouts stay. Pair: `world-signal ${fontSignal} ${fontReadingText}`.
+ * Replaces atkinsonNext.variable + a page-local --font-read.
+ */
+export const fontReadingText = cls(atkinsonNext.variable, 'font-reading-text');

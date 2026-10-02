@@ -1,0 +1,49 @@
+/* BoardLayers: one absolutely positioned, separately composited box per board layer. */
+.root {
+  --E: var(--board-explode, var(--e, 0));
+  position: relative;
+  width: 100%;
+}
+
+.layer {
+  position: absolute;
+  /* Scroll position is the timebase: no transition on this transform, ever. */
+  transform: translate3d(calc(var(--E) * var(--ux) * 1%), calc(var(--E) * var(--uy) * 1%), 0);
+  transition: opacity var(--board-dim-dur, 160ms) ease-out;
+  pointer-events: none;
+}
+
+.layer[data-dim] {
+  opacity: var(--board-dim, 0.16);
+}
+
+/* Promote only while scrubbing. */
+.root[data-board-live] .layer,
+:global([data-board-live]) .layer,
+:global([data-exploding='true']) .layer {
+  will-change: transform;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.label {
+  position: absolute;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  font-family: var(--board-label-font, ui-monospace, monospace);
+  font-size: var(--board-label-size, 11px);
+  line-height: 1;
+  color: var(--board-ink, currentColor);
+  opacity: var(--E);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .layer {
+    transition: none;
+  }
+}

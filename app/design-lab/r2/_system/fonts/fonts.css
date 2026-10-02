@@ -48,3 +48,11 @@
   --reading-spaced-word: 0.16em;
   --reading-spaced-leading: 1.5;
 }
+
+/* Text-only reading override (W3a): keeps the world's display + mono. */
+.font-reading-text {
+  --font-text: var(--fs-atkinson), ui-sans-serif, system-ui, sans-serif;
+  --font-read: var(--fs-atkinson), ui-sans-serif, system-ui, sans-serif;
+  --track-21: 0.01em;
+  --track-17: 0.01em;
+}

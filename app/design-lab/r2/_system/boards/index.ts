@@ -11,6 +11,9 @@ import type { BoardData, SchematicSummary } from './types';
 export type * from './types';
 export { BoardSvg, BOARD_LAYERS, BOARD_STATES } from './BoardSvg';
 export type { BoardLayer, BoardState, BoardSvgProps } from './BoardSvg';
+// Client components: import BoardLayers from './BoardLayers' directly, so this file's JSON imports stay server-side.
+export { BoardLayers, LAYER_IDS, LAYER_TIER, layerFile } from './BoardLayers';
+export type { BoardLayersProps, LayerBoardId, LayerFocus, LayerId, LayerProj } from './BoardLayers';
 
 export const BOARD_IDS = ['zynq-carrier-power', 'fingerprint'] as const;
 export type BoardId = (typeof BOARD_IDS)[number];

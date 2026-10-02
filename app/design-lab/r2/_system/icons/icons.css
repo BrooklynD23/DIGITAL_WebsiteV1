@@ -97,9 +97,22 @@
   fill-opacity: 1;
 }
 
-/* the one red dot: here / now / open. Gone once done (never red at rest-done). */
+/* The one red dot (here / now / open) is opt-in per glyph: data-anchor="true" (the `anchor` prop).
+   Without it the anchor element draws in ink, and anchor-only marks are not drawn at all,
+   so a page can guarantee one red mark per viewport. Gone once done (never red at rest-done). */
 .r2g .r2g-anchor {
+  fill: currentColor;
+  opacity: var(--ink);
+}
+.r2g .r2g-anchor-only {
+  display: none;
+}
+.r2g[data-anchor='true'] .r2g-anchor {
   fill: var(--r2-trigger, #d8412f);
+  opacity: 1;
+}
+.r2g[data-anchor='true'] .r2g-anchor-only {
+  display: inline;
 }
 .r2g[data-state='done'] .r2g-anchor {
   opacity: 0;

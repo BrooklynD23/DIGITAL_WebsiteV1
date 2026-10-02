@@ -1,5 +1,5 @@
 // R2 W0-SYS gate: count requestAnimationFrame callbacks at rest on the system specimen.
-// Usage: node design-lab/scripts/r2-sys-raf.mjs [route=/design-lab/r2/system/] [--json=out.json]
+// Usage: node design-lab/scripts/r2-sys-raf.mjs [route=/design-lab/r2/system/] [--rest-only] [--json=out.json]
 // Every rAF callback that runs is counted and attributed to the stack that registered it.
 // "production cursor" = components/ui/CursorProvider (a production loop outside the r2 system, only on fine pointers);
 // "r2" = everything else. Gate: r2 at-rest count must be 0 in every scenario.
@@ -11,6 +11,10 @@ import { join } from 'node:path';
 const args = process.argv.slice(2);
 const route = args.find((a) => !a.startsWith('--')) ?? '/design-lab/r2/system/';
 const jsonOut = args.find((a) => a.startsWith('--json='))?.split('=')[1];
+// --rest-only: any route; load → rest (desktop, reduced, mobile) without the specimen-specific interaction pass
+const restOnly = args.includes('--rest-only');
+// --settle=ms: wait this long after load / scroll before measuring (pages with timed intros). Default 2000.
+const settle = Number(args.find((a) => a.startsWith('--settle='))?.split('=')[1] ?? 2000);
 const base = process.env.LAB_URL ?? 'http://localhost:3100';
 const REST_MS = 3000;
 
@@ -65,7 +69,7 @@ async function open(browser, ctxOpts) {
   page.on('console', (m) => m.type() === 'error' && errors.push(m.text().slice(0, 200)));
   page.on('pageerror', (e) => errors.push(String(e).slice(0, 200)));
   await page.goto(base + route, { waitUntil: 'networkidle', timeout: 120000 });
-  await page.waitForTimeout(2000);
+  await page.waitForTimeout(settle);
   return { ctx, page, errors };
 }
 
@@ -101,17 +105,25 @@ const results = [];
 {
   const { ctx, page, errors } = await open(browser, desktop);
   results.push({ scenario: 'desktop · load → rest', ...(await measure(page)), errors: errors.length });
-  const during = await interact(page);
-  results.push({ scenario: 'desktop · after interaction → rest', ...(await measure(page)), during, errors: errors.length });
+  if (restOnly) {
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight / 2));
+    await page.waitForTimeout(Math.max(2500, settle));
+    results.push({ scenario: 'desktop · after scroll → rest', ...(await measure(page)), errors: errors.length });
+  } else {
+    const during = await interact(page);
+    results.push({ scenario: 'desktop · after interaction → rest', ...(await measure(page)), during, errors: errors.length });
+  }
   if (errors.length) console.log('console errors:', errors);
   await ctx.close();
 }
 {
   const { ctx, page, errors } = await open(browser, { ...desktop, reducedMotion: 'reduce' });
   results.push({ scenario: 'desktop · reduced motion · load → rest', ...(await measure(page)), errors: errors.length });
-  await page.locator('button[aria-label="Play orbit"]').first().click();
-  await page.waitForTimeout(300);
-  results.push({ scenario: 'desktop · reduced motion · after play → rest', ...(await measure(page)), errors: errors.length });
+  if (!restOnly) {
+    await page.locator('button[aria-label="Play orbit"]').first().click();
+    await page.waitForTimeout(300);
+    results.push({ scenario: 'desktop · reduced motion · after play → rest', ...(await measure(page)), errors: errors.length });
+  }
   if (errors.length) console.log('console errors (reduced):', errors);
   await ctx.close();
 }
@@ -119,7 +131,7 @@ const results = [];
   const { ctx, page, errors } = await open(browser, mobile);
   results.push({ scenario: 'mobile 390 · load → rest', ...(await measure(page)), errors: errors.length });
   await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight / 3));
-  await page.waitForTimeout(1500);
+  await page.waitForTimeout(Math.max(1500, settle));
   results.push({ scenario: 'mobile 390 · after scroll → rest', ...(await measure(page)), errors: errors.length });
   if (errors.length) console.log('console errors (mobile):', errors);
   await ctx.close();

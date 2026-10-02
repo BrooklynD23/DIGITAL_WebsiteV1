@@ -1,5 +1,5 @@
 import { AbsoluteFill, useCurrentFrame, useVideoConfig } from 'remotion';
-import { C } from '../tokens.js';
+import { useC } from '../tokens.js';
 import { Stage } from '../DotLayer.jsx';
 import { clamp, easeIn, easeInOut, easeOut, fibDir, hash, latticeDisc, lerp } from '../engine.js';
 
@@ -35,6 +35,7 @@ const T = { fill: [8, 70], evict: [72, 100], compress: [100, 138] };
 const sp = (fr, [a, b]) => clamp((fr - a) / (b - a));
 
 export const BrainContext = () => {
+  const C = useC();
   const fr = useCurrentFrame();
   const { width, height } = useVideoConfig();
   const tall = height > width;

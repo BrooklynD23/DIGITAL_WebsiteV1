@@ -1,5 +1,5 @@
 import { AbsoluteFill, useCurrentFrame, useVideoConfig } from 'remotion';
-import { C } from '../tokens.js';
+import { useC } from '../tokens.js';
 import { FONT } from '../fonts.js';
 import { DotLayer, Stage } from '../DotLayer.jsx';
 import { frame as engineFrame, clamp, easeInOut, easeOutBack, lerp, seg } from '../engine.js';
@@ -85,6 +85,7 @@ function stateAt(fr) {
 }
 
 function Rail({ x0, x1, y, pos, k }) {
+  const C = useC();
   const nodes = [0, 1, 2, 3].map((i) => lerp(x0, x1, i / 3));
   const px = lerp(x0, x1, pos / 3);
   return (
@@ -105,6 +106,7 @@ function Rail({ x0, x1, y, pos, k }) {
 }
 
 export const HomeStages = () => {
+  const C = useC();
   const fr = useCurrentFrame();
   const { width, height } = useVideoConfig();
   const tall = height > width;

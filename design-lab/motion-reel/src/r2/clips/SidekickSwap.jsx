@@ -1,5 +1,5 @@
 import { AbsoluteFill, useCurrentFrame, useVideoConfig } from 'remotion';
-import { C } from '../tokens.js';
+import { useC } from '../tokens.js';
 import { Stage } from '../DotLayer.jsx';
 import { getBoard, clamp, easeInOut, easeOutBack, lerp } from '../engine.js';
 import { IsoBoard, isoBounds, iso } from '../IsoBoard.jsx';
@@ -55,6 +55,7 @@ function layout(width, height) {
 }
 
 export const SidekickSwap = () => {
+  const C = useC();
   const fr = useCurrentFrame();
   const { width, height } = useVideoConfig();
   const { s, ox, oy } = layout(width, height);

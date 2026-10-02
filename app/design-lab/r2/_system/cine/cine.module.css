@@ -1,11 +1,28 @@
-/* <CineClip>: poster layer + video layer + one 44px control. Aspect: 16:9, 4:5 under 640px. */
+/* <CineClip>: poster layer + video layer + one 44px control. Aspect: 16:9, 4:5 under 640px ('auto').
+   Colours follow the clip's world (data-world), not the surrounding chapter: the control sits on the
+   clip's own dark ground in both worlds. */
 .clip {
+  /* signal (default): mirrors .world-signal */
+  --cine-ground: #0b0c0a;
+  --cine-ctl-bg: rgba(11, 12, 10, 0.64);
+  --cine-ctl-ink: #ece8de;
+  --cine-ctl-line: rgba(236, 232, 222, 0.32);
+  --cine-focus: #ece8de;
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  background: var(--r2-ground, #0b0c0a);
+  background: var(--cine-ground);
   contain: layout paint;
+}
+
+/* apple: mirrors .world-apple [data-tone='dark'] (#000, #f5f5f7, #424245 / #86868b) */
+.clip[data-world='apple'] {
+  --cine-ground: #000000;
+  --cine-ctl-bg: rgba(66, 66, 69, 0.72);
+  --cine-ctl-ink: #f5f5f7;
+  --cine-ctl-line: transparent;
+  --cine-focus: #f5f5f7;
 }
 
 .clip[data-aspect='4x5'] {
@@ -16,6 +33,11 @@
   .clip[data-aspect='auto'] {
     aspect-ratio: 4 / 5;
   }
+}
+
+.media {
+  position: absolute;
+  inset: 0;
 }
 
 .poster,
@@ -47,11 +69,11 @@
   display: grid;
   place-items: center;
   border-radius: 50%;
-  border: 1px solid rgba(236, 232, 222, 0.32);
-  background: rgba(11, 12, 10, 0.64);
-  color: #ece8de;
+  border: 1px solid var(--cine-ctl-line);
+  background: var(--cine-ctl-bg);
+  color: var(--cine-ctl-ink);
   cursor: pointer;
-  opacity: 0.72;
+  opacity: 0.78;
   transition: opacity var(--r2-dur-ui, 280ms) var(--r2-ease-ui, ease);
 }
 
@@ -61,7 +83,7 @@
 }
 
 .control:focus-visible {
-  outline: 2px solid var(--r2-focus, #ece8de);
+  outline: 2px solid var(--cine-focus);
   outline-offset: 2px;
 }
 
@@ -69,9 +91,4 @@
   .video {
     transition: none;
   }
-}
-
-.media {
-  position: absolute;
-  inset: 0;
 }

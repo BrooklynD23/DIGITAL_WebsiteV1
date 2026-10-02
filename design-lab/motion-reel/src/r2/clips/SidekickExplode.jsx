@@ -1,5 +1,5 @@
 import { AbsoluteFill, useCurrentFrame, useVideoConfig } from 'remotion';
-import { C } from '../tokens.js';
+import { useC } from '../tokens.js';
 import { FONT } from '../fonts.js';
 import { Stage } from '../DotLayer.jsx';
 import { getBoard, clamp } from '../engine.js';
@@ -50,6 +50,7 @@ function layout(width, height) {
 }
 
 export const SidekickExplode = () => {
+  const C = useC();
   const fr = useCurrentFrame();
   const { width, height } = useVideoConfig();
   const L = layout(width, height);

@@ -48,7 +48,7 @@ export function GlyphStack(p: GlyphProps) {
   );
 }
 
-/** Owner / open role. Idle: dashed seat with the red anchor (open). Done: taken, solid. */
+/** Owner / open role. Idle: dashed seat (open); with `anchor`, the red trigger marks it. Done: taken, solid. */
 export function GlyphSeat(p: GlyphProps) {
   return (
     <GlyphFrame name="seat" {...p}>
@@ -57,7 +57,7 @@ export function GlyphSeat(p: GlyphProps) {
       </g>
       <P c="r2g-hair" d="M5 21c1.4-2.6 4-4 7-4s5.6 1.4 7 4" />
       <C c="r2g-core r2g-done" x={12} y={11} r={1.5} />
-      <C c="r2g-anchor" x={12} y={11} r={1.5} />
+      <C c="r2g-anchor r2g-anchor-only" x={12} y={11} r={1.5} />
     </GlyphFrame>
   );
 }
@@ -251,7 +251,7 @@ const NIGHT = Array.from({ length: 7 }, (_, k) => {
   return [f2(12 + Math.cos(a) * 7.5), f2(12 + Math.sin(a) * 7.5)] as const;
 });
 
-/** Build night. 7 seats; filled = attending, the dashed one is open (red anchor). Working: seats light in turn. */
+/** Build night. 7 seats; filled = attending, the dashed one is open (red only with `anchor`). Working: seats light in turn. */
 export function GlyphNight(p: GlyphProps) {
   return (
     <GlyphFrame name="night" {...p}>
@@ -259,7 +259,7 @@ export function GlyphNight(p: GlyphProps) {
         <C key={`${x}${y}`} c="r2g-node r2g-m" x={x} y={y} r={1.15} s={anim({ '--a': 'r2g-light', '--dur': '2.4s', '--delay': `${i * 0.12}s` })} />
       ))}
       <C c="r2g-line r2g-pre" x={NIGHT[0][0]} y={NIGHT[0][1]} r={1.6} />
-      <C c="r2g-anchor" x={NIGHT[0][0]} y={NIGHT[0][1]} r={0.9} />
+      <C c="r2g-anchor r2g-anchor-only" x={NIGHT[0][0]} y={NIGHT[0][1]} r={0.9} />
       <C c="r2g-node r2g-done" x={NIGHT[0][0]} y={NIGHT[0][1]} r={1.15} />
       <P c="r2g-hair" d="M14.2 10.4a3 3 0 1 1-3.6-2.9 2.4 2.4 0 0 0 3.6 2.9z" />
     </GlyphFrame>
@@ -384,7 +384,7 @@ export function GlyphCompact(p: GlyphProps) {
   );
 }
 
-/** Harness gate: a call waits at the notch (red anchor = needs approval now). Working: passes. Done: through. */
+/** Harness gate: a call waits at the notch (red only with `anchor` = needs approval now). Working: passes. Done: through. */
 export function GlyphHarnessGate(p: GlyphProps) {
   return (
     <GlyphFrame name="harness-gate" {...p}>

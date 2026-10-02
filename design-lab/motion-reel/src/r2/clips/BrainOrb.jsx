@@ -1,5 +1,5 @@
 import { AbsoluteFill, useCurrentFrame, useVideoConfig } from 'remotion';
-import { C } from '../tokens.js';
+import { useC } from '../tokens.js';
 import { Stage } from '../DotLayer.jsx';
 import { TAU, clamp, easeInOut, hash, lerp, project, shade } from '../engine.js';
 
@@ -35,6 +35,7 @@ const bump = (x, a, b) => {
 };
 
 export const BrainOrb = () => {
+  const C = useC();
   const fr = useCurrentFrame();
   const { width, height } = useVideoConfig();
   const tall = height > width;

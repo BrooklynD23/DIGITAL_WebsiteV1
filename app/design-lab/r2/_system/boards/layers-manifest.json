@@ -1,0 +1,85 @@
+{
+  "zynq-carrier-power": {
+    "size": {
+      "w": 49,
+      "h": 41
+    },
+    "layers": [
+      "B.Silk",
+      "B.Pads",
+      "B.Cu",
+      "substrate",
+      "edge",
+      "vias",
+      "F.Cu",
+      "F.Pads",
+      "F.Silk",
+      "bodies"
+    ],
+    "viewBox": {
+      "flat": [
+        -2.21,
+        -2.21,
+        53.42,
+        45.42
+      ],
+      "iso": [
+        -37.9,
+        -2.21,
+        82.73,
+        49.42
+      ]
+    },
+    "anchor": {
+      "flat": [
+        49,
+        0
+      ],
+      "iso": [
+        42.43,
+        24.5
+      ]
+    }
+  },
+  "fingerprint": {
+    "size": {
+      "w": 22.81,
+      "h": 26.12
+    },
+    "layers": [
+      "B.Pads",
+      "B.Cu",
+      "substrate",
+      "edge",
+      "vias",
+      "F.Cu",
+      "F.Pads",
+      "F.Silk",
+      "bodies"
+    ],
+    "viewBox": {
+      "flat": [
+        -1.04,
+        -1.04,
+        24.9,
+        28.21
+      ],
+      "iso": [
+        -23.66,
+        -1.04,
+        44.46,
+        26.55
+      ]
+    },
+    "anchor": {
+      "flat": [
+        22.81,
+        0
+      ],
+      "iso": [
+        19.75,
+        11.41
+      ]
+    }
+  }
+}

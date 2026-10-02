@@ -1,4 +1,4 @@
-import { C } from './tokens.js';
+import { useC } from './tokens.js';
 
 // Iso renderer for the club's real KiCad geometry (app/design-lab/r2/_system/boards/*.json).
 // Same 30° matrix and layer tiers as BoardSvg, but drawn into one shared clip SVG so several
@@ -23,17 +23,12 @@ export const TIER = {
 };
 export const LAYERS = Object.keys(TIER);
 
-const INK = {
-  ink: C.ink,
-  copper: '#c9c2b0',
-  silk: C.ink2,
-};
 
-function pads(board, side) {
+function pads(board, side, C) {
   const list = board.footprints.filter((f) => !f.parked).flatMap((f) => f.pads.filter((p) => p.l === side || p.l === 'FB'));
   return (
     <>
-      <g fill={INK.copper} fillOpacity={0.5} stroke={INK.copper} strokeWidth={0.9} vectorEffect="non-scaling-stroke">
+      <g fill={C.copper} fillOpacity={0.5} stroke={C.copper} strokeWidth={0.9} vectorEffect="non-scaling-stroke">
         {list.map((p, i) => {
           const t = p.a ? `rotate(${-p.a} ${p.x} ${p.y})` : undefined;
           if (p.s === 'circle') return <circle key={i} cx={p.x} cy={p.y} r={p.w / 2} vectorEffect="non-scaling-stroke" />;
@@ -42,37 +37,37 @@ function pads(board, side) {
           return <rect key={i} x={p.x - p.w / 2} y={p.y - p.h / 2} width={p.w} height={p.h} rx={rx} transform={t} vectorEffect="non-scaling-stroke" />;
         })}
       </g>
-      <g fill={C.ground} stroke={INK.ink} strokeWidth={0.8}>
+      <g fill={C.ground} stroke={C.ink} strokeWidth={0.8}>
         {list.filter((p) => p.d).map((p, i) => <circle key={i} cx={p.x} cy={p.y} r={p.d / 2} vectorEffect="non-scaling-stroke" />)}
       </g>
     </>
   );
 }
 
-function copper(board, side) {
+function copper(board, side, C) {
   return (
     <>
-      <g fill={INK.copper} fillOpacity={0.09} stroke={INK.copper} strokeOpacity={0.5} strokeWidth={0.8}>
+      <g fill={C.copper} fillOpacity={0.09} stroke={C.copper} strokeOpacity={0.5} strokeWidth={0.8}>
         {board.zones.filter((z) => z.l === side).map((z, i) => (
           <path key={i} d={z.d} fill={z.filled ? undefined : 'none'} strokeDasharray={z.filled ? undefined : '3 3'} vectorEffect="non-scaling-stroke" />
         ))}
       </g>
-      <g fill="none" stroke={INK.copper} strokeLinecap="round" strokeLinejoin="round" strokeOpacity={0.95}>
+      <g fill="none" stroke={C.copper} strokeLinecap="round" strokeLinejoin="round" strokeOpacity={0.95}>
         {board.tracks.filter((t) => t.l === side).map((t, i) => <path key={i} d={t.d} strokeWidth={Math.max(t.w, 0.22)} />)}
       </g>
     </>
   );
 }
 
-function content(board, layer) {
+function content(board, layer, C) {
   switch (layer) {
     case 'substrate':
       return <path d={[board.outline, ...board.cutouts].join('')} fill={C.ink} fillOpacity={0.06} fillRule="evenodd" />;
     case 'edge':
-      return <path d={[board.outline, ...board.cutouts].join('')} fill="none" stroke={INK.ink} strokeWidth={1.6} vectorEffect="non-scaling-stroke" />;
+      return <path d={[board.outline, ...board.cutouts].join('')} fill="none" stroke={C.ink} strokeWidth={1.6} vectorEffect="non-scaling-stroke" />;
     case 'vias':
       return (
-        <g fill={C.ground} stroke={INK.copper} strokeWidth={0.9}>
+        <g fill={C.ground} stroke={C.copper} strokeWidth={0.9}>
           {board.vias.map(([x, y, s, d], i) => (
             <g key={i}>
               <circle cx={x} cy={y} r={s / 2} vectorEffect="non-scaling-stroke" />
@@ -82,17 +77,17 @@ function content(board, layer) {
         </g>
       );
     case 'F.Cu':
-      return copper(board, 'F');
+      return copper(board, 'F', C);
     case 'B.Cu':
-      return copper(board, 'B');
+      return copper(board, 'B', C);
     case 'F.Pads':
-      return pads(board, 'F');
+      return pads(board, 'F', C);
     case 'B.Pads':
-      return pads(board, 'B');
+      return pads(board, 'B', C);
     case 'F.Silk':
-      return board.silk.F ? <path d={board.silk.F} fill="none" stroke={INK.silk} strokeWidth={0.9} vectorEffect="non-scaling-stroke" /> : null;
+      return board.silk.F ? <path d={board.silk.F} fill="none" stroke={C.silk} strokeWidth={0.9} vectorEffect="non-scaling-stroke" /> : null;
     case 'B.Silk':
-      return board.silk.B ? <path d={board.silk.B} fill="none" stroke={INK.silk} strokeWidth={0.9} vectorEffect="non-scaling-stroke" /> : null;
+      return board.silk.B ? <path d={board.silk.B} fill="none" stroke={C.silk} strokeWidth={0.9} vectorEffect="non-scaling-stroke" /> : null;
     default:
       return null;
   }
@@ -114,6 +109,7 @@ export function isoBounds(board, gap, explode = 1, lift = 0) {
  *   explode 0..1, gap mm per tier, lift mm (whole board raised on z), alpha per layer
  */
 export function IsoBoard({ board, ox, oy, s, explode = 0, gap = 7, lift = 0, opacity = 1, layerAlpha = {}, axes = true, opaque = false }) {
+  const C = useC();
   const zOf = (layer) => TIER[layer] * gap * explode + lift;
   const throughs = [
     ...board.vias.map(([x, y]) => [x, y]),
@@ -145,7 +141,7 @@ export function IsoBoard({ board, ox, oy, s, explode = 0, gap = 7, lift = 0, opa
           opacity={layerAlpha[layer] ?? 1}
           transform={`translate(${ox.toFixed(2)} ${(oy - zOf(layer) * s).toFixed(2)}) scale(${s}) ${ISO_M}`}
         >
-          {content(board, layer)}
+          {content(board, layer, C)}
         </g>
       ))}
     </g>

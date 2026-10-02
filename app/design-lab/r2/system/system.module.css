@@ -801,6 +801,52 @@
   text-wrap: balance;
 }
 
+/* ---------- chrome demo ---------- */
+.chromeDemo {
+  margin-top: var(--r2-space-7);
+  display: grid;
+  gap: 1px;
+  background: var(--r2-hairline);
+  border-top: 1px solid var(--r2-hairline);
+}
+
+.chromeFrame {
+  position: relative;
+  min-width: 0;
+}
+
+.utilityChip {
+  min-height: 32px;
+  padding: 0 12px;
+  border-radius: 980px;
+  border: 1px solid var(--r2-hairline-strong);
+  background: transparent;
+  color: var(--r2-ink);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.graticules {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--r2-gutter) var(--r2-space-9);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--r2-space-5);
+}
+
+.graticuleFig {
+  margin: 0;
+  display: grid;
+  gap: var(--r2-space-2);
+}
+
+.graticuleBox {
+  height: 200px;
+  border: 1px solid var(--r2-hairline);
+}
+
 /* ---------- responsive ---------- */
 @media (max-width: 1068px) {
   .renderers,
@@ -867,5 +913,8 @@
   }
   .localNavLinks {
     display: none;
+  }
+  .graticules {
+    grid-template-columns: minmax(0, 1fr);
   }
 }

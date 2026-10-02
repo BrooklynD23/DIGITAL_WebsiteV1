@@ -1,0 +1,131 @@
+/* Apple-world highlights strip. Tokens only; content edge = the 1024px Apple column. */
+.root {
+  --edge: max(var(--r2-gutter), calc((100vw - 1024px) / 2 + var(--r2-gutter)));
+  padding: var(--r2-space-10) 0 var(--r2-space-9);
+  background: var(--r2-ground);
+  color: var(--r2-ink);
+}
+
+.inner {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 0 var(--r2-gutter);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--r2-fw-display);
+  font-size: var(--r2-fs-h2);
+  line-height: var(--r2-lh-h2);
+  letter-spacing: var(--r2-ls-h2);
+  text-wrap: balance;
+}
+
+.track {
+  list-style: none;
+  margin: var(--r2-space-7) 0 0;
+  padding: 0 var(--edge);
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--edge);
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+.track::-webkit-scrollbar {
+  display: none;
+}
+.track:focus-visible {
+  outline-offset: -2px;
+}
+
+.card {
+  flex: 0 0 min(820px, 82vw);
+  scroll-snap-align: start;
+  height: clamp(440px, 62svh, 600px);
+  background: var(--r2-ground-raised);
+  border-radius: 16px;
+  padding: var(--r2-space-7);
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: var(--r2-space-5);
+  overflow: hidden;
+}
+
+.media {
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  color: var(--r2-ink);
+}
+.media > * {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.text {
+  grid-row: 2;
+  margin: 0;
+  max-width: 34rem;
+  font-family: var(--font-text);
+  font-size: var(--r2-fs-lead);
+  line-height: var(--r2-lh-lead);
+  font-weight: 600;
+  color: var(--r2-ink-2);
+}
+.text strong {
+  color: var(--r2-ink);
+  font-weight: 600;
+}
+
+.nav {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: var(--r2-space-5);
+}
+
+.btn {
+  width: var(--r2-target);
+  height: var(--r2-target);
+  border-radius: 50%;
+  border: 0;
+  background: var(--r2-ground-raised);
+  color: var(--r2-ink);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition:
+    background var(--r2-dur-ui-fast) var(--r2-ease-ui),
+    opacity var(--r2-dur-ui-fast) var(--r2-ease-ui);
+}
+.btn:hover:not(:disabled) {
+  background: var(--r2-hairline);
+}
+.btn:disabled {
+  opacity: 0.38;
+  cursor: default;
+}
+
+@media (max-width: 734px) {
+  .root {
+    padding: var(--r2-space-9) 0;
+  }
+  .card {
+    flex-basis: 84vw;
+    height: 460px;
+    padding: var(--r2-space-5);
+  }
+  .text {
+    font-size: 17px;
+    line-height: 25px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn {
+    transition: none;
+  }
+}
