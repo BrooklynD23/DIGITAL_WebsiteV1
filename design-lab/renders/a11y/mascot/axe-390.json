@@ -1,0 +1,26 @@
+{
+  "violations": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "nodes": 3,
+      "targets": [
+        {
+          "target": ".mascot_eyebrow__xSfcU",
+          "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.11 (foreground color: #d8412f, background color: #f7f6f2, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "target": "article[data-mascot=\"dg-001\"] > div:nth-child(1) > .mascot_code__NrOcb",
+          "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.11 (foreground color: #d8412f, background color: #f7f6f2, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "target": "article[data-mascot=\"dg-002\"] > div:nth-child(1) > .mascot_code__NrOcb",
+          "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.11 (foreground color: #d8412f, background color: #f7f6f2, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+        }
+      ]
+    }
+  ],
+  "incomplete": [],
+  "ccTargets": []
+}

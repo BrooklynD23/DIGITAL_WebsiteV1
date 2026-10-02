@@ -1,0 +1,38 @@
+{
+  "slug": "b",
+  "steps": [
+    {
+      "step": "Tab x29 to build-run S2 Hardware tab",
+      "focus": "button \"S2Hardware / PCB\" aria-pressed=false",
+      "announced": []
+    },
+    {
+      "step": "Enter (select S2)",
+      "focus": "button \"S2Hardware / PCB\" aria-pressed=true",
+      "announced": [
+        "OwnerS2 Hardware / PCB · ______ [open]one owner per subsystem01plan02prototype03testchecks: serviceabilityG104integrateH2 flex cables → review with S3 Firmware / EmbeddedG2→ReleaseOWNone owner per subsystemREVone review "
+      ],
+      "state": "S2Hardware / PCB"
+    },
+    {
+      "step": "ArrowRight (no roving tabindex expected)",
+      "focus": "button \"S2Hardware / PCB\" aria-pressed=true",
+      "announced": []
+    },
+    {
+      "step": "Tab x32 to project filter \"Open\"",
+      "focus": "button \"Open1\" aria-pressed=false",
+      "announced": []
+    },
+    {
+      "step": "Enter (filter)",
+      "focus": "button \"Open1\" aria-pressed=true",
+      "announced": [
+        "1 of 4 rows shown"
+      ],
+      "state": "15 rows visible"
+    }
+  ],
+  "failure": null,
+  "errors": []
+}

@@ -1,0 +1,116 @@
+{
+  "violations": [],
+  "incomplete": [
+    {
+      "id": "aria-prohibited-attr",
+      "impact": "serious",
+      "help": "Elements must only use permitted ARIA attributes",
+      "nodes": 15,
+      "targets": [
+        {
+          "target": "ul[data-count=\"7\"] > .f_seat__Njiqq:nth-child(1) > .f_seatFoot__JnsSi > .f_seatSign__a42ea > .f_blank__ckb_J[aria-label=\"unsigned\"]",
+          "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a span with no valid role attribute."
+        },
+        {
+          "target": "ul[data-count=\"7\"] > .f_seat__Njiqq:nth-child(2) > .f_seatFoot__JnsSi > .f_seatSign__a42ea > .f_blank__ckb_J[aria-label=\"unsigned\"]",
+          "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a span with no valid role attribute."
+        },
+        {
+          "target": "ul[data-count=\"7\"] > .f_seat__Njiqq:nth-child(3) > .f_seatFoot__JnsSi > .f_seatSign__a42ea > .f_blank__ckb_J[aria-label=\"unsigned\"]",
+          "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a span with no valid role attribute."
+        },
+        {
+          "target": "ul[data-count=\"7\"] > .f_seat__Njiqq:nth-child(4) > .f_seatFoot__JnsSi > .f_seatSign__a42ea > .f_blank__ckb_J[aria-label=\"unsigned\"]",
+          "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a span with no valid role attribute."
+        },
+        {
+          "target": "ul[data-count=\"7\"] > .f_seat__Njiqq:nth-child(5) > .f_seatFoot__JnsSi > .f_seatSign__a42ea > .f_blank__ckb_J[aria-label=\"unsigned\"]",
+          "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a span with no valid role attribute."
+        },
+        {
+          "target": ".f_seat__Njiqq:nth-child(6) > .f_seatFoot__JnsSi > .f_seatSign__a42ea > .f_blank__ckb_J[aria-label=\"unsigned\"]",
+          "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a span with no valid role attribute."
+        },
+        {
+          "target": ".f_seat__Njiqq:nth-child(7) > .f_seatFoot__JnsSi > .f_seatSign__a42ea > .f_blank__ckb_J[aria-label=\"unsigned\"]",
+          "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a span with no valid role attribute."
+        },
+        {
+          "target": "ul[data-count=\"5\"] > .f_seat__Njiqq:nth-child(1) > .f_seatFoot__JnsSi > .f_seatSign__a42ea > .f_blank__ckb_J[aria-label=\"unsigned\"]",
+          "summary": "Fix all of the following:\n  aria-label attribute is not well supported on a span with no valid role attribute."
+        }
+      ]
+    },
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "nodes": 29,
+      "targets": [
+        {
+          "target": ".f_ruler__59Dop > span:nth-child(1)",
+          "summary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+        },
+        {
+          "target": ".f_ruler__59Dop > span:nth-child(2)",
+          "summary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+        },
+        {
+          "target": ".f_ruler__59Dop > span:nth-child(3)",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+        },
+        {
+          "target": "span:nth-child(4)",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+        },
+        {
+          "target": ".f_ruler__59Dop > span:nth-child(5)",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+        },
+        {
+          "target": "span:nth-child(6)",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+        },
+        {
+          "target": ".f_ruler__59Dop > span:nth-child(7)",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+        },
+        {
+          "target": "#bench-title",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+        }
+      ]
+    }
+  ],
+  "ccTargets": [
+    ".f_ruler__59Dop > span:nth-child(1)",
+    ".f_ruler__59Dop > span:nth-child(2)",
+    ".f_ruler__59Dop > span:nth-child(3)",
+    "span:nth-child(4)",
+    ".f_ruler__59Dop > span:nth-child(5)",
+    "span:nth-child(6)",
+    ".f_ruler__59Dop > span:nth-child(7)",
+    "#bench-title",
+    ".f_benchLede__FY6JN",
+    "article[data-record=\"dg-001\"] > .f_figure__MSp1l > .f_plate__LXi8F[role=\"img\"] > .f_mono__LW5Vs:nth-child(1)",
+    "article[data-record=\"dg-001\"] > .f_figure__MSp1l > .f_plate__LXi8F[role=\"img\"] > .f_mono__LW5Vs:nth-child(2)",
+    ".f_rsvpWord__5un1o",
+    "article[data-record=\"dg-002\"] > .f_figure__MSp1l > .f_plate__LXi8F[role=\"img\"] > .f_mono__LW5Vs:nth-child(1)",
+    "article[data-record=\"dg-002\"] > .f_figure__MSp1l > .f_plate__LXi8F[role=\"img\"] > .f_mono__LW5Vs:nth-child(2)",
+    "article[data-record=\"dg-003\"] > .f_recordHead__eHhjR > .f_recordCode__bmjtP",
+    "article[data-record=\"dg-003\"] > .f_recordHead__eHhjR > .f_mono__LW5Vs",
+    "#\\:Rhlkjt7rjj6\\:",
+    "article[data-record=\"dg-003\"] > .f_recordProblem__lxEW1",
+    "article[data-record=\"dg-003\"] > .f_recordLine__MKfAC",
+    ".f_ghostCode__Z14_h",
+    "article[data-record=\"dg-003\"] > dl > .f_field__jNv6I:nth-child(1) > dt",
+    "article[data-record=\"dg-003\"] > dl > .f_field__jNv6I:nth-child(1) > dd",
+    "article[data-record=\"dg-003\"] > dl > .f_field__jNv6I:nth-child(2) > dt",
+    "article[data-record=\"dg-003\"] > dl > .f_field__jNv6I:nth-child(2) > dd",
+    "article[data-record=\"dg-003\"] > h4 > .f_mono__LW5Vs",
+    "article[data-record=\"dg-003\"] > .f_seats__QR6nG[data-count=\"1\"] > .f_seat__Njiqq > .f_seatTitle__1izDT",
+    "article[data-record=\"dg-003\"] > .f_seats__QR6nG[data-count=\"1\"] > .f_seat__Njiqq > .f_seatLine__vOZwl",
+    "article[data-record=\"dg-003\"] > .f_seats__QR6nG[data-count=\"1\"] > .f_seat__Njiqq > .f_seatFoot__JnsSi > .f_seatSign__a42ea > .f_mono__LW5Vs",
+    "article[data-record=\"dg-003\"] > .f_seats__QR6nG[data-count=\"1\"] > .f_seat__Njiqq > .f_seatFoot__JnsSi > .f_seatBtn__jIlAg > span"
+  ]
+}

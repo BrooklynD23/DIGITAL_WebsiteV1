@@ -1,0 +1,844 @@
+{
+  "slug": "a",
+  "url": "http://localhost:3100/design-lab/a/",
+  "when": "2026-10-02T13:29:43.032Z",
+  "errors": [],
+  "hiddenAtFirstPaint": {
+    "count": 0,
+    "sample": []
+  },
+  "globalCursor": {
+    "present": 2,
+    "visible": 2,
+    "htmlCursor": "none"
+  },
+  "idleWithCursor": {
+    "cursorRafPerSec": 60
+  },
+  "idle": {
+    "rafPerSecAtTop": 0,
+    "runningAnimations": 0,
+    "sample": [],
+    "canvases": 0
+  },
+  "inventory": {
+    "transitions": [
+      "24x 0.2s | cubic-bezier(0.4, 0, 0.2, 1)",
+      "14x 0.24s | cubic-bezier(0.2, 0.7, 0.1, 1)",
+      "14x 0.24s | cubic-bezier(0.4, 0, 0.2, 1)",
+      "10x 0.12s, 0.12s | cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.4, 0, 0.2, 1)",
+      "3x 0.24s, 0.24s | cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.2, 0.7, 0.1, 1)",
+      "1x 0.24s, 0.24s, 0.24s | cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.4, 0, 0.2, 1)",
+      "1x 0.24s, 0.24s | cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.4, 0, 0.2, 1)",
+      "1x 0.16s, 0.16s | ease-out, ease-out"
+    ],
+    "animations": [
+      "30x a_aCut__1m7bd 0.9s cubic-bezier(0.2, 0.7, 0.1, 1) x1",
+      "1x a_aSign__n_hSG 0.9s cubic-bezier(0.2, 0.7, 0.1, 1) x1"
+    ],
+    "headings": [
+      {
+        "tag": "h1",
+        "text": "Make something worth putting your name on.Make som",
+        "wrap": "auto",
+        "lines": 3,
+        "fs": "161.28px"
+      },
+      {
+        "tag": "h2",
+        "text": "Two builds on the bench. One open slot.Two builds ",
+        "wrap": "balance",
+        "lines": 2,
+        "fs": "74.88px"
+      },
+      {
+        "tag": "h3",
+        "text": "The Modular Smartphone",
+        "wrap": "balance",
+        "lines": 1,
+        "fs": "103.68px"
+      },
+      {
+        "tag": "h3",
+        "text": "Smart Reading",
+        "wrap": "balance",
+        "lines": 1,
+        "fs": "103.68px"
+      },
+      {
+        "tag": "h3",
+        "text": "Venture Studies",
+        "wrap": "auto",
+        "lines": 1,
+        "fs": "40px"
+      },
+      {
+        "tag": "h3",
+        "text": "Pitch the next build.",
+        "wrap": "auto",
+        "lines": 1,
+        "fs": "40px"
+      },
+      {
+        "tag": "h2",
+        "text": "Four rules hold every build together.Four rules ho",
+        "wrap": "balance",
+        "lines": 2,
+        "fs": "74.88px"
+      },
+      {
+        "tag": "h2",
+        "text": "Products need more than programmers.Products need ",
+        "wrap": "balance",
+        "lines": 2,
+        "fs": "74.88px"
+      },
+      {
+        "tag": "h3",
+        "text": "DG-001 needs",
+        "wrap": "auto",
+        "lines": 2,
+        "fs": "12px"
+      },
+      {
+        "tag": "h3",
+        "text": "DG-002 needs",
+        "wrap": "auto",
+        "lines": 2,
+        "fs": "12px"
+      },
+      {
+        "tag": "h3",
+        "text": "Venture Studies needs",
+        "wrap": "auto",
+        "lines": 2,
+        "fs": "12px"
+      },
+      {
+        "tag": "h2",
+        "text": "The credits are blank.The credits are blank.",
+        "wrap": "balance",
+        "lines": 1,
+        "fs": "74.88px"
+      },
+      {
+        "tag": "h2",
+        "text": "Thursday, 6:00 PM.",
+        "wrap": "auto",
+        "lines": 1,
+        "fs": "144px"
+      }
+    ],
+    "measures": [
+      {
+        "text": "Engineering, computer science, design an",
+        "cpl": 46,
+        "wrap": "auto"
+      },
+      {
+        "text": "DG-001 is a smartphone built from scratc",
+        "cpl": 84,
+        "wrap": "auto"
+      }
+    ],
+    "selectionBg": "rgba(194, 142, 14, 0.3)",
+    "caret": "rgb(17, 19, 17)",
+    "accent": "auto",
+    "smoothScroll": "auto"
+  },
+  "interactive": {
+    "total": 54,
+    "visible": 28
+  },
+  "linkVsButton": {
+    "hashLinks": [],
+    "roleButtonNonButton": [],
+    "buttonsCursor": [
+      "pointer"
+    ],
+    "linksCursor": [
+      "pointer"
+    ],
+    "disabled": [],
+    "toggles": [
+      "Open menu pressed=null expanded=false",
+      "Read it pressed=false expanded=null",
+      "200 pressed=true expanded=null",
+      "300 pressed=false expanded=null",
+      "450 demo pressed=false expanded=null"
+    ],
+    "noTransition": 10
+  },
+  "hover": [
+    {
+      "id": 10,
+      "tag": "a",
+      "label": "DIGITAL, top of page",
+      "cursor": "pointer",
+      "transition": null,
+      "hoverDiff": 0,
+      "crop": "design-lab/renders/micro/a/hover-010-NONE.png"
+    },
+    {
+      "id": 11,
+      "tag": "a",
+      "label": "Work",
+      "cursor": "pointer",
+      "transition": "background-size 0.24s cubic-bezier(0.2, 0.7, 0.1, 1)",
+      "hoverDiff": 0.0059,
+      "crop": "design-lab/renders/micro/a/hover-011-ok.png"
+    },
+    {
+      "id": 12,
+      "tag": "a",
+      "label": "Studio",
+      "cursor": "pointer",
+      "transition": "background-size 0.24s cubic-bezier(0.2, 0.7, 0.1, 1)",
+      "hoverDiff": 0.0065,
+      "crop": "design-lab/renders/micro/a/hover-012-ok.png"
+    },
+    {
+      "id": 13,
+      "tag": "a",
+      "label": "Join",
+      "cursor": "pointer",
+      "transition": "background-size 0.24s cubic-bezier(0.2, 0.7, 0.1, 1)",
+      "hoverDiff": 0.0052,
+      "crop": "design-lab/renders/micro/a/hover-013-ok.png"
+    },
+    {
+      "id": 14,
+      "tag": "a",
+      "label": "Take a subsystem",
+      "cursor": "pointer",
+      "transition": "background-color, color, border-color 0.24s, 0.24s, 0.24s cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.4, 0, 0.2, 1)",
+      "hoverDiff": 0.5189,
+      "crop": "design-lab/renders/micro/a/hover-014-ok.png"
+    },
+    {
+      "id": 15,
+      "tag": "a",
+      "label": "See the work",
+      "cursor": "pointer",
+      "transition": "text-decoration-thickness, text-underline-offset 0.12s, 0.12s cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.4, 0, 0.2, 1)",
+      "hoverDiff": 0.0131,
+      "crop": "design-lab/renders/micro/a/hover-015-ok.png"
+    },
+    {
+      "id": 16,
+      "tag": "a",
+      "label": "01The work",
+      "cursor": "pointer",
+      "transition": null,
+      "hoverDiff": 0.0346
+    },
+    {
+      "id": 17,
+      "tag": "a",
+      "label": "02How a build runs",
+      "cursor": "pointer",
+      "transition": null,
+      "hoverDiff": 0.0622
+    },
+    {
+      "id": 18,
+      "tag": "a",
+      "label": "03Where you fit",
+      "cursor": "pointer",
+      "transition": null,
+      "hoverDiff": 0.0499
+    },
+    {
+      "id": 19,
+      "tag": "a",
+      "label": "04Credits",
+      "cursor": "pointer",
+      "transition": null,
+      "hoverDiff": 0.0301
+    },
+    {
+      "id": 20,
+      "tag": "a",
+      "label": "05Thursday",
+      "cursor": "pointer",
+      "transition": null,
+      "hoverDiff": 0.038
+    },
+    {
+      "id": 21,
+      "tag": "a",
+      "label": "DG-001The Modular SmartphonePhones nobody can repairActive",
+      "cursor": "pointer",
+      "transition": "background-color, padding 0.24s, 0.24s cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.2, 0.7, 0.1, 1)",
+      "hoverDiff": 0.6866
+    },
+    {
+      "id": 22,
+      "tag": "a",
+      "label": "DG-002Smart ReadingReading means chasing the lineActive",
+      "cursor": "pointer",
+      "transition": "background-color, padding 0.24s, 0.24s cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.2, 0.7, 0.1, 1)",
+      "hoverDiff": 0.6878
+    },
+    {
+      "id": 23,
+      "tag": "a",
+      "label": "DG-003UnsignedYour proposalOpen",
+      "cursor": "pointer",
+      "transition": "background-color, padding 0.24s, 0.24s cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.2, 0.7, 0.1, 1)",
+      "hoverDiff": 0.6886
+    },
+    {
+      "id": 24,
+      "tag": "a",
+      "label": "Open the DG-001 build",
+      "cursor": "pointer",
+      "transition": "text-decoration-thickness, text-underline-offset 0.12s, 0.12s cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.4, 0, 0.2, 1)",
+      "hoverDiff": 0.0337
+    },
+    {
+      "id": 25,
+      "tag": "button",
+      "label": "Read it",
+      "cursor": "pointer",
+      "transition": "background-color, color 0.12s, 0.12s cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.4, 0, 0.2, 1)",
+      "hoverDiff": 0.457
+    },
+    {
+      "id": 26,
+      "tag": "button",
+      "label": "200",
+      "cursor": "pointer",
+      "transition": "background-color, color 0.12s, 0.12s cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.4, 0, 0.2, 1)",
+      "hoverDiff": 0,
+      "crop": "design-lab/renders/micro/a/hover-026-NONE.png"
+    },
+    {
+      "id": 27,
+      "tag": "button",
+      "label": "300",
+      "cursor": "pointer",
+      "transition": "background-color, color 0.12s, 0.12s cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.4, 0, 0.2, 1)",
+      "hoverDiff": 0,
+      "crop": "design-lab/renders/micro/a/hover-027-NONE.png"
+    },
+    {
+      "id": 28,
+      "tag": "button",
+      "label": "450 demo",
+      "cursor": "pointer",
+      "transition": "background-color, color 0.12s, 0.12s cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.4, 0, 0.2, 1)",
+      "hoverDiff": 0,
+      "crop": "design-lab/renders/micro/a/hover-028-NONE.png"
+    },
+    {
+      "id": 29,
+      "tag": "a",
+      "label": "Open the DG-002 build",
+      "cursor": "pointer",
+      "transition": "text-decoration-thickness, text-underline-offset 0.12s, 0.12s cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.4, 0, 0.2, 1)",
+      "hoverDiff": 0.0347
+    },
+    {
+      "id": 30,
+      "tag": "a",
+      "label": "Propose a build",
+      "cursor": "pointer",
+      "transition": "text-decoration-thickness, text-underline-offset 0.12s, 0.12s cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.4, 0, 0.2, 1)",
+      "hoverDiff": 0.0323
+    },
+    {
+      "id": 31,
+      "tag": "a",
+      "label": "Apply for a seat",
+      "cursor": "pointer",
+      "transition": "text-decoration-thickness, text-underline-offset 0.12s, 0.12s cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.4, 0, 0.2, 1)",
+      "hoverDiff": 0.0315
+    },
+    {
+      "id": 32,
+      "tag": "a",
+      "label": "Take a subsystem",
+      "cursor": "pointer",
+      "transition": "background-color, color 0.24s, 0.24s cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.4, 0, 0.2, 1)",
+      "hoverDiff": 0.5962
+    },
+    {
+      "id": 33,
+      "tag": "a",
+      "label": "Watch first on Discord (opens in a new tab)",
+      "cursor": "pointer",
+      "transition": "text-decoration-thickness, text-underline-offset 0.12s, 0.12s cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.4, 0, 0.2, 1)",
+      "hoverDiff": 0.0353
+    },
+    {
+      "id": 34,
+      "tag": "a",
+      "label": "contact@digitalcpp.org",
+      "cursor": "pointer",
+      "transition": null,
+      "hoverDiff": 0,
+      "crop": "design-lab/renders/micro/a/hover-034-NONE.png"
+    },
+    {
+      "id": 35,
+      "tag": "a",
+      "label": "Discord (opens in a new tab)",
+      "cursor": "pointer",
+      "transition": null,
+      "hoverDiff": 0,
+      "crop": "design-lab/renders/micro/a/hover-035-NONE.png"
+    },
+    {
+      "id": 36,
+      "tag": "a",
+      "label": "Privacy",
+      "cursor": "pointer",
+      "transition": null,
+      "hoverDiff": 0,
+      "crop": "design-lab/renders/micro/a/hover-036-NONE.png"
+    },
+    {
+      "id": 37,
+      "tag": "a",
+      "label": "Terms",
+      "cursor": "pointer",
+      "transition": null,
+      "hoverDiff": 0,
+      "crop": "design-lab/renders/micro/a/hover-037-NONE.png"
+    }
+  ],
+  "focus": [
+    {
+      "key": "0",
+      "tag": "a",
+      "type": null,
+      "label": "Skip to main content",
+      "outline": "solid 2px rgba(0, 0, 0, 0) off 2px",
+      "boxShadow": true,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "crop": "design-lab/renders/micro/a/focus-000-ok.png",
+      "ringDiff": 0.7545
+    },
+    {
+      "key": "1",
+      "tag": "a",
+      "type": null,
+      "label": "DIGITAL, top of page",
+      "outline": "solid 2px rgb(216, 65, 47) off 3px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "crop": "design-lab/renders/micro/a/focus-001-ok.png",
+      "ringDiff": 0.0713
+    },
+    {
+      "key": "2",
+      "tag": "a",
+      "type": null,
+      "label": "Work",
+      "outline": "solid 2px rgb(216, 65, 47) off 3px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "crop": "design-lab/renders/micro/a/focus-002-ok.png",
+      "ringDiff": 0.093
+    },
+    {
+      "key": "3",
+      "tag": "a",
+      "type": null,
+      "label": "Studio",
+      "outline": "solid 2px rgb(216, 65, 47) off 3px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "crop": "design-lab/renders/micro/a/focus-003-ok.png",
+      "ringDiff": 0.0903
+    },
+    {
+      "key": "4",
+      "tag": "a",
+      "type": null,
+      "label": "Join",
+      "outline": "solid 2px rgb(216, 65, 47) off 3px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "crop": "design-lab/renders/micro/a/focus-004-ok.png",
+      "ringDiff": 0.0958
+    },
+    {
+      "key": "5",
+      "tag": "a",
+      "type": null,
+      "label": "Take a subsystem",
+      "outline": "solid 2px rgb(216, 65, 47) off 3px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "crop": "design-lab/renders/micro/a/focus-005-ok.png",
+      "ringDiff": 0.0748
+    },
+    {
+      "key": "6",
+      "tag": "a",
+      "type": null,
+      "label": "See the work",
+      "outline": "solid 2px rgb(216, 65, 47) off 3px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.07
+    },
+    {
+      "key": "7",
+      "tag": "a",
+      "type": null,
+      "label": "01The work",
+      "outline": "solid 2px rgb(216, 65, 47) off 3px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0644
+    },
+    {
+      "key": "8",
+      "tag": "a",
+      "type": null,
+      "label": "02How a build runs",
+      "outline": "solid 2px rgb(216, 65, 47) off 3px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0643
+    },
+    {
+      "key": "9",
+      "tag": "a",
+      "type": null,
+      "label": "03Where you fit",
+      "outline": "solid 2px rgb(216, 65, 47) off 3px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0643
+    },
+    {
+      "key": "10",
+      "tag": "a",
+      "type": null,
+      "label": "04Credits",
+      "outline": "solid 2px rgb(216, 65, 47) off 3px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0643
+    },
+    {
+      "key": "11",
+      "tag": "a",
+      "type": null,
+      "label": "05Thursday",
+      "outline": "solid 2px rgb(216, 65, 47) off 3px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0643
+    },
+    {
+      "key": "12",
+      "tag": "a",
+      "type": null,
+      "label": "DG-001The Modular SmartphonePhones nobody can repa",
+      "outline": "solid 2px rgb(216, 65, 47) off 3px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0481
+    },
+    {
+      "key": "13",
+      "tag": "a",
+      "type": null,
+      "label": "DG-002Smart ReadingReading means chasing the lineA",
+      "outline": "solid 2px rgb(216, 65, 47) off 3px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0481
+    },
+    {
+      "key": "14",
+      "tag": "a",
+      "type": null,
+      "label": "DG-003UnsignedYour proposalOpen",
+      "outline": "solid 2px rgb(216, 65, 47) off 3px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0481
+    },
+    {
+      "key": "15",
+      "tag": "a",
+      "type": null,
+      "label": "Open the DG-001 build",
+      "outline": "solid 2px rgb(216, 65, 47) off 3px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0748
+    },
+    {
+      "key": "16",
+      "tag": "button",
+      "type": "button",
+      "label": "Read it",
+      "outline": "solid 2px rgb(216, 65, 47) off 3px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0868
+    },
+    {
+      "key": "17",
+      "tag": "button",
+      "type": "button",
+      "label": "200",
+      "outline": "solid 2px rgb(216, 65, 47) off 3px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.095
+    },
+    {
+      "key": "18",
+      "tag": "button",
+      "type": "button",
+      "label": "300",
+      "outline": "solid 2px rgb(216, 65, 47) off 3px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0954
+    },
+    {
+      "key": "19",
+      "tag": "button",
+      "type": "button",
+      "label": "450 demo",
+      "outline": "solid 2px rgb(216, 65, 47) off 3px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0854
+    },
+    {
+      "key": "20",
+      "tag": "a",
+      "type": null,
+      "label": "Open the DG-002 build",
+      "outline": "solid 2px rgb(216, 65, 47) off 3px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0748
+    },
+    {
+      "key": "21",
+      "tag": "a",
+      "type": null,
+      "label": "Propose a build",
+      "outline": "solid 2px rgb(216, 65, 47) off 3px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0788
+    },
+    {
+      "key": "22",
+      "tag": "a",
+      "type": null,
+      "label": "Apply for a seat",
+      "outline": "solid 2px rgb(216, 65, 47) off 3px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0787
+    },
+    {
+      "key": "23",
+      "tag": "a",
+      "type": null,
+      "label": "Take a subsystem",
+      "outline": "solid 2px rgb(216, 65, 47) off 3px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0633
+    },
+    {
+      "key": "24",
+      "tag": "a",
+      "type": null,
+      "label": "Watch first on Discord (opens in a new tab)",
+      "outline": "solid 2px rgb(216, 65, 47) off 3px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.075
+    },
+    {
+      "key": "25",
+      "tag": "a",
+      "type": null,
+      "label": "contact@digitalcpp.org",
+      "outline": "solid 2px rgb(239, 90, 69) off 3px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0773
+    },
+    {
+      "key": "26",
+      "tag": "a",
+      "type": null,
+      "label": "Discord (opens in a new tab)",
+      "outline": "solid 2px rgb(239, 90, 69) off 3px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0977
+    },
+    {
+      "key": "27",
+      "tag": "a",
+      "type": null,
+      "label": "Privacy",
+      "outline": "solid 2px rgb(239, 90, 69) off 3px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.1004
+    },
+    {
+      "key": "28",
+      "tag": "a",
+      "type": null,
+      "label": "Terms",
+      "outline": "solid 2px rgb(239, 90, 69) off 3px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.1035
+    }
+  ],
+  "active": [
+    {
+      "id": 25,
+      "label": "Read it",
+      "activeDiff": 0,
+      "crop": "design-lab/renders/micro/a/active-025.png"
+    },
+    {
+      "id": 26,
+      "label": "200",
+      "activeDiff": 0,
+      "crop": "design-lab/renders/micro/a/active-026.png"
+    },
+    {
+      "id": 27,
+      "label": "300",
+      "activeDiff": 0.0379,
+      "crop": "design-lab/renders/micro/a/active-027.png"
+    },
+    {
+      "id": 28,
+      "label": "450 demo",
+      "activeDiff": 0.0248,
+      "crop": "design-lab/renders/micro/a/active-028.png"
+    }
+  ],
+  "mobile": {
+    "scrollWidth": 390,
+    "innerWidth": 390,
+    "smallTargets": 1,
+    "smallSample": [
+      "a \"Terms\" 41x44"
+    ],
+    "overflow": []
+  },
+  "reducedMotion": {
+    "rafPerSec": 0,
+    "runningAnimations": 0,
+    "runningSample": [],
+    "transitionsStillOn": 0,
+    "transitionSample": [],
+    "canvases": 0
+  },
+  "noJs": {
+    "hiddenText": 0,
+    "sample": [],
+    "height": 9247
+  }
+}

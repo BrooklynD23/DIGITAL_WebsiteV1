@@ -1,0 +1,11 @@
+0.0s  navigate (load)
+2.8s  type name "Danny" into the sign field
+5.0s  wheel-scroll to the bench
+8.1s  pointer drag: sticky tray tag -> DG-001 Hardware / PCB seat (on screen)
+12.0s  drop done (mine seats: 1)
+12.0s  hover DG-001 Firmware seat (phone layer highlight)
+13.0s  keyboard: focus DG-002 Optics "Put Danny here" button, press Enter
+15.4s  keyboard placement done (on DG-002: 1)
+15.4s  wheel-scroll to the sheet (fill)
+18.6s  scroll to Thursday + footer signature
+21.8s  end

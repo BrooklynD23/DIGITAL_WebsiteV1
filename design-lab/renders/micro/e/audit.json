@@ -1,0 +1,993 @@
+{
+  "slug": "e",
+  "url": "http://localhost:3100/design-lab/e/",
+  "when": "2026-10-02T13:32:18.697Z",
+  "errors": [],
+  "hiddenAtFirstPaint": {
+    "count": 0,
+    "sample": []
+  },
+  "globalCursor": {
+    "present": 2,
+    "visible": 2,
+    "htmlCursor": "none"
+  },
+  "idleWithCursor": {
+    "cursorRafPerSec": 60
+  },
+  "idle": {
+    "rafPerSecAtTop": 123,
+    "runningAnimations": 0,
+    "sample": [],
+    "canvases": 0
+  },
+  "inventory": {
+    "transitions": [
+      "24x 0.2s | cubic-bezier(0.4, 0, 0.2, 1)",
+      "21x 0.24s | cubic-bezier(0.2, 0, 0, 1)",
+      "12x 0.12s, 0.12s | cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1)",
+      "7x 0.12s | cubic-bezier(0.2, 0, 0, 1)",
+      "3x 0.12s, 0.12s, 0.12s | cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1)",
+      "1x 0.16s, 0.16s | ease-out, ease-out"
+    ],
+    "animations": [
+      "9x e_rise__l3sWg 0.72s cubic-bezier(0.2, 0, 0, 1) x1"
+    ],
+    "headings": [
+      {
+        "tag": "h1",
+        "text": "Make something worth putting your name on.",
+        "wrap": "balance",
+        "lines": 5,
+        "fs": "92.16px"
+      },
+      {
+        "tag": "h2",
+        "text": "Build ledger",
+        "wrap": "auto",
+        "lines": 1,
+        "fs": "12px"
+      },
+      {
+        "tag": "h2",
+        "text": "Same template for every build. Blanks stay blank.",
+        "wrap": "balance",
+        "lines": 3,
+        "fs": "60px"
+      },
+      {
+        "tag": "h3",
+        "text": "One phone, owned in seven parts.",
+        "wrap": "balance",
+        "lines": 2,
+        "fs": "60px"
+      },
+      {
+        "tag": "h3",
+        "text": "One word, held still.",
+        "wrap": "balance",
+        "lines": 1,
+        "fs": "60px"
+      },
+      {
+        "tag": "h2",
+        "text": "Seven seats. All open.",
+        "wrap": "balance",
+        "lines": 2,
+        "fs": "60px"
+      },
+      {
+        "tag": "h2",
+        "text": "Put your name on a build.",
+        "wrap": "balance",
+        "lines": 2,
+        "fs": "60px"
+      },
+      {
+        "tag": "h3",
+        "text": "Come to build night.",
+        "wrap": "auto",
+        "lines": 1,
+        "fs": "22px"
+      },
+      {
+        "tag": "h3",
+        "text": "Join the Discord.",
+        "wrap": "auto",
+        "lines": 1,
+        "fs": "22px"
+      },
+      {
+        "tag": "h3",
+        "text": "Take a subsystem.",
+        "wrap": "auto",
+        "lines": 1,
+        "fs": "22px"
+      }
+    ],
+    "measures": [
+      {
+        "text": "Each case study answers the same questio",
+        "cpl": 94,
+        "wrap": "pretty"
+      },
+      {
+        "text": "Seven layers, seven owners. Each subsyst",
+        "cpl": 97,
+        "wrap": "pretty"
+      },
+      {
+        "text": "Seven subsystems, each with an owner, a ",
+        "cpl": 94,
+        "wrap": "pretty"
+      },
+      {
+        "text": "RSVP (rapid serial visual presentation) ",
+        "cpl": 56,
+        "wrap": "pretty"
+      },
+      {
+        "text": "Reading asks the eyes to jump along ever",
+        "cpl": 100,
+        "wrap": "pretty"
+      },
+      {
+        "text": "Hold each word at one point and let the ",
+        "cpl": 95,
+        "wrap": "pretty"
+      },
+      {
+        "text": "Needs engineering, optics, firmware, des",
+        "cpl": 97,
+        "wrap": "pretty"
+      },
+      {
+        "text": "Every leadership seat is unfilled. Names",
+        "cpl": 96,
+        "wrap": "pretty"
+      }
+    ],
+    "selectionBg": "rgba(194, 142, 14, 0.3)",
+    "caret": "rgb(17, 19, 17)",
+    "accent": "auto",
+    "smoothScroll": "auto"
+  },
+  "interactive": {
+    "total": 65,
+    "visible": 34
+  },
+  "linkVsButton": {
+    "hashLinks": [],
+    "roleButtonNonButton": [],
+    "buttonsCursor": [
+      "pointer"
+    ],
+    "linksCursor": [
+      "pointer"
+    ],
+    "disabled": [],
+    "toggles": [
+      "Open menu pressed=null expanded=false",
+      "DG-001The Modular SmartphoneBuild a modular smartphone aroun pressed=null expanded=false",
+      "DG-002Smart ReadingFPGA-based heads-up glasses that show one pressed=null expanded=false",
+      "PROGRAMVenture StudiesTurn engineering scope into budgets, s pressed=null expanded=false",
+      "DG-003UnassignedThe next build has no owner yet. Bring the p pressed=null expanded=false",
+      "Play pressed=false expanded=null",
+      "250 pressed=false expanded=null",
+      "450 pressed=true expanded=null"
+    ],
+    "noTransition": 18
+  },
+  "hover": [
+    {
+      "id": 10,
+      "label": "Skip to content",
+      "error": "page.hover: Element is outside of the viewport\nCall log:\n\u001b[2m  - waiting for loc"
+    },
+    {
+      "id": 11,
+      "tag": "a",
+      "label": "DIGITAL, Cal Poly Pomona, back to top",
+      "cursor": "pointer",
+      "transition": null,
+      "hoverDiff": 0,
+      "crop": "design-lab/renders/micro/e/hover-011-NONE.png"
+    },
+    {
+      "id": 12,
+      "tag": "a",
+      "label": "Ledger",
+      "cursor": "pointer",
+      "transition": "color, border-color 0.12s, 0.12s cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1)",
+      "hoverDiff": 0.055,
+      "crop": "design-lab/renders/micro/e/hover-012-ok.png"
+    },
+    {
+      "id": 13,
+      "tag": "a",
+      "label": "Case studies",
+      "cursor": "pointer",
+      "transition": "color, border-color 0.12s, 0.12s cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1)",
+      "hoverDiff": 0.0615,
+      "crop": "design-lab/renders/micro/e/hover-013-ok.png"
+    },
+    {
+      "id": 14,
+      "tag": "a",
+      "label": "Roles",
+      "cursor": "pointer",
+      "transition": "color, border-color 0.12s, 0.12s cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1)",
+      "hoverDiff": 0.0504,
+      "crop": "design-lab/renders/micro/e/hover-014-ok.png"
+    },
+    {
+      "id": 15,
+      "tag": "a",
+      "label": "Join",
+      "cursor": "pointer",
+      "transition": "color, border-color 0.12s, 0.12s cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1)",
+      "hoverDiff": 0.0405,
+      "crop": "design-lab/renders/micro/e/hover-015-ok.png"
+    },
+    {
+      "id": 16,
+      "tag": "a",
+      "label": "Take a subsystem",
+      "cursor": "pointer",
+      "transition": "background-color, color, border-color 0.12s, 0.12s, 0.12s cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1)",
+      "hoverDiff": 0.4682,
+      "crop": "design-lab/renders/micro/e/hover-016-ok.png"
+    },
+    {
+      "id": 22,
+      "tag": "a",
+      "label": "Read the case studies",
+      "cursor": "pointer",
+      "transition": "background-color, color, border-color 0.12s, 0.12s, 0.12s cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1)",
+      "hoverDiff": 0.6316
+    },
+    {
+      "id": 23,
+      "tag": "a",
+      "label": "Thursdays · 6:00 PM · Building 17, Room 1635",
+      "cursor": "pointer",
+      "transition": "text-decoration-color 0.12s cubic-bezier(0.2, 0, 0, 1)",
+      "hoverDiff": 0.0124
+    },
+    {
+      "id": 24,
+      "tag": "button",
+      "label": "DG-001The Modular SmartphoneBuild a modular smartphone aroun",
+      "cursor": "pointer",
+      "transition": "background-color, border-color 0.12s, 0.12s cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1)",
+      "hoverDiff": 0.0029
+    },
+    {
+      "id": 25,
+      "tag": "button",
+      "label": "DG-002Smart ReadingFPGA-based heads-up glasses that show one",
+      "cursor": "pointer",
+      "transition": "background-color, border-color 0.12s, 0.12s cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1)",
+      "hoverDiff": 0.0029
+    },
+    {
+      "id": 26,
+      "tag": "button",
+      "label": "PROGRAMVenture StudiesTurn engineering scope into budgets, s",
+      "cursor": "pointer",
+      "transition": "background-color, border-color 0.12s, 0.12s cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1)",
+      "hoverDiff": 0.0029
+    },
+    {
+      "id": 27,
+      "tag": "button",
+      "label": "DG-003UnassignedThe next build has no owner yet. Bring the p",
+      "cursor": "pointer",
+      "transition": "background-color, border-color 0.12s, 0.12s cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1)",
+      "hoverDiff": 0.003
+    },
+    {
+      "id": 28,
+      "tag": "a",
+      "label": "Current project page",
+      "cursor": "pointer",
+      "transition": "text-decoration-color 0.12s cubic-bezier(0.2, 0, 0, 1)",
+      "hoverDiff": 0.0125
+    },
+    {
+      "id": 29,
+      "tag": "a",
+      "label": "Current project page",
+      "cursor": "pointer",
+      "transition": "text-decoration-color 0.12s cubic-bezier(0.2, 0, 0, 1)",
+      "hoverDiff": 0.0125
+    },
+    {
+      "id": 30,
+      "tag": "button",
+      "label": "Play",
+      "cursor": "pointer",
+      "transition": null,
+      "hoverDiff": 0.0337
+    },
+    {
+      "id": 31,
+      "tag": "button",
+      "label": "Next word",
+      "cursor": "pointer",
+      "transition": null,
+      "hoverDiff": 0.0363
+    },
+    {
+      "id": 32,
+      "tag": "button",
+      "label": "250",
+      "cursor": "pointer",
+      "transition": null,
+      "hoverDiff": 0.0353
+    },
+    {
+      "id": 33,
+      "tag": "button",
+      "label": "450",
+      "cursor": "pointer",
+      "transition": null,
+      "hoverDiff": 0,
+      "crop": "design-lab/renders/micro/e/hover-033-NONE.png"
+    },
+    {
+      "id": 34,
+      "tag": "a",
+      "label": "Become a SponsorFund a build and work with the team doing it",
+      "cursor": "pointer",
+      "transition": null,
+      "hoverDiff": 0.0024
+    },
+    {
+      "id": 35,
+      "tag": "a",
+      "label": "Recruit TalentMeet the students while they build",
+      "cursor": "pointer",
+      "transition": null,
+      "hoverDiff": 0.0019,
+      "crop": "design-lab/renders/micro/e/hover-035-NONE.png"
+    },
+    {
+      "id": 36,
+      "tag": "a",
+      "label": "Host a WorkshopBring your platform to a workshop and put it ",
+      "cursor": "pointer",
+      "transition": null,
+      "hoverDiff": 0.0022
+    },
+    {
+      "id": 37,
+      "tag": "a",
+      "label": "Donate EquipmentGive boards, tools, or licenses a second lif",
+      "cursor": "pointer",
+      "transition": null,
+      "hoverDiff": 0.0023
+    },
+    {
+      "id": 38,
+      "tag": "a",
+      "label": "Take a subsystem",
+      "cursor": "pointer",
+      "transition": "background-color, color, border-color 0.12s, 0.12s, 0.12s cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1)",
+      "hoverDiff": 0.5075
+    },
+    {
+      "id": 39,
+      "tag": "a",
+      "label": "Open Discord (opens in a new tab)",
+      "cursor": "pointer",
+      "transition": "text-decoration-color 0.12s cubic-bezier(0.2, 0, 0, 1)",
+      "hoverDiff": 0.0091
+    },
+    {
+      "id": 40,
+      "tag": "a",
+      "label": "Open the form",
+      "cursor": "pointer",
+      "transition": "text-decoration-color 0.12s cubic-bezier(0.2, 0, 0, 1)",
+      "hoverDiff": 0.0109
+    },
+    {
+      "id": 41,
+      "tag": "a",
+      "label": "DG-001 Modular Smartphone",
+      "cursor": "pointer",
+      "transition": null,
+      "hoverDiff": 0.0123
+    },
+    {
+      "id": 42,
+      "tag": "a",
+      "label": "DG-002 Smart Reading",
+      "cursor": "pointer",
+      "transition": null,
+      "hoverDiff": 0.0149
+    },
+    {
+      "id": 43,
+      "tag": "a",
+      "label": "DG-003 Pitch a build",
+      "cursor": "pointer",
+      "transition": null,
+      "hoverDiff": 0.0148
+    },
+    {
+      "id": 44,
+      "tag": "a",
+      "label": "Open roles",
+      "cursor": "pointer",
+      "transition": null,
+      "hoverDiff": 0.0104
+    },
+    {
+      "id": 45,
+      "tag": "a",
+      "label": "Become a member",
+      "cursor": "pointer",
+      "transition": null,
+      "hoverDiff": 0.0117
+    },
+    {
+      "id": 46,
+      "tag": "a",
+      "label": "Back a build",
+      "cursor": "pointer",
+      "transition": null,
+      "hoverDiff": 0.0133
+    },
+    {
+      "id": 47,
+      "tag": "a",
+      "label": "contact@digitalcpp.org",
+      "cursor": "pointer",
+      "transition": null,
+      "hoverDiff": 0.0118
+    },
+    {
+      "id": 48,
+      "tag": "a",
+      "label": "Discord (opens in a new tab)",
+      "cursor": "pointer",
+      "transition": null,
+      "hoverDiff": 0.0095
+    }
+  ],
+  "focus": [
+    {
+      "key": "0",
+      "tag": "a",
+      "type": null,
+      "label": "Skip to main content",
+      "outline": "solid 2px rgba(0, 0, 0, 0) off 2px",
+      "boxShadow": true,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "crop": "design-lab/renders/micro/e/focus-000-ok.png",
+      "ringDiff": 0.7495
+    },
+    {
+      "key": "1",
+      "tag": "a",
+      "type": null,
+      "label": "Skip to content",
+      "outline": "solid 2px rgb(18, 20, 17) off 2px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "crop": "design-lab/renders/micro/e/focus-001-ok.png",
+      "ringDiff": 0.6523
+    },
+    {
+      "key": "2",
+      "tag": "a",
+      "type": null,
+      "label": "DIGITAL, Cal Poly Pomona, back to top",
+      "outline": "solid 2px rgb(18, 20, 17) off 2px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "crop": "design-lab/renders/micro/e/focus-002-ok.png",
+      "ringDiff": 0.0732
+    },
+    {
+      "key": "3",
+      "tag": "a",
+      "type": null,
+      "label": "Ledger",
+      "outline": "solid 2px rgb(18, 20, 17) off 2px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "crop": "design-lab/renders/micro/e/focus-003-ok.png",
+      "ringDiff": 0.0867
+    },
+    {
+      "key": "4",
+      "tag": "a",
+      "type": null,
+      "label": "Case studies",
+      "outline": "solid 2px rgb(18, 20, 17) off 2px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "crop": "design-lab/renders/micro/e/focus-004-ok.png",
+      "ringDiff": 0.0795
+    },
+    {
+      "key": "5",
+      "tag": "a",
+      "type": null,
+      "label": "Roles",
+      "outline": "solid 2px rgb(18, 20, 17) off 2px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "crop": "design-lab/renders/micro/e/focus-005-ok.png",
+      "ringDiff": 0.0903
+    },
+    {
+      "key": "6",
+      "tag": "a",
+      "type": null,
+      "label": "Join",
+      "outline": "solid 2px rgb(18, 20, 17) off 2px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0938
+    },
+    {
+      "key": "7",
+      "tag": "a",
+      "type": null,
+      "label": "Take a subsystem",
+      "outline": "solid 2px rgb(18, 20, 17) off 2px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.081
+    },
+    {
+      "key": "8",
+      "tag": "a",
+      "type": null,
+      "label": "Read the case studies",
+      "outline": "solid 2px rgb(18, 20, 17) off 2px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0531
+    },
+    {
+      "key": "9",
+      "tag": "a",
+      "type": null,
+      "label": "Thursdays · 6:00 PM · Building 17, Room 1635",
+      "outline": "solid 2px rgb(18, 20, 17) off 2px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0687
+    },
+    {
+      "key": "10",
+      "tag": "button",
+      "type": "button",
+      "label": "DG-001The Modular SmartphoneBuild a modular smartp",
+      "outline": "solid 2px rgb(18, 20, 17) off -3px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0295
+    },
+    {
+      "key": "11",
+      "tag": "button",
+      "type": "button",
+      "label": "DG-002Smart ReadingFPGA-based heads-up glasses tha",
+      "outline": "solid 2px rgb(18, 20, 17) off -3px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0265
+    },
+    {
+      "key": "12",
+      "tag": "button",
+      "type": "button",
+      "label": "PROGRAMVenture StudiesTurn engineering scope into ",
+      "outline": "solid 2px rgb(18, 20, 17) off -3px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0296
+    },
+    {
+      "key": "13",
+      "tag": "button",
+      "type": "button",
+      "label": "DG-003UnassignedThe next build has no owner yet. B",
+      "outline": "solid 2px rgb(18, 20, 17) off -3px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0336
+    },
+    {
+      "key": "14",
+      "tag": "a",
+      "type": null,
+      "label": "Current project page",
+      "outline": "solid 2px rgb(18, 20, 17) off 2px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0948
+    },
+    {
+      "key": "15",
+      "tag": "a",
+      "type": null,
+      "label": "Current project page",
+      "outline": "solid 2px rgb(18, 20, 17) off 2px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0948
+    },
+    {
+      "key": "16",
+      "tag": "button",
+      "type": "button",
+      "label": "Play",
+      "outline": "solid 2px rgb(18, 20, 17) off 2px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0914
+    },
+    {
+      "key": "17",
+      "tag": "button",
+      "type": "button",
+      "label": "Next word",
+      "outline": "solid 2px rgb(18, 20, 17) off 2px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.1055
+    },
+    {
+      "key": "18",
+      "tag": "button",
+      "type": "button",
+      "label": "250",
+      "outline": "solid 2px rgb(18, 20, 17) off 2px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.1002
+    },
+    {
+      "key": "19",
+      "tag": "button",
+      "type": "button",
+      "label": "450",
+      "outline": "solid 2px rgb(18, 20, 17) off 2px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.1008
+    },
+    {
+      "key": "20",
+      "tag": "a",
+      "type": null,
+      "label": "Become a SponsorFund a build and work with the tea",
+      "outline": "solid 2px rgb(18, 20, 17) off 2px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0453
+    },
+    {
+      "key": "21",
+      "tag": "a",
+      "type": null,
+      "label": "Recruit TalentMeet the students while they build",
+      "outline": "solid 2px rgb(18, 20, 17) off 2px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0453
+    },
+    {
+      "key": "22",
+      "tag": "a",
+      "type": null,
+      "label": "Host a WorkshopBring your platform to a workshop a",
+      "outline": "solid 2px rgb(18, 20, 17) off 2px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0453
+    },
+    {
+      "key": "23",
+      "tag": "a",
+      "type": null,
+      "label": "Donate EquipmentGive boards, tools, or licenses a ",
+      "outline": "solid 2px rgb(18, 20, 17) off 2px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0453
+    },
+    {
+      "key": "24",
+      "tag": "a",
+      "type": null,
+      "label": "Take a subsystem",
+      "outline": "solid 2px rgb(18, 20, 17) off 2px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0751
+    },
+    {
+      "key": "25",
+      "tag": "a",
+      "type": null,
+      "label": "Open Discord (opens in a new tab)",
+      "outline": "solid 2px rgb(18, 20, 17) off 2px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0792
+    },
+    {
+      "key": "26",
+      "tag": "a",
+      "type": null,
+      "label": "Open the form",
+      "outline": "solid 2px rgb(18, 20, 17) off 2px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0816
+    },
+    {
+      "key": "27",
+      "tag": "a",
+      "type": null,
+      "label": "DG-001 Modular Smartphone",
+      "outline": "solid 2px rgb(241, 241, 236) off 2px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0718
+    },
+    {
+      "key": "28",
+      "tag": "a",
+      "type": null,
+      "label": "DG-002 Smart Reading",
+      "outline": "solid 2px rgb(241, 241, 236) off 2px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.052
+    },
+    {
+      "key": "29",
+      "tag": "a",
+      "type": null,
+      "label": "DG-003 Pitch a build",
+      "outline": "solid 2px rgb(241, 241, 236) off 2px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0533
+    },
+    {
+      "key": "30",
+      "tag": "a",
+      "type": null,
+      "label": "Open roles",
+      "outline": "solid 2px rgb(241, 241, 236) off 2px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0843
+    },
+    {
+      "key": "31",
+      "tag": "a",
+      "type": null,
+      "label": "Become a member",
+      "outline": "solid 2px rgb(241, 241, 236) off 2px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0763
+    },
+    {
+      "key": "32",
+      "tag": "a",
+      "type": null,
+      "label": "Back a build",
+      "outline": "solid 2px rgb(241, 241, 236) off 2px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0641
+    },
+    {
+      "key": "33",
+      "tag": "a",
+      "type": null,
+      "label": "contact@digitalcpp.org",
+      "outline": "solid 2px rgb(241, 241, 236) off 2px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0741
+    },
+    {
+      "key": "34",
+      "tag": "a",
+      "type": null,
+      "label": "Discord (opens in a new tab)",
+      "outline": "solid 2px rgb(241, 241, 236) off 2px",
+      "boxShadow": false,
+      "inView": true,
+      "obscured": false,
+      "obscuredBy": null,
+      "tiny": false,
+      "ringDiff": 0.0913
+    }
+  ],
+  "active": [
+    {
+      "id": 24,
+      "label": "DG-001The Modular SmartphoneBuild a modular smartphone aroun",
+      "activeDiff": 0,
+      "crop": "design-lab/renders/micro/e/active-024.png"
+    },
+    {
+      "id": 25,
+      "label": "DG-002Smart ReadingFPGA-based heads-up glasses that show one",
+      "activeDiff": 0.0208,
+      "crop": "design-lab/renders/micro/e/active-025.png"
+    },
+    {
+      "id": 26,
+      "label": "PROGRAMVenture StudiesTurn engineering scope into budgets, s",
+      "activeDiff": 0.0168,
+      "crop": "design-lab/renders/micro/e/active-026.png"
+    },
+    {
+      "id": 27,
+      "label": "DG-003UnassignedThe next build has no owner yet. Bring the p",
+      "activeDiff": 0.035,
+      "crop": "design-lab/renders/micro/e/active-027.png"
+    },
+    {
+      "id": 30,
+      "label": "Play",
+      "activeDiff": 0.087
+    },
+    {
+      "id": 31,
+      "label": "Next word",
+      "activeDiff": 0.0306
+    },
+    {
+      "id": 32,
+      "label": "250",
+      "activeDiff": 0.0264
+    },
+    {
+      "id": 33,
+      "label": "450",
+      "activeDiff": 0.0256
+    }
+  ],
+  "mobile": {
+    "scrollWidth": 390,
+    "innerWidth": 390,
+    "smallTargets": 3,
+    "smallSample": [
+      "a \"Take a subsystem\" 152x40",
+      "a \"Current project page\" 169x25",
+      "a \"Current project page\" 169x25"
+    ],
+    "overflow": []
+  },
+  "reducedMotion": {
+    "rafPerSec": 64,
+    "runningAnimations": 0,
+    "runningSample": [],
+    "transitionsStillOn": 0,
+    "transitionSample": [],
+    "canvases": 0
+  },
+  "noJs": {
+    "hiddenText": 0,
+    "sample": [],
+    "height": 8469
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "slug": "d",
+  "steps": [
+    {
+      "k": "seat.focus",
+      "v": {
+        "active": "input \"\"",
+        "crop": "design-lab/renders/micro/d/sc-seat-focus.png"
+      }
+    },
+    {
+      "k": "seat.arrow",
+      "v": {
+        "checked": "firmware-embedded",
+        "liveRegions": 0,
+        "crop": "design-lab/renders/micro/d/sc-seats-after-arrow.png"
+      }
+    },
+    {
+      "k": "seat.hover",
+      "v": {
+        "crop": "design-lab/renders/micro/d/sc-seat-hover.png"
+      }
+    },
+    {
+      "k": "button.active",
+      "v": {
+        "style": {
+          "transform": "matrix(1, 0, 0, 1, 0, 0.998829)",
+          "backgroundColor": "rgb(168, 50, 31)"
+        },
+        "crop": "design-lab/renders/micro/d/sc-button-active.png"
+      }
+    },
+    {
+      "k": "rm.drawon",
+      "v": {
+        "crop": "design-lab/renders/micro/d/sc-rm-how.png"
+      }
+    }
+  ]
+}

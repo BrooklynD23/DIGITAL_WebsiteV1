@@ -1,0 +1,30 @@
+{
+  "slug": "d",
+  "steps": [
+    {
+      "step": "Tab x13 to seat radio",
+      "focus": "input \"systems-architecture\" checked=true",
+      "announced": [],
+      "state": "systems-architecture"
+    },
+    {
+      "step": "ArrowRight (seat 2)",
+      "focus": "input \"hardware-pcb\" checked=true",
+      "announced": [],
+      "state": "hardware-pcb"
+    },
+    {
+      "step": "ArrowRight (seat 3)",
+      "focus": "input \"firmware-embedded\" checked=true",
+      "announced": [],
+      "state": "firmware-embedded"
+    },
+    {
+      "step": "Tab (leaves group: where does focus go?)",
+      "focus": "a \"Tell us you're coming\"",
+      "announced": []
+    }
+  ],
+  "failure": null,
+  "errors": []
+}

@@ -49,3 +49,5 @@ next-env.d.ts
 design-lab/.server.log
 design-lab/.server.lock
 design-lab/.devtools.lock/
+# Extracted video frames are regenerable from the .webm recordings (ffmpeg -vf fps=4)
+design-lab/renders/**/frames*/

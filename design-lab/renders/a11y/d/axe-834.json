@@ -1,0 +1,47 @@
+{
+  "violations": [],
+  "incomplete": [
+    {
+      "id": "aria-prohibited-attr",
+      "impact": "serious",
+      "help": "Elements must only use permitted ARIA attributes",
+      "nodes": 1,
+      "targets": [
+        {
+          "target": ".d_sheet__Fazsh",
+          "summary": "Fix all of the following:\n  aria-labelledby attribute is not well supported on a div with no valid role attribute."
+        }
+      ]
+    },
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "nodes": 4,
+      "targets": [
+        {
+          "target": ".d_povWord__CzZhW",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+        },
+        {
+          "target": ".d_povHud__bpsWZ",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+        },
+        {
+          "target": ".d_handNote__3S1gY > span[aria-hidden=\"true\"]",
+          "summary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "target": ".d_tableLabel__ccfqP",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+        }
+      ]
+    }
+  ],
+  "ccTargets": [
+    ".d_povWord__CzZhW",
+    ".d_povHud__bpsWZ",
+    ".d_handNote__3S1gY > span[aria-hidden=\"true\"]",
+    ".d_tableLabel__ccfqP"
+  ]
+}

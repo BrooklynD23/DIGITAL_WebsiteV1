@@ -1,0 +1,1167 @@
+{
+  "slug": "c",
+  "route": "/design-lab/c/",
+  "at": "2026-10-02T13:33:56.234Z",
+  "viewports": {
+    "390": {
+      "consoleErrors": [],
+      "axe": {
+        "critical": 0,
+        "serious": 0,
+        "moderate": 0,
+        "minor": 0,
+        "rules": [],
+        "incomplete": [
+          "color-contrast(3)"
+        ]
+      },
+      "vw": 390,
+      "scrollWidth": 390,
+      "overflow": false,
+      "overflowOffenders": [],
+      "targets": {
+        "checked": 42,
+        "small": 7,
+        "smallNonInline": 7,
+        "list": [
+          {
+            "el": "button \"Live\"",
+            "w": 64,
+            "h": 36,
+            "inline": false,
+            "x": 74,
+            "y": 1414
+          },
+          {
+            "el": "button \"Still\"",
+            "w": 64,
+            "h": 36,
+            "inline": false,
+            "x": 138,
+            "y": 1414
+          },
+          {
+            "el": "a \"contact@digitalcpp.org\"",
+            "w": 162,
+            "h": 35,
+            "inline": false,
+            "x": 16,
+            "y": 8686
+          },
+          {
+            "el": "a \"discord.gg/Vsg3qcNVzv (opens in a new ta\"",
+            "w": 168,
+            "h": 35,
+            "inline": false,
+            "x": 16,
+            "y": 8721
+          },
+          {
+            "el": "a \"Privacy\"",
+            "w": 47,
+            "h": 35,
+            "inline": false,
+            "x": 16,
+            "y": 8804
+          },
+          {
+            "el": "a \"Terms\"",
+            "w": 44,
+            "h": 35,
+            "inline": false,
+            "x": 16,
+            "y": 8840
+          },
+          {
+            "el": "a \"Cookies\"",
+            "w": 58,
+            "h": 35,
+            "inline": false,
+            "x": 16,
+            "y": 8875
+          }
+        ],
+        "touch": true
+      },
+      "headings": {
+        "count": 11,
+        "h1": 1,
+        "skips": [],
+        "outline": [
+          "h1 Make something worth putting your name on.",
+          "h2 Evidence, field by field.",
+          "h3 The Modular Smartphone",
+          "h3 Smart Reading",
+          "h3 Venture Studies Technical Entrepreneurship",
+          "h3 Unsigned",
+          "h2 You take a subsystem. You own it through the test gate.",
+          "h2 Thursday is build night.",
+          "h3 Come to build night",
+          "h3 Join the Discord",
+          "h3 Take a subsystem"
+        ]
+      },
+      "images": {
+        "imgNoAlt": [],
+        "roleImgNoName": [],
+        "svgUnlabelled": 0
+      },
+      "fonts": {
+        "min": 11.5,
+        "p10": 11.5,
+        "under12": 87,
+        "tinyList": [
+          {
+            "el": "p.c_eyebrow__FI9Je \"DIGITAL @ Cal Poly Pomona · student-run \"",
+            "px": 11.5
+          },
+          {
+            "el": "legend.c_pickLegend__2cx86 \"Pick a build\"",
+            "px": 11.5
+          },
+          {
+            "el": "span.c_pickId__OoOo1 \"DG-001\"",
+            "px": 11.5
+          },
+          {
+            "el": "span.c_pickId__OoOo1 \"DG-002\"",
+            "px": 11.5
+          },
+          {
+            "el": "span.c_pickId__OoOo1 \"DG-003\"",
+            "px": 11.5
+          },
+          {
+            "el": "p.c_meta__dVOnw \"Build night · Thu 6:00 PM · Bldg 17, Rm \"",
+            "px": 11.5
+          },
+          {
+            "el": "dt \"ID\"",
+            "px": 11.5
+          },
+          {
+            "el": "dt \"Status\"",
+            "px": 11.5
+          },
+          {
+            "el": "dt \"Layers\"",
+            "px": 11.5
+          },
+          {
+            "el": "dt \"Flow\"",
+            "px": 11.5
+          },
+          {
+            "el": "span.c_legendIdx__CIKO_ \"01\"",
+            "px": 11.5
+          },
+          {
+            "el": "span.c_legendIdx__CIKO_ \"02\"",
+            "px": 11.5
+          },
+          {
+            "el": "span.c_legendIdx__CIKO_ \"03\"",
+            "px": 11.5
+          },
+          {
+            "el": "span.c_legendIdx__CIKO_ \"04\"",
+            "px": 11.5
+          },
+          {
+            "el": "span.c_legendIdx__CIKO_ \"05\"",
+            "px": 11.5
+          }
+        ]
+      },
+      "lineLength": {
+        "paragraphs": 6,
+        "maxCpl": 47,
+        "medianCpl": 36,
+        "over80": 0,
+        "over90": 0,
+        "worst": [
+          {
+            "el": "p.c_labNote__Y9fYh \"Design lab · concept C · not production.\"",
+            "cpl": 47,
+            "lines": 2,
+            "px": 11.5
+          },
+          {
+            "el": "p.c_sectionSub__VQhBk \"Every subsystem moves through the same f\"",
+            "cpl": 37,
+            "lines": 4,
+            "px": 19
+          },
+          {
+            "el": "p.c_sectionSub__VQhBk \"Every build carries the same fields. Whe\"",
+            "cpl": 36,
+            "lines": 3,
+            "px": 19
+          },
+          {
+            "el": "p.c_recordPromise__AI3PR \"FPGA-based heads-up glasses that show on\"",
+            "cpl": 29,
+            "lines": 4,
+            "px": 20
+          },
+          {
+            "el": "p \"Thursdays @ 6:00 PM · Building 17, Room \"",
+            "cpl": 28,
+            "lines": 5,
+            "px": 17
+          }
+        ]
+      },
+      "landmarks": {
+        "main": 1,
+        "headerInsideMain": 3,
+        "footerInsideMain": 1,
+        "navs": [
+          "Legal"
+        ]
+      },
+      "contrastProbe": {
+        "probed": 3,
+        "estFails": [],
+        "all": [
+          {
+            "target": "span[data-tag=\"phone\"]",
+            "text": "DG-001 · 7 layers",
+            "px": 11.5,
+            "ratio": 5.33,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "article[aria-labelledby=\"c-dg-001\"] > .c_recordBody__DUTq7 > .c_recordVisual__NaSto > .c_plate__X7_tw[role=\"img\"] > span",
+            "text": "[ PROJECT PHOTO — PROTOTYPE BE",
+            "px": 11.5,
+            "ratio": 4.84,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "article[aria-labelledby=\"c-dg-002\"] > .c_recordBody__DUTq7 > .c_recordVisual__NaSto > .c_plate__X7_tw[role=\"img\"] > span",
+            "text": "[ PROJECT PHOTO — WEARABLE PRO",
+            "px": 11.5,
+            "ratio": 4.9,
+            "need": 4.5,
+            "fail": false
+          }
+        ]
+      },
+      "targetsPng": "targets-390.png"
+    },
+    "834": {
+      "consoleErrors": [],
+      "axe": {
+        "critical": 0,
+        "serious": 0,
+        "moderate": 0,
+        "minor": 0,
+        "rules": [],
+        "incomplete": [
+          "color-contrast(3)"
+        ]
+      },
+      "vw": 834,
+      "scrollWidth": 834,
+      "overflow": false,
+      "overflowOffenders": [],
+      "targets": {
+        "checked": 41,
+        "small": 8,
+        "smallNonInline": 8,
+        "list": [
+          {
+            "el": "a.c_navCta__lkI4K \"Take a subsystem\"",
+            "w": 165,
+            "h": 40,
+            "inline": false,
+            "x": 636,
+            "y": 8
+          },
+          {
+            "el": "button \"Live\"",
+            "w": 64,
+            "h": 36,
+            "inline": false,
+            "x": 91,
+            "y": 1551
+          },
+          {
+            "el": "button \"Still\"",
+            "w": 64,
+            "h": 36,
+            "inline": false,
+            "x": 155,
+            "y": 1551
+          },
+          {
+            "el": "a \"contact@digitalcpp.org\"",
+            "w": 162,
+            "h": 35,
+            "inline": false,
+            "x": 33,
+            "y": 8268
+          },
+          {
+            "el": "a \"discord.gg/Vsg3qcNVzv (opens in a new ta\"",
+            "w": 168,
+            "h": 35,
+            "inline": false,
+            "x": 33,
+            "y": 8304
+          },
+          {
+            "el": "a \"Privacy\"",
+            "w": 47,
+            "h": 35,
+            "inline": false,
+            "x": 433,
+            "y": 8268
+          },
+          {
+            "el": "a \"Terms\"",
+            "w": 44,
+            "h": 35,
+            "inline": false,
+            "x": 433,
+            "y": 8304
+          },
+          {
+            "el": "a \"Cookies\"",
+            "w": 58,
+            "h": 35,
+            "inline": false,
+            "x": 433,
+            "y": 8339
+          }
+        ],
+        "touch": true
+      },
+      "headings": {
+        "count": 11,
+        "h1": 1,
+        "skips": [],
+        "outline": [
+          "h1 Make something worth putting your name on.",
+          "h2 Evidence, field by field.",
+          "h3 The Modular Smartphone",
+          "h3 Smart Reading",
+          "h3 Venture Studies Technical Entrepreneurship",
+          "h3 Unsigned",
+          "h2 You take a subsystem. You own it through the test gate.",
+          "h2 Thursday is build night.",
+          "h3 Come to build night",
+          "h3 Join the Discord",
+          "h3 Take a subsystem"
+        ]
+      },
+      "images": {
+        "imgNoAlt": [],
+        "roleImgNoName": [],
+        "svgUnlabelled": 0
+      },
+      "fonts": {
+        "min": 11,
+        "p10": 11.5,
+        "under12": 95,
+        "tinyList": [
+          {
+            "el": "span.c_wordmarkSub__yve7r \"@ Cal Poly Pomona\"",
+            "px": 11
+          },
+          {
+            "el": "p.c_eyebrow__FI9Je \"DIGITAL @ Cal Poly Pomona · student-run \"",
+            "px": 11.5
+          },
+          {
+            "el": "legend.c_pickLegend__2cx86 \"Pick a build\"",
+            "px": 11.5
+          },
+          {
+            "el": "span.c_pickId__OoOo1 \"DG-001\"",
+            "px": 11.5
+          },
+          {
+            "el": "span.c_pickId__OoOo1 \"DG-002\"",
+            "px": 11.5
+          },
+          {
+            "el": "span.c_pickId__OoOo1 \"DG-003\"",
+            "px": 11.5
+          },
+          {
+            "el": "p.c_meta__dVOnw \"Build night · Thu 6:00 PM · Bldg 17, Rm \"",
+            "px": 11.5
+          },
+          {
+            "el": "dt \"ID\"",
+            "px": 11.5
+          },
+          {
+            "el": "dt \"Status\"",
+            "px": 11.5
+          },
+          {
+            "el": "dt \"Layers\"",
+            "px": 11.5
+          },
+          {
+            "el": "dt \"Flow\"",
+            "px": 11.5
+          },
+          {
+            "el": "span.c_legendIdx__CIKO_ \"01\"",
+            "px": 11.5
+          },
+          {
+            "el": "span.c_legendIdx__CIKO_ \"02\"",
+            "px": 11.5
+          },
+          {
+            "el": "span.c_legendIdx__CIKO_ \"03\"",
+            "px": 11.5
+          },
+          {
+            "el": "span.c_legendIdx__CIKO_ \"04\"",
+            "px": 11.5
+          }
+        ]
+      },
+      "lineLength": {
+        "paragraphs": 5,
+        "maxCpl": 58,
+        "medianCpl": 49,
+        "over80": 0,
+        "over90": 0,
+        "worst": [
+          {
+            "el": "p.c_recordPromise__AI3PR \"FPGA-based heads-up glasses that show on\"",
+            "cpl": 58,
+            "lines": 2,
+            "px": 20
+          },
+          {
+            "el": "p.c_sectionSub__VQhBk \"Every build carries the same fields. Whe\"",
+            "cpl": 54,
+            "lines": 2,
+            "px": 19
+          },
+          {
+            "el": "p.c_sectionSub__VQhBk \"Every subsystem moves through the same f\"",
+            "cpl": 49,
+            "lines": 3,
+            "px": 19
+          },
+          {
+            "el": "p \"Thursdays @ 6:00 PM · Building 17, Room \"",
+            "cpl": 46,
+            "lines": 3,
+            "px": 17
+          },
+          {
+            "el": "dd \"one owner per subsystemone review path p\"",
+            "cpl": 27,
+            "lines": 4,
+            "px": 16
+          }
+        ]
+      },
+      "landmarks": {
+        "main": 1,
+        "headerInsideMain": 3,
+        "footerInsideMain": 1,
+        "navs": [
+          "Concept C",
+          "Legal"
+        ]
+      },
+      "contrastProbe": {
+        "probed": 3,
+        "estFails": [],
+        "all": [
+          {
+            "target": "span[data-tag=\"phone\"]",
+            "text": "DG-001 · 7 layers",
+            "px": 11.5,
+            "ratio": 5.33,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "article[aria-labelledby=\"c-dg-001\"] > .c_recordBody__DUTq7 > .c_recordVisual__NaSto > .c_plate__X7_tw[role=\"img\"] > span",
+            "text": "[ PROJECT PHOTO — PROTOTYPE BE",
+            "px": 11.5,
+            "ratio": 4.84,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "article[aria-labelledby=\"c-dg-002\"] > .c_recordBody__DUTq7 > .c_recordVisual__NaSto > .c_plate__X7_tw[role=\"img\"] > span",
+            "text": "[ PROJECT PHOTO — WEARABLE PRO",
+            "px": 11.5,
+            "ratio": 4.9,
+            "need": 4.5,
+            "fail": false
+          }
+        ]
+      },
+      "targetsPng": "targets-834.png"
+    },
+    "1440": {
+      "consoleErrors": [],
+      "axe": {
+        "critical": 0,
+        "serious": 0,
+        "moderate": 0,
+        "minor": 0,
+        "rules": [],
+        "incomplete": [
+          "color-contrast(3)"
+        ]
+      },
+      "vw": 1440,
+      "scrollWidth": 1440,
+      "overflow": false,
+      "overflowOffenders": [],
+      "targets": {
+        "checked": 41,
+        "small": 8,
+        "smallNonInline": 8,
+        "list": [
+          {
+            "el": "a.c_navCta__lkI4K \"Take a subsystem\"",
+            "w": 165,
+            "h": 40,
+            "inline": false,
+            "x": 1227,
+            "y": 8
+          },
+          {
+            "el": "button \"Live\"",
+            "w": 64,
+            "h": 36,
+            "inline": false,
+            "x": 706,
+            "y": 1013
+          },
+          {
+            "el": "button \"Still\"",
+            "w": 64,
+            "h": 36,
+            "inline": false,
+            "x": 770,
+            "y": 1013
+          },
+          {
+            "el": "a \"contact@digitalcpp.org\"",
+            "w": 162,
+            "h": 35,
+            "inline": false,
+            "x": 853,
+            "y": 6103
+          },
+          {
+            "el": "a \"discord.gg/Vsg3qcNVzv (opens in a new ta\"",
+            "w": 168,
+            "h": 35,
+            "inline": false,
+            "x": 853,
+            "y": 6139
+          },
+          {
+            "el": "a \"Privacy\"",
+            "w": 47,
+            "h": 35,
+            "inline": false,
+            "x": 1118,
+            "y": 6103
+          },
+          {
+            "el": "a \"Terms\"",
+            "w": 44,
+            "h": 35,
+            "inline": false,
+            "x": 1118,
+            "y": 6139
+          },
+          {
+            "el": "a \"Cookies\"",
+            "w": 58,
+            "h": 35,
+            "inline": false,
+            "x": 1118,
+            "y": 6174
+          }
+        ],
+        "touch": false
+      },
+      "headings": {
+        "count": 11,
+        "h1": 1,
+        "skips": [],
+        "outline": [
+          "h1 Make something worth putting your name on.",
+          "h2 Evidence, field by field.",
+          "h3 The Modular Smartphone",
+          "h3 Smart Reading",
+          "h3 Venture Studies Technical Entrepreneurship",
+          "h3 Unsigned",
+          "h2 You take a subsystem. You own it through the test gate.",
+          "h2 Thursday is build night.",
+          "h3 Come to build night",
+          "h3 Join the Discord",
+          "h3 Take a subsystem"
+        ]
+      },
+      "images": {
+        "imgNoAlt": [],
+        "roleImgNoName": [],
+        "svgUnlabelled": 0
+      },
+      "fonts": {
+        "min": 11,
+        "p10": 11.5,
+        "under12": 95,
+        "tinyList": [
+          {
+            "el": "span.c_wordmarkSub__yve7r \"@ Cal Poly Pomona\"",
+            "px": 11
+          },
+          {
+            "el": "p.c_eyebrow__FI9Je \"DIGITAL @ Cal Poly Pomona · student-run \"",
+            "px": 11.5
+          },
+          {
+            "el": "legend.c_pickLegend__2cx86 \"Pick a build\"",
+            "px": 11.5
+          },
+          {
+            "el": "span.c_pickId__OoOo1 \"DG-001\"",
+            "px": 11.5
+          },
+          {
+            "el": "span.c_pickId__OoOo1 \"DG-002\"",
+            "px": 11.5
+          },
+          {
+            "el": "span.c_pickId__OoOo1 \"DG-003\"",
+            "px": 11.5
+          },
+          {
+            "el": "p.c_meta__dVOnw \"Build night · Thu 6:00 PM · Bldg 17, Rm \"",
+            "px": 11.5
+          },
+          {
+            "el": "dt \"ID\"",
+            "px": 11.5
+          },
+          {
+            "el": "dt \"Status\"",
+            "px": 11.5
+          },
+          {
+            "el": "dt \"Layers\"",
+            "px": 11.5
+          },
+          {
+            "el": "dt \"Flow\"",
+            "px": 11.5
+          },
+          {
+            "el": "span.c_legendIdx__CIKO_ \"01\"",
+            "px": 11.5
+          },
+          {
+            "el": "span.c_legendIdx__CIKO_ \"02\"",
+            "px": 11.5
+          },
+          {
+            "el": "span.c_legendIdx__CIKO_ \"03\"",
+            "px": 11.5
+          },
+          {
+            "el": "span.c_legendIdx__CIKO_ \"04\"",
+            "px": 11.5
+          }
+        ]
+      },
+      "lineLength": {
+        "paragraphs": 5,
+        "maxCpl": 58,
+        "medianCpl": 49,
+        "over80": 0,
+        "over90": 0,
+        "worst": [
+          {
+            "el": "p.c_recordPromise__AI3PR \"FPGA-based heads-up glasses that show on\"",
+            "cpl": 58,
+            "lines": 2,
+            "px": 20
+          },
+          {
+            "el": "p.c_sectionSub__VQhBk \"Every build carries the same fields. Whe\"",
+            "cpl": 54,
+            "lines": 2,
+            "px": 19
+          },
+          {
+            "el": "p.c_sectionSub__VQhBk \"Every subsystem moves through the same f\"",
+            "cpl": 49,
+            "lines": 3,
+            "px": 19
+          },
+          {
+            "el": "p \"Thursdays @ 6:00 PM · Building 17, Room \"",
+            "cpl": 46,
+            "lines": 3,
+            "px": 17
+          },
+          {
+            "el": "dd \"one owner per subsystemone review path p\"",
+            "cpl": 21,
+            "lines": 5,
+            "px": 16
+          }
+        ]
+      },
+      "landmarks": {
+        "main": 1,
+        "headerInsideMain": 3,
+        "footerInsideMain": 1,
+        "navs": [
+          "Concept C",
+          "Legal"
+        ]
+      },
+      "contrastProbe": {
+        "probed": 3,
+        "estFails": [],
+        "all": [
+          {
+            "target": "span[data-tag=\"phone\"]",
+            "text": "DG-001 · 7 layers",
+            "px": 11.5,
+            "ratio": 5.33,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "article[aria-labelledby=\"c-dg-001\"] > .c_recordBody__DUTq7 > .c_recordVisual__NaSto > .c_plate__X7_tw[role=\"img\"] > span",
+            "text": "[ PROJECT PHOTO — PROTOTYPE BE",
+            "px": 11.5,
+            "ratio": 4.88,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "article[aria-labelledby=\"c-dg-002\"] > .c_recordBody__DUTq7 > .c_recordVisual__NaSto > .c_plate__X7_tw[role=\"img\"] > span",
+            "text": "[ PROJECT PHOTO — WEARABLE PRO",
+            "px": 11.5,
+            "ratio": 4.9,
+            "need": 4.5,
+            "fail": false
+          }
+        ]
+      },
+      "focus": [
+        {
+          "i": 1,
+          "el": "a.sr-only \"Skip to main content\"",
+          "rect": {
+            "x": 16,
+            "y": 16,
+            "w": 183,
+            "h": 42
+          },
+          "inView": true,
+          "outline": "solid 2px rgba(0, 0, 0, 0)",
+          "focusVisible": true,
+          "diffRatio": 0.7018,
+          "visibleIndicator": true
+        },
+        {
+          "i": 2,
+          "el": "a.c_wordmark__J6c7b \"DIGITAL at Cal Poly Pomona, back to top\"",
+          "rect": {
+            "x": 48,
+            "y": 5.5,
+            "w": 903,
+            "h": 44
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(255, 90, 54)",
+          "focusVisible": true,
+          "diffRatio": 0.0699,
+          "visibleIndicator": true
+        },
+        {
+          "i": 3,
+          "el": "a \"Work\"",
+          "rect": {
+            "x": 983,
+            "y": 5.5,
+            "w": 65,
+            "h": 44
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(255, 90, 54)",
+          "focusVisible": true,
+          "diffRatio": 0.1029,
+          "visibleIndicator": true
+        },
+        {
+          "i": 4,
+          "el": "a \"Studio\"",
+          "rect": {
+            "x": 1052,
+            "y": 5.5,
+            "w": 78,
+            "h": 44
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(255, 90, 54)",
+          "focusVisible": true,
+          "diffRatio": 0.0979,
+          "visibleIndicator": true
+        },
+        {
+          "i": 5,
+          "el": "a \"Join\"",
+          "rect": {
+            "x": 1134,
+            "y": 5.5,
+            "w": 61,
+            "h": 44
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(255, 90, 54)",
+          "focusVisible": true,
+          "diffRatio": 0.1048,
+          "visibleIndicator": true
+        },
+        {
+          "i": 6,
+          "el": "a.c_navCta__lkI4K \"Take a subsystem\"",
+          "rect": {
+            "x": 1227,
+            "y": 7.5,
+            "w": 165,
+            "h": 40
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(255, 90, 54)",
+          "focusVisible": true,
+          "diffRatio": 0.0872,
+          "visibleIndicator": true
+        },
+        {
+          "i": 7,
+          "el": "input.c_srOnlyInput__74XZQ \"phone\"",
+          "rect": {
+            "x": 87,
+            "y": 529.65625,
+            "w": 1,
+            "h": 1
+          },
+          "inView": false,
+          "outline": "solid 2px rgb(255, 90, 54)",
+          "focusVisible": true,
+          "visibleIndicator": null
+        },
+        {
+          "i": 8,
+          "el": "a.c_btnPrimary__kTTpH \"See the builds\"",
+          "rect": {
+            "x": 88,
+            "y": 797.296875,
+            "w": 178,
+            "h": 48
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(255, 90, 54)",
+          "focusVisible": true,
+          "diffRatio": 0.078,
+          "visibleIndicator": true
+        },
+        {
+          "i": 9,
+          "el": "button.c_legendBtn__2AEWH \"01Systems Architecture\"",
+          "rect": {
+            "x": 648.25,
+            "y": 791.03125,
+            "w": 230.578125,
+            "h": 44
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(255, 90, 54)",
+          "focusVisible": true,
+          "diffRatio": 0.1658,
+          "visibleIndicator": true
+        },
+        {
+          "i": 10,
+          "el": "button.c_legendBtn__2AEWH \"02Hardware / PCB\"",
+          "rect": {
+            "x": 884.828125,
+            "y": 791.03125,
+            "w": 230.578125,
+            "h": 44
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(255, 90, 54)",
+          "focusVisible": true,
+          "diffRatio": 0.1513,
+          "visibleIndicator": true
+        },
+        {
+          "i": 11,
+          "el": "button.c_legendBtn__2AEWH \"03Firmware / Embedded\"",
+          "rect": {
+            "x": 1121.40625,
+            "y": 791.03125,
+            "w": 230.578125,
+            "h": 44
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(255, 90, 54)",
+          "focusVisible": true,
+          "diffRatio": 0.1654,
+          "visibleIndicator": true
+        },
+        {
+          "i": 12,
+          "el": "button.c_legendBtn__2AEWH \"04Operating System\"",
+          "rect": {
+            "x": 648.25,
+            "y": 841.03125,
+            "w": 230.578125,
+            "h": 44
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(255, 90, 54)",
+          "focusVisible": true,
+          "diffRatio": 0.1597,
+          "visibleIndicator": true
+        },
+        {
+          "i": 13,
+          "el": "button.c_legendBtn__2AEWH \"05Apps / UX\"",
+          "rect": {
+            "x": 884.828125,
+            "y": 841.03125,
+            "w": 230.578125,
+            "h": 44
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(255, 90, 54)",
+          "focusVisible": true,
+          "diffRatio": 0.1382,
+          "visibleIndicator": true
+        },
+        {
+          "i": 14,
+          "el": "button.c_legendBtn__2AEWH \"06Mechanical / CAD\"",
+          "rect": {
+            "x": 1121.40625,
+            "y": 841.03125,
+            "w": 230.578125,
+            "h": 44
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(255, 90, 54)",
+          "focusVisible": true,
+          "diffRatio": 0.1569,
+          "visibleIndicator": true
+        },
+        {
+          "i": 15,
+          "el": "button.c_legendBtn__2AEWH \"07Integration / Testing\"",
+          "rect": {
+            "x": 648.25,
+            "y": 856.03125,
+            "w": 230.578125,
+            "h": 44
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(255, 90, 54)",
+          "focusVisible": true,
+          "diffRatio": 0.1336,
+          "visibleIndicator": true
+        },
+        {
+          "i": 16,
+          "el": "button \"Live\"",
+          "rect": {
+            "x": 706.015625,
+            "y": 432.03125,
+            "w": 64,
+            "h": 36
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(255, 90, 54)",
+          "focusVisible": true,
+          "diffRatio": 0.1112,
+          "visibleIndicator": true
+        },
+        {
+          "i": 17,
+          "el": "button \"Still\"",
+          "rect": {
+            "x": 770.015625,
+            "y": 432.03125,
+            "w": 64,
+            "h": 36
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(255, 90, 54)",
+          "focusVisible": true,
+          "diffRatio": 0.1054,
+          "visibleIndicator": true
+        },
+        {
+          "i": 18,
+          "el": "summary \"01Systems Architectureinterfaces and ownership\"",
+          "rect": {
+            "x": 88,
+            "y": 423.5,
+            "w": 703.734375,
+            "h": 52
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(255, 90, 54)",
+          "focusVisible": true,
+          "diffRatio": 0.0632,
+          "visibleIndicator": true
+        },
+        {
+          "i": 19,
+          "el": "summary \"02Hardware / PCBboard, rails, connectors\"",
+          "rect": {
+            "x": 88,
+            "y": 476.5,
+            "w": 703.734375,
+            "h": 52
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(255, 90, 54)",
+          "focusVisible": true,
+          "diffRatio": 0.0632,
+          "visibleIndicator": true
+        },
+        {
+          "i": 20,
+          "el": "summary \"03Firmware / Embeddedboot, control, debug\"",
+          "rect": {
+            "x": 88,
+            "y": 529.5,
+            "w": 703.734375,
+            "h": 52
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(255, 90, 54)",
+          "focusVisible": true,
+          "diffRatio": 0.0632,
+          "visibleIndicator": true
+        },
+        {
+          "i": 21,
+          "el": "summary \"04Operating Systemservices and shell\"",
+          "rect": {
+            "x": 88,
+            "y": 582.5,
+            "w": 703.734375,
+            "h": 52
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(255, 90, 54)",
+          "focusVisible": true,
+          "diffRatio": 0.0632,
+          "visibleIndicator": true
+        },
+        {
+          "i": 22,
+          "el": "summary \"05Apps / UXflows, feedback, readability\"",
+          "rect": {
+            "x": 88,
+            "y": 635.5,
+            "w": 703.734375,
+            "h": 52
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(255, 90, 54)",
+          "focusVisible": true,
+          "diffRatio": 0.0632,
+          "visibleIndicator": true
+        },
+        {
+          "i": 23,
+          "el": "summary \"06Mechanical / CADenclosure and fit\"",
+          "rect": {
+            "x": 88,
+            "y": 688.5,
+            "w": 703.734375,
+            "h": 52
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(255, 90, 54)",
+          "focusVisible": true,
+          "diffRatio": 0.0632,
+          "visibleIndicator": true
+        },
+        {
+          "i": 24,
+          "el": "summary \"07Integration / Testingvalidation and regressions\"",
+          "rect": {
+            "x": 88,
+            "y": 741.5,
+            "w": 703.734375,
+            "h": 52
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(255, 90, 54)",
+          "focusVisible": true,
+          "diffRatio": 0.0632,
+          "visibleIndicator": true
+        },
+        {
+          "i": 25,
+          "el": "a.c_textLink__LrPR4 \"Open the DG-001 build page\"",
+          "rect": {
+            "x": 849.328125,
+            "y": 577.203125,
+            "w": 252,
+            "h": 44
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(255, 90, 54)",
+          "focusVisible": true,
+          "diffRatio": 0.0776,
+          "visibleIndicator": true
+        }
+      ]
+    }
+  },
+  "reducedMotion": {
+    "running": 0,
+    "infinite": 0,
+    "infiniteList": [],
+    "hiddenTextBlocks": 0,
+    "canvases": 4
+  },
+  "noJs": {
+    "textLen": 4443,
+    "blocks": 118,
+    "hiddenBlocks": 4,
+    "hiddenSample": [
+      "li \"Work\"",
+      "li \"Studio\"",
+      "li \"Join\"",
+      "li \"Take a subsystem\""
+    ],
+    "h1": 1,
+    "textRatioVsJs": 0.96
+  }
+}

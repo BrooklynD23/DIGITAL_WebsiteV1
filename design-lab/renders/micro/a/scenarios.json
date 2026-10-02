@@ -1,0 +1,60 @@
+{
+  "slug": "a",
+  "steps": [
+    {
+      "k": "rsvp.before",
+      "v": {
+        "label": "Read it",
+        "pressed": "false",
+        "crop": "design-lab/renders/micro/a/sc-rsvp-idle.png"
+      }
+    },
+    {
+      "k": "rsvp.playing",
+      "v": {
+        "label": "Pause",
+        "pressed": "true",
+        "crop": "design-lab/renders/micro/a/sc-rsvp-playing.png"
+      }
+    },
+    {
+      "k": "rsvp.end",
+      "v": {
+        "label": "Read it",
+        "pressed": "false",
+        "crop": "design-lab/renders/micro/a/sc-rsvp-end.png"
+      }
+    },
+    {
+      "k": "rsvp.pace",
+      "v": {
+        "pressed": "true",
+        "style": {
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "color": "rgb(21, 19, 15)",
+          "borderColor": "rgb(21, 19, 15)",
+          "cursor": "pointer"
+        }
+      }
+    },
+    {
+      "k": "ledger.row",
+      "v": {
+        "transitionProperty": "background-color, padding",
+        "transitionDuration": "0.24s, 0.24s"
+      }
+    },
+    {
+      "k": "ledger.hover",
+      "v": {
+        "crop": "design-lab/renders/micro/a/sc-ledger-hover.png"
+      }
+    },
+    {
+      "k": "cta.active",
+      "v": {
+        "crop": "design-lab/renders/micro/a/sc-cta-active.png"
+      }
+    }
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "violations": [
+    {
+      "id": "aria-prohibited-attr",
+      "impact": "serious",
+      "help": "Elements must only use permitted ARIA attributes",
+      "nodes": 2,
+      "targets": [
+        {
+          "target": ".b_railStage__m8mb5:nth-child(3) > .b_gate__IN30r",
+          "summary": "Fix all of the following:\n  aria-label attribute cannot be used on a span with no valid role attribute."
+        },
+        {
+          "target": ".b_railRelease__VI7XO > .b_gate__IN30r",
+          "summary": "Fix all of the following:\n  aria-label attribute cannot be used on a span with no valid role attribute."
+        }
+      ]
+    }
+  ],
+  "incomplete": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "nodes": 78,
+      "targets": [
+        {
+          "target": ".b_ref__mjoVE[y=\"43.42857142857143\"][font-size=\"11.5\"]",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+        },
+        {
+          "target": ".b_blockText__14a5j[y=\"43.42857142857143\"][x=\"34\"]",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+        },
+        {
+          "target": ".b_ref__mjoVE[y=\"106.28571428571429\"][font-size=\"11.5\"]",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+        },
+        {
+          "target": ".b_blockText__14a5j[y=\"106.28571428571429\"][x=\"34\"]",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+        },
+        {
+          "target": ".b_ref__mjoVE[y=\"169.14285714285714\"][font-size=\"11.5\"]",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+        },
+        {
+          "target": ".b_blockText__14a5j[y=\"169.14285714285714\"][x=\"34\"]",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+        },
+        {
+          "target": ".b_ref__mjoVE[y=\"231.99999999999997\"][font-size=\"11.5\"]",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+        },
+        {
+          "target": ".b_blockText__14a5j[y=\"231.99999999999997\"][x=\"34\"]",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+        }
+      ]
+    }
+  ],
+  "ccTargets": [
+    ".b_ref__mjoVE[y=\"43.42857142857143\"][font-size=\"11.5\"]",
+    ".b_blockText__14a5j[y=\"43.42857142857143\"][x=\"34\"]",
+    ".b_ref__mjoVE[y=\"106.28571428571429\"][font-size=\"11.5\"]",
+    ".b_blockText__14a5j[y=\"106.28571428571429\"][x=\"34\"]",
+    ".b_ref__mjoVE[y=\"169.14285714285714\"][font-size=\"11.5\"]",
+    ".b_blockText__14a5j[y=\"169.14285714285714\"][x=\"34\"]",
+    ".b_ref__mjoVE[y=\"231.99999999999997\"][font-size=\"11.5\"]",
+    ".b_blockText__14a5j[y=\"231.99999999999997\"][x=\"34\"]",
+    ".b_ref__mjoVE[y=\"294.8571428571429\"][font-size=\"11.5\"]",
+    ".b_blockText__14a5j[y=\"294.8571428571429\"][x=\"34\"]",
+    ".b_ref__mjoVE[y=\"357.7142857142857\"][font-size=\"11.5\"]",
+    ".b_blockText__14a5j[y=\"357.7142857142857\"][x=\"34\"]",
+    ".b_ref__mjoVE[y=\"420.57142857142856\"][font-size=\"11.5\"]",
+    ".b_blockText__14a5j[y=\"420.57142857142856\"][x=\"34\"]",
+    "text[y=\"34\"]",
+    ".b_partText__kanbJ[y=\"78\"][x=\"406\"]",
+    ".b_handoffText__MJU8A[y=\"78\"][x=\"548\"]",
+    "text[y=\"122\"]",
+    ".b_partText__kanbJ[y=\"166\"][x=\"406\"]",
+    ".b_handoffText__MJU8A[y=\"166\"][x=\"548\"]",
+    ".b_partText__kanbJ[y=\"210\"][x=\"406\"]",
+    ".b_partText__kanbJ[y=\"254\"][x=\"406\"]",
+    ".b_handoffText__MJU8A[y=\"254\"][x=\"548\"]",
+    ".b_partText__kanbJ[y=\"298\"][x=\"406\"]",
+    ".b_handoffText__MJU8A[y=\"298\"][x=\"548\"]",
+    "text[y=\"342\"]",
+    "text[y=\"386\"]",
+    "text[y=\"430\"]",
+    ".b_note__w19g7[y=\"78\"][x=\"580\"]",
+    ".b_note__w19g7[y=\"166\"][x=\"580\"]",
+    ".b_note__w19g7[y=\"254\"][x=\"580\"]",
+    ".b_note__w19g7[y=\"298\"][x=\"580\"]",
+    "text[x=\"290\"]",
+    ".b_chainCompact__MtNAy > g:nth-child(8) > .b_ref__mjoVE[y=\"23\"][x=\"8\"]",
+    ".b_chainLabel__rJnF_[y=\"41\"][font-size=\"14\"]",
+    ".b_chainDetail__K5nkQ[y=\"41\"][text-anchor=\"end\"]",
+    "text[y=\"95\"]",
+    ".b_chainLabel__rJnF_[y=\"113\"][font-size=\"14\"]",
+    ".b_chainDetail__K5nkQ[y=\"113\"][text-anchor=\"end\"]",
+    "text[y=\"167\"]"
+  ]
+}

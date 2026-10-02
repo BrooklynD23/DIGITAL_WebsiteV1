@@ -1,0 +1,2212 @@
+{
+  "slug": "b",
+  "route": "/design-lab/b/",
+  "at": "2026-10-02T13:32:14.548Z",
+  "viewports": {
+    "390": {
+      "consoleErrors": [],
+      "axe": {
+        "critical": 0,
+        "serious": 2,
+        "moderate": 0,
+        "minor": 0,
+        "rules": [
+          "serious:aria-prohibited-attr(2)",
+          "serious:scrollable-region-focusable(1)"
+        ],
+        "incomplete": [
+          "color-contrast(84)"
+        ]
+      },
+      "vw": 390,
+      "scrollWidth": 390,
+      "overflow": false,
+      "overflowOffenders": [],
+      "targets": {
+        "checked": 41,
+        "small": 13,
+        "smallNonInline": 6,
+        "list": [
+          {
+            "el": "a \"S1SYSTEMS\"",
+            "w": 101,
+            "h": 27,
+            "inline": true,
+            "x": 33,
+            "y": 774
+          },
+          {
+            "el": "a \"S2HARDWARE\"",
+            "w": 101,
+            "h": 27,
+            "inline": true,
+            "x": 33,
+            "y": 823
+          },
+          {
+            "el": "a \"S3FIRMWARE\"",
+            "w": 101,
+            "h": 27,
+            "inline": true,
+            "x": 33,
+            "y": 872
+          },
+          {
+            "el": "a \"S4OS\"",
+            "w": 101,
+            "h": 27,
+            "inline": true,
+            "x": 33,
+            "y": 922
+          },
+          {
+            "el": "a \"S5APPS\"",
+            "w": 101,
+            "h": 27,
+            "inline": true,
+            "x": 33,
+            "y": 971
+          },
+          {
+            "el": "a \"S6MECHANICAL\"",
+            "w": 101,
+            "h": 27,
+            "inline": true,
+            "x": 33,
+            "y": 1020
+          },
+          {
+            "el": "a \"S7TESTING\"",
+            "w": 101,
+            "h": 27,
+            "inline": true,
+            "x": 33,
+            "y": 1069
+          },
+          {
+            "el": "a.b_rowLink__35g5E \"The Modular Smartphone\"",
+            "w": 235,
+            "h": 32,
+            "inline": false,
+            "x": 16,
+            "y": 1820
+          },
+          {
+            "el": "a.b_rowLink__35g5E \"Smart Reading\"",
+            "w": 149,
+            "h": 32,
+            "inline": false,
+            "x": 16,
+            "y": 2032
+          },
+          {
+            "el": "a.b_rowLink__35g5E \"Venture Studies\"",
+            "w": 155,
+            "h": 32,
+            "inline": false,
+            "x": 16,
+            "y": 2268
+          },
+          {
+            "el": "a.b_rowLink__35g5E \"Unsigned\"",
+            "w": 100,
+            "h": 32,
+            "inline": false,
+            "x": 16,
+            "y": 2484
+          },
+          {
+            "el": "a \"contact@digitalcpp.org\"",
+            "w": 176,
+            "h": 24,
+            "inline": false,
+            "x": 29,
+            "y": 11099
+          },
+          {
+            "el": "a \"discord.gg/Vsg3qcNVzv\"",
+            "w": 168,
+            "h": 24,
+            "inline": false,
+            "x": 29,
+            "y": 11165
+          }
+        ],
+        "touch": true
+      },
+      "headings": {
+        "count": 8,
+        "h1": 1,
+        "skips": [],
+        "outline": [
+          "h1 Make somethingworth puttingyour name on.",
+          "h2 On the bench",
+          "h3 The Modular Smartphone",
+          "h3 Smart Reading",
+          "h3 Venture Studies",
+          "h3 Unsigned",
+          "h2 One owner. One review per handoff. One test gate.",
+          "h2 Take a subsystem."
+        ]
+      },
+      "images": {
+        "imgNoAlt": [],
+        "roleImgNoName": [],
+        "svgUnlabelled": 0
+      },
+      "fonts": {
+        "min": 9.5,
+        "p10": 10.5,
+        "under12": 92,
+        "tinyList": [
+          {
+            "el": "dt \"Build night\"",
+            "px": 11
+          },
+          {
+            "el": "dt \"Where\"",
+            "px": 11
+          },
+          {
+            "el": "dt \"On the bench\"",
+            "px": 11
+          },
+          {
+            "el": "dt \"Experience\"",
+            "px": 11
+          },
+          {
+            "el": "text \"S1\"",
+            "px": 10
+          },
+          {
+            "el": "text \"SYSTEMS\"",
+            "px": 10
+          },
+          {
+            "el": "text \"S2\"",
+            "px": 10
+          },
+          {
+            "el": "text \"HARDWARE\"",
+            "px": 10
+          },
+          {
+            "el": "text \"S3\"",
+            "px": 10
+          },
+          {
+            "el": "text \"FIRMWARE\"",
+            "px": 10
+          },
+          {
+            "el": "text \"S4\"",
+            "px": 10
+          },
+          {
+            "el": "text \"OS\"",
+            "px": 10
+          },
+          {
+            "el": "text \"S5\"",
+            "px": 10
+          },
+          {
+            "el": "text \"APPS\"",
+            "px": 10
+          },
+          {
+            "el": "text \"S6\"",
+            "px": 10
+          }
+        ]
+      },
+      "lineLength": {
+        "paragraphs": 7,
+        "maxCpl": 39,
+        "medianCpl": 34,
+        "over80": 0,
+        "over90": 0,
+        "worst": [
+          {
+            "el": "dd \"FPGA-based heads-up glasses that show on\"",
+            "cpl": 39,
+            "lines": 3,
+            "px": 16
+          },
+          {
+            "el": "p.b_body__JtZp1 \"The next build starts with a problem som\"",
+            "cpl": 38,
+            "lines": 3,
+            "px": 16
+          },
+          {
+            "el": "p.b_heroLede__BLurk \"A student-run venture studio at Cal Poly\"",
+            "cpl": 35,
+            "lines": 5,
+            "px": 17
+          },
+          {
+            "el": "p.b_body__JtZp1 \"Thursdays, 6:00 PM. Building 17, Room 16\"",
+            "cpl": 34,
+            "lines": 3,
+            "px": 16
+          },
+          {
+            "el": "dd \"Reading a line means jumping your eyes a\"",
+            "cpl": 32,
+            "lines": 3,
+            "px": 16
+          }
+        ]
+      },
+      "landmarks": {
+        "main": 1,
+        "headerInsideMain": 5,
+        "footerInsideMain": 1,
+        "navs": [
+          "Concept B, mobile",
+          "Legal"
+        ]
+      },
+      "contrastProbe": {
+        "probed": 40,
+        "estFails": [
+          {
+            "target": ".b_chainDetail__K5nkQ[y=\"41\"][text-anchor=\"end\"]",
+            "text": "any page",
+            "px": 10,
+            "ratio": 3.82,
+            "need": 4.5,
+            "fail": true
+          },
+          {
+            "target": ".b_chainDetail__K5nkQ[y=\"113\"][text-anchor=\"end\"]",
+            "text": "one fixed point",
+            "px": 10,
+            "ratio": 4.3,
+            "need": 4.5,
+            "fail": true
+          }
+        ],
+        "all": [
+          {
+            "target": ".b_ref__mjoVE[y=\"35.14285714285714\"][x=\"8\"]",
+            "text": "S1",
+            "px": 10,
+            "ratio": 6.4,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_blockText__14a5j[y=\"35.14285714285714\"][x=\"28\"]",
+            "text": "SYSTEMS",
+            "px": 10,
+            "ratio": 17.17,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_ref__mjoVE[y=\"89.42857142857143\"][x=\"8\"]",
+            "text": "S2",
+            "px": 10,
+            "ratio": 7.19,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_blockText__14a5j[y=\"89.42857142857143\"][x=\"28\"]",
+            "text": "HARDWARE",
+            "px": 10,
+            "ratio": 17.17,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_ref__mjoVE[y=\"143.71428571428572\"][x=\"8\"]",
+            "text": "S3",
+            "px": 10,
+            "ratio": 6.66,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_blockText__14a5j[y=\"143.71428571428572\"][x=\"28\"]",
+            "text": "FIRMWARE",
+            "px": 10,
+            "ratio": 17.17,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_ref__mjoVE[y=\"198\"][x=\"8\"]",
+            "text": "S4",
+            "px": 10,
+            "ratio": 7.19,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_blockText__14a5j[y=\"198\"][x=\"28\"]",
+            "text": "OS",
+            "px": 10,
+            "ratio": 14.14,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_ref__mjoVE[y=\"252.28571428571428\"][x=\"8\"]",
+            "text": "S5",
+            "px": 10,
+            "ratio": 7.19,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_blockText__14a5j[y=\"252.28571428571428\"][x=\"28\"]",
+            "text": "APPS",
+            "px": 10,
+            "ratio": 17.17,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_ref__mjoVE[y=\"306.5714285714286\"][x=\"8\"]",
+            "text": "S6",
+            "px": 10,
+            "ratio": 5.74,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_blockText__14a5j[y=\"306.5714285714286\"][x=\"28\"]",
+            "text": "MECHANICAL",
+            "px": 10,
+            "ratio": 17.17,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_ref__mjoVE[y=\"360.8571428571429\"][x=\"8\"]",
+            "text": "S7",
+            "px": 10,
+            "ratio": 7.19,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_blockText__14a5j[y=\"360.8571428571429\"][x=\"28\"]",
+            "text": "TESTING",
+            "px": 10,
+            "ratio": 17.17,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "text[y=\"27\"]",
+            "text": "DISPLAY PANEL",
+            "px": 10,
+            "ratio": 8.36,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_partText__kanbJ[y=\"65\"][x=\"248\"]",
+            "text": "MIDFRAME",
+            "px": 10,
+            "ratio": 9.1,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "text[y=\"65\"][x=\"344\"][font-size=\"8.5\"]",
+            "text": "H1",
+            "px": 8.5,
+            "ratio": 5.09,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "text[y=\"103\"]",
+            "text": "MAIN PCB",
+            "px": 10,
+            "ratio": 8.21,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_partText__kanbJ[y=\"141\"][x=\"248\"]",
+            "text": "FLEX CABLES",
+            "px": 10,
+            "ratio": 8.09,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "text[y=\"141\"][x=\"344\"][font-size=\"8.5\"]",
+            "text": "H2",
+            "px": 8.5,
+            "ratio": 5.59,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "text[y=\"179\"]",
+            "text": "BATTERY",
+            "px": 10,
+            "ratio": 9.42,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_partText__kanbJ[y=\"217\"][x=\"248\"]",
+            "text": "SCREEN UI",
+            "px": 10,
+            "ratio": 8.68,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "text[y=\"217\"][x=\"344\"][font-size=\"8.5\"]",
+            "text": "H3",
+            "px": 8.5,
+            "ratio": 5.19,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_partText__kanbJ[y=\"255\"][x=\"248\"]",
+            "text": "FRONT GLASS",
+            "px": 10,
+            "ratio": 7.93,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "text[y=\"255\"][x=\"344\"][font-size=\"8.5\"]",
+            "text": "H4",
+            "px": 8.5,
+            "ratio": 4.77,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "text[y=\"293\"]",
+            "text": "BACK COVER",
+            "px": 10,
+            "ratio": 7.88,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "text[y=\"331\"]",
+            "text": "SCREWS",
+            "px": 10,
+            "ratio": 8.36,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_partText__kanbJ[y=\"369\"][x=\"248\"]",
+            "text": "HAPTICS",
+            "px": 10,
+            "ratio": 8.68,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "text[x=\"290\"]",
+            "text": "PACE · YOU SET THE WPM",
+            "px": 10.5,
+            "ratio": 6.77,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_chainCompact__MtNAy > g:nth-child(8) > .b_ref__mjoVE[y=\"23\"][x=\"8\"]",
+            "text": "B1",
+            "px": 10,
+            "ratio": 6.18,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_chainLabel__rJnF_[y=\"41\"][font-size=\"14\"]",
+            "text": "TEXT",
+            "px": 14,
+            "ratio": 17.17,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_chainDetail__K5nkQ[y=\"41\"][text-anchor=\"end\"]",
+            "text": "any page",
+            "px": 10,
+            "ratio": 3.82,
+            "need": 4.5,
+            "fail": true
+          },
+          {
+            "target": "text[y=\"95\"]",
+            "text": "B2",
+            "px": 10,
+            "ratio": 7.19,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_chainLabel__rJnF_[y=\"113\"][font-size=\"14\"]",
+            "text": "RSVP",
+            "px": 14,
+            "ratio": 17.17,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_chainDetail__K5nkQ[y=\"113\"][text-anchor=\"end\"]",
+            "text": "one fixed point",
+            "px": 10,
+            "ratio": 4.3,
+            "need": 4.5,
+            "fail": true
+          },
+          {
+            "target": "text[y=\"167\"]",
+            "text": "B3",
+            "px": 10,
+            "ratio": 7.36,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_chainLabelInv__wGMNR[y=\"185\"][font-size=\"14\"]",
+            "text": "FPGA",
+            "px": 14,
+            "ratio": 17.17,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_chainDetailInv__zzSgk[y=\"185\"][text-anchor=\"end\"]",
+            "text": "real-time render",
+            "px": 10,
+            "ratio": 5.68,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "text[y=\"239\"]",
+            "text": "B4",
+            "px": 10,
+            "ratio": 7.19,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_chainLabel__rJnF_[y=\"257\"][font-size=\"14\"]",
+            "text": "OPTICS",
+            "px": 14,
+            "ratio": 17.07,
+            "need": 4.5,
+            "fail": false
+          }
+        ]
+      },
+      "targetsPng": "targets-390.png"
+    },
+    "834": {
+      "consoleErrors": [],
+      "axe": {
+        "critical": 0,
+        "serious": 1,
+        "moderate": 0,
+        "minor": 0,
+        "rules": [
+          "serious:aria-prohibited-attr(2)"
+        ],
+        "incomplete": [
+          "color-contrast(83)"
+        ]
+      },
+      "vw": 834,
+      "scrollWidth": 834,
+      "overflow": false,
+      "overflowOffenders": [],
+      "targets": {
+        "checked": 41,
+        "small": 13,
+        "smallNonInline": 6,
+        "list": [
+          {
+            "el": "a \"S1SYSTEMS ARCHITECTURE\"",
+            "w": 207,
+            "h": 33,
+            "inline": true,
+            "x": 49,
+            "y": 806
+          },
+          {
+            "el": "a \"S2HARDWARE / PCB\"",
+            "w": 207,
+            "h": 33,
+            "inline": true,
+            "x": 49,
+            "y": 867
+          },
+          {
+            "el": "a \"S3FIRMWARE / EMBEDDED\"",
+            "w": 207,
+            "h": 33,
+            "inline": true,
+            "x": 49,
+            "y": 928
+          },
+          {
+            "el": "a \"S4OPERATING SYSTEM\"",
+            "w": 207,
+            "h": 33,
+            "inline": true,
+            "x": 49,
+            "y": 989
+          },
+          {
+            "el": "a \"S5APPS / UX\"",
+            "w": 207,
+            "h": 33,
+            "inline": true,
+            "x": 49,
+            "y": 1050
+          },
+          {
+            "el": "a \"S6MECHANICAL / CAD\"",
+            "w": 207,
+            "h": 33,
+            "inline": true,
+            "x": 49,
+            "y": 1111
+          },
+          {
+            "el": "a \"S7INTEGRATION / TESTING\"",
+            "w": 207,
+            "h": 33,
+            "inline": true,
+            "x": 49,
+            "y": 1171
+          },
+          {
+            "el": "a.b_rowLink__35g5E \"The Modular Smartphone\"",
+            "w": 235,
+            "h": 32,
+            "inline": false,
+            "x": 32,
+            "y": 1837
+          },
+          {
+            "el": "a.b_rowLink__35g5E \"Smart Reading\"",
+            "w": 149,
+            "h": 32,
+            "inline": false,
+            "x": 32,
+            "y": 2029
+          },
+          {
+            "el": "a.b_rowLink__35g5E \"Venture Studies\"",
+            "w": 155,
+            "h": 32,
+            "inline": false,
+            "x": 32,
+            "y": 2220
+          },
+          {
+            "el": "a.b_rowLink__35g5E \"Unsigned\"",
+            "w": 100,
+            "h": 32,
+            "inline": false,
+            "x": 32,
+            "y": 2412
+          },
+          {
+            "el": "a \"contact@digitalcpp.org\"",
+            "w": 176,
+            "h": 24,
+            "inline": false,
+            "x": 237,
+            "y": 8315
+          },
+          {
+            "el": "a \"discord.gg/Vsg3qcNVzv\"",
+            "w": 168,
+            "h": 24,
+            "inline": false,
+            "x": 429,
+            "y": 8315
+          }
+        ],
+        "touch": true
+      },
+      "headings": {
+        "count": 8,
+        "h1": 1,
+        "skips": [],
+        "outline": [
+          "h1 Make somethingworth puttingyour name on.",
+          "h2 On the bench",
+          "h3 The Modular Smartphone",
+          "h3 Smart Reading",
+          "h3 Venture Studies",
+          "h3 Unsigned",
+          "h2 One owner. One review per handoff. One test gate.",
+          "h2 Take a subsystem."
+        ]
+      },
+      "images": {
+        "imgNoAlt": [],
+        "roleImgNoName": [],
+        "svgUnlabelled": 0
+      },
+      "fonts": {
+        "min": 9.5,
+        "p10": 11,
+        "under12": 98,
+        "tinyList": [
+          {
+            "el": "dt \"Build night\"",
+            "px": 11
+          },
+          {
+            "el": "dt \"Where\"",
+            "px": 11
+          },
+          {
+            "el": "dt \"On the bench\"",
+            "px": 11
+          },
+          {
+            "el": "dt \"Experience\"",
+            "px": 11
+          },
+          {
+            "el": "text \"S1\"",
+            "px": 11.5
+          },
+          {
+            "el": "text \"SYSTEMS ARCHITECTURE\"",
+            "px": 11.5
+          },
+          {
+            "el": "text \"S2\"",
+            "px": 11.5
+          },
+          {
+            "el": "text \"HARDWARE / PCB\"",
+            "px": 11.5
+          },
+          {
+            "el": "text \"S3\"",
+            "px": 11.5
+          },
+          {
+            "el": "text \"FIRMWARE / EMBEDDED\"",
+            "px": 11.5
+          },
+          {
+            "el": "text \"S4\"",
+            "px": 11.5
+          },
+          {
+            "el": "text \"OPERATING SYSTEM\"",
+            "px": 11.5
+          },
+          {
+            "el": "text \"S5\"",
+            "px": 11.5
+          },
+          {
+            "el": "text \"APPS / UX\"",
+            "px": 11.5
+          },
+          {
+            "el": "text \"S6\"",
+            "px": 11.5
+          }
+        ]
+      },
+      "lineLength": {
+        "paragraphs": 7,
+        "maxCpl": 58,
+        "medianCpl": 46,
+        "over80": 0,
+        "over90": 0,
+        "worst": [
+          {
+            "el": "dd \"FPGA-based heads-up glasses that show on\"",
+            "cpl": 58,
+            "lines": 2,
+            "px": 16
+          },
+          {
+            "el": "p.b_body__JtZp1 \"Thursdays, 6:00 PM. Building 17, Room 16\"",
+            "cpl": 51,
+            "lines": 2,
+            "px": 16
+          },
+          {
+            "el": "dd \"Reading a line means jumping your eyes a\"",
+            "cpl": 48,
+            "lines": 2,
+            "px": 16
+          },
+          {
+            "el": "dd \"Devices are built to be thrown away. Thi\"",
+            "cpl": 46,
+            "lines": 2,
+            "px": 16
+          },
+          {
+            "el": "dd \"A modular phone, built from scratch by s\"",
+            "cpl": 46,
+            "lines": 2,
+            "px": 16
+          }
+        ]
+      },
+      "landmarks": {
+        "main": 1,
+        "headerInsideMain": 5,
+        "footerInsideMain": 1,
+        "navs": [
+          "Concept B, mobile",
+          "Legal"
+        ]
+      },
+      "contrastProbe": {
+        "probed": 40,
+        "estFails": [
+          {
+            "target": "g:nth-child(8) > .b_chainDetail__K5nkQ[y=\"62\"][text-anchor=\"start\"]",
+            "text": "any page",
+            "px": 10,
+            "ratio": 3.68,
+            "need": 4.5,
+            "fail": true
+          },
+          {
+            "target": "text[x=\"157.6\"][y=\"62\"][text-anchor=\"start\"]",
+            "text": "one fixed point",
+            "px": 10,
+            "ratio": 4.08,
+            "need": 4.5,
+            "fail": true
+          }
+        ],
+        "all": [
+          {
+            "target": ".b_ref__mjoVE[y=\"43.42857142857143\"][font-size=\"11.5\"]",
+            "text": "S1",
+            "px": 11.5,
+            "ratio": 7.19,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_blockText__14a5j[y=\"43.42857142857143\"][x=\"34\"]",
+            "text": "SYSTEMS ARCHITECTURE",
+            "px": 11.5,
+            "ratio": 17.17,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_ref__mjoVE[y=\"106.28571428571429\"][font-size=\"11.5\"]",
+            "text": "S2",
+            "px": 11.5,
+            "ratio": 7.19,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_blockText__14a5j[y=\"106.28571428571429\"][x=\"34\"]",
+            "text": "HARDWARE / PCB",
+            "px": 11.5,
+            "ratio": 17.17,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_ref__mjoVE[y=\"169.14285714285714\"][font-size=\"11.5\"]",
+            "text": "S3",
+            "px": 11.5,
+            "ratio": 7.15,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_blockText__14a5j[y=\"169.14285714285714\"][x=\"34\"]",
+            "text": "FIRMWARE / EMBEDDED",
+            "px": 11.5,
+            "ratio": 17.17,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_ref__mjoVE[y=\"231.99999999999997\"][font-size=\"11.5\"]",
+            "text": "S4",
+            "px": 11.5,
+            "ratio": 7.19,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_blockText__14a5j[y=\"231.99999999999997\"][x=\"34\"]",
+            "text": "OPERATING SYSTEM",
+            "px": 11.5,
+            "ratio": 17.17,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_ref__mjoVE[y=\"294.8571428571429\"][font-size=\"11.5\"]",
+            "text": "S5",
+            "px": 11.5,
+            "ratio": 7.19,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_blockText__14a5j[y=\"294.8571428571429\"][x=\"34\"]",
+            "text": "APPS / UX",
+            "px": 11.5,
+            "ratio": 16.8,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_ref__mjoVE[y=\"357.7142857142857\"][font-size=\"11.5\"]",
+            "text": "S6",
+            "px": 11.5,
+            "ratio": 7.08,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_blockText__14a5j[y=\"357.7142857142857\"][x=\"34\"]",
+            "text": "MECHANICAL / CAD",
+            "px": 11.5,
+            "ratio": 16.95,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_ref__mjoVE[y=\"420.57142857142856\"][font-size=\"11.5\"]",
+            "text": "S7",
+            "px": 11.5,
+            "ratio": 7.19,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_blockText__14a5j[y=\"420.57142857142856\"][x=\"34\"]",
+            "text": "INTEGRATION / TESTING",
+            "px": 11.5,
+            "ratio": 17.17,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "text[y=\"34\"]",
+            "text": "P01  DISPLAY PANEL",
+            "px": 11.5,
+            "ratio": 9.17,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_partText__kanbJ[y=\"78\"][x=\"406\"]",
+            "text": "P02  MIDFRAME",
+            "px": 11.5,
+            "ratio": 9.7,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_handoffText__MJU8A[y=\"78\"][x=\"548\"]",
+            "text": "H1",
+            "px": 9.5,
+            "ratio": 6.14,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "text[y=\"122\"]",
+            "text": "P03  MAIN PCB",
+            "px": 11.5,
+            "ratio": 9.7,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_partText__kanbJ[y=\"166\"][x=\"406\"]",
+            "text": "P04  FLEX CABLES",
+            "px": 11.5,
+            "ratio": 10.21,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_handoffText__MJU8A[y=\"166\"][x=\"548\"]",
+            "text": "H2",
+            "px": 9.5,
+            "ratio": 6.16,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_partText__kanbJ[y=\"210\"][x=\"406\"]",
+            "text": "P05  BATTERY",
+            "px": 11.5,
+            "ratio": 9.7,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_partText__kanbJ[y=\"254\"][x=\"406\"]",
+            "text": "P06  SCREEN UI",
+            "px": 11.5,
+            "ratio": 9.15,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_handoffText__MJU8A[y=\"254\"][x=\"548\"]",
+            "text": "H3",
+            "px": 9.5,
+            "ratio": 6.16,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_partText__kanbJ[y=\"298\"][x=\"406\"]",
+            "text": "P07  FRONT GLASS",
+            "px": 11.5,
+            "ratio": 9.05,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_handoffText__MJU8A[y=\"298\"][x=\"548\"]",
+            "text": "H4",
+            "px": 9.5,
+            "ratio": 6.16,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "text[y=\"342\"]",
+            "text": "P08  BACK COVER",
+            "px": 11.5,
+            "ratio": 9.15,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "text[y=\"386\"]",
+            "text": "P09  SCREWS",
+            "px": 11.5,
+            "ratio": 9.36,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "text[y=\"430\"]",
+            "text": "P10  HAPTICS",
+            "px": 11.5,
+            "ratio": 9.7,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_note__w19g7[y=\"78\"][x=\"580\"]",
+            "text": "H1 · S1 ↔ S6",
+            "px": 10.5,
+            "ratio": 4.99,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_note__w19g7[y=\"166\"][x=\"580\"]",
+            "text": "H2 · S2 ↔ S3",
+            "px": 10.5,
+            "ratio": 5.77,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_note__w19g7[y=\"254\"][x=\"580\"]",
+            "text": "H3 · S4 ↔ S5",
+            "px": 10.5,
+            "ratio": 5.77,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_note__w19g7[y=\"298\"][x=\"580\"]",
+            "text": "H4 · S4 ↔ S5",
+            "px": 10.5,
+            "ratio": 5.77,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "text[x=\"434.79999999999995\"]",
+            "text": "PACE · YOU SET THE WPM",
+            "px": 10.5,
+            "ratio": 7.19,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_chainWide__zFIwn > g:nth-child(8) > .b_ref__mjoVE[y=\"23\"][x=\"8\"]",
+            "text": "B1",
+            "px": 10,
+            "ratio": 6.66,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "g:nth-child(8) > .b_chainLabel__rJnF_[y=\"44\"][font-size=\"15\"]",
+            "text": "TEXT",
+            "px": 15,
+            "ratio": 17.17,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "g:nth-child(8) > .b_chainDetail__K5nkQ[y=\"62\"][text-anchor=\"start\"]",
+            "text": "any page",
+            "px": 10,
+            "ratio": 3.68,
+            "need": 4.5,
+            "fail": true
+          },
+          {
+            "target": ".b_ref__mjoVE[x=\"157.6\"][y=\"23\"]",
+            "text": "B2",
+            "px": 10,
+            "ratio": 7.1,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "text[x=\"157.6\"][y=\"44\"][font-size=\"15\"]",
+            "text": "RSVP",
+            "px": 15,
+            "ratio": 17.17,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "text[x=\"157.6\"][y=\"62\"][text-anchor=\"start\"]",
+            "text": "one fixed point",
+            "px": 10,
+            "ratio": 4.08,
+            "need": 4.5,
+            "fail": true
+          },
+          {
+            "target": ".b_refInv__x7uIf[x=\"307.2\"][y=\"23\"]",
+            "text": "B3",
+            "px": 10,
+            "ratio": 7.62,
+            "need": 4.5,
+            "fail": false
+          }
+        ]
+      },
+      "targetsPng": "targets-834.png"
+    },
+    "1440": {
+      "consoleErrors": [],
+      "axe": {
+        "critical": 0,
+        "serious": 1,
+        "moderate": 0,
+        "minor": 0,
+        "rules": [
+          "serious:aria-prohibited-attr(2)"
+        ],
+        "incomplete": [
+          "color-contrast(78)"
+        ]
+      },
+      "vw": 1440,
+      "scrollWidth": 1440,
+      "overflow": false,
+      "overflowOffenders": [],
+      "targets": {
+        "checked": 40,
+        "small": 13,
+        "smallNonInline": 6,
+        "list": [
+          {
+            "el": "a \"S1SYSTEMS ARCHITECTURE\"",
+            "w": 208,
+            "h": 33,
+            "inline": true,
+            "x": 635,
+            "y": 196
+          },
+          {
+            "el": "a \"S2HARDWARE / PCB\"",
+            "w": 208,
+            "h": 33,
+            "inline": true,
+            "x": 635,
+            "y": 257
+          },
+          {
+            "el": "a \"S3FIRMWARE / EMBEDDED\"",
+            "w": 208,
+            "h": 33,
+            "inline": true,
+            "x": 635,
+            "y": 319
+          },
+          {
+            "el": "a \"S4OPERATING SYSTEM\"",
+            "w": 208,
+            "h": 33,
+            "inline": true,
+            "x": 635,
+            "y": 380
+          },
+          {
+            "el": "a \"S5APPS / UX\"",
+            "w": 208,
+            "h": 33,
+            "inline": true,
+            "x": 635,
+            "y": 441
+          },
+          {
+            "el": "a \"S6MECHANICAL / CAD\"",
+            "w": 208,
+            "h": 33,
+            "inline": true,
+            "x": 635,
+            "y": 502
+          },
+          {
+            "el": "a \"S7INTEGRATION / TESTING\"",
+            "w": 208,
+            "h": 33,
+            "inline": true,
+            "x": 635,
+            "y": 564
+          },
+          {
+            "el": "a.b_rowLink__35g5E \"The Modular Smartphone\"",
+            "w": 235,
+            "h": 32,
+            "inline": false,
+            "x": 136,
+            "y": 1175
+          },
+          {
+            "el": "a.b_rowLink__35g5E \"Smart Reading\"",
+            "w": 149,
+            "h": 32,
+            "inline": false,
+            "x": 136,
+            "y": 1276
+          },
+          {
+            "el": "a.b_rowLink__35g5E \"Venture Studies\"",
+            "w": 155,
+            "h": 32,
+            "inline": false,
+            "x": 136,
+            "y": 1377
+          },
+          {
+            "el": "a.b_rowLink__35g5E \"Unsigned\"",
+            "w": 100,
+            "h": 32,
+            "inline": false,
+            "x": 136,
+            "y": 1462
+          },
+          {
+            "el": "a \"contact@digitalcpp.org\"",
+            "w": 176,
+            "h": 24,
+            "inline": false,
+            "x": 965,
+            "y": 5603
+          },
+          {
+            "el": "a \"discord.gg/Vsg3qcNVzv\"",
+            "w": 168,
+            "h": 24,
+            "inline": false,
+            "x": 1184,
+            "y": 5603
+          }
+        ],
+        "touch": false
+      },
+      "headings": {
+        "count": 8,
+        "h1": 1,
+        "skips": [],
+        "outline": [
+          "h1 Make somethingworth puttingyour name on.",
+          "h2 On the bench",
+          "h3 The Modular Smartphone",
+          "h3 Smart Reading",
+          "h3 Venture Studies",
+          "h3 Unsigned",
+          "h2 One owner. One review per handoff. One test gate.",
+          "h2 Take a subsystem."
+        ]
+      },
+      "images": {
+        "imgNoAlt": [],
+        "roleImgNoName": [],
+        "svgUnlabelled": 0
+      },
+      "fonts": {
+        "min": 9.5,
+        "p10": 11,
+        "under12": 104,
+        "tinyList": [
+          {
+            "el": "dt \"Build night\"",
+            "px": 11
+          },
+          {
+            "el": "dt \"Where\"",
+            "px": 11
+          },
+          {
+            "el": "dt \"On the bench\"",
+            "px": 11
+          },
+          {
+            "el": "dt \"Experience\"",
+            "px": 11
+          },
+          {
+            "el": "text \"S1\"",
+            "px": 11.5
+          },
+          {
+            "el": "text \"SYSTEMS ARCHITECTURE\"",
+            "px": 11.5
+          },
+          {
+            "el": "text \"S2\"",
+            "px": 11.5
+          },
+          {
+            "el": "text \"HARDWARE / PCB\"",
+            "px": 11.5
+          },
+          {
+            "el": "text \"S3\"",
+            "px": 11.5
+          },
+          {
+            "el": "text \"FIRMWARE / EMBEDDED\"",
+            "px": 11.5
+          },
+          {
+            "el": "text \"S4\"",
+            "px": 11.5
+          },
+          {
+            "el": "text \"OPERATING SYSTEM\"",
+            "px": 11.5
+          },
+          {
+            "el": "text \"S5\"",
+            "px": 11.5
+          },
+          {
+            "el": "text \"APPS / UX\"",
+            "px": 11.5
+          },
+          {
+            "el": "text \"S6\"",
+            "px": 11.5
+          }
+        ]
+      },
+      "lineLength": {
+        "paragraphs": 7,
+        "maxCpl": 58,
+        "medianCpl": 48,
+        "over80": 0,
+        "over90": 0,
+        "worst": [
+          {
+            "el": "dd \"FPGA-based heads-up glasses that show on\"",
+            "cpl": 58,
+            "lines": 2,
+            "px": 17
+          },
+          {
+            "el": "p.b_body__JtZp1 \"The next build starts with a problem som\"",
+            "cpl": 57,
+            "lines": 2,
+            "px": 17
+          },
+          {
+            "el": "p.b_body__JtZp1 \"Thursdays, 6:00 PM. Building 17, Room 16\"",
+            "cpl": 51,
+            "lines": 2,
+            "px": 17
+          },
+          {
+            "el": "dd \"Reading a line means jumping your eyes a\"",
+            "cpl": 48,
+            "lines": 2,
+            "px": 17
+          },
+          {
+            "el": "dd \"Devices are built to be thrown away. Thi\"",
+            "cpl": 46,
+            "lines": 2,
+            "px": 17
+          }
+        ]
+      },
+      "landmarks": {
+        "main": 1,
+        "headerInsideMain": 5,
+        "footerInsideMain": 1,
+        "navs": [
+          "Concept B",
+          "Legal"
+        ]
+      },
+      "contrastProbe": {
+        "probed": 40,
+        "estFails": [],
+        "all": [
+          {
+            "target": ".b_ref__mjoVE[y=\"43.42857142857143\"][font-size=\"11.5\"]",
+            "text": "S1",
+            "px": 11.5,
+            "ratio": 7.19,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_blockText__14a5j[y=\"43.42857142857143\"][x=\"34\"]",
+            "text": "SYSTEMS ARCHITECTURE",
+            "px": 11.5,
+            "ratio": 17.17,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_ref__mjoVE[y=\"106.28571428571429\"][font-size=\"11.5\"]",
+            "text": "S2",
+            "px": 11.5,
+            "ratio": 7.19,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_blockText__14a5j[y=\"106.28571428571429\"][x=\"34\"]",
+            "text": "HARDWARE / PCB",
+            "px": 11.5,
+            "ratio": 17.17,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_ref__mjoVE[y=\"169.14285714285714\"][font-size=\"11.5\"]",
+            "text": "S3",
+            "px": 11.5,
+            "ratio": 7.15,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_blockText__14a5j[y=\"169.14285714285714\"][x=\"34\"]",
+            "text": "FIRMWARE / EMBEDDED",
+            "px": 11.5,
+            "ratio": 17.17,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_ref__mjoVE[y=\"231.99999999999997\"][font-size=\"11.5\"]",
+            "text": "S4",
+            "px": 11.5,
+            "ratio": 7.19,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_blockText__14a5j[y=\"231.99999999999997\"][x=\"34\"]",
+            "text": "OPERATING SYSTEM",
+            "px": 11.5,
+            "ratio": 17.17,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_ref__mjoVE[y=\"294.8571428571429\"][font-size=\"11.5\"]",
+            "text": "S5",
+            "px": 11.5,
+            "ratio": 7.19,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_blockText__14a5j[y=\"294.8571428571429\"][x=\"34\"]",
+            "text": "APPS / UX",
+            "px": 11.5,
+            "ratio": 16.92,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_ref__mjoVE[y=\"357.7142857142857\"][font-size=\"11.5\"]",
+            "text": "S6",
+            "px": 11.5,
+            "ratio": 7.08,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_blockText__14a5j[y=\"357.7142857142857\"][x=\"34\"]",
+            "text": "MECHANICAL / CAD",
+            "px": 11.5,
+            "ratio": 16.95,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_ref__mjoVE[y=\"420.57142857142856\"][font-size=\"11.5\"]",
+            "text": "S7",
+            "px": 11.5,
+            "ratio": 7.19,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_blockText__14a5j[y=\"420.57142857142856\"][x=\"34\"]",
+            "text": "INTEGRATION / TESTING",
+            "px": 11.5,
+            "ratio": 17.17,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "text[y=\"34\"]",
+            "text": "P01  DISPLAY PANEL",
+            "px": 11.5,
+            "ratio": 9.17,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_partText__kanbJ[y=\"78\"][x=\"406\"]",
+            "text": "P02  MIDFRAME",
+            "px": 11.5,
+            "ratio": 10.05,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_handoffText__MJU8A[y=\"78\"][x=\"548\"]",
+            "text": "H1",
+            "px": 9.5,
+            "ratio": 6.14,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "text[y=\"122\"]",
+            "text": "P03  MAIN PCB",
+            "px": 11.5,
+            "ratio": 9.77,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_partText__kanbJ[y=\"166\"][x=\"406\"]",
+            "text": "P04  FLEX CABLES",
+            "px": 11.5,
+            "ratio": 10.16,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_handoffText__MJU8A[y=\"166\"][x=\"548\"]",
+            "text": "H2",
+            "px": 9.5,
+            "ratio": 6.16,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_partText__kanbJ[y=\"210\"][x=\"406\"]",
+            "text": "P05  BATTERY",
+            "px": 11.5,
+            "ratio": 9.77,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_partText__kanbJ[y=\"254\"][x=\"406\"]",
+            "text": "P06  SCREEN UI",
+            "px": 11.5,
+            "ratio": 9.17,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_handoffText__MJU8A[y=\"254\"][x=\"548\"]",
+            "text": "H3",
+            "px": 9.5,
+            "ratio": 6.16,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_partText__kanbJ[y=\"298\"][x=\"406\"]",
+            "text": "P07  FRONT GLASS",
+            "px": 11.5,
+            "ratio": 9.15,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_handoffText__MJU8A[y=\"298\"][x=\"548\"]",
+            "text": "H4",
+            "px": 9.5,
+            "ratio": 6.16,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "text[y=\"342\"]",
+            "text": "P08  BACK COVER",
+            "px": 11.5,
+            "ratio": 9.16,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "text[y=\"386\"]",
+            "text": "P09  SCREWS",
+            "px": 11.5,
+            "ratio": 9.27,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "text[y=\"430\"]",
+            "text": "P10  HAPTICS",
+            "px": 11.5,
+            "ratio": 9.7,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_note__w19g7[y=\"78\"][x=\"580\"]",
+            "text": "H1 · S1 ↔ S6",
+            "px": 10.5,
+            "ratio": 5.56,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_note__w19g7[y=\"166\"][x=\"580\"]",
+            "text": "H2 · S2 ↔ S3",
+            "px": 10.5,
+            "ratio": 5.77,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_note__w19g7[y=\"254\"][x=\"580\"]",
+            "text": "H3 · S4 ↔ S5",
+            "px": 10.5,
+            "ratio": 5.77,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_note__w19g7[y=\"298\"][x=\"580\"]",
+            "text": "H4 · S4 ↔ S5",
+            "px": 10.5,
+            "ratio": 5.82,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "text[x=\"290\"]",
+            "text": "PACE · YOU SET THE WPM",
+            "px": 10.5,
+            "ratio": 7.19,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_chainCompact__MtNAy > g:nth-child(8) > .b_ref__mjoVE[y=\"23\"][x=\"8\"]",
+            "text": "B1",
+            "px": 10,
+            "ratio": 7.19,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_chainLabel__rJnF_[y=\"41\"][font-size=\"14\"]",
+            "text": "TEXT",
+            "px": 14,
+            "ratio": 17.17,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_chainDetail__K5nkQ[y=\"41\"][text-anchor=\"end\"]",
+            "text": "any page",
+            "px": 10,
+            "ratio": 4.67,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "text[y=\"95\"]",
+            "text": "B2",
+            "px": 10,
+            "ratio": 7.19,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_chainLabel__rJnF_[y=\"113\"][font-size=\"14\"]",
+            "text": "RSVP",
+            "px": 14,
+            "ratio": 17.17,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".b_chainDetail__K5nkQ[y=\"113\"][text-anchor=\"end\"]",
+            "text": "one fixed point",
+            "px": 10,
+            "ratio": 4.67,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "text[y=\"167\"]",
+            "text": "B3",
+            "px": 10,
+            "ratio": 7.68,
+            "need": 4.5,
+            "fail": false
+          }
+        ]
+      },
+      "focus": [
+        {
+          "i": 1,
+          "el": "a.sr-only \"Skip to main content\"",
+          "rect": {
+            "x": 16,
+            "y": 16,
+            "w": 183,
+            "h": 42
+          },
+          "inView": true,
+          "outline": "solid 2px rgba(0, 0, 0, 0)",
+          "focusVisible": true,
+          "diffRatio": 0.7033,
+          "visibleIndicator": true
+        },
+        {
+          "i": 2,
+          "el": "a.b_brand__wNg2B \"DIGITAL @ Cal Poly Pomona, top of page\"",
+          "rect": {
+            "x": 48,
+            "y": 5.5,
+            "w": 153.203125,
+            "h": 44
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(21, 23, 26)",
+          "focusVisible": true,
+          "diffRatio": 0.0824,
+          "visibleIndicator": true
+        },
+        {
+          "i": 3,
+          "el": "a.b_navLink___5BJG \"01Work\"",
+          "rect": {
+            "x": 861.671875,
+            "y": 5.5,
+            "w": 83,
+            "h": 44
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(21, 23, 26)",
+          "focusVisible": true,
+          "diffRatio": 0.0936,
+          "visibleIndicator": true
+        },
+        {
+          "i": 4,
+          "el": "a.b_navLink___5BJG \"02How a build runs\"",
+          "rect": {
+            "x": 948.671875,
+            "y": 5.5,
+            "w": 165,
+            "h": 44
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(21, 23, 26)",
+          "focusVisible": true,
+          "diffRatio": 0.0814,
+          "visibleIndicator": true
+        },
+        {
+          "i": 5,
+          "el": "a.b_navLink___5BJG \"03Join\"",
+          "rect": {
+            "x": 1117.671875,
+            "y": 5.5,
+            "w": 76,
+            "h": 44
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(21, 23, 26)",
+          "focusVisible": true,
+          "diffRatio": 0.0957,
+          "visibleIndicator": true
+        },
+        {
+          "i": 6,
+          "el": "a.b_btn__oWh2H \"Take a subsystem\"",
+          "rect": {
+            "x": 1217.671875,
+            "y": 5.5,
+            "w": 174.328125,
+            "h": 44
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(21, 23, 26)",
+          "focusVisible": true,
+          "diffRatio": 0.0807,
+          "visibleIndicator": true
+        },
+        {
+          "i": 7,
+          "el": "a.b_btn__oWh2H \"Take a subsystem\"",
+          "rect": {
+            "x": 48,
+            "y": 466.46875,
+            "w": 204.328125,
+            "h": 44
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(21, 23, 26)",
+          "focusVisible": true,
+          "diffRatio": 0.0788,
+          "visibleIndicator": true
+        },
+        {
+          "i": 8,
+          "el": "a.b_textLink__HH0tQ \"See the builds\"",
+          "rect": {
+            "x": 276.328125,
+            "y": 466.46875,
+            "w": 111,
+            "h": 44
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(21, 23, 26)",
+          "focusVisible": true,
+          "diffRatio": 0.0877,
+          "visibleIndicator": true
+        },
+        {
+          "i": 9,
+          "el": "a \"S1SYSTEMS ARCHITECTURE\"",
+          "rect": {
+            "x": 634.9592895507812,
+            "y": 196.27725219726562,
+            "w": 208.391357421875,
+            "h": 33.10890197753906
+          },
+          "inView": true,
+          "outline": "none 3px rgb(21, 23, 26)",
+          "focusVisible": true,
+          "diffRatio": 0.6901,
+          "visibleIndicator": true
+        },
+        {
+          "i": 10,
+          "el": "a \"S2HARDWARE / PCB\"",
+          "rect": {
+            "x": 634.9592895507812,
+            "y": 257.48699951171875,
+            "w": 208.391357421875,
+            "h": 33.10888671875
+          },
+          "inView": true,
+          "outline": "none 3px rgb(21, 23, 26)",
+          "focusVisible": true,
+          "diffRatio": 0.7086,
+          "visibleIndicator": true
+        },
+        {
+          "i": 11,
+          "el": "a \"S3FIRMWARE / EMBEDDED\"",
+          "rect": {
+            "x": 634.9592895507812,
+            "y": 318.69671630859375,
+            "w": 208.391357421875,
+            "h": 33.10894775390625
+          },
+          "inView": true,
+          "outline": "none 3px rgb(21, 23, 26)",
+          "focusVisible": true,
+          "diffRatio": 0.6992,
+          "visibleIndicator": true
+        },
+        {
+          "i": 12,
+          "el": "a \"S4OPERATING SYSTEM\"",
+          "rect": {
+            "x": 634.9592895507812,
+            "y": 379.906494140625,
+            "w": 208.391357421875,
+            "h": 33.10888671875
+          },
+          "inView": true,
+          "outline": "none 3px rgb(21, 23, 26)",
+          "focusVisible": true,
+          "diffRatio": 0.6722,
+          "visibleIndicator": true
+        },
+        {
+          "i": 13,
+          "el": "a \"S5APPS / UX\"",
+          "rect": {
+            "x": 634.9592895507812,
+            "y": 441.1162414550781,
+            "w": 208.391357421875,
+            "h": 33.10888671875
+          },
+          "inView": true,
+          "outline": "none 3px rgb(21, 23, 26)",
+          "focusVisible": true,
+          "diffRatio": 0.6665,
+          "visibleIndicator": true
+        },
+        {
+          "i": 14,
+          "el": "a \"S6MECHANICAL / CAD\"",
+          "rect": {
+            "x": 634.9592895507812,
+            "y": 502.32598876953125,
+            "w": 208.391357421875,
+            "h": 33.10888671875
+          },
+          "inView": true,
+          "outline": "none 3px rgb(21, 23, 26)",
+          "focusVisible": true,
+          "diffRatio": 0.6904,
+          "visibleIndicator": true
+        },
+        {
+          "i": 15,
+          "el": "a \"S7INTEGRATION / TESTING\"",
+          "rect": {
+            "x": 634.9592895507812,
+            "y": 563.5357666015625,
+            "w": 208.391357421875,
+            "h": 33.10888671875
+          },
+          "inView": true,
+          "outline": "none 3px rgb(21, 23, 26)",
+          "focusVisible": true,
+          "diffRatio": 0.7096,
+          "visibleIndicator": true
+        },
+        {
+          "i": 16,
+          "el": "button.b_filter__RXypB \"All4\"",
+          "rect": {
+            "x": 48,
+            "y": 428.453125,
+            "w": 72.09375,
+            "h": 44
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(21, 23, 26)",
+          "focusVisible": true,
+          "diffRatio": 0.097,
+          "visibleIndicator": true
+        },
+        {
+          "i": 17,
+          "el": "button.b_filter__RXypB \"Active2\"",
+          "rect": {
+            "x": 128.09375,
+            "y": 428.453125,
+            "w": 117.65625,
+            "h": 44
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(21, 23, 26)",
+          "focusVisible": true,
+          "diffRatio": 0.0872,
+          "visibleIndicator": true
+        },
+        {
+          "i": 18,
+          "el": "button.b_filter__RXypB \"Program1\"",
+          "rect": {
+            "x": 253.75,
+            "y": 428.453125,
+            "w": 126.171875,
+            "h": 44
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(21, 23, 26)",
+          "focusVisible": true,
+          "diffRatio": 0.0854,
+          "visibleIndicator": true
+        },
+        {
+          "i": 19,
+          "el": "button.b_filter__RXypB \"Open1\"",
+          "rect": {
+            "x": 387.921875,
+            "y": 428.453125,
+            "w": 100.625,
+            "h": 44
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(21, 23, 26)",
+          "focusVisible": true,
+          "diffRatio": 0.0902,
+          "visibleIndicator": true
+        },
+        {
+          "i": 20,
+          "el": "a.b_rowLink__35g5E \"The Modular Smartphone\"",
+          "rect": {
+            "x": 136,
+            "y": 543.5,
+            "w": 235,
+            "h": 32
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(21, 23, 26)",
+          "focusVisible": true,
+          "diffRatio": 0.0926,
+          "visibleIndicator": true
+        },
+        {
+          "i": 21,
+          "el": "a.b_rowLink__35g5E \"Smart Reading\"",
+          "rect": {
+            "x": 136,
+            "y": 644.640625,
+            "w": 149,
+            "h": 32
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(21, 23, 26)",
+          "focusVisible": true,
+          "diffRatio": 0.0975,
+          "visibleIndicator": true
+        },
+        {
+          "i": 22,
+          "el": "a.b_rowLink__35g5E \"Venture Studies\"",
+          "rect": {
+            "x": 136,
+            "y": 745.78125,
+            "w": 155,
+            "h": 32
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(21, 23, 26)",
+          "focusVisible": true,
+          "diffRatio": 0.097,
+          "visibleIndicator": true
+        },
+        {
+          "i": 23,
+          "el": "a.b_rowLink__35g5E \"Unsigned\"",
+          "rect": {
+            "x": 136,
+            "y": 831.46875,
+            "w": 100,
+            "h": 32
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(21, 23, 26)",
+          "focusVisible": true,
+          "diffRatio": 0.1034,
+          "visibleIndicator": true
+        },
+        {
+          "i": 24,
+          "el": "a.b_textLink__HH0tQ \"Open the build record\"",
+          "rect": {
+            "x": 81,
+            "y": 427.859375,
+            "w": 194,
+            "h": 44
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(21, 23, 26)",
+          "focusVisible": true,
+          "diffRatio": 0.0794,
+          "visibleIndicator": true
+        },
+        {
+          "i": 25,
+          "el": "a.b_textLink__HH0tQ \"Open the build record\"",
+          "rect": {
+            "x": 81,
+            "y": 428.015625,
+            "w": 194,
+            "h": 44
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(21, 23, 26)",
+          "focusVisible": true,
+          "diffRatio": 0.0794,
+          "visibleIndicator": true
+        }
+      ]
+    }
+  },
+  "reducedMotion": {
+    "running": 0,
+    "infinite": 0,
+    "infiniteList": [],
+    "hiddenTextBlocks": 0,
+    "canvases": 0
+  },
+  "noJs": {
+    "textLen": 7383,
+    "blocks": 55,
+    "hiddenBlocks": 0,
+    "hiddenSample": [],
+    "h1": 1,
+    "textRatioVsJs": 1
+  }
+}

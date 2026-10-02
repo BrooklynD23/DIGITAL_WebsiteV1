@@ -1,0 +1,1484 @@
+{
+  "slug": "e",
+  "route": "/design-lab/e/",
+  "at": "2026-10-02T13:35:50.184Z",
+  "viewports": {
+    "390": {
+      "consoleErrors": [],
+      "axe": {
+        "critical": 0,
+        "serious": 1,
+        "moderate": 0,
+        "minor": 0,
+        "rules": [
+          "serious:color-contrast(2)"
+        ],
+        "incomplete": [
+          "color-contrast(14)"
+        ]
+      },
+      "vw": 390,
+      "scrollWidth": 390,
+      "overflow": false,
+      "overflowOffenders": [],
+      "targets": {
+        "checked": 35,
+        "small": 3,
+        "smallNonInline": 3,
+        "list": [
+          {
+            "el": "a.e_btnPrimary__Jc85U \"Take a subsystem\"",
+            "w": 152,
+            "h": 40,
+            "inline": false,
+            "x": 150,
+            "y": 10
+          },
+          {
+            "el": "a.e_textLink__PMdW8 \"Current project page\"",
+            "w": 169,
+            "h": 25,
+            "inline": false,
+            "x": 201,
+            "y": 2027
+          },
+          {
+            "el": "a.e_textLink__PMdW8 \"Current project page\"",
+            "w": 169,
+            "h": 25,
+            "inline": false,
+            "x": 201,
+            "y": 6928
+          }
+        ],
+        "touch": true
+      },
+      "headings": {
+        "count": 29,
+        "h1": 1,
+        "skips": [],
+        "outline": [
+          "h1 Make something worth putting your name on.",
+          "h2 Build ledger",
+          "h2 Same template for every build. Blanks stay blank.",
+          "h3 One phone, owned in seven parts.",
+          "h4 Systems Architecture",
+          "h4 Hardware / PCB",
+          "h4 Firmware / Embedded",
+          "h4 Operating System",
+          "h4 Apps / UX",
+          "h4 Mechanical / CAD",
+          "h4 Integration / Testing",
+          "h4 Problem",
+          "h4 Approach",
+          "h4 Team",
+          "h4 Outcome",
+          "h4 Sign-off",
+          "h4 What's next",
+          "h3 One word, held still.",
+          "h4 Problem",
+          "h4 Approach",
+          "h4 Team",
+          "h4 Outcome",
+          "h4 Sign-off",
+          "h4 What's next",
+          "h2 Seven seats. All open.",
+          "h2 Put your name on a build.",
+          "h3 Come to build night.",
+          "h3 Join the Discord.",
+          "h3 Take a subsystem."
+        ]
+      },
+      "images": {
+        "imgNoAlt": [],
+        "roleImgNoName": [],
+        "svgUnlabelled": 0
+      },
+      "fonts": {
+        "min": 11,
+        "p10": 11,
+        "under12": 93,
+        "tinyList": [
+          {
+            "el": "dt.e_heroFactLabel__TaDuN \"Builds active\"",
+            "px": 11
+          },
+          {
+            "el": "dt.e_heroFactLabel__TaDuN \"Shipped\"",
+            "px": 11
+          },
+          {
+            "el": "dt.e_heroFactLabel__TaDuN \"Seats open\"",
+            "px": 11
+          },
+          {
+            "el": "span.e_rowStage__LQjeG \"7 subsystems · phase [confirm]\"",
+            "px": 11
+          },
+          {
+            "el": "span.e_status__kTkmI \"Active\"",
+            "px": 11
+          },
+          {
+            "el": "span.e_outcomeTag__IY7KB \"Not shipped\"",
+            "px": 11
+          },
+          {
+            "el": "span.e_rowStage__LQjeG \"8-month build cycle · phase [confirm]\"",
+            "px": 11
+          },
+          {
+            "el": "span.e_status__kTkmI \"Active\"",
+            "px": 11
+          },
+          {
+            "el": "span.e_outcomeTag__IY7KB \"Not shipped\"",
+            "px": 11
+          },
+          {
+            "el": "span.e_rowStage__LQjeG \"Serves every build · no page yet\"",
+            "px": 11
+          },
+          {
+            "el": "span.e_status__kTkmI \"Program\"",
+            "px": 11
+          },
+          {
+            "el": "span.e_outcomeTag__IY7KB \"No artifacts yet\"",
+            "px": 11
+          },
+          {
+            "el": "span.e_rowStage__LQjeG \"—\"",
+            "px": 11
+          },
+          {
+            "el": "span.e_status__kTkmI \"Open slot\"",
+            "px": 11
+          },
+          {
+            "el": "span.e_outcomeTag__IY7KB \"Unassigned\"",
+            "px": 11
+          }
+        ]
+      },
+      "lineLength": {
+        "paragraphs": 21,
+        "maxCpl": 48,
+        "medianCpl": 36,
+        "over80": 0,
+        "over90": 0,
+        "worst": [
+          {
+            "el": "p.e_body__bMovk \"Reading asks the eyes to jump along ever\"",
+            "cpl": 48,
+            "lines": 3,
+            "px": 16
+          },
+          {
+            "el": "p.e_body__bMovk \"Phones are built to be thrown away. DG-0\"",
+            "cpl": 46,
+            "lines": 3,
+            "px": 16
+          },
+          {
+            "el": "p \"Make something worth putting your name o\"",
+            "cpl": 46,
+            "lines": 2,
+            "px": 16
+          },
+          {
+            "el": "p.e_body__bMovk \"RSVP (rapid serial visual presentation) \"",
+            "cpl": 43,
+            "lines": 5,
+            "px": 16
+          },
+          {
+            "el": "p.e_body__bMovk \"Each case study answers the same questio\"",
+            "cpl": 42,
+            "lines": 4,
+            "px": 16
+          }
+        ]
+      },
+      "landmarks": {
+        "main": 2,
+        "headerInsideMain": 1,
+        "footerInsideMain": 1,
+        "navs": [
+          "Concept E"
+        ]
+      },
+      "contrastProbe": {
+        "probed": 14,
+        "estFails": [],
+        "all": [
+          {
+            "target": ".e_rowOpen__2NBB0 > .e_rowIdCell__tu8Fs > .e_rowId__Wn0xv.e_mono__dkfW1",
+            "text": "DG-003",
+            "px": 12,
+            "ratio": 5.93,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".e_rowOpen__2NBB0 > .e_rowMain__mVfw4 > .e_rowTitle__FnGKG",
+            "text": "Unassigned",
+            "px": 20,
+            "ratio": 10.87,
+            "need": 3,
+            "fail": false
+          },
+          {
+            "target": ".e_rowOpen__2NBB0 > .e_rowMain__mVfw4 > .e_rowLine__7U3Nk",
+            "text": "The next build has no owner ye",
+            "px": 15,
+            "ratio": 9.11,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".e_rowSide__F_XSF > .e_status__kTkmI.e_mono__dkfW1[data-kind=\"open\"]",
+            "text": "Open slot",
+            "px": 11,
+            "ratio": 18.52,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".e_rowOpen__2NBB0 > .e_rowSide__F_XSF > .e_outcomeTag__IY7KB.e_mono__dkfW1",
+            "text": "Unassigned",
+            "px": 11,
+            "ratio": 5.93,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "g[transform=\"translate(0 396)\"] > text > .e_layerNum__oTiHl",
+            "text": "06",
+            "px": 34,
+            "ratio": 4.19,
+            "need": 3,
+            "fail": false
+          },
+          {
+            "target": "g[transform=\"translate(0 330)\"] > text > .e_layerNum__oTiHl",
+            "text": "07",
+            "px": 34,
+            "ratio": 4.19,
+            "need": 3,
+            "fail": false
+          },
+          {
+            "target": "g[transform=\"translate(0 264)\"] > text > .e_layerNum__oTiHl",
+            "text": "02",
+            "px": 34,
+            "ratio": 4.19,
+            "need": 3,
+            "fail": false
+          },
+          {
+            "target": "g[transform=\"translate(0 198)\"] > text > .e_layerNum__oTiHl",
+            "text": "03",
+            "px": 34,
+            "ratio": 4.19,
+            "need": 3,
+            "fail": false
+          },
+          {
+            "target": "g[transform=\"translate(0 132)\"] > text > .e_layerNum__oTiHl",
+            "text": "01",
+            "px": 34,
+            "ratio": 4.19,
+            "need": 3,
+            "fail": false
+          },
+          {
+            "target": "g[transform=\"translate(0 66)\"] > text > .e_layerNum__oTiHl",
+            "text": "04",
+            "px": 34,
+            "ratio": 4.19,
+            "need": 3,
+            "fail": false
+          },
+          {
+            "target": "g[transform=\"translate(0 0)\"] > text > .e_layerNum__oTiHl",
+            "text": "05",
+            "px": 34,
+            "ratio": 4.19,
+            "need": 3,
+            "fail": false
+          },
+          {
+            "target": ".e_rsvpHud__Sf9Eu > span:nth-child(1)",
+            "text": "RSVP",
+            "px": 11,
+            "ratio": 17.76,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".e_rsvpWord__44sVy",
+            "text": "The",
+            "px": 30,
+            "ratio": 13.92,
+            "need": 3,
+            "fail": false
+          }
+        ]
+      },
+      "targetsPng": "targets-390.png"
+    },
+    "834": {
+      "consoleErrors": [],
+      "axe": {
+        "critical": 0,
+        "serious": 1,
+        "moderate": 0,
+        "minor": 0,
+        "rules": [
+          "serious:color-contrast(2)"
+        ],
+        "incomplete": [
+          "color-contrast(22)"
+        ]
+      },
+      "vw": 834,
+      "scrollWidth": 834,
+      "overflow": false,
+      "overflowOffenders": [],
+      "targets": {
+        "checked": 35,
+        "small": 3,
+        "smallNonInline": 3,
+        "list": [
+          {
+            "el": "a.e_btnPrimary__Jc85U \"Take a subsystem\"",
+            "w": 152,
+            "h": 40,
+            "inline": false,
+            "x": 574,
+            "y": 10
+          },
+          {
+            "el": "a.e_textLink__PMdW8 \"Current project page\"",
+            "w": 180,
+            "h": 26,
+            "inline": false,
+            "x": 614,
+            "y": 1563
+          },
+          {
+            "el": "a.e_textLink__PMdW8 \"Current project page\"",
+            "w": 180,
+            "h": 26,
+            "inline": false,
+            "x": 614,
+            "y": 5533
+          }
+        ],
+        "touch": true
+      },
+      "headings": {
+        "count": 29,
+        "h1": 1,
+        "skips": [],
+        "outline": [
+          "h1 Make something worth putting your name on.",
+          "h2 Build ledger",
+          "h2 Same template for every build. Blanks stay blank.",
+          "h3 One phone, owned in seven parts.",
+          "h4 Systems Architecture",
+          "h4 Hardware / PCB",
+          "h4 Firmware / Embedded",
+          "h4 Operating System",
+          "h4 Apps / UX",
+          "h4 Mechanical / CAD",
+          "h4 Integration / Testing",
+          "h4 Problem",
+          "h4 Approach",
+          "h4 Team",
+          "h4 Outcome",
+          "h4 Sign-off",
+          "h4 What's next",
+          "h3 One word, held still.",
+          "h4 Problem",
+          "h4 Approach",
+          "h4 Team",
+          "h4 Outcome",
+          "h4 Sign-off",
+          "h4 What's next",
+          "h2 Seven seats. All open.",
+          "h2 Put your name on a build.",
+          "h3 Come to build night.",
+          "h3 Join the Discord.",
+          "h3 Take a subsystem."
+        ]
+      },
+      "images": {
+        "imgNoAlt": [],
+        "roleImgNoName": [],
+        "svgUnlabelled": 0
+      },
+      "fonts": {
+        "min": 11,
+        "p10": 11,
+        "under12": 94,
+        "tinyList": [
+          {
+            "el": "span.e_brandSub__Uymvk \"Cal Poly Pomona\"",
+            "px": 11
+          },
+          {
+            "el": "dt.e_heroFactLabel__TaDuN \"Builds active\"",
+            "px": 11
+          },
+          {
+            "el": "dt.e_heroFactLabel__TaDuN \"Shipped\"",
+            "px": 11
+          },
+          {
+            "el": "dt.e_heroFactLabel__TaDuN \"Seats open\"",
+            "px": 11
+          },
+          {
+            "el": "span.e_rowStage__LQjeG \"7 subsystems · phase [confirm]\"",
+            "px": 11
+          },
+          {
+            "el": "span.e_status__kTkmI \"Active\"",
+            "px": 11
+          },
+          {
+            "el": "span.e_outcomeTag__IY7KB \"Not shipped\"",
+            "px": 11
+          },
+          {
+            "el": "span.e_rowStage__LQjeG \"8-month build cycle · phase [confirm]\"",
+            "px": 11
+          },
+          {
+            "el": "span.e_status__kTkmI \"Active\"",
+            "px": 11
+          },
+          {
+            "el": "span.e_outcomeTag__IY7KB \"Not shipped\"",
+            "px": 11
+          },
+          {
+            "el": "span.e_rowStage__LQjeG \"Serves every build · no page yet\"",
+            "px": 11
+          },
+          {
+            "el": "span.e_status__kTkmI \"Program\"",
+            "px": 11
+          },
+          {
+            "el": "span.e_outcomeTag__IY7KB \"No artifacts yet\"",
+            "px": 11
+          },
+          {
+            "el": "span.e_rowStage__LQjeG \"—\"",
+            "px": 11
+          },
+          {
+            "el": "span.e_status__kTkmI \"Open slot\"",
+            "px": 11
+          }
+        ]
+      },
+      "lineLength": {
+        "paragraphs": 20,
+        "maxCpl": 87,
+        "medianCpl": 69,
+        "over80": 3,
+        "over90": 0,
+        "worst": [
+          {
+            "el": "p.e_body__bMovk \"Seven layers, seven owners. Each subsyst\"",
+            "cpl": 87,
+            "lines": 2,
+            "px": 17
+          },
+          {
+            "el": "p.e_body__bMovk \"Seven subsystems, each with an owner, a \"",
+            "cpl": 85,
+            "lines": 2,
+            "px": 17
+          },
+          {
+            "el": "p.e_body__bMovk \"Each case study answers the same questio\"",
+            "cpl": 83,
+            "lines": 2,
+            "px": 17
+          },
+          {
+            "el": "p.e_body__bMovk \"Every leadership seat is unfilled. Names\"",
+            "cpl": 74,
+            "lines": 2,
+            "px": 17
+          },
+          {
+            "el": "p.e_body__bMovk \"Reading asks the eyes to jump along ever\"",
+            "cpl": 72,
+            "lines": 2,
+            "px": 17
+          }
+        ]
+      },
+      "landmarks": {
+        "main": 2,
+        "headerInsideMain": 1,
+        "footerInsideMain": 1,
+        "navs": [
+          "Concept E"
+        ]
+      },
+      "contrastProbe": {
+        "probed": 22,
+        "estFails": [
+          {
+            "target": "g[transform=\"translate(0 396)\"] > text > .e_layerNum__oTiHl",
+            "text": "06",
+            "px": 15,
+            "ratio": 3.79,
+            "need": 4.5,
+            "fail": true
+          },
+          {
+            "target": "g[transform=\"translate(0 330)\"] > text > .e_layerNum__oTiHl",
+            "text": "07",
+            "px": 15,
+            "ratio": 3.79,
+            "need": 4.5,
+            "fail": true
+          },
+          {
+            "target": "g[transform=\"translate(0 264)\"] > text > .e_layerNum__oTiHl",
+            "text": "02",
+            "px": 15,
+            "ratio": 3.79,
+            "need": 4.5,
+            "fail": true
+          },
+          {
+            "target": "g[transform=\"translate(0 198)\"] > text > .e_layerNum__oTiHl",
+            "text": "03",
+            "px": 15,
+            "ratio": 3.79,
+            "need": 4.5,
+            "fail": true
+          },
+          {
+            "target": "g[transform=\"translate(0 132)\"] > text > .e_layerNum__oTiHl",
+            "text": "01",
+            "px": 15,
+            "ratio": 3.79,
+            "need": 4.5,
+            "fail": true
+          },
+          {
+            "target": "g[transform=\"translate(0 66)\"] > text > .e_layerNum__oTiHl",
+            "text": "04",
+            "px": 15,
+            "ratio": 3.97,
+            "need": 4.5,
+            "fail": true
+          },
+          {
+            "target": "g[transform=\"translate(0 0)\"] > text > .e_layerNum__oTiHl",
+            "text": "05",
+            "px": 15,
+            "ratio": 3.82,
+            "need": 4.5,
+            "fail": true
+          },
+          {
+            "target": ".e_rsvpHud__Sf9Eu > span:nth-child(2)",
+            "text": "450 wpm",
+            "px": 11,
+            "ratio": 2.33,
+            "need": 4.5,
+            "fail": true
+          }
+        ],
+        "all": [
+          {
+            "target": ".e_rowOpen__2NBB0 > .e_rowIdCell__tu8Fs > .e_rowId__Wn0xv.e_mono__dkfW1",
+            "text": "DG-003",
+            "px": 12,
+            "ratio": 5.93,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".e_rowOpen__2NBB0 > .e_rowMain__mVfw4 > .e_rowTitle__FnGKG",
+            "text": "Unassigned",
+            "px": 20,
+            "ratio": 10.87,
+            "need": 3,
+            "fail": false
+          },
+          {
+            "target": ".e_rowOpen__2NBB0 > .e_rowMain__mVfw4 > .e_rowLine__7U3Nk",
+            "text": "The next build has no owner ye",
+            "px": 15,
+            "ratio": 9.15,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".e_rowSide__F_XSF > .e_status__kTkmI.e_mono__dkfW1[data-kind=\"open\"]",
+            "text": "Open slot",
+            "px": 11,
+            "ratio": 18.52,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".e_rowOpen__2NBB0 > .e_rowSide__F_XSF > .e_outcomeTag__IY7KB.e_mono__dkfW1",
+            "text": "Unassigned",
+            "px": 11,
+            "ratio": 5.93,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "g[transform=\"translate(0 396)\"] > text > .e_layerNum__oTiHl",
+            "text": "06",
+            "px": 15,
+            "ratio": 3.79,
+            "need": 4.5,
+            "fail": true
+          },
+          {
+            "target": "g[transform=\"translate(0 396)\"] > text > .e_layerName__AJTaD",
+            "text": "Mechanical / CAD",
+            "px": 15,
+            "ratio": 7.02,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "g[transform=\"translate(0 330)\"] > text > .e_layerNum__oTiHl",
+            "text": "07",
+            "px": 15,
+            "ratio": 3.79,
+            "need": 4.5,
+            "fail": true
+          },
+          {
+            "target": "g[transform=\"translate(0 330)\"] > text > .e_layerName__AJTaD",
+            "text": "Integration / Testing",
+            "px": 15,
+            "ratio": 6.77,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "g[transform=\"translate(0 264)\"] > text > .e_layerNum__oTiHl",
+            "text": "02",
+            "px": 15,
+            "ratio": 3.79,
+            "need": 4.5,
+            "fail": true
+          },
+          {
+            "target": "g[transform=\"translate(0 264)\"] > text > .e_layerName__AJTaD",
+            "text": "Hardware / PCB",
+            "px": 15,
+            "ratio": 7.37,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "g[transform=\"translate(0 198)\"] > text > .e_layerNum__oTiHl",
+            "text": "03",
+            "px": 15,
+            "ratio": 3.79,
+            "need": 4.5,
+            "fail": true
+          },
+          {
+            "target": "g[transform=\"translate(0 198)\"] > text > .e_layerName__AJTaD",
+            "text": "Firmware / Embedded",
+            "px": 15,
+            "ratio": 7.37,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "g[transform=\"translate(0 132)\"] > text > .e_layerNum__oTiHl",
+            "text": "01",
+            "px": 15,
+            "ratio": 3.79,
+            "need": 4.5,
+            "fail": true
+          },
+          {
+            "target": "g[transform=\"translate(0 132)\"] > text > .e_layerName__AJTaD",
+            "text": "Systems Architecture",
+            "px": 15,
+            "ratio": 6.94,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "g[transform=\"translate(0 66)\"] > text > .e_layerNum__oTiHl",
+            "text": "04",
+            "px": 15,
+            "ratio": 3.97,
+            "need": 4.5,
+            "fail": true
+          },
+          {
+            "target": "g[transform=\"translate(0 66)\"] > text > .e_layerName__AJTaD",
+            "text": "Operating System",
+            "px": 15,
+            "ratio": 7.03,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "g[transform=\"translate(0 0)\"] > text > .e_layerNum__oTiHl",
+            "text": "05",
+            "px": 15,
+            "ratio": 3.82,
+            "need": 4.5,
+            "fail": true
+          },
+          {
+            "target": "g[transform=\"translate(0 0)\"] > text > .e_layerName__AJTaD",
+            "text": "Apps / UX",
+            "px": 15,
+            "ratio": 6.85,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".e_rsvpHud__Sf9Eu > span:nth-child(1)",
+            "text": "RSVP",
+            "px": 11,
+            "ratio": 16.23,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".e_rsvpHud__Sf9Eu > span:nth-child(2)",
+            "text": "450 wpm",
+            "px": 11,
+            "ratio": 2.33,
+            "need": 4.5,
+            "fail": true
+          },
+          {
+            "target": ".e_rsvpWord__44sVy",
+            "text": "The",
+            "px": 33.36,
+            "ratio": 13.59,
+            "need": 3,
+            "fail": false
+          }
+        ]
+      },
+      "targetsPng": "targets-834.png"
+    },
+    "1440": {
+      "consoleErrors": [],
+      "axe": {
+        "critical": 0,
+        "serious": 1,
+        "moderate": 0,
+        "minor": 0,
+        "rules": [
+          "serious:color-contrast(29)"
+        ],
+        "incomplete": [
+          "color-contrast(20)"
+        ]
+      },
+      "vw": 1440,
+      "scrollWidth": 1440,
+      "overflow": false,
+      "overflowOffenders": [],
+      "targets": {
+        "checked": 34,
+        "small": 3,
+        "smallNonInline": 3,
+        "list": [
+          {
+            "el": "a.e_btnPrimary__Jc85U \"Take a subsystem\"",
+            "w": 152,
+            "h": 40,
+            "inline": false,
+            "x": 1224,
+            "y": 10
+          },
+          {
+            "el": "a.e_textLink__PMdW8 \"Current project page\"",
+            "w": 180,
+            "h": 26,
+            "inline": false,
+            "x": 1196,
+            "y": 1501
+          },
+          {
+            "el": "a.e_textLink__PMdW8 \"Current project page\"",
+            "w": 180,
+            "h": 26,
+            "inline": false,
+            "x": 1196,
+            "y": 5844
+          }
+        ],
+        "touch": false
+      },
+      "headings": {
+        "count": 29,
+        "h1": 1,
+        "skips": [],
+        "outline": [
+          "h1 Make something worth putting your name on.",
+          "h2 Build ledger",
+          "h2 Same template for every build. Blanks stay blank.",
+          "h3 One phone, owned in seven parts.",
+          "h4 Systems Architecture",
+          "h4 Hardware / PCB",
+          "h4 Firmware / Embedded",
+          "h4 Operating System",
+          "h4 Apps / UX",
+          "h4 Mechanical / CAD",
+          "h4 Integration / Testing",
+          "h4 Problem",
+          "h4 Approach",
+          "h4 Team",
+          "h4 Outcome",
+          "h4 Sign-off",
+          "h4 What's next",
+          "h3 One word, held still.",
+          "h4 Problem",
+          "h4 Approach",
+          "h4 Team",
+          "h4 Outcome",
+          "h4 Sign-off",
+          "h4 What's next",
+          "h2 Seven seats. All open.",
+          "h2 Put your name on a build.",
+          "h3 Come to build night.",
+          "h3 Join the Discord.",
+          "h3 Take a subsystem."
+        ]
+      },
+      "images": {
+        "imgNoAlt": [],
+        "roleImgNoName": [],
+        "svgUnlabelled": 0
+      },
+      "fonts": {
+        "min": 11,
+        "p10": 11,
+        "under12": 94,
+        "tinyList": [
+          {
+            "el": "span.e_brandSub__Uymvk \"Cal Poly Pomona\"",
+            "px": 11
+          },
+          {
+            "el": "dt.e_heroFactLabel__TaDuN \"Builds active\"",
+            "px": 11
+          },
+          {
+            "el": "dt.e_heroFactLabel__TaDuN \"Shipped\"",
+            "px": 11
+          },
+          {
+            "el": "dt.e_heroFactLabel__TaDuN \"Seats open\"",
+            "px": 11
+          },
+          {
+            "el": "span.e_rowStage__LQjeG \"7 subsystems · phase [confirm]\"",
+            "px": 11
+          },
+          {
+            "el": "span.e_status__kTkmI \"Active\"",
+            "px": 11
+          },
+          {
+            "el": "span.e_outcomeTag__IY7KB \"Not shipped\"",
+            "px": 11
+          },
+          {
+            "el": "span.e_rowStage__LQjeG \"8-month build cycle · phase [confirm]\"",
+            "px": 11
+          },
+          {
+            "el": "span.e_status__kTkmI \"Active\"",
+            "px": 11
+          },
+          {
+            "el": "span.e_outcomeTag__IY7KB \"Not shipped\"",
+            "px": 11
+          },
+          {
+            "el": "span.e_rowStage__LQjeG \"Serves every build · no page yet\"",
+            "px": 11
+          },
+          {
+            "el": "span.e_status__kTkmI \"Program\"",
+            "px": 11
+          },
+          {
+            "el": "span.e_outcomeTag__IY7KB \"No artifacts yet\"",
+            "px": 11
+          },
+          {
+            "el": "span.e_rowStage__LQjeG \"—\"",
+            "px": 11
+          },
+          {
+            "el": "span.e_status__kTkmI \"Open slot\"",
+            "px": 11
+          }
+        ]
+      },
+      "lineLength": {
+        "paragraphs": 21,
+        "maxCpl": 87,
+        "medianCpl": 50,
+        "over80": 3,
+        "over90": 0,
+        "worst": [
+          {
+            "el": "p.e_body__bMovk \"Seven layers, seven owners. Each subsyst\"",
+            "cpl": 87,
+            "lines": 2,
+            "px": 17
+          },
+          {
+            "el": "p.e_body__bMovk \"Seven subsystems, each with an owner, a \"",
+            "cpl": 85,
+            "lines": 2,
+            "px": 17
+          },
+          {
+            "el": "p.e_body__bMovk \"Each case study answers the same questio\"",
+            "cpl": 83,
+            "lines": 2,
+            "px": 17
+          },
+          {
+            "el": "p.e_body__bMovk \"Every leadership seat is unfilled. Names\"",
+            "cpl": 74,
+            "lines": 2,
+            "px": 17
+          },
+          {
+            "el": "p.e_body__bMovk \"Reading asks the eyes to jump along ever\"",
+            "cpl": 72,
+            "lines": 2,
+            "px": 17
+          }
+        ]
+      },
+      "landmarks": {
+        "main": 2,
+        "headerInsideMain": 1,
+        "footerInsideMain": 1,
+        "navs": [
+          "Concept E"
+        ]
+      },
+      "contrastProbe": {
+        "probed": 9,
+        "estFails": [
+          {
+            "target": "g[transform=\"matrix(1,0,0,1,0,84)\"] > text > .e_layerNum__oTiHl",
+            "text": "06",
+            "px": 15,
+            "ratio": 3.19,
+            "need": 4.5,
+            "fail": true
+          },
+          {
+            "target": ".e_rsvpHud__Sf9Eu > span:nth-child(2)",
+            "text": "450 wpm",
+            "px": 11,
+            "ratio": 2.31,
+            "need": 4.5,
+            "fail": true
+          }
+        ],
+        "all": [
+          {
+            "target": ".e_rowOpen__2NBB0 > .e_rowIdCell__tu8Fs > .e_rowId__Wn0xv.e_mono__dkfW1",
+            "text": "DG-003",
+            "px": 12,
+            "ratio": 5.93,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".e_rowOpen__2NBB0 > .e_rowMain__mVfw4 > .e_rowTitle__FnGKG",
+            "text": "Unassigned",
+            "px": 26,
+            "ratio": 10.87,
+            "need": 3,
+            "fail": false
+          },
+          {
+            "target": ".e_rowOpen__2NBB0 > .e_rowMain__mVfw4 > .e_rowLine__7U3Nk",
+            "text": "The next build has no owner ye",
+            "px": 15,
+            "ratio": 9.3,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".e_rowSide__F_XSF > .e_status__kTkmI.e_mono__dkfW1[data-kind=\"open\"]",
+            "text": "Open slot",
+            "px": 11,
+            "ratio": 18.52,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".e_rowOpen__2NBB0 > .e_rowSide__F_XSF > .e_outcomeTag__IY7KB.e_mono__dkfW1",
+            "text": "Unassigned",
+            "px": 11,
+            "ratio": 5.93,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": "g[transform=\"matrix(1,0,0,1,0,84)\"] > text > .e_layerNum__oTiHl",
+            "text": "06",
+            "px": 15,
+            "ratio": 3.19,
+            "need": 4.5,
+            "fail": true
+          },
+          {
+            "target": ".e_rsvpHud__Sf9Eu > span:nth-child(1)",
+            "text": "RSVP",
+            "px": 11,
+            "ratio": 11.02,
+            "need": 4.5,
+            "fail": false
+          },
+          {
+            "target": ".e_rsvpHud__Sf9Eu > span:nth-child(2)",
+            "text": "450 wpm",
+            "px": 11,
+            "ratio": 2.31,
+            "need": 4.5,
+            "fail": true
+          },
+          {
+            "target": ".e_rsvpWord__44sVy",
+            "text": "The",
+            "px": 48,
+            "ratio": 13.75,
+            "need": 3,
+            "fail": false
+          }
+        ]
+      },
+      "focus": [
+        {
+          "i": 1,
+          "el": "a.sr-only \"Skip to main content\"",
+          "rect": {
+            "x": 16,
+            "y": 16,
+            "w": 183,
+            "h": 42
+          },
+          "inView": true,
+          "outline": "solid 2px rgba(0, 0, 0, 0)",
+          "focusVisible": true,
+          "diffRatio": 0.711,
+          "visibleIndicator": true
+        },
+        {
+          "i": 2,
+          "el": "a.e_skip__Thf1b \"Skip to content\"",
+          "rect": {
+            "x": 12,
+            "y": 12,
+            "w": 150,
+            "h": 46.34375
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(18, 20, 17)",
+          "focusVisible": true,
+          "diffRatio": 0.7054,
+          "visibleIndicator": true
+        },
+        {
+          "i": 3,
+          "el": "a.e_brand__7pcVl \"DIGITAL, Cal Poly Pomona, back to top\"",
+          "rect": {
+            "x": 64,
+            "y": 8,
+            "w": 196.515625,
+            "h": 44
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(18, 20, 17)",
+          "focusVisible": true,
+          "diffRatio": 0.0796,
+          "visibleIndicator": true
+        },
+        {
+          "i": 4,
+          "el": "a \"Ledger\"",
+          "rect": {
+            "x": 284.515625,
+            "y": 8,
+            "w": 73,
+            "h": 44
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(18, 20, 17)",
+          "focusVisible": true,
+          "diffRatio": 0.0966,
+          "visibleIndicator": true
+        },
+        {
+          "i": 5,
+          "el": "a \"Case studies\"",
+          "rect": {
+            "x": 361.515625,
+            "y": 8,
+            "w": 112,
+            "h": 44
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(18, 20, 17)",
+          "focusVisible": true,
+          "diffRatio": 0.0875,
+          "visibleIndicator": true
+        },
+        {
+          "i": 6,
+          "el": "a \"Roles\"",
+          "rect": {
+            "x": 477.515625,
+            "y": 8,
+            "w": 61,
+            "h": 44
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(18, 20, 17)",
+          "focusVisible": true,
+          "diffRatio": 0.1013,
+          "visibleIndicator": true
+        },
+        {
+          "i": 7,
+          "el": "a \"Join\"",
+          "rect": {
+            "x": 542.515625,
+            "y": 8,
+            "w": 52,
+            "h": 44
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(18, 20, 17)",
+          "focusVisible": true,
+          "diffRatio": 0.1059,
+          "visibleIndicator": true
+        },
+        {
+          "i": 8,
+          "el": "a.e_btnPrimary__Jc85U \"Take a subsystem\"",
+          "rect": {
+            "x": 1224,
+            "y": 10,
+            "w": 152,
+            "h": 40
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(18, 20, 17)",
+          "focusVisible": true,
+          "diffRatio": 0.0882,
+          "visibleIndicator": true
+        },
+        {
+          "i": 9,
+          "el": "a.e_btnGhost__ul_zj \"Read the case studies\"",
+          "rect": {
+            "x": 64,
+            "y": 855.84375,
+            "w": 213,
+            "h": 44
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(18, 20, 17)",
+          "focusVisible": true,
+          "diffRatio": 0.0554,
+          "visibleIndicator": true
+        },
+        {
+          "i": 10,
+          "el": "a.e_textLink__PMdW8 \"Thursdays · 6:00 PM · Building 17, Room 1635\"",
+          "rect": {
+            "x": 64,
+            "y": 427.84375,
+            "w": 343,
+            "h": 44
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(18, 20, 17)",
+          "focusVisible": true,
+          "diffRatio": 0.0741,
+          "visibleIndicator": true
+        },
+        {
+          "i": 11,
+          "el": "button.e_row__W7F60 \"DG-001The Modular SmartphoneBuild a modular smartp\"",
+          "rect": {
+            "x": 644.328125,
+            "y": 217.59375,
+            "w": 730.65625,
+            "h": 135.484375
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(18, 20, 17)",
+          "focusVisible": true,
+          "diffRatio": 0.0305,
+          "visibleIndicator": true
+        },
+        {
+          "i": 12,
+          "el": "button.e_row__W7F60 \"DG-002Smart ReadingFPGA-based heads-up glasses tha\"",
+          "rect": {
+            "x": 644.328125,
+            "y": 354.078125,
+            "w": 730.65625,
+            "h": 157.234375
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(18, 20, 17)",
+          "focusVisible": true,
+          "diffRatio": 0.0273,
+          "visibleIndicator": true
+        },
+        {
+          "i": 13,
+          "el": "button.e_row__W7F60 \"PROGRAMVenture StudiesTurn engineering scope into \"",
+          "rect": {
+            "x": 644.328125,
+            "y": 512.3125,
+            "w": 730.65625,
+            "h": 135.484375
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(18, 20, 17)",
+          "focusVisible": true,
+          "diffRatio": 0.0305,
+          "visibleIndicator": true
+        },
+        {
+          "i": 14,
+          "el": "button.e_row__W7F60 \"DG-003UnassignedThe next build has no owner yet. B\"",
+          "rect": {
+            "x": 644.328125,
+            "y": 648.796875,
+            "w": 730.65625,
+            "h": 113.734375
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(18, 20, 17)",
+          "focusVisible": true,
+          "diffRatio": 0.0348,
+          "visibleIndicator": true
+        },
+        {
+          "i": 15,
+          "el": "a.e_textLink__PMdW8 \"Current project page\"",
+          "rect": {
+            "x": 1196,
+            "y": 436.640625,
+            "w": 180,
+            "h": 26.34375
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(18, 20, 17)",
+          "focusVisible": true,
+          "diffRatio": 0.1059,
+          "visibleIndicator": true
+        },
+        {
+          "i": 16,
+          "el": "a.e_textLink__PMdW8 \"Current project page\"",
+          "rect": {
+            "x": 1196,
+            "y": 436.703125,
+            "w": 180,
+            "h": 26.34375
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(18, 20, 17)",
+          "focusVisible": true,
+          "diffRatio": 0.1059,
+          "visibleIndicator": true
+        },
+        {
+          "i": 17,
+          "el": "button.e_ctrl__AJjkb \"Play\"",
+          "rect": {
+            "x": 77,
+            "y": 428.359375,
+            "w": 75,
+            "h": 44
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(18, 20, 17)",
+          "focusVisible": true,
+          "diffRatio": 0.0982,
+          "visibleIndicator": true
+        },
+        {
+          "i": 18,
+          "el": "button.e_ctrl__AJjkb \"Next word\"",
+          "rect": {
+            "x": 160,
+            "y": 428.359375,
+            "w": 44,
+            "h": 44
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(18, 20, 17)",
+          "focusVisible": true,
+          "diffRatio": 0.1144,
+          "visibleIndicator": true
+        },
+        {
+          "i": 19,
+          "el": "button.e_ctrl__AJjkb \"250\"",
+          "rect": {
+            "x": 212,
+            "y": 428.359375,
+            "w": 53,
+            "h": 44
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(18, 20, 17)",
+          "focusVisible": true,
+          "diffRatio": 0.1082,
+          "visibleIndicator": true
+        },
+        {
+          "i": 20,
+          "el": "button.e_ctrl__AJjkb \"450\"",
+          "rect": {
+            "x": 273,
+            "y": 428.359375,
+            "w": 55,
+            "h": 44
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(18, 20, 17)",
+          "focusVisible": true,
+          "diffRatio": 0.1117,
+          "visibleIndicator": true
+        },
+        {
+          "i": 21,
+          "el": "a.e_pathLink__BHTLm \"Become a SponsorFund a build and work with the tea\"",
+          "rect": {
+            "x": 852.65625,
+            "y": 409.921875,
+            "w": 523.328125,
+            "h": 80.03125
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(18, 20, 17)",
+          "focusVisible": true,
+          "diffRatio": 0.0475,
+          "visibleIndicator": true
+        },
+        {
+          "i": 22,
+          "el": "a.e_pathLink__BHTLm \"Recruit TalentMeet the students while they build\"",
+          "rect": {
+            "x": 852.65625,
+            "y": 490.953125,
+            "w": 523.328125,
+            "h": 80.03125
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(18, 20, 17)",
+          "focusVisible": true,
+          "diffRatio": 0.0475,
+          "visibleIndicator": true
+        },
+        {
+          "i": 23,
+          "el": "a.e_pathLink__BHTLm \"Host a WorkshopBring your platform to a workshop a\"",
+          "rect": {
+            "x": 852.65625,
+            "y": 571.984375,
+            "w": 523.328125,
+            "h": 80.03125
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(18, 20, 17)",
+          "focusVisible": true,
+          "diffRatio": 0.0475,
+          "visibleIndicator": true
+        },
+        {
+          "i": 24,
+          "el": "a.e_pathLink__BHTLm \"Donate EquipmentGive boards, tools, or licenses a \"",
+          "rect": {
+            "x": 852.65625,
+            "y": 653.015625,
+            "w": 523.328125,
+            "h": 80.03125
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(18, 20, 17)",
+          "focusVisible": true,
+          "diffRatio": 0.0475,
+          "visibleIndicator": true
+        },
+        {
+          "i": 25,
+          "el": "a.e_btnPrimary__Jc85U \"Take a subsystem\"",
+          "rect": {
+            "x": 64,
+            "y": 427.578125,
+            "w": 184,
+            "h": 44
+          },
+          "inView": true,
+          "outline": "solid 2px rgb(18, 20, 17)",
+          "focusVisible": true,
+          "diffRatio": 0.0811,
+          "visibleIndicator": true
+        }
+      ]
+    }
+  },
+  "reducedMotion": {
+    "running": 0,
+    "infinite": 0,
+    "infiniteList": [],
+    "hiddenTextBlocks": 0,
+    "canvases": 0
+  },
+  "noJs": {
+    "textLen": 8929,
+    "blocks": 109,
+    "hiddenBlocks": 4,
+    "hiddenSample": [
+      "li \"Ledger\"",
+      "li \"Case studies\"",
+      "li \"Roles\"",
+      "li \"Join\""
+    ],
+    "h1": 1,
+    "textRatioVsJs": 1
+  }
+}

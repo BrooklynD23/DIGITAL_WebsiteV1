@@ -1,0 +1,108 @@
+{
+  "violations": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "nodes": 29,
+      "targets": [
+        {
+          "target": ".e_btnPrimary__Jc85U.e_btn__GrJKe[href$=\"#join\"]",
+          "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.45 (foreground color: #ffffff, background color: #d8412f, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "target": "g[transform=\"matrix(1,0,0,1,0,0)\"] > text > .e_layerNum__oTiHl",
+          "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.68 (foreground color: #595a57, background color: #111311, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "target": "g[transform=\"matrix(1,0,0,1,0,0)\"] > text > .e_layerName__AJTaD",
+          "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.68 (foreground color: #595a57, background color: #111311, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "target": "li[data-step=\"systems-architecture\"] > .e_stepNum__U6sbf.e_mono__dkfW1",
+          "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.1 (foreground color: #484b46, background color: #111311, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "target": "li[data-step=\"systems-architecture\"] > .e_stepDesc__YVMNs",
+          "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.71 (foreground color: #595b57, background color: #111311, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "target": "li[data-step=\"systems-architecture\"] > .e_stepMeta__Om7iX",
+          "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.1 (foreground color: #484b46, background color: #111311, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "target": "li[data-step=\"systems-architecture\"] > .e_stepMeta__Om7iX > span",
+          "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.1 (foreground color: #484b46, background color: #111311, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "target": "li[data-step=\"hardware-pcb\"] > .e_stepNum__U6sbf.e_mono__dkfW1",
+          "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.1 (foreground color: #484b46, background color: #111311, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+        }
+      ]
+    }
+  ],
+  "incomplete": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "nodes": 20,
+      "targets": [
+        {
+          "target": ".e_rowOpen__2NBB0 > .e_rowIdCell__tu8Fs > .e_rowId__Wn0xv.e_mono__dkfW1",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+        },
+        {
+          "target": ".e_rowOpen__2NBB0 > .e_rowMain__mVfw4 > .e_rowTitle__FnGKG",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+        },
+        {
+          "target": ".e_rowOpen__2NBB0 > .e_rowMain__mVfw4 > .e_rowLine__7U3Nk",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+        },
+        {
+          "target": ".e_rowSide__F_XSF > .e_status__kTkmI.e_mono__dkfW1[data-kind=\"open\"]",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+        },
+        {
+          "target": ".e_rowOpen__2NBB0 > .e_rowSide__F_XSF > .e_outcomeTag__IY7KB.e_mono__dkfW1",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+        },
+        {
+          "target": "g[transform=\"matrix(1,0,0,1,0,84)\"] > text > .e_layerNum__oTiHl",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+        },
+        {
+          "target": "g[transform=\"matrix(1,0,0,1,0,84)\"] > text > .e_layerName__AJTaD",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+        },
+        {
+          "target": "g[transform=\"matrix(1,0,0,1,0,70)\"] > text > .e_layerNum__oTiHl",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+        }
+      ]
+    }
+  ],
+  "ccTargets": [
+    ".e_rowOpen__2NBB0 > .e_rowIdCell__tu8Fs > .e_rowId__Wn0xv.e_mono__dkfW1",
+    ".e_rowOpen__2NBB0 > .e_rowMain__mVfw4 > .e_rowTitle__FnGKG",
+    ".e_rowOpen__2NBB0 > .e_rowMain__mVfw4 > .e_rowLine__7U3Nk",
+    ".e_rowSide__F_XSF > .e_status__kTkmI.e_mono__dkfW1[data-kind=\"open\"]",
+    ".e_rowOpen__2NBB0 > .e_rowSide__F_XSF > .e_outcomeTag__IY7KB.e_mono__dkfW1",
+    "g[transform=\"matrix(1,0,0,1,0,84)\"] > text > .e_layerNum__oTiHl",
+    "g[transform=\"matrix(1,0,0,1,0,84)\"] > text > .e_layerName__AJTaD",
+    "g[transform=\"matrix(1,0,0,1,0,70)\"] > text > .e_layerNum__oTiHl",
+    "g[transform=\"matrix(1,0,0,1,0,70)\"] > text > .e_layerName__AJTaD",
+    "g[transform=\"matrix(1,0,0,1,0,56)\"] > text > .e_layerNum__oTiHl",
+    "g[transform=\"matrix(1,0,0,1,0,56)\"] > text > .e_layerName__AJTaD",
+    "g[transform=\"matrix(1,0,0,1,0,42)\"] > text > .e_layerNum__oTiHl",
+    "g[transform=\"matrix(1,0,0,1,0,42)\"] > text > .e_layerName__AJTaD",
+    "g[transform=\"matrix(1,0,0,1,0,28)\"] > text > .e_layerNum__oTiHl",
+    "g[transform=\"matrix(1,0,0,1,0,28)\"] > text > .e_layerName__AJTaD",
+    "g[transform=\"matrix(1,0,0,1,0,14)\"] > text > .e_layerNum__oTiHl",
+    "g[transform=\"matrix(1,0,0,1,0,14)\"] > text > .e_layerName__AJTaD",
+    ".e_rsvpHud__Sf9Eu > span:nth-child(1)",
+    ".e_rsvpHud__Sf9Eu > span:nth-child(2)",
+    ".e_rsvpWord__44sVy"
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "slug": "c",
+  "steps": [
+    {
+      "step": "Tab x7 to formation radio",
+      "focus": "input \"phone\" checked=true",
+      "announced": []
+    },
+    {
+      "step": "ArrowDown (DG-002)",
+      "focus": "input \"reading\" checked=true",
+      "announced": [],
+      "state": "reading"
+    },
+    {
+      "step": "ArrowUp (back to DG-001)",
+      "focus": "input \"phone\" checked=true",
+      "announced": [],
+      "state": "phone"
+    },
+    {
+      "step": "Tab x2 to first subsystem layer button",
+      "focus": "button \"01Systems Architecture\" aria-pressed=false",
+      "announced": [
+        "Systems Architecture: Clear boundaries align the parts and define each team's handoff."
+      ]
+    },
+    {
+      "step": "Tab + Enter (pin layer 2)",
+      "focus": "button \"02Hardware / PCB\" aria-pressed=true",
+      "announced": [
+        "Each layer is one subsystem with one owner. Select a layer.",
+        "Hardware / PCB: The system plan becomes rails, traces, and serviceable connections."
+      ],
+      "state": "Hardware / PCB: The system plan becomes rails, traces, and serviceable connectio"
+    },
+    {
+      "step": "Tab x7 + Enter on Render \"Still\"",
+      "focus": "button \"Still\" aria-pressed=true",
+      "announced": [],
+      "state": "Live:false:false Still:true:false"
+    }
+  ],
+  "failure": null,
+  "errors": []
+}

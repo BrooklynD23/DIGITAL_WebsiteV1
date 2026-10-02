@@ -1,0 +1,77 @@
+{
+  "violations": [
+    {
+      "id": "aria-prohibited-attr",
+      "impact": "serious",
+      "help": "Elements must only use permitted ARIA attributes",
+      "nodes": 1,
+      "targets": [
+        {
+          "target": ".a_rail__dBm46",
+          "summary": "Fix all of the following:\n  aria-label attribute cannot be used on a p with no valid role attribute."
+        }
+      ]
+    }
+  ],
+  "incomplete": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "nodes": 17,
+      "targets": [
+        {
+          "target": "ul > li:nth-child(1) > a[href$=\"#work\"]",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+        },
+        {
+          "target": "ul > li:nth-child(2) > a[href$=\"#rules\"]",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+        },
+        {
+          "target": "li:nth-child(3) > a[href$=\"#join\"]",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+        },
+        {
+          "target": ".a_signX__7ATDO",
+          "summary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+        },
+        {
+          "target": "text[y=\"-144\"]",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+        },
+        {
+          "target": "text[y=\"-114\"]",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+        },
+        {
+          "target": "text[y=\"-84\"]",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+        },
+        {
+          "target": "text[y=\"-54\"]",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+        }
+      ]
+    }
+  ],
+  "ccTargets": [
+    "ul > li:nth-child(1) > a[href$=\"#work\"]",
+    "ul > li:nth-child(2) > a[href$=\"#rules\"]",
+    "li:nth-child(3) > a[href$=\"#join\"]",
+    ".a_signX__7ATDO",
+    "text[y=\"-144\"]",
+    "text[y=\"-114\"]",
+    "text[y=\"-84\"]",
+    "text[y=\"-54\"]",
+    "text[y=\"-24\"]",
+    "text[y=\"6\"]",
+    "text[y=\"36\"]",
+    ".a_wordGlyph__1t16j",
+    ".a_wordGlyphPivot__twYcw",
+    ".a_rule__TnFpj:nth-child(1) > .a_ruleText__2a_NY > span > span",
+    ".a_rule__TnFpj:nth-child(2) > .a_ruleText__2a_NY > span > span",
+    ".a_rule__TnFpj:nth-child(3) > .a_ruleText__2a_NY > span > span",
+    ".a_rule__TnFpj:nth-child(4) > .a_ruleText__2a_NY > span > span"
+  ]
+}

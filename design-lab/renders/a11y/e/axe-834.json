@@ -1,0 +1,86 @@
+{
+  "violations": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "nodes": 2,
+      "targets": [
+        {
+          "target": ".e_btnPrimary__Jc85U.e_btn__GrJKe[href$=\"#join\"]",
+          "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.45 (foreground color: #ffffff, background color: #d8412f, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "target": ".e_btnPrimary__Jc85U.e_btn__GrJKe[href=\"/contact?type=project-team\"]",
+          "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.45 (foreground color: #ffffff, background color: #d8412f, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1"
+        }
+      ]
+    }
+  ],
+  "incomplete": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "nodes": 22,
+      "targets": [
+        {
+          "target": ".e_rowOpen__2NBB0 > .e_rowIdCell__tu8Fs > .e_rowId__Wn0xv.e_mono__dkfW1",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+        },
+        {
+          "target": ".e_rowOpen__2NBB0 > .e_rowMain__mVfw4 > .e_rowTitle__FnGKG",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+        },
+        {
+          "target": ".e_rowOpen__2NBB0 > .e_rowMain__mVfw4 > .e_rowLine__7U3Nk",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+        },
+        {
+          "target": ".e_rowSide__F_XSF > .e_status__kTkmI.e_mono__dkfW1[data-kind=\"open\"]",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+        },
+        {
+          "target": ".e_rowOpen__2NBB0 > .e_rowSide__F_XSF > .e_outcomeTag__IY7KB.e_mono__dkfW1",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+        },
+        {
+          "target": "g[transform=\"translate(0 396)\"] > text > .e_layerNum__oTiHl",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+        },
+        {
+          "target": "g[transform=\"translate(0 396)\"] > text > .e_layerName__AJTaD",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+        },
+        {
+          "target": "g[transform=\"translate(0 330)\"] > text > .e_layerNum__oTiHl",
+          "summary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+        }
+      ]
+    }
+  ],
+  "ccTargets": [
+    ".e_rowOpen__2NBB0 > .e_rowIdCell__tu8Fs > .e_rowId__Wn0xv.e_mono__dkfW1",
+    ".e_rowOpen__2NBB0 > .e_rowMain__mVfw4 > .e_rowTitle__FnGKG",
+    ".e_rowOpen__2NBB0 > .e_rowMain__mVfw4 > .e_rowLine__7U3Nk",
+    ".e_rowSide__F_XSF > .e_status__kTkmI.e_mono__dkfW1[data-kind=\"open\"]",
+    ".e_rowOpen__2NBB0 > .e_rowSide__F_XSF > .e_outcomeTag__IY7KB.e_mono__dkfW1",
+    "g[transform=\"translate(0 396)\"] > text > .e_layerNum__oTiHl",
+    "g[transform=\"translate(0 396)\"] > text > .e_layerName__AJTaD",
+    "g[transform=\"translate(0 330)\"] > text > .e_layerNum__oTiHl",
+    "g[transform=\"translate(0 330)\"] > text > .e_layerName__AJTaD",
+    "g[transform=\"translate(0 264)\"] > text > .e_layerNum__oTiHl",
+    "g[transform=\"translate(0 264)\"] > text > .e_layerName__AJTaD",
+    "g[transform=\"translate(0 198)\"] > text > .e_layerNum__oTiHl",
+    "g[transform=\"translate(0 198)\"] > text > .e_layerName__AJTaD",
+    "g[transform=\"translate(0 132)\"] > text > .e_layerNum__oTiHl",
+    "g[transform=\"translate(0 132)\"] > text > .e_layerName__AJTaD",
+    "g[transform=\"translate(0 66)\"] > text > .e_layerNum__oTiHl",
+    "g[transform=\"translate(0 66)\"] > text > .e_layerName__AJTaD",
+    "g[transform=\"translate(0 0)\"] > text > .e_layerNum__oTiHl",
+    "g[transform=\"translate(0 0)\"] > text > .e_layerName__AJTaD",
+    ".e_rsvpHud__Sf9Eu > span:nth-child(1)",
+    ".e_rsvpHud__Sf9Eu > span:nth-child(2)",
+    ".e_rsvpWord__44sVy"
+  ]
+}

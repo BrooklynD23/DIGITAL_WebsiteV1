@@ -1,0 +1,63 @@
+{
+  "slug": "f",
+  "steps": [
+    {
+      "step": "Tab x11 to sign field",
+      "focus": "input#f-sign \"\"",
+      "announced": []
+    },
+    {
+      "step": "Type \"Ada\"",
+      "focus": "input#f-sign \"Ada\"",
+      "announced": []
+    },
+    {
+      "step": "Tab x2 to draggable name tag",
+      "focus": "span[role=button] \"Your name tag: Ada. Draggable.\" aria-disabled=false",
+      "announced": [],
+      "state": "To pick up your name tag, press Space or Enter. Use the arrow keys to move from seat to seat. Press Space or Enter to pl"
+    },
+    {
+      "step": "Space (pick up)",
+      "focus": "span[role=button] \"Your name tag: Ada. Draggable.\" aria-pressed=true aria-disabled=false",
+      "announced": [
+        "Over Systems Architecture, DG-001 The Modular Smartphone."
+      ]
+    },
+    {
+      "step": "ArrowRight",
+      "focus": "span[role=button] \"Your name tag: Ada. Draggable.\" aria-pressed=true aria-disabled=false",
+      "announced": [
+        "Over Hardware / PCB, DG-001 The Modular Smartphone."
+      ]
+    },
+    {
+      "step": "ArrowRight",
+      "focus": "span[role=button] \"Your name tag: Ada. Draggable.\" aria-pressed=true aria-disabled=false",
+      "announced": [
+        "Over Firmware / Embedded, DG-001 The Modular Smartphone."
+      ]
+    },
+    {
+      "step": "Space (drop)",
+      "focus": "span[role=button] \"Your name tag: Ada. Draggable.\" aria-disabled=false",
+      "announced": [
+        "Your tag is on DG-001 · Firmware / Embedded. Read your sheet or take it back.",
+        "Name tag placed on Firmware / Embedded, DG-001 The Modular Smartphone. Your sheet below is filled in.",
+        "Firmware / Embedded on DG-001Each board gets a boot path, clear timing, and a way to debug it.Startup moves from reset to a known state.Debug hooks expose what happens next.Timing and power budgets define the board's ope"
+      ],
+      "state": "Firmware / Embedded on DG-001Each board gets a boot path, clear timing, and a way to debug it.Startu"
+    },
+    {
+      "step": "Tab x2 + Enter on seat button \"Put Ada here\"",
+      "focus": "button \"Take it back from Operating System, DG-001 The Modular Smart\"",
+      "announced": [
+        "Your tag is on DG-001 · Operating System. Read your sheet or take it back.",
+        "Operating System on DG-001Working hardware becomes a platform with clear rules.Services define what each layer can do.The shell exposes services without crossing their boundaries.Stable state transitions keep services ru"
+      ],
+      "state": "Operating System on DG-001Working hardware becomes a platform with clear rules.Services define what "
+    }
+  ],
+  "failure": null,
+  "errors": []
+}
