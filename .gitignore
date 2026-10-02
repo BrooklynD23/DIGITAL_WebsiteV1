@@ -44,3 +44,8 @@ next-env.d.ts
 .vscode
 *.swp
 *.swo
+
+# Design lab runtime
+design-lab/.server.log
+design-lab/.server.lock
+design-lab/.devtools.lock/
