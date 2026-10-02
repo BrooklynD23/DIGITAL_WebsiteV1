@@ -37,7 +37,7 @@ const line = (d: string, opacity = 0.7) => (
   <path d={d} fill="none" stroke={STROKE} strokeOpacity={opacity} vectorEffect="non-scaling-stroke" />
 );
 
-/** Top of stack first in this list = drawn last (painter's order is reversed below). */
+/** Top of stack first (= content.ts STACK_ORDER, = step numbering 01–07); drawn last (painter's order reversed below). */
 const LAYERS: readonly LayerDef[] = [
   {
     id: 'apps-ux',
@@ -149,17 +149,6 @@ const LAYERS: readonly LayerDef[] = [
   },
 ];
 
-/** Step numbers follow phoneV2.ts subsystem order, so the diagram and the step list share numbering. */
-const STEP_ORDER = [
-  'systems-architecture',
-  'hardware-pcb',
-  'firmware-embedded',
-  'operating-system',
-  'apps-ux',
-  'mechanical-cad',
-  'integration-testing',
-] as readonly string[];
-
 export const SCHEMATIC_LAYER_COUNT = LAYERS.length;
 export const SCHEMATIC_GAP = GAP;
 
@@ -168,7 +157,7 @@ export function PhoneSchematic({ title }: { readonly title: string }) {
   // Projected footprint: x from -0.866*H to 0.866*W, y from 0 to 0.5*(W+H).
   const minX = -0.866 * H - 8;
   const labelX = 0.866 * W + 64;
-  const vbW = labelX + 230 - minX;
+  const vbW = labelX + 280 - minX;
   const vbH = 0.5 * (W + H) + GAP * (count - 1) + 24;
   const rightCornerY = 0.5 * W; // projected y of (W, 0)
 
@@ -187,7 +176,9 @@ export function PhoneSchematic({ title }: { readonly title: string }) {
         return (
           <g key={layer.id} className={s.layer} data-layer={layer.id} data-index={idx}>
             <g data-shift transform={`translate(0 ${y})`}>
-              <g transform={ISO}>{layer.draw}</g>
+              <g transform={ISO} className={s.layerShape}>
+                {layer.draw}
+              </g>
               <path
                 d={`M${0.866 * W + 6} ${rightCornerY} H${labelX - 8}`}
                 className={s.leader}
@@ -197,7 +188,7 @@ export function PhoneSchematic({ title }: { readonly title: string }) {
               />
               <circle cx={labelX - 4} cy={rightCornerY} r={3.5} fill="#d8412f" />
               <text x={labelX + 6} y={rightCornerY + 5} className={s.layerLabel}>
-                <tspan className={s.layerNum}>{String(STEP_ORDER.indexOf(layer.id) + 1).padStart(2, '0')}</tspan>
+                <tspan className={s.layerNum}>{String(idx + 1).padStart(2, '0')}</tspan>
                 <tspan className={s.layerName}> {layer.label}</tspan>
               </text>
             </g>

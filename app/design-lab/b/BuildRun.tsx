@@ -68,12 +68,15 @@ export function BuildRun({ subsystems, handoffs, stages, rules, labels }: Props)
         ))}
       </div>
 
-      <div className={s.runBody} aria-live="polite">
+      <p className={s.srOnly} aria-live="polite">
+        {`S${idx + 1} ${sub.title} selected. Owner unassigned. ${mine.length} ${mine.length === 1 ? 'handoff' : 'handoffs'}.`}
+      </p>
+      <div className={s.runBody}>
         <div className={s.runDiagram}>
           <p className={s.ownerBar}>
             <span className={s.monoLabel}>{labels.ownerLabel}</span>
             <span>
-              S{idx + 1} {sub.title} · <span className={s.blank}>{labels.ownerValue}</span>
+              S{idx + 1} {sub.title} · <span className={s.unassigned}>{labels.ownerValue}</span>
             </span>
             <span className={s.ruleRef}>{rules[0]}</span>
           </p>
@@ -94,15 +97,17 @@ export function BuildRun({ subsystems, handoffs, stages, rules, labels }: Props)
                     <span className={s.railNote}>no shared part in the model; review at the system test</span>
                   ))}
                 {i === stages.length - 2 && (
-                  <span className={s.gate} aria-label={`${labels.gateBeforeMerge}: ${rules[2]}`}>
+                  <span className={s.gate}>
                     <span aria-hidden="true">G1</span>
+                    <span className={s.srOnly}>{`${labels.gateBeforeMerge}: ${rules[2]}`}</span>
                   </span>
                 )}
               </li>
             ))}
             <li className={`${s.railStage} ${s.railRelease}`}>
-              <span className={s.gate} aria-label={`${labels.gateBeforeRelease}: ${rules[3]}`}>
+              <span className={s.gate}>
                 <span aria-hidden="true">G2</span>
+                <span className={s.srOnly}>{`${labels.gateBeforeRelease}: ${rules[3]}`}</span>
               </span>
               <span className={s.railNum}>→</span>
               <span className={s.railName}>{labels.release}</span>

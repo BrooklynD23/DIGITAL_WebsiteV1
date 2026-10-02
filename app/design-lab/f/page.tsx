@@ -1,19 +1,8 @@
 import { SignProvider } from './SignProvider';
 import { Bench } from './Bench';
-import {
-  FooterSignature,
-  HeroTitle,
-  IndexTabs,
-  JoinSteps,
-  OtherPaths,
-  Sheet,
-  SignField,
-} from './Sections';
-import { PixelIcon } from './icons';
+import { FooterSignature, Hero, IndexTabs, JoinSteps, OtherPaths, Sheet } from './Sections';
 import { LINKS, MEETING, ORG } from './content';
 import styles from './f.module.css';
-
-const RULER = Array.from({ length: 16 }, (_, i) => i * 5);
 
 export default function ConceptFPage() {
   return (
@@ -46,27 +35,10 @@ export default function ConceptFPage() {
 
         <section id="sign" className={styles.hero} aria-label="Sign">
           <p className={styles.eyebrow}>{ORG.positioning}</p>
-          <HeroTitle />
-          <div className={styles.heroFoot}>
-            <SignField />
-            <div className={styles.heroAside}>
-              <p className={styles.body}>
-                Two builds, one program, and one record nobody has pitched yet. Each has parts with no name on them.
-              </p>
-              <a className={styles.cta} href="#bench">
-                <span>Take a seat at the bench</span>
-                <PixelIcon name="arrow-down" />
-              </a>
-            </div>
-          </div>
+          <Hero />
         </section>
 
         <section id="bench" className={styles.bench} aria-labelledby="bench-title">
-          <div className={styles.ruler} aria-hidden="true">
-            {RULER.map((n) => (
-              <span key={n}>{n}</span>
-            ))}
-          </div>
           <div className={styles.benchInner}>
             <Bench>
               <div className={styles.benchHead}>
@@ -91,7 +63,7 @@ export default function ConceptFPage() {
         <section id="thursday" className={styles.thursday} aria-labelledby="thursday-title">
           <div className={styles.inner}>
             <h2 id="thursday-title" className={styles.h2}>
-              Bring the tag Thursday.
+              Claim it in person, Thursday.
             </h2>
             <p className={styles.thursdayLede}>No project experience required. Free to join.</p>
             <JoinSteps />
@@ -102,7 +74,6 @@ export default function ConceptFPage() {
         <footer className={styles.footer}>
           <div className={styles.inner}>
             <FooterSignature />
-            <p className={styles.closer}>Put your name on one.</p>
             <div className={styles.footRow}>
               <span>{ORG.fullName}</span>
               <a href={`mailto:${LINKS.email}`}>{LINKS.email}</a>

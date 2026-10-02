@@ -73,7 +73,7 @@ export default function RsvpReader({ words, defaultWpm }: Props) {
       </div>
       {mounted ? (
         <div className={styles.rsvpControls}>
-          <button type="button" className={styles.btnGhost} onClick={toggle} aria-pressed={playing}>
+          <button type="button" className={styles.btnGhost} onClick={toggle}>
             {playing ? <Pause {...ICON} aria-hidden /> : <Play {...ICON} aria-hidden />}
             {playing ? 'Pause' : 'Play'}
           </button>

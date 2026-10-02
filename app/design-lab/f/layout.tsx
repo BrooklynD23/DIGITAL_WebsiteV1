@@ -4,7 +4,7 @@ import { Bricolage_Grotesque } from 'next/font/google';
 import localFont from 'next/font/local';
 
 export const metadata: Metadata = {
-  title: 'The Bench — concept F — DIGITAL design lab',
+  title: 'The Bench · concept F · DIGITAL design lab',
   robots: { index: false, follow: false },
 };
 
@@ -30,6 +30,8 @@ const departure = localFont({
 const HIDE_PROD_CHROME = `
 body:has([data-lab-f]) > nav[aria-label="Primary"],
 body:has([data-lab-f]) > footer { display: none !important; }
+html:has([data-lab-f]) { cursor: auto !important; scroll-behavior: auto !important; }
+body:has([data-lab-f]) [style*="ds-z-cursor"] { display: none !important; }
 `;
 
 export default function ConceptFLayout({ children }: { readonly children: ReactNode }) {

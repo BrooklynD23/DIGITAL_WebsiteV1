@@ -29,8 +29,14 @@ const FONTSHARE = [
 
 // Lab-only: the production Navbar/Footer render on every route (lib/immersiveRoutes.ts is
 // off-limits). This route ships its own masthead + colophon, so hide the global chrome here.
-const HIDE_GLOBAL_CHROME =
-  'body > nav[aria-label="Primary"], body > footer { display: none !important; } body { background: #f1eee7; }';
+// Also opts out of the production crosshair cursor (its rAF loop is production code; only the
+// overlay is hidden and the native cursor restored).
+const HIDE_GLOBAL_CHROME = [
+  'body > nav[aria-label="Primary"], body > footer { display: none !important; }',
+  'body { background: #f1eee7; }',
+  'html { cursor: auto !important; }',
+  '[style*="ds-z-cursor"] { display: none !important; }',
+].join(' ');
 
 export default function ConceptALayout({ children }: { readonly children: ReactNode }) {
   return (

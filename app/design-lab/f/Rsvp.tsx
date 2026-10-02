@@ -1,26 +1,30 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useReducedMotion } from 'motion/react';
 import { PixelGlasses, RIGHT_LENS_CENTER } from './PixelArt';
 import { PixelIcon } from './icons';
 import { RSVP_DEMO_WPM, RSVP_WORDS } from './content';
 import { useSign } from './SignProvider';
 import styles from './f.module.css';
 
-const INTRO_WPM = 200;
+const LANDING_WPM = 200;
 
 /**
- * DG-002 demo: one word at a fixed point (RSVP). Plays once, slowly, when it first scrolls
- * into view (3.3 s, under the 5 s WCAG 2.2.2 limit), never with reduced motion.
- * Replays only on request, at the record's demo pace (450 wpm).
+ * DG-002 demo: one word at a fixed point (RSVP).
+ * "Nothing moves unless you move it": it never autoplays on scroll. It plays when the visitor
+ * presses Play, or once when their tag lands on a DG-002 seat (their own act).
+ * Reduced motion: no timed playback; a Next-word button steps through, and the sentence is printed.
  */
 export function Rsvp() {
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
   const timer = useRef<number | null>(null);
-  const box = useRef<HTMLDivElement | null>(null);
-  const autoplayed = useRef(false);
-  const { ready } = useSign();
+  const { ready, seat } = useSign();
+  const prefersReduced = useReducedMotion();
+  // Gate on hydration so server and first client render match.
+  const reduce = ready && Boolean(prefersReduced);
+  const lastSeat = useRef<string | null | undefined>(undefined);
 
   const stop = useCallback(() => {
     if (timer.current !== null) window.clearInterval(timer.current);
@@ -46,30 +50,24 @@ export function Rsvp() {
     [stop],
   );
 
+  // Play once when the visitor's tag lands on a DG-002 seat (skip the restore-from-storage case).
   useEffect(() => {
-    const el = box.current;
-    if (!el) return undefined;
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduce) return undefined;
-    const io = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((e) => e.isIntersecting) && !autoplayed.current) {
-          autoplayed.current = true;
-          play(INTRO_WPM);
-          io.disconnect();
-        }
-      },
-      { threshold: 0.6 },
-    );
-    io.observe(el);
-    return () => {
-      io.disconnect();
-      stop();
-    };
-  }, [play, stop]);
+    if (!ready) return;
+    const id = seat?.id ?? null;
+    if (lastSeat.current === undefined) {
+      lastSeat.current = id;
+      return;
+    }
+    if (id !== lastSeat.current && seat?.projectId === 'dg-002' && !reduce) play(LANDING_WPM);
+    lastSeat.current = id;
+  }, [seat, ready, reduce, play]);
+
+  useEffect(() => stop, [stop]);
+
+  const step = () => setIndex((i) => (i + 1) % RSVP_WORDS.length);
 
   return (
-    <div className={styles.rsvp} ref={box}>
+    <div className={styles.rsvp}>
       <div className={styles.rsvpStage}>
         <PixelGlasses className={styles.glassesArt} />
         <span
@@ -80,20 +78,29 @@ export function Rsvp() {
           {RSVP_WORDS[index]}
         </span>
       </div>
-      <p className={styles.srOnly}>Demo sentence: {RSVP_WORDS.join(' ')}</p>
+      {reduce ? (
+        <p className={styles.rsvpSentence}>{RSVP_WORDS.join(' ')}</p>
+      ) : (
+        <p className={styles.srOnly}>Demo sentence: {RSVP_WORDS.join(' ')}</p>
+      )}
       <div className={styles.rsvpBar}>
-        <span className={styles.mono}>RSVP demo · one word, one fixed point</span>
-        {ready && (
-        <button
-          type="button"
-          className={styles.ghostBtn}
-          onClick={() => (playing ? stop() : play(RSVP_DEMO_WPM))}
-          aria-label={playing ? 'Stop the reading demo' : `Play the reading demo at ${RSVP_DEMO_WPM} words per minute`}
-        >
-          <PixelIcon name={playing ? 'close' : 'play'} />
-          <span>{playing ? 'Stop' : `Play at ${RSVP_DEMO_WPM} wpm`}</span>
-        </button>
-        )}
+        <span className={styles.mono}>RSVP: one word, one fixed point</span>
+        {ready &&
+          (reduce ? (
+            <button type="button" className={styles.ghostBtn} onClick={step} aria-label="Show the next word in the lens">
+              <PixelIcon name="arrow-right" />
+              <span>Next word</span>
+            </button>
+          ) : (
+            <button
+              type="button"
+              className={styles.ghostBtn}
+              onClick={() => (playing ? stop() : play(RSVP_DEMO_WPM))}
+            >
+              <PixelIcon name={playing ? 'close' : 'play'} />
+              <span>{playing ? 'Stop the demo' : `Play at ${RSVP_DEMO_WPM} wpm`}</span>
+            </button>
+          ))}
       </div>
     </div>
   );

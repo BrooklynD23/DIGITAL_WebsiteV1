@@ -6,32 +6,41 @@
  * Progressive enhancement, in layers:
  * 1. Server HTML: headline, radio list, captions and an SVG dot poster of the
  *    selected build. Radio → poster/caption swaps work with CSS :has() alone.
- * 2. Hydrated: subsystem legend, RSVP stream in the glasses' HUD, sign-the-line.
+ * 2. Hydrated: subsystem legend, RSVP stream in the glasses' HUD, sign-the-line
+ *    (drawn as dots in Still mode too, from the same point pipeline).
  * 3. WebGL (lazy, next/dynamic ssr:false): the same points as live particles.
  *    Skipped for no-WebGL, prefers-reduced-motion, Save-Data, low-power touch
  *    devices, `?fx=off`, or when the visitor picks "Still".
+ *
+ * v2: stage labels land with the form (onShown at 60% of the morph), the HUD
+ * stream starts when the glasses settle, the subsystem readout sits on the
+ * stage, and the live region only speaks when a layer is pinned.
  */
 import dynamic from 'next/dynamic';
 import { useCallback, useEffect, useMemo, useRef, useState, type PointerEvent } from 'react';
 import { ArrowDown, ArrowUpRight, RotateCcw } from 'lucide-react';
 import styles from './c.module.css';
-import { POSTER_VIEWBOX, SIGN_BASELINE_Y, dotPath, glassesCloud, phoneCloud, signCloud } from './geometry';
+import { POSTER_VIEWBOX, dotPath, glassesCloud, phoneCloud, signCloud } from './geometry';
 import type { LiveInput } from './FormationCanvas';
 import { formations, hero, links, meeting, rsvp, subsystems, type FormationKey } from './content';
 import { nameToPoints } from './textPoints';
+import { setSignature } from './signStore';
 
 const FormationCanvas = dynamic(() => import('./FormationCanvas'), { ssr: false, loading: () => null });
 
 const KEYS: readonly FormationKey[] = ['phone', 'reading', 'unsigned'];
 const ICON = { size: 18, strokeWidth: 1.5, absoluteStrokeWidth: true } as const;
 const SIGN_FONT = '"Clash Display", "General Sans", sans-serif';
+const MAX_NAME = 22;
 
 type Mode = 'pending' | 'live' | 'still';
 
 function hasWebGL(): boolean {
   try {
     const probe = document.createElement('canvas');
-    return Boolean(probe.getContext('webgl2') ?? probe.getContext('webgl'));
+    const ctx = (probe.getContext('webgl2') ?? probe.getContext('webgl')) as WebGLRenderingContext | null;
+    ctx?.getExtension('WEBGL_lose_context')?.loseContext();
+    return Boolean(ctx);
   } catch {
     return false;
   }
@@ -52,6 +61,8 @@ function autoLive(): boolean {
 
 export default function HeroFormation() {
   const [formation, setFormation] = useState<FormationKey>('phone');
+  const [shown, setShown] = useState<FormationKey>('phone');
+  const [settled, setSettled] = useState<FormationKey>('phone');
   const [mode, setMode] = useState<Mode>('pending');
   const [canvasReady, setCanvasReady] = useState(false);
   const [inView, setInView] = useState(true);
@@ -73,14 +84,16 @@ export default function HeroFormation() {
 
   const posters = useMemo(() => {
     const phone = phoneCloud();
-    const layerPaths = Array.from({ length: 7 }, (_, l) => dotPath(phone.positions, (i) => phone.layers[i] === l, 2));
     return {
-      layerPaths,
+      layerPaths: Array.from({ length: 7 }, (_, l) => dotPath(phone.positions, (i) => phone.layers[i] === l, 2)),
       glasses: dotPath(glassesCloud().positions, undefined, 3),
-      unsigned: dotPath(signCloud(null), undefined, 3),
     };
   }, []);
+  // Still-mode signature: the same cloud the particles use, so both modes fit the name identically.
+  const unsignedPoster = useMemo(() => dotPath(signCloud(signPoints), undefined, 3), [signPoints]);
   const hud = glassesCloud().hud;
+  const isLive = mode === 'live';
+  const driven = isLive && canvasReady; // labels follow the particles only when particles are on screen
 
   // capability + preference detection (client only)
   useEffect(() => {
@@ -99,6 +112,13 @@ export default function HeroFormation() {
     return () => mq.removeEventListener('change', onChange);
   }, []);
 
+  // without live particles, labels and the HUD follow the picker at once
+  useEffect(() => {
+    if (driven) return;
+    setShown(formation);
+    setSettled(formation);
+  }, [formation, driven]);
+
   // pause the field when the hero is offscreen
   useEffect(() => {
     const el = stageRef.current;
@@ -110,7 +130,7 @@ export default function HeroFormation() {
 
   // scroll spreads the subsystem layers apart as the hero leaves
   useEffect(() => {
-    if (mode !== 'live') return;
+    if (!isLive) return;
     const onScroll = () => {
       const s = sectionRef.current;
       if (!s) return;
@@ -122,32 +142,24 @@ export default function HeroFormation() {
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
-  }, [mode]);
+  }, [isLive]);
 
-  // RSVP stream inside the HUD window, once per selection. In live mode it
-  // waits for the glasses to finish forming so the words land in a real lens.
+  // RSVP stream inside the HUD window, once the glasses have settled
   useEffect(() => {
-    if (formation !== 'reading' || reduced || !mounted) return;
+    if (settled !== 'reading' || formation !== 'reading' || reduced || !mounted) return;
     const ms = 60000 / rsvp.wpm;
     let i = 0;
-    let interval = 0;
-    setWordIndex(-1);
-    const start = window.setTimeout(() => {
-      setWordIndex(0);
-      interval = window.setInterval(() => {
-        i += 1;
-        if (i >= rsvp.words.length) {
-          window.clearInterval(interval);
-          return;
-        }
-        setWordIndex(i);
-      }, ms);
-    }, mode === 'live' ? 1500 : 200);
-    return () => {
-      window.clearTimeout(start);
-      window.clearInterval(interval);
-    };
-  }, [formation, reduced, mounted, streamRun, mode]);
+    setWordIndex(0);
+    const id = window.setInterval(() => {
+      i += 1;
+      if (i >= rsvp.words.length) {
+        window.clearInterval(id);
+        return;
+      }
+      setWordIndex(i);
+    }, ms);
+    return () => window.clearInterval(id);
+  }, [settled, formation, reduced, mounted, streamRun]);
 
   // sign the line (debounced; waits for the display face)
   useEffect(() => {
@@ -158,7 +170,9 @@ export default function HeroFormation() {
       } catch {
         /* fall back to whatever face is ready */
       }
-      if (!cancelled) setSignPoints(nameToPoints(name, SIGN_FONT));
+      if (cancelled) return;
+      setSignPoints(nameToPoints(name, SIGN_FONT));
+      setSignature(name.trim());
     }, 280);
     return () => {
       cancelled = true;
@@ -179,11 +193,17 @@ export default function HeroFormation() {
     kick.current?.();
   }, []);
   const onReady = useCallback(() => setCanvasReady(true), []);
+  const onShown = useCallback((i: 0 | 1 | 2) => setShown(KEYS[i]), []);
+  const onSettled = useCallback((i: 0 | 1 | 2) => setSettled(KEYS[i]), []);
 
   const fIndex = KEYS.indexOf(formation) as 0 | 1 | 2;
   const shownLayer = pinned >= 0 ? pinned : highlight;
-  const isLive = mode === 'live';
   const active = formations[fIndex];
+  const liveNote = reduced
+    ? 'Live is off: your system asks for reduced motion.'
+    : !webgl
+      ? 'Live needs WebGL, which this browser does not offer.'
+      : null;
 
   return (
     <section ref={sectionRef} className={styles.hero} aria-labelledby="c-hero-title" data-formation={formation}>
@@ -206,6 +226,7 @@ export default function HeroFormation() {
               className={styles.srOnlyInput}
               defaultChecked={i === 0}
               onChange={() => setFormation(f.key)}
+              aria-describedby={`c-cap-${f.key}`}
             />
             <span className={styles.pickIdx} aria-hidden>
               {String(i + 1).padStart(2, '0')}
@@ -236,7 +257,8 @@ export default function HeroFormation() {
           className={styles.stage}
           onPointerMove={isLive ? onPointerMove : undefined}
           onPointerLeave={isLive ? onPointerLeave : undefined}
-          data-live={isLive && canvasReady ? 'true' : 'false'}
+          data-live={driven ? 'true' : 'false'}
+          data-shown={mounted ? shown : undefined}
         >
           <svg
             className={styles.poster}
@@ -245,7 +267,7 @@ export default function HeroFormation() {
             aria-label={`Dot drawing of ${active.id} ${active.title}`}
             preserveAspectRatio="xMidYMid meet"
           >
-            <g className={styles.posterPhone} data-poster="phone">
+            <g data-poster="phone">
               {posters.layerPaths.map((d, l) => (
                 <path
                   key={l}
@@ -254,16 +276,11 @@ export default function HeroFormation() {
                 />
               ))}
             </g>
-            <g className={styles.posterReading} data-poster="reading">
+            <g data-poster="reading">
               <path d={posters.glasses} />
             </g>
-            <g className={styles.posterUnsigned} data-poster="unsigned">
-              <path d={posters.unsigned} />
-              {name.trim() ? (
-                <text x="0" y={-SIGN_BASELINE_Y - 0.06} textAnchor="middle" className={styles.posterName}>
-                  {name.trim()}
-                </text>
-              ) : null}
+            <g data-poster="unsigned">
+              <path d={unsignedPoster} />
             </g>
           </svg>
 
@@ -277,6 +294,8 @@ export default function HeroFormation() {
               active={inView}
               dense={dense}
               onReady={onReady}
+              onShown={onShown}
+              onSettled={onSettled}
             />
           ) : null}
 
@@ -295,12 +314,20 @@ export default function HeroFormation() {
               {f.id} · {f.key === 'phone' ? `${subsystems.length} layers` : f.key === 'reading' ? 'HUD + FPGA' : 'blank line'}
             </span>
           ))}
+          {shownLayer >= 0 && formation === 'phone' ? (
+            <p className={styles.stageReadout} aria-hidden>
+              <span className={styles.stageReadoutKey}>
+                {subsystems[shownLayer].index} · {subsystems[shownLayer].title}
+              </span>
+              {subsystems[shownLayer].description}
+            </p>
+          ) : null}
         </div>
 
         <div className={styles.caption}>
           {formations.map((f) => (
             <div key={f.key} className={styles.captionPanel} data-caption={f.key}>
-              <dl className={styles.captionFields}>
+              <dl className={styles.captionFields} id={`c-cap-${f.key}`}>
                 <div>
                   <dt>ID</dt>
                   <dd>{f.id}</dd>
@@ -313,31 +340,43 @@ export default function HeroFormation() {
                 ))}
               </dl>
 
-              {f.key === 'phone' && mounted ? (
+              {f.key === 'phone' ? (
                 <div className={styles.legend}>
-                  <ul className={styles.legendList} aria-label="Subsystem layers">
-                    {subsystems.map((s, i) => (
-                      <li key={s.id}>
-                        <button
-                          type="button"
-                          className={styles.legendBtn}
-                          aria-pressed={pinned === i}
-                          onMouseEnter={() => setHighlight(i)}
-                          onMouseLeave={() => setHighlight(-1)}
-                          onFocus={() => setHighlight(i)}
-                          onBlur={() => setHighlight(-1)}
-                          onClick={() => setPinned((p) => (p === i ? -1 : i))}
-                        >
-                          <span className={styles.legendIdx}>{s.index}</span>
-                          {s.title}
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                  <p className={styles.legendReadout} aria-live="polite">
-                    {shownLayer >= 0
-                      ? `${subsystems[shownLayer].title}: ${subsystems[shownLayer].description}`
-                      : 'Each layer is one subsystem with one owner. Select a layer.'}
+                  {mounted ? (
+                    <ul className={styles.legendList} aria-label="Subsystem layers">
+                      {subsystems.map((s, i) => (
+                        <li key={s.id}>
+                          <button
+                            type="button"
+                            className={styles.legendBtn}
+                            aria-pressed={pinned === i}
+                            onMouseEnter={() => setHighlight(i)}
+                            onMouseLeave={() => setHighlight(-1)}
+                            onFocus={() => setHighlight(i)}
+                            onBlur={() => setHighlight(-1)}
+                            onClick={() => setPinned((p) => (p === i ? -1 : i))}
+                          >
+                            <span className={styles.legendIdx}>{s.index}</span>
+                            {s.title}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <a className={styles.textLink} href="#c-dg-001">
+                      All {subsystems.length} subsystems in the DG-001 record
+                      <ArrowDown {...ICON} aria-hidden />
+                    </a>
+                  )}
+                  {mounted ? (
+                    <p className={styles.legendReadoutNarrow} aria-hidden>
+                      {shownLayer >= 0
+                        ? `${subsystems[shownLayer].title}: ${subsystems[shownLayer].description}`
+                        : 'Each layer is one subsystem with one owner. Select a layer.'}
+                    </p>
+                  ) : null}
+                  <p className={styles.srOnly} aria-live="polite">
+                    {pinned >= 0 ? `${subsystems[pinned].title}: ${subsystems[pinned].description}` : ''}
                   </p>
                 </div>
               ) : null}
@@ -348,10 +387,12 @@ export default function HeroFormation() {
                     In the lens: <span className={styles.srOnly}>{rsvp.words.join(' ')}</span>
                     <span aria-hidden>“{rsvp.words.join(' ')}”</span>
                   </p>
-                  <button type="button" className={styles.btnGhost} onClick={() => setStreamRun((n) => n + 1)}>
-                    <RotateCcw {...ICON} aria-hidden />
-                    Replay
-                  </button>
+                  {!reduced ? (
+                    <button type="button" className={styles.btnGhost} onClick={() => setStreamRun((n) => n + 1)}>
+                      <RotateCcw {...ICON} aria-hidden />
+                      Replay
+                    </button>
+                  ) : null}
                 </div>
               ) : null}
 
@@ -368,12 +409,18 @@ export default function HeroFormation() {
                         type="text"
                         autoComplete="off"
                         spellCheck={false}
-                        maxLength={22}
+                        maxLength={MAX_NAME}
                         placeholder="Your name"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
+                        aria-describedby="c-sign-hint"
                       />
-                      <p className={styles.signHint}>Stays in this tab. Nothing is sent.</p>
+                      <p className={styles.signHint} id="c-sign-hint">
+                        Stays in this tab. Nothing is sent.
+                        <span className={styles.signCount} aria-hidden>
+                          {name.length}/{MAX_NAME}
+                        </span>
+                      </p>
                     </>
                   ) : null}
                   <a className={styles.textLink} href={links.projectTeam}>
@@ -394,7 +441,8 @@ export default function HeroFormation() {
                 <button
                   type="button"
                   aria-pressed={isLive}
-                  disabled={reduced || !webgl}
+                  disabled={Boolean(liveNote)}
+                  aria-describedby={liveNote ? 'c-render-note' : undefined}
                   onClick={() => {
                     setCanvasReady(false);
                     setMode('live');
@@ -406,6 +454,11 @@ export default function HeroFormation() {
                   Still
                 </button>
               </div>
+              {liveNote ? (
+                <p className={styles.renderNote} id="c-render-note">
+                  {liveNote}
+                </p>
+              ) : null}
             </div>
           ) : null}
         </div>

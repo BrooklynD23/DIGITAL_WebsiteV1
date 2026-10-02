@@ -136,10 +136,10 @@ export const RECORDS: readonly BuildRecord[] = [
     line: homeLandingCopy.results.cases[0]?.line ?? '',
     fields: [
       { k: 'Status', v: 'Active. Not shipped yet.' },
-      { k: 'Phase', v: 'Prototyping or PCB fab', flag: 'confirm' },
+      { k: 'Phase', v: '______', flag: 'confirm' },
       { k: 'Workflow', v: WORKFLOW.join(' → ') },
       { k: 'Subsystems', v: '7, one owner each' },
-      { k: 'Toolchain', v: 'KiCad or Altium', flag: 'confirm' },
+      { k: 'Toolchain', v: '______', flag: 'confirm' },
       { k: 'Duration', v: 'Start date', flag: 'placeholder' },
       { k: 'Outcome', v: 'No shipped revision yet' },
       { k: 'Repo', v: 'Not public yet', flag: 'confirm' },
@@ -147,7 +147,7 @@ export const RECORDS: readonly BuildRecord[] = [
     seats: phoneSeats,
     href: '/projects/modular-smartphone',
     hrefLabel: 'Open the DG-001 record',
-    plate: 'PROJECT PHOTO — prototype on the bench',
+    plate: 'Project photo: prototype on the bench',
   },
   {
     id: 'dg-002',
@@ -169,7 +169,7 @@ export const RECORDS: readonly BuildRecord[] = [
     seats: glassesSeats,
     href: '/projects/smart-reading',
     hrefLabel: 'Open the DG-002 record',
-    plate: 'PROJECT PHOTO — wearable prototype',
+    plate: 'Project photo: wearable prototype',
   },
   {
     id: 'vs',
@@ -222,6 +222,9 @@ export const LINKS = {
   discord: siteConfig.social.discord,
   email: siteConfig.contact.email,
   contactSeat: '/contact/?type=project-team',
+  /** Seat id only, never the name (privacy rule). The production form reading `seat` is an orchestrator item. */
+  contactFor: (seatId: string | null) =>
+    seatId ? `/contact/?type=project-team&seat=${encodeURIComponent(seatId)}` : '/contact/?type=project-team',
   otherPaths: '/get-involved/',
   legal: legalLinks,
   site: [

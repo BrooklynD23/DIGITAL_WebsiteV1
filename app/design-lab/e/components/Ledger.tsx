@@ -12,7 +12,8 @@ import {
 import { AnimatePresence, LayoutGroup, MotionConfig, motion } from 'motion/react';
 import { ArrowRight, ArrowUpRight, Plus, X } from 'lucide-react';
 import type { LedgerEntry } from '../content';
-import { getLenis } from './SmoothScroll';
+import { getLenis, wakeLenis } from './SmoothScroll';
+import { OpenChip, Pending } from './Chips';
 import s from '../e.module.css';
 
 const SPRING = { type: 'spring', stiffness: 420, damping: 40, mass: 0.9 } as const;
@@ -20,7 +21,7 @@ const NAV_OFFSET = -72;
 
 interface LedgerProps {
   readonly entries: readonly LedgerEntry[];
-  readonly asOf: string;
+  readonly asOf: string | null;
 }
 
 function RowContent({ entry }: { readonly entry: LedgerEntry }) {
@@ -90,7 +91,10 @@ export function Ledger({ entries, asOf }: LedgerProps) {
     // Defer one tick: the brief's cleanup (restore overflow, lenis.start) commits after this callback.
     window.setTimeout(() => {
       const lenis = getLenis();
-      if (lenis) lenis.scrollTo(target, { offset: NAV_OFFSET, force: true });
+      if (lenis) {
+        lenis.scrollTo(target, { offset: NAV_OFFSET, force: true, duration: 0.9 });
+        wakeLenis();
+      }
       else target.scrollIntoView({ block: 'start' });
       target.querySelector<HTMLElement>('[data-case-heading]')?.focus({ preventScroll: true });
       history.replaceState(null, '', href);
@@ -107,7 +111,7 @@ export function Ledger({ entries, asOf }: LedgerProps) {
             <h2 id="ledger-title" className={s.ledgerTitle}>
               Build ledger
             </h2>
-            <span className={s.ledgerAsOf}>As of {asOf}</span>
+            <span className={s.ledgerAsOf}>{asOf ? `As of ${asOf}` : 'Ledger date pending'}</span>
           </div>
           <div className={`${s.ledgerCols} ${s.mono}`} aria-hidden="true">
             <span>ID</span>
@@ -119,8 +123,8 @@ export function Ledger({ entries, asOf }: LedgerProps) {
             {entries.map((entry, i) => (
               <li
                 key={entry.id}
-                className={`${s.ledgerItem} ${s.rise}`}
-                style={{ '--i': i + 4 } as CSSProperties}
+                className={`${s.ledgerItem} ${s.post}`}
+                style={{ '--i': i } as CSSProperties}
               >
                 {enhanced ? (
                   <motion.button
@@ -281,7 +285,13 @@ function Brief({ entry, onClose }: BriefProps) {
               </div>
               <div className={s.sheetRow}>
                 <dt>Outcome</dt>
-                <dd className={s.ph}>{entry.outcome}</dd>
+                <dd>
+                  {entry.status === 'open' ? (
+                    <OpenChip href={entry.href}>{entry.outcome}</OpenChip>
+                  ) : (
+                    <Pending>{entry.outcome}</Pending>
+                  )}
+                </dd>
               </div>
               {entry.disciplines.length > 0 ? (
                 <div className={s.sheetRow}>

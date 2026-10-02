@@ -31,6 +31,11 @@ export function RsvpDemo({ words, wpm }: RsvpDemoProps) {
     return () => window.clearTimeout(t);
   }, [playing, index, pace, words.length]);
 
+  // Reduced motion: start at the slower pace. Playback is always user-initiated either way.
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) setPace(250);
+  }, []);
+
   useEffect(() => {
     const el = viewRef.current;
     if (!el) return undefined;
@@ -75,10 +80,9 @@ export function RsvpDemo({ words, wpm }: RsvpDemoProps) {
             type="button"
             className={s.ctrl}
             onClick={() => setPlaying((p) => !p)}
-            aria-pressed={playing}
           >
             {playing ? <Pause size={16} strokeWidth={1.5} aria-hidden="true" /> : <Play size={16} strokeWidth={1.5} aria-hidden="true" />}
-            {playing ? 'Pause' : 'Play'}
+            {playing ? 'Pause' : `Play at ${pace}`}
           </button>
           <button
             type="button"
@@ -93,9 +97,8 @@ export function RsvpDemo({ words, wpm }: RsvpDemoProps) {
           </button>
           <div role="group" aria-label="Pace" className={s.rsvpControls}>
             {PACES.map((p) => (
-              <button key={p} type="button" className={s.ctrl} aria-pressed={pace === p} onClick={() => setPace(p)}
-                style={pace === p ? { borderColor: 'var(--fg)' } : undefined}>
-                {p}
+              <button key={p} type="button" className={s.ctrl} aria-pressed={pace === p} onClick={() => setPace(p)}>
+                {p} wpm
               </button>
             ))}
           </div>

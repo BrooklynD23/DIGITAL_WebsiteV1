@@ -7,7 +7,9 @@ import { SIGN_BASELINE_Y, SIGN_NAME_POINTS, mulberry32 } from './geometry';
 const CANVAS_W = 1200;
 const CANVAS_H = 300;
 const BASE_PX = 236;
-const MAX_WORLD_W = 1.9;
+const MAX_WORLD_W = 1.78;
+/** Shift right so a long name clears the × mark at the line's start. */
+const NAME_X_OFFSET = 0.07;
 const MAX_WORLD_CAP = 0.5;
 
 export function nameToPoints(name: string, fontFamily: string): Float32Array | null {
@@ -46,7 +48,7 @@ export function nameToPoints(name: string, fontFamily: string): Float32Array | n
     const k = Math.floor(rand() * count);
     const px = hits[k * 2] + rand() * 2;
     const py = hits[k * 2 + 1] + rand() * 2;
-    out[i * 3] = (px - CANVAS_W / 2) / ppu;
+    out[i * 3] = (px - CANVAS_W / 2) / ppu + NAME_X_OFFSET;
     out[i * 3 + 1] = SIGN_BASELINE_Y + 0.05 + (BASE_PX - py) / ppu;
     out[i * 3 + 2] = (rand() - 0.5) * 0.12;
   }

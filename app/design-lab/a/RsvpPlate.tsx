@@ -4,7 +4,8 @@
  * Fig. 3 — a working RSVP plate: one word at a fixed point, the optimal-recognition
  * letter pinned on the red fixation tick. Words and the 450 wpm demo pace come from
  * lib/data/experiments/glasses.ts. Never autoplays; the reader starts it (honours
- * reduced motion by construction: word swaps only, no movement). No-JS shows the
+ * reduced motion by construction: word swaps only, no movement). The play button swaps its
+ * label (Read it / Pause) and so carries no aria-pressed; pace buttons keep a fixed label + aria-pressed. No-JS shows the
  * last word and the full sentence as a caption.
  */
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -82,7 +83,7 @@ export default function RsvpPlate({ words, demoWpm }: RsvpPlateProps) {
         </p>
       </div>
       <div className={styles.rsvpControls}>
-        <button type="button" className={styles.rsvpButton} onClick={toggle} aria-pressed={playing}>
+        <button type="button" className={styles.rsvpButton} onClick={toggle}>
           {playing ? 'Pause' : 'Read it'}
         </button>
         <div role="group" aria-label="Pace in words per minute" className={styles.rsvpPaces}>

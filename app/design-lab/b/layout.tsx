@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import { IBM_Plex_Mono, IBM_Plex_Sans, IBM_Plex_Sans_Condensed } from 'next/font/google';
 
@@ -6,6 +6,8 @@ export const metadata: Metadata = {
   title: 'Concept B — Engineering / System · DIGITAL design lab',
   robots: { index: false, follow: false },
 };
+
+export const viewport: Viewport = { themeColor: '#f2f2ee' };
 
 // Scoped to this lab route; preload off so the faces never leak into other routes.
 const display = IBM_Plex_Sans_Condensed({
@@ -39,6 +41,8 @@ const hideGlobalChrome = `
 body:has(#lab-b) > nav[aria-label="Primary"],
 body:has(#lab-b) > footer { display: none !important; }
 body:has(#lab-b) { background: #f2f2ee; }
+html:has(#lab-b) { cursor: auto !important; scroll-behavior: auto !important; }
+html:has(#lab-b) [style*="ds-z-cursor"] { display: none !important; }
 `;
 
 export default function ConceptBLayout({ children }: { readonly children: ReactNode }) {

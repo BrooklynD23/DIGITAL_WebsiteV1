@@ -10,7 +10,7 @@ const video = flags.includes('--video');
 const reduced = flags.includes('--reduced');
 const mobile = flags.includes('--mobile');
 const base = process.env.LAB_URL ?? 'http://localhost:3100';
-const outDir = 'design-lab/renders/f/v1';
+const outDir = process.env.F_OUT ?? 'design-lab/renders/f/v2';
 const tmpVid = join(outDir, '_vid');
 
 function shell() {
@@ -24,7 +24,8 @@ function shell() {
 
 mkdirSync(outDir, { recursive: true });
 const browser = await chromium.launch({ executablePath: shell() });
-const viewport = mobile ? { width: 390, height: 844 } : { width: 1440, height: 900 };
+const laptop = flags.includes('--1366');
+const viewport = mobile ? { width: 390, height: 844 } : laptop ? { width: 1366, height: 768 } : { width: 1440, height: 900 };
 const ctx = await browser.newContext({
   viewport,
   reducedMotion: reduced ? 'reduce' : 'no-preference',
@@ -41,13 +42,18 @@ const check = (label, ok) => results.push(`${ok ? 'PASS' : 'FAIL'} ${label}`);
 
 await page.goto(`${base}/design-lab/f/`, { waitUntil: 'networkidle' });
 await pause(1200);
+const fold = await page.evaluate(() => {
+  const r = (sel) => document.querySelector(sel)?.getBoundingClientRect();
+  return { input: Math.round(r('#f-sign')?.bottom ?? -1), cta: Math.round(r('#sign a[href="#bench"]')?.bottom ?? -1), h: innerHeight, docH: document.documentElement.scrollHeight };
+});
+check(`sign input + CTA above the fold (input bottom ${fold.input}, CTA bottom ${fold.cta}, viewport ${fold.h}, page ${fold.docH}px)`, fold.input < fold.h && fold.cta < fold.h);
 
 // 1. Sign
 await page.fill('#f-sign', '');
 await page.locator('#f-sign').pressSequentially('Danny', { delay: 110 });
 await pause(500);
-const heroName = await page.locator('h1 [data-empty]').count();
-check('hero tag mirrors typed name', heroName === 0);
+const heroVal = await page.locator('[data-value]').first().getAttribute('data-value');
+check(`hero tag holds typed name (${heroVal})`, heroVal === 'Danny');
 
 // 2. Scroll to the bench
 for (let i = 0; i < 8; i++) {
@@ -131,7 +137,7 @@ check('footer signature shows the name', (sig ?? '').includes('Danny'));
 const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
 check(`no horizontal overflow (${overflow}px)`, overflow <= 0);
 
-await page.screenshot({ path: join(outDir, `f-interact-${mobile ? 'mobile' : 'desktop'}${reduced ? '-reduced' : ''}.png`) });
+await page.screenshot({ path: join(outDir, `f-interact-${mobile ? 'mobile' : laptop ? '1366' : 'desktop'}${reduced ? '-reduced' : ''}.png`) });
 await ctx.close();
 await browser.close();
 

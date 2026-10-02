@@ -65,7 +65,7 @@ export const copy = {
     figure: {
       title: 'Fig. 1 — DG-001 Modular Smartphone',
       caption: 'Subsystem → part interface map',
-      note: 'Each wire is a part a subsystem touches. A part with two owners is a handoff, and every handoff gets a review path.',
+      note: 'A subsystem is one part of the phone that one person owns. Each wire is a part it touches. A part shared by two subsystems is a handoff (red), and every handoff gets a review. Dashed red: no owner yet.',
       source: 'Generated from the build page’s subsystem → part data. Part names are the page model’s; leads to confirm [confirm].',
     },
   },
@@ -82,7 +82,7 @@ export const copy = {
         code: 'DG-001',
         title: phone?.title ?? 'The Modular Smartphone',
         problem: 'Phones are built to be thrown away, not repaired.',
-        needs: subsystems.map((s) => s.scrubberLabel.toLowerCase()).join(' · '),
+        needs: 'EE · SW · ME · ID · DS · OP [confirm]',
         cycle: '[confirm]',
         status: 'active',
         statusNote: 'Phase [confirm]',
@@ -93,7 +93,7 @@ export const copy = {
         code: 'DG-002',
         title: glasses?.title ?? 'Smart Reading',
         problem: 'Reading means your eyes chase the line and lose their place.',
-        needs: glassesNeeds.toLowerCase(),
+        needs: 'EE · SW · ID · DS + optics',
         cycle: glassesSpec('CYCLE') || '8-month build',
         status: 'active',
         statusNote: 'Phase not published',
@@ -104,7 +104,7 @@ export const copy = {
         code: 'VS',
         title: venture.title,
         problem: venture.line,
-        needs: 'business · engineering [confirm]',
+        needs: 'VN · CM [confirm]',
         cycle: '—',
         status: 'program',
         statusNote: 'Serves every build',
@@ -113,10 +113,10 @@ export const copy = {
       {
         id: 'dg-003',
         code: 'DG-003',
-        title: 'Unsigned',
+        title: 'Open slot',
         problem: 'Pitch the next build. Bring a problem worth a year.',
-        needs: 'you',
-        cycle: '______',
+        needs: 'any',
+        cycle: '—',
         status: 'open',
         statusNote: 'Needs an owner',
         href: '#dg-003',
@@ -137,11 +137,11 @@ export const copy = {
       { k: 'Workflow', v: workflowStages.join(' → ') },
       { k: 'Duration', v: '[confirm]' },
       { k: 'Outcome', v: 'No shipped revision yet' },
-      { k: 'Built by', v: '______ [placeholder]' },
+      { k: 'Owners', v: '0 of 7 assigned' },
       { k: 'Partner', v: 'None confirmed' },
       { k: 'Repo', v: 'Not published' },
+      { k: 'Photo log', v: '0 entries [placeholder]' },
     ],
-    plate: '[ PROJECT PHOTO — PROTOTYPE ON THE BENCH ] [placeholder]',
     link: { label: 'Open the build record', href: '/projects/modular-smartphone' },
   },
   dg002: {
@@ -162,11 +162,11 @@ export const copy = {
       { k: 'Duration', v: glassesSpec('CYCLE') },
       { k: 'Needs', v: glassesNeeds },
       { k: 'Mentor', v: 'Dr. Mohamed El Hadedy' },
-      { k: 'Built by', v: '______ [placeholder]' },
+      { k: 'Credits', v: 'Not published yet' },
       { k: 'Outcome', v: 'Not published yet' },
       { k: 'Cost', v: glassesSpec('COST') },
+      { k: 'Photo log', v: '0 entries [placeholder]' },
     ],
-    plate: '[ PROJECT PHOTO — WEARABLE PROTOTYPE ] [placeholder]',
     link: { label: 'Open the build record', href: '/projects/smart-reading' },
   },
   vs: {
@@ -179,7 +179,8 @@ export const copy = {
   },
   dg003: {
     code: 'DG-003',
-    heading: 'This row is unsigned.',
+    title: 'Open slot',
+    heading: 'No problem on file yet.',
     body: 'The next build starts with a problem someone is willing to own. Bring one to build night, or write it down first.',
     cta: { label: 'Pitch the next build', href: '/contact?type=project' },
   },
@@ -190,7 +191,7 @@ export const copy = {
     lede: 'Pick a subsystem and trace it through the workflow. The rules are the same for all seven.',
     selectLabel: 'Trace a subsystem',
     ownerLabel: 'Owner',
-    ownerValue: '______ [open]',
+    ownerValue: 'Unassigned',
     gateBeforeMerge: 'Test gate',
     gateBeforeRelease: 'Repair plan',
     release: 'Release',
@@ -214,7 +215,7 @@ export const copy = {
       {
         n: '03',
         title: 'Pick a boundary',
-        body: 'Take an open subsystem, join a team as a contributor, or pitch DG-003.',
+        body: 'Find your column in Fig. 4. Then take an open subsystem, join a team as a contributor, or pitch DG-003.',
       },
     ],
     primary: { label: 'Take a subsystem', href: '/contact?type=project-team' },
@@ -229,8 +230,6 @@ export const copy = {
     cells: [
       { k: 'Org', v: siteConfig.fullName },
       { k: 'Sheet', v: 'Home · index' },
-      { k: 'Drawn by', v: '______' },
-      { k: 'Rev', v: '[placeholder]' },
       { k: 'Build night', v: `${meetingInfo.schedule} · ${meetingInfo.location}` },
       { k: 'Contact', v: siteConfig.contact.email, href: `mailto:${siteConfig.contact.email}` },
       { k: 'Discord', v: 'discord.gg/Vsg3qcNVzv', href: siteConfig.social.discord },
@@ -253,4 +252,65 @@ export const rsvp = {
   words: GLASSES_CONTENT.pov.words,
   wpm: GLASSES_CONTENT.hud.wpm,
   paceLabel: glassesSpec('PACE') || 'You set the WPM',
+};
+
+/** DESIGN.md §9.3 discipline codes. */
+export const disciplineCodes = [
+  { code: 'ME', name: 'Mechanical & manufacturing' },
+  { code: 'EE', name: 'Electrical & embedded' },
+  { code: 'SW', name: 'Software & firmware' },
+  { code: 'DS', name: 'Data, science & research' },
+  { code: 'ID', name: 'Industrial design & UX' },
+  { code: 'VN', name: 'Venture: business, finance, go-to-market' },
+  { code: 'CM', name: 'Communications & media' },
+  { code: 'OP', name: 'Operations & program' },
+] as const;
+
+export type DisciplineCode = (typeof disciplineCodes)[number]['code'];
+
+export interface MatrixRow {
+  readonly ref: string;
+  readonly label: string;
+  readonly codes: readonly DisciplineCode[];
+  /** 'record' = stated in lib/data; 'inferred' = read from the subsystem scope text, leads to confirm. */
+  readonly source: 'record' | 'inferred';
+}
+
+/**
+ * Fig. 4 — build × discipline. Phone rows are inferred from each subsystem's scope
+ * line in phoneV2.ts [confirm]. DG-002 maps its stated needs (engineering → EE,
+ * firmware → SW, design → ID, research → DS; optics has no code). VS maps its
+ * stated work (budgets, sponsor briefs, pitches → VN, CM) [confirm].
+ */
+const inferred: Record<string, readonly DisciplineCode[]> = {
+  'systems-architecture': ['ME', 'EE', 'SW', 'OP'],
+  'hardware-pcb': ['EE'],
+  'firmware-embedded': ['EE', 'SW'],
+  'operating-system': ['SW'],
+  'apps-ux': ['SW', 'ID'],
+  'mechanical-cad': ['ME', 'ID'],
+  'integration-testing': ['ME', 'EE', 'SW', 'DS'],
+};
+
+export const disciplineMatrix: readonly MatrixRow[] = [
+  ...subsystems.map((s, i) => ({
+    ref: `S${i + 1}`,
+    label: s.scrubberLabel,
+    codes: inferred[s.id] ?? [],
+    source: 'inferred' as const,
+  })),
+  { ref: 'DG-002', label: 'SMART READING', codes: ['EE', 'SW', 'ID', 'DS'], source: 'record' },
+  { ref: 'VS', label: 'VENTURE', codes: ['VN', 'CM'], source: 'inferred' },
+];
+
+/** No subsystem owner is published (team.ts: every lead is TBA). */
+export const subsystemOwners: Readonly<Record<string, string | null>> = Object.fromEntries(
+  subsystems.map((s) => [s.id, null]),
+);
+
+export const matrixCopy = {
+  title: 'Fig. 4 — Where you fit: build × discipline',
+  note: 'Products need more than programmers. Every column has a build that needs it.',
+  legendRecord: 'stated in the project record',
+  legendInferred: 'read from the subsystem scope [confirm]',
 };

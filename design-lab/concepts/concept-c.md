@@ -196,3 +196,57 @@ subsystem. You own it through the test gate." · Join: "Thursday is build night.
   glasses to form. Declined: scroll-reveal choreography (content must be visible at first paint, one focal motion object per page). Smooth anchor scroll was already
   on (the recording used the wheel). The "white flash" is the recorder's about:blank frame.
 - Final: 0 console errors at 1440 / 834 / 390 (Live, no-JS, reduced motion). `npx tsc --noEmit` is clean.
+
+## v2 changes (Wave 4 refinement, §36)
+
+Inputs: `critiques/c-by-b.md`, `c-gemini-motion.md` (incl. orchestrator cross-check), `micro-c.md`, `a11y-c.md`.
+Thesis is unchanged. Every fix makes the page draw itself from the work more consistently.
+Renders: `design-lab/renders/c/v2/`. 0 console errors (live, Still `?fx=off`, reduced motion, no-JS, mobile). `tsc` reports no errors in `app/design-lab/c/`.
+
+### Applied: fix now (8)
+
+| # | Fix | Source | Where |
+|---|---|---|---|
+| 1 | **Still-mode parity.** The Still signature is drawn in dots from the same `signCloud(nameToPoints())` pipeline as Live, so a long name fits identically with no `<text>` clip. Unsigned is now literally a blank line: the name's points wait on the baseline instead of forming a blob. The name is offset +0.07 so long names clear the × | orchestrator 1, U1 | `HeroFormation.tsx` (`unsignedPoster`), `geometry.ts` (`signLineAndCross`), `textPoints.ts` |
+| 2 | **Interruptible morphs.** A new target mid-morph bakes the on-screen blend into a 5th slot (`aPos4`) on the CPU, using the shader's exact per-point timing (`aSeed`, new `aJit` attribute replacing GPU `sin`-hash jitter), and morphs on from there. No snap-back | orchestrator 2, M1 | `FormationCanvas.tsx` (`bakeSnapshot`) |
+| 3 | **Subsystem reading on the stage.** The selected layer's index, title and description sit in a band at the stage's bottom edge (visible at 1440×900 and 1280×800). Under 900px it is echoed under the legend. The H1 holds 3 lines at ≥1200px (11/13 columns), so the picker starts at y≈466 | orchestrator 3, H2, T2 | `.stageReadout`, `.legendReadoutNarrow` |
+| 4 | **Labels land with the form.** The stage tag, "Built by" and the HUD word follow `onShown` (morph 60%) instead of the radio, with a 240ms fade. The HUD stream starts on `onSettled` instead of a 1.5s timeout | orchestrator 4, H3/M2, M4 | `FormationCanvas` callbacks, `.stage[data-shown]` |
+| 5 | **Render toggle.** 44px tall, hover and pressed states. A disabled Live states its reason in text linked by `aria-describedby` ("Live is off: your system asks for reduced motion." / no WebGL) | orchestrator 5, micro 6/7/10 | `HeroFormation.tsx`, `.renderNote` |
+| 6 | **Quiet live region.** Hover and focus highlight visually only. The sr-only live region speaks only when a layer is pinned (click/Enter) | orchestrator 6, a11y 1 | `HeroFormation.tsx` |
+| 7 | **One signature, computed twice.** The footer remembers the hero signature in the same dots (`signatureDots`, shared in-tab via `signStore.ts`): "This line is still blank." → "Signed. Now build it." The shared "Put your name on one." close, the drawn X-line SVG, the `______` in the DG-003 row and the "BUILT BY ______" notes are removed. "No signal" is the only empty-state device | lab-wide, D2, T4 | `FooterSignature.tsx`, `signStore.ts`, `content.ts` |
+| 8 | **Record plates are the builds' own drawings.** The striped photo plates became each build's dot drawing (phone stack, glasses) from `geometry.ts`, captioned "build photo [placeholder]" | lab-wide, D3 | `page.tsx` `DotPlate` |
+
+### Applied: trivial / lab-wide
+
+- Production crosshair hidden on this route (`html{cursor:auto!important}`, `[style*="ds-z-cursor"]{display:none!important}`). The probe is the only pointer effect.
+- `:active` pressed states on primary, ghost, legend, segmented, stage, nav CTA, text links and picker rows (0ms).
+- Toggle semantics: RSVP Play/Pause keeps its label swap and drops `aria-pressed`. Legend, stage and Live/Still keep fixed labels with `aria-pressed`.
+- Text floor 12px: all mono 11/11.5px → 12px. The HUD word floor is 16px, set in Martian Mono (an instrument readout).
+- 44px targets: footer links, nav CTA, segmented buttons. A sign-field counter ("21/22") means truncation is no longer silent.
+- Type scale: H2 max 64 → 52px, record title 56 → 46px, footer close 104 → 72px (now ≤ H1).
+- Accent `#ff5a36` → `#f0573a` ("solder, not neon"). It is 5.71:1 on `--bg`, 5.38:1 on `--bg-2`, and ink-on-accent is 5.71:1.
+- Morph z-arc 0.3 → 0.12, and glasses loose dust cut 50% (600 → 300 points moved onto the rims), so mid-morph frames keep an edge.
+- Nav "Studio" → "Process" (the section is "How a build runs"). Process sub cut to one fact: "Every subsystem passes the same four stages."
+- Wordmark "DIGIT AL" fixed with a kerned T (nav + footer).
+- Tablet (600–899px): stage capped at `48svh × 1.2` so the picker is above the fold at 834×1112. Mobile: CTA moved above the caption.
+- No-JS: the phone caption links "All 7 subsystems in the DG-001 record". Each radio is `aria-describedby` its caption fields.
+- `hasWebGL()` now releases its probe context.
+
+### Rejected (with reason)
+
+| Item | Reason |
+|---|---|
+| Scroll-reveal choreography (Gemini v1) | Content must be visible at first paint, and C keeps one focal motion object per page |
+| Grouping all "No signal" fields into one strip (P2) | The per-field "No signal" is the honesty device. Grouping hides which fields are missing. Revisit only if the club fills ≥3 fields |
+| Replacing the stage orbs with geometry posters (D3, second half) | §14 asked for orbs only if each maps to a real stage, and they do. Swapping them would remove the one tested §14 experiment. Their dot language already matches |
+
+### Deferred
+
+| Item | Why later |
+|---|---|
+| Probe as a lens (brighten + name the nearest layer, no displacement) (M3) | Needs a nearest-layer readout and a design pass. The push is kept for now and stays mouse/pen-only |
+| Selected layer lifts out of the stack ("take one apart" literally) (P1) | Pairs with the probe-as-lens pass; the scroll spread stays until then |
+| Workflow shown 3× / ownership 2× (H4) | Needs a decision on what the DG-001 record keeps as evidence vs the process section |
+| Static `.svg` poster files instead of inline paths (F2) | A build-time script over `geometry.ts`. The SSR HTML is still heavy (dot posters, plus the 2 record plates added in v2) |
+| Mobile page length (390: 9,507px) (R1) | Record field lists could collapse behind "Show the full record". Needs a design pass |
+| Production bundle measurement (F4) | `next build` would collide with the shared dev server's `.next`. Run it in a throwaway worktree |

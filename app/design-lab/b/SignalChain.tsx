@@ -7,14 +7,12 @@ interface Props {
   readonly paceLabel: string;
 }
 
-/** Fig. 2 — DG-002 signal chain. Same generator, horizontal ≥ 900px, vertical below. */
+/**
+ * Fig. 2 — DG-002 signal chain. The generator supports a horizontal layout too, but
+ * only the vertical one keeps every label at ≥12px, so it is used at all widths.
+ */
 export function SignalChain({ stages, titleId, paceLabel }: Props) {
-  return (
-    <>
-      <ChainSvg stages={stages} titleId={titleId} paceLabel={paceLabel} vertical={false} width={720} className={s.chainWide} />
-      <ChainSvg stages={stages} titleId={titleId} paceLabel={paceLabel} vertical width={320} className={s.chainCompact} />
-    </>
-  );
+  return <ChainSvg stages={stages} titleId={titleId} paceLabel={paceLabel} vertical width={288} className={s.chainCompact} />;
 }
 
 function ChainSvg({
@@ -54,7 +52,7 @@ function ChainSvg({
             y={chain.feedback.labelY}
             textAnchor={vertical ? 'start' : 'middle'}
             className={s.feedbackText}
-            fontSize={10.5}
+            fontSize={12}
             transform={vertical ? `rotate(90 ${chain.feedback.labelX} ${chain.feedback.labelY})` : undefined}
           >
             {`PACE · ${paceLabel.toUpperCase()}`}
@@ -64,18 +62,18 @@ function ChainSvg({
       {chain.stages.map((st) => (
         <g key={st.key}>
           <rect x={st.x} y={st.y} width={st.w} height={st.h} className={st.key === 'fpga' ? s.blockInk : s.block} />
-          <text x={st.x + 8} y={st.y + 15} className={st.key === 'fpga' ? s.refInv : s.ref} fontSize={10}>
+          <text x={st.x + 8} y={st.y + 16} className={st.key === 'fpga' ? s.refInv : s.ref} fontSize={12}>
             {st.ref}
           </text>
-          <text x={st.x + 8} y={st.y + (vertical ? 33 : 36)} className={st.key === 'fpga' ? s.chainLabelInv : s.chainLabel} fontSize={vertical ? 14 : 15}>
+          <text x={st.x + 8} y={st.y + (vertical ? 38 : 36)} className={st.key === 'fpga' ? s.chainLabelInv : s.chainLabel} fontSize={14}>
             {st.label.toUpperCase()}
           </text>
           <text
             x={vertical ? st.x + st.w - 8 : st.x + 8}
-            y={vertical ? st.y + 33 : st.y + 54}
+            y={vertical ? st.y + 38 : st.y + 54}
             textAnchor={vertical ? 'end' : 'start'}
             className={st.key === 'fpga' ? s.chainDetailInv : s.chainDetail}
-            fontSize={10}
+            fontSize={12}
           >
             {st.detail}
           </text>

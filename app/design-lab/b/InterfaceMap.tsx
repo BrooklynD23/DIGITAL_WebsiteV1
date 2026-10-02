@@ -1,12 +1,14 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { buildInterfaceMap, COMPACT_MAP, WIDE_MAP, type MapLayout, type SubsystemInput } from './schematic';
 import s from './b.module.css';
 
 interface Props {
   readonly subsystems: readonly SubsystemInput[];
   readonly titleId: string;
+  /** Owner per subsystem id; null = unassigned (drawn dashed red). */
+  readonly owners: Readonly<Record<string, string | null>>;
 }
 
 /**
@@ -15,27 +17,43 @@ interface Props {
  * Subsystem blocks are links to their register rows, so hover and keyboard focus
  * both trace a subsystem's wires.
  */
-export function InterfaceMap({ subsystems, titleId }: Props) {
+export function InterfaceMap({ subsystems, titleId, owners }: Props) {
   const [active, setActive] = useState<string | null>(null);
   // Draw-in runs once after hydration, then the animation is removed entirely, so
   // server HTML (no JS) and any later capture always show the finished drawing.
+  // Armed when ≥40% of the figure is on screen, so mobile visitors see it too.
   const [drawing, setDrawing] = useState(false);
+  const wrap = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    setDrawing(true);
-    const id = window.setTimeout(() => setDrawing(false), 1600);
-    return () => window.clearTimeout(id);
+    const el = wrap.current;
+    if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let timer = 0;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        io.disconnect();
+        setDrawing(true);
+        timer = window.setTimeout(() => setDrawing(false), 1200);
+      },
+      { threshold: 0.4 },
+    );
+    io.observe(el);
+    return () => {
+      io.disconnect();
+      window.clearTimeout(timer);
+    };
   }, []);
   return (
-    <div className={drawing ? s.drawing : undefined}>
-      <MapSvg layout={WIDE_MAP} subsystems={subsystems} active={active} setActive={setActive} titleId={titleId} className={s.mapWide} />
-      <MapSvg layout={COMPACT_MAP} subsystems={subsystems} active={active} setActive={setActive} titleId={titleId} className={s.mapCompact} />
+    <div ref={wrap} className={drawing ? s.drawing : undefined}>
+      <MapSvg layout={WIDE_MAP} owners={owners} subsystems={subsystems} active={active} setActive={setActive} titleId={titleId} className={s.mapWide} />
+      <MapSvg layout={COMPACT_MAP} owners={owners} subsystems={subsystems} active={active} setActive={setActive} titleId={titleId} className={s.mapCompact} />
     </div>
   );
 }
 
 function MapSvg({
   layout,
+  owners,
   subsystems,
   active,
   setActive,
@@ -43,6 +61,7 @@ function MapSvg({
   className,
 }: {
   readonly layout: MapLayout;
+  readonly owners: Readonly<Record<string, string | null>>;
   readonly subsystems: readonly SubsystemInput[];
   readonly active: string | null;
   readonly setActive: (id: string | null) => void;
@@ -52,7 +71,7 @@ function MapSvg({
   const map = useMemo(() => buildInterfaceMap(subsystems, layout), [subsystems, layout]);
   const lit = (subId: string) => active === subId;
   const partLit = (owners: readonly string[]) => active !== null && owners.includes(active);
-  const fs = layout.compact ? 10 : 11.5;
+  const fs = 12;
   const descId = `${titleId}-${layout.compact ? 'c' : 'w'}-desc`;
 
   return (
@@ -100,13 +119,21 @@ function MapSvg({
           onFocus={() => setActive(n.id)}
           onBlur={() => setActive(null)}
         >
-          <rect x={n.x} y={n.y} width={n.w} height={n.h} className={`${s.block} ${lit(n.id) ? s.blockLit : ''}`} />
+          <rect x={n.x} y={n.y + n.h / 2 - 24} width={n.w} height={48} className={s.hit} />
+          <rect
+            x={n.x}
+            y={n.y}
+            width={n.w}
+            height={n.h}
+            className={`${s.block} ${owners[n.id] ? '' : s.blockOpen} ${lit(n.id) ? s.blockLit : ''}`}
+          />
           <text x={n.x + 8} y={n.y + n.h / 2} dy="0.35em" className={s.ref} fontSize={fs}>
             {n.ref}
           </text>
           <text x={n.x + (layout.compact ? 28 : 34)} y={n.y + n.h / 2} dy="0.35em" className={s.blockText} fontSize={fs}>
             {n.label}
           </text>
+          {!owners[n.id] && <title>{`${n.ref} ${subsystems.find((x) => x.id === n.id)?.title ?? ''}: unassigned`}</title>}
         </a>
       ))}
 
@@ -127,10 +154,10 @@ function MapSvg({
             {p.handoff && (
               <g>
                 <rect
-                  x={p.x + p.w - (layout.compact ? 22 : 30)}
-                  y={p.y + p.h / 2 - 7}
-                  width={layout.compact ? 16 : 24}
-                  height={14}
+                  x={p.x + p.w - (layout.compact ? 25 : 31)}
+                  y={p.y + p.h / 2 - 8}
+                  width={layout.compact ? 22 : 26}
+                  height={16}
                   className={s.handoffTag}
                 />
                 <text
@@ -139,7 +166,7 @@ function MapSvg({
                   dy="0.35em"
                   textAnchor="middle"
                   className={s.handoffText}
-                  fontSize={layout.compact ? 8.5 : 9.5}
+                  fontSize={12}
                 >
                   {p.handoff}
                 </text>
@@ -160,7 +187,7 @@ function MapSvg({
               return (
                 <g key={`${p.id}-note`}>
                   <path d={`M${p.x + p.w} ${p.y + p.h / 2} H${ax - 4}`} className={s.leader} />
-                  <text x={ax} y={p.y + p.h / 2} dy="0.35em" className={s.note} fontSize={10.5}>
+                  <text x={ax} y={p.y + p.h / 2} dy="0.35em" className={s.note} fontSize={12}>
                     {`${p.handoff} · ${refs}`}
                   </text>
                 </g>

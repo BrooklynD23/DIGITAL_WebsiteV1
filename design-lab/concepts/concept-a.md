@@ -178,3 +178,41 @@ Final: 0 console errors at 1440 / 834 / 390 (both `shoot.mjs` and `da-a-fullpage
 4. **Global chrome hack**: the route hides the production Navbar/Footer with a scoped `<style>` (`body > nav[aria-label="Primary"], body > footer`). It's brittle if those components change.
 5. **Drop caps / magazine tropes** can tip into pastiche if more editorial devices are added. Keep it to one drop cap per feature.
 6. "Free to join", the [confirm] phases and the leadership seat flow all need club confirmation before production.
+
+## v2 changes (Wave 4 refinement, §36)
+
+Inputs: `critiques/a-by-f.md`, `critiques/micro-a.md`, `critiques/a11y-a.md`, plus the orchestrator's must-fix list. Renders: `design-lab/renders/a/v2/a-{desktop,tablet,mobile}.png`. Checks: 0 console errors at 1440 / 834 / 390, with JS off, and with reduced motion. 0px overflow at 360 / 390 / 834 / 1440. `tsc` clean for `app/design-lab/a/**`. Where a v1 section above conflicts with this list, this list wins.
+
+### Applied (8 fix-now + lab-wide trivia)
+
+| # | Fix | Source | Where |
+|---|---|---|---|
+| 1 | **Phone cover is a poster.** One word per line at 17.4vw (≈68px). *name* is the largest line (1.42em) on its rule, and lines are staggered by indent. Footnote mark and × have a 14px floor. The thesis reveals **by line** (all words in a line share a delay, 0 / 70 / 140ms), and the rule draws at 0.55s, so the thesis is legible in about 0.5s. The kicker is balanced (no orphan) | must-fix 2 · H1 · M2 | `page.tsx` `W`, `.w*` and the phone block in `a.module.css` |
+| 2 | **Join is reachable early.** A filled "Take a subsystem" CTA sits in the cover band (at ~y 900 on a phone, inside the first viewport on desktop). Contents item 05 reads "Thursday: take a subsystem". "Take one of these seven →" follows Fig. 2. The DG-003 link goes to `?type=general` (was pre-selecting the phone project) | must-fix 1 · U1 · U2 | `content.ts` hero/contents/work.open |
+| 3 | **Rebalanced DG-001.** Fig. 2 is now the annotated exploded spread: the stack drawing plus a numbered key with all 7 real descriptions on a 4mm drafting grid, where hovering a key row tints its layer. The photo plate shrank to a 4:3 margin plate under the record. The parts list is gone. "DG-001 needs" is a single line pointing to Fig. 2. The cover Fig. 1 is a small numbered stack with no labels (hidden on phones). Subsystem names now appear once | must-fix 3 · P1 · P2 | `Figures.tsx` `FigSpread` / `FigCover` |
+| 4 | **Signature made specific to A (print forms).** Blanks went from 17 to 1 hero rule + 2 **bylines** under the feature titles ("BUILT BY ____", drawn once when scrolled in, like the hero rule). Credits became a **masthead staff box** ("DIGITAL / Edition 2026–27", Officers / Project leads, roles and desks split instead of em-dashes). The shared close "Put your name on one." is cut. The edition now **closes on the colophon**: "The next edition prints when these lines fill." `[copy, confirm]`. The owner lines and record "Built by" rows are removed | lab-wide distinctiveness · D1–D3 | `Byline.tsx`, `page.tsx` #staff, footer |
+| 5 | **Facts scoped.** "Four rules hold DG-001 together." (the rules are from `phoneV2.ts` only). "Free to join" is replaced by the real "No project experience required." The chapter is renamed "How the studio runs" so the "Studio" nav label lands correctly. The dek states only what's true | B1 · B2 · U3 | `content.ts` |
+| 6 | **Type discipline.** Italic now means only "the open slot / you": *name*, *Pitch the next build.*, and the rule glosses (now Zodiak italic pull-quotes). Split headlines, "6:00 PM." and the fit note are roman. There is 1 drop cap (DG-001 only). "Where you fit" is a 3-row run-in index (mono head + Switzer) instead of 15 Zodiak headlines. The rule text is balanced (no "release." orphan). Body measure is capped at 62ch | T2 · T3 · T4 · T5 · H4 · micro 3 | `a.module.css` |
+| 7 | **One engineering texture.** A faint 4mm drafting grid on build records and the Fig. 2 spread: a lab-notebook print artifact, not UI | B3 | `.record`, `.spread` |
+| 8 | **Interaction + a11y bundle.** `:active` press (1px) on CTAs, RSVP and pace buttons, plus a thicker underline on text links. Ledger hover uses `transform` instead of `padding`. Pace and colophon links get the red-underline hover. The colophon links and wordmark are ≥44px. `::selection` uses the red tint. The proof band now sits **under the descenders** (90–99%) instead of over them. The workflow rail is an `<ol aria-label="Workflow">` (fixes axe `aria-prohibited-attr`). Figure numerals render ≥12px at every width (cover 11 units ≈14px, Fig. 2 10.5 units ≈12–15px; key text is HTML). The RSVP play button keeps its label swap and drops `aria-pressed`; pace buttons keep a fixed label plus `aria-pressed` | micro 3/6/7/12/15/19/24 · a11y 1–5 · M3 | various |
+| — | Lab-wide: production crosshair cursor hidden on this route (`html{cursor:auto!important}`, `[style*="ds-z-cursor"]{display:none!important}` in the scoped style). CTA/button hover fills use `--a-red-ink #b3311f` under paper text (≈5.3:1) instead of `#d8412f` (which failed AA as a fill). Bright red is kept for rules, dots and focus. No text under 12px | orchestrator | `layout.tsx`, `a.module.css` |
+
+### Rejected (with reason)
+
+| Finding | Why not |
+|---|---|
+| D4: overprint Fig. 1 into the thesis indent | It competes with the poster crop on phones, and the thesis is the one image. The drawing now earns its scale in Fig. 2 instead |
+| Gemini v1 #1 + a-by-f: replace the filled CTA with a text link | Joining needs one unambiguous action. A single ink block is still print (a reversed slug). It is kept and restyled on hover/press only |
+| P4: an "Open this term" record row | No data says which subsystems are open. It would be an invented list, even with `[confirm]` |
+| Taste: drop section-number eyebrows / em-dashes globally | The numbers pair with the contents list (real wayfinding), and the em-dash is real editorial typography. BRIEF overrides Taste here. The em-dashes in credit rows were removed by the staff-box split |
+| Gemini motion: add fade-ups below the fold | Contradicts BRIEF/CONTEXT-PACK (no content hidden until scroll). The single reused gesture is the byline rule |
+
+### Deferred
+
+| Item | Why / owner |
+|---|---|
+| F1: OFL fallback re-render (Instrument Serif/Sans or other) before the Head Designer picks | Font choice is an orchestrator/Head Designer call. Taste also flags Instrument Serif |
+| H3: vary chapter-opener scale | Low severity. Needs a second layout pass once the copy is approved |
+| M1: pen-stroke overshoot/taper on the hero rule | A polish item. Current rule reads well per Gemini |
+| F2: route-group layout instead of the scoped chrome hide | Production change (`lib/immersiveRoutes.ts` or a route group) |
+| Contact form "New build proposal" topic | Production change (`lib/data/contactTopics.ts`). Until then DG-003 uses `?type=general` |

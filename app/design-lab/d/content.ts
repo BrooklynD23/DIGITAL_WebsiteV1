@@ -36,6 +36,20 @@ export const links = {
   leadership: '/contact?type=leadership',
 } as const;
 
+/**
+ * "You leave as the person who…" per seat. Each line paraphrases that subsystem's own
+ * bullets in phoneV2.ts (source bullet noted). Exploratory copy, needs club sign-off.
+ */
+const LEAVE_AS: Record<string, string> = {
+  'systems-architecture': 'decides where the frame ends and the board begins', // bullet 1
+  'hardware-pcb': 'gives power and signal a deliberate path', // bullet 1
+  'firmware-embedded': 'takes a board from reset to a known state', // bullet 1
+  'operating-system': 'decides what each layer of the phone is allowed to do', // bullet 1
+  'apps-ux': 'makes each tap show that it worked', // bullet 3
+  'mechanical-cad': 'proves the parts fit before the design freezes', // bullet 2
+  'integration-testing': 'tests where the disciplines meet', // bullet 1
+};
+
 export const subsystems = phoneV2Copy.subsystemSections.map((s) => ({
   id: s.id,
   title: s.title,
@@ -43,6 +57,7 @@ export const subsystems = phoneV2Copy.subsystemSections.map((s) => ({
   description: s.description,
   bullets: s.bullets,
   specLines: s.specLines,
+  leaveAs: LEAVE_AS[s.id] ?? '',
 }));
 
 /** owner → review → test gate → repair plan (phoneV2.ts buildScope.scopeItems, verbatim in mono). */
@@ -58,7 +73,7 @@ export const dg001 = {
   object: phoneV2Copy.hero.subline,
   oneLine: homeLandingCopy.results.cases[0]?.line ?? '',
   learns: [homeLandingCopy.results.cases[0]?.learn1 ?? '', homeLandingCopy.results.cases[0]?.learn2 ?? ''],
-  needs: subsystems.map((s) => s.title),
+  parts: subsystems.map((s) => s.title),
 } as const;
 
 const readingInfo = GLASSES_CONTENT.info;
@@ -75,7 +90,6 @@ export const dg002 = {
   cycle: '8-month build cycle',
   mentor: 'Dr. Mohamed El Hadedy',
   cost: 'Free to join',
-  pov: GLASSES_CONTENT.pov.clear,
   word: 'where',
   wpm: GLASSES_CONTENT.hud.wpm,
 } as const;
@@ -87,18 +101,7 @@ export const ventureStudies = {
   learns: [venture.learn1, venture.learn2],
 } as const;
 
-export const openSeats = teamMembers.map((m) => ({ id: m.id, role: m.role, open: m.isPlaceholder }));
-
-/**
- * "Arrive as / leave as". Left column = disciplines the site already names
- * (homeLanding join body + Smart Reading needs). Right column = the real
- * ownership sentences from phoneV2 / glasses / Venture Studies, turned to
- * "the person who…". Pairings are illustrative, not assignments.
- */
-export const becoming = [
-  { arrive: 'Computer science', leave: 'the person who takes a board from reset to a known state', source: 'Firmware / Embedded' },
-  { arrive: 'Engineering', leave: 'the person who decides where the frame ends and the board begins', source: 'Systems Architecture' },
-  { arrive: 'Design', leave: 'the person who makes each tap show that it worked', source: 'Apps / UX' },
-  { arrive: 'Business', leave: 'the person who defends a trade-off in front of a sponsor', source: 'Venture Studies' },
-  { arrive: 'Research', leave: 'the person who holds one word still for a reader', source: 'Smart Reading' },
-] as const;
+export const openSeats = teamMembers.map((m) => {
+  const [role, project] = m.role.split(' — ');
+  return { id: m.id, role: role ?? m.role, project, term: m.term, open: m.isPlaceholder };
+});

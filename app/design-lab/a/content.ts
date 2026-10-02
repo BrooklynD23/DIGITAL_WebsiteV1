@@ -18,7 +18,7 @@ const phoneRecord = projects.find((p) => p.slug === 'modular-smartphone');
 const readingRecord = projects.find((p) => p.slug === 'smart-reading');
 const venture = homeLandingCopy.results.cases.find((c) => c.title === 'Venture Studies');
 
-export const BLANK = '______';
+const JOIN_HREF = '/contact?type=project-team';
 
 export const masthead = {
   wordmark: siteConfig.name,
@@ -28,22 +28,24 @@ export const masthead = {
     { label: 'Studio', href: '#rules' },
     { label: 'Join', href: '#join' },
   ],
-  cta: { label: 'Take a subsystem', href: '/contact?type=project-team' },
-  meeting: `Build night · Thu 6:00 PM · Bldg 17, Rm 1635`,
+  cta: { label: 'Take a subsystem', href: JOIN_HREF },
+  meeting: 'Build night, Thursdays 6:00 PM, Bldg 17 Rm 1635',
 } as const;
 
 export const hero = {
-  // Canonical thesis (DESIGN.md §2.1 / homeLanding hero) split for the layout.
+  // Canonical thesis (DESIGN.md §2.1 / homeLanding hero).
   thesis: 'Make something worth putting your name on.',
   kicker: 'A student-run venture studio at Cal Poly Pomona',
   footnote: 'Worth it: you can explain every decision in it to a stranger.',
-  dek: 'Engineering, computer science, design and business students build real hardware here, one owned part at a time. This is the record of what is on the bench.',
+  dek: 'Engineering, computer science, design and business students build real hardware here, one owned part at a time.',
+  primary: { label: 'Take a subsystem', href: JOIN_HREF },
+  secondary: { label: 'See the work', href: '#work' },
   contents: [
     { n: '01', label: 'The work', href: '#work' },
-    { n: '02', label: 'How a build runs', href: '#rules' },
+    { n: '02', label: 'How the studio runs', href: '#rules' },
     { n: '03', label: 'Where you fit', href: '#fit' },
-    { n: '04', label: 'Credits', href: '#credits' },
-    { n: '05', label: 'Thursday', href: '#join' },
+    { n: '04', label: 'Masthead', href: '#staff' },
+    { n: '05', label: 'Thursday: take a subsystem', href: '#join' },
   ],
 } as const;
 
@@ -61,11 +63,12 @@ export const work = {
   chapter: '01',
   title: 'The work',
   lede: 'Two builds on the bench. One open slot.',
+  byline: 'Built by',
   phone: {
     id: 'DG-001',
     href: '/projects/modular-smartphone',
     title: phoneRecord?.title ?? 'The Modular Smartphone',
-    kicker: 'Hardware · flagship',
+    kicker: 'Hardware',
     splitFirst: 'One device.',
     splitSecond: 'Owned in parts.',
     body: [
@@ -82,13 +85,14 @@ export const work = {
       { k: 'Partner', v: 'None confirmed' },
       { k: 'Repo', v: 'Not public yet [confirm]' },
     ],
-    plate: '[ PROJECT PHOTO — DG-001 on the bench ] [placeholder]',
+    plate: '[ PHOTO: DG-001 on the bench ] [placeholder]',
+    take: 'Take one of these seven',
   },
   reading: {
     id: 'DG-002',
     href: '/projects/smart-reading',
     title: readingRecord?.title ?? 'Smart Reading',
-    kicker: 'Wearable · flagship',
+    kicker: 'Wearable',
     splitFirst: 'One word',
     splitSecond: 'at a time.',
     body: [
@@ -109,7 +113,6 @@ export const work = {
     ],
     words: GLASSES_CONTENT.pov.words,
     demoWpm: GLASSES_CONTENT.hud.wpm,
-    plate: '[ PROJECT PHOTO — DG-002 prototype on a reader ] [placeholder]',
   },
   venture: {
     kicker: venture?.kicker ?? 'Technical Entrepreneurship',
@@ -121,7 +124,8 @@ export const work = {
     id: 'DG-003',
     title: 'Pitch the next build.',
     line: 'This slot is empty. The next project starts as a proposal someone brings on a Thursday.',
-    href: '/contact?type=project',
+    // general topic: ?type=project pre-selects the phone project (contactTopics.ts:8,27).
+    href: '/contact?type=general',
     cta: 'Propose a build',
   },
 } as const;
@@ -130,13 +134,14 @@ export const work = {
 export const ledger = [
   { id: 'DG-001', anchor: '#dg-001', title: work.phone.title, problem: 'Phones nobody can repair', status: 'Active' },
   { id: 'DG-002', anchor: '#dg-002', title: work.reading.title, problem: 'Reading means chasing the line', status: 'Active' },
-  { id: 'DG-003', anchor: '#dg-003', title: 'Unsigned', problem: 'Your proposal', status: 'Open' },
+  { id: 'DG-003', anchor: '#dg-003', title: 'Unsigned', problem: 'Problem: blank', status: 'Open' },
 ] as const;
 
 export const rules = {
   chapter: '02',
-  title: 'How a build runs',
-  lede: 'Four rules hold every build together.',
+  title: 'How the studio runs',
+  // The four rules are DG-001's ownership model (phoneV2.ts); scoped until the club confirms them studio-wide.
+  lede: 'Four rules hold DG-001 together.',
   glosses: [
     'You take a subsystem.',
     'Someone reviews every handoff.',
@@ -149,20 +154,34 @@ export const fit = {
   chapter: '03',
   title: 'Where you fit',
   lede: 'Products need more than programmers.',
-  columns: [
-    { head: 'DG-001 needs', items: subsystems.map((s) => s.title) },
-    { head: 'DG-002 needs', items: ['Engineering', 'Optics', 'Firmware', 'Design', 'Research'] },
-    { head: 'Venture Studies needs', items: ['Budgets', 'Sponsor briefs', 'Pitches'] },
+  rows: [
+    { head: 'DG-001', text: 'Any of the seven subsystems in Fig. 2, from systems architecture to integration and testing.' },
+    { head: 'DG-002', text: 'Engineering, optics, firmware, design, research.' },
+    { head: 'Venture Studies', text: 'Budgets, sponsor briefs, pitches.' },
   ],
   note: 'Bring engineering, computer science, design, or business. No project experience required.',
 } as const;
 
-export const credits = {
+const officerIds = new Set(['president', 'vice-president', 'secretary', 'treasurer']);
+
+export const staff = {
   chapter: '04',
-  title: 'Credits',
-  lede: 'The credits are blank.',
-  line: `Seven seats are open for ${teamMembers[0]?.term ?? '2026–27'}. A name goes on the line when someone takes one.`,
-  seats: teamMembers.map((m) => ({ id: m.id, role: m.role, filled: !m.isPlaceholder })),
+  title: 'Masthead',
+  lede: 'The masthead is blank.',
+  edition: `Edition ${teamMembers[0]?.term ?? '2026–27'}`,
+  line: 'Seven seats, no names yet. A name goes in when someone takes the seat.',
+  groups: [
+    {
+      head: 'Officers',
+      seats: teamMembers.filter((m) => officerIds.has(m.id)).map((m) => ({ id: m.id, role: m.role, desk: '' })),
+    },
+    {
+      head: 'Project leads',
+      seats: teamMembers
+        .filter((m) => !officerIds.has(m.id))
+        .map((m) => ({ id: m.id, role: 'Lead', desk: m.role.replace(/^Project Lead\s*[—-]\s*/, '') })),
+    },
+  ],
   cta: { label: 'Apply for a seat', href: '/contact?type=leadership' },
 } as const;
 
@@ -174,16 +193,17 @@ export const join = {
   place: `${meetingInfo.location} · ${meetingInfo.campus}`,
   description: meetingInfo.description,
   steps: [
-    { n: '1', text: 'Come to build night. Free to join.' },
+    { n: '1', text: 'Come to build night. No project experience required.' },
     { n: '2', text: 'Pick a subsystem, or a need from a build.' },
     { n: '3', text: 'Take it through the test gate. Sign it.' },
   ],
-  close: 'Put your name on one.',
-  primary: { label: 'Take a subsystem', href: '/contact?type=project-team' },
+  primary: { label: 'Take a subsystem', href: JOIN_HREF },
   discord: { label: 'Watch first on Discord', href: siteConfig.community.discord },
 } as const;
 
 export const colophon = {
+  close: 'The next edition prints when these lines fill.',
+  closeNote: '[copy, confirm]',
   name: siteConfig.fullName,
   email: siteConfig.contact.email,
   discord: siteConfig.community.discord,

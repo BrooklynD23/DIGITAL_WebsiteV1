@@ -11,7 +11,7 @@ const mobile = flags.includes('--mobile');
 const qFlag = flags.find((f) => f.startsWith('--query='));
 const query = qFlag ? qFlag.slice('--query='.length) : '';
 const base = process.env.LAB_URL ?? 'http://localhost:3100';
-const tag = mobile ? 'm' : 'd';
+const tag = (mobile ? 'm' : 'd') + (query.includes('fx=off') ? '-still' : '');
 
 function findHeadlessShell() {
   const root = join(homedir(), '.cache', 'ms-playwright');
@@ -69,6 +69,11 @@ if (await legend.count()) {
 }
 
 await page.locator('label', { hasText: 'Smart Reading' }).first().click();
+await page.waitForTimeout(500);
+await page.locator('label', { hasText: 'Unsigned' }).first().click();
+await page.waitForTimeout(120);
+await shot('interrupt');
+await page.locator('label', { hasText: 'Smart Reading' }).first().click();
 await page.waitForTimeout(900);
 await shot('reading-mid');
 await page.waitForTimeout(1600);
@@ -79,7 +84,7 @@ await page.waitForTimeout(2000);
 await shot('unsigned');
 const input = page.locator('#c-sign');
 if (await input.count()) {
-  await input.fill('Your Name');
+  await input.fill(process.env.SIGN_NAME ?? 'Your Name');
   await page.waitForTimeout(2400);
   await shot('signed');
 }
@@ -99,6 +104,11 @@ if (await orb.count()) {
   await page.waitForTimeout(1500);
   await shot('stage');
 }
+
+const foot = page.getByRole('img', { name: /signature line/i }).first();
+await foot.scrollIntoViewIfNeeded();
+await page.waitForTimeout(1200);
+await shot('footer');
 
 await page.close();
 await ctx.close();

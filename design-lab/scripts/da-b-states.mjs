@@ -46,18 +46,25 @@ try {
   const note4 = await page.textContent('[class*="runDiagram"]');
   check('S4 lists H3 + H4 with S5', /H3/.test(note4 ?? '') && /H4/.test(note4 ?? '') && /S5 Apps/.test(note4 ?? ''));
   await page.locator('#process').screenshot({ path: join(out, 'process-s4.png') });
-  // rsvp
+  // rsvp: single shot, then hold on the last word
   await page.locator('#dg-002').scrollIntoViewIfNeeded();
-  await page.waitForTimeout(800);
-  const w1 = await page.textContent('[class*="rsvpWord"]');
   await page.waitForTimeout(400);
+  const w1 = await page.textContent('[class*="rsvpWord"]');
+  await page.waitForTimeout(2200);
   const w2 = await page.textContent('[class*="rsvpWord"]');
-  check('RSVP plays when visible', w1 !== w2, `${w1} → ${w2}`);
-  await page.click('button[aria-label="Pause word stream"]');
+  await page.waitForTimeout(800);
   const w3 = await page.textContent('[class*="rsvpWord"]');
-  await page.waitForTimeout(500);
+  check('RSVP runs one pass then holds on last word', w2 === 'look.' && w3 === 'look.', `${w1} → ${w2} → ${w3}`);
+  await page.click('button:has-text("Run again")');
+  await page.waitForTimeout(300);
   const w4 = await page.textContent('[class*="rsvpWord"]');
-  check('RSVP pause holds', w3 === w4, `${w3}`);
+  check('Run again replays', w4 !== 'look.', w4 ?? '');
+  // anchor jump keeps record strip visible under the 56px nav
+  await page.evaluate(() => { window.scrollTo(0, 0); location.hash = ''; });
+  await page.click('a[href="#dg-002"]');
+  await page.waitForTimeout(400);
+  const top = await page.evaluate(() => document.getElementById('dg-002').getBoundingClientRect().top);
+  check('index jump lands record below nav', top >= 56, `top ${Math.round(top)}px`);
   check('0 console errors (desktop)', errors.length === 0, errors.slice(0, 2).join(' | '));
   await ctx.close();
 
@@ -95,9 +102,13 @@ try {
     check(`no horizontal overflow @${w}`, ov <= 0, `${ov}px`);
     // touch targets
     const small = await p.$$eval('#lab-b a, #lab-b button, #lab-b summary', (els) =>
-      els.filter((e) => { const r = e.getBoundingClientRect(); return r.width > 0 && r.height > 0 && r.height < 24; }).map((e) => (e.textContent || e.getAttribute('aria-label') || '').trim().slice(0, 30)),
+      els.filter((e) => { const r = e.getBoundingClientRect(); const inline = getComputedStyle(e).display === 'inline'; return !inline && r.width > 0 && r.height > 0 && r.height < 44; }).map((e) => (e.textContent || e.getAttribute('aria-label') || '').trim().slice(0, 30)),
     );
-    check(`targets ≥24px @${w}`, small.length === 0, small.join(', '));
+    const hits = await p.$$eval('#lab-b svg a', (as) => as.map((a) => a.getBoundingClientRect()).filter((r) => r.width > 0).map((r) => Math.round(r.height)));
+    check(`Fig. 1 link hit areas ≥44px @${w}`, hits.every((h) => h >= 44), hits.join(','));
+    check(`non-inline targets ≥44px @${w}`, small.length === 0, small.join(' | '));
+    const tiny = await p.$$eval('#lab-b *', (els) => els.filter((e) => !e.closest('[class*="srOnly"]') && e.childNodes.length && [...e.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim()) && e.getBoundingClientRect().width > 0 && parseFloat(getComputedStyle(e).fontSize) * (e.ownerSVGElement ? Math.hypot(e.getScreenCTM().a, e.getScreenCTM().b) : 1) < 11.5).map((e) => `${e.tagName}:${e.textContent.trim().slice(0, 12)}:${(parseFloat(getComputedStyle(e).fontSize) * (e.ownerSVGElement ? Math.hypot(e.getScreenCTM().a, e.getScreenCTM().b) : 1)).toFixed(1)}`));
+    check(`rendered text ≥12px @${w}`, tiny.length === 0, `${tiny.length} under ${tiny.slice(0, 6).join(' | ')}`);
     await c.close();
   }
 } finally {

@@ -4,10 +4,10 @@ import VerticalCutReveal from './fancy/vertical-cut-reveal';
 import TextHighlighter from './fancy/text-highlighter';
 import MediaBetweenText from './fancy/media-between-text';
 import RsvpPlate from './RsvpPlate';
-import { FigSubsystems, PhoneGlyph, PhotoPlate, WordGlyph } from './Figures';
+import Byline from './Byline';
+import { FigCover, FigSpread, PhoneGlyph, PhotoPlate, WordGlyph } from './Figures';
 import {
   colophon,
-  credits,
   fit,
   hero,
   join,
@@ -15,6 +15,7 @@ import {
   masthead,
   ownershipRules,
   rules,
+  staff,
   subsystems,
   work,
   workflowStages,
@@ -50,14 +51,6 @@ function Record({ rows, title }: { rows: readonly { k: string; v: string }[]; ti
             <dd>{r.v}</dd>
           </div>
         ))}
-        <div className={`${styles.recordRow} ${styles.recordSign}`}>
-          <dt>Built by</dt>
-          <dd>
-            <span className={styles.signLine}>
-              <span className={styles.srOnly}>Blank. No names confirmed yet.</span>
-            </span>
-          </dd>
-        </div>
       </dl>
     </aside>
   );
@@ -67,6 +60,17 @@ function splitRule(rule: string): { lead: string; mark: string; tail: string } {
   const m = /^one (.+?) (per|before) (.+)$/i.exec(rule);
   if (!m) return { lead: rule, mark: '', tail: '' };
   return { lead: 'One ', mark: m[1], tail: ` ${m[2]} ${m[3]}.` };
+}
+
+/** One thesis word = one masked cut. Words in a line share a delay so a line lands as a unit. */
+function W({ children, delay, className }: { children: string; delay: number; className?: string }) {
+  return (
+    <span className={[styles.w, className].filter(Boolean).join(' ')}>
+      <VerticalCutReveal delay={delay} staggerDuration={0}>
+        {children}
+      </VerticalCutReveal>
+    </span>
+  );
 }
 
 export default function ConceptAPage() {
@@ -101,23 +105,30 @@ export default function ConceptAPage() {
           <p className={styles.kicker}>{hero.kicker}</p>
           <h1 id="thesis" className={styles.thesis}>
             <span className={styles.srOnly}>{hero.thesis}</span>
+            {/* Desktop: 3 lines. Phone: every word is its own poster line (see .w in a.module.css). */}
             <span aria-hidden="true" className={styles.thesisLines}>
               <span className={styles.line1}>
-                <VerticalCutReveal staggerDuration={0.08}>Make something</VerticalCutReveal>
+                <W delay={0}>Make</W> <W delay={0} className={styles.wSomething}>something</W>
               </span>
               <span className={styles.line2}>
-                <VerticalCutReveal delay={0.16} staggerDuration={0.08}>worth</VerticalCutReveal>
-                <sup className={styles.fnMark}>1</sup>{' '}
-                <VerticalCutReveal delay={0.24} staggerDuration={0.08}>putting</VerticalCutReveal>
+                <span className={`${styles.w} ${styles.wWorth}`}>
+                  <VerticalCutReveal delay={0.07} staggerDuration={0}>
+                    worth
+                  </VerticalCutReveal>
+                  <sup className={styles.fnMark}>1</sup>
+                </span>{' '}
+                <W delay={0.07} className={styles.wPutting}>putting</W>
               </span>
               <span className={styles.line3}>
-                <VerticalCutReveal delay={0.32}>your</VerticalCutReveal>{' '}
-                <span className={styles.signName}>
+                <W delay={0.14}>your</W>{' '}
+                <span className={`${styles.w} ${styles.signName}`}>
                   <span className={styles.signX}>×</span>
-                  <VerticalCutReveal delay={0.4}>name</VerticalCutReveal>
+                  <VerticalCutReveal delay={0.14} staggerDuration={0}>
+                    name
+                  </VerticalCutReveal>
                   <span className={styles.signRule} />
                 </span>{' '}
-                <VerticalCutReveal delay={0.48}>on.</VerticalCutReveal>
+                <W delay={0.14} className={styles.wOn}>on.</W>
               </span>
             </span>
           </h1>
@@ -128,12 +139,17 @@ export default function ConceptAPage() {
                 <span className={styles.fnNum}>1</span> {hero.footnote}
               </p>
               <p className={styles.dek}>{hero.dek}</p>
-              <a href="#work" className={styles.textLink}>
-                See the work <ArrowRight {...ICON} size={16} />
-              </a>
+              <div className={styles.coverActions}>
+                <a href={hero.primary.href} className={styles.primaryCta}>
+                  {hero.primary.label} <ArrowRight {...ICON} size={18} />
+                </a>
+                <a href={hero.secondary.href} className={styles.textLink}>
+                  {hero.secondary.label} <ArrowRight {...ICON} size={16} />
+                </a>
+              </div>
             </div>
             <div className={styles.coverFig}>
-              <FigSubsystems items={subsystems} />
+              <FigCover items={subsystems} />
             </div>
             <nav aria-label="In this edition" className={styles.contents}>
               <p className={styles.contentsHead}>In this edition</p>
@@ -182,6 +198,7 @@ export default function ConceptAPage() {
               <h3 id="dg001-title" className={styles.featTitle}>
                 {phone.title}
               </h3>
+              <Byline label={work.byline} />
               <MediaBetweenText
                 firstText={phone.splitFirst}
                 secondText={phone.splitSecond}
@@ -194,28 +211,26 @@ export default function ConceptAPage() {
               <div className={styles.featBody}>
                 <p className={styles.dropcap}>{phone.body[0]}</p>
                 <p>{phone.body[1]}</p>
-                <ol className={styles.partsList}>
-                  {subsystems.map((s) => (
-                    <li key={s.id}>
-                      <span className={styles.partsNo}>{s.n}</span>
-                      <span className={styles.partsTitle}>{s.title}</span>
-                      <span className={styles.partsDesc}>{s.description}</span>
-                    </li>
-                  ))}
-                </ol>
                 <a href={phone.href} className={styles.textLink}>
                   Open the DG-001 build <ArrowRight {...ICON} size={16} />
                 </a>
               </div>
-              <Record rows={phone.record} title={phone.title} />
+              <div className={styles.recordCol}>
+                <Record rows={phone.record} title={phone.title} />
+                <figure className={styles.marginPlate}>
+                  <PhotoPlate label={phone.plate} />
+                  <figcaption className={styles.caption}>
+                    <span className={styles.figNo}>Plate</span> Reserved for a real bench photo. None exists yet.
+                  </figcaption>
+                </figure>
+              </div>
             </div>
-            <figure className={styles.plateFig}>
-              <PhotoPlate label={phone.plate} ratio="3 / 1" />
-              <figcaption className={styles.caption}>
-                <span className={styles.figNo}>Fig. 2</span> Reserved for a real bench photo of DG-001. No photo
-                exists yet.
-              </figcaption>
-            </figure>
+            <FigSpread items={subsystems} />
+            <p className={styles.takeLine}>
+              <a href={masthead.cta.href} className={styles.textLink}>
+                {phone.take} <ArrowRight {...ICON} size={16} />
+              </a>
+            </p>
           </article>
 
           {/* DG-002 */}
@@ -227,6 +242,7 @@ export default function ConceptAPage() {
               <h3 id="dg002-title" className={styles.featTitle}>
                 {reading.title}
               </h3>
+              <Byline label={work.byline} />
               <MediaBetweenText
                 firstText={reading.splitFirst}
                 secondText={reading.splitSecond}
@@ -237,7 +253,7 @@ export default function ConceptAPage() {
             </div>
             <div className={styles.featGrid}>
               <div className={styles.featBody}>
-                <p className={styles.dropcap}>{reading.body[0]}</p>
+                <p className={styles.leadPara}>{reading.body[0]}</p>
                 <p>{reading.body[1]}</p>
                 <p>{reading.body[2]}</p>
                 <RsvpPlate words={reading.words} demoWpm={reading.demoWpm} />
@@ -245,7 +261,9 @@ export default function ConceptAPage() {
                   Open the DG-002 build <ArrowRight {...ICON} size={16} />
                 </a>
               </div>
-              <Record rows={reading.record} title={reading.title} />
+              <div className={styles.recordCol}>
+                <Record rows={reading.record} title={reading.title} />
+              </div>
             </div>
           </article>
 
@@ -278,7 +296,7 @@ export default function ConceptAPage() {
           </div>
         </section>
 
-        {/* ───────────── 02 How a build runs ───────────── */}
+        {/* ───────────── 02 How the studio runs ───────────── */}
         <section id="rules" className={`${styles.chapter} ${styles.rulesChapter}`} aria-labelledby="rules-title">
           <ChapterHead n={rules.chapter} title={rules.title} lede={rules.lede} id="rules-title" />
           <ol className={styles.rules}>
@@ -301,52 +319,63 @@ export default function ConceptAPage() {
               );
             })}
           </ol>
-          <p className={styles.rail} aria-label={`Workflow: ${workflowStages.join(', then ')}`}>
+          <ol className={styles.rail} aria-label="Workflow">
             {workflowStages.map((s, i) => (
-              <span key={s} className={styles.railStage} aria-hidden="true">
+              <li key={s} className={styles.railStage}>
                 <span className={styles.railNo}>{i + 1}</span>
                 {s}
-              </span>
+              </li>
             ))}
-          </p>
+          </ol>
         </section>
 
         {/* ───────────── 03 Where you fit ───────────── */}
         <section id="fit" className={styles.chapter} aria-labelledby="fit-title">
           <ChapterHead n={fit.chapter} title={fit.title} lede={fit.lede} id="fit-title" />
-          <div className={styles.fitGrid}>
-            {fit.columns.map((col) => (
-              <div key={col.head} className={styles.fitCol}>
-                <h3 className={styles.fitHead}>{col.head}</h3>
+          <dl className={styles.fitList}>
+            {fit.rows.map((row) => (
+              <div key={row.head} className={styles.fitRow}>
+                <dt>{row.head}</dt>
+                <dd>{row.text}</dd>
+              </div>
+            ))}
+          </dl>
+          <p className={styles.fitNote}>{fit.note}</p>
+        </section>
+
+        {/* ───────────── 04 Masthead (staff box) ───────────── */}
+        <section id="staff" className={`${styles.chapter} ${styles.staffChapter}`} aria-labelledby="staff-title">
+          <div className={styles.staffIntro}>
+            <ChapterHead n={staff.chapter} title={staff.title} lede={staff.lede} id="staff-title" />
+            <p className={styles.staffLine}>{staff.line}</p>
+            <a href={staff.cta.href} className={styles.textLink}>
+              {staff.cta.label} <ArrowRight {...ICON} size={16} />
+            </a>
+          </div>
+          <aside className={styles.staffBox} aria-label="Masthead, all seats open">
+            <p className={styles.staffBoxHead}>
+              <span className={styles.staffBoxName}>{masthead.wordmark}</span>
+              <span className={styles.staffBoxEdition}>{staff.edition}</span>
+            </p>
+            {staff.groups.map((g) => (
+              <div key={g.head} className={styles.staffGroup}>
+                <p className={styles.staffGroupHead}>{g.head}</p>
                 <ul>
-                  {col.items.map((item) => (
-                    <li key={item}>{item}</li>
+                  {g.seats.map((seat) => (
+                    <li key={seat.id} className={styles.staffRow}>
+                      <span className={styles.staffRole}>
+                        {seat.role}
+                        {seat.desk ? <span className={styles.staffDesk}>{seat.desk}</span> : null}
+                      </span>
+                      <span className={styles.staffBlank}>
+                        <span className={styles.srOnly}>open seat, no name yet</span>
+                      </span>
+                    </li>
                   ))}
                 </ul>
               </div>
             ))}
-          </div>
-          <p className={styles.fitNote}>{fit.note}</p>
-        </section>
-
-        {/* ───────────── 04 Credits ───────────── */}
-        <section id="credits" className={styles.chapter} aria-labelledby="credits-title">
-          <ChapterHead n={credits.chapter} title={credits.title} lede={credits.lede} id="credits-title" />
-          <p className={styles.creditsLine}>{credits.line}</p>
-          <ul className={styles.credits}>
-            {credits.seats.map((seat) => (
-              <li key={seat.id} className={styles.creditRow}>
-                <span className={styles.creditRole}>{seat.role}</span>
-                <span className={styles.creditLeader} aria-hidden="true" />
-                <span className={styles.signLine}>
-                  <span className={styles.srOnly}>Open seat, no name yet.</span>
-                </span>
-              </li>
-            ))}
-          </ul>
-          <a href={credits.cta.href} className={styles.textLink}>
-            {credits.cta.label} <ArrowRight {...ICON} size={16} />
-          </a>
+          </aside>
         </section>
 
         {/* ───────────── 05 Thursday / Join ───────────── */}
@@ -357,7 +386,7 @@ export default function ConceptAPage() {
             <span>{join.title}</span>
           </p>
           <h2 id="join-title" className={styles.joinWhen}>
-            <span>{join.day}</span> <span className={styles.joinTime}>{join.time}</span>
+            {join.day} <span className={styles.joinTime}>{join.time}</span>
           </h2>
           <div className={styles.joinGrid}>
             <div>
@@ -373,7 +402,6 @@ export default function ConceptAPage() {
               ))}
             </ol>
           </div>
-          <p className={styles.joinClose}>{join.close}</p>
           <div className={styles.joinActions}>
             <a href={join.primary.href} className={styles.primaryCta}>
               {join.primary.label} <ArrowRight {...ICON} />
@@ -386,8 +414,11 @@ export default function ConceptAPage() {
         </section>
       </div>
 
-      {/* ───────────── Colophon ───────────── */}
+      {/* ───────────── Colophon (the edition closes here) ───────────── */}
       <footer className={styles.colophon}>
+        <p className={styles.colophonClose}>
+          {colophon.close} <span className={styles.colophonNote}>{colophon.closeNote}</span>
+        </p>
         <p className={styles.colophonMark}>{masthead.wordmark}</p>
         <div className={styles.colophonGrid}>
           <div>

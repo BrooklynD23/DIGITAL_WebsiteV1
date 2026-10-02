@@ -125,3 +125,49 @@ Every generated image shows `[placeholder]` in its visible caption **and** at th
 4. **Global chrome override:** the root layout always renders the production Navbar/Footer/cursor. `layout.tsx` hides them with a `body:has([data-concept="d"])` style tag (needs `:has`, which is fine in evergreen browsers). The prototype's `<header>`/`<footer>` sit inside the root `<main>`, so their landmark roles are lost. Production would need its own layout.
 5. Exploratory pairings ("Computer science → the person who takes a board from reset to a known state") are illustrative. Each needs club sign-off so they don't read as role assignments.
 6. Fontshare is not used. No new deps needed.
+
+## v2 changes (Wave 4 refinement, §36)
+
+Inputs: `critiques/d-by-c.md`, `critiques/crit3-d/gemini-motion.md`, `critiques/micro-d.md`, `critiques/a11y-d.md`, orchestrator must-fix.
+Renders: `design-lab/renders/d/v2/d-{desktop,tablet,mobile}.png` (stitched), crops in `v2/crops/`, checks in `v2/checks/`.
+Sections 3, 8 and 10 above describe v1. Where they conflict with this section, this section wins.
+
+### Images (BRIEF rule 4)
+| Image | v2 | Why |
+|---|---|---|
+| `d-workbench.webp` (hero) | **Removed** | Its 3D-printed phone enclosure implied a physical DG-001 prototype exists |
+| `d-hands.webp` (DG-001) | **Removed** | Hands beside DG-001 read as members working on the real build |
+| `d-whiteboard.webp` (How) | **Removed** | It mimicked the real subsystem map; the pencil now draws that map from `phoneV2.ts` |
+| `d-book-pov.webp` (DG-002) | **Removed** | Replaced by the pencil method plate (consistency; the real asset stays on `/projects/smart-reading`) |
+| `d-room.webp` | **Kept, moved to the hero** | An empty room, no hardware and no people, can't be read as DIGITAL work. It renders as a desaturated proof print (`.proof`). Caption and alt start with `[placeholder]`, and the caption also says "not Building 17" |
+
+Gemini images this pass: **0**. Lab D total: still 4 generated, now **1 shipped** (`public/design-lab/d/` holds only `d-room.webp`, 80 KB).
+
+### Applied (fix-now, 8)
+1. **Each build draws its own artifact (X3, P1, must-fix).** DG-001 shows a pencil "ownership stack" of the 7 real subsystems, with review hooks on every handoff. It's captioned "an ownership map, not a hardware stack". DG-002 shows saccade hops and a return sweep along lines of text (the problem), beside one word in a frame with fixation marks (RSVP). Both are Rough.js, server-rendered, on a faint 5mm engineer's-pad grid (B2).
+2. **Work moves up (H1, R1).** "Who you become" is folded into the seats. The seat H2 is now "You arrive with a major. You leave owning a part.", and each panel opens with "You leave as the person who…", paraphrasing that subsystem's own bullets. Mobile height: 11,190 → ~9,600px. Desktop: 7,906 → ~6,360px.
+3. **The chosen seat is carried down the page, with no JS (X2, lab item).** The checked radio drives, through `.root:has(input[value=…]:checked) [data-echo=…]`, Join step 3 ("Take the Hardware / PCB seat."), the primary CTA (`/contact?type=project-team&seat=<id>`), the footer close ("Put your name on Hardware / PCB.") and the signature caption ("Owner, Hardware / PCB"). A fallback for browsers without `:has()` shows generic text. Blanks went from 18 to 3 (hero tag, seat panel OWNER, footer). The records now say "Seven owner slots. Names are added at sign-off.", and sign-up sheet rows use a dotted leader instead of rough blanks. Verified by script: after ArrowRight, all 4 echoes read "Integration / Testing".
+4. **One sequenced drawing (M1, M2, M3).** Only the How rail animates: the line draws first (1300ms), then circles 1→6 every 190ms, ending on the red "Signed". The order comes from a per-drawable `--i` in `sketch.tsx`. All other sketches default to `still`. The observer now starts 10% *before* entry (`threshold: 0`). Probe (`da-d-drawprobe.mjs`): rail 0.97 → 0.20 → 0.00, c6 1.00 → 1.00 → 0.11 at 600/1200/2200ms. The fill fade now uses the spec UI curve (micro #20).
+5. **Mobile navigation (U2, a11y #3).** Below 960px a native `<details>` "Contents" index card (ruled lines, 44px rows) offers The work, How, Seats and Come Thursday. It works without JS. At ≤640 the CTA reads "Thu 6 PM ↓".
+6. **Seat panel announced (U3, micro #19, a11y #1).** Each radio has `aria-describedby="seat-desc-<id>"`, pointing at that panel's leave-as line, description and bullets. Still CSS-only.
+7. **One CTA intent per label (U1, TA2).** "Come Thursday ↓" (nav + hero) is plainly a jump to Join. The only form CTA is the seat-specific "Take the … seat". A secondary "Ask a question instead" goes to `?type=membership`.
+8. **Join headline and copy hygiene (T1, T2, T4, TA1, TA3, TA6).** The Join H2 is two deliberate lines ("Thursday, 6:00 PM." / "Building 17, Room 1635.") with nbsp and a 4rem cap. Photo and plate captions are Figtree italic, with only `[placeholder]` in mono. Step numerals run 1–6. Eyebrows went from 6 to 3 (hero, Pull up a chair, Come build). The hero lead is 19 words. Leadership roles are split on " — " into role / project, so no em-dash renders.
+
+Trivial lab items (not counted): the production cursor elements stay hidden and `html{cursor:auto!important}` is unchanged in `layout.tsx`; the production skip link is now hidden too (micro #24). The nav is solid paper (U4). `::selection` is a red tint. "Seats"/"Terms" are ≥44px wide. The sign-up sheet is a `<section>` (a11y #2). The wordmark gets the hover underline (micro #6). The DG-002 link reads "Open Smart Reading" (U5). The hero BUILT BY tag sits on the paper, not on the photo. **Accent text check:** `#d8412f` is used only for non-text marks (underline, status dot, chair fill, Signed circle). Text uses `#a8321f` (5.8:1 on paper). The Join numerals on night use `#ef6a55` (5.3:1). No white-on-`#d8412f` fill exists.
+
+### Rejected (with reason)
+- **Seat-panel crossfade / sliding indicator (Gemini motion #3):** sliding and fading isn't D's pencil language (the critic agrees, M4).
+- **"Footer accordion opens instantly" (Gemini):** false; D has no accordion.
+- **Accordions or carousels for record fields on mobile (v1 Gemini):** §41 wants the fields visible. The length problem was solved by the fold (item 2) instead.
+- **Third-person rewrite of How (B1):** How is the visitor's path ("from your seat"). Records were already third person. Second person is now confined to the hero, How, seats and Join, which is where the visitor acts.
+- **Engineer's grid page-wide:** limited to plates and the How band so it reads as one object, not wallpaper.
+
+### Deferred
+- **Pencil ring and owner-blank redraw on seat change (M4):** needs per-chair SVG; low value next to item 3.
+- **Fraunces subsetting / static instances (F3):** production concern.
+- **CursorProvider rAF opt-out (micro #8) and `/design-lab` in `IMMERSIVE_PREFIXES` (F4, landmarks):** orchestrator-owned (`components/`, `lib/`).
+- **Middle dots in mono meta lines (TA4):** reduced (fields now comma lists; spec lines use " / "), but the `DG-00x ·` id rows keep them.
+- **Production `/contact` doesn't read `&seat=`:** harmless today; needs a contact-form change to prefill the topic.
+
+### Checks (v2)
+`shoot.mjs` ×3 loops: 0 console errors at 1440/834/390 · `da-d-check.mjs`: overflow 0px, 0 targets under 44px, click + ArrowRight switch panels, echo verified, no-JS shows H1 + 87 server sketch paths, reduced motion leaves 0 undrawn paths · `npx tsc --noEmit` exit 0.

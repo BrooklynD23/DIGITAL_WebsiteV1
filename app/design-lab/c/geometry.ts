@@ -331,7 +331,7 @@ export function glassesCloud(): GlassesCloud {
     ...polySegs(superellipse(cx, 0, 0.4, 0.27), front, true),
     ...polySegs(superellipse(cx, 0, 0.44, 0.31), front, true),
   ]);
-  groups.push([rims, 1900]);
+  groups.push([rims, 2200]);
   const bridge: P2[] = Array.from({ length: 12 }, (_, i) => {
     const t = i / 11;
     return [-0.06 + 0.12 * t, 0.1 + Math.sin(t * Math.PI) * 0.07] as P2;
@@ -406,40 +406,48 @@ export const SIGN_CROSS_POINTS = 160;
 export const SIGN_DUST_POINTS = 720;
 export const SIGN_NAME_POINTS = POINT_COUNT - SIGN_LINE_POINTS - SIGN_CROSS_POINTS - SIGN_DUST_POINTS;
 
-/** Name-glyph slots when nothing is signed: unformed material above the line. */
-function unformed(rand: () => number, n: number): number[] {
-  const out: number[] = [];
-  for (let i = 0; i < n; i += 1) {
-    const a = rand() * Math.PI * 2;
-    const r = Math.sqrt(rand());
-    out.push(Math.cos(a) * r * 0.95, 0.16 + Math.sin(a) * r * 0.42, (rand() - 0.5) * 1.4);
-  }
-  return out;
-}
+const BASELINE_SEG: Seg = [-1.02, SIGN_BASELINE_Y, 0, 1.02, SIGN_BASELINE_Y, 0];
 
-/**
- * Signature cloud. `namePoints` (world coords, flat xyz) replaces the unformed
- * material when a visitor signs; pass null for the blank line.
- */
-export function signCloud(namePoints: Float32Array | null): Float32Array {
-  const rand = mulberry32(3003);
+function signLineAndCross(rand: () => number, namePoints: Float32Array | null): number[] {
   const pos: number[] = [];
-  pos.push(...sampleSegs([[-1.02, SIGN_BASELINE_Y, 0, 1.02, SIGN_BASELINE_Y, 0]], SIGN_LINE_POINTS, rand, 0.006));
+  pos.push(...sampleSegs([BASELINE_SEG], SIGN_LINE_POINTS, rand, 0.006));
   const cx = -0.98;
   const cy = SIGN_BASELINE_Y + 0.13;
   pos.push(...sampleSegs([[cx - 0.05, cy - 0.05, 0, cx + 0.05, cy + 0.05, 0], [cx - 0.05, cy + 0.05, 0, cx + 0.05, cy - 0.05, 0]], SIGN_CROSS_POINTS, rand, 0.004));
-  for (let i = 0; i < SIGN_DUST_POINTS; i += 1) {
-    pos.push((rand() - 0.5) * 2.3, (rand() - 0.5) * 1.9, (rand() - 0.5) * 1.6);
-  }
   if (namePoints && namePoints.length === SIGN_NAME_POINTS * 3) {
     pos.push(...Array.from(namePoints));
   } else {
-    pos.push(...unformed(rand, SIGN_NAME_POINTS));
+    // Unsigned: the name's material waits on the line, so the line is literally blank.
+    pos.push(...sampleSegs([BASELINE_SEG], SIGN_NAME_POINTS, rand, 0.008));
+  }
+  return pos;
+}
+
+/**
+ * Signature cloud. `namePoints` (world coords, flat xyz) forms the name above
+ * the line when a visitor signs; null = a blank line.
+ */
+export function signCloud(namePoints: Float32Array | null): Float32Array {
+  const rand = mulberry32(3003);
+  const pos = signLineAndCross(rand, namePoints);
+  for (let i = 0; i < SIGN_DUST_POINTS; i += 1) {
+    pos.push((rand() - 0.5) * 2.3, (rand() - 0.5) * 1.9, (rand() - 0.5) * 1.6);
   }
   shuffle(pos, mulberry32(99));
   orderForMorph(pos);
   return Float32Array.from(pos);
 }
+
+/** Line + cross + name only (no loose material): the footer's remembered signature. */
+export function signatureDots(namePoints: Float32Array | null): Float32Array {
+  const pos = signLineAndCross(mulberry32(3003), namePoints);
+  shuffle(pos, mulberry32(99));
+  return Float32Array.from(pos);
+}
+
+/** viewBoxes for the signature band, in SVG space: signed (line + name) and blank (line + × only). */
+export const SIGNATURE_VIEWBOX = `-1.06 ${(-(SIGN_BASELINE_Y + 0.62)).toFixed(2)} 2.12 0.72`;
+export const SIGNATURE_VIEWBOX_BLANK = `-1.06 ${(-(SIGN_BASELINE_Y + 0.2)).toFixed(2)} 2.12 0.26`;
 
 /* ------------------------------------------------------------------ */
 /* SVG poster helpers                                                  */

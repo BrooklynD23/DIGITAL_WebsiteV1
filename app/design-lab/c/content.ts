@@ -149,7 +149,7 @@ export const records: readonly BuildRecord[] = [
       { k: 'Toolchain', v: NO_SIGNAL, note: 'two conflicting stacks in the data; confirm with the club' },
       { k: 'Duration', v: NO_SIGNAL },
       { k: 'Outcome', v: NO_SIGNAL },
-      { k: 'Built by', v: NO_SIGNAL, note: 'BUILT BY ______ [placeholder]' },
+      { k: 'Built by', v: NO_SIGNAL, note: 'no names recorded yet' },
       { k: 'Partner', v: NO_SIGNAL },
       { k: 'Repo / demo', v: NO_SIGNAL },
     ],
@@ -169,7 +169,7 @@ export const records: readonly BuildRecord[] = [
       { k: 'Duration', v: '8-month build cycle' },
       { k: 'Mentor', v: 'Dr. Mohamed El Hadedy' },
       { k: 'Outcome', v: NO_SIGNAL },
-      { k: 'Built by', v: NO_SIGNAL, note: 'BUILT BY ______ [placeholder]' },
+      { k: 'Built by', v: NO_SIGNAL, note: 'no names recorded yet' },
       { k: 'Repo / demo', v: NO_SIGNAL },
     ],
   },
@@ -201,7 +201,7 @@ export const work = {
 export const process = {
   eyebrow: 'How a build runs',
   title: 'You take a subsystem. You own it through the test gate.', // LAB COPY (copy direction 3)
-  sub: 'Every subsystem moves through the same four stages. The marks below are the stages, not a progress bar: the current phase is still being confirmed.', // LAB COPY
+  sub: 'Every subsystem passes the same four stages.', // LAB COPY
 };
 
 const discord = communityChannels.find((c) => c.id === 'discord');
@@ -222,7 +222,11 @@ export const join = {
 
 export const footer = {
   vision: VISION_LINE,
-  close: 'Put your name on one.', // LAB COPY (copy direction 10)
+  // LAB COPY: the close remembers the hero signature (FooterSignature.tsx)
+  blankTitle: 'This line is still blank.',
+  blankSub: 'Sign it in the hero, or bring a build idea to Thursday build night.',
+  signedTitle: 'Signed. Now build it.',
+  signedSub: `Your name stays in this tab. Bring it to build night: ${meetingInfo.schedule}, ${meetingInfo.location}.`,
   legal: homeLandingCopy.footer.legal,
   labNote: 'Design lab · concept C · not production. Fields marked "No signal" are unrecorded, not empty.',
 };

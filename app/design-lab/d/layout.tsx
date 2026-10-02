@@ -15,7 +15,8 @@ export const metadata: Metadata = {
 const HIDE_GLOBAL_CHROME = `
 body:has([data-concept="d"]) > nav[aria-label="Primary"],
 body:has([data-concept="d"]) > footer,
-body:has([data-concept="d"]) > div[style*="--ds-z-cursor"] { display: none !important; }
+body:has([data-concept="d"]) > div[style*="--ds-z-cursor"],
+body:has([data-concept="d"]) > a[href="#main-content"] { display: none !important; }
 html:has([data-concept="d"]) { cursor: auto !important; }
 `;
 

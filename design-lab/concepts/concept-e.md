@@ -202,3 +202,38 @@ Checks (`scripts/da-e-motion.mjs`): 0 console errors; reduced motion → Lenis o
 section copy present, ledger rows are links; keyboard → Enter opens brief, focus on Close, Tab trapped, Esc returns focus to the row.
 Capture note: headless Chromium tiles full-page PNGs past ~8192px, so `e-*.png` repeat near the bottom. Use
 `e-*-stitched.png` (`scripts/da-e-stitch.mjs`, reduced-motion static layout) for the whole page.
+
+## v2 changes (Wave 4 refinement, §36)
+
+Inputs: `critiques/e-by-d.md`, `e-gemini-motion.md` (+ orchestrator cross-check), `micro-e.md`, `a11y-e.md`. Thesis unchanged: the page is the ledger.
+Renders: `renders/e/v2/` (`e-{desktop,tablet,mobile}.png`, `scrub-{8,50,95}.png`, `motion-*.png`, `motion.webm`, `reduced-seq.png`, `nojs-mobile-hero.png`).
+
+### Applied: fix-now (8)
+
+| # | Finding | Fix | Verified |
+|---|---|---|---|
+| 1 | Page never idle (123 rAF/s at rest, 64/s reduced) | Lenis `autoRaf:false` + on-demand loop that stops 4 frames after settling (`SmoothScroll.tsx`). **ScrollTrigger removed**: its `_rafBugFix` loop (`gsap/ScrollTrigger.js:61`) runs every frame while enabled. Replaced by a paused GSAP timeline scrubbed with `tl.progress()` from native scroll events (one rAF per scroll frame), GSAP lazy-imported only when `(min-width:960px) and (prefers-reduced-motion:no-preference)`, ticker put to sleep after setup | `da-e-idle.mjs`: E = **0 rAF/s** at rest and after scroll, both modes (the production CursorProvider still runs 60/s, hidden but out of scope) |
+| 2 | RSVP broken at 390 | `<600px`: `aspect-ratio:auto; height:220px`; lens `width:min(360px,78%)`; HUD on solid plates | word centre 195 = figure centre 195, scrollWidth 390 |
+| 3 | Dimmed steps 2.1–2.7:1 | No opacity on text: inactive = `--dark-muted` (7.5:1), active = `--dark-fg` + 4px red bar; only diagram strokes dim | — |
+| 4 | Button white on #d8412f = 4.45:1 | `--accent-fill #c63a28` (5.2:1); #d8412f kept for marks only | — |
+| 5 | 30 bracket markers; "unknown" = "open" | Typed blanks: **Open** (accent-dashed chip, a link), **Pending** (quiet neutral chip), **Assignee** (`Owner · Unassigned`). Fact sheets collapse gaps to one `Pending` row. Lab TODOs moved to one `<details>` in the footer (`LAB_NOTES`, 6 items). Photo plates, case-strip "Outcome: not shipped" and repeated outcome intros removed | rendered visitor copy: 0 `[placeholder]` / `[confirm]` |
+| 6 | Explode front-loaded; highlight zig-zags | Steps + numbering in stack order (top → back). The stack opens one gap per step across the whole list, so the explode is the progress bar and the highlight descends | `scrub-8/50/95.png` |
+| 7 | +1,329px reflow; labels clip at 834 | Step `min-height` moved into a CSS media query (final at first paint). Labels: numbers only < 960px; label area widened | no-JS vs hydrated height delta **0px** |
+| 8 | Signature device borrowed; officer seats lead | E-only grammar: assignee cells replace `______` lines; **7×4 gate board** (subsystems × ownership gates, "0 of 28 reported") replaces em-dash outcome slots; **Open seats** leads with the 7 subsystem-owner role specs (own / risk / the work / Take this seat); officers fold under "Studio operations"; Join closes on a **draft ledger row** (GET form to `/contact`, works without JS) | — |
+
+### Applied: lab-wide / trivial
+Production crosshair hidden (`html{cursor:auto}`, `[style*="ds-z-cursor"]`) and production skip link hidden · `:active` states on buttons, links, chips, rows · pace = `aria-pressed` with ink fill (≠ hover); Play/Pause changes label only (no `aria-pressed`) · 44px targets ("Current project page", nav CTA) · 12px text floor · `.body` 38rem measure · hero text no longer animates (ledger rows "post" opacity-only, 40ms) · display capped at 84px · nested `<main>` → `<div>` · per-block `<section aria-label>` → plain blocks · `tabular-nums slashed-zero` on IDs/counts · `::selection` · `translate="no"` on codes · reduced motion starts RSVP at 250 wpm · mobile: narrative before fact sheet · Lenis anchor/brief jumps capped at 0.9s (no 5,000px fly-through).
+
+### Rejected (with reason)
+- Gemini "spring 420/40 bounces → use 300/30": damping ratio ≈1.03 (no overshoot); its fix would add bounce (orchestrator cross-check agrees).
+- Gemini "RSVP flashes under reduced motion, critical": never autoplays, user-initiated with Pause/Step; kept, only defaulted to 250 wpm.
+- Drop Lenis (F2): kept, now idle-safe; the fly-through was the real problem and is capped.
+- Change the font kit because it is Taste's default (T2): the type lab chose it on renders; added a tabular-numeral system instead.
+- Keep the ledger row as `<a>` after hydration (U3): the dialog pattern passed both a11y and micro audits; no-JS keeps the `<a>`.
+
+### Deferred
+- Fontshare CDN vs DESIGN.md §8 (T3): Head Designer decision.
+- `ledgerAsOf` as a required, build-checked data field with an owner seat (F1): production data work in `lib/data`.
+- Brief content only it has (that build's open seats) + `?brief=` URL sync (U3); return-morph text ghosting (M4).
+- Typed WPM input on the RSVP demo (P1).
+- `/design-lab` in `IMMERSIVE_PREFIXES` (F3, orchestrator-owned) and the production cursor's JS loop (60 rAF/s, production code).

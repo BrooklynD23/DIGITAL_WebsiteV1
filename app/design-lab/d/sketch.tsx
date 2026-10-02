@@ -43,12 +43,13 @@ interface SketchProps {
   readonly nonScaling?: boolean;
   /** Accessible label; omit for decorative sketches (then aria-hidden). */
   readonly label?: string;
-  /** Never animate (tiny marks, or sketches inside panels that start hidden). */
+  /** Never animate. Default true: the page has ONE sequenced drawing (the How rail). */
   readonly still?: boolean;
 }
 
-export function Sketch({ viewBox, drawables, className, style, preserveAspectRatio, nonScaling, label, still }: SketchProps) {
-  const paths = drawables.flatMap((d) => gen.toPaths(d));
+export function Sketch({ viewBox, drawables, className, style, preserveAspectRatio, nonScaling, label, still = true }: SketchProps) {
+  // Keep each drawable's index so CSS can stagger strokes in drawing order (--i).
+  const paths = drawables.flatMap((d, di) => gen.toPaths(d).map((p) => ({ ...p, di })));
   return (
     <svg
       viewBox={viewBox}
@@ -69,7 +70,11 @@ export function Sketch({ viewBox, drawables, className, style, preserveAspectRat
           stroke={p.stroke === 'none' ? 'none' : 'currentColor'}
           strokeWidth={p.strokeWidth}
           fill="none"
-          style={p.fill && p.fill !== 'none' ? { fill: p.fill } : undefined}
+          style={
+            (p.fill && p.fill !== 'none'
+              ? { fill: p.fill, ['--i' as string]: p.di }
+              : { ['--i' as string]: p.di }) as CSSProperties
+          }
           data-fill={p.fill && p.fill !== 'none' ? '' : undefined}
           strokeLinecap="round"
           strokeLinejoin="round"

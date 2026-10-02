@@ -11,12 +11,15 @@ export const metadata: Metadata = {
 /*
  * The root layout renders the production Navbar/Footer on every non-immersive
  * route. This prototype brings its own chrome, so it hides them while this
- * layout is mounted. Cleaner fix (orchestrator-owned): add '/design-lab' to
+ * layout is mounted. It also hides the production crosshair cursor overlay:
+ * the particle probe is this hero's only pointer effect. Cleaner fix (orchestrator-owned): add '/design-lab' to
  * IMMERSIVE_PREFIXES in lib/immersiveRoutes.ts.
  */
 const ROUTE_CHROME = `
   body > nav[aria-label="Primary"], body > footer { display: none !important; }
   html, body { background: #0c0c0b; }
+  html { cursor: auto !important; }
+  [style*="ds-z-cursor"] { display: none !important; }
   @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
 `;
 

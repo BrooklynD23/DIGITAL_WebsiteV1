@@ -24,7 +24,8 @@ export function DrawOn({ rootId }: { readonly rootId: string }) {
           io.unobserve(entry.target);
         }
       },
-      { rootMargin: '0px 0px -12% 0px', threshold: 0.15 },
+      // Start just BEFORE the sketch enters, so it is never seen empty.
+      { rootMargin: '0px 0px 10% 0px', threshold: 0 },
     );
     root.setAttribute('data-armed', '');
     sketches.forEach((s) => io.observe(s));

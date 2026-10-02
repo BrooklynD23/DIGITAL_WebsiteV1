@@ -1,6 +1,8 @@
 import { IconArrowRight, IconArrowUpRight, IconBrandDiscord } from '@tabler/icons-react';
 import { BuildRun } from './BuildRun';
-import { copy, rsvp, signalStages, subsystems, workflowStages, ownershipRules } from './copy';
+import { copy, disciplineMatrix, matrixCopy, rsvp, signalStages, subsystemOwners, subsystems, workflowStages, ownershipRules } from './copy';
+import { DisciplineMatrix } from './DisciplineMatrix';
+import { MobileMenu } from './MobileMenu';
 import { InterfaceMap } from './InterfaceMap';
 import { MatrixGlyph, OpenGlyph, PulseGlyph } from './Glyphs';
 import { ProjectIndex, StatusGlyph } from './ProjectIndex';
@@ -17,6 +19,7 @@ const splitSpec = (line: string) => {
 export default function ConceptBPage() {
   const { nav, hero, index, dg001, dg002, vs, dg003, process, join, footer } = copy;
   const map = buildInterfaceMap(subsystems, WIDE_MAP);
+  const owned = Object.values(subsystemOwners).filter(Boolean).length;
   const handoffs = Object.fromEntries(
     subsystems.map((sub) => [
       sub.id,
@@ -55,33 +58,22 @@ export default function ConceptBPage() {
         <a href={nav.cta.href} className={`${s.btn} ${s.btnPrimary} ${s.navCta}`}>
           {nav.cta.label}
         </a>
-        <details className={s.menu}>
-          <summary className={s.menuSummary}>{nav.menuLabel}</summary>
-          <nav aria-label="Concept B, mobile" className={s.menuPanel}>
-            {nav.links.map((l) => (
-              <a key={l.href} href={l.href} className={s.menuLink}>
-                <span className={s.navCode}>{l.code}</span>
-                {l.label}
-              </a>
-            ))}
-            <a href={nav.cta.href} className={`${s.btn} ${s.btnPrimary}`}>
-              {nav.cta.label}
-            </a>
-          </nav>
-        </details>
+        <MobileMenu label={nav.menuLabel} links={nav.links} cta={nav.cta} />
       </header>
 
       {/* ───────── HERO ───────── */}
       <section id="top" className={s.hero} aria-labelledby="hero-title">
-        <div className={s.heroText}>
+        <div className={s.heroTitle}>
           <p className={s.eyebrow}>{hero.eyebrow}</p>
           <h1 id="hero-title" className={s.display}>
             {hero.lines.map((line) => (
               <span key={line} className={s.displayLine}>
-                {line}
+                {line}{' '}
               </span>
             ))}
           </h1>
+        </div>
+        <div className={s.heroText}>
           <p className={s.heroLede}>
             <strong>{hero.positioning}</strong> {hero.mechanism}
           </p>
@@ -109,11 +101,11 @@ export default function ConceptBPage() {
             <span id="fig1-title">{hero.figure.title}</span>
             <span className={s.figCount}>
               {`${map.subsystems.length} subsystems · ${map.parts.length} parts · `}
-              <span className={s.redText}>{`${map.handoffCount} handoffs`}</span>
+              <span className={s.redText}>{`${map.handoffCount} handoffs · ${owned} of ${map.subsystems.length} owned`}</span>
             </span>
           </div>
-          <div className={s.figBody}>
-            <InterfaceMap subsystems={subsystems} titleId="fig1-title" />
+          <div className={`${s.figBody} ${s.figBodyMap}`}>
+            <InterfaceMap subsystems={subsystems} owners={subsystemOwners} titleId="fig1-title" />
           </div>
           <figcaption className={s.figCaption}>
             <span className={s.monoLabel}>{hero.figure.caption}</span>
@@ -140,10 +132,13 @@ export default function ConceptBPage() {
 
         {/* DG-001 */}
         <article id="dg-001" className={s.record} aria-labelledby="dg001-title">
-          <RecordStrip code={dg001.code} title={dg001.title} status="active" titleId="dg001-title" />
+          <RecordStrip code={dg001.code} title={dg001.title} status="active" />
           <div className={s.recordGrid}>
             <div className={s.recordMain}>
-              <p className={s.h2}>{dg001.heading}</p>
+              <h3 id="dg001-title" className={s.h2}>
+                <span className={s.srOnly}>{`${dg001.code} ${dg001.title}: `}</span>
+                {dg001.heading}
+              </h3>
               <dl className={s.pod}>
                 <div><dt>Problem</dt><dd>{dg001.problem}</dd></div>
                 <div><dt>Object</dt><dd>{dg001.object}</dd></div>
@@ -161,7 +156,6 @@ export default function ConceptBPage() {
                 </div>
               ))}
             </dl>
-            <Plate label={dg001.plate} />
           </div>
           <p className={s.registerCaption} aria-hidden="true">{dg001.tableCaption}</p>
           <div className={s.tableWrap}>
@@ -188,7 +182,7 @@ export default function ConceptBPage() {
                       <td>{sub.description}</td>
                       <td className={s.cellMono}>{get('scope')}</td>
                       <td className={s.cellMono}>{get('risk')}</td>
-                      <td className={`${s.cellMono} ${s.blank}`}>______</td>
+                      <td className={`${s.cellMono} ${s.unassigned}`}>unassigned</td>
                     </tr>
                   );
                 })}
@@ -199,10 +193,13 @@ export default function ConceptBPage() {
 
         {/* DG-002 */}
         <article id="dg-002" className={s.record} aria-labelledby="dg002-title">
-          <RecordStrip code={dg002.code} title={dg002.title} status="active" titleId="dg002-title" />
+          <RecordStrip code={dg002.code} title={dg002.title} status="active" />
           <div className={s.recordGrid}>
             <div className={s.recordMain}>
-              <p className={s.h2}>{dg002.heading}</p>
+              <h3 id="dg002-title" className={s.h2}>
+                <span className={s.srOnly}>{`${dg002.code} ${dg002.title}: `}</span>
+                {dg002.heading}
+              </h3>
               <dl className={s.pod}>
                 <div><dt>Problem</dt><dd>{dg002.problem}</dd></div>
                 <div><dt>Object</dt><dd>{dg002.object}</dd></div>
@@ -220,7 +217,6 @@ export default function ConceptBPage() {
                 </div>
               ))}
             </dl>
-            <Plate label={dg002.plate} />
           </div>
           <div className={s.figPair}>
             <figure className={s.figure}>
@@ -248,10 +244,13 @@ export default function ConceptBPage() {
         {/* VS + DG-003 */}
         <div className={s.recordPair}>
           <article id="vs" className={`${s.record} ${s.recordSmall}`} aria-labelledby="vs-title">
-            <RecordStrip code={vs.code} title={vs.title} status="program" titleId="vs-title" />
+            <RecordStrip code={vs.code} title={vs.title} status="program" />
             <div className={s.smallBody}>
               <p className={s.monoLabel}>{vs.kicker}</p>
-              <p className={s.h3}>{vs.line}</p>
+              <h3 id="vs-title" className={s.h3}>
+                <span className={s.srOnly}>{`${vs.title}: `}</span>
+                {vs.line}
+              </h3>
               <ul className={s.learn}>
                 {vs.learn.map((l) => (
                   <li key={l}>{l}</li>
@@ -261,13 +260,16 @@ export default function ConceptBPage() {
             </div>
           </article>
           <article id="dg-003" className={`${s.record} ${s.recordSmall} ${s.recordOpen}`} aria-labelledby="dg003-title">
-            <RecordStrip code={dg003.code} title="Unsigned" status="open" titleId="dg003-title" />
+            <RecordStrip code={dg003.code} title={dg003.title} status="open" />
             <div className={s.smallBody}>
-              <p className={s.h3}>{dg003.heading}</p>
+              <h3 id="dg003-title" className={s.h3}>
+                <span className={s.srOnly}>{`${dg003.code} ${dg003.title}: `}</span>
+                {dg003.heading}
+              </h3>
               <p className={s.body}>{dg003.body}</p>
               <dl className={s.blankFields}>
-                <div><dt>Problem</dt><dd>______</dd></div>
-                <div><dt>Built by</dt><dd>______</dd></div>
+                <div><dt>Problem</dt><dd>not on file</dd></div>
+                <div><dt>Owner</dt><dd className={s.unassigned}>unassigned</dd></div>
               </dl>
               <a href={dg003.cta.href} className={`${s.btn} ${s.btnOutline}`}>
                 {dg003.cta.label}
@@ -287,6 +289,22 @@ export default function ConceptBPage() {
       {/* ───────── 03 JOIN ───────── */}
       <section id="join" className={s.section} aria-labelledby="join-title">
         <SectionHead code={join.code} eyebrow={join.eyebrow} title={join.heading} id="join-title" lede={join.lede} />
+        <figure className={`${s.figure} ${s.matrixFigure}`}>
+          <div className={s.figHead}>
+            <span id="fig4-title">{matrixCopy.title}</span>
+          </div>
+          <div className={s.figBodyPlain}>
+            <DisciplineMatrix
+              rows={disciplineMatrix}
+              titleId="fig4-title"
+              legendRecord={matrixCopy.legendRecord}
+              legendInferred={matrixCopy.legendInferred}
+            />
+          </div>
+          <figcaption className={s.figCaption}>
+            <span>{matrixCopy.note}</span>
+          </figcaption>
+        </figure>
         <div className={s.joinGrid}>
           <div>
             <ol className={s.steps}>
@@ -322,7 +340,7 @@ export default function ConceptBPage() {
                 <tr>
                   <th scope="col">Seat</th>
                   <th scope="col">Term</th>
-                  <th scope="col">Signed</th>
+                  <th scope="col">Status</th>
                 </tr>
               </thead>
               <tbody>
@@ -387,26 +405,17 @@ function SectionHead({ code, eyebrow, title, id, lede }: { code: string; eyebrow
   );
 }
 
-function RecordStrip({ code, title, status, titleId }: { code: string; title: string; status: 'active' | 'program' | 'open'; titleId: string }) {
+function RecordStrip({ code, title, status }: { code: string; title: string; status: 'active' | 'program' | 'open' }) {
   const label = { active: 'Active', program: 'Program', open: 'Open' }[status];
   return (
-    <header className={s.strip}>
+    <div className={s.strip}>
       <span className={s.stripCode}>{code}</span>
-      <h3 id={titleId} className={s.stripTitle}>
-        {title}
-      </h3>
+      <p className={s.stripTitle}>{title}</p>
       <span className={s.status} data-status={status}>
         <StatusGlyph status={status} />
         {label}
       </span>
-    </header>
-  );
-}
-
-function Plate({ label }: { label: string }) {
-  return (
-    <div className={s.plate} role="img" aria-label={label}>
-      <span aria-hidden="true">{label}</span>
     </div>
   );
 }
+

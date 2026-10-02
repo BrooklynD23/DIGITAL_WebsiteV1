@@ -14,8 +14,8 @@
  *   marked clause is visible without JS. After mount the highlight is retracted only if
  *   the element is still below the fold and motion is allowed, then drawn on scroll.
  * - Added: `useReducedMotion()` → the highlight stays drawn and never animates.
- * - Added: `mark="band"` draws a proofreader's band under the lower x-height instead of a
- *   full-height block (reads as print markup, not a UI highlighter).
+ * - Added: `mark="band"` draws a proofreader's rule under the descenders instead of a
+ *   full-height block (reads as print markup, not a UI highlighter; descenders stay clean).
  * - Removed: hover/ref triggers and the imperative handle (unused here).
  */
 'use client';
@@ -72,7 +72,7 @@ export default function TextHighlighter({
   const style: CSSProperties = {
     backgroundImage:
       mark === 'band'
-        ? `linear-gradient(transparent 58%, ${highlightColor} 58%, ${highlightColor} 86%, transparent 86%)`
+        ? `linear-gradient(transparent 90%, ${highlightColor} 90%, ${highlightColor} 99%, transparent 99%)`
         : `linear-gradient(${highlightColor}, ${highlightColor})`,
     backgroundRepeat: 'no-repeat',
     backgroundPosition: positionFor(direction),

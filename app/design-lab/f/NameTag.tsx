@@ -13,7 +13,7 @@ interface NameTagProps extends HTMLAttributes<HTMLSpanElement> {
 }
 
 /** Scale the written name down as it gets longer, so the sticker never overflows. */
-function nameScale(len: number): string {
+export function nameScale(len: number): string {
   if (len <= 8) return '1';
   if (len <= 12) return '0.78';
   if (len <= 17) return '0.6';
@@ -21,7 +21,7 @@ function nameScale(len: number): string {
 }
 
 /**
- * The "HELLO, MY NAME IS" sticker: the one rounded, red object on the page.
+ * The "HELLO, BUILT BY" sticker: the one rounded, red object on the page.
  * Purely visual; callers supply the accessible name.
  */
 export const NameTag = forwardRef<HTMLSpanElement, NameTagProps>(function NameTag(
@@ -39,7 +39,7 @@ export const NameTag = forwardRef<HTMLSpanElement, NameTagProps>(function NameTa
       {...rest}
     >
       <span className={styles.tagBand} aria-hidden="true">
-        MY NAME IS
+        BUILT BY
       </span>
       <span
         className={styles.tagName}

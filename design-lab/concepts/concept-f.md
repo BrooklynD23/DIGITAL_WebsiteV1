@@ -189,3 +189,46 @@ Banned-slogan check (§40): 0. BRAND banned words: 0. Facts: only CONTEXT-PACK �
 4. **Long mobile page** (~8.8k px at 390): 14 seats. A future version could collapse seats per record behind a count.
 5. **Name privacy.** Stored only in `localStorage`; the contact link never carries it. Shared/lab computers would keep it until cleared (a "clear" is one tap: empty the field).
 6. **Pixel art tone** could drift toward games (Playdate). Kept to two drawings, ink only.
+
+## v2 changes (Wave 4, §36)
+
+Inputs: `critiques/f-by-e.md`, `f-gemini-motion.md` (+ orchestrator cross-check), `micro-f.md`, `a11y-f.md`. Thesis unchanged.
+Renders: `design-lab/renders/f/v2/` (full pages, `f-signed-{hero,bench,sheet,footer}.png`, `f-nojs-mobile.png`, `f-interact-*.png`).
+
+### Applied (7 fix-now)
+
+| # | Fix | Result |
+|---|---|---|
+| 1 | **You write on the tag itself.** The sticker's white field is a real `<input>`; its band "BUILT BY" is the visible `<label>`. Lower field and hero aside removed. Thesis capped `clamp(56px, min(14.5vw, 17vh), 216px)`; h1 is the plain thesis (sr-only) | input bottom 534/900 at 1440, 470/768 at 1366; CTA 634 / 566. Desktop page 6,600 → 5,662 px |
+| 2 | **Seats are cut lines, not cards.** One 52px row per seat (glyph · title · `______` · "Put Danny here →"); the whole open row is the target (stretched button, row focus ring). Seat head "BUILT BY" in Departure 22px + `open this term [confirm]` | mobile 8,876 → 7,746 px; 14 boxes and 14 outlined buttons gone |
+| 3 | **Cause and effect in one row.** 24px per-seat glyph: the 7 phone layers as bars, touched layers filled (same order as Fig. 1). RSVP never autoplays: it plays on Play, or once when your tag lands on a DG-002 seat. Reduced motion: "Next word" stepper + sentence printed under the lens | rule "nothing moves unless you move it" now holds with no exception |
+| 4 | **One vocabulary, paid off.** BUILT BY on the tag, seats, title block and footer. Title block = BUILT BY (you) / CHECKED BY / RELEASED AT / REPAIR PLAN, mapped 1:1 to `phoneV2` ownership rules; the 3 other signatures stay blank on purpose. Footer: signature rule when unsigned; closer becomes "Danny · Hardware / PCB · Thursdays · 6:00 PM · Building 17, Room 1635." once signed | — |
+| 5 | **Honesty.** Phase and toolchain show `______ [confirm]` (no conflicting candidates). Plate labels use a colon (0 visible em-dashes; tab title too). "Take a subsystem" carries `&seat=<id>` (never the name). Join H2 "Claim it in person, Thursday." (no tag to bring) | — |
+| 6 | **One drop message.** dnd-kit `onDragEnd` silent; the tray's polite status line is the single announcement (also covers button path). `.seatDetail` no longer live. `aria-label` on spans → sr-only "unsigned". Footnote cut + `max-width: 68ch` | — |
+| 7 | **Finish.** Sign input: `@tailwindcss/forms` ring removed, ink `:focus-within` ring on the tag, red caret. Hover on every text link (underline 1→3px + 4px arrow nudge), tag hover = half pickup pose. `:active` = 1px press on all controls. `::selection` ink. Text floor 12px (Departure 11 → 12). Autoscroll `threshold y .12, acceleration 3`. Strip/footer links ≥44px. Overlay tilt off under reduced motion. Decorative ruler removed | — |
+
+Lab-wide: production cursor hidden and `scroll-behavior:auto` via the route's scoped `<style>` (`html:has([data-lab-f])`). Toggles: Bench/List use `aria-pressed` with fixed labels; the RSVP button changes its label and has no `aria-pressed`.
+
+Verification: `npx tsc --noEmit` exit 0. `shoot.mjs` 0 console errors at 1440/834/390. `da-f-interact.mjs` passes at 1440, 1366, 390 and reduced motion (fold, sign, keyboard drop, pointer drag, button, sheet, list, footer, 0 overflow). No-JS: 100% text, 14 "Ask" fallbacks.
+
+### Rejected (with reason)
+
+| Finding | Reason |
+|---|---|
+| Gemini: over-target feedback missing; keyboard drop has no slap; RSVP autoplays under reduced motion | Wrong per orchestrator cross-check (D1, D2, D4): frames show tint + solid border, the spring is input-agnostic, reduce never autoplayed |
+| Taste: 2-line headline cap, single page theme, real images | BRIEF wins: one signature display move; paper/mat/night are materials; no real photos exist (§19, CONTEXT-PACK §1) |
+| Drop the sticker object (X3 "mixer badge") | The sticker is the thesis made physical. Took the vocabulary fix instead: the band now reads BUILT BY |
+| List view as mobile default | Cut-line rows already make the bench compact; drag stays the experiment |
+| Blinking hero caret / attention pulse | Constant motion breaks the motion rule; the input sits in the headline now, which is the affordance |
+
+### Deferred
+
+| Item | Owner |
+|---|---|
+| Production `seats` data contract (id, record, title, open-this-term) and the contact form reading `?seat=` | orchestrator / production |
+| `/design-lab` in `lib/immersiveRoutes.ts` (replaces the `:has()` chrome hide) | orchestrator |
+| Number Fig. 1 layers 01–07 with leaders; sticky DG-001 figure beside its seats at ≥1100 | v3 (per-seat glyph covers the need now) |
+| `Next ______ [confirm]` field per build; workflow rail folded into the title block as a REV strip | v3 / club input |
+| Mobile ≤ 6,500 px (now 7,746): collapse record fields or plates on mobile | v3 |
+| Hero reflow per keystroke ("on." shifts as the name grows) | inherent to the idea; revisit with a fixed min width if testing flags it |
+| Dark mode | production |

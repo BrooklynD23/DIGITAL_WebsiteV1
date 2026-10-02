@@ -20,7 +20,7 @@ import {
 } from '@dnd-kit/core';
 import { motion } from 'motion/react';
 import { ALL_SEATS, RECORDS, type BuildRecord, type PhoneLayerId, type Seat } from './content';
-import { PixelPhone } from './PixelArt';
+import { PixelPhone, SeatGlyph } from './PixelArt';
 import { Rsvp } from './Rsvp';
 import { NameTag } from './NameTag';
 import { PixelIcon } from './icons';
@@ -58,16 +58,17 @@ const seatToSeat: KeyboardCoordinateGetter = (event, { context }) => {
 const collision: CollisionDetection = (args) =>
   args.pointerCoordinates ? pointerWithin(args) : closestCenter(args);
 
+/**
+ * One message per drop: the tray's polite status line carries the result (it also covers the
+ * button path), so dnd-kit says nothing on drop.
+ */
 const announcements: Announcements = {
   onDragStart: () => 'Picked up your name tag.',
   onDragOver: ({ over }) => {
     const s = seatById(over?.id);
     return s ? `Over ${seatLabel(s)}.` : 'Not over a seat.';
   },
-  onDragEnd: ({ over }) => {
-    const s = seatById(over?.id);
-    return s ? `Name tag placed on ${seatLabel(s)}. Your sheet below is filled in.` : 'Name tag put back.';
-  },
+  onDragEnd: () => undefined,
   onDragCancel: () => 'Cancelled. The name tag is back where it was.',
 };
 
@@ -75,6 +76,9 @@ const instructions = {
   draggable:
     'To pick up your name tag, press Space or Enter. Use the arrow keys to move from seat to seat. Press Space or Enter to place it, or Escape to cancel. Every seat also has its own button.',
 };
+
+/** Slower, later autoscroll: the bench doesn't slide under your hand. */
+const AUTO_SCROLL = { threshold: { x: 0, y: 0.12 }, acceleration: 3 } as const;
 
 function DraggableTag({ size }: { readonly size: 'tray' | 'slot' }) {
   const { name } = useSign();
@@ -92,13 +96,14 @@ function DraggableTag({ size }: { readonly size: 'tray' | 'slot' }) {
   );
 }
 
-interface SeatSlotProps {
+interface SeatRowProps {
   readonly seat: Seat;
-  readonly showLine: boolean;
+  readonly index: number;
   readonly onPeek: (seat: Seat | null) => void;
 }
 
-function SeatSlot({ seat, showLine, onPeek }: SeatSlotProps) {
+/** A seat is a cut line, not a card: one row, the whole row is the target. */
+function SeatRow({ seat, index, onPeek }: SeatRowProps) {
   const { seatId, placeTag, ready, name } = useSign();
   const { setNodeRef, isOver } = useDroppable({ id: seat.id });
   const mine = seatId === seat.id;
@@ -114,11 +119,11 @@ function SeatSlot({ seat, showLine, onPeek }: SeatSlotProps) {
       onFocus={() => onPeek(seat)}
       onBlur={() => onPeek(null)}
     >
+      <span className={styles.seatMark}>
+        {seat.layers.length > 0 ? <SeatGlyph layers={seat.layers} /> : <span className={styles.mono}>{String(index + 1).padStart(2, '0')}</span>}
+      </span>
       <span className={styles.seatTitle}>{seat.title}</span>
-      {showLine && <span className={styles.seatLine}>{seat.line}</span>}
-      <div className={styles.seatFoot}>
       <span className={styles.seatSign}>
-        <span className={styles.mono}>Built by</span>
         {mine ? (
           <motion.span
             className={styles.seatTag}
@@ -129,40 +134,42 @@ function SeatSlot({ seat, showLine, onPeek }: SeatSlotProps) {
             <DraggableTag size="slot" />
           </motion.span>
         ) : (
-          <span className={styles.blank} aria-label="unsigned">
-            ______
-          </span>
+          <>
+            <span className={styles.blank} aria-hidden="true">
+              ______
+            </span>
+            <span className={styles.srOnly}>unsigned</span>
+          </>
         )}
       </span>
       {ready ? (
         mine ? (
-          <button type="button" className={styles.seatBtn} onClick={() => placeTag(null)}>
-            <PixelIcon name="close" />
-            <span>
-              Take it back<span className={styles.srOnly}> from {seatLabel(seat)}</span>
-            </span>
+          <button type="button" className={styles.seatAct} onClick={() => placeTag(null)}>
+            <span>Take it back</span>
+            <span className={styles.srOnly}> from {seatLabel(seat)}</span>
           </button>
         ) : (
-          <button type="button" className={styles.seatBtn} onClick={() => placeTag(seat.id)}>
+          <button type="button" className={`${styles.seatAct} ${styles.seatActStretch}`} onClick={() => placeTag(seat.id)}>
+            <span className={styles.wideOnly}>Put {who} here</span>
+            <span className={styles.narrowOnly}>Put it here</span>
+            <span className={styles.srOnly}>: {seatLabel(seat)}</span>
             <PixelIcon name="arrow-right" />
-            <span>
-              Put {who} here<span className={styles.srOnly}>: {seatLabel(seat)}</span>
-            </span>
           </button>
         )
       ) : (
-        <a className={styles.seatBtn} href="/contact/?type=project-team">
-          Ask about this seat<span className={styles.srOnly}>: {seatLabel(seat)}</span>
+        <a className={`${styles.seatAct} ${styles.seatActStretch}`} href="/contact/?type=project-team">
+          <span>Ask</span>
+          <span className={styles.srOnly}> about this seat: {seatLabel(seat)}</span>
+          <PixelIcon name="arrow-right" />
         </a>
       )}
-      </div>
     </li>
   );
 }
 
 function Plate({ label }: { readonly label: string }) {
   return (
-    <div className={styles.plate} role="img" aria-label={`Photo placeholder: ${label}`}>
+    <div className={styles.plate} role="img" aria-label={`${label}. Placeholder, no photo yet.`}>
       <span className={styles.mono}>[ {label} ]</span>
       <span className={styles.mono}>[placeholder]</span>
     </div>
@@ -175,7 +182,7 @@ function Figure({ record, highlight }: { readonly record: BuildRecord; readonly 
       <div className={styles.figure}>
         <PixelPhone className={styles.phoneArt} highlight={highlight} />
         <p className={styles.figCaption}>
-          <span className={styles.mono}>Fig. 1</span> Seven layers. Hover a seat to see what it touches.
+          <span className={styles.mono}>Fig. 1</span> Seven layers, back cover to glass. Each seat&rsquo;s bars show the layers it touches.
         </p>
         {record.plate && <Plate label={record.plate} />}
       </div>
@@ -243,11 +250,11 @@ function RecordSheet({
         ))}
       </dl>
       <h4 className={styles.seatsHead}>
-        <span className={styles.mono}>Put a name on</span>
+        <span>Built by</span> <span className={styles.flag}>open this term [confirm]</span>
       </h4>
-      <ul className={styles.seats} data-count={record.seats.length}>
-        {record.seats.map((s) => (
-          <SeatSlot key={s.id} seat={s} showLine={record.id !== 'dg-002'} onPeek={onPeek} />
+      <ul className={styles.seats}>
+        {record.seats.map((s, i) => (
+          <SeatRow key={s.id} seat={s} index={i} onPeek={onPeek} />
         ))}
       </ul>
       {record.href && (
@@ -287,7 +294,7 @@ function ListView() {
                 <th scope="row">{s.title}</th>
                 <td>{mine ? name.trim() || 'you' : '______'}</td>
                 <td>
-                  <button type="button" className={styles.seatBtn} onClick={() => placeTag(mine ? null : s.id)}>
+                  <button type="button" className={styles.seatAct} onClick={() => placeTag(mine ? null : s.id)}>
                     {mine ? 'Take it back' : 'Put my name here'}
                     <span className={styles.srOnly}>: {seatLabel(s)}</span>
                   </button>
@@ -328,8 +335,8 @@ function Tray({ view, setView }: { readonly view: 'bench' | 'list'; readonly set
         ) : (
           <>
             <span className={`${styles.trayLead} ${styles.finePointer}`}>Drag your tag onto a part you&rsquo;d own.</span>
-            <span className={`${styles.trayLead} ${styles.coarsePointer}`}>Tap a seat&rsquo;s button, or drag your tag.</span>{' '}
-            <span className={styles.trayHint}>Or press a seat&rsquo;s button. Keyboard: focus the tag, Space, arrows, Space.</span>
+            <span className={`${styles.trayLead} ${styles.coarsePointer}`}>Tap a seat, or drag your tag.</span>{' '}
+            <span className={styles.trayHint}>Keyboard: focus the tag, Space, arrows, Space.</span>
           </>
         )}
       </p>
@@ -376,6 +383,7 @@ export function Bench({ children }: { readonly children: ReactNode }) {
     <DndContext
       sensors={sensors}
       collisionDetection={collision}
+      autoScroll={AUTO_SCROLL}
       onDragStart={() => setDragging(true)}
       onDragOver={onDragOver}
       onDragEnd={onDragEnd}

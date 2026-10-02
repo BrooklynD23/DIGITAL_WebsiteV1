@@ -2,6 +2,8 @@ import { ArrowUpRight } from 'lucide-react';
 import HeroFormation from './HeroFormation';
 import RsvpReader from './RsvpReader';
 import BuildStages from './BuildStages';
+import FooterSignature from './FooterSignature';
+import { POSTER_VIEWBOX, dotPath, glassesCloud, phoneCloud } from './geometry';
 import styles from './c.module.css';
 import {
   footer,
@@ -20,13 +22,12 @@ import {
   type BuildRecord,
   type RecordField,
 } from './content';
-import { homeLandingCopy } from '@/lib/data/homeLanding';
 
 const ICON = { size: 18, strokeWidth: 1.5, absoluteStrokeWidth: true } as const;
 
 const NAV = [
   { label: 'Work', href: '#work' },
-  { label: 'Studio', href: '#process' },
+  { label: 'Process', href: '#process' },
   { label: 'Join', href: '#join' },
 ] as const;
 
@@ -49,13 +50,16 @@ function FieldValue({ field }: { readonly field: RecordField }) {
   );
 }
 
-function PhotoPlate({ label }: { readonly label: string }) {
+/** The build's own dot drawing (same geometry as the hero), in place of a stock plate. */
+function DotPlate({ kind, caption }: { readonly kind: 'phone' | 'reading'; readonly caption: string }) {
+  const d = kind === 'phone' ? dotPath(phoneCloud().positions, undefined, 4) : dotPath(glassesCloud().positions, undefined, 4);
   return (
-    <div className={styles.plate} role="img" aria-label={`Photo placeholder: ${label}`}>
-      <span>
-        [ {label} ]<br />[placeholder]
-      </span>
-    </div>
+    <figure className={styles.dotPlate}>
+      <svg viewBox={POSTER_VIEWBOX} role="img" aria-label={caption} preserveAspectRatio="xMidYMid meet">
+        <path d={d} />
+      </svg>
+      <figcaption>{caption} · build photo [placeholder]</figcaption>
+    </figure>
   );
 }
 
@@ -130,12 +134,14 @@ function Record({ record, visual }: { readonly record: BuildRecord; readonly vis
 
 export default function ConceptCPage() {
   const [phoneRecord, readingRecord] = records;
-  const plates = homeLandingCopy.results.cases;
   return (
     <div className={styles.root} id="top">
       <header className={styles.nav}>
         <a className={styles.wordmark} href="#top" aria-label="DIGITAL at Cal Poly Pomona, back to top">
-          DIGITAL<span className={styles.wordmarkSub}>@ Cal Poly Pomona</span>
+          <span>
+            DIGI<span className={styles.kernT}>T</span>AL
+          </span>
+          <span className={styles.wordmarkSub}>@ Cal Poly Pomona</span>
         </a>
         <nav aria-label="Concept C" className={styles.navLinks}>
           <ul>
@@ -180,7 +186,7 @@ export default function ConceptCPage() {
             record={phoneRecord}
             visual={
               <>
-                <PhotoPlate label={plates[0].imageLabel} />
+                <DotPlate kind="phone" caption={`Drawn from the ${subsystems.length} subsystems`} />
                 <SubsystemList />
               </>
             }
@@ -191,7 +197,7 @@ export default function ConceptCPage() {
               <>
                 <p className={styles.blockLabel}>{work.rsvpLabel} · RSVP</p>
                 <RsvpReader words={rsvp.words} defaultWpm={rsvp.wpm} />
-                <PhotoPlate label={plates[1].imageLabel} />
+                <DotPlate kind="reading" caption="Drawn from the frame, HUD window and FPGA module" />
               </>
             }
           />
@@ -287,14 +293,17 @@ export default function ConceptCPage() {
       </div>
 
       <footer className={styles.footer}>
-        <p className={styles.close}>{footer.close}</p>
-        <svg className={styles.sigLine} viewBox="0 0 1000 24" preserveAspectRatio="none" aria-hidden>
-          <path d="M8 4 L20 16 M20 4 L8 16" />
-          <line x1="32" y1="20" x2="1000" y2="20" />
-        </svg>
+        <FooterSignature
+          blankTitle={footer.blankTitle}
+          blankSub={footer.blankSub}
+          signedTitle={footer.signedTitle}
+          signedSub={footer.signedSub}
+        />
         <div className={styles.footGrid}>
           <div>
-            <p className={styles.footName}>DIGITAL @ Cal Poly Pomona</p>
+            <p className={styles.footName}>
+              DIGI<span className={styles.kernT}>T</span>AL @ Cal Poly Pomona
+            </p>
             <p className={styles.footVision}>{footer.vision}</p>
           </div>
           <div className={styles.footCol}>

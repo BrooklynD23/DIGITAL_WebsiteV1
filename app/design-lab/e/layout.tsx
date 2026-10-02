@@ -28,6 +28,10 @@ export const metadata: Metadata = {
 const HIDE_PRODUCTION_CHROME = [
   'body > nav[aria-label="Primary"], body > footer { display: none !important; }',
   'body { background: #f6f6f2; }',
+  // Production CursorProvider (crosshair ring + dot) and the production skip link: not part of E.
+  'html { cursor: auto !important; }',
+  '[style*="ds-z-cursor"] { display: none !important; }',
+  'body > a[href="#main-content"] { display: none !important; }',
   // Lenis recommended CSS (globals.css sets html { scroll-behavior: smooth }, which fights Lenis).
   'html.lenis, html.lenis body { height: auto; }',
   '.lenis.lenis-smooth { scroll-behavior: auto !important; }',

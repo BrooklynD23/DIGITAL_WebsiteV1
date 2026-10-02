@@ -93,7 +93,7 @@ try {
   await np.waitForTimeout(1200);
   await shot(np, 'nojs-mobile-hero');
   const txt = await np.evaluate(() => document.body.innerText);
-  console.log('no-JS content present:', ['One phone, owned in seven parts.', 'One word, held still.', 'Seven seats. All open.', 'Put your name on a build.'].map((t) => `${t} ${txt.includes(t)}`).join(' | '));
+  console.log('no-JS content present:', ['One phone, owned in seven parts.', 'One word, held still.', 'Seven owner seats. All unassigned.', 'Add your row to the ledger.'].map((t) => `${t} ${txt.includes(t)}`).join(' | '));
   const rowHref = await np.locator('a[href="#case-dg-001"]').count();
   console.log('no-JS ledger rows are links:', rowHref > 0);
   await nj.close();

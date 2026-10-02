@@ -11,7 +11,7 @@
   --a-muted: #5f594f; /* 5.98:1 on paper */
   --a-rule: #cfc8bb; /* hairline, decorative only */
   --a-red: #d8412f; /* markers, large text, CTA hover. 3.84:1 on paper: never small text */
-  --a-red-ink: #b3311f; /* small red text on paper, 5.37:1 */
+  --a-red-ink: #b3311f; /* small red text on paper 5.37:1; also the fill under paper text (CTA hover) */
   --a-highlight: #f2c6b9; /* red tint behind ink, 11.97:1 */
   --a-night: #15130f;
   --a-night-fg: #f1eee7;
@@ -69,6 +69,10 @@
 .root :focus-visible {
   outline: 2px solid var(--a-red);
   outline-offset: 3px;
+}
+
+.root ::selection {
+  background: rgba(216, 65, 47, 0.22);
 }
 
 .srOnly {
@@ -153,14 +157,6 @@
   margin-right: var(--s-2);
 }
 
-.signLine {
-  display: inline-block;
-  width: 9em;
-  height: 1.1em;
-  border-bottom: 2px solid var(--a-red);
-  vertical-align: baseline;
-}
-
 /* ---------- Vertical Cut Reveal (fancy, adapted) ---------- */
 
 .cut {
@@ -243,6 +239,13 @@
   padding-top: 10px;
 }
 
+.wordmark:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--a-red);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
 .wordmarkSub {
   font-family: var(--a-mono);
   font-size: var(--fs-mono);
@@ -300,13 +303,13 @@
   font-weight: 500;
   text-decoration: none;
   transition: background-color var(--d-2) var(--ease-std), color var(--d-2) var(--ease-std),
-    border-color var(--d-2) var(--ease-std);
+    border-color var(--d-2) var(--ease-std), transform var(--d-1) var(--ease-std);
 }
 
 .mastCta:hover {
-  background: var(--a-red);
-  border-color: var(--a-red);
-  color: var(--a-ink);
+  background: var(--a-red-ink);
+  border-color: var(--a-red-ink);
+  color: var(--a-paper);
 }
 
 /* ==========================================================================
@@ -314,12 +317,13 @@
    ========================================================================== */
 
 .cover {
-  padding: var(--s-7) 0 var(--s-9);
+  padding: var(--s-6) 0 var(--s-9);
 }
 
 .kicker {
   color: var(--a-ink-2);
-  margin-bottom: var(--s-5);
+  margin-bottom: var(--s-4);
+  text-wrap: balance;
 }
 
 .thesis {
@@ -350,9 +354,13 @@
   padding-left: 4%;
 }
 
+.w {
+  display: inline;
+}
+
 .fnMark {
   font-family: var(--a-mono);
-  font-size: 0.14em;
+  font-size: max(14px, 0.14em);
   vertical-align: 2.6em;
   line-height: 0;
   color: var(--a-red-ink);
@@ -373,9 +381,9 @@
   bottom: 0.08em;
   font-family: var(--a-mono);
   font-style: normal;
-  font-size: 0.26em;
+  font-size: max(14px, 0.26em);
   line-height: 1;
-  color: var(--a-red);
+  color: var(--a-red-ink);
 }
 
 .signRule {
@@ -386,7 +394,7 @@
   height: max(2px, 0.03em);
   background: var(--a-red);
   transform-origin: left center;
-  animation: aSign var(--d-4) var(--ease-ink) 0.9s both;
+  animation: aSign 0.8s var(--ease-ink) 0.55s both;
 }
 
 @keyframes aSign {
@@ -402,21 +410,20 @@
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: var(--a-gap);
-  margin-top: var(--s-8);
+  margin-top: var(--s-6);
   padding-top: var(--s-5);
   border-top: 1px solid var(--a-ink);
 }
 
 .coverText {
-  grid-column: 1 / span 3;
+  grid-column: 1 / span 4;
   display: flex;
   flex-direction: column;
-  gap: var(--s-5);
+  gap: var(--s-4);
 }
 
 .coverFig {
-  grid-column: 4 / span 6;
-  align-self: end;
+  grid-column: 6 / span 3;
 }
 
 .contents {
@@ -426,14 +433,12 @@
 .footnote {
   margin: 0;
   font-family: var(--a-serif);
-  font-style: italic;
   font-size: 1.125rem;
   line-height: 1.45;
 }
 
 .fnNum {
   font-family: var(--a-mono);
-  font-style: normal;
   font-size: var(--fs-mono);
   color: var(--a-red-ink);
   vertical-align: super;
@@ -444,7 +449,15 @@
   margin: 0;
   font-size: var(--fs-small);
   color: var(--a-ink-2);
-  max-width: 34ch;
+  max-width: 40ch;
+}
+
+.coverActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2) var(--s-5);
+  margin-top: var(--s-2);
 }
 
 .contentsHead {
@@ -480,35 +493,33 @@
 
 .contentsLabel {
   font-family: var(--a-serif);
-  font-size: 1.375rem;
+  font-size: 1.25rem;
   line-height: 1.2;
   transition: transform var(--d-2) var(--ease-ink);
 }
 
 .contents a:hover .contentsLabel {
   transform: translateX(6px);
-  font-style: italic;
 }
 
-/* ---------- Fig. 1 ---------- */
+.contents a:active .contentsLabel {
+  transform: translateX(3px);
+}
 
-.fig1 {
+/* ---------- Figures (stack drawing) ---------- */
+
+.figCover {
   margin: 0;
 }
 
-.fig1Svg,
-.fig1SvgCompact {
+.figCoverSvg {
   display: block;
   width: 100%;
+  max-width: 280px;
   height: auto;
 }
 
-.fig1SvgCompact,
-.fig1List {
-  display: none;
-}
-
-.fig1Plate {
+.figPlate {
   fill: var(--a-paper);
   stroke: var(--a-ink);
   stroke-width: 1;
@@ -516,70 +527,116 @@
   transition: fill var(--d-2) var(--ease-std);
 }
 
-.fig1Inner {
+.figInner {
   fill: none;
   stroke: var(--a-rule);
   stroke-width: 0.75;
   stroke-dasharray: 3 3;
 }
 
-.fig1Leader {
-  fill: none;
-  stroke: var(--a-muted);
-  stroke-width: 0.6;
-}
-
-.fig1Dot {
+.figDot {
   fill: var(--a-red);
 }
 
-.fig1Num {
+.figNum {
   font-family: var(--a-mono);
-  font-size: 9.5px;
   fill: var(--a-red-ink);
 }
 
-.fig1Label {
-  font-family: var(--a-mono);
-  font-size: 10.5px;
-  fill: var(--a-ink);
-}
-
-.fig1Owner {
-  font-family: var(--a-mono);
-  font-size: 9px;
-  fill: var(--a-muted);
-}
-
-.fig1Layer:hover .fig1Plate {
+.figLayer:hover .figPlate {
   fill: var(--a-highlight);
 }
 
-.fig1List {
+/* Fig. 2 spread: drawing + numbered key. Hovering a key row tints its layer. */
+.spread {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--a-gap);
+  margin: var(--s-8) 0 0;
+  padding-top: var(--s-5);
+  border-top: 2px solid var(--a-ink);
+  background-image: linear-gradient(rgba(21, 19, 15, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(21, 19, 15, 0.045) 1px, transparent 1px);
+  background-size: 16px 16px;
+  background-position: -1px -1px;
+}
+
+.spreadDrawing {
+  grid-column: 1 / span 4;
+  align-self: start;
+  width: 100%;
+  max-width: 300px;
+  padding: var(--s-3) var(--s-4);
+}
+
+.spreadSvg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.spreadSvg .figNum {
+  font-weight: 500;
+}
+
+.spreadKey {
+  grid-column: 5 / span 8;
   list-style: none;
-  margin: var(--s-4) 0 0;
+  margin: 0;
   padding: 0;
-  border-top: 1px solid var(--a-rule);
-  font-size: var(--fs-small);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: var(--a-gap);
+  align-content: start;
 }
 
-.fig1List li {
-  padding: var(--s-2) 0;
+.spreadKey li {
+  display: grid;
+  grid-template-columns: 2.25rem 1fr;
+  row-gap: 2px;
+  padding: var(--s-3) 0;
   border-bottom: 1px solid var(--a-rule);
+  background: var(--a-paper);
 }
 
-.fig1ListNum {
+.spreadNo {
+  grid-row: span 2;
   font-family: var(--a-mono);
   font-size: var(--fs-mono);
   color: var(--a-red-ink);
-  margin-right: var(--s-2);
+  padding-top: 4px;
 }
 
-.fig1ListOwner {
-  font-family: var(--a-mono);
-  font-size: var(--fs-mono);
-  color: var(--a-muted);
-  float: right;
+.spreadTitle {
+  font-weight: 600;
+  font-size: var(--fs-small);
+}
+
+.spreadDesc {
+  font-size: 0.875rem;
+  color: var(--a-ink-2);
+  line-height: 1.45;
+}
+
+.spreadCaption {
+  grid-column: 1 / -1;
+  background: var(--a-paper);
+  margin-top: 0;
+  padding-top: var(--s-3);
+}
+
+.spread:has([data-key='01']:hover) [data-layer='01'] .figPlate,
+.spread:has([data-key='02']:hover) [data-layer='02'] .figPlate,
+.spread:has([data-key='03']:hover) [data-layer='03'] .figPlate,
+.spread:has([data-key='04']:hover) [data-layer='04'] .figPlate,
+.spread:has([data-key='05']:hover) [data-layer='05'] .figPlate,
+.spread:has([data-key='06']:hover) [data-layer='06'] .figPlate,
+.spread:has([data-key='07']:hover) [data-layer='07'] .figPlate {
+  fill: var(--a-highlight);
+}
+
+.takeLine {
+  margin: var(--s-4) 0 0;
 }
 
 /* ==========================================================================
@@ -645,12 +702,23 @@
   min-height: 56px;
   padding: var(--s-4) 0;
   text-decoration: none;
-  transition: background-color var(--d-2) var(--ease-std), padding var(--d-2) var(--ease-ink);
+  transition: background-color var(--d-2) var(--ease-std);
+}
+
+.ledgerRow > span {
+  transition: transform var(--d-2) var(--ease-ink);
 }
 
 .ledgerRow:hover {
   background: var(--a-plate);
-  padding-left: var(--s-3);
+}
+
+.ledgerRow:hover > span {
+  transform: translateX(12px);
+}
+
+.ledgerRow:active > span {
+  transform: translateX(8px);
 }
 
 .ledgerId {
@@ -725,10 +793,46 @@
   text-wrap: balance;
 }
 
+/* Blank byline under a feature title: where a magazine credits its people. */
+.byline {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-3);
+  margin: var(--s-4) 0 0;
+}
+
+.featureMirror .byline {
+  justify-content: flex-end;
+}
+
+.bylineLabel {
+  font-family: var(--a-mono);
+  font-size: var(--fs-mono);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--a-ink-2);
+}
+
+.bylineRule {
+  display: inline-block;
+  width: 11rem;
+  height: 2px;
+  background: var(--a-red);
+  transform-origin: left center;
+}
+
+.byline[data-sign='armed'] .bylineRule {
+  transform: scaleX(0);
+}
+
+.byline[data-sign='run'] .bylineRule {
+  animation: aSign 0.8s var(--ease-ink) 0.1s both;
+}
+
 .featSplit {
-  margin-top: var(--s-4);
+  margin-top: var(--s-5);
   font-family: var(--a-serif);
-  font-style: italic;
   font-size: var(--fs-split);
   line-height: 1.1;
   color: var(--a-ink-2);
@@ -766,7 +870,6 @@
   background: var(--a-night);
   color: var(--a-night-fg);
   font-family: var(--a-mono);
-  font-style: normal;
   font-size: 0.62em;
   line-height: 1;
   white-space: nowrap;
@@ -794,11 +897,18 @@
 
 .featBody {
   grid-column: 1 / span 7;
-  max-width: 64ch;
 }
 
 .featBody > p {
   margin: 0 0 var(--s-4);
+  max-width: 62ch;
+}
+
+.recordCol {
+  grid-column: 9 / span 4;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-6);
 }
 
 .featureMirror .featBody {
@@ -806,7 +916,7 @@
   grid-row: 1;
 }
 
-.featureMirror .record {
+.featureMirror .recordCol {
   grid-column: 1 / span 4;
   grid-row: 1;
 }
@@ -819,7 +929,8 @@
   justify-content: flex-end;
 }
 
-.dropcap {
+.dropcap,
+.leadPara {
   font-family: var(--a-serif);
   font-size: var(--fs-dek);
   line-height: 1.4;
@@ -834,10 +945,15 @@
   color: var(--a-ink);
 }
 
+/* Build record: the one engineering texture, a faint 4 mm drafting grid. */
 .record {
-  grid-column: 9 / span 4;
   border-top: 2px solid var(--a-ink);
-  padding-top: var(--s-3);
+  padding: var(--s-3) var(--s-3) var(--s-2);
+  background-color: var(--a-paper);
+  background-image: linear-gradient(rgba(21, 19, 15, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(21, 19, 15, 0.055) 1px, transparent 1px);
+  background-size: 16px 16px;
+  background-position: -1px -1px;
 }
 
 .recordHead {
@@ -858,6 +974,10 @@
   line-height: 1.45;
 }
 
+.recordRow:last-child {
+  border-bottom: 0;
+}
+
 .recordRow dt {
   font-family: var(--a-mono);
   font-size: var(--fs-mono);
@@ -871,50 +991,8 @@
   margin: 0;
 }
 
-.recordSign {
-  border-bottom: 0;
-  padding-top: var(--s-5);
-}
-
-.partsList {
-  list-style: none;
-  margin: var(--s-6) 0 var(--s-5);
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: var(--a-gap);
-  border-top: 1px solid var(--a-ink);
-}
-
-.partsList li {
-  display: grid;
-  grid-template-columns: 2rem 1fr;
-  row-gap: 2px;
-  padding: var(--s-3) 0;
-  border-bottom: 1px solid var(--a-rule);
-}
-
-.partsNo {
-  grid-row: span 2;
-  font-family: var(--a-mono);
-  font-size: var(--fs-mono);
-  color: var(--a-red-ink);
-  padding-top: 4px;
-}
-
-.partsTitle {
-  font-weight: 600;
-  font-size: var(--fs-small);
-}
-
-.partsDesc {
-  font-size: 0.875rem;
-  color: var(--a-ink-2);
-  line-height: 1.45;
-}
-
-.plateFig {
-  margin: var(--s-8) 0 0;
+.marginPlate {
+  margin: 0;
 }
 
 .plate {
@@ -1030,9 +1108,9 @@
 }
 
 .rsvpButton:hover {
-  background: var(--a-red);
-  border-color: var(--a-red);
-  color: var(--a-ink);
+  background: var(--a-red-ink);
+  border-color: var(--a-red-ink);
+  color: var(--a-paper);
 }
 
 .rsvpPaces {
@@ -1043,10 +1121,18 @@
   font-family: var(--a-mono);
   font-size: var(--fs-mono);
   border-left-width: 0;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.35em;
 }
 
 .rsvpPace:first-child {
   border-left-width: 1px;
+}
+
+.rsvpPace:hover {
+  text-decoration-color: var(--a-red);
 }
 
 .rsvpPace[aria-pressed='true'] {
@@ -1094,12 +1180,13 @@
   font-size: var(--fs-small);
 }
 
+/* Italic means one thing on this page: the open slot / you. */
 .alsoOpen .alsoTitle {
   font-style: italic;
 }
 
 /* ==========================================================================
-   02 How a build runs — the one dark spread
+   02 How the studio runs — the one dark spread
    ========================================================================== */
 
 .rulesChapter {
@@ -1129,7 +1216,7 @@
 
 .rule {
   display: grid;
-  grid-template-columns: 4rem minmax(0, 1fr) minmax(0, 18rem);
+  grid-template-columns: 4rem minmax(0, 1fr) minmax(0, 20rem);
   align-items: baseline;
   gap: var(--a-gap);
   padding: var(--s-6) 0;
@@ -1146,21 +1233,29 @@
   margin: 0;
   font-family: var(--a-serif);
   font-size: var(--fs-rule);
-  line-height: 1.05;
+  line-height: 1.12;
   letter-spacing: -0.015em;
+  text-wrap: balance;
 }
 
+/* The gloss is what the rule means for you: Zodiak italic, hung like a pull-quote. */
 .ruleGloss {
   margin: 0;
-  color: var(--a-night-muted);
-  font-size: var(--fs-small);
+  font-family: var(--a-serif);
+  font-style: italic;
+  font-size: clamp(1.125rem, 1.6vw, 1.5rem);
+  line-height: 1.3;
+  color: var(--a-night-fg);
+  opacity: 0.86;
 }
 
 .rail {
   display: flex;
   flex-wrap: wrap;
   gap: var(--s-2) 0;
+  list-style: none;
   margin: var(--s-7) 0 0;
+  padding: 0;
 }
 
 .railStage {
@@ -1187,90 +1282,140 @@
 }
 
 /* ==========================================================================
-   03 Where you fit
+   03 Where you fit — run-in index, not 15 headlines
    ========================================================================== */
 
-.fitGrid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--a-gap);
+.fitList {
+  margin: 0;
+  border-top: 2px solid var(--a-ink);
 }
 
-.fitHead {
-  margin: 0 0 var(--s-3);
-  padding-bottom: var(--s-3);
-  border-bottom: 2px solid var(--a-ink);
+.fitRow {
+  display: grid;
+  grid-template-columns: 12rem minmax(0, 1fr);
+  gap: var(--a-gap);
+  align-items: baseline;
+  padding: var(--s-4) 0;
+  border-bottom: 1px solid var(--a-rule);
+}
+
+.fitRow dt {
   font-family: var(--a-mono);
   font-size: var(--fs-mono);
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  color: var(--a-red-ink);
 }
 
-.fitCol ul {
+.fitRow dd {
+  margin: 0;
+  font-size: 1.125rem;
+  max-width: 60ch;
+}
+
+.fitNote {
+  margin: var(--s-6) 0 0;
+  max-width: 48ch;
+  font-size: var(--fs-dek);
+  font-family: var(--a-serif);
+}
+
+/* ==========================================================================
+   04 Masthead — the staff box
+   ========================================================================== */
+
+.staffChapter {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--a-gap);
+  align-items: start;
+}
+
+.staffIntro {
+  grid-column: 1 / span 6;
+}
+
+.staffLine {
+  margin: calc(-1 * var(--s-5)) 0 var(--s-4);
+  max-width: 44ch;
+  color: var(--a-ink-2);
+}
+
+.staffBox {
+  grid-column: 8 / span 5;
+  border-top: 3px double var(--a-ink);
+  border-bottom: 3px double var(--a-ink);
+  padding: var(--s-4) 0;
+  text-align: center;
+}
+
+.staffBoxHead {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+  margin: 0 0 var(--s-4);
+  padding-bottom: var(--s-4);
+  border-bottom: 1px solid var(--a-rule);
+}
+
+.staffBoxName {
+  font-family: var(--a-serif);
+  font-size: 2rem;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+
+.staffBoxEdition,
+.staffGroupHead {
+  font-family: var(--a-mono);
+  font-size: var(--fs-mono);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--a-ink-2);
+}
+
+.staffGroup + .staffGroup {
+  margin-top: var(--s-5);
+}
+
+.staffGroupHead {
+  margin: 0 0 var(--s-2);
+}
+
+.staffGroup ul {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.fitCol li {
+.staffRow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-1);
   padding: var(--s-2) 0;
-  border-bottom: 1px solid var(--a-rule);
+}
+
+.staffRole {
   font-family: var(--a-serif);
-  font-size: clamp(1.25rem, 1.8vw, 1.625rem);
+  font-size: 1.125rem;
   line-height: 1.25;
 }
 
-.fitNote {
-  margin: var(--s-7) 0 0;
-  max-width: 48ch;
-  font-size: var(--fs-dek);
-  font-family: var(--a-serif);
-  font-style: italic;
+.staffDesk {
+  display: block;
+  font-family: var(--a-sans);
+  font-size: 0.8125rem;
+  color: var(--a-muted);
 }
 
-/* ==========================================================================
-   04 Credits
-   ========================================================================== */
-
-.creditsLine {
-  margin: calc(-1 * var(--s-6)) 0 var(--s-6);
-  max-width: 52ch;
-  color: var(--a-ink-2);
-}
-
-.credits {
-  list-style: none;
-  margin: 0 0 var(--s-5);
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: var(--s-8);
-}
-
-.creditRow {
-  display: flex;
-  align-items: baseline;
-  gap: var(--s-3);
-  padding: var(--s-4) 0;
-}
-
-.creditRole {
-  font-family: var(--a-serif);
-  font-size: clamp(1.125rem, 1.6vw, 1.375rem);
-  white-space: nowrap;
-}
-
-.creditLeader {
-  flex: 1;
-  min-width: var(--s-5);
-  border-bottom: 1px dotted var(--a-muted);
-  transform: translateY(-0.3em);
-}
-
-.creditRow .signLine {
-  width: 7em;
-  flex: none;
+.staffBlank {
+  display: block;
+  width: 8rem;
+  height: 1.1rem;
+  border-bottom: 1px solid var(--a-ink-2);
 }
 
 /* ==========================================================================
@@ -1278,7 +1423,7 @@
    ========================================================================== */
 
 .join {
-  padding-bottom: var(--s-10);
+  padding-bottom: var(--s-9);
 }
 
 .joinWhen {
@@ -1291,7 +1436,6 @@
 }
 
 .joinTime {
-  font-style: italic;
   white-space: nowrap;
 }
 
@@ -1343,50 +1487,78 @@
   padding-top: 5px;
 }
 
-.joinClose {
-  margin: var(--s-9) 0 var(--s-5);
-  font-family: var(--a-serif);
-  font-size: var(--fs-lede);
-  line-height: 1;
-  letter-spacing: -0.015em;
-}
-
 .joinActions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: var(--s-5);
+  margin-top: var(--s-8);
 }
 
 .primaryCta {
   display: inline-flex;
   align-items: center;
   gap: var(--s-3);
-  min-height: 56px;
-  padding: 0 var(--s-6);
+  min-height: 52px;
+  padding: 0 var(--s-5);
   background: var(--a-ink);
   color: var(--a-paper) !important;
   font-weight: 500;
   font-size: 1.0625rem;
   text-decoration: none;
-  transition: background-color var(--d-2) var(--ease-std), color var(--d-2) var(--ease-std);
+  transition: background-color var(--d-2) var(--ease-std), transform var(--d-1) var(--ease-std);
 }
 
 .primaryCta:hover {
-  background: var(--a-red);
-  color: var(--a-ink) !important;
+  background: var(--a-red-ink);
 }
 
 /* ==========================================================================
-   Colophon
+   Pressed states: a 1px press into the paper, no bounce.
+   ========================================================================== */
+
+.primaryCta:active,
+.mastCta:active,
+.rsvpButton:active,
+.rsvpPace:active {
+  transform: translateY(1px);
+}
+
+.textLink:active {
+  text-decoration-thickness: 3px;
+}
+
+.mastNav ul a:active {
+  background-size: calc(100% - 2 * var(--s-3)) 2px;
+}
+
+/* ==========================================================================
+   Colophon — the edition closes here
    ========================================================================== */
 
 .colophon {
   margin: 0 calc(-1 * var(--a-margin));
-  padding: var(--s-7) var(--a-margin) var(--s-6);
+  padding: var(--s-8) var(--a-margin) var(--s-6);
   background: var(--a-night);
   color: var(--a-night-fg);
   overflow: hidden;
+}
+
+.colophonClose {
+  margin: 0 0 var(--s-7);
+  max-width: 22ch;
+  font-family: var(--a-serif);
+  font-size: var(--fs-lede);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+}
+
+.colophonNote {
+  font-family: var(--a-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.06em;
+  color: var(--a-night-muted);
+  vertical-align: middle;
 }
 
 .colophonMark {
@@ -1414,11 +1586,24 @@
 .colophonGrid a {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   min-height: 44px;
+  min-width: 44px;
   color: var(--a-night-fg);
   text-decoration: underline;
   text-decoration-color: var(--a-night-rule);
+  text-decoration-thickness: 1px;
   text-underline-offset: 0.25em;
+  transition: text-decoration-color var(--d-1) var(--ease-std), text-decoration-thickness var(--d-1) var(--ease-std);
+}
+
+.colophonGrid a:hover {
+  text-decoration-color: #ef5a45;
+  text-decoration-thickness: 2px;
+}
+
+.colophonGrid a:active {
+  text-decoration-thickness: 3px;
 }
 
 .colophonHead {
@@ -1458,39 +1643,40 @@
   }
 
   .coverText {
-    grid-column: 1 / span 6;
-  }
-
-  .contents {
-    grid-column: 7 / span 6;
+    grid-column: 1 / span 7;
   }
 
   .coverFig {
+    grid-column: 9 / span 4;
+  }
+
+  .contents {
     grid-column: 1 / -1;
-    grid-row: 2;
   }
 
   .featBody,
   .featureMirror .featBody {
     grid-column: 1 / -1;
     grid-row: auto;
-    max-width: none;
   }
 
-  .record,
-  .featureMirror .record {
+  .recordCol,
+  .featureMirror .recordCol {
     grid-column: 1 / -1;
     grid-row: auto;
-  }
-
-  .credits {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .recordList {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: var(--a-gap);
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    gap: var(--a-gap);
+  }
+
+  .spreadDrawing {
+    grid-column: 1 / span 4;
+    padding: var(--s-3);
+  }
+
+  .spreadKey {
+    grid-column: 5 / span 8;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .rule {
@@ -1499,6 +1685,14 @@
 
   .ruleGloss {
     grid-column: 2;
+  }
+
+  .staffIntro {
+    grid-column: 1 / span 6;
+  }
+
+  .staffBox {
+    grid-column: 7 / span 6;
   }
 
   .colophonGrid {
@@ -1511,7 +1705,7 @@
 }
 
 /* ==========================================================================
-   Phone ≤ 640
+   Phone ≤ 640 — the cover is re-cropped as a poster, not shrunk.
    ========================================================================== */
 
 @media (max-width: 640px) {
@@ -1533,63 +1727,71 @@
   }
 
   .cover {
-    padding-top: var(--s-6);
+    padding: var(--s-5) 0 var(--s-8);
   }
 
-  .line2 {
-    padding-left: 6%;
+  /* Poster crop: one word per line at ~19vw, "name" the largest line on its rule. */
+  .thesis {
+    font-size: 17.4vw;
+    line-height: 0.9;
+    letter-spacing: -0.025em;
   }
 
-  .ledgerRow {
-    grid-template-columns: 4.5rem minmax(0, 1fr);
-    row-gap: var(--s-1);
-  }
-
-  .ledgerProblem {
-    grid-column: 2;
-  }
-
-  .ledgerStatus {
-    grid-column: 2;
-    justify-self: start;
-  }
-
+  .line1,
+  .line2,
   .line3 {
-    padding-left: 0;
+    display: contents;
+  }
+
+  .w {
+    display: block;
+    white-space: nowrap;
+  }
+
+  .wWorth {
+    padding-left: 20%;
+  }
+
+  .wPutting {
+    padding-left: 8%;
+  }
+
+  .signName {
+    display: block;
+    width: max-content;
+    margin: 0.04em 0 0.06em 0.36em;
+    font-size: 1.42em;
+    line-height: 0.95;
+  }
+
+  .wOn {
+    padding-left: 52%;
+  }
+
+  .fnMark {
+    vertical-align: 2.2em;
   }
 
   .coverBand {
     display: flex;
     flex-direction: column;
-    gap: var(--s-7);
+    gap: var(--s-6);
+    margin-top: var(--s-6);
   }
 
-  .fig1Svg {
+  .coverActions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .coverActions .primaryCta {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  /* Fig. 2 carries the drawing on phones; the cover keeps type + action only. */
+  .coverFig {
     display: none;
-  }
-
-  .fig1SvgCompact {
-    display: block;
-    max-width: 260px;
-    margin: 0 auto;
-  }
-
-  .creditRow {
-    flex-wrap: wrap;
-    gap: var(--s-2);
-  }
-
-  .creditRole {
-    flex: 1 1 100%;
-    white-space: normal;
-  }
-
-  .creditLeader {
-    display: none;
-  }
-
-  .creditRow .signLine {
-    width: 60%;
   }
 
   .chapter {
@@ -1600,20 +1802,48 @@
     margin-bottom: var(--s-6);
   }
 
+  .ledgerRow {
+    grid-template-columns: 4.5rem minmax(0, 1fr);
+    row-gap: var(--s-1);
+  }
+
+  .ledgerProblem,
+  .ledgerStatus {
+    grid-column: 2;
+  }
+
+  .ledgerStatus {
+    justify-self: start;
+  }
+
   .featureMirror .featHead {
     text-align: left;
   }
 
-  .featureMirror .featSplit {
+  .featureMirror .featSplit,
+  .featureMirror .byline {
     justify-content: flex-start;
   }
 
-  .partsList,
-  .recordList,
-  .alsoGrid,
-  .fitGrid,
-  .credits,
-  .colophonGrid {
+  .recordCol,
+  .featureMirror .recordCol {
+    display: flex;
+  }
+
+  .spread {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-4);
+  }
+
+  .spreadDrawing {
+    max-width: 260px;
+    margin: 0 auto;
+    padding: var(--s-2);
+  }
+
+  .spreadKey,
+  .alsoGrid {
     grid-template-columns: minmax(0, 1fr);
   }
 
@@ -1636,14 +1866,33 @@
     grid-column: 1;
   }
 
+  .fitRow {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-1);
+  }
+
+  .staffChapter {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-6);
+  }
+
+  .staffBox {
+    width: 100%;
+  }
+
   .joinGrid {
     display: flex;
     flex-direction: column;
     gap: var(--s-6);
   }
 
-  .creditsLine {
-    margin-top: calc(-1 * var(--s-4));
+  .joinActions {
+    margin-top: var(--s-6);
+  }
+
+  .colophonGrid {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .rsvpScreen {
@@ -1663,8 +1912,10 @@
     transform: none !important;
   }
 
-  .signRule {
-    animation: none;
+  .signRule,
+  .byline .bylineRule {
+    animation: none !important;
+    transform: none !important;
   }
 
   .root *,

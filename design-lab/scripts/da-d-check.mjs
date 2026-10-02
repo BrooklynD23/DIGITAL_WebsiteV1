@@ -61,8 +61,20 @@ try {
     await page.focus('input[value="mechanical-cad"]');
     await page.keyboard.press('ArrowRight');
     const afterKey = await visibleSeat(page);
+    const echo = await page.evaluate(() => [...document.querySelectorAll('[data-echo]')].filter((el) => getComputedStyle(el).display !== 'none').map((el) => el.textContent.trim()));
+    results.push(`seat echo (visible after ArrowRight): ${echo.join(' | ')}`);
     await page.locator('#seats').screenshot({ path: join(outDir, 'seats-after-key.png') });
     results.push(`seats: initial ${before} → click ${afterClick} → ArrowRight ${afterKey}`);
+    // draw-on sequencing probe on the How rail (only animated sketch)
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await page.waitForTimeout(300);
+    await page.evaluate(() => document.getElementById('how').scrollIntoView());
+    const probe = [];
+    for (const t of [250, 700, 1600]) {
+      await page.waitForTimeout(t === 250 ? 250 : t - (t === 700 ? 250 : 700));
+      probe.push(await page.evaluate(() => { const ps = [...document.querySelectorAll('#how [data-sketch]:not([data-still]) path')]; const f = (p) => Number(getComputedStyle(p).strokeDashoffset.replace('px','')).toFixed(2); return `${f(ps[0])}/${f(ps[ps.length - 1])}`; }));
+    }
+    results.push(`rail draw (first path / last circle dashoffset) at 250/700/1600ms: ${probe.join(' → ')}`);
     // keyboard focus visibility on first nav link
     await page.keyboard.press('Tab');
     await page.close();

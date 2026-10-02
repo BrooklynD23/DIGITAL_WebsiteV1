@@ -73,9 +73,9 @@ export const WIDE_MAP: MapLayout = {
 };
 
 export const COMPACT_MAP: MapLayout = {
-  width: 358,
-  subW: 112,
-  partW: 118,
+  width: 350,
+  subW: 110,
+  partW: 116,
   nodeH: 30,
   partPitch: 38,
   laneGap: 9,

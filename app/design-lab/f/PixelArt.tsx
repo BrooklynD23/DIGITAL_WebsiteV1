@@ -137,3 +137,24 @@ export const RIGHT_LENS_CENTER = {
   left: `${((34 + 1) / (GW + 2)) * 100}%`,
   top: `${((7 + 1) / (GH + 2)) * 100}%`,
 } as const;
+
+/**
+ * 24px per-seat glyph: the 7 phone layers as bars, back to front (same order as the big figure).
+ * Filled bars = the layers this subsystem touches, so cause and effect sit in the seat's own row.
+ */
+export function SeatGlyph({ layers }: { readonly layers: readonly PhoneLayerId[] }) {
+  return (
+    <svg width={24} height={24} viewBox="0 0 24 24" shapeRendering="crispEdges" aria-hidden="true" focusable="false">
+      {PHONE_LAYERS.map((layer, i) => (
+        <rect
+          key={layer}
+          x={1 + i * 3}
+          y={layers.includes(layer) ? 3 : 15}
+          width={2}
+          height={layers.includes(layer) ? 18 : 6}
+          fill={layers.includes(layer) ? 'var(--ink)' : 'var(--hair-strong)'}
+        />
+      ))}
+    </svg>
+  );
+}

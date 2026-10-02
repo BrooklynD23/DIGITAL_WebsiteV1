@@ -136,3 +136,42 @@ Voice: spec-sheet declaratives, mechanism over adjectives, honest status. Thesis
 
 Checks (`node design-lab/scripts/da-b-states.mjs`): 16/16 pass: hover trace, keyboard nav, filters, S4/S7 handoff notes, RSVP play/pause, reduced motion (no autoplay, no draw), no-JS content + 89 SVG paths, 0px overflow and no target <24px at 390/834, 0 console errors.
 Note: `shoot.mjs` mobile (DPR 2) exceeds Chromium's 16 384px capture limit on this ~11 000px page and tiles; use `b-mobile-dpr1.png` (`design-lab/scripts/da-b-mobile.mjs`) as the true mobile full page.
+
+## v2 changes (Wave 4 refinement, §36)
+
+Inputs: `critiques/b-by-a.md`, `b-by-a-motion-gemini.md`, `micro-b.md`, `a11y-b.md`, orchestrator must-fix list. Thesis unchanged. Renders: `renders/b/v2/` (`b-{desktop,tablet,mobile}.png`, `states/`). Checks: `da-b-states.mjs` 21/21 pass (adds anchor-jump, single-shot RSVP, 44px Fig. 1 hit areas, rendered-text ≥12px at 390/834). 0 console errors, `tsc` clean for `app/design-lab/b/`. **These values replace the v1 spec where they differ.**
+
+### Applied: fix now (8)
+
+| # | Fix | Source | Where |
+|---|---|---|---|
+| 1 | Index jumps land below the nav: `.record { scroll-margin-top: 72px }`, sections 56px; `html:has(#lab-b){scroll-behavior:auto}` so anchors jump instantly, as the spec promised | orch 1, U1, micro 17 | `b.module.css`, `layout.tsx` |
+| 2 | RSVP is single-shot: one 1.47s pass when ≥50% visible, holds on "look." with passed slots marked, plain **Run again** button (no toggle, no aria-pressed). Reduced motion: no automatic pass | orch 2, M1, Gemini motion, micro 21 | `RsvpTiming.tsx` |
+| 3 | A11y: plot scroller is a focusable named region; gate G1/G2 text is sr-only content, not `aria-label` on a span; live region now one line ("S4 Operating System selected. Owner unassigned. 2 handoffs.") | orch 3–4, a11y 1–3 | `RsvpTiming.tsx`, `BuildRun.tsx` |
+| 4 | Targets: Fig. 1 subsystem links get a 48px invisible hit rect (≥44 rendered at 390/834); ledger links and footer links 44px; compact map viewBox fitted to the 390 column so it renders ≥1:1 | orch 5, micro 15, U4 | `InterfaceMap.tsx`, `schematic.ts` |
+| 5 | **Ownership inside the drawing** (replaces every `______`): unowned subsystem blocks are dashed red; Fig. 1 header computes `0 of 7 owned`; register Owner column and §02 owner bar say `UNASSIGNED` in red mono; DG-003 is "Open slot"; "Built by" became Owners/Credits facts; DRAWN BY / REV cells and the "Signed" column dropped. Source: `subsystemOwners` (all null, `team.ts` leads TBA) | lab-wide distinctiveness, D2, B3 | `copy.ts`, `InterfaceMap.tsx`, `page.tsx` |
+| 6 | **Fig. 4 build × discipline matrix** in §03 Join: S1–S7 + DG-002 + VS × the 8 DESIGN.md §9.3 codes, solid = stated in the record (DG-002), hatched = inferred from scope text [confirm], computed column totals ("every column has a build that needs it"). Ledger "Needs" now lists codes for every row. Photo plates removed; "Photo log · 0 entries [placeholder]" field instead | B1, S2 | `DisciplineMatrix.tsx`, `copy.ts` |
+| 7 | One title scale: thesis spans 12 columns, `clamp(44px, 6.6vw, 104px)` (monotonic: 44 / 55 / 95px at 390 / 834 / 1440; 2 lines ≥600, 3 below); h2 `clamp(28px, 2.8vw, 40px)`; rail names and chain labels moved to Plex Sans 600 so only titles use Condensed caps; hero 4/8 split; v1 dead space under the hero removed | H1, T1, H4 | `b.module.css`, `page.tsx` |
+| 8 | 12px floor: all CSS 11px → 12px; SVG text 12px (map, tags, notes, chain, ticks, slots); Fig. 2 uses the vertical layout at every width (the horizontal one couldn't hold 12px labels) | lab-wide, a11y 5, T2 | all SVG components |
+
+### Applied: trivial / lab-wide (not counted)
+
+Production cursor hidden + `cursor:auto` (scoped `:has(#lab-b)`); `:active` pressed states (1px drop + ink inversion, 0ms); red AA (tags/gates already `#b23422` ≈6.2:1 under white, text `#b23422` ≈5.5:1; `#d8412f` only for strokes, rules, glyphs); reduced-motion block kills transitions too; footer legal hover underline; `::selection` ink; `theme-color` `#f2f2ee`; signature glyphs shown at all widths; Fig. 1 draw-in armed on visibility (≥40%), 500ms + 30ms stagger (Gemini: v1 was sluggish); mobile `<details>` menu closes on Escape and on link choice; heading semantics: record display line is the `h3` (with sr-only build name), strip title is a `p`; Fig. 1 caption defines "subsystem" for non-engineers.
+
+### Rejected (with reason)
+
+| Item | Reason |
+|---|---|
+| Port CSS Module to Tailwind (F2) | Lab prototype; CSS Modules aren't CSS-in-JS. Port belongs to production implementation with Head Designer sign-off |
+| Gemini: default RSVP to paused | Single-shot pass + hold resolves the strobe while still showing the real timing once; reduced motion already gets no pass |
+| Mobile bar CTA beside INDEX (U3) | Wordmark + INDEX + "Take a subsystem" don't fit 360px at 44px targets; CTA stays first in the menu and in the hero |
+| Landmark fixes for header/footer inside production `<main>` | Lab limitation (production `app/layout.tsx`); fixed by adding the route to `immersiveRoutes` in production |
+| Label swap on mobile menu summary | `<details>` already exposes expanded state; changing the label as well double-signals (lab rule) |
+
+### Deferred
+
+1. Per-subsystem CTA (`/contact?type=project-team&subsystem=…`) and selector ↔ URL hash sync (U2): production form doesn't read the param [confirm].
+2. Ledger de-duplication + register inside `<details>` on mobile (H3); mobile page is still ≈11 700px.
+3. REQ-1 requirement row per record (S1): needs copy pass through brand-voice-strategist.
+4. Draw the §02 rail with Fig. 1 wire grammar (D1) and 4+3 S1–S7 grid selector on mobile (U5).
+5. Matrix cells for S1–S7 and VS are inferred: phone leads and VS lead must confirm before production.

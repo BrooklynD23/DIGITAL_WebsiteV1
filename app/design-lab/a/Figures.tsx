@@ -1,15 +1,17 @@
 /**
  * Procedural figures for concept A (server components, no JS).
- * Fig. 1 is a diagram of DG-001's seven subsystems as stacked layers, each with a blank
- * owner line. It is explicitly NOT a teardown of the club's device (no photos exist).
+ * The stack is a DIAGRAM of DG-001's seven subsystems, explicitly NOT a teardown of the
+ * club's device (no photos exist). Fig. 1 (cover) is the small numbered stack; Fig. 2
+ * (DG-001 feature) is the same stack at plate scale with a numbered key that carries
+ * each subsystem's real description from lib/data/phoneV2.ts.
  */
 import styles from './a.module.css';
-import { BLANK } from './content';
 
 interface Subsystem {
   readonly n: string;
   readonly id: string;
   readonly title: string;
+  readonly description?: string;
 }
 
 const W = 64; // phone plan width
@@ -23,89 +25,88 @@ const iso = (x: number, y: number, z: number): [number, number] => [
   (x + y) * SIN - z,
 ];
 
-function layerPoints(z: number): string {
-  return [iso(0, 0, z), iso(W, 0, z), iso(W, H, z), iso(0, H, z)]
-    .map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`)
-    .join(' ');
-}
+const pts = (corners: [number, number][]): string =>
+  corners.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(' ');
 
-function innerPoints(z: number, inset: number): string {
-  return [
-    iso(inset, inset, z),
-    iso(W - inset, inset, z),
-    iso(W - inset, H - inset, z),
-    iso(inset, H - inset, z),
-  ]
-    .map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`)
-    .join(' ');
-}
+const layerPoints = (z: number): string => pts([iso(0, 0, z), iso(W, 0, z), iso(W, H, z), iso(0, H, z)]);
 
-export function FigSubsystems({ items }: { readonly items: readonly Subsystem[] }) {
+const innerPoints = (z: number, inset: number): string =>
+  pts([iso(inset, inset, z), iso(W - inset, inset, z), iso(W - inset, H - inset, z), iso(inset, H - inset, z)]);
+
+function Stack({
+  items,
+  label,
+  numSize,
+  className,
+}: {
+  readonly items: readonly Subsystem[];
+  readonly label: string;
+  readonly numSize: number;
+  readonly className: string;
+}) {
   const count = items.length;
-  const labelX = 150;
   return (
-    <figure className={styles.fig1}>
-      <svg
-        className={styles.fig1Svg}
-        viewBox="-125 -210 470 320"
-        role="img"
-        aria-labelledby="fig1-title"
-      >
-        <title id="fig1-title">
-          {`Diagram: DG-001 as ${count} stacked layers, one per subsystem, each with a blank owner line.`}
-        </title>
-        {items.map((s, i) => {
-          // top of the stack = first subsystem
-          const z = (count - 1 - i) * GAP;
-          const [cx, cy] = iso(W, 0, z);
-          const rowY = -168 + i * 34;
-          return (
-            <g key={s.id} className={styles.fig1Layer} transform="translate(0 0)">
-              <polygon points={layerPoints(z)} className={styles.fig1Plate} />
-              <polygon points={innerPoints(z, 8)} className={styles.fig1Inner} />
-              <polyline
-                points={`${cx.toFixed(1)},${cy.toFixed(1)} ${labelX - 30},${rowY} ${labelX - 6},${rowY}`}
-                className={styles.fig1Leader}
-              />
-              <circle cx={cx} cy={cy} r={2.2} className={styles.fig1Dot} />
-              <text x={labelX} y={rowY - 3} className={styles.fig1Num}>
-                {s.n}
-              </text>
-              <text x={labelX + 22} y={rowY - 3} className={styles.fig1Label}>
-                {s.title}
-              </text>
-              <text x={labelX + 22} y={rowY + 11} className={styles.fig1Owner}>
-                {`owner ${BLANK}`}
-              </text>
-            </g>
-          );
-        })}
-      </svg>
-      {/* Compact drawing for narrow screens: layers only; labels move to the list below. */}
-      <svg
-        className={styles.fig1SvgCompact}
-        viewBox="-120 -195 210 300"
-        role="img"
-        aria-label={`Diagram: DG-001 as ${count} stacked layers, numbered 01 to ${String(count).padStart(2, '0')}.`}
-      >
-        {items.map((s, i) => {
-          const z = (count - 1 - i) * GAP;
-          const [cx, cy] = iso(W, 0, z);
-          return (
-            <g key={s.id}>
-              <polygon points={layerPoints(z)} className={styles.fig1Plate} />
-              <polygon points={innerPoints(z, 8)} className={styles.fig1Inner} />
-              <text x={cx + 6} y={cy + 4} className={styles.fig1Num}>
-                {s.n}
-              </text>
-            </g>
-          );
-        })}
-      </svg>
+    <svg className={className} viewBox="-120 -195 210 300" role="img" aria-label={label}>
+      {items.map((s, i) => {
+        const z = (count - 1 - i) * GAP;
+        const [cx, cy] = iso(W, 0, z);
+        return (
+          <g key={s.id} data-layer={s.n} className={styles.figLayer}>
+            <polygon points={layerPoints(z)} className={styles.figPlate} />
+            <polygon points={innerPoints(z, 8)} className={styles.figInner} />
+            <circle cx={cx} cy={cy} r={2} className={styles.figDot} />
+            <text x={cx + 6} y={cy + numSize * 0.35} className={styles.figNum} style={{ fontSize: numSize }}>
+              {s.n}
+            </text>
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
+/** Fig. 1 — cover: small numbered stack, no labels (the key lives in Fig. 2). */
+export function FigCover({ items }: { readonly items: readonly Subsystem[] }) {
+  const last = items.length.toString().padStart(2, '0');
+  return (
+    <figure className={styles.figCover}>
+      <Stack
+        items={items}
+        numSize={11}
+        className={styles.figCoverSvg}
+        label={`Diagram: DG-001 as ${items.length} stacked layers, numbered 01 to ${last}. The key is in Fig. 2.`}
+      />
       <figcaption className={styles.caption}>
-        <span className={styles.figNo}>Fig. 1</span> DG-001, the Modular Smartphone, drawn as its
-        seven subsystems (listed in full under 01). A diagram, not a teardown. Every owner line
-        is still blank.
+        <span className={styles.figNo}>Fig. 1</span> DG-001 drawn as its seven subsystems. Key in Fig. 2.
+      </figcaption>
+    </figure>
+  );
+}
+
+/** Fig. 2 — DG-001 feature: plate-scale stack + numbered key with real descriptions. */
+export function FigSpread({ items }: { readonly items: readonly Subsystem[] }) {
+  return (
+    <figure className={styles.spread}>
+      <div className={styles.spreadDrawing}>
+        <Stack
+          items={items}
+          numSize={10.5}
+          className={styles.spreadSvg}
+          label={`Exploded diagram of DG-001: ${items.map((s) => `${s.n} ${s.title}`).join(', ')}.`}
+        />
+      </div>
+      <ol className={styles.spreadKey}>
+        {items.map((s) => (
+          <li key={s.id} data-key={s.n}>
+            <span className={styles.spreadNo}>{s.n}</span>
+            <span className={styles.spreadTitle}>{s.title}</span>
+            <span className={styles.spreadDesc}>{s.description}</span>
+          </li>
+        ))}
+      </ol>
+      <figcaption className={`${styles.caption} ${styles.spreadCaption}`}>
+        <span className={styles.figNo}>Fig. 2</span> DG-001, exploded into its seven subsystems. A
+        diagram, not a teardown: the layer order is editorial, not the board stack.
       </figcaption>
     </figure>
   );
@@ -134,7 +135,7 @@ export function WordGlyph() {
 }
 
 /** Striped plate standing in for a real project photo. */
-export function PhotoPlate({ label, ratio = '16 / 9' }: { readonly label: string; readonly ratio?: string }) {
+export function PhotoPlate({ label, ratio = '4 / 3' }: { readonly label: string; readonly ratio?: string }) {
   return (
     <div className={styles.plate} style={{ aspectRatio: ratio }} role="img" aria-label={label}>
       <span className={styles.plateLabel}>{label}</span>
