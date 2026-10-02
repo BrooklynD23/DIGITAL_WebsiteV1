@@ -72,6 +72,8 @@ try {
     page.on('pageerror', (e) => errors.push(e.message));
     page.on('console', (m) => m.type() === 'error' && errors.push(m.text()));
     await page.goto(base + route, { waitUntil: 'networkidle', timeout: 90000 });
+    // Round-2 pages: scroll-linked `.r2-reveal` tiles render their final state when <html data-r2-static> is set.
+    await page.evaluate(() => document.documentElement.setAttribute('data-r2-static', ''));
     if (!viewportOnly) {
       await page.waitForTimeout(preScrollMs);
       // Scroll through once so IntersectionObserver / scroll-triggered reveals fire before capture.

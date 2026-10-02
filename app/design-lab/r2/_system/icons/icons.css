@@ -1,0 +1,330 @@
+/*
+ * Round-2 glyph family. 24-unit grid, 1px non-scaling stroke, 2-unit dot pitch, ≤1 red anchor dot.
+ * One source per glyph; `data-state` is the axis (Material Symbols idea):
+ *   idle    dotted outline, 60% ink, rest pose
+ *   working verb animates (only while hovered / focused / its row is active), 100% ink
+ *   done    settle: solid outline, filled centre node, never red
+ * `--u` = CSS px per grid unit (size / 24). Dashes are screen px under non-scaling strokes, so they scale by --u.
+ * Global (not a CSS module) so keyframe names stay stable for the per-element `--a` animation slot.
+ */
+
+.r2g {
+  --ink: 1;
+  --pitch: calc(var(--u, 1) * 2px);
+  display: inline-block;
+  flex: none;
+  overflow: visible;
+  vertical-align: middle;
+  color: inherit;
+}
+
+.r2g[data-state='idle'] {
+  --ink: 0.6;
+}
+
+.r2g * {
+  transform-box: view-box;
+  transform-origin: 12px 12px;
+  transition:
+    opacity var(--r2-dur-ui, 280ms) var(--r2-ease-ui, ease),
+    transform var(--r2-dur-ui-slow, 320ms) var(--r2-ease-ui, ease),
+    stroke-dasharray var(--r2-dur-ui-slow, 320ms) var(--r2-ease-ui, ease),
+    fill-opacity var(--r2-dur-ui, 280ms) var(--r2-ease-ui, ease);
+}
+
+.r2g :is(.r2g-line, .r2g-hair, .r2g-bound, .r2g-lead, .r2g-draw, .r2g-via) {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+/* structure: dotted (2-unit pitch) until done, then solid */
+.r2g .r2g-line {
+  opacity: var(--ink);
+  stroke-dasharray: 0 var(--pitch);
+}
+.r2g[data-state='done'] .r2g-line {
+  stroke-dasharray: var(--pitch) 0;
+}
+
+/* secondary layer: always solid, 45% */
+.r2g .r2g-hair {
+  opacity: calc(var(--ink) * 0.45);
+}
+
+/* boundary / interface: 5 4 */
+.r2g .r2g-bound {
+  opacity: calc(var(--ink) * 0.6);
+  stroke-dasharray: calc(var(--u, 1) * 5px) calc(var(--u, 1) * 4px);
+}
+
+/* leader / reference: 2 3, solid once done */
+.r2g .r2g-lead {
+  opacity: calc(var(--ink) * 0.7);
+  stroke-dasharray: calc(var(--u, 1) * 2px) calc(var(--u, 1) * 3px);
+}
+.r2g[data-state='done'] .r2g-lead {
+  stroke-dasharray: calc(var(--u, 1) * 5px) 0;
+  opacity: 0.8;
+}
+
+.r2g .r2g-via {
+  opacity: var(--ink);
+}
+
+/* dots */
+.r2g .r2g-dot {
+  fill: currentColor;
+  opacity: calc(var(--ink) * 0.7);
+}
+.r2g .r2g-node {
+  fill: currentColor;
+  opacity: var(--ink);
+}
+/* centre node: hollow until done */
+.r2g .r2g-core {
+  fill: currentColor;
+  fill-opacity: 0;
+  stroke: currentColor;
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  opacity: var(--ink);
+}
+.r2g[data-state='done'] .r2g-core {
+  fill-opacity: 1;
+}
+
+/* the one red dot: here / now / open. Gone once done (never red at rest-done). */
+.r2g .r2g-anchor {
+  fill: var(--r2-trigger, #d8412f);
+}
+.r2g[data-state='done'] .r2g-anchor {
+  opacity: 0;
+}
+
+/* state-gated layers */
+.r2g .r2g-done {
+  opacity: 0;
+}
+.r2g[data-state='done'] .r2g-done {
+  opacity: 1;
+}
+.r2g[data-state='done'] .r2g-pre {
+  opacity: 0;
+}
+
+/* done pose for moving parts: travel to (--dx, --dy) */
+.r2g[data-state='done'] .r2g-to {
+  transform: translate(calc(var(--dx, 0) * 1px), calc(var(--dy, 0) * 1px));
+}
+
+/* parts that rest "out" (swap module) and slot home when done */
+.r2g .r2g-out {
+  transform: translate(calc(var(--ox, 0) * 1px), calc(var(--oy, 0) * 1px));
+}
+.r2g[data-state='done'] .r2g-out {
+  transform: none;
+}
+
+/* overlay strokes that only exist while the working animation runs */
+.r2g .r2g-draw {
+  opacity: 0;
+  --off: calc(var(--len, 40) * var(--u, 1) * 1px);
+  stroke-dasharray: var(--off) var(--off);
+}
+
+/* ---------- the working axis: animation runs only while live ---------- */
+.r2g-m {
+  animation-duration: var(--dur, 1.8s);
+  animation-timing-function: var(--ease, var(--r2-ease-ui, ease));
+  animation-iteration-count: infinite;
+  animation-delay: var(--delay, 0s);
+  animation-fill-mode: both;
+}
+
+:is(
+    .r2g[data-state='working'][data-live='true'],
+    .r2g[data-state='working']:hover,
+    [data-glyph-host]:is(:hover, :focus-within, [data-active='true']) .r2g[data-state='working']
+  )
+  .r2g-m {
+  animation-name: var(--a, none);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .r2g-m {
+    animation: none !important;
+  }
+  .r2g * {
+    transition: none !important;
+  }
+}
+
+/* ---------- keyframes (one per verb family) ---------- */
+@keyframes r2g-lift {
+  0%,
+  100% {
+    transform: none;
+  }
+  50% {
+    transform: translateY(calc(var(--ly, -1.5) * 1px));
+  }
+}
+
+@keyframes r2g-swap {
+  0%,
+  100% {
+    transform: translate(calc(var(--ox, 0) * 1px), calc(var(--oy, 0) * 1px));
+  }
+  45%,
+  60% {
+    transform: none;
+  }
+}
+
+@keyframes r2g-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes r2g-slide {
+  0%,
+  100% {
+    transform: none;
+  }
+  45%,
+  55% {
+    transform: translate(calc(var(--dx, 0) * 1px), calc(var(--dy, 0) * 1px));
+  }
+}
+
+@keyframes r2g-shift {
+  0%,
+  100% {
+    transform: none;
+  }
+  30%,
+  60% {
+    transform: translateX(calc(var(--dx, 2) * 1px));
+  }
+  75% {
+    transform: translateX(calc(var(--dx, 2) * -0.15px));
+  }
+}
+
+@keyframes r2g-travel {
+  0% {
+    transform: none;
+    opacity: 1;
+  }
+  85% {
+    transform: translate(calc(var(--dx, 0) * 1px), calc(var(--dy, 0) * 1px));
+    opacity: 1;
+  }
+  100% {
+    transform: translate(calc(var(--dx, 0) * 1px), calc(var(--dy, 0) * 1px));
+    opacity: 0;
+  }
+}
+
+@keyframes r2g-path3 {
+  0% {
+    transform: none;
+  }
+  35% {
+    transform: translate(calc(var(--x1, 0) * 1px), calc(var(--y1, 0) * 1px));
+  }
+  65% {
+    transform: translate(calc(var(--x2, 0) * 1px), calc(var(--y2, 0) * 1px));
+  }
+  90%,
+  100% {
+    transform: translate(calc(var(--x3, 0) * 1px), calc(var(--y3, 0) * 1px));
+  }
+}
+
+@keyframes r2g-draw {
+  0% {
+    opacity: 1;
+    stroke-dashoffset: var(--off);
+  }
+  70% {
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+  100% {
+    opacity: 0;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes r2g-packet {
+  0% {
+    opacity: 1;
+    stroke-dasharray: calc(var(--u, 1) * 3px) calc(var(--len, 40) * var(--u, 1) * 1px);
+    stroke-dashoffset: calc(var(--u, 1) * 3px);
+  }
+  100% {
+    opacity: 1;
+    stroke-dasharray: calc(var(--u, 1) * 3px) calc(var(--len, 40) * var(--u, 1) * 1px);
+    stroke-dashoffset: calc(var(--len, 40) * var(--u, 1) * -1px);
+  }
+}
+
+@keyframes r2g-light {
+  0%,
+  15% {
+    opacity: 0.15;
+  }
+  35%,
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes r2g-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+@keyframes r2g-gate {
+  0%,
+  35% {
+    transform: none;
+    opacity: 1;
+  }
+  45% {
+    opacity: 0.3;
+  }
+  55% {
+    opacity: 1;
+    transform: none;
+  }
+  85%,
+  100% {
+    transform: translateX(calc(var(--dx, 3) * 1px));
+    opacity: 0;
+  }
+}
+
+@keyframes r2g-bud {
+  0% {
+    transform: translate(calc(var(--dx, 0) * 1px), calc(var(--dy, 0) * 1px)) scale(0.2);
+  }
+  40%,
+  70% {
+    transform: none;
+  }
+  100% {
+    transform: translate(calc(var(--dx, 0) * 1px), calc(var(--dy, 0) * 1px)) scale(0.2);
+  }
+}

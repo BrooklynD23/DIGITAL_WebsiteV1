@@ -1,0 +1,13 @@
+import { chromium } from 'playwright';
+import { existsSync, readdirSync } from 'node:fs';
+import { homedir } from 'node:os';
+import { join } from 'node:path';
+const [url, js] = process.argv.slice(2);
+const root = join(homedir(), '.cache', 'ms-playwright');
+const d = readdirSync(root).filter((x) => x.startsWith('chromium_headless_shell-')).sort().reverse()[0];
+const exe = join(root, d, 'chrome-headless-shell-linux64', 'chrome-headless-shell');
+const b = await chromium.launch({ executablePath: existsSync(exe) ? exe : undefined });
+const p = await b.newPage({ viewport: { width: 1440, height: 900 } });
+await p.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 }); await p.waitForTimeout(3500);
+console.log(JSON.stringify(await p.evaluate(js), null, 1).slice(0, 3000));
+await b.close();

@@ -1,0 +1,19 @@
+/* Minimal shared chrome on world tokens. Owner: W1-HOME. */
+.nav { position: sticky; top: 0; z-index: 50; height: 52px; background: color-mix(in oklab, var(--r2-ground) 88%, transparent); backdrop-filter: saturate(1.4) blur(12px); border-bottom: 1px solid var(--r2-hairline); }
+.inner { max-width: 1200px; margin: 0 auto; padding: 0 var(--r2-gutter); height: 100%; display: flex; align-items: center; gap: 28px; }
+.mark { font-family: var(--font-display); font-weight: var(--r2-fw-strong); color: var(--r2-ink); text-decoration: none; margin-right: auto; }
+.link { font-family: var(--font-text); font-size: var(--r2-fs-small); color: var(--r2-ink-2); text-decoration: none; display: inline-flex; gap: 6px; align-items: baseline; min-height: 44px; align-items: center; }
+.link:hover, .link[aria-current='page'] { color: var(--r2-ink); }
+.channel { font-family: var(--font-mono); font-size: 11px; color: var(--r2-ink-3); }
+.cta { font-family: var(--font-text); font-size: var(--r2-fs-small); background: var(--r2-cta-bg); color: var(--r2-cta-ink); border-radius: 980px; padding: 6px 14px; text-decoration: none; transition: background var(--r2-dur-ui) var(--r2-ease-ui); }
+.cta:hover { background: var(--r2-cta-bg-hover); color: var(--r2-cta-ink-hover); }
+.skip { position: absolute; left: -9999px; }
+.skip:focus { left: 12px; top: 8px; background: var(--r2-ground-raised); color: var(--r2-ink); padding: 8px 12px; z-index: 60; }
+.footer { border-top: 1px solid var(--r2-hairline); padding: 48px 0 64px; background: var(--r2-ground); color: var(--r2-ink-2); }
+.footer .inner { flex-direction: column; align-items: flex-start; height: auto; gap: 16px; }
+.thesis { font-family: var(--font-display); color: var(--r2-ink); font-size: var(--r2-fs-h3); margin: 0; }
+.footLinks { list-style: none; padding: 0; margin: 0; display: flex; gap: 20px; flex-wrap: wrap; }
+.footLinks a { color: var(--r2-ink-2); text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; }
+.footLinks a:hover { color: var(--r2-ink); }
+.meta { font-family: var(--font-mono); font-size: var(--r2-fs-small); color: var(--r2-ink-3); margin: 0; }
+@media (max-width: 640px) { .link { display: none; } }
