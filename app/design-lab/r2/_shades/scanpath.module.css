@@ -1,8 +1,25 @@
 /* Illustrative scanpath. --k: 0 = reading a line, 1 = one fixation point (RSVP). */
+.wrap {
+  width: 100%;
+}
+
+.fig.narrow {
+  display: none;
+}
+
+@media (max-width: 734px) {
+  .fig.wide {
+    display: none;
+  }
+
+  .fig.narrow {
+    display: block;
+  }
+}
+
 .fig {
   display: block;
   width: 100%;
-  max-width: none;
   height: auto;
   overflow: visible;
 }
@@ -25,7 +42,7 @@
 }
 
 .fixWrap {
-  transform: translateX(calc(var(--dx) * 1px * (1 - var(--k, 0))));
+  transform: translate(calc(var(--dx) * 1px * (1 - var(--k, 0))), calc(var(--dy, 0) * 1px * (1 - var(--k, 0))));
   opacity: clamp(0, 1 - (var(--k, 0) - 0.55) * 2.6, 1);
 }
 
@@ -79,7 +96,6 @@
 .axisLabel {
   fill: var(--r2-ink-3);
   font-family: var(--font-mono);
-  font-size: 15px;
   letter-spacing: 0.04em;
 }
 
@@ -110,11 +126,11 @@
 @keyframes fixIn {
   from {
     opacity: 0;
-    transform: translateX(calc(var(--dx) * 1px)) scale(0.4);
+    transform: translate(calc(var(--dx) * 1px), calc(var(--dy, 0) * 1px)) scale(0.4);
   }
   to {
     opacity: 1;
-    transform: translateX(calc(var(--dx) * 1px));
+    transform: translate(calc(var(--dx) * 1px), calc(var(--dy, 0) * 1px));
   }
 }
 
@@ -132,7 +148,7 @@
 @media (prefers-reduced-motion: no-preference) {
   :global([data-run='play']) .once .fixWrap {
     transform-box: fill-box;
-    animation: fixIn 320ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation: fixIn 320ms var(--r2-ease-entrance) both;
     animation-delay: calc(var(--i) * 300ms);
   }
 
@@ -150,17 +166,3 @@
   animation: none !important;
 }
 
-/* Phones: zoom into the middle of the line (the point everything converges on); the parent clips. */
-@media (max-width: 734px) {
-  .fig {
-    width: 170%;
-    margin-left: -35%;
-  }
-}
-
-.note {
-  fill: var(--r2-ink-3);
-  font-family: var(--font-mono);
-  font-size: 15px;
-  letter-spacing: 0.04em;
-}

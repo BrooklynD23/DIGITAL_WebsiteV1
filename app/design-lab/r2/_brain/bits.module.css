@@ -28,3 +28,17 @@
 .sources a:hover { color: var(--r2-ink); }
 .srcId { font-family: var(--font-mono); }
 .sources[data-world='signal'] summary { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; }
+
+/* "How it works" disclosure (after each chapter pin) */
+.how { max-width: 40rem; margin: 0 auto; padding: 0 var(--r2-gutter) var(--r2-space-7); color: var(--r2-ink-2); font-size: var(--r2-fs-small); line-height: 20px; }
+.how summary { cursor: pointer; min-height: 44px; display: inline-flex; align-items: center; gap: 8px; color: var(--r2-ink-2); list-style: none; }
+.how summary::-webkit-details-marker { display: none; }
+.how summary::after { content: '+'; font-family: var(--font-mono); }
+.how[open] summary::after { content: '−'; }
+.how summary:hover { color: var(--r2-ink); }
+.how:not([open]) > :not(summary) { display: none; }
+.how ol { margin: 4px 0 8px; padding-left: 1.3em; display: grid; gap: 6px; }
+.srcLine { margin: 0; font-family: var(--font-mono); font-size: 11px; color: var(--r2-ink-3); }
+.how[data-world='signal'] summary { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; }
+.how[data-world='apple'] { text-align: left; }
+.how[data-world='apple'] summary { font-size: 14px; }

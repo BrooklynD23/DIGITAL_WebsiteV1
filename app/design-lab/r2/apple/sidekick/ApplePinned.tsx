@@ -1,89 +1,83 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { explodeCaptions } from '../../_content/sidekick';
-import { BoardSvg, getBoard } from '../../_system/boards';
-import { CineClip, CINE } from '../../_system/cine';
-import { onceTick, progressOf } from '../../_system';
+import { explodeCaptions, modules } from '../../_content/sidekick';
+import { CineClip, markerIndex, type CineClipHandle } from '../../_system/cine';
+import { useScrollSteps } from '../../_system';
+import { SidekickStack } from '../../_sidekick/Stack';
+import { cacheStack, markActive, resetStack, type StackCache } from '../../_sidekick/stackFrame';
 import s from './sidekick.module.css';
 
-const CLIP = CINE['sidekick-explode'];
+/** Share of the pin given to the scrubbed clip; the rest walks the five modules. */
+const CLIP_SHARE = 0.5;
+const BEATS = explodeCaptions.length + modules.length;
 
 /**
- * The one scrubbed asset on the page: a pinned chapter where the two real boards separate into their layers,
- * one caption per layer. Plays the `sidekick-explode` clip when the manifest marks it ready; until then the
- * same boards come apart in code (BoardSvg layers moved by a CSS variable, no re-render per frame).
- * Static (no JS / reduced motion): the boards fully separated, every caption listed below.
+ * The one pinned chapter, one scrubbed asset. Phase 1 scrubs `sidekick-explode` (the two real boards coming apart)
+ * with one caption per clip marker. Phase 2 cross-fades to the module stack, which holds still while one module
+ * at a time lights and its caption swaps in place. Static layout (no JS / reduced motion): the clip poster,
+ * the stack and every caption in order. Captions are never removed from the accessibility tree.
  */
 export function ApplePinned() {
-  const trackRef = useRef<HTMLDivElement>(null);
-  const artRef = useRef<HTMLDivElement>(null);
-  const [enhanced, setEnhanced] = useState(false);
-  const [active, setActive] = useState(0);
-  const [clipP, setClipP] = useState(0);
+  const pinRef = useRef<HTMLDivElement>(null);
+  const clipRef = useRef<CineClipHandle>(null);
+  const stackRef = useRef<HTMLDivElement>(null);
+  const cache = useRef<StackCache | null>(null);
+  const [beat, setBeat] = useState(0);
+
+  const { enhanced } = useScrollSteps(pinRef, {
+    count: BEATS,
+    onFrame: (p) => {
+      const clipP = Math.min(1, p / CLIP_SHARE);
+      clipRef.current?.setProgress(clipP);
+      const b =
+        p < CLIP_SHARE
+          ? Math.max(0, markerIndex('sidekick-explode', clipP))
+          : explodeCaptions.length + Math.min(modules.length - 1, Math.floor(((p - CLIP_SHARE) / (1 - CLIP_SHARE)) * modules.length));
+      setBeat((prev) => (prev === b ? prev : b));
+    },
+  });
 
   useEffect(() => {
-    const track = trackRef.current;
-    if (!track || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
-    setEnhanced(true);
-    let cancel: (() => void) | null = null;
-    let lastActive = -1;
-    const update = (): void => {
-      cancel = null;
-      const p = progressOf(track.getBoundingClientRect(), window.innerHeight, 'contain');
-      const a = Math.min(explodeCaptions.length - 1, Math.floor(p * explodeCaptions.length));
-      if (a !== lastActive) {
-        lastActive = a;
-        setActive(a);
-      }
-      if (CLIP.ready) setClipP(Math.round(p * 500) / 500);
-      else artRef.current?.style.setProperty('--e', Math.min(1, p * 1.25).toFixed(3));
-    };
-    const onScroll = (): void => {
-      if (!cancel) cancel = onceTick(update);
-    };
-    let attached = false;
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        const on = entry.isIntersecting;
-        if (on === attached) return;
-        attached = on;
-        if (on) window.addEventListener('scroll', onScroll, { passive: true });
-        else window.removeEventListener('scroll', onScroll);
-        onScroll();
-      },
-      { rootMargin: '25% 0px' },
-    );
-    io.observe(track);
-    onScroll();
+    const el = stackRef.current?.querySelector<HTMLElement>('[data-stack]');
+    if (!el || !enhanced) return undefined;
+    const c = cacheStack(el);
+    cache.current = c;
     return () => {
-      io.disconnect();
-      window.removeEventListener('scroll', onScroll);
-      cancel?.();
+      resetStack(c);
+      cache.current = null;
     };
-  }, []);
+  }, [enhanced]);
 
-  const fallback = (
-    <div ref={artRef} className={s.explodeArt} data-static={enhanced ? undefined : ''}>
-      <BoardSvg board={getBoard('zynq-carrier-power')} iso stableFrame={false} className={s.explodeCarrier} />
-      <BoardSvg board={getBoard('fingerprint')} iso stableFrame={false} className={s.explodeFp} />
-    </div>
-  );
+  const phase = beat >= explodeCaptions.length ? 'modules' : 'clip';
+  useEffect(() => {
+    if (cache.current) markActive(cache.current, phase === 'modules' ? beat - explodeCaptions.length : -1);
+  }, [beat, phase]);
+
+  const captions = [
+    ...explodeCaptions.map((c) => ({ key: c, text: c })),
+    ...modules.map((m) => ({ key: m.id, text: m.caption })),
+  ];
 
   return (
-    <div ref={trackRef} className={s.pinTrack} data-enhanced={enhanced ? '' : undefined}>
+    <div ref={pinRef} className={s.pinTrack} data-enhanced={enhanced ? '' : undefined} data-phase={enhanced ? phase : undefined}>
       <div className={s.pinStage}>
-        <h2 className={s.pinHead} id="teardown-title" data-hide={enhanced && active > 0 ? 'true' : undefined}>
+        <h2 className={s.pinHead} id="teardown-title" data-dim={enhanced && beat > 0 ? 'true' : undefined}>
           Every layer, in order.
         </h2>
         <div className={s.pinMedia}>
-          <CineClip name="sidekick-explode" mode="scrub" progress={clipP} fallback={fallback} aspect="16x9" />
+          <div className={s.pinClip}>
+            <CineClip ref={clipRef} name="sidekick-explode" world="apple" mode="scrub" />
+          </div>
+          <div ref={stackRef} className={s.pinStack}>
+            <SidekickStack label="SIDEKICK inside a phone shell that was never started, as a stack of five modules: fingerprint module, sensor module, power and carrier, compute, planned modules. Every seat is open." />
+          </div>
         </div>
         <ol className={s.captions}>
-          {explodeCaptions.map((c, i) => (
-            <li key={c} className={s.caption} data-active={enhanced ? String(i === active) : undefined}>
+          {captions.map((c, i) => (
+            <li key={c.key} className={s.caption} data-active={enhanced ? String(i === beat) : undefined} aria-hidden={enhanced && i !== beat ? true : undefined}>
               <p className={s.captionLine}>
-                {c} <span className={s.confirm}>[confirm]</span>
+                {c.text} <span className={s.confirm}>[confirm]</span>
               </p>
             </li>
           ))}

@@ -84,7 +84,7 @@ async function interact(page) {
   const slider = page.locator('#reader input[type=range]');
   await slider.focus();
   for (let i = 0; i < 4; i++) await page.keyboard.press('ArrowRight');
-  await page.locator('#reader button', { hasText: 'More spacing' }).first().click();
+  await page.locator('button[aria-pressed]').first().click(); // the spacing setting (hero chip, reader or LocalNav utility)
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.mouse.move(2, 2);
   for (let y = 0; y < 30; y++) {

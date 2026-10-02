@@ -1,12 +1,11 @@
 import type { Metadata } from 'next';
-import { WorldNav } from '../../_chrome/WorldNav';
-import { WorldFooter } from '../../_chrome/WorldFooter';
-import { GlyphSeat, StateMark } from '../../_system';
-import { atkinsonNext } from '../../_system/fonts';
+import { JoinChapter, WorldFooter, WorldNav } from '../../_chrome';
+import { PlayOnceStage, StateMark } from '../../_system';
+import { fontReadingText } from '../../_system/fonts';
 import { SHADES } from '../../_content/shades';
 import { ShadesRoot, SpacingToggle } from '../../_shades/ShadesRoot';
 import { Reader } from '../../_shades/Reader';
-import { HeroStage } from './HeroStage';
+import { Seats } from '../../_shades/Seats';
 import { Saccade } from './Saccade';
 import { Band } from './Band';
 import s from './signal.module.css';
@@ -18,12 +17,23 @@ const C = () => <span className={s.confirm}>{SHADES.confirmTag}</span>;
 export default function SignalShadesPage() {
   const { hero, reader, tracks, scope, roadmap, join, spacing } = SHADES;
   return (
-    <ShadesRoot className={`${s.root} ${atkinsonNext.variable}`}>
-      <WorldNav world="signal" current="shades" />
+    <ShadesRoot className={`${s.root} ${fontReadingText}`}>
+      <WorldNav world="signal" current="shades" sticky />
       <main id="r2-main">
         {/* 1 · Hero: the fixation point sits on the graticule's centre crosshair */}
         <section className={`r2-graticule ${s.hero}`} aria-labelledby="sh-hero">
-          <HeroStage className={s.heroStage} />
+          {/* one fixate pass on load (≤1.5 s), then rest; reduced motion: rest pose */}
+          <PlayOnceStage
+            verb="fixate"
+            size={560}
+            density={2.4}
+            seed={2}
+            anchor
+            duration={1400}
+            threshold={0.2}
+            label={SHADES.method.fixateLabel}
+            className={s.heroStage}
+          />
           <div className={s.heroTop}>
             <p className={s.readout}>
               <span className={s.channel}>{SHADES.channel}</span> {SHADES.name}
@@ -32,13 +42,13 @@ export default function SignalShadesPage() {
                 {SHADES.status.text} <C />
               </span>
             </p>
-            <SpacingToggle className={s.spacingChip} label={spacing.label} stateText={{ on: spacing.more, off: spacing.standard }} />
+            <SpacingToggle className={s.spacingChip} label={`${spacing.label}:`} stateText={{ on: spacing.more, off: spacing.standard }} />
           </div>
           <div className={s.heroCopy}>
             <h1 id="sh-hero" className={s.hero1}>{hero.headline}</h1>
             <p className={s.heroLead}>{hero.lead}</p>
             <p className={s.expansion}>
-              {SHADES.expansion} · {SHADES.formerly}
+              {SHADES.expansion}. <strong className={s.boundaryShort}>{SHADES.boundaryShort}</strong>
             </p>
             <a className={s.action} href="#reader">
               {hero.action}
@@ -59,7 +69,6 @@ export default function SignalShadesPage() {
             <p className={s.lead}>{reader.lead}</p>
           </header>
           <Reader variant="signal" headingId="sh-reader" />
-          <p className={s.figNote}>{SHADES.method.term}</p>
         </section>
 
         {/* 4 · Light path teardown band */}
@@ -93,8 +102,13 @@ export default function SignalShadesPage() {
               <dt>{SHADES.labels.isNot}</dt>
               <dd>{tracks.boundary.isNot}</dd>
             </div>
+            <div data-never="">
+              <dt>{SHADES.labels.never}</dt>
+              <dd>{tracks.boundary.never}</dd>
+            </div>
           </dl>
           <p className={s.body}>{tracks.boundary.line}</p>
+          <p className={s.body}>{join.mentor}</p>
         </section>
 
         {/* 6 · MVP scope, in and out */}
@@ -143,35 +157,16 @@ export default function SignalShadesPage() {
           </p>
         </section>
 
-        {/* 8 · Join */}
-        <section id="join" className={s.join} aria-labelledby="sh-join">
-          <header className={s.joinHead}>
-            <h2 id="sh-join" className={s.h2}>{join.headline}</h2>
-            <p className={s.lead}>{join.lead}</p>
-          </header>
-          <ul className={s.roles}>
-            {join.roles.map((r) => (
-              <li key={r.id} className={s.role} data-glyph-host="">
-                <GlyphSeat size={24} className={s.seat} />
-                <span className={s.roleName}>{r.name}</span>
-                <span className={s.roleLine}>{r.line}</span>
-              </li>
-            ))}
-          </ul>
-          <div className={s.joinMeta}>
-            <p className={s.night}>
-              <span className={s.nowDot} aria-hidden="true" />
-              <span className={s.nightLabel}>{join.night.label}</span> {join.night.when} · {join.night.where}
-            </p>
-            <p className={s.body}>{join.mentor}</p>
-            <a className={s.action} href={join.discord.href} rel="noopener noreferrer" target="_blank">
-              {join.discord.label}
-              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
-                <path d="M8 16L16 8M9.5 8H16v6.5" />
-              </svg>
-            </a>
-          </div>
-        </section>
+        {/* 8 · Join: the shared ending, with SHADES' open seats as links */}
+        <JoinChapter
+          world="signal"
+          headline={join.headline}
+          lead={join.lead}
+          primary={join.action}
+          secondary={{ label: join.discord.label, href: join.discord.href, external: true }}
+        >
+          <Seats world="signal" />
+        </JoinChapter>
       </main>
       <WorldFooter world="signal" />
     </ShadesRoot>

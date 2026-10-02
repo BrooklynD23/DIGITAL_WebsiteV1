@@ -22,3 +22,21 @@ FIRST VIEWPORT: Left 5 columns: thesis at 72px, one lead line, channel readout s
 FORM: Signal Capture, roll index 3, seed key 0a795440. Signature interaction: scrubbing the timebase (scroll, drag or arrow keys on the ruler) drives the orb through Plan → Prototype → Test → Integrate while the red trigger marker and cursor readout track the position.
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+
+## W3b changes
+
+Applied:
+- P0: reduced motion keeps the thesis, lead and chips. The scrub moved to `_system` `useScrollSteps`, which calls nothing when not enhanced; the phase rules only apply inside the pinned media query. `r2-crit-home-rm.mjs` → checkVis:true.
+- P1: no hydration flip. The pin ships in the server HTML, gated by `@media (scripting: enabled) and (prefers-reduced-motion: no-preference)`; first paint = hydrated paint (height 8,475 px from the start).
+- P1: the duplicate tile strip is retired. Each stage carries its ownership rule in the capture: PLAN · 1 owner per subsystem, PROTOTYPE · 1 review path, TEST · 1 test gate, INTEGRATE · 1 repair plan. The pairing needs Head Designer confirmation.
+- P1: mobile pin dead band is gone. The thesis scrolls away in flow; the scope and the stage readout stick, stacked, and release together.
+- One orb, not four stacked. The scene is a deliberate cut (retrigger) per stage through the dot engine (`_home/stageScene.ts`); Plan opens on its finished rest pose.
+- Join: shared `<JoinChapter world="signal">` (outlined action, seat anchor = the viewport's one red). Filled bone CTA, the `--r2-trigger: currentColor` workaround and the second red are removed.
+- First ArrowRight from the hero now lands on Plan.
+- SIDEKICK line tagged `[confirm]` on the claim itself.
+
+Rejected:
+- Grid back to 5/7 (FIRST VIEWPORT "partial"). 6/6 keeps the thesis to 4 lines at 72px; 5/7 wrapped it to 5.
+
+Deferred:
+- Channel-row empty bands at 1440. Kept full-viewport rows: they are the quiet, artifact-led viewports that hold the copy budget.

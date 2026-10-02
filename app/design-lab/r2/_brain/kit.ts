@@ -5,10 +5,10 @@
  * Coordinates are normalised [-1, 1]; radii are CSS px for the rendered size.
  */
 import { baseRadius, MAX_DOTS, type Dot, type Frame, type Line, type LineForm } from '../_system';
-import { TAU, clamp, dot, fibDir, lerp, line, project, shade } from '../_system/dots/math';
+import { TAU, clamp, dot, fibDir, lerp, line, project, shade } from '../_system';
 
 export { TAU, clamp, dot, lerp, line };
-export { seg, easeIn, easeOut, easeInOut, easeOutBack, partial, hash } from '../_system/dots/math';
+export { seg, easeIn, easeOut, easeInOut, easeOutBack, partial, hash } from '../_system';
 
 export interface Ctx {
   readonly size: number;

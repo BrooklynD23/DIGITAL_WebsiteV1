@@ -21,7 +21,16 @@ const R = SHADES.reader;
 const WORDS = R.words;
 const LAST = WORDS.length - 1;
 
-export function Reader({ variant, headingId }: { readonly variant: 'signal' | 'apple'; readonly headingId?: string }) {
+export function Reader({
+  variant,
+  headingId,
+  spacing = true,
+}: {
+  readonly variant: 'signal' | 'apple';
+  readonly headingId?: string;
+  /** Show the spacing setting here (Apple keeps it in the LocalNav utility slot instead). */
+  readonly spacing?: boolean;
+}) {
   const reduced = useReducedMotion();
   const [index, setIndex] = useState(0);
   const [phase, setPhase] = useState<Phase>('idle');
@@ -140,7 +149,12 @@ export function Reader({ variant, headingId }: { readonly variant: 'signal' | 'a
       aria-describedby={textId}
       onKeyDown={onKey}
     >
-      <div className={s.screen} aria-hidden="true">
+      {/* Signal: the shared scope graticule (10 × 8 divisions); Apple: a plain dark lens */}
+      <div
+        className={variant === 'signal' ? `${s.screen} r2-graticule` : s.screen}
+        data-pitch={variant === 'signal' ? 'scope' : undefined}
+        aria-hidden="true"
+      >
         <span className={s.tickTop} />
         <span className={s.tickBottom} />
         <span className={s.anchor} />
@@ -152,6 +166,7 @@ export function Reader({ variant, headingId }: { readonly variant: 'signal' | 'a
         <span className={s.base}>
           <span className={s.baseFill} style={{ transform: `scaleX(${progress})` }} />
         </span>
+        <span className={s.keys}>{SHADES.labels.keys}</span>
         <span className={s.readout}>
           {String(index + 1).padStart(2, '0')}/{WORDS.length} · {wpm} {R.unit}
         </span>
@@ -182,26 +197,35 @@ export function Reader({ variant, headingId }: { readonly variant: 'signal' | 'a
             </svg>
           </button>
         </div>
-        <label className={s.speed} htmlFor={sliderId}>
-          <span className={s.speedLabel}>{R.controls.speed}</span>
-          <input
-            id={sliderId}
-            type="range"
-            min={R.wpm.min}
-            max={R.wpm.max}
-            step={R.wpm.step}
-            value={wpm}
-            aria-valuetext={`${wpm} words per minute`}
-            onChange={(e) => setWpm(clampWpm(Number(e.target.value), R.wpm.min, R.wpm.max, R.wpm.step))}
+        {reduced ? null : (
+          <label className={s.speed} htmlFor={sliderId}>
+            <span className={s.speedLabel}>{R.controls.speed}</span>
+            <input
+              id={sliderId}
+              type="range"
+              min={R.wpm.min}
+              max={R.wpm.max}
+              step={R.wpm.step}
+              value={wpm}
+              aria-valuetext={`${wpm} words per minute`}
+              onChange={(e) => setWpm(clampWpm(Number(e.target.value), R.wpm.min, R.wpm.max, R.wpm.step))}
+            />
+            <output className={s.speedValue} htmlFor={sliderId}>
+              {wpm} {R.unit}
+            </output>
+          </label>
+        )}
+        {spacing ? (
+          <SpacingToggle
+            className={s.spacing}
+            label={`${SHADES.spacing.label}:`}
+            stateText={{ on: SHADES.spacing.more, off: SHADES.spacing.standard }}
           />
-          <output className={s.speedValue} htmlFor={sliderId}>
-            {wpm} {R.unit}
-          </output>
-        </label>
-        <SpacingToggle className={s.spacing} label={SHADES.spacing.label} />
+        ) : null}
       </div>
 
-      <p className={mounted && !reduced ? `${s.text} sr-only` : s.text} id={textId}>
+      {/* Printed for everyone once paused or finished (and always under reduced motion / no JS); sr-only while idle or playing. */}
+      <p className={mounted && !reduced && (phase === 'idle' || phase === 'playing') ? `${s.text} sr-only` : s.text} id={textId}>
         <span className={s.textLabel}>{R.textLabel}: </span>
         {WORDS.map((w, i) => (
           <span key={`${w}-${i}`} className={s.tw} data-current={i === index ? 'true' : undefined} aria-current={i === index ? 'true' : undefined}>

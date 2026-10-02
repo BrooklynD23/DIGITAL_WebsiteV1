@@ -3,7 +3,7 @@
  * Pure: (t, size, state) → Frame; t = 1 is the rest pose for that state. A dot is not a token.
  */
 import type { Dot, Frame, Line } from '../_system';
-import type { ModeId, StrategyId } from '../_content/brain';
+import type { StrategyId } from '../_content/brain';
 import {
   arcLines,
   arcPoint,
@@ -146,7 +146,7 @@ function notes(dotsOut: Dot[], linesOut: Line[], r: number, written: number): vo
  * Strategies: evict oldest (turn 1 leaves; doc reuses its slots), compact (history collapses past a
  * boundary, decisions go to notes, doc lands after it), load on demand (only a hollow pointer enters).
  */
-export function engineeringScene(t: number, size: number, phase: EngPhase): Frame {
+export function engineeringScene(t: number, size: number, phase: EngPhase, fill = 1): Frame {
   const c = ctxOf(size);
   const g = GRID5;
   const dots: Dot[] = [];
@@ -181,7 +181,13 @@ export function engineeringScene(t: number, size: number, phase: EngPhase): Fram
       dots.push(dot(lerp(x, tx, f), lerp(y, ty, f), r * (1 + 0.25 * f), 0.8));
       continue;
     }
-    dots.push(dot(x, y, r, 0.8 - 0.25 * (1 - i / SLOTS)));
+    // 'full' at fill < 1: the scroll scrub fills the window turn by turn (newest slides in from the right);
+    // ink thins as it fills, oldest first (illustrative context rot)
+    const f = phase === 'full' || phase === 'waiting' ? clamp((PINNED + hist * clamp(fill)) - i) : 1;
+    if (f <= 0) continue;
+    const level = (PINNED + hist * clamp(fill)) / SLOTS;
+    const rot = 0.5 * level * level * (0.4 + 0.6 * (1 - i / SLOTS));
+    dots.push(dot(lerp(1.02, x, easeOut(f)), y, r * (0.5 + 0.5 * f), (0.9 - rot) * (0.3 + 0.7 * f)));
   }
   if (phase === 'compact') {
     const b = seg(t, 0.4, 0.55);
@@ -235,9 +241,9 @@ export const HARNESS_TOOLS: ReadonlyArray<{ readonly name: string; readonly at: 
   { name: 'Edit', at: [0.8, 0.46] },
 ];
 
-/** What the Edit call does at the gate in each mode (default asks; acceptEdits runs; plan blocks). */
-export const editOutcome = (mode: ModeId, decision: Decision): 'hold' | 'pass' | 'reject' =>
-  mode === 'acceptEdits' ? 'pass' : mode === 'plan' ? 'reject' : decision === 'approved' ? 'pass' : decision === 'denied' ? 'reject' : 'hold';
+/** Default permission mode: an Edit waits for the callback; approved runs, denied returns as the result. */
+export const editOutcome = (decision: Decision): 'hold' | 'pass' | 'reject' =>
+  decision === 'approved' ? 'pass' : decision === 'denied' ? 'reject' : 'hold';
 
 /** Path of a call from the orb through the gate and the pinch point, fanning out to tool k. */
 function callPath(k: number, u: number): [number, number] {
@@ -256,7 +262,6 @@ function callPath(k: number, u: number): [number, number] {
 export function harnessScene(
   t: number,
   size: number,
-  mode: ModeId,
   decision: Decision,
   beat: 'entry' | 'decide',
   anchor: boolean,
@@ -273,12 +278,12 @@ export function harnessScene(
   // pinch then fan
   lines.push(line(gx + 0.12, 0, PINCH[0], 0, 0.22, 'dotted'));
   HARNESS_TOOLS.forEach(({ at: [tx, ty] }) => lines.push(line(PINCH[0], 0, tx - 0.08, ty, 0.2, 'dotted')));
-  const out = editOutcome(mode, decision);
+  const out = editOutcome(decision);
   const entry = beat === 'entry' ? t : 1;
   const calls = [seg(entry, 0, 0.42), seg(entry, 0.22, 0.64)];
   const approach = seg(entry, 0.48, 0.7);
   // after the gate: default waits for the decide beat; the other modes resolve inside the entry beat
-  const v = out === 'hold' ? 0 : mode === 'default' ? (beat === 'decide' ? t : 1) : seg(entry, 0.72, 1);
+  const v = out === 'hold' ? 0 : beat === 'decide' ? t : 1;
   const editLanded = out === 'pass' ? seg(v, 0.9, 1) : 0;
   HARNESS_TOOLS.forEach(({ at: [tx, ty] }, k) => {
     const landed = k < 2 ? seg(calls[k], 0.95, 1) : editLanded;

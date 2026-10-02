@@ -23,14 +23,6 @@
 
 .reader[data-variant='signal'] .screen {
   border: 1px solid var(--r2-hairline-strong);
-  background-color: var(--r2-ground-raised);
-  background-image:
-    linear-gradient(var(--r2-graticule-major), var(--r2-graticule-major)),
-    linear-gradient(var(--r2-graticule) 1px, transparent 1px),
-    linear-gradient(90deg, var(--r2-graticule) 1px, transparent 1px);
-  background-size: 100% 1px, 100% 50px, 50px 100%;
-  background-position: 0 50%, 0 calc(50% - 25px), calc(50% - 25px) 0;
-  background-repeat: no-repeat, repeat, repeat;
 }
 
 .reader[data-variant='apple'] .screen {
@@ -119,6 +111,17 @@
   transition: transform 140ms linear;
 }
 
+.keys {
+  position: absolute;
+  left: var(--r2-space-5);
+  bottom: 14px;
+  font-family: var(--font-mono);
+  font-size: var(--r2-fs-label);
+  line-height: var(--r2-lh-label);
+  letter-spacing: var(--track-mono, 0.04em);
+  color: var(--r2-ink-3);
+}
+
 .readout {
   position: absolute;
   right: var(--r2-space-5);
@@ -177,14 +180,12 @@
 
 .reader[data-variant='apple'] .primary {
   border-radius: 980px;
-  background: var(--r2-ink);
-  color: var(--r2-ground);
   border-color: var(--r2-ink);
 }
 
+/* outline pill: the LocalNav pill stays the page's one filled CTA */
 .reader[data-variant='apple'] .primary:hover {
-  background: #d2d2d7;
-  border-color: #d2d2d7;
+  background: color-mix(in oklab, var(--r2-ink) 14%, transparent);
 }
 
 .primaryIcon path,
@@ -282,6 +283,10 @@
   transition: background-color var(--r2-dur-ui) var(--r2-ease-ui);
 }
 
+.spacing [data-part='state'] {
+  color: var(--r2-ink-2);
+}
+
 .spacing[aria-pressed='true'] {
   border-style: solid;
   border-color: var(--r2-ink);
@@ -305,8 +310,8 @@
 }
 
 :global([data-spacing='more']) .text {
-  letter-spacing: 0.05em;
-  word-spacing: 0.16em;
+  letter-spacing: var(--reading-spaced-tracking, 0.05em);
+  word-spacing: var(--reading-spaced-word, 0.16em);
   line-height: 1.8;
 }
 
@@ -343,6 +348,11 @@
     --rd-screen-h: 230px;
   }
 
+  /* phones: no keyboard, and the hint would collide with the readout */
+  .keys {
+    display: none;
+  }
+
   .primary {
     flex: 1 1 100%;
   }
@@ -356,16 +366,4 @@
   .baseFill {
     transition: none;
   }
-}
-
-/* With JS and motion allowed, the printed sentence is for screen readers only (the demo shows it word by word).
-   No-JS and reduced motion print it in full. */
-:global([data-js]) .reader[data-reduced='false'] .text {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  white-space: nowrap;
 }

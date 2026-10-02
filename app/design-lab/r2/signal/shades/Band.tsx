@@ -1,35 +1,41 @@
 'use client';
 
 /**
- * Signal light-path teardown band: a sticky diagram strip over the six stages. The stage crossing the
- * reading line lights the ray up to its station (IntersectionObserver, no scroll listener, no rAF).
- * Before the list is reached, and without JS, every station is lit (the full path).
+ * Signal light-path band: one short timebase. The strip pins for ~1.5 viewports of scroll; the trace advances
+ * station to station (useScrollSteps, 0 rAF at rest) and ONE caption line swaps in place under the strip, like a
+ * scope's measurement readout. The lit station and the caption always come from the same step index.
+ * Not enhanced (no JS, reduced motion, before hydration): the full path, all lit, with the six captions as a list.
  */
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
+import { useScrollSteps } from '../../_system';
 import { SHADES } from '../../_content/shades';
 import { LightPath } from '../../_shades/LightPath';
 import s from './signal.module.css';
 
 const L = SHADES.lightPath;
+const N = L.stages.length;
+const n2 = (i: number): string => String(i + 1).padStart(2, '0');
+
+function StageList({ className }: { readonly className: string }) {
+  return (
+    <ol className={className}>
+      {L.stages.map((st, i) => (
+        <li key={st.id}>
+          <span className={s.capIndex} aria-hidden="true">{n2(i)}</span> <span className={s.capName}>{st.name}</span>{' '}
+          <span className={s.capLine}>
+            {st.caption}
+            {st.confirm ? <> <span className={s.confirm}>{SHADES.confirmTag}</span></> : null}
+          </span>
+        </li>
+      ))}
+    </ol>
+  );
+}
 
 export function Band() {
-  const [active, setActive] = useState<number | null>(null);
-  const list = useRef<HTMLOListElement>(null);
-
-  useEffect(() => {
-    const items = Array.from(list.current?.querySelectorAll<HTMLElement>('[data-stage]') ?? []);
-    if (!items.length) return undefined;
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          if (e.isIntersecting) setActive(Number((e.target as HTMLElement).dataset.stage));
-        }
-      },
-      { rootMargin: '-48% 0px -48% 0px' },
-    );
-    items.forEach((el) => io.observe(el));
-    return () => io.disconnect();
-  }, []);
+  const pin = useRef<HTMLDivElement>(null);
+  const { enhanced, active } = useScrollSteps(pin, { count: N });
+  const st = L.stages[active] ?? L.stages[0];
 
   return (
     <section id="light-path" className={s.band} aria-labelledby="sh-light">
@@ -37,23 +43,27 @@ export function Band() {
         <h2 id="sh-light" className={s.h2}>{L.headline}</h2>
         <p className={s.lead}>{L.lead}</p>
       </header>
-      <div className={s.bandStrip}>
-        <LightPath mode="step" active={active} layout="h" className={s.bandFigure} />
-      </div>
-      <ol ref={list} className={s.stages}>
-        {L.stages.map((st, i) => (
-          <li key={st.id} data-stage={i} data-active={active === i ? 'true' : undefined} className={s.stage}>
-            <span className={s.stageN} aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-            <div className={s.stageBody}>
-              <h3 className={s.h3}>{st.name}</h3>
-              <p className={s.body}>
-                {st.caption}
-                {st.confirm ? <> <span className={s.confirm}>{SHADES.confirmTag}</span></> : null}
+      <div ref={pin} className={s.bandPin} data-enhanced={enhanced ? 'true' : undefined}>
+        <div className={s.bandStage}>
+          <LightPath mode="step" active={enhanced ? active : null} className={s.bandFigure} />
+          {enhanced ? (
+            <>
+              <p className={s.bandCaption}>
+                <span className={s.capIndex} aria-hidden="true">
+                  {n2(active)}/{String(N).padStart(2, '0')}
+                </span>
+                <span className={s.capLine}>
+                  {st.caption}
+                  {st.confirm ? <> <span className={s.confirm}>{SHADES.confirmTag}</span></> : null}
+                </span>
               </p>
-            </div>
-          </li>
-        ))}
-      </ol>
+              <StageList className="sr-only" />
+            </>
+          ) : (
+            <StageList className={s.stagesStatic} />
+          )}
+        </div>
+      </div>
     </section>
   );
 }

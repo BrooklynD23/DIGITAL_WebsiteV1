@@ -1,12 +1,14 @@
 'use client';
 
 /** BRAIN demos, part A: hero orb, agent loop, tool use, MCP. Shared by both worlds. */
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useRef, useState, type ReactNode } from 'react';
+import { CINE, CineClip } from '../_system/cine';
 import { MCP_SPEC, LOOP, SERVERS, TOOLS, chapterById, hero, type ToolId } from '../_content/brain';
 import { DemoShell, Icon, Segmented, Tag, useDiscrete, useEntryPlay, type World } from './DemoShell';
 import { SceneStage, type SceneHandle } from './SceneStage';
 import {
   HERO_MS,
+  HERO_RUNS,
   MACHINE,
   MCP_ALL_MS,
   MCP_MS,
@@ -14,7 +16,7 @@ import {
   TOOLS_MS,
   TOOL_POS,
   heroScene,
-  heroStep,
+  heroAt,
   loopDuration,
   loopInfo,
   loopScene,
@@ -29,44 +31,96 @@ const pad2 = (n: number): string => String(n).padStart(2, '0');
 
 /* ------------------------------------------------------------------ hero */
 
-/** `tuck` pulls the trace row up into the empty band under the ring (Apple's centred hero). */
-export function HeroOrb({ world, size = 560, tuck = false }: { readonly world: World; readonly size?: number; readonly tuck?: boolean }) {
+function TraceRow({ step, onRun, runLabel }: { readonly step: number; readonly onRun?: () => void; readonly runLabel?: string }) {
+  return (
+    <div className={s.traceRow}>
+      <ol className={s.trace} aria-label="Agent loop steps">
+        {hero.trace.map((v, i) => (
+          <li key={`${v}-${i}`} data-on={i === step ? 'true' : undefined} data-past={step >= 0 && i < step ? 'true' : undefined}>
+            {v}
+          </li>
+        ))}
+      </ol>
+      {onRun ? (
+        <button type="button" className={s.ghost} onClick={onRun}>
+          <Icon name="replay" />
+          {runLabel ?? hero.replay}
+        </button>
+      ) : null}
+    </div>
+  );
+}
+
+/** Signal hero (and the Apple fallback): the canvas orb runs the loop 3 times, one tool per run, then halts. */
+export function HeroOrb({ world, size = 560 }: { readonly world: World; readonly size?: number }) {
   const stage = useRef<SceneHandle>(null);
   const host = useRef<HTMLDivElement>(null);
-  const [step, setStep] = useState(hero.trace.length - 1);
-  const [runs, setRuns] = useState(0);
-  const track = useDiscrete<number>(setStep);
-  const run = useCallback(() => {
-    setRuns((n) => n + 1);
-    stage.current?.play(HERO_MS);
-  }, []);
+  const [key, setKey] = useState(`${HERO_RUNS - 1}|4`);
+  const track = useDiscrete<string>(setKey);
+  const run = useCallback(() => stage.current?.play(HERO_MS), []);
   useEntryPlay(host, run, 0.3);
   const draw = useCallback((t: number, sz: number) => heroScene(t, sz), []);
-  const label = step >= hero.trace.length - 1 ? 'Illustrative orb: one agent loop finished, ring locked.' : `Illustrative orb: agent loop running, ${hero.trace[step].replace('_', ' ')}.`;
+  const [runStr, stepStr] = key.split('|');
+  const step = Number(stepStr);
+  const runNo = Number(runStr) + 1;
+  const label =
+    step === 4
+      ? `Illustrative orb: ${HERO_RUNS} agent-loop runs finished, ring locked.`
+      : `Illustrative orb: run ${runNo} of ${HERO_RUNS}, ${hero.trace[step].replace('_', ' ')}.`;
   return (
-    <div className={s.hero} data-world={world} data-tuck={tuck ? 'true' : undefined} ref={host}>
-      <div className={s.heroScreen}>
+    <div className={s.hero} data-world={world} ref={host}>
+      <div className={world === 'signal' ? `${s.heroScreen} r2-graticule` : s.heroScreen} data-pitch={world === 'signal' ? 'scope' : undefined}>
         {world === 'signal' ? (
           <>
-            <span className={s.cornerTL} aria-hidden="true">{`CH3 · BRAIN · RUN ${pad2(Math.max(1, runs))}`}</span>
-            <span className={s.cornerTR} aria-hidden="true">TRIG · SINGLE</span>
+            <span className={s.cornerTL} aria-hidden="true">{`CH3 · BRAIN · RUN ${pad2(runNo)}/${pad2(HERO_RUNS)}`}</span>
+            <span className={s.cornerTR} aria-hidden="true">{`TRIG · AUTO ×${HERO_RUNS}`}</span>
           </>
         ) : null}
-        <SceneStage ref={stage} draw={draw} maxSize={size} label={label} onTick={(t) => track(heroStep(t))} />
+        <SceneStage
+          ref={stage}
+          draw={draw}
+          maxSize={size}
+          label={label}
+          onTick={(t) => {
+            const a = heroAt(t);
+            track(`${a.run}|${a.step}`);
+          }}
+        />
+        <p className={s.heroKey}>{hero.key}</p>
       </div>
-      <div className={s.traceRow}>
-        <ol className={s.trace} aria-label="Agent loop steps">
-          {hero.trace.map((v, i) => (
-            <li key={`${v}-${i}`} data-on={i === step ? 'true' : undefined} data-past={i < step ? 'true' : undefined}>
-              {v}
-            </li>
-          ))}
-        </ol>
-        <button type="button" className={s.ghost} onClick={run}>
-          <Icon name="replay" />
-          {hero.replay}
-        </button>
-      </div>
+      <TraceRow step={step} onRun={run} />
+    </div>
+  );
+}
+
+/** Apple hero: the brain-orb loop clip (pauses after 3 loops, pause control), trace row synced from its markers. */
+export function HeroClip({ fallback }: { readonly fallback: ReactNode }) {
+  const [step, setStep] = useState(-1);
+  const track = useDiscrete<number>(setStep);
+  const onTime = useCallback(
+    (sec: number) => {
+      const u = (sec / CINE['brain-orb'].duration) % 1;
+      // the last marker reached decides the step; a fresh call or result shows for ~0.12 of the loop
+      const ms = CINE['brain-orb'].markers;
+      let best = -1;
+      let since = 1;
+      ms.forEach((m, i) => {
+        const d = (u - m.at + 1) % 1;
+        if (d < since) {
+          since = d;
+          best = i;
+        }
+      });
+      const id = best >= 0 ? ms[best].id : '';
+      track(id.startsWith('call') && since < 0.14 ? 1 : id.startsWith('result') && since < 0.1 ? 2 : 0);
+    },
+    [track],
+  );
+  return (
+    <div className={s.heroClip}>
+      <CineClip name="brain-orb" world="apple" eager maxLoops={3} onTime={onTime} fallback={fallback} className={s.heroVideo} />
+      <p className={s.heroKey}>{hero.key}</p>
+      <TraceRow step={step} />
     </div>
   );
 }
@@ -98,23 +152,23 @@ export function LoopDemo({ world }: { readonly world: World }) {
   const words = phase.replace('_', ' ');
   const text =
     phase === 'done'
-      ? `Done in ${turn} turns.`
+      ? `Done: ${turn} tool turns, then the answer.`
       : phase === 'error_max_turns'
-        ? `Stopped: error_max_turns after ${turn}.`
-        : `Turn ${turn} of ${max}: ${words}.`;
+        ? `Stopped: error_max_turns.`
+        : `Tool turn ${turn} of ${max}: ${words}.`;
   return (
     <div ref={host}>
       <DemoShell
         world={world}
         ch={ch}
-        corner={`TURN ${pad2(turn)}/${pad2(max)}`}
-        readout={{ tag: `TURN ${pad2(turn)}/${pad2(max)}`, state: phase.toUpperCase(), text }}
-        stage={<SceneStage ref={stage} draw={draw} maxSize={480} label={`Agent loop, max ${max} turns: ${text}`} onTick={(t) => { const i = loopInfo(t, max); track(`${i.turn}|${i.phase}`); }} />}
+        corner={`TOOL TURN ${pad2(turn)}/${pad2(max)}`}
+        readout={{ tag: `TURN ${pad2(turn)}`, state: phase === 'error_max_turns' ? 'MAX TURNS' : phase.toUpperCase().replace('_', ' '), text }}
+        stage={<SceneStage ref={stage} draw={draw} maxSize={480} label={`Agent loop, max ${max} tool turns: ${text}`} onTick={(t) => { const i = loopInfo(t, max); track(`${i.turn}|${i.phase}`); }} />}
         overlay={
           <>
             <Tag x={-0.12} y={-0.29} align="center">model</Tag>
             <Tag x={0.84} y={-0.24} align="center">tool</Tag>
-            <Tag x={-0.12} y={0.97} align="center">turns</Tag>
+            <Tag x={-0.12} y={0.97} align="center">tool turns</Tag>
           </>
         }
         controlsLabel="Turn limit"
@@ -124,7 +178,7 @@ export function LoopDemo({ world }: { readonly world: World }) {
               <Icon name="minus" />
             </button>
             <output className={s.value} aria-live="off">
-              <span className={s.valueLabel}>max turns</span> {max}
+              <span className={s.valueLabel}>max tool turns</span> {max}
             </output>
             <button type="button" className={s.iconBtn} onClick={() => change(1)} disabled={max >= LOOP.max} aria-label="More turns">
               <Icon name="plus" />
@@ -231,7 +285,7 @@ export function McpDemo({ world }: { readonly world: World }) {
         world={world}
         ch={ch}
         corner={`${clients} CLIENTS · ${tools} TOOLS`}
-        readout={{ tag: `MCP ${MCP_SPEC}`, state: stateWord, text }}
+        readout={{ tag: 'MCP', state: stateWord, text }}
         stage={<SceneStage ref={stage} draw={draw} maxSize={480} label={`MCP host: ${text}`} onTick={(t) => track(mcpPhase(t))} />}
         overlay={
           <>

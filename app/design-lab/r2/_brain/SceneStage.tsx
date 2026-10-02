@@ -14,7 +14,7 @@
  */
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, type ForwardedRef } from 'react';
 import { DotGlyph, subscribeTick, type Frame } from '../_system';
-import { paintFrame, type Inks } from '../_system/dots/paint';
+import { paintFrame, type Inks } from '../_system';
 import s from './stage.module.css';
 
 export interface SceneHandle {

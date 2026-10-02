@@ -1,4 +1,5 @@
 // R2 BRAIN gate: 0 rAF callbacks at rest + console errors + keyboard demos, on one BRAIN route.
+// Counts console errors AND warnings (hydration warnings included).
 // Usage: node design-lab/scripts/r2-brain-raf.mjs /design-lab/r2/signal/brain/ [--json=out.json]
 // Adapted from r2-sys-raf.mjs (same attribution: "production cursor" vs r2 callbacks).
 import { chromium } from 'playwright';
@@ -55,7 +56,7 @@ async function open(browser, ctxOpts) {
   await ctx.addInitScript(INIT);
   const page = await ctx.newPage();
   const errors = [];
-  page.on('console', (m) => m.type() === 'error' && errors.push(m.text().slice(0, 200)));
+  page.on('console', (m) => (m.type() === 'error' || m.type() === 'warning') && errors.push(`${m.type()}: ${m.text().slice(0, 200)}`));
   page.on('pageerror', (e) => errors.push(String(e).slice(0, 200)));
   await page.goto(base + route, { waitUntil: 'networkidle', timeout: 120000 });
   return { ctx, page, errors };
@@ -72,23 +73,30 @@ async function scrollAll(page) {
 }
 
 async function interact(page) {
+  // Keyboard only: chapter controls fade in with scroll inside each pin, and focus always reveals them.
   const log = {};
+  const key = async (sel, k = 'Enter') => {
+    await page.locator(sel).first().focus();
+    await page.keyboard.press(k);
+  };
   // ch3: toggle a server
   await page.locator('#ch-mcp').scrollIntoViewIfNeeded();
-  await page.waitForTimeout(400);
-  await page.locator('#ch-mcp [role="switch"]').nth(2).click();
+  await page.waitForTimeout(600);
+  await key('#ch-mcp [role="switch"] >> nth=2', 'Space');
   await page.waitForTimeout(2800);
   log.mcp = await readout(page, 'mcp');
-  // ch5: add the document (keyboard), pick Compact
-  await page.locator('#ch-engineering').scrollIntoViewIfNeeded();
-  await page.locator('#ch-engineering button[aria-label^="Add document"]').focus();
-  await page.keyboard.press('Enter');
+  // ch4: add the document (keyboard), pick Compact
+  await page.locator('#ch-context').scrollIntoViewIfNeeded();
+  await page.waitForTimeout(400);
+  const ctx = page.locator('section[aria-label="Context: choose what stays"]').first();
+  const scope = (await ctx.count()) ? 'section[aria-label="Context: choose what stays"]' : '#ch-context';
+  await key(`${scope} button[aria-label^="Add document"]`);
   await page.waitForTimeout(200);
-  log.engWaiting = await readout(page, 'engineering');
-  await page.locator('#ch-engineering button', { hasText: 'Compact' }).click();
+  log.ctxWaiting = await page.locator(`${scope} p[aria-live="polite"]`).first().innerText();
+  await key(`${scope} button:has-text("Compact")`);
   await page.waitForTimeout(3000);
-  log.engDone = await readout(page, 'engineering');
-  // ch6: wait for the hold, then Esc on the gate group (deny), Again, then Enter (approve)
+  log.ctxDone = await page.locator(`${scope} p[aria-live="polite"]`).first().innerText();
+  // ch5: wait for the hold, Esc (deny), Again, Enter (approve)
   await page.locator('#ch-harness').scrollIntoViewIfNeeded();
   await page.waitForTimeout(4200);
   const gate = page.locator('#ch-harness [aria-label^="Pending Edit call"]');
@@ -97,17 +105,25 @@ async function interact(page) {
   await page.keyboard.press('Escape');
   await page.waitForTimeout(1800);
   log.gateDenied = await readout(page, 'harness');
-  await page.locator('#ch-harness button', { hasText: 'Again' }).click();
+  await key('#ch-harness button:has-text("Again")');
   await page.waitForTimeout(4200);
   await gate.focus();
   await page.keyboard.press('Enter');
   await page.waitForTimeout(1800);
   log.gateApproved = await readout(page, 'harness');
-  // ch8: slider by keyboard
+  // ch6: slider by keyboard
   await page.locator('#ch-evals input[type=range]').focus();
   for (let i = 0; i < 3; i++) await page.keyboard.press('ArrowRight');
   await page.waitForTimeout(4500);
   log.evals = await readout(page, 'evals');
+  // ch1: max tool turns down to 3 (still succeeds: 3 tool turns + answer), then 2 (error_max_turns)
+  await page.locator('#ch-loop').scrollIntoViewIfNeeded();
+  for (let i = 0; i < 2; i++) await key('#ch-loop button[aria-label="Fewer turns"]');
+  await page.waitForTimeout(6500);
+  log.loop3 = await readout(page, 'loop');
+  await key('#ch-loop button[aria-label="Fewer turns"]');
+  await page.waitForTimeout(4500);
+  log.loop2 = await readout(page, 'loop');
   return log;
 }
 
@@ -119,14 +135,14 @@ let log = {};
 
 {
   const { ctx, page, errors } = await open(browser, desktop);
-  await page.waitForTimeout(9000); // hero beat is 7.2 s
+  await page.waitForTimeout(15500); // hero beat is 13.5 s (3 runs)
   results.push({ scenario: 'desktop · load (hero beat ends) → rest', ...(await measure(page)), errors: errors.length });
   await scrollAll(page);
   await page.waitForTimeout(6000);
   results.push({ scenario: 'desktop · scroll whole page (every beat fires) → rest', ...(await measure(page)), errors: errors.length });
   log = await interact(page);
   await page.waitForTimeout(1500);
-  results.push({ scenario: 'desktop · interactions (MCP, doc+compact, gate Esc/Enter, k slider) → rest', ...(await measure(page)), errors: errors.length });
+  results.push({ scenario: 'desktop · keyboard interactions (MCP, doc+compact, gate Esc/Enter, k slider, tool turns) → rest', ...(await measure(page)), errors: errors.length });
   if (errors.length) console.log('console errors:', errors);
   await ctx.close();
 }
@@ -142,7 +158,7 @@ let log = {};
 }
 {
   const { ctx, page, errors } = await open(browser, mobile);
-  await page.waitForTimeout(9000);
+  await page.waitForTimeout(15500);
   results.push({ scenario: 'mobile 390 · load → rest', ...(await measure(page)), errors: errors.length });
   await scrollAll(page);
   await page.waitForTimeout(6000);

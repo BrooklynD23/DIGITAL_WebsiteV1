@@ -1,4 +1,5 @@
-/* SIDEKICK stack. Static pose = fully open. JS (useStackDrive) writes each tier's transform and --e. */
+/* SIDEKICK stack. Static pose = fully open. The scroll driver writes each tier's transform and --e (no transition:
+   scroll position is the timebase). Board layers are BoardLayers boxes (composited), never paths inside one SVG. */
 .stack {
   position: relative;
   width: 100%;
@@ -8,60 +9,97 @@
 
 .tier {
   position: absolute;
-  left: 50%;
-  top: var(--cy);
   transform: translate(-50%, -50%);
+}
+
+/* Dim the art, never the label (tags keep ink-3 contrast). */
+.art {
+  position: relative;
   transition: opacity var(--r2-dur-ui) var(--r2-ease-ui);
 }
-
-.slide {
-  position: relative;
-  transition:
-    transform var(--r2-spring-spatial-dur, 420ms) var(--r2-spring-spatial, ease-out),
-    opacity var(--r2-dur-ui) var(--r2-ease-ui);
-}
-
+.slide { position: relative; }
 .slide > svg,
-.board {
-  width: 100%;
-  height: auto;
-}
-
-/* The active board's own layers separate along Z: --e (0..1) × tier × --g (board mm = SVG user units). */
-.tier :global([data-layer]) {
-  transform: translateY(calc(var(--e, 0) * var(--t, 0) * var(--g, 0) * -1px));
-  transition: opacity var(--r2-dur-ui-fast) var(--r2-ease-ui);
-}
-.tier :global([data-layer='B.Silk']) { --t: -2.4; }
-.tier :global([data-layer='B.Pads']) { --t: -1.6; }
-.tier :global([data-layer='B.Cu']) { --t: -1; }
-.tier :global([data-layer='F.Cu']) { --t: 1; }
-.tier :global([data-layer='F.Pads']) { --t: 1.6; }
-.tier :global([data-layer='F.Silk']) { --t: 2.4; }
+.board { width: 100%; height: auto; display: block; }
+.tier[data-kind='shell'] .art { opacity: 0.7; }
 
 /* While a board is open, the cursor's layer stays at full ink and the rest recede. */
-.tier[data-exploding='true'] :global([data-layer]) { opacity: 0.28; }
-.tier[data-exploding='true'] :global([data-layer][data-cur]),
-.tier[data-exploding='true'] :global([data-layer='edge']) { opacity: 1; }
+.tier[data-exploding='true'] :global([data-board-layer]) { opacity: 0.3; }
+.tier[data-exploding='true'] :global([data-board-layer][data-cur]),
+.tier[data-exploding='true'] :global([data-board-layer='edge']) { opacity: 1; }
 
-/* Enhanced (scroll-driven) state: inactive tiers recede so the active one reads. Static pose keeps all at full ink. */
-[data-enhanced] .tier { opacity: 0.38; }
-[data-enhanced] .tier[data-active='true'] { opacity: 1; }
+/* Driven: each tier is its own compositor layer, so moving it never re-rasterises the board files. */
+[data-enhanced] .tier { will-change: transform; }
 
-.tag {
+/* Driven state: inactive modules recede so the active one reads. Static pose keeps all at full ink. */
+[data-enhanced] .tier[data-active='false'] .art { opacity: var(--sk-dim, 0.5); }
+[data-enhanced] .tier[data-kind='shell'] .art { opacity: 0.55; }
+
+/* ---------- locked name list (annotations of the figure) ---------- */
+.leader {
   position: absolute;
-  top: 50%;
-  transform: translate(-100%, -50%);
+  height: 0;
+  border-top: 1px dotted var(--r2-hairline-strong);
+  pointer-events: none;
+}
+.name {
+  position: absolute;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+  font-family: var(--font-text);
+  font-size: var(--sk-label-size, 13px);
+  line-height: 1;
+  color: var(--r2-ink-2);
+  transition: color var(--r2-dur-ui) var(--r2-ease-ui);
+}
+.num {
   font-family: var(--font-mono);
   font-size: 11px;
-  line-height: 1;
   letter-spacing: 0.04em;
   color: var(--r2-ink-3);
   font-variant-numeric: tabular-nums;
 }
-.tier[data-active='true'] .tag { color: var(--r2-ink); }
+/* The owner seat: an empty dashed ring. Every seat is open. */
+.ring {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1px dashed var(--r2-ink-2);
+  flex: none;
+}
+.note {
+  position: absolute;
+  bottom: 0;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--r2-ink-2);
+}
+.legend {
+  position: absolute;
+  bottom: 22px;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--r2-ink-3);
+}
+.struckName { text-decoration: line-through; text-decoration-color: var(--r2-ink-3); }
+.tier[data-active='true'] .name { color: var(--r2-ink); }
+.leader { transition: opacity var(--r2-dur-ui) var(--r2-ease-ui); }
+.tier[data-label-open='false'] .name,
+.tier[data-label-open='false'] .leader { opacity: 0; }
+.tier[data-active='true'] .leader { border-top-style: solid; border-top-color: var(--r2-ink-2); }
 
-/* Swap beat: the fingerprint module slides out of its seat; the dashed seat and its red anchor appear. */
+/* ---------- swap beat: the fingerprint module lifts out; the dashed seat and its red anchor appear ---------- */
 .seat {
   position: absolute;
   inset: 0;
@@ -69,13 +107,17 @@
   transition: opacity var(--r2-dur-ui) var(--r2-ease-ui);
 }
 .seat > svg { width: 100%; height: auto; }
-[data-swapped='true'] .tier[data-tier='fingerprint'] .seat { opacity: 1; }
-[data-swapped='true'] .tier[data-tier='fingerprint'] .slide { transform: translate(-62%, -34%); }
-[data-swapped='true'] .tier[data-tier='fingerprint'] { opacity: 1; }
+.tier[data-tier='fingerprint'] .slide {
+  /* A user action, not a scrub: this transform may ease. */
+  transition: transform var(--r2-spring-spatial-dur, 420ms) var(--r2-spring-spatial, ease-out);
+}
+:global([data-swap-host]):has(input[data-swap]:checked) .tier[data-tier='fingerprint'] .seat { opacity: 1; }
+:global([data-swap-host]):has(input[data-swap]:checked) .tier[data-tier='fingerprint'] .slide { transform: translate(-70%, -30%); }
+:global([data-swap-host]):has(input[data-swap]:checked) .tier[data-tier='fingerprint'] .art { opacity: 1; }
 
 @media (prefers-reduced-motion: reduce) {
-  .slide,
-  .tier,
+  .art,
   .seat,
-  .tier :global([data-layer]) { transition: none; }
+  .name,
+  .tier[data-tier='fingerprint'] .slide { transition: none; }
 }

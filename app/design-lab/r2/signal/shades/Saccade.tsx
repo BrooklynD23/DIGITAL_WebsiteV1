@@ -33,6 +33,7 @@ export function Saccade() {
           </div>
           <figure className={s.pinFigure}>
             <Scanpath trace />
+            <figcaption className={s.figCaption}>{P.figureNote}</figcaption>
           </figure>
         </div>
       </section>
@@ -42,11 +43,13 @@ export function Saccade() {
           <h2 className={s.h2}>{P.headline}</h2>
           <p className={s.lead}>{P.lead}</p>
           <Scanpath trace k={0} />
+          <p className={s.figCaption}>{P.figureNote}</p>
         </div>
         <div className={s.pairItem}>
           <h2 className={s.h2}>{M.headline}</h2>
           <p className={s.lead}>{M.lead}</p>
           <Scanpath trace k={1} label={M.figureLabel} />
+          <p className={s.figCaption}>{P.figureNote}</p>
         </div>
       </section>
     </>

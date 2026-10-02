@@ -56,10 +56,6 @@ async function interact(page, world) {
   for (let i = 0; i < 40; i++) { await page.mouse.wheel(0, 260); await page.waitForTimeout(40); }
   during = await page.evaluate(() => window.__raf.r2);
   if (world === 'signal') {
-    const tiles = page.locator('ol li button[aria-pressed]');
-    await tiles.nth(1).scrollIntoViewIfNeeded();
-    await tiles.nth(1).hover();
-    await tiles.nth(3).click();
     const row = page.locator('[data-stage-host]').first();
     await row.scrollIntoViewIfNeeded();
     await row.hover();

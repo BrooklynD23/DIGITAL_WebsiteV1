@@ -1,7 +1,6 @@
 /* SHADES · Signal Capture (CH2). World tokens from _system/tokens/worlds.css; reading face = Atkinson Hyperlegible Next. */
 
 .root {
-  --font-read: var(--fs-atkinson), ui-sans-serif, system-ui, sans-serif;
   --lp-ground: var(--r2-ground);
   --wrap: 1200px;
   font-family: var(--font-read);
@@ -64,9 +63,9 @@
 }
 
 /* Reader setting, page-wide: wider letters, words and lines (BDA style guide values). */
-.root[data-spacing='more'] :is(.lead, .heroLead, .body, .expansion, .roleLine, .inList li, .outList li, .phaseName, .kv dd, .boundary dd) {
-  letter-spacing: 0.05em;
-  word-spacing: 0.16em;
+.root[data-spacing='more'] :is(.lead, .heroLead, .body, .expansion, .inList li, .outList li, .phaseName, .boundary dd, .capLine, .figCaption) {
+  letter-spacing: var(--reading-spaced-tracking, 0.05em);
+  word-spacing: var(--reading-spaced-word, 0.16em);
   line-height: 1.75;
 }
 
@@ -79,6 +78,14 @@
   color: var(--r2-ink-3);
   white-space: nowrap;
   vertical-align: middle;
+}
+
+.figCaption {
+  margin: 0;
+  font-family: var(--font-read);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--r2-ink-2);
 }
 
 .figNote {
@@ -180,9 +187,8 @@
   align-items: center;
   gap: 10px;
   padding: 0 14px;
-  font-family: var(--font-mono);
-  font-size: 13px;
-  letter-spacing: var(--track-mono, 0.04em);
+  font-family: var(--font-read);
+  font-size: 15px;
   color: var(--r2-ink-2);
   background: var(--r2-ground);
   border: 1px dashed var(--r2-hairline-strong);
@@ -224,13 +230,18 @@
   margin: 0;
   font-size: 15px;
   line-height: 1.5;
-  color: var(--r2-ink-3);
+  color: var(--r2-ink-2);
+}
+
+.boundaryShort {
+  font-weight: 600;
+  color: var(--r2-ink);
 }
 
 /* ---------- 2 · saccade pin (signature) ---------- */
 .pin {
   display: none;
-  height: 240vh;
+  height: 340vh;
   position: relative;
 }
 
@@ -270,7 +281,6 @@
 
 .pinFigure {
   margin: 0;
-  overflow: hidden;
   align-self: center;
   display: grid;
   gap: var(--r2-space-4);
@@ -278,7 +288,7 @@
 
 .pair {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: var(--r2-space-8) var(--r2-space-7);
   max-width: var(--wrap);
   margin: 0 auto;
@@ -287,7 +297,6 @@
 }
 
 .pairItem {
-  overflow: hidden;
   display: grid;
   gap: var(--r2-space-4);
   align-content: start;
@@ -329,7 +338,15 @@
   text-align: center;
 }
 
-.reader > .figNote {
+.reader > .figCaption {
+  margin: 0;
+  font-family: var(--font-read);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--r2-ink-2);
+}
+
+.figNote {
   text-align: center;
 }
 
@@ -347,106 +364,89 @@
   gap: var(--r2-space-3);
 }
 
-.bandStrip {
-  position: sticky;
-  top: var(--r2-nav-h);
-  z-index: 2;
-  background: var(--r2-ground);
-  border-bottom: 1px solid var(--r2-hairline);
-  padding: var(--r2-space-4) var(--r2-gutter) var(--r2-space-3);
+.bandPin {
+  position: relative;
 }
 
-.bandStrip > * {
+.bandPin[data-enhanced] {
+  height: calc(250vh + 100vh);
+}
+
+.bandStage {
   max-width: var(--wrap);
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
+  padding: var(--r2-space-6) var(--r2-gutter) var(--r2-space-9);
+  display: grid;
+  gap: var(--r2-space-5);
+  align-content: center;
+}
+
+.bandPin[data-enhanced] .bandStage {
+  position: sticky;
+  top: var(--r2-sticky-top, var(--r2-nav-h));
+  height: calc(100vh - var(--r2-sticky-top, var(--r2-nav-h)));
+  padding-bottom: var(--r2-space-6);
 }
 
 .bandFigure {
+  width: 100%;
   max-width: 1080px;
-}
-
-.stages {
-  --entry: 360px;
-  list-style: none;
   margin: 0 auto;
-  padding: var(--r2-space-7) var(--r2-gutter) var(--r2-space-10);
-  max-width: var(--wrap);
 }
 
-.stage {
-  /* each entry sits under its own station: the list walks along the ray */
-  --i: 0;
-  width: min(100%, var(--entry));
-  margin-left: calc(var(--i) * (100% - var(--entry)) / 5);
-  min-height: calc(100svh - 150px);
-  display: grid;
-  grid-template-columns: 48px 1fr;
-  align-content: start;
-  gap: var(--r2-space-3);
+/* one measurement readout line, swapping in place */
+.bandCaption {
+  margin: 0 auto;
+  min-height: 56px;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: var(--r2-space-4);
+  text-align: center;
 }
 
-.stage:nth-child(2) { --i: 1; }
-.stage:nth-child(3) { --i: 2; }
-.stage:nth-child(4) { --i: 3; }
-.stage:nth-child(5) { --i: 4; }
-.stage:nth-child(6) { --i: 5; min-height: 0; }
-
-.stageN {
+.capIndex {
   font-family: var(--font-mono);
   font-size: 13px;
-  line-height: 30px;
-  color: var(--r2-ink-3);
-  border-top: 1px dashed var(--r2-hairline-strong);
-  align-self: start;
-  transition: color var(--r2-dur-ui) var(--r2-ease-ui), border-color var(--r2-dur-ui) var(--r2-ease-ui);
-}
-
-.stage[data-active] .stageN {
-  color: var(--r2-ink);
-  border-top: 1px solid var(--r2-ink);
-}
-
-.stageBody {
-  display: grid;
-  gap: var(--r2-space-3);
-  padding-top: 2px;
-}
-
-.kv {
-  margin: var(--r2-space-2) 0 0;
-  display: grid;
-  gap: 6px;
-}
-
-.kv div {
-  display: grid;
-  grid-template-columns: 76px 1fr;
-  gap: var(--r2-space-3);
-  align-items: baseline;
-}
-
-.kv dt {
-  font-family: var(--font-mono);
-  font-size: 12px;
   letter-spacing: var(--track-mono, 0.04em);
   color: var(--r2-ink-3);
+  font-variant-numeric: tabular-nums;
 }
 
-.kv dd {
-  margin: 0;
-  font-size: 15px;
+.capName {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 19px;
+}
+
+.capLine {
+  font-family: var(--font-read);
+  font-size: 21px;
+  line-height: 1.45;
   color: var(--r2-ink);
+}
+
+.stagesStatic {
+  list-style: none;
+  margin: var(--r2-space-5) auto 0;
+  padding: 0;
+  max-width: 760px;
+  display: grid;
+  gap: var(--r2-space-4);
+}
+
+.stagesStatic .capLine {
+  font-size: 17px;
+  color: var(--r2-ink-2);
 }
 
 /* ---------- 5 · tracks ---------- */
 .tracks,
 .scope,
-.roadmap,
-.join {
+.roadmap {
   max-width: var(--wrap);
   margin: 0 auto;
-  padding: var(--r2-space-10) var(--r2-gutter);
+  padding: var(--r2-space-9) var(--r2-gutter);
   border-top: 1px solid var(--r2-hairline);
   display: grid;
   gap: var(--r2-space-6);
@@ -510,10 +510,23 @@
 }
 
 .boundary dt {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  letter-spacing: var(--track-mono, 0.04em);
-  color: var(--r2-ink-3);
+  font-family: var(--font-read);
+  font-size: 15px;
+  color: var(--r2-ink-2);
+}
+
+/* "Never": the permanent line, struck-form marker (the paused / closed line form) */
+.boundary [data-never] dt::after {
+  content: '';
+  display: inline-block;
+  width: 14px;
+  height: 9px;
+  margin-left: 8px;
+  vertical-align: middle;
+  background:
+    linear-gradient(currentColor, currentColor) 0 50% / 14px 1px no-repeat,
+    linear-gradient(currentColor, currentColor) 7px 0 / 1px 9px no-repeat;
+  transform: rotate(-35deg);
 }
 
 .boundary dd {
@@ -644,80 +657,6 @@
   color: var(--r2-ink-2);
 }
 
-/* ---------- 8 · join ---------- */
-.join {
-  padding-bottom: var(--r2-space-10);
-}
-
-.joinHead {
-  display: grid;
-  gap: var(--r2-space-3);
-}
-
-.roles {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  border-top: 1px solid var(--r2-hairline-strong);
-}
-
-.role {
-  display: grid;
-  grid-template-columns: 40px 200px 1fr;
-  align-items: center;
-  min-height: 64px;
-  border-bottom: 1px solid var(--r2-hairline);
-}
-
-.seat {
-  color: var(--r2-ink);
-}
-
-.seat :global(.r2g-anchor) {
-  display: none;
-}
-
-.roleName {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 21px;
-}
-
-.roleLine {
-  font-size: 17px;
-  color: var(--r2-ink-2);
-}
-
-.joinMeta {
-  display: grid;
-  gap: var(--r2-space-3);
-  justify-items: start;
-}
-
-.night {
-  margin: 0;
-  display: inline-flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px 12px;
-  font-size: 19px;
-  color: var(--r2-ink);
-}
-
-.nowDot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--r2-trigger);
-}
-
-.nightLabel {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  letter-spacing: var(--track-mono, 0.04em);
-  color: var(--r2-ink-3);
-}
-
 /* ---------- phones ---------- */
 @media (max-width: 734px) {
   .root .hero {
@@ -750,19 +689,30 @@
     grid-template-columns: 1fr;
   }
 
-  .bandFigure :global(g text) {
-    display: none;
+  /* phones: one idea per screen, so each pinned figure holds a little longer (still within 1–4 vh of scroll) */
+  .pin {
+    height: 420vh;
   }
 
-  /* the in-figure "Diagram, not a render" label stays legible on the compact strip */
-  .bandFigure :global(svg > text) {
-    font-size: 46px;
+  .bandPin[data-enhanced] {
+    height: calc(330vh + 100vh);
   }
 
-  .stage {
-    width: 100%;
-    margin-left: 0;
-    min-height: 100svh;
+  /* phones: the vertical light path, capped so the caption stays in the pinned viewport */
+  .bandFigure :global(svg) {
+    max-height: calc(100svh - var(--r2-nav-h) - 200px);
+    width: auto;
+    margin: 0 auto;
+  }
+
+  .bandCaption {
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .capLine {
+    font-size: 18px;
   }
 
   .phases {
@@ -791,15 +741,6 @@
     height: 1px;
     border-left: 0;
     border-top: 1px dashed var(--r2-ink-2);
-  }
-
-  .role {
-    grid-template-columns: 40px 1fr;
-    padding: var(--r2-space-3) 0;
-  }
-
-  .roleLine {
-    grid-column: 2;
   }
 
   .boundary div {

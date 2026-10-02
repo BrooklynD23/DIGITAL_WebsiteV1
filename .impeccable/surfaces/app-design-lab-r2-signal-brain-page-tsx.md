@@ -22,3 +22,21 @@ FIRST VIEWPORT: Left 5 columns on the timebase: readout "CH3 · BRAIN · RUN 01"
 FORM: Signal Capture, roll index 3, seed key 0a795440. Signature interactions: approve/deny the pending Edit at the harness gate (Enter/Esc), drag a document into a full window and pick evict / compact / load on demand, toggle MCP servers; cursor readouts name the state ("CH3 · TOOL CALL · PENDING").
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+
+## W3b changes
+
+Applied (Head Designer: 6 chapters):
+- Structure: Loop, Tools, MCP, Context (window + engineering merged), Harness (+ one-beat subagent coda, no control), Evals. Each chapter is a ChapterPin: the stage-only first part is quiet; caption, readout and the one control fade in for a window of pin progress (focus always reveals). "How it works" disclosure after each pin (open without JS / under reduced motion). Removed: the per-chapter Faithful chip, the step lists, the mode switch and the one-window/subagent toggle (detail moved into How it works).
+- Accuracy: max turns counts tool-use turns only (3 tool turns + answer succeed at 3); plan = "proposes and does not edit"; "Everything it knows fits in here" dropped; pass@k = "at least one of k"; scramble labelled illustrative; discover vs */list wording; subagents "clean window (no parent history)"; list_changed still not faked.
+- Illustrative tags only where a picture is a metaphor (tools, MCP, context, harness, evals, coda); hero key "1 dot ≠ 1 token · illustrative" on the stage.
+- Hero: Signal runs the loop 3 times (one tool per run, TRIG · AUTO ×3), larger trace, then halts and sleeps. Apple: brain-orb loop clip (world="apple", eager, maxLoops 3) cropped and scaled as the hero object on #000, trace row synced from the clip markers via onTime.
+- Apple: brain-context is the one scrubbed asset (ref.setProgress, readout from markerIndex) in pin A; pin B is the interactive window. Shared LocalNav (default CTA), WorldNav join={false}, <Highlights>, <JoinChapter> with BRAIN facts as children, "Competes in hackathons." tagged [confirm].
+- Signal: shared scope graticule (r2-graticule data-pitch="scope"); red = JoinChapter seat + the held call's anchor at the gate (separate viewports); mobile labels ≥11–12px.
+- Eval slider hydration warning: not reproducible after the rewrite (label/input split); the rAF gate now counts warnings: 0.
+
+Rejected (with reason):
+- Migrating SceneStage to DotStage `scene`: DotStage has no per-frame callback (live readouts need t) and no one-runner conductor or container-sized canvas. Kept SceneStage on barrel imports; requested `onFrame(t)` on DotStage.
+
+Deferred:
+- brain-context clip draws its own red "now" dot (CINE re-render owner).
+- Page length grew with the pins (1440: Signal 14.0 vh, Apple 16.4 vh); quiet/avg targets met.

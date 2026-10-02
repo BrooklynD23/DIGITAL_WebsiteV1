@@ -22,3 +22,25 @@ SIGNATURE: a pinned scanpath chapter: the eye-position trace jumps word to word 
 FORM: Signal Capture, roll index 3, seed key 0a795440
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+
+## W3b changes
+
+Applied (14):
+1. Honesty: "Medical claims" removed from "Not in it"; the boundary is permanent ("Never: Medical claims, now or later.", struck-form marker) and "A research platform. Not a medical device." sits beside the full name in the hero.
+2. Light-path band rebuilt as one short timebase: the strip pins for ~2.5 vh of scroll (3.3 vh on phones); one caption line swaps in place under it; lit station and caption share one step index (useScrollSteps). Static list for no-JS / reduced motion.
+3. Scanpath never crops: a two-row layout with a return sweep below 735 px.
+4. "Illustrative, not recorded data" is an HTML caption (14 px Atkinson), not SVG text.
+5. Join: shared <JoinChapter world="signal"> with SHADES seats as links (dashed → solid on hover / focus), primary "Come to build night", secondary Discord.
+6. Reader: K / ← → hint on the screen, the full sentence printed once paused or finished, speed slider removed under reduced motion (note says why).
+7. Krypton off prose: the RSVP definition moved into the reader lead (Atkinson); "Is / Is not / Never" labels and the spacing chip are Atkinson. Chip reads "Spacing: standard / more".
+8. fontReadingText replaces the page-local --font-read; spacing values use --reading-spaced-* tokens.
+9. Shared parts adopted: PlayOnceStage (hero pass now 1.4 s; rAF gate passes at the default settle), scope graticule (r2-graticule data-pitch="scope") in the reader. Page copies deleted (HeroStage, _shades/PlayOnce).
+10. Mentor line moved up beside the boundary (sponsor skim).
+11. Unused "Your eyes do not travel." field deleted; "Your eyes can stay." wording.
+12. Easing tokens (--r2-ease-entrance) replace raw cubic-beziers.
+13. Pins tuned so ≥45% of viewports are quiet with the artifact in view.
+14. Detector advisory (reader grid) resolved by using the shared graticule.
+
+Rejected (2): channel-strip format unification across pages (system-level, not this page's call); 6 out-items / 7 phases chunking (they are the real scope and roadmap; Notion facts, kept whole).
+
+Deferred (2): WorldNav CH links ~25 px wide at 390 (shared _chrome); body overscroll colour (shared layout).

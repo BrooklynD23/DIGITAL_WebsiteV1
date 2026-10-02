@@ -1,0 +1,80 @@
+/* SHADES seat rows inside <JoinChapter>. World tokens only. */
+.seats {
+  list-style: none;
+  margin: var(--r2-space-5) 0;
+  padding: 0;
+  display: grid;
+  width: 100%;
+  text-align: left;
+}
+
+.seat {
+  display: grid;
+  grid-template-columns: 32px minmax(110px, 160px) 1fr 20px;
+  align-items: center;
+  gap: var(--r2-space-3);
+  min-height: 56px;
+  padding: 6px 0;
+  color: var(--r2-ink);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--r2-hairline-strong);
+  transition: border-color var(--r2-dur-ui) var(--r2-ease-ui);
+}
+
+.seat:hover,
+.seat:focus-visible {
+  border-bottom-style: solid;
+  border-bottom-color: var(--r2-ink);
+}
+
+.glyph {
+  color: var(--r2-ink);
+}
+
+.name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 19px;
+}
+
+.line {
+  font-family: var(--font-read, var(--font-text));
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--r2-ink-2);
+}
+
+.go path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.seats[data-world='apple'] {
+  max-width: 640px;
+  margin-inline: auto;
+}
+
+:global([data-spacing='more']) .line {
+  letter-spacing: var(--reading-spaced-tracking, 0.05em);
+  word-spacing: var(--reading-spaced-word, 0.16em);
+}
+
+@media (max-width: 734px) {
+  .seat {
+    grid-template-columns: 32px 1fr 20px;
+    row-gap: 2px;
+  }
+
+  .line {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .go {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+  }
+}

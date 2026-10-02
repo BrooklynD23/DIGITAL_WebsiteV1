@@ -15,8 +15,12 @@ export interface SidekickModule {
   /** Stack position, top (1) → back (5). The numbers lock the object to the list. */
   readonly n: number;
   readonly name: string;
-  /** One line, ≤ 12 words. */
+  /** One line, ≤ 12 words (Apple viewer, no-JS list). */
   readonly line: string;
+  /** Signal entry line, ≤ 5 words (the name lives on the object). */
+  readonly short: string;
+  /** Apple viewer spec line. */
+  readonly spec: string;
   readonly scope: string;
   readonly risk: string;
   readonly state: ModuleState;
@@ -47,11 +51,13 @@ export const modules: readonly SidekickModule[] = [
     n: 1,
     name: 'Fingerprint module',
     line: 'An FPC2532AP sensor board, fully routed on two layers.',
+    short: 'An FPC2532AP sensor board.',
+    spec: '22.81 × 26.12 mm · two layers · 77 track segments',
     scope: 'Sensor board, two headers, two test points',
     risk: 'Lives on a side branch; never merged into the main design',
     state: 'routed',
-    stateWord: 'Routed, not merged',
-    measure: '22.81 × 26.12 mm · 77 traces · 12 vias',
+    stateWord: 'Routed, unmerged',
+    measure: '22.81 × 26.12 mm · 77 track segments · 12 vias',
     board: 'fingerprint',
     caption: 'Fingerprint module. Routed, waiting to be merged.',
   },
@@ -60,6 +66,8 @@ export const modules: readonly SidekickModule[] = [
     n: 2,
     name: 'Sensor module',
     line: 'Thermocouple and pressure sensing on I²C, behind a 7-pin header.',
+    short: 'Temperature and pressure.',
+    spec: 'Four parts on one schematic · no board outline yet',
     scope: 'Schematic, board outline, first layout',
     risk: 'No mating connector on the carrier yet; the interface is open',
     state: 'schematic',
@@ -73,11 +81,13 @@ export const modules: readonly SidekickModule[] = [
     n: 3,
     name: 'Power & carrier',
     line: 'USB-C and barrel-jack power, a one-cell charger, the battery rail.',
+    short: 'USB-C power, battery charging.',
+    spec: '49.0 × 41.0 mm · two layers · 14 track segments',
     scope: 'Placement, routing, power path',
     risk: '19 parts still sit beside the board, unplaced',
     state: 'partly-routed',
     stateWord: 'Partly routed',
-    measure: '49.0 × 41.0 mm · 14 traces · 8 vias',
+    measure: '49.0 × 41.0 mm · 14 track segments · 8 vias',
     board: 'zynq-carrier-power',
     caption: 'Power carrier. Everything plugs in here. Partly routed.',
   },
@@ -85,7 +95,9 @@ export const modules: readonly SidekickModule[] = [
     id: 'compute',
     n: 4,
     name: 'Compute',
-    line: 'A Zynq-7000 module, ARM and FPGA, on a 100-pin mezzanine.',
+    line: 'A Zynq-7000 module, ARM and FPGA, on a 100-pin board-to-board connector.',
+    short: 'Zynq-7000: ARM plus FPGA.',
+    spec: 'Zynq-7000 · ARM + FPGA · outline illustrative',
     scope: 'Carrier-side interface to the module',
     risk: 'Designed outside the club; the exact Zynq part is not stated',
     state: 'external',
@@ -98,14 +110,16 @@ export const modules: readonly SidekickModule[] = [
     id: 'planned',
     n: 5,
     name: 'Planned modules',
-    line: 'Clock, motion, distance, light, haptics, sound, camera and touch.',
+    line: 'Clock, motion, distance, light, haptics, microphone, speaker, camera, touch.',
+    short: 'Nine modules, research notes only.',
+    spec: 'Nine modules researched · no design files',
     scope: 'Pick one; draw its first schematic',
     risk: 'Research notes only; no design files exist',
     state: 'research',
     stateWord: 'Research only',
     measure: '9 modules · 0 files',
     board: null,
-    caption: 'Planned modules. Nine ideas, no files. All open.',
+    caption: 'Planned modules. Nine ideas, no files.',
   },
 ];
 
@@ -113,7 +127,7 @@ export const modules: readonly SidekickModule[] = [
 export const carrierLayers = [
   { layer: 'B.Cu', name: 'Back copper', line: 'Two fills on the back. No traces yet.' },
   { layer: 'substrate', name: 'FR-4 core', line: '49 × 41 mm, 1.6 mm thick, 2.5 mm corners.' },
-  { layer: 'F.Cu', name: 'Front copper', line: 'Fourteen traces and the first fills, saved mid-layout.' },
+  { layer: 'F.Cu', name: 'Front copper', line: 'Fourteen track segments and the first fills, saved mid-layout.' },
   { layer: 'F.Pads', name: 'Front pads', line: 'Land patterns for USB-C, charger and headers.' },
   { layer: 'F.Silk', name: 'Silkscreen', line: 'Outlines for the 17 footprints placed so far.' },
 ] as const;
@@ -121,9 +135,9 @@ export const carrierLayers = [
 /** Highlights strip (Apple) / readout ticker (Signal). Captions 9–19 words. */
 export const highlights = [
   { id: 'compute', title: 'Zynq-7000 module', line: 'ARM cores and an FPGA on one module, designed outside the club.' },
-  { id: 'kicad', title: 'KiCad 9', line: 'Three two-layer boards. Every drawing here comes from those files.' },
+  { id: 'kicad', title: 'KiCad 9', line: 'Three two-layer boards. Both board drawings come from those files.' },
   { id: 'fingerprint', title: 'Fingerprint module', line: 'The most finished board: 22.81 × 26.12 mm, fully routed.' },
-  { id: 'scope', title: 'No radio. No full OS.', line: 'Cellular, wireless and a full operating system are out of scope.' },
+  { id: 'scope', title: 'No radio, no full OS', line: 'Cellular, wireless and a full operating system are out of scope.' },
   { id: 'paused', title: 'Paused, preserved', line: 'Main design stopped on 26 August 2025. Every file was kept.' },
 ] as const;
 
@@ -150,10 +164,10 @@ export const status = {
 } as const;
 
 export const swap = {
-  headline: 'One module out. The rest stays.',
-  lead: 'The goal: each module lifts out alone. None is built yet.',
-  out: 'Pull the fingerprint module',
-  in: 'Seat it again',
+  headline: 'One out. The rest stays.',
+  lead: 'Not built.',
+  /** Constant control label (checkbox semantics carry the state). */
+  control: 'Lift module 01',
 } as const;
 
 /** Ownership rules (PRODUCT.md positioning, phoneV2.ts buildScope). */
@@ -174,11 +188,14 @@ export const join = {
 
 export const confirmNote = '[confirm]';
 
-/** Apple pinned chapter: one line per layer while the two real boards separate (clip `sidekick-explode` or its code fallback). */
+/** Apple pin, phase 1: one caption per `sidekick-explode` marker (assembled, explode-start, layer-tags, carrier-exploded, module-exploded). */
 export const explodeCaptions = [
   'Two real boards, from KiCad 9.',
-  'Silkscreen. Outlines for every footprint placed so far.',
-  'Front copper. Routed on the fingerprint board, begun on the carrier.',
-  'FR-4 core. Two copper layers on a 1.6 mm board.',
-  'Back copper. Fills on both boards, eleven traces on one.',
+  'Each board comes apart, layer by layer.',
+  'Silkscreen, copper, core. Two copper layers each.',
+  'The carrier: fourteen track segments so far.',
+  'The fingerprint module: fully routed.',
 ] as const;
+
+/** The phone shell around the stack: never started, drawn dashed and struck. */
+export const enclosure = { name: 'Enclosure', word: 'Never started' } as const;

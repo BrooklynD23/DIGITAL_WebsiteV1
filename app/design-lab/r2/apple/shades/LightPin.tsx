@@ -1,26 +1,56 @@
 'use client';
 
 /**
- * Apple signature: the pinned light-path chapter. One scrubbed asset per page: clip shades-lightpath
- * (currentTime follows scroll) or, until it is rendered, the light-path diagram driven by CSS --k.
- * One caption per stage swaps in place. Reduced motion / no JS: no pin, the full diagram and all six captions as a list.
+ * Apple signature: the pinned light-path chapter. ONE progress drives both the scrubbed clip (ref.setProgress,
+ * no React re-render per frame) and the caption (markerIndex on the same p: React state changes only when the
+ * stage changes), so the caption never runs ahead of the packet. Until the clip is rendered, the light-path
+ * diagram steps on the same index. Reduced motion / no JS: no pin; the full diagram and all six captions as a list.
  */
-import { useRef, useState, type CSSProperties } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useScrollProgress } from '../../_system';
-import { CINE, CineClip } from '../../_system/cine';
+import { CineClip, markerIndex, type CineClipHandle } from '../../_system/cine';
 import { SHADES } from '../../_content/shades';
 import { LightPath } from '../../_shades/LightPath';
 import s from './apple.module.css';
 
 const L = SHADES.lightPath;
 const N = L.stages.length;
-const CLIP_READY = CINE['shades-lightpath'].ready;
+
+function Captions({ className }: { readonly className: string }) {
+  return (
+    <ol className={className}>
+      {L.stages.map((st, i) => (
+        <li key={st.id}>
+          <span className={s.capN}>
+            {i + 1} · {st.name}
+          </span>
+          <span className={s.capLine}>
+            {st.caption}
+            {st.confirm ? <> <span className={s.confirm}>{SHADES.confirmTag}</span></> : null}
+          </span>
+        </li>
+      ))}
+    </ol>
+  );
+}
 
 export function LightPin() {
   const ref = useRef<HTMLElement>(null);
-  const [p, setP] = useState(0);
-  // CSS-only drive for the diagram; a JS drive only when the clip exists and needs currentTime.
-  useScrollProgress(ref, CLIP_READY ? { range: 'contain', onProgress: setP } : { range: 'contain' });
+  const clip = useRef<CineClipHandle>(null);
+  const shown = useRef(0);
+  const [step, setStep] = useState(0);
+
+  const onProgress = useCallback((p: number) => {
+    clip.current?.setProgress(p);
+    const i = Math.max(0, markerIndex('shades-lightpath', p));
+    if (i !== shown.current) {
+      shown.current = i;
+      setStep(i);
+    }
+  }, []);
+  useScrollProgress(ref, { range: 'contain', onProgress, cssVar: false });
+
+  const st = L.stages[step];
 
   return (
     <>
@@ -31,36 +61,27 @@ export function LightPin() {
           </header>
           <div className={s.lpinFig}>
             <CineClip
+              ref={clip}
               name="shades-lightpath"
+              world="apple"
               mode="scrub"
-              progress={p}
               label={L.figureLabel}
-              fallback={<LightPath mode="scrub" />}
+              fallback={<LightPath mode="step" active={step} note={false} />}
             />
-            {CLIP_READY ? (
-              // In-figure label, as in the SVG fallback; the clip's accessible name starts with "Diagram, not a render".
-              <span className={s.clipNote} aria-hidden="true">
-                {L.note}
-              </span>
-            ) : null}
+            <span className={s.clipNote} aria-hidden="true">
+              {L.note}
+            </span>
           </div>
-          <ol className={s.lpinCaps}>
-            {L.stages.map((st, i) => (
-              <li
-                key={st.id}
-                className={s.lpinCap}
-                style={{ ['--t' as string]: (i / N).toFixed(3), ['--tn' as string]: i === N - 1 ? '9' : ((i + 1) / N).toFixed(3) } as CSSProperties}
-              >
-                <span className={s.capN} aria-hidden="true">
-                  {i + 1} / {N}
-                </span>
-                <span className={s.capLine}>
-                  {st.caption}
-                  {st.confirm ? <> <span className={s.confirm}>{SHADES.confirmTag}</span></> : null}
-                </span>
-              </li>
-            ))}
-          </ol>
+          <p className={s.lpinCap}>
+            <span className={s.capN} aria-hidden="true">
+              {step + 1} / {N}
+            </span>
+            <span className={s.capLine}>
+              {st.caption}
+              {st.confirm ? <> <span className={s.confirm}>{SHADES.confirmTag}</span></> : null}
+            </span>
+          </p>
+          <Captions className="sr-only" />
         </div>
       </section>
 
@@ -70,19 +91,7 @@ export function LightPin() {
           <p className={s.lead}>{L.lead}</p>
         </header>
         <LightPath mode="step" />
-        <ol className={s.lstaticList}>
-          {L.stages.map((st, i) => (
-            <li key={st.id}>
-              <span className={s.capN}>
-                {i + 1} · {st.name}
-              </span>
-              <span className={s.capLine}>
-                {st.caption}
-                {st.confirm ? <> <span className={s.confirm}>{SHADES.confirmTag}</span></> : null}
-              </span>
-            </li>
-          ))}
-        </ol>
+        <Captions className={s.lstaticList} />
       </section>
     </>
   );

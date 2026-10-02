@@ -1,16 +1,13 @@
 import type { Metadata } from 'next';
-import { WorldFooter } from '../../_chrome/WorldFooter';
-import { WorldNav } from '../../_chrome/WorldNav';
-import { GlyphSeat, StateMark } from '../../_system';
-import { BoardSvg, getBoard } from '../../_system/boards';
+import { JoinChapter, LocalNav, WorldFooter, WorldNav } from '../../_chrome';
+import { Chevron, GlyphSeat, Highlights, StateMark } from '../../_system';
+import { BoardLayers } from '../../_system/boards/BoardLayers';
+import { CineClip } from '../../_system/cine';
 import { highlights, join, modules, rules, sidekick, status, swap } from '../../_content/sidekick';
 import { ComputeModule, SensorModule } from '../../_sidekick/IsoModules';
 import { ApplePinned } from './ApplePinned';
-import { AppleWalk } from './AppleWalk';
 import { CloserLook } from './CloserLook';
-import { CineClip } from '../../_system/cine';
-import { Highlights } from './Highlights';
-import { SwapClip } from './SwapClip';
+import { HeroSettle } from './HeroSettle';
 import s from './sidekick.module.css';
 
 export const metadata: Metadata = {
@@ -33,16 +30,28 @@ function NoRadio() {
   );
 }
 
-const HL_ART = {
-  compute: <ComputeModule w={40} h={30} />,
-  kicad: (
-    <div className={s.hlOutlines}>
-      <BoardSvg board={getBoard('zynq-carrier-power')} layers={['substrate', 'edge']} stableFrame={false} />
-      <BoardSvg board={getBoard('fingerprint')} layers={['substrate', 'edge']} stableFrame={false} />
+const HL_MEDIA = {
+  compute: (
+    <div className={s.hlMedia}>
+      <ComputeModule w={40} h={30} />
     </div>
   ),
-  fingerprint: <BoardSvg board={getBoard('fingerprint')} iso stableFrame={false} />,
-  scope: <NoRadio />,
+  kicad: (
+    <div className={s.hlOutlines}>
+      <BoardLayers board="zynq-carrier-power" proj="flat" layers={['substrate', 'edge']} stableFrame={false} label="Power carrier outline" />
+      <BoardLayers board="fingerprint" proj="flat" layers={['substrate', 'edge']} stableFrame={false} label="Fingerprint module outline" />
+    </div>
+  ),
+  fingerprint: (
+    <div className={s.hlMedia}>
+      <BoardLayers board="fingerprint" stableFrame={false} />
+    </div>
+  ),
+  scope: (
+    <div className={s.hlMedia}>
+      <NoRadio />
+    </div>
+  ),
   paused: (
     <div className={s.hlPaused}>
       <StateMark state="paused" size={96} />
@@ -54,70 +63,42 @@ const HL_ART = {
 export default function AppleSidekickPage() {
   return (
     <div className={s.page}>
-      <WorldNav world="apple" current="sidekick" />
-      <nav className={s.local} aria-label="SIDEKICK" data-chrome="localnav" data-tone="dark">
-        <div className={s.localInner}>
-          <a className={s.localName} href="#overview">SIDEKICK</a>
-          <ul className={s.localLinks}>
-            <li><a href="#teardown">Teardown</a></li>
-            <li><a href="#boards">Boards</a></li>
-            <li><a href="#status">Status</a></li>
-          </ul>
-          <a className={s.pill} href="#join">{sidekick.joinLink}</a>
-        </div>
-      </nav>
+      <WorldNav world="apple" current="sidekick" join={false} />
+      <LocalNav
+        title={sidekick.name}
+        titleHref="#overview"
+        tone="dark"
+        links={[
+          { label: 'Teardown', href: '#teardown' },
+          { label: 'Boards', href: '#boards' },
+          { label: 'Status', href: '#status' },
+        ]}
+      />
 
       <main id="r2-main">
         {/* Hero: the carrier is the product. */}
         <section className={s.hero} data-tone="dark" id="overview" aria-labelledby="sk-title">
           <div className={s.heroCopy}>
-            <h1 id="sk-title" className={s.heroTitle}>
-              <span className={s.productName}>{sidekick.name}</span>
-              <span className={s.hero1}>{sidekick.headline}</span>
-            </h1>
+            <p className={s.productName}>{sidekick.name}</p>
+            <h1 id="sk-title" className={s.hero1}>{sidekick.headline}</h1>
             <p className={s.heroLead}>{sidekick.lead}</p>
             <a className={s.chev} href="#teardown">
-              See it come apart
-              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5L10.5 8 6 12.5" /></svg>
+              See it come apart <Chevron dir="right" size={14} />
             </a>
           </div>
           <figure className={s.heroFig}>
-            <div className={s.heroBoard}>
-              <BoardSvg board={getBoard('zynq-carrier-power')} iso stableFrame={false} />
-            </div>
+            <HeroSettle className={s.heroBoard}>
+              <BoardLayers board="zynq-carrier-power" stableFrame={false} label="Power carrier, 49 by 41 millimetres, from the club's KiCad file" />
+            </HeroSettle>
             <figcaption className={s.heroCap}>
               {sidekick.heroCaption} <span className={s.confirm}>[confirm]</span>
             </figcaption>
           </figure>
         </section>
 
-        {/* Highlights strip carries the breadth. */}
-        <section className={s.hl} aria-labelledby="hl-title">
-          <h2 id="hl-title" className={s.h2}>SIDEKICK at a glance.</h2>
-          <Highlights label="SIDEKICK highlights">
-            {highlights.map((h) => (
-              <li key={h.id} className={s.hlCard}>
-                <div className={s.hlArt}>{HL_ART[h.id]}</div>
-                <p className={s.hlText}>
-                  <strong>{h.title}.</strong> {h.line} <span className={s.confirm}>[confirm]</span>
-                </p>
-              </li>
-            ))}
-          </Highlights>
-        </section>
-
-        {/* The one scrubbed asset: the pinned explode, one caption per layer. */}
+        {/* The one scrubbed asset: the pinned explode, then the module beats, one caption at a time. */}
         <section className={s.dark} data-tone="dark" id="teardown" aria-labelledby="teardown-title">
           <ApplePinned />
-        </section>
-
-        {/* The subsystem walk: the stack holds, each module states its scope, risk and owner. */}
-        <section className={s.walkSec} data-tone="dark" aria-labelledby="walk-title">
-          <div className={s.chapterHead}>
-            <h2 id="walk-title" className={s.h1}>Five modules. One stack.</h2>
-            <p className={s.chapterLead}>Two are real boards. Three are drawn as outlines.</p>
-          </div>
-          <AppleWalk />
         </section>
 
         {/* Signature beat: the swap, played once on entry. */}
@@ -127,17 +108,26 @@ export default function AppleSidekickPage() {
             <p className={s.chapterLead}>{swap.lead}</p>
           </div>
           <div className={s.swapMedia}>
-            <CineClip name="sidekick-swap" mode="once" fallback={<SwapClip />} aspect="16x9" />
+            <CineClip name="sidekick-swap" world="apple" mode="once" />
           </div>
         </section>
 
-        {/* Product viewer. */}
-        <section className={s.closer} id="boards" aria-labelledby="boards-title">
-          <h2 id="boards-title" className={s.h2}>Every board, up close.</h2>
+        {/* Product viewer over all five modules. */}
+        <section className={s.closer} data-tone="dark" id="boards" aria-labelledby="boards-title">
+          <h2 id="boards-title" className={s.h2}>Every module, up close.</h2>
           <CloserLook />
         </section>
 
-        {/* Honest status. */}
+        {/* Light from here on: highlights, status, rules, join. */}
+        <section className={s.hl}>
+          <Highlights
+            id="highlights"
+            title="SIDEKICK at a glance."
+            label="SIDEKICK highlights"
+            items={highlights.map((h) => ({ id: h.id, title: h.title, caption: `${h.line} [confirm]`, media: HL_MEDIA[h.id] }))}
+          />
+        </section>
+
         <section className={s.status} id="status" aria-labelledby="status-title">
           <div className={s.chapterHead}>
             <h2 id="status-title" className={s.h1}>{status.headline}</h2>
@@ -159,7 +149,7 @@ export default function AppleSidekickPage() {
               return (
                 <li key={b.id}>
                   <div className={s.statusArt}>
-                    {m.board ? <BoardSvg board={getBoard(m.board)} stableFrame={false} /> : <SensorModule w={26} h={20} />}
+                    {m.board ? <BoardLayers board={m.board} proj="flat" stableFrame={false} className={s.flatBoard} /> : <SensorModule w={26} h={20} />}
                   </div>
                   <p className={s.statusName}>{b.name}</p>
                   <p className={s.statusWord}>{b.word}</p>
@@ -187,7 +177,6 @@ export default function AppleSidekickPage() {
           </div>
         </section>
 
-        {/* Ownership rules. */}
         <section className={s.rulesSec} aria-labelledby="rules-title">
           <h2 id="rules-title" className={s.h1}>Every part has one.</h2>
           <ul className={s.rules}>
@@ -204,27 +193,17 @@ export default function AppleSidekickPage() {
           </ul>
         </section>
 
-        {/* Join. */}
-        <section className={s.join} id="join" aria-labelledby="join-title">
-          <h2 id="join-title" className={s.hero1}>{join.headline}</h2>
-          <p className={s.chapterLead}>{join.lead}</p>
-          <ul className={s.seats}>
+        <JoinChapter world="apple" headline={join.headline} lead={join.lead}>
+          <p className={s.seatOwner} id="sk-seats">Every seat unassigned</p>
+          <ul className={s.seats} aria-labelledby="sk-seats">
             {modules.map((m) => (
-              <li key={m.id} data-glyph-host="">
+              <li key={m.id}>
                 <GlyphSeat size={24} />
                 <span className={s.seatName}>{m.name}</span>
-                <span className={s.seatOwner}>Unassigned</span>
               </li>
             ))}
           </ul>
-          <p className={s.when}>
-            {join.when} · {join.where}
-          </p>
-          <a className={s.chev} href={join.discord} rel="noopener noreferrer" target="_blank">
-            Say which one on Discord
-            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5L10.5 8 6 12.5" /></svg>
-          </a>
-        </section>
+        </JoinChapter>
       </main>
       <WorldFooter world="apple" />
     </div>

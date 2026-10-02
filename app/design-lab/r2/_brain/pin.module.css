@@ -1,0 +1,20 @@
+/* <ChapterPin>: pin height comes from --pin (set per world / breakpoint on the section's className). */
+.pin { position: relative; }
+.track { position: relative; }
+.pin[data-pin='on'] .track { height: var(--pin, 160vh); }
+.pin[data-pin='on'] .sticky {
+  position: sticky;
+  top: var(--r2-sticky-top, var(--r2-nav-h, 52px));
+  min-height: calc(100vh - var(--r2-sticky-top, var(--r2-nav-h, 52px)));
+}
+
+.pin :global([data-late]),
+.pin :global([data-late]) * {
+  transition: opacity var(--r2-dur-ui, 280ms) var(--r2-ease-ui, ease);
+}
+
+.pin[data-pin='on']:not([data-late='on']):not(:focus-within) :global([data-late]),
+.pin[data-pin='on']:not([data-late='on']):not(:focus-within) :global([data-late]) * {
+  opacity: 0;
+  pointer-events: none;
+}

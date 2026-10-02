@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
-import { WorldFooter } from '../../_chrome/WorldFooter';
-import { WorldNav } from '../../_chrome/WorldNav';
+import { JoinChapter, WorldFooter, WorldNav } from '../../_chrome';
 import { GlyphSeat, StateMark } from '../../_system';
-import { BoardSvg, getBoard } from '../../_system/boards';
+import { BoardLayers } from '../../_system/boards/BoardLayers';
 import { join, modules, rules, sidekick, status } from '../../_content/sidekick';
 import { SensorModule } from '../../_sidekick/IsoModules';
 import { LINE_FORM } from '../../_sidekick/lineForm';
@@ -19,6 +18,22 @@ const SPAN = 131; // → 2025-11-27, last fingerprint file
 const PAUSE = 38; // 2025-08-26
 const BRANCH = 66; // 2025-09-23, first fingerprint file
 const x = (d: number): number => 8 + (d / SPAN) * 584;
+
+// Iso projection used by BoardLayers (board mm → view units): x' = 0.866(x − y), y' = 0.5(x + y).
+const iso = (x: number, y: number): string => `${(0.866 * (x - y)).toFixed(2)} ${(0.5 * (x + y)).toFixed(2)}`;
+
+/** Two oscilloscope cursors measuring the carrier's real edges (49.0 and 41.0 mm). Part of the figure: aria-hidden. */
+function MeasureCursors() {
+  return (
+    <svg viewBox="-37.9 -2.21 82.73 49.42" className={s.cursors} aria-hidden="true">
+      <path className={s.cursorExt} d={`M${iso(0, -1)}L${iso(0, -7)}M${iso(49, -1)}L${iso(49, -7)}M${iso(50, 0)}L${iso(56, 0)}M${iso(50, 41)}L${iso(56, 41)}`} />
+      <path className={s.cursorLine} d={`M${iso(0, -5)}L${iso(49, -5)}M${iso(54, 0)}L${iso(54, 41)}`} />
+      <text x={0.866 * (24.5 + 11)} y={0.5 * (24.5 - 11)} className={s.cursorText}>A 49.0 mm</text>
+      <text x={0.866 * (60 - 20.5)} y={0.5 * (60 + 20.5) + 1} className={s.cursorText}>B 41.0 mm</text>
+      <text x={44.5} y={0.5 * (60 + 41) + 4} textAnchor="end" className={s.cursorText}>KiCad 9 · 2 layers [confirm]</text>
+    </svg>
+  );
+}
 
 function Timebase() {
   return (
@@ -82,17 +97,16 @@ export default function SignalSidekickPage() {
                 <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3.5 8.5L8 13l4.5-4.5" /></svg>
               </a>
             </div>
-            <figure className={s.heroFig}>
+            <div className={s.heroFig}>
               <div className={s.heroBoard}>
-                <BoardSvg board={getBoard('zynq-carrier-power')} iso stableFrame={false} />
+                <BoardLayers
+                  board="zynq-carrier-power"
+                  stableFrame={false}
+                  label="Power carrier, 49.0 by 41.0 millimetres, two copper layers, from the club's KiCad 9 file (to be confirmed by the club)"
+                />
+                <MeasureCursors />
               </div>
-              <figcaption className={s.measure}>
-                <span>A 49.0 mm</span>
-                <span>B 41.0 mm</span>
-                <span>2 layers · KiCad 9</span>
-                <span className={s.confirm}>[confirm]</span>
-              </figcaption>
-            </figure>
+            </div>
           </div>
         </section>
 
@@ -112,7 +126,7 @@ export default function SignalSidekickPage() {
                 <li key={b.id} className={s.boardCell}>
                   <div className={s.boardArt}>
                     {m.board ? (
-                      <BoardSvg board={getBoard(m.board)} stableFrame={false} />
+                      <BoardLayers board={m.board} proj="flat" stableFrame={false} className={s.flatBoard} />
                     ) : (
                       <SensorModule w={26} h={20} />
                     )}
@@ -163,30 +177,17 @@ export default function SignalSidekickPage() {
           </ul>
         </section>
 
-        {/* Join. */}
-        <section className={s.join} id="join" aria-labelledby="join-title">
-          <h2 id="join-title" className={s.hero1}>{join.headline}</h2>
-          <p className={s.lead}>{join.lead}</p>
-          <ul className={s.seats}>
+        <JoinChapter world="signal" headline={join.headline} lead={join.lead}>
+          <p className={s.seatOwner} id="sk-seats">Every seat unassigned</p>
+          <ul className={s.seats} aria-labelledby="sk-seats">
             {modules.map((m) => (
-              <li key={m.id} data-glyph-host="">
+              <li key={m.id}>
                 <GlyphSeat size={24} />
                 <span className={s.seatName}>{m.name}</span>
-                <span className={s.seatOwner}>Unassigned</span>
               </li>
             ))}
           </ul>
-          <p className={s.when}>
-            <span>{join.when}</span>
-            <span>{join.where}</span>
-          </p>
-          <div className={s.joinLinks}>
-            <a className={s.textLink} href={join.discord} rel="noopener noreferrer" target="_blank">
-              Say which one on Discord
-              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 12L12 4M6 4h6v6" /></svg>
-            </a>
-          </div>
-        </section>
+        </JoinChapter>
       </main>
       <WorldFooter world="signal" />
     </div>

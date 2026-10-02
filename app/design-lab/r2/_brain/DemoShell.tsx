@@ -1,12 +1,11 @@
 'use client';
 
 /**
- * Shared chrome for one BRAIN chapter demo: the screen (stage + overlay labels), controls,
- * a polite live readout, and the static step list (visible without JS / under reduced motion,
- * screen-reader-only otherwise). Worlds restyle it through [data-world] in demo.module.css.
+ * Shared chrome for one BRAIN chapter demo: the screen (stage + overlay labels + illustrative tag), a polite
+ * live readout, and the one control. Elements marked data-late fade in with the chapter's caption inside a
+ * pin (<ChapterPin>), so the chapter opens on a stage-only viewport. Worlds restyle via [data-world].
  */
-import { useEffect, useRef, useState, type ReactNode, type RefObject } from 'react';
-import { useReducedMotion } from '../_system';
+import { useEffect, useRef, type ReactNode, type RefObject } from 'react';
 import type { Chapter } from '../_content/brain';
 import type { SceneHandle } from './SceneStage';
 import { pct } from './kit';
@@ -33,6 +32,7 @@ export function DemoShell({
   readout,
   corner,
   after,
+  illus,
 }: {
   readonly world: World;
   readonly ch: Chapter;
@@ -45,24 +45,21 @@ export function DemoShell({
   readonly corner?: string;
   /** Extra row under the controls (legends, meters). */
   readonly after?: ReactNode;
+  /** Stage tag where the picture is a metaphor; defaults to the chapter's. Pass null for none. */
+  readonly illus?: string | null;
 }) {
   const live = world === 'signal' ? `CH3 · ${readout.tag} · ${readout.state}` : readout.text;
-  // Steps are visible in the server HTML (no JS) and under reduced motion; once the stage can move, they
-  // stay in the accessibility tree only.
-  const [mounted, setMounted] = useState(false);
-  const reduced = useReducedMotion();
-  useEffect(() => setMounted(true), []);
-  const stepsClass = mounted && !reduced ? `${s.steps} sr-only` : s.steps;
+  const tag = illus === undefined ? ch.illus : illus;
   return (
     <figure className={s.demo} data-world={world} data-chapter={ch.id}>
-      <div className={s.screen}>
+      <div className={world === 'signal' ? `${s.screen} r2-graticule` : s.screen} data-pitch={world === 'signal' ? 'scope' : undefined}>
         {world === 'signal' ? (
           <span className={s.cornerTL} aria-hidden="true">
             {`CH3 · ${String(ch.n).padStart(2, '0')} ${ch.name.toUpperCase()}`}
           </span>
         ) : null}
         {world === 'signal' && corner ? (
-          <span className={s.cornerTR} aria-hidden="true">
+          <span className={s.cornerTR} aria-hidden="true" data-late="">
             {corner}
           </span>
         ) : null}
@@ -70,21 +67,17 @@ export function DemoShell({
           {stage}
           {overlay}
         </div>
-        <p className={s.readout} aria-live="polite">
+        {tag ? <p className={s.illus}>{world === 'signal' ? `ILLUSTRATIVE · ${tag.toUpperCase()}` : `Illustrative: ${tag}`}</p> : null}
+        <p className={s.readout} aria-live="polite" data-late="">
           {live}
         </p>
       </div>
       {controls ? (
-        <div className={s.controls} role="group" aria-label={controlsLabel ?? `${ch.name} controls`}>
+        <div className={s.controls} role="group" aria-label={controlsLabel ?? `${ch.name} controls`} data-late="">
           {controls}
         </div>
       ) : null}
-      {after}
-      <ol className={stepsClass} aria-label={`${ch.name}, step by step`}>
-        {ch.steps.map((step) => (
-          <li key={step}>{step}</li>
-        ))}
-      </ol>
+      {after ? <div className={s.after} data-late="">{after}</div> : null}
     </figure>
   );
 }

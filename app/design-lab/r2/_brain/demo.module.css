@@ -22,9 +22,6 @@
 
 .controls { max-width: 100%; display: flex; flex-wrap: wrap; gap: var(--r2-space-3); justify-content: center; align-items: center; }
 
-/* static step list: visible without JS and under reduced motion; screen-reader-only otherwise */
-.steps { margin: 0; padding: 0 0 0 1.4em; max-width: 34rem; color: var(--r2-ink-2); font-size: var(--r2-fs-body); line-height: var(--r2-lh-body); justify-self: start; }
-.steps li + li { margin-top: 4px; }
 
 /* ---------- controls (shared mechanics) ---------- */
 .segmented { display: inline-flex; flex-wrap: wrap; justify-content: center; }
@@ -106,16 +103,7 @@
 /* ============================================================ SIGNAL: scope screens */
 [data-world='signal'] .screen {
   border: 1px solid var(--r2-hairline-strong);
-  padding: 40px 20px 48px;
-  background-color: var(--r2-ground);
-  background-image:
-    linear-gradient(var(--r2-graticule-major), var(--r2-graticule-major)),
-    linear-gradient(90deg, var(--r2-graticule-major), var(--r2-graticule-major)),
-    linear-gradient(var(--r2-graticule) 1px, transparent 1px),
-    linear-gradient(90deg, var(--r2-graticule) 1px, transparent 1px);
-  background-size: 100% 1px, 1px 100%, 10% 12.5%, 10% 12.5%;
-  background-position: 0 50%, 50% 0, -1px -1px, -1px -1px;
-  background-repeat: no-repeat, no-repeat, repeat, repeat;
+  padding: 48px 20px 48px;
 }
 .cornerTL, .cornerTR { position: absolute; top: 12px; font-family: var(--font-mono); font-size: 11px; line-height: 16px; letter-spacing: 0.06em; color: var(--r2-ink-3); }
 .cornerTL { left: 14px; }
@@ -146,7 +134,6 @@
 [data-world='signal'] .switches { gap: 0; }
 [data-world='signal'] .gate[data-pending='true'] { outline: 1px dashed var(--r2-ink-3); outline-offset: 4px; }
 [data-world='signal'] .gate:focus-visible { outline: 2px solid var(--r2-focus); outline-offset: 4px; }
-[data-world='signal'] .steps { font-family: var(--font-mono); font-size: 13px; line-height: 20px; }
 [data-world='signal'] .compare dd { font-stretch: 112%; }
 [data-world='signal'] .hero .heroScreen { border: 1px solid var(--r2-hairline-strong); padding: 40px 12px 16px; }
 [data-world='signal'] .docCard { border-radius: 0; }
@@ -192,3 +179,32 @@
 @media (max-width: 734px) {
   .hero[data-tuck='true'] .traceRow { margin-top: -24px; }
 }
+
+/* ---------- W3b: illustrative tag, hero key, clips, coda ---------- */
+.illus { margin: 0; font-family: var(--font-mono); font-size: 12px; line-height: 16px; letter-spacing: 0.04em; color: var(--r2-ink-3); }
+[data-world='signal'] .illus { position: absolute; left: 14px; top: 32px; }
+[data-world='apple'] .illus { text-align: center; font-family: var(--font-text); }
+.after { display: grid; justify-items: center; gap: var(--r2-space-3); }
+
+.heroKey { margin: 0; font-family: var(--font-mono); font-size: 12px; line-height: 16px; letter-spacing: 0.04em; color: var(--r2-ink-3); }
+[data-world='signal'] .heroKey { position: absolute; left: 14px; bottom: 12px; }
+[data-world='signal'] .trace { font-size: 15px; gap: 8px 16px; color: var(--r2-ink-3); }
+[data-world='signal'] .trace li[data-on='true'] { color: var(--r2-ink); }
+[data-world='signal'] .trace li + li::before { margin-right: 16px; }
+
+.heroClip { position: relative; width: 100%; display: grid; justify-items: center; gap: var(--r2-space-3); }
+.heroVideo { width: 100%; }
+.heroClip .heroKey { text-align: center; }
+.heroClip .trace { font-size: 15px; color: #86868b; }
+.heroClip .trace li[data-on='true'] { color: #f5f5f7; text-decoration: none; }
+
+.clipBox { width: 100%; }
+
+.coda { display: grid; justify-items: center; gap: var(--r2-space-3); width: 100%; }
+.codaStage { position: relative; width: 100%; max-width: 420px; }
+
+/* W3b confirm-round fixes */
+[data-world] .coda .illus,
+.coda[data-world='signal'] .illus { position: static; }
+.heroClip .traceRow { padding: 0 var(--r2-gutter, 16px); max-width: 100%; }
+.heroClip .trace { justify-content: center; }

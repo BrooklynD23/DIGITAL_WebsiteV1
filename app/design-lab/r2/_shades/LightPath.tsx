@@ -118,7 +118,7 @@ const V_LAYOUT: Layout = {
   note: { x: 180, y: 752 },
 };
 
-function Figure({ layout, mode, active, labels }: { readonly layout: Layout; readonly mode: 'scrub' | 'step'; readonly active: number | null; readonly labels: boolean }) {
+function Figure({ layout, mode, active, labels, note }: { readonly layout: Layout; readonly mode: 'scrub' | 'step'; readonly active: number | null; readonly labels: boolean; readonly note: boolean }) {
   const [x1, y1, x2, y2] = layout.ray;
   const reach = mode === 'step' ? (active === null ? 1 : active / (N - 1)) : undefined;
   const fillStyle =
@@ -162,7 +162,7 @@ function Figure({ layout, mode, active, labels }: { readonly layout: Layout; rea
       <g className={s.fixation} data-reached={mode === 'step' ? (active === null || active === N - 1 ? 'true' : 'false') : undefined}>
         <circle className={s.anchor} cx={layout.point[0]} cy={layout.point[1]} r={6} />
       </g>
-      {labels ? (
+      {labels && note ? (
         <text className={`${s.note} ${layout.eyeRotate ? s.noteV : ''}`} x={layout.note.x} y={layout.note.y} textAnchor="middle">
           {SHADES.lightPath.note}
         </text>
@@ -177,18 +177,20 @@ export interface LightPathProps {
   readonly labels?: boolean;
   /** Force one layout (e.g. the compact sticky strip stays horizontal on phones). */
   readonly layout?: 'auto' | 'h';
+  /** Draw the in-figure "Diagram, not a render" label. Off when the caller prints it as HTML. */
+  readonly note?: boolean;
   readonly className?: string;
 }
 
-export function LightPath({ mode, active = null, labels = true, layout = 'auto', className }: LightPathProps) {
+export function LightPath({ mode, active = null, labels = true, layout = 'auto', note = true, className }: LightPathProps) {
   return (
     <div className={[s.wrap, className ?? ''].join(' ')} data-mode={mode} data-layout={layout} role="img" aria-label={SHADES.lightPath.figureLabel}>
       <div className={s.h}>
-        <Figure layout={H_LAYOUT} mode={mode} active={active} labels={labels} />
+        <Figure layout={H_LAYOUT} mode={mode} active={active} labels={labels} note={note} />
       </div>
       {layout === 'auto' ? (
         <div className={s.v}>
-          <Figure layout={V_LAYOUT} mode={mode} active={active} labels={labels} />
+          <Figure layout={V_LAYOUT} mode={mode} active={active} labels={labels} note={note} />
         </div>
       ) : null}
     </div>

@@ -4,7 +4,7 @@
  * (SSR, no-JS, reduced motion and every settled moment). Fidelity notes: _content/brain.ts.
  */
 import type { Dot, Frame, Line } from '../_system';
-import { project } from '../_system/dots/math';
+import { project } from '../_system';
 import { LOOP, SERVERS, type ToolId } from '../_content/brain';
 import {
   TAU,
@@ -33,10 +33,19 @@ import {
 
 /* ------------------------------------------------------------------ hero */
 
-export const HERO_MS = 7200;
+export const HERO_RUNS = 3;
+export const HERO_MS = 13500;
 
-/** Trace index for the hero line: evaluate · tool_call · result · evaluate · done. */
-export const heroStep = (t: number): number => (t < 0.3 ? 0 : t < 0.45 ? 1 : t < 0.6 ? 2 : t < 0.8 ? 3 : 4);
+/** Run index and trace step (evaluate · tool_call · result · evaluate · done) at hero t. */
+export function heroAt(t: number): { run: number; step: number } {
+  const x = Math.min(0.9999, Math.max(0, t)) * HERO_RUNS;
+  const run = Math.floor(x);
+  const u = x - run;
+  if (t >= 1) return { run: HERO_RUNS - 1, step: 4 };
+  const last = run === HERO_RUNS - 1;
+  const step = u < 0.25 ? 0 : u < 0.45 ? 1 : u < 0.65 ? 2 : last && u >= 0.82 ? 4 : 3;
+  return { run, step };
+}
 
 const HERO_TOOLS: ReadonlyArray<[number, number]> = [
   [0.86, -0.46],
@@ -45,34 +54,36 @@ const HERO_TOOLS: ReadonlyArray<[number, number]> = [
 ];
 
 /**
- * Hero: the working orb runs one agent loop. Scattered dots form the orb, three orbits work,
- * one call leaves for a tool and returns transformed, a second evaluation, then the orbits flatten
- * into one ring that locks (halt). Rest: orb + locked ring + the used tool lit + result absorbed.
+ * Hero: the working orb runs the agent loop three times (TRIG · AUTO ×3). Each run sends one call to a
+ * different tool, the result returns transformed and is absorbed; after the third run the orbits flatten
+ * into one ring that locks (halt). Rest: orb + locked ring + the three used tools lit.
  */
 export function heroScene(t: number, size: number): Frame {
   const c = ctxOf(size);
   const dots: Dot[] = [];
   const lines: Line[] = [];
-  const formIn = easeOut(seg(t, 0, 0.16));
-  const flat = easeInOut(seg(t, 0.8, 0.94));
-  const lock = seg(t, 0.9, 1);
-  const yaw = 0.6 + t * 1.2;
+  const x = Math.min(0.9999, clamp(t)) * HERO_RUNS;
+  const run = t >= 1 ? HERO_RUNS - 1 : Math.floor(x);
+  const u = t >= 1 ? 1 : x - run;
+  const last = run === HERO_RUNS - 1;
+  const formIn = run === 0 ? easeOut(seg(u, 0, 0.2)) : 1;
+  const flat = last ? easeInOut(seg(u, 0.8, 0.94)) : 0;
+  const lock = last ? seg(u, 0.9, 1) : 0;
+  const yaw = 0.6 + t * 3.2;
   const R = 0.36;
   const nOrb = count(380, c, 160);
-  // orb (forms from a loose scatter)
   orb(-0.06, 0, R, nOrb, c.r * 0.95, 0.9, yaw).forEach((d, i) => {
     const sx = Math.cos(i * 2.4) * (0.5 + (i % 7) * 0.07);
     const sy = Math.sin(i * 2.4) * (0.5 + (i % 5) * 0.08);
     dots.push({ ...d, x: lerp(sx, d.x, formIn), y: lerp(sy, d.y, formIn), a: d.a * (0.35 + 0.65 * formIn) });
   });
-  // orbits → one flat ring
   const rings = [
     { R: 0.72, inc: 1.15, node: 0.3, lap: 1, park: 0.2 },
     { R: 0.6, inc: 1.3, node: -0.9, lap: -1, park: 2.4 },
     { R: 0.5, inc: 0.95, node: 1.7, lap: 1, park: 4.1 },
   ];
   const ringR = 0.66;
-  const work = seg(t, 0.1, 0.8);
+  const work = t * 3.6;
   rings.forEach((g, k) => {
     const rr = lerp(g.R, ringR, flat);
     const inc = lerp(g.inc, Math.PI / 2, flat);
@@ -80,47 +91,45 @@ export function heroScene(t: number, size: number): Frame {
     const m = count(64, c, 28);
     const ringA = (0.3 + 0.15 * k) * formIn * (1 - flat * (k === 0 ? 0 : 1));
     const place = (ang: number): [number, number, number] => {
-      const x = Math.cos(ang) * rr;
-      const z = Math.sin(ang) * rr;
-      const [px, py, pz] = project(x, -z * Math.sin(inc), z * Math.cos(inc), nodeA, lerp(0.25, 0, flat));
+      const x0 = Math.cos(ang) * rr;
+      const z0 = Math.sin(ang) * rr;
+      const [px, py, pz] = project(x0, -z0 * Math.sin(inc), z0 * Math.cos(inc), nodeA, lerp(0.25, 0, flat));
       return [px - 0.06, py, pz];
     };
     for (let i = 0; i < m; i++) {
-      const [x, y, z] = place((i / m) * TAU);
-      dots.push(dot(x, y, c.r * 0.7, ringA * (0.55 + 0.45 * ((z + 1) / 2)), 'dot', z));
+      const [px, py, pz] = place((i / m) * TAU);
+      dots.push(dot(px, py, c.r * 0.7, ringA * (0.55 + 0.45 * ((pz + 1) / 2)), 'dot', pz));
     }
-    // the part travelling on this orbit
-    const ang = g.park + TAU * g.lap * work * 1.5;
-    const [px, py, pz] = place(ang);
+    const [px, py, pz] = place(g.park + TAU * g.lap * work);
     const partA = formIn * (1 - flat);
     dots.push(...block(px, py, 2, 2, 0.022, c.r * 1.05, partA, 'dot').map((d) => ({ ...d, z: pz })));
   });
-  // locked ring: solid line once halted
   if (lock > 0) lines.push(...circleLines(-0.06, 0, ringR, 72, 0.7 * lock, 'solid', lock));
-  // tools on the right: available (dim), the used one lights
-  const used = 0;
-  HERO_TOOLS.forEach(([x, y], i) => {
-    const lit = i === used ? seg(t, 0.42, 0.46) : 0;
-    dots.push(...block(x, y, 3, 3, 0.03, c.r * (1 + 0.5 * lit), (0.3 + 0.6 * lit) * formIn));
+  // tools: each run lights one more; the active one pulses as the call lands
+  HERO_TOOLS.forEach(([tx, ty], i) => {
+    const used = i < run || (i === run && u >= 0.45);
+    const hit = i === run ? Math.sin(seg(u, 0.42, 0.52) * Math.PI) : 0;
+    dots.push(...block(tx, ty, 3, 3, 0.03 + 0.008 * hit, c.r * (1.05 + 0.5 * hit), (used ? 0.9 : 0.3) * formIn));
   });
-  // call out (emit) and result back (absorb)
-  const [tx, ty] = HERO_TOOLS[used];
-  const from: [number, number] = [-0.06 + R * 0.95, -0.12];
-  const out = seg(t, 0.3, 0.44);
-  if (out > 0 && out < 1) dots.push(...packet((u) => arcPoint(from[0], from[1], tx - 0.05, ty, u, 0.1), easeInOut(out), c.r));
-  const back = seg(t, 0.46, 0.6);
-  if (back > 0) {
+  // this run's call out (emit) and result back (absorb)
+  const [tx, ty] = HERO_TOOLS[run];
+  const from: [number, number] = [-0.06 + R * 0.95, ty * 0.3];
+  const out = seg(u, 0.25, 0.45);
+  if (out > 0 && out < 1) {
+    dots.push(...packet((v) => arcPoint(from[0], from[1], tx - 0.05, ty, v, 0.1), easeInOut(out), c.r * 1.25, 4));
+    lines.push(partial(from[0], from[1], tx - 0.06, ty, Math.min(1, out * 1.4), 0.4, 'dotted'));
+  }
+  const back = seg(u, 0.47, 0.65);
+  if (back > 0 && back < 1) {
     const e = easeInOut(back);
     for (let i = 0; i < 9; i++) {
-      const ox = ((i % 3) - 1) * 0.026;
-      const oy = (Math.floor(i / 3) - 1) * 0.026;
-      const [bx, by] = arcPoint(tx - 0.08, ty, -0.06 + R * 0.55, -0.08, e, -0.08);
-      dots.push(dot(bx + ox * (1 - e * 0.4), by + oy * (1 - e * 0.4), c.r * 1.15, 0.95, 'dot', 1));
+      const ox = ((i % 3) - 1) * 0.028;
+      const oy = (Math.floor(i / 3) - 1) * 0.028;
+      const [bx, by] = arcPoint(tx - 0.08, ty, -0.06 + R * 0.5, ty * 0.2, e, -0.08);
+      dots.push(dot(bx + ox * (1 - e * 0.6), by + oy * (1 - e * 0.6), c.r * 1.25, 0.95, 'dot', 1));
     }
   }
-  if (out > 0) lines.push(partial(from[0], from[1], tx - 0.06, ty, Math.min(1, out * 1.4), 0.22 * (1 - flat), 'dotted'));
-  // halt: the packet drops to the centre
-  const drop = seg(t, 0.86, 1);
+  const drop = last ? seg(u, 0.86, 1) : 0;
   if (drop > 0) dots.push(dot(-0.06, lerp(-ringR, 0, easeInOut(drop)), c.r * 2.2, 1, 'dot', 2));
   return finish(dots, lines);
 }
@@ -134,9 +143,10 @@ export interface LoopInfo {
   readonly phase: 'evaluate' | 'tool_call' | 'result' | 'done' | 'error_max_turns';
 }
 
+/** maxTurns counts tool-use turns only (S5): 3 tool turns + the answer succeed at maxTurns ≥ 3. */
 const loopPlan = (maxTurns: number) => {
-  const toolTurns = Math.min(maxTurns, LOOP.needed - 1);
-  const final = maxTurns >= LOOP.needed;
+  const toolTurns = Math.min(maxTurns, LOOP.toolCalls);
+  const final = maxTurns >= LOOP.toolCalls;
   const segs = toolTurns + (final ? 1 : 0.5);
   return { toolTurns, final, segs };
 };
@@ -146,8 +156,8 @@ export function loopInfo(t: number, maxTurns: number): LoopInfo {
   const x = t * segs;
   const i = Math.min(Math.floor(x), toolTurns + (final ? 0 : -1));
   const u = x - i;
-  if (t >= 1) return { turn: final ? LOOP.needed : toolTurns, phase: final ? 'done' : 'error_max_turns' };
-  if (i >= toolTurns) return { turn: final ? toolTurns + 1 : toolTurns, phase: final ? (u > 0.7 ? 'done' : 'evaluate') : 'error_max_turns' };
+  if (t >= 1) return { turn: toolTurns, phase: final ? 'done' : 'error_max_turns' };
+  if (i >= toolTurns) return { turn: toolTurns, phase: final ? (u > 0.7 ? 'done' : 'evaluate') : 'error_max_turns' };
   return { turn: i + 1, phase: u < 0.25 ? 'evaluate' : u < 0.5 ? 'tool_call' : u < 0.62 ? 'result' : 'evaluate' };
 }
 
@@ -198,8 +208,8 @@ export function loopScene(t: number, size: number, maxTurns: number): Frame {
   } else p = at(((u - 0.5) / 0.5) * (Math.PI * 1.5));
   dots.push(...block(tool[0], tool[1], 3, 3, 0.035, c.r * (1 + 0.4 * hit), 0.45 + 0.5 * hit));
   dots.push(dot(p[0], p[1], c.r * 2.1, 1, errored ? 'hollow' : 'dot', 2));
-  // turn markers: filled = used, hollow = allowed but unused
-  const used = t >= 1 ? (final ? LOOP.needed : toolTurns) : Math.min(i + 1, maxTurns);
+  // tool-turn markers: filled = used, hollow = allowed but unused
+  const used = t >= 1 ? toolTurns : Math.min(i + (answering ? 0 : 1), toolTurns);
   for (let k = 0; k < maxTurns; k++) {
     const mx = cx + (k - (maxTurns - 1) / 2) * 0.1;
     dots.push(dot(mx, 0.84, c.r * 1.25, k < used ? 0.95 : 0.55, k < used ? 'dot' : 'hollow'));

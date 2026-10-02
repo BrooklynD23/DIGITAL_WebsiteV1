@@ -1,22 +1,21 @@
 import type { Metadata } from 'next';
 import type { ComponentType } from 'react';
-import { WorldFooter, WorldNav } from '../../_chrome';
-import { brain, chapters, close, hero, type ChapterId } from '../../_content/brain';
+import { JoinChapter, WorldFooter, WorldNav } from '../../_chrome';
+import { brain, chapters, close, coda, hero, type ChapterId } from '../../_content/brain';
 import {
+  ChapterPin,
   Confirm,
   ContextChapter,
-  EngineeringDemo,
   EvalsDemo,
-  Fidelity,
   HarnessDemo,
   HeroOrb,
+  HowItWorks,
   LoopDemo,
   McpDemo,
   MethodLoop,
-  NotesCoda,
   PlanMark,
   Sources,
-  SubagentsDemo,
+  SubagentsCoda,
   ToolsDemo,
   type World,
 } from '../../_brain';
@@ -32,9 +31,7 @@ const DEMOS: Partial<Record<ChapterId, ComponentType<{ world: World }>>> = {
   loop: LoopDemo,
   tools: ToolsDemo,
   mcp: McpDemo,
-  engineering: EngineeringDemo,
   harness: HarnessDemo,
-  subagents: SubagentsDemo,
   evals: EvalsDemo,
 };
 
@@ -57,10 +54,6 @@ export default function BrainSignalPage() {
             <p className={s.lead}>
               {hero.lead} <Confirm />
             </p>
-            <p className={s.status}>
-              {`CH3 · ${brain.name} · STATUS ${brain.status.toUpperCase()}`} <Confirm />
-            </p>
-            <p className={s.key}>{hero.key}</p>
           </div>
           <div className={s.heroStage}>
             <HeroOrb world={WORLD} />
@@ -70,14 +63,20 @@ export default function BrainSignalPage() {
         {chapters.map((ch) => {
           const head = (
             <>
+              <span className={s.tickInline} aria-hidden="true">
+                {t(ch.n)}
+              </span>
               <h2 id={`h-${ch.id}`} className={s.h2}>
                 {ch.headline}
               </h2>
-              <p className={s.caption}>{ch.caption}</p>
-              <Fidelity ch={ch} world={WORLD} />
-              {ch.id === 'harness' ? <NotesCoda world={WORLD} /> : null}
             </>
           );
+          const caption = (
+            <p className={s.caption} data-late="">
+              {ch.caption}
+            </p>
+          );
+          const how = <HowItWorks ch={ch} world={WORLD} />;
           if (ch.id === 'context') {
             return (
               <ContextChapter
@@ -85,81 +84,76 @@ export default function BrainSignalPage() {
                 world={WORLD}
                 id={`ch-${ch.id}`}
                 labelledBy={`h-${ch.id}`}
-                className={`${s.capture} ${s.pinned}`}
-                stickyClassName={s.sticky}
-                textClassName={s.text}
-                stageClassName={s.instrument}
-              >
-                <span className={s.tickInline} aria-hidden="true">{`${t(ch.n)} · SCRUB`}</span>
-                {head}
-              </ContextChapter>
+                classes={{ pin: `${s.capture} ${s.scrub}`, sticky: s.sticky, text: s.text, stage: s.instrument }}
+                head={head}
+                caption={caption}
+                after={how}
+              />
             );
           }
           const Demo = DEMOS[ch.id];
           return (
-            <section key={ch.id} id={`ch-${ch.id}`} className={s.capture} aria-labelledby={`h-${ch.id}`}>
-              <span className={s.tick} aria-hidden="true">
-                {t(ch.n)}
-              </span>
-              <div className={s.text}>{head}</div>
-              <div className={s.instrument}>{Demo ? <Demo world={WORLD} /> : null}</div>
-            </section>
+            <div key={ch.id} className={s.group}>
+              <ChapterPin id={`ch-${ch.id}`} labelledBy={`h-${ch.id}`} className={s.capture} stickyClassName={s.sticky} after={how}>
+                <div className={s.text}>
+                  {head}
+                  {caption}
+                </div>
+                <div className={s.instrument}>{Demo ? <Demo world={WORLD} /> : null}</div>
+              </ChapterPin>
+              {ch.id === 'harness' ? (
+                <section className={s.coda} aria-labelledby="h-coda">
+                  <div className={s.text}>
+                    <span className={s.tickInline} aria-hidden="true">{`${t(ch.n)} · CODA`}</span>
+                    <h3 id="h-coda" className={s.h3}>
+                      {coda.label}
+                    </h3>
+                  </div>
+                  <div className={s.instrument}>
+                    <SubagentsCoda world={WORLD} />
+                  </div>
+                </section>
+              ) : null}
+            </div>
           );
         })}
 
-        {/* T+09: BRAIN itself */}
-        <section id="brain" className={s.close} aria-labelledby="h-brain">
+        {/* T+07: BRAIN itself */}
+        <section id="brain" className={s.mark} aria-labelledby="h-brain">
           <span className={s.tick} aria-hidden="true">
-            {t(9)}
+            {t(7)}
           </span>
-          <div className={s.closeMark}>
-            <PlanMark size={200} label="The orb returns to its plan outline" />
+          <div className={s.markArt}>
+            <PlanMark size={220} label="The orb returns to its plan outline" />
           </div>
-          <div className={s.closeText}>
-            <h2 id="h-brain" className={s.h2}>
+          <div className={s.markText}>
+            <h2 id="h-brain" className={s.h1}>
               {brain.name}
             </h2>
             <p className={s.expansion}>{brain.expansion}</p>
-            <p className={s.caption}>
-              {close.thesis} <Confirm />
-            </p>
-            <MethodLoop world={WORLD} />
-            <p className={s.small}>{close.methodLine}</p>
           </div>
         </section>
 
-        <section className={s.closeTwo} aria-labelledby="h-join">
-          <div className={s.questions}>
+        <JoinChapter world="signal" headline={close.join.headline}>
+          <div className={s.facts}>
+            <p className={s.thesis}>
+              {close.thesis} <Confirm />
+            </p>
+            <MethodLoop world={WORLD} />
             <ul className={s.qList} aria-label="Three questions per project">
               {close.questions.map((q) => (
                 <li key={q}>{q}</li>
               ))}
             </ul>
-            <ul className={s.does}>
-              {close.does.map((d) => (
-                <li key={d}>{d}</li>
-              ))}
-              <li>
-                <Confirm />
-              </li>
-            </ul>
-          </div>
-          <div className={s.join}>
-            <h2 id="h-join" className={s.h2}>
-              {close.join.headline}
-            </h2>
-            <p className={s.when}>
-              <span>{close.join.when}</span>
-              <span>{close.join.where}</span>
+            <p className={s.small}>
+              {`${close.does[0]} ${close.does[1]}`} <Confirm /> {`${close.does[2]} Status: ${brain.status}.`} <Confirm />
             </p>
-            <a className={s.cta} href="/design-lab/r2/signal/#join">
-              {close.join.cta}
-            </a>
           </div>
-          <div className={s.sources}>
-            <Sources world={WORLD} />
-          </div>
-        </section>
+        </JoinChapter>
+
+        <div className={s.sources}>
+          <Sources world={WORLD} />
+        </div>
       </main>
       <WorldFooter world="signal" />
     </>

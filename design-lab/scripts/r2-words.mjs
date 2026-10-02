@@ -43,7 +43,17 @@ for (let y = 0; y < total; y += height) {
       const r = range.getBoundingClientRect();
       if (r.width < 1 || r.height < 1 || r.bottom <= 0 || r.top >= vh) continue;
       if (r.right <= 0 || r.left >= window.innerWidth) continue; // off-screen carousel cards
-      const visible = Math.max(0, Math.min(r.bottom, vh) - Math.max(r.top, 0)) / r.height;
+      // Intersect with every clipping ancestor (carousels, overflow:hidden boxes) and the viewport.
+      let top = Math.max(r.top, 0), bottom = Math.min(r.bottom, vh), left = Math.max(r.left, 0), right = Math.min(r.right, window.innerWidth);
+      for (let a = el; a && a !== document.body; a = a.parentElement) {
+        const o = getComputedStyle(a);
+        if (/(hidden|auto|scroll|clip)/.test(o.overflowX + o.overflowY)) {
+          const c = a.getBoundingClientRect();
+          top = Math.max(top, c.top); bottom = Math.min(bottom, c.bottom); left = Math.max(left, c.left); right = Math.min(right, c.right);
+        }
+      }
+      if (right - left < 1 || bottom - top < 1) continue;
+      const visible = ((bottom - top) / r.height) * Math.min(1, (right - left) / r.width);
       words += Math.round(text.split(/\s+/).length * visible);
     }
     return words;

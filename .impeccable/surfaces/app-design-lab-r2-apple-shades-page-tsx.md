@@ -22,3 +22,26 @@ SIGNATURE: a pinned light-path chapter: one scrubbed asset (clip shades-lightpat
 FORM: canon: Apple product page played straight (craft bar: measured iPhone/AirPods/MacBook pages)
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+
+## W3b changes
+
+Applied (15):
+1. Honesty: "Medical claims" removed from the compare list; the boundary gains a permanent "Never: Medical claims, now or later." line; "Not a medical device" now renders at ink-1. Hero foot carries the full name + "A research platform. Not a medical device." + status "Planning [confirm]".
+2. Light path: clip re-rendered by CINE (chip at WORD TIMING); captions switch with markerIndex('shades-lightpath', p) on the same p the clip gets via ref.setProgress (no per-frame React state); world="apple" on both clips; fallback diagram steps on the same index.
+3. "Take a closer look." replaced by "Part by part." on the shared <Highlights> strip (page copy deleted).
+4. Forked local nav deleted: shared <LocalNav> with the spacing toggle in its utility slot (mobile section menu included); WorldNav join={false}; the one filled CTA is the LocalNav pill "Join build night" → #join.
+5. Join: shared <JoinChapter world="apple"> with SHADES seats as links; primary "Come to build night" as a chevron link, Discord secondary. The page now ends on an action.
+6. Reader: Read is an outline pill (one filled pill per viewport); K / ← → hint on screen; sentence printed once paused or finished; speed hidden under reduced motion; spacing control lives only in the nav.
+7. Scanpath two-row layout below 735 px; "Illustrative, not recorded data" as an HTML figcaption (14 px).
+8. RSVP expanded in visible text (reader lead) instead of a hover-only abbr.
+9. Leads: Atkinson 500 at line height 1.5 (was 600 / 1.45).
+10. Light chapters lose the forced 100svh min-height (160 px padding, content height).
+11. fontReadingText replaces the page-local --font-read; --reading-spaced-* tokens.
+12. PlayOnce / PlayOnceStage from _system replace the page copies (FixateClip deleted).
+13. Easing tokens replace raw cubic-beziers.
+14. Mentor line moved beside the boundary.
+15. Unused "Your eyes do not travel." field deleted.
+
+Rejected (1): merging tracks and scope into one chapter (the compare list is its own idea; the copy budget passes without it).
+
+Deferred (2): the shades-fixate clip paints the pivot letter red (CINE owns the render; request filed); clip stage labels are small at 390 in the 4:5 render (CINE).

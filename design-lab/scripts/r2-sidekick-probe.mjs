@@ -14,8 +14,8 @@ const base = process.env.LAB_URL ?? 'http://localhost:3100';
 const browser = await chromium.launch({ executablePath: shell, args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
 
 const plans = {
-  signal: ['#teardown', '[data-step="fingerprint"]', '[data-step="carrier"]', '[data-step="carrier"]@0.45', '[data-step="planned"]', '[data-step="swap"]', 'SWAP', '#status-title', '#join'],
-  apple: ['#overview', '#hl-title', '#teardown', 'PIN@0.08', 'PIN@0.5', 'PIN@0.62', 'PIN@0.95', '#walk-title', '[data-walk="carrier"]@0.3', '#swap-title', '#boards-title', '#status-title', '#rules-title', '#join'],
+  signal: ['#teardown', 'PIN:#teardown > div:nth-child(2)@0.05', 'PIN:#teardown > div:nth-child(2)@0.3', 'PIN:#teardown > div:nth-child(2)@0.45', 'PIN:#teardown > div:nth-child(2)@0.75', 'PIN:#teardown > div:nth-child(2)@0.95', 'SWAP', '#status-title', '#rules-title', '#join'],
+  apple: ['#overview', 'PIN:#teardown > div@0.1', 'PIN:#teardown > div@0.42', 'PIN:#teardown > div@0.6', 'PIN:#teardown > div@0.8', '#swap-title', '#boards-title', '#highlights', '#status-title', '#rules-title', '#join'],
 };
 const vps = [{ name: 'd', width: 1440, height: 900 }, { name: 'm', width: 390, height: 844, isMobile: true, deviceScaleFactor: 2 }];
 
@@ -31,15 +31,16 @@ for (const world of ['signal', 'apple']) for (const vp of vps) {
   let n = 1;
   for (const a of plans[world]) {
     if (a === 'SWAP') {
-      await page.click('button[aria-pressed]');
+      await page.click('label[for="sk-swap"]');
       await page.waitForTimeout(900);
-    } else if (a.startsWith('PIN@')) {
-      const f = Number(a.split('@')[1]);
-      await page.evaluate((f) => {
-        const t = document.querySelector('#teardown > div');
+    } else if (a.startsWith('PIN:')) {
+      const [sel, fs] = a.slice(4).split('@');
+      const f = Number(fs);
+      await page.evaluate(([sel, f]) => {
+        const t = document.querySelector(sel);
         const r = t.getBoundingClientRect();
         window.scrollTo({ top: window.scrollY + r.top + f * (r.height - window.innerHeight), behavior: 'instant' });
-      }, f);
+      }, [sel, f]);
     } else {
       const [sel, frac] = a.split('@');
       await page.evaluate(([sel, frac]) => {

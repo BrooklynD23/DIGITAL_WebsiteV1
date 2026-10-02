@@ -1,15 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { BoardSvg, getBoard } from '../../_system/boards';
-import { SensorModule } from '../../_sidekick/IsoModules';
+import { BoardLayers } from '../../_system/boards/BoardLayers';
+import { Chevron } from '../../_system/ui/Chevron';
+import { modules } from '../../_content/sidekick';
+import { ComputeModule, PlannedModules, SensorModule } from '../../_sidekick/IsoModules';
 import s from './sidekick.module.css';
-
-const BOARDS = [
-  { id: 'carrier', name: 'Power carrier', spec: '49.0 × 41.0 mm · partly routed', board: 'zynq-carrier-power' as const },
-  { id: 'fingerprint', name: 'Fingerprint module', spec: '22.81 × 26.12 mm · routed', board: 'fingerprint' as const },
-  { id: 'sensor', name: 'Sensor module', spec: 'Schematic only · no outline yet', board: null },
-] as const;
 
 const VIEWS = [
   { id: 'flat', label: 'Flat' },
@@ -18,58 +14,74 @@ const VIEWS = [
 ] as const;
 type View = (typeof VIEWS)[number]['id'];
 
+const NO_FILE = 'No board file yet';
+
 /**
- * A product viewer over the club's boards: arrows step through the boards, a segmented control picks the view.
- * Every view is the real KiCad geometry (the sensor module has none, so it shows its schematic-only drawing).
+ * A product viewer over all five modules: arrows step through them, a segmented control picks the view.
+ * The two real boards (BoardLayers, the club's KiCad files) mount their three views once and cross-fade between
+ * them; the three modules with no board file show their outline drawing and say why the other views are off.
  */
 export function CloserLook() {
   const [i, setI] = useState(0);
   const [view, setView] = useState<View>('iso');
-  const b = BOARDS[i];
-  const step = (d: number): void => setI((v) => (v + d + BOARDS.length) % BOARDS.length);
+  const m = modules[i];
+  const step = (d: number): void => setI((v) => (v + d + modules.length) % modules.length);
+  const shown: View = m.board ? view : 'iso';
 
   return (
     <div className={s.viewer}>
-      <div className={s.viewerStage} aria-live="polite">
-        <figure className={s.viewerFig} key={`${b.id}-${view}`}>
-          <div className={s.viewerArt} data-view={view}>
-            {b.board ? (
-              <BoardSvg
-                board={getBoard(b.board)}
-                iso={view !== 'flat'}
-                explode={view === 'exploded' ? 1 : 0}
-                labels={view === 'exploded'}
-                stableFrame={false}
-                parked={b.board === 'zynq-carrier-power' && view === 'flat'}
-              />
+      <div className={s.viewerStage}>
+        <figure className={s.viewerFig} key={m.id}>
+          <div className={s.viewerArt}>
+            {m.board ? (
+              VIEWS.map((v) => (
+                <div key={v.id} className={s.viewLayer} data-on={shown === v.id ? 'true' : 'false'} aria-hidden={shown === v.id ? undefined : true}>
+                  <BoardLayers
+                    board={m.board!}
+                    proj={v.id === 'flat' ? 'flat' : 'iso'}
+                    explode={v.id === 'exploded' ? 1 : 0}
+                    labels={v.id === 'exploded'}
+                    stableFrame={v.id === 'exploded'}
+                    className={s.viewBoard}
+                  />
+                </div>
+              ))
             ) : (
-              <SensorModule w={26} h={20} />
+              <div className={s.viewLayer} data-on="true">
+                {m.id === 'sensor' ? <SensorModule w={26} h={20} /> : m.id === 'compute' ? <ComputeModule w={40} h={30} /> : <PlannedModules w={40} h={40} />}
+              </div>
             )}
           </div>
-          <figcaption className={s.viewerCap}>
-            <span className={s.viewerName}>{b.name}</span>
+          <figcaption className={s.viewerCap} aria-live="polite">
+            <span className={s.viewerName}>{m.name}</span>
             <span className={s.viewerSpec}>
-              {b.spec}
-              {b.board === 'zynq-carrier-power' && view === 'flat' ? ' · 19 parts unplaced' : ''} <span className={s.confirm}>[confirm]</span>
+              {m.spec} <span className={s.confirm}>[confirm]</span>
             </span>
+            <span className={s.viewerRisk}>Risk: {m.risk.charAt(0).toLowerCase() + m.risk.slice(1)}.</span>
           </figcaption>
         </figure>
       </div>
       <div className={s.viewerBar}>
         <div className={s.segmented} role="group" aria-label="View">
-          {VIEWS.map((v) => (
-            <button key={v.id} type="button" aria-pressed={view === v.id} onClick={() => setView(v.id)} disabled={!b.board && v.id !== 'iso'}>
-              {v.label}
-            </button>
-          ))}
+          {VIEWS.map((v) => {
+            const off = !m.board && v.id !== 'iso';
+            return (
+              <button key={v.id} type="button" aria-pressed={shown === v.id} onClick={() => setView(v.id)} disabled={off} title={off ? NO_FILE : undefined}>
+                {v.label}
+              </button>
+            );
+          })}
         </div>
+        {!m.board ? <span className={s.noFile}>{NO_FILE}</span> : null}
         <div className={s.arrows}>
-          <button type="button" className={s.arrow} onClick={() => step(-1)} aria-label="Previous board">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6.5L9 12l5.5 5.5" /></svg>
+          <button type="button" className={s.arrow} onClick={() => step(-1)} aria-label="Previous module">
+            <Chevron dir="left" />
           </button>
-          <span className={s.count} aria-hidden="true">{i + 1} / {BOARDS.length}</span>
-          <button type="button" className={s.arrow} onClick={() => step(1)} aria-label="Next board">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6.5L15 12l-5.5 5.5" /></svg>
+          <span className={s.count} aria-hidden="true">
+            {i + 1} / {modules.length}
+          </span>
+          <button type="button" className={s.arrow} onClick={() => step(1)} aria-label="Next module">
+            <Chevron dir="right" />
           </button>
         </div>
       </div>

@@ -22,3 +22,25 @@ SIGNATURE: a pinned exploded-board chapter: one scrubbed asset (clip sidekick-ex
 FORM: canon: Apple product page played straight (craft bar: measured iPhone/AirPods/MacBook pages)
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+
+## W3b changes
+
+Applied (11):
+1. BoardLayers everywhere; the HTML is 160 KB, down from 763 KB. The forked local nav is replaced by `_chrome` LocalNav, with WorldNav `join={false}`.
+2. AppleWalk is deleted. The single pin (380 svh) scrubs `sidekick-explode` (world apple, `ref.setProgress`, captions on `markerIndex`), then hands over to the module stack for five module beats using `modules[].caption`. Inactive captions are `aria-hidden` and transparent, never removed.
+3. The swap uses CineClip `sidekick-swap` (world apple, auto aspect) and plays once with its own control. SwapClip is deleted.
+4. The closer-look viewer covers all five modules: name, spec, one risk line. Board views are pre-mounted and cross-fade. Disabled views say "No board file yet".
+5. Hero: the board is capped at 640 px and fits with its caption above the 1440×900 fold. It settles once via Web Animations on the layer boxes.
+6. Tone flips once: dark (hero, teardown, swap, closer look), then light (highlights, status, rules, join).
+7. Highlights now use the system `<Highlights>`.
+8. JoinChapter brings the sponsor path. The seats say "unassigned" once.
+9. Phone shell and locked names on the module stack.
+10. Copy fixes, same as Signal.
+11. Glyph anchors are off by default.
+
+Rejected (1):
+- The pin is 380 svh, not about 300. Below 340 the five module beats fall under the minimum dwell, and the quiet share drops.
+
+Deferred (2):
+- Quiet viewports are 42% at 1440 and 36% at 390, against a 45% target. `r2-words.mjs` counts every horizontally clipped highlight card (+50–70 words in one viewport). The join chapter is shared.
+- The clips keep their own material: the CINE agent owns the Apple variants, and they are used as-is.
