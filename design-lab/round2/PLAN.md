@@ -76,3 +76,15 @@ About 15 agent runs, wall-clock similar to round 1. Commits `#0059`–`#0063`, e
 2. **BRAIN length**: DECIDED 2026-10-02 after W1 measurement (0–8% quiet viewports at 8 chapters): **cut to 6 chapters**. Context window merges into context engineering; subagents merge into harness. Applied in W3 refine.
 3. **Fontshare exception** for the team-liked Clash/General Sans trio (DESIGN.md §8), or OFL-only.
 4. **Club confirmations** (before production, not for the lab): SIDEKICK "legacy"/paused status, SHADES phase, whether BRAIN may say it teaches MCP etc.
+
+## 7. Resume point (2026-10-02, paused at usage limit)
+
+Done and committed: #0059 research + plan · #0060 W0 foundation · #0061 W1 pages × 2 worlds + cinematics · #0062 W2 critiques · #0063 W3a shared fixes.
+Next, **W3b page refine**: resume the 4 page agents with:
+- their critique "Fix now" lists in `round2/critiques/<page>.md`;
+- the migration notes in `round2/system/SYSTEM.md` §5 (LocalNav utility slot, JoinChapter, PlayOnce, useScrollSteps, opt-in anchor);
+- `BOARDS.md` (switch SIDEKICK to `BoardLayers`);
+- `CINE.md` (`world="apple"` at 7 call sites, drop `aspect="16x9"`, brain-orb loop, `setProgress`, SHADES `markerIndex`).
+
+BRAIN cuts to 6 chapters per `critiques/brain.md` §3.
+Then: finish review per page (impeccable degraded/finish-reviewer) → documenter writes `round2/DESIGN.md` → gallery `/design-lab/r2/compare` + report → STOP for review.
