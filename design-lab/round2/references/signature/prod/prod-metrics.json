@@ -1,0 +1,226 @@
+{
+  "phone-1440": {
+    "rafRestTop": 184,
+    "frames": [
+      {
+        "f": "phone-1440-f00-0.png",
+        "frac": 0,
+        "words": 37
+      },
+      {
+        "f": "phone-1440-f01-8.png",
+        "frac": 0.08,
+        "words": 70
+      },
+      {
+        "f": "phone-1440-f02-16.png",
+        "frac": 0.16,
+        "words": 60
+      },
+      {
+        "f": "phone-1440-f03-25.png",
+        "frac": 0.25,
+        "words": 56
+      },
+      {
+        "f": "phone-1440-f04-35.png",
+        "frac": 0.35,
+        "words": 47
+      },
+      {
+        "f": "phone-1440-f05-45.png",
+        "frac": 0.45,
+        "words": 56
+      },
+      {
+        "f": "phone-1440-f06-55.png",
+        "frac": 0.55,
+        "words": 50
+      },
+      {
+        "f": "phone-1440-f07-65.png",
+        "frac": 0.65,
+        "words": 48
+      },
+      {
+        "f": "phone-1440-f08-80.png",
+        "frac": 0.8,
+        "words": 52
+      },
+      {
+        "f": "phone-1440-f09-95.png",
+        "frac": 0.95,
+        "words": 56
+      }
+    ],
+    "rafRestEnd": 186
+  },
+  "glasses-1440": {
+    "rafRestTop": 10,
+    "frames": [
+      {
+        "f": "glasses-1440-f00-0.png",
+        "frac": 0,
+        "words": 63
+      },
+      {
+        "f": "glasses-1440-f01-10.png",
+        "frac": 0.1,
+        "words": 51
+      },
+      {
+        "f": "glasses-1440-f02-25.png",
+        "frac": 0.25,
+        "words": 8
+      },
+      {
+        "f": "glasses-1440-f03-40.png",
+        "frac": 0.4,
+        "words": 16
+      },
+      {
+        "f": "glasses-1440-f04-47.png",
+        "frac": 0.47,
+        "words": 16
+      },
+      {
+        "f": "glasses-1440-f05-55.png",
+        "frac": 0.55,
+        "words": 16
+      },
+      {
+        "f": "glasses-1440-f06-65.png",
+        "frac": 0.65,
+        "words": 25
+      },
+      {
+        "f": "glasses-1440-f07-78.png",
+        "frac": 0.78,
+        "words": 47
+      },
+      {
+        "f": "glasses-1440-f08-90.png",
+        "frac": 0.9,
+        "words": 50
+      },
+      {
+        "f": "glasses-1440-f09-98.png",
+        "frac": 0.98,
+        "words": 54
+      }
+    ],
+    "rafRestEnd": 20
+  },
+  "phone-390": {
+    "rafRestTop": 124,
+    "frames": [
+      {
+        "f": "phone-390-f00-0.png",
+        "frac": 0,
+        "words": 35
+      },
+      {
+        "f": "phone-390-f01-8.png",
+        "frac": 0.08,
+        "words": 51
+      },
+      {
+        "f": "phone-390-f02-16.png",
+        "frac": 0.16,
+        "words": 45
+      },
+      {
+        "f": "phone-390-f03-25.png",
+        "frac": 0.25,
+        "words": 51
+      },
+      {
+        "f": "phone-390-f04-35.png",
+        "frac": 0.35,
+        "words": 42
+      },
+      {
+        "f": "phone-390-f05-45.png",
+        "frac": 0.45,
+        "words": 50
+      },
+      {
+        "f": "phone-390-f06-55.png",
+        "frac": 0.55,
+        "words": 44
+      },
+      {
+        "f": "phone-390-f07-65.png",
+        "frac": 0.65,
+        "words": 44
+      },
+      {
+        "f": "phone-390-f08-80.png",
+        "frac": 0.8,
+        "words": 48
+      },
+      {
+        "f": "phone-390-f09-95.png",
+        "frac": 0.95,
+        "words": 62
+      }
+    ],
+    "rafRestEnd": 127
+  },
+  "glasses-390": {
+    "rafRestTop": 12,
+    "frames": [
+      {
+        "f": "glasses-390-f00-0.png",
+        "frac": 0,
+        "words": 63
+      },
+      {
+        "f": "glasses-390-f01-10.png",
+        "frac": 0.1,
+        "words": 51
+      },
+      {
+        "f": "glasses-390-f02-25.png",
+        "frac": 0.25,
+        "words": 8
+      },
+      {
+        "f": "glasses-390-f03-40.png",
+        "frac": 0.4,
+        "words": 16
+      },
+      {
+        "f": "glasses-390-f04-47.png",
+        "frac": 0.47,
+        "words": 16
+      },
+      {
+        "f": "glasses-390-f05-55.png",
+        "frac": 0.55,
+        "words": 16
+      },
+      {
+        "f": "glasses-390-f06-65.png",
+        "frac": 0.65,
+        "words": 25
+      },
+      {
+        "f": "glasses-390-f07-78.png",
+        "frac": 0.78,
+        "words": 47
+      },
+      {
+        "f": "glasses-390-f08-90.png",
+        "frac": 0.9,
+        "words": 49
+      },
+      {
+        "f": "glasses-390-f09-98.png",
+        "frac": 0.98,
+        "words": 54
+      }
+    ],
+    "rafRestEnd": 12
+  }
+}
