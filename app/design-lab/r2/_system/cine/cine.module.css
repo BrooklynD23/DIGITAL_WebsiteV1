@@ -1,0 +1,77 @@
+/* <CineClip>: poster layer + video layer + one 44px control. Aspect: 16:9, 4:5 under 640px. */
+.clip {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--r2-ground, #0b0c0a);
+  contain: layout paint;
+}
+
+.clip[data-aspect='4x5'] {
+  aspect-ratio: 4 / 5;
+}
+
+@media (max-width: 639px) {
+  .clip[data-aspect='auto'] {
+    aspect-ratio: 4 / 5;
+  }
+}
+
+.poster,
+.poster img,
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.video {
+  opacity: 0;
+  transition: opacity var(--r2-dur-ui, 280ms) var(--r2-ease-ui, ease);
+}
+
+.video[data-visible='true'] {
+  opacity: 1;
+}
+
+.control {
+  position: absolute;
+  right: var(--r2-space-4, 16px);
+  bottom: var(--r2-space-4, 16px);
+  width: var(--r2-target, 44px);
+  height: var(--r2-target, 44px);
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid rgba(236, 232, 222, 0.32);
+  background: rgba(11, 12, 10, 0.64);
+  color: #ece8de;
+  cursor: pointer;
+  opacity: 0.72;
+  transition: opacity var(--r2-dur-ui, 280ms) var(--r2-ease-ui, ease);
+}
+
+.control:hover,
+.control:focus-visible {
+  opacity: 1;
+}
+
+.control:focus-visible {
+  outline: 2px solid var(--r2-focus, #ece8de);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .video {
+    transition: none;
+  }
+}
+
+.media {
+  position: absolute;
+  inset: 0;
+}

@@ -1,0 +1,181 @@
+/* BRAIN · Apple page played straight. Dark cinematic chapters, centred column, one idea per viewport,
+   highlights strip for breadth, one scrubbed asset (ch4), light close. Red: CTA hover + the held call only. */
+
+.page { background: var(--r2-ground); color: var(--r2-ink); }
+
+.h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--r2-fw-display);
+  font-size: var(--r2-fs-hero);
+  line-height: var(--r2-lh-hero);
+  letter-spacing: var(--r2-ls-hero);
+  text-wrap: balance;
+}
+
+.h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--r2-fw-display);
+  font-size: var(--r2-fs-h1);
+  line-height: var(--r2-lh-h1);
+  letter-spacing: var(--r2-ls-h1);
+  text-wrap: balance;
+}
+
+.caption {
+  margin: 0 auto;
+  max-width: 34rem;
+  font-size: var(--r2-fs-lead);
+  line-height: var(--r2-lh-lead);
+  letter-spacing: var(--r2-ls-lead);
+  font-weight: 600;
+  color: var(--r2-ink-2);
+}
+
+.small { margin: 0 auto; max-width: 34rem; font-size: var(--r2-fs-small); line-height: var(--r2-lh-small); color: var(--r2-ink-2); }
+
+/* ---------- hero ---------- */
+.hero {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: var(--r2-space-5);
+  padding: var(--r2-space-6) var(--r2-gutter) var(--r2-space-7);
+}
+.line { display: block; text-wrap: balance; }
+.heroStage { width: min(100%, 640px); }
+
+.lead { margin: 0; max-width: 32rem; font-size: var(--r2-fs-lead); line-height: var(--r2-lh-lead); letter-spacing: var(--r2-ls-lead); color: var(--r2-ink-2); font-weight: 600; }
+
+/* ---------- highlights strip ---------- */
+.highlights { padding: var(--r2-space-8) 0 var(--r2-space-7); display: grid; gap: var(--r2-space-6); border-top: 1px solid var(--r2-hairline); }
+.highlights > .h2 { text-align: center; padding: 0 var(--r2-gutter); }
+.strip {
+  list-style: none;
+  margin: 0;
+  padding: 0 max(var(--r2-gutter), calc((100vw - 1024px) / 2));
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: max(var(--r2-gutter), calc((100vw - 1024px) / 2));
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+.strip::-webkit-scrollbar { display: none; }
+.card { flex: 0 0 auto; width: min(300px, 78vw); scroll-snap-align: start; }
+.cardLink {
+  display: grid;
+  align-content: start;
+  gap: var(--r2-space-3);
+  height: 100%;
+  min-height: 300px;
+  padding: var(--r2-space-6) var(--r2-space-5);
+  border-radius: 16px;
+  background: var(--r2-ground-raised);
+  color: var(--r2-ink);
+  text-decoration: none;
+  transition: background-color var(--r2-dur-ui) var(--r2-ease-ui);
+}
+.cardLink:hover { background: #1d1d1f; }
+.cardLink svg { margin-bottom: var(--r2-space-5); color: var(--r2-ink); }
+.cardName { font-family: var(--font-display); font-weight: 600; font-size: var(--r2-fs-h3); line-height: var(--r2-lh-h3); letter-spacing: var(--r2-ls-h3); }
+.cardLine { font-size: var(--r2-fs-body); line-height: var(--r2-lh-body); color: var(--r2-ink-2); }
+.key { margin: 0; text-align: center; padding: 0 var(--r2-gutter); font-size: var(--r2-fs-small); line-height: var(--r2-lh-small); color: var(--r2-ink-2); }
+
+/* ---------- chapters ---------- */
+.chapter {
+  display: grid;
+  justify-items: center;
+  gap: var(--r2-space-5);
+  padding: var(--r2-space-8) var(--r2-gutter) var(--r2-space-7);
+  text-align: center;
+  border-top: 1px solid var(--r2-hairline);
+}
+.head { display: grid; gap: var(--r2-space-4); justify-items: center; max-width: 46rem; }
+.stage { width: min(100%, 600px); }
+.foot { display: grid; gap: var(--r2-space-5); justify-items: center; }
+.foot > p { justify-content: center; text-align: center; }
+
+/* ch4: the one scrubbed asset */
+.pinned { display: block; height: 140vh; padding: 0; }
+.sticky {
+  position: sticky;
+  top: var(--r2-nav-h);
+  min-height: calc(100vh - var(--r2-nav-h));
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: var(--r2-space-5);
+  padding: var(--r2-space-6) var(--r2-gutter);
+}
+.sticky .head > p:last-child { justify-content: center; }
+.sticky .stage { width: min(100%, 520px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .pinned { height: auto; padding: var(--r2-space-9) 0; }
+  .sticky { position: static; min-height: 0; }
+}
+
+/* ---------- close: light ---------- */
+.about {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: var(--r2-space-5);
+  padding: var(--r2-space-9) var(--r2-gutter) var(--r2-space-7);
+  background: var(--r2-ground-raised);
+  color: var(--r2-ink);
+}
+.expansion { margin: 0; font-size: var(--r2-fs-lead); line-height: var(--r2-lh-lead); color: var(--r2-ink-2); }
+
+.facts {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: var(--r2-space-5);
+  padding: var(--r2-space-7) var(--r2-gutter) var(--r2-space-8);
+  background: var(--r2-ground-raised);
+  border-top: 1px solid var(--r2-hairline);
+}
+.qList { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--r2-space-2); }
+.qList li { font-family: var(--font-display); font-weight: 600; font-size: var(--r2-fs-h2); line-height: var(--r2-lh-h2); letter-spacing: var(--r2-ls-h2); }
+.does { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-size: var(--r2-fs-lead); line-height: var(--r2-lh-lead); color: var(--r2-ink-2); }
+
+.join {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: var(--r2-space-5);
+  padding: var(--r2-space-8) var(--r2-gutter) var(--r2-space-7);
+  background: #fff;
+}
+.cta {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--r2-target);
+  padding: 0 24px;
+  border-radius: 980px;
+  background: var(--r2-cta-bg);
+  color: var(--r2-cta-ink);
+  font-size: 17px;
+  text-decoration: none;
+  transition: background-color var(--r2-dur-ui-fast) var(--r2-ease-ui);
+}
+.cta:hover { background: var(--r2-cta-bg-hover); color: var(--r2-cta-ink-hover); }
+
+@media (max-width: 734px) {
+  .hero { padding-top: var(--r2-space-7); }
+  .chapter { padding-top: var(--r2-space-8); }
+  /* narrow: text scrolls by, the stage alone stays pinned while the window fills */
+  .pinned { height: auto; }
+  .sticky { position: static; min-height: 0; height: auto; align-content: start; padding: var(--r2-space-8) var(--r2-gutter) 60vh; }
+  .sticky .stage { position: sticky; top: var(--r2-nav-h); padding-top: var(--r2-space-3); background: var(--r2-ground); }
+  .qList li { font-size: var(--r2-fs-h3); line-height: var(--r2-lh-h3); }
+}
+
+@media (prefers-reduced-motion: reduce) and (max-width: 734px) {
+  .sticky { padding-bottom: 0; }
+  .sticky .stage { position: static; }
+}

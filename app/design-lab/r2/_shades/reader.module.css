@@ -1,0 +1,371 @@
+/* SHADES RSVP reader. One markup, two worlds (data-variant). Uses the shared r2 world tokens only. */
+
+.reader {
+  --rd-word: 64px;
+  --rd-screen-h: 300px;
+  display: grid;
+  gap: var(--r2-space-5);
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+  font-family: var(--font-read, var(--font-text));
+}
+
+/* ---------- the screen: one fixation point ---------- */
+.screen {
+  position: relative;
+  height: var(--rd-screen-h);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.reader[data-variant='signal'] .screen {
+  border: 1px solid var(--r2-hairline-strong);
+  background-color: var(--r2-ground-raised);
+  background-image:
+    linear-gradient(var(--r2-graticule-major), var(--r2-graticule-major)),
+    linear-gradient(var(--r2-graticule) 1px, transparent 1px),
+    linear-gradient(90deg, var(--r2-graticule) 1px, transparent 1px);
+  background-size: 100% 1px, 100% 50px, 50px 100%;
+  background-position: 0 50%, 0 calc(50% - 25px), calc(50% - 25px) 0;
+  background-repeat: no-repeat, repeat, repeat;
+}
+
+.reader[data-variant='apple'] .screen {
+  border-radius: 28px;
+  background: radial-gradient(120% 90% at 50% 50%, #141416 0%, #050505 70%);
+  box-shadow: inset 0 0 0 1px rgba(245, 245, 247, 0.08);
+}
+
+.tickTop,
+.tickBottom {
+  position: absolute;
+  left: 50%;
+  width: 1px;
+  height: 22px;
+  background: var(--r2-ink-2);
+  transform: translateX(-0.5px);
+}
+
+.tickTop {
+  top: calc(50% - var(--rd-word) * 0.95);
+}
+
+.tickBottom {
+  top: calc(50% + var(--rd-word) * 0.95 - 22px);
+}
+
+/* The single red: the fixation point. */
+.anchor {
+  position: absolute;
+  left: 50%;
+  top: calc(50% - var(--rd-word) * 0.95 - 12px);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--r2-trigger);
+  transform: translateX(-50%);
+}
+
+.word {
+  margin: 0;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: baseline;
+  font-family: var(--font-read, var(--font-text));
+  font-size: var(--rd-word);
+  line-height: 1;
+  font-weight: 500;
+  color: var(--r2-ink);
+  letter-spacing: 0.01em;
+  white-space: pre;
+  font-variant-ligatures: none;
+}
+
+.pre {
+  text-align: right;
+}
+
+.pivot {
+  text-align: center;
+  font-weight: 700;
+}
+
+.post {
+  text-align: left;
+}
+
+:global([data-spacing='more']) .word {
+  letter-spacing: 0.06em;
+}
+
+.base {
+  position: absolute;
+  left: var(--r2-space-5);
+  right: var(--r2-space-5);
+  bottom: 44px;
+  height: 1px;
+  background: var(--r2-hairline);
+}
+
+.baseFill {
+  position: absolute;
+  inset: 0;
+  background: var(--r2-ink-2);
+  transform-origin: 0 50%;
+  transition: transform 140ms linear;
+}
+
+.readout {
+  position: absolute;
+  right: var(--r2-space-5);
+  bottom: 14px;
+  font-family: var(--font-mono);
+  font-size: var(--r2-fs-label);
+  line-height: var(--r2-lh-label);
+  letter-spacing: var(--track-mono, 0.04em);
+  color: var(--r2-ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- controls ---------- */
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--r2-space-3) var(--r2-space-5);
+}
+
+.primary,
+.icon,
+.spacing {
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+  font: inherit;
+  color: var(--r2-ink);
+  background: transparent;
+  transition:
+    background-color var(--r2-dur-ui) var(--r2-ease-ui),
+    color var(--r2-dur-ui) var(--r2-ease-ui),
+    border-color var(--r2-dur-ui) var(--r2-ease-ui);
+}
+
+.primary {
+  min-height: var(--r2-target);
+  min-width: 148px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 22px;
+  font-size: 17px;
+  font-weight: 600;
+  border: 1px solid var(--r2-ink);
+}
+
+.reader[data-variant='signal'] .primary {
+  border-radius: 2px;
+}
+
+.reader[data-variant='signal'] .primary:hover {
+  background: var(--r2-ink);
+  color: var(--r2-ground);
+}
+
+.reader[data-variant='apple'] .primary {
+  border-radius: 980px;
+  background: var(--r2-ink);
+  color: var(--r2-ground);
+  border-color: var(--r2-ink);
+}
+
+.reader[data-variant='apple'] .primary:hover {
+  background: #d2d2d7;
+  border-color: #d2d2d7;
+}
+
+.primaryIcon path,
+.primaryIcon rect,
+.icon path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.primaryIcon [data-fill] path,
+.primaryIcon path[data-fill],
+.primaryIcon [data-fill] rect {
+  fill: currentColor;
+  stroke: none;
+}
+
+.steps {
+  display: inline-flex;
+  gap: var(--r2-space-2);
+}
+
+.icon {
+  width: var(--r2-target);
+  height: var(--r2-target);
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid var(--r2-hairline-strong);
+  border-radius: 50%;
+}
+
+.icon:hover:not(:disabled) {
+  border-color: var(--r2-ink);
+}
+
+.icon:disabled {
+  cursor: default;
+  color: var(--r2-ink-3);
+  border-style: dashed;
+  border-color: var(--r2-hairline);
+}
+
+.speed {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--r2-space-3);
+  min-height: var(--r2-target);
+  flex: 1 1 260px;
+  font-size: 15px;
+  color: var(--r2-ink-2);
+}
+
+.speed input {
+  flex: 1;
+  min-width: 120px;
+  height: var(--r2-target);
+  margin: 0;
+  cursor: pointer;
+}
+
+.speedLabel {
+  font-weight: 600;
+  color: var(--r2-ink);
+}
+
+.speedValue {
+  min-width: 7ch;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--r2-ink);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+/* Reader setting: line form carries state (dashed = standard, solid + dot = more). */
+.spacing {
+  min-height: var(--r2-target);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 16px 0 12px;
+  font-size: 15px;
+  border: 1px dashed var(--r2-hairline-strong);
+  border-radius: 980px;
+}
+
+.spacing::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  transition: background-color var(--r2-dur-ui) var(--r2-ease-ui);
+}
+
+.spacing[aria-pressed='true'] {
+  border-style: solid;
+  border-color: var(--r2-ink);
+}
+
+.spacing[aria-pressed='true']::before {
+  background: currentColor;
+}
+
+.reader[data-variant='signal'] .spacing {
+  border-radius: 2px;
+}
+
+/* ---------- the printed text (parity with reduced motion and screen readers) ---------- */
+.text {
+  margin: 0;
+  max-width: 62ch;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--r2-ink-2);
+}
+
+:global([data-spacing='more']) .text {
+  letter-spacing: 0.05em;
+  word-spacing: 0.16em;
+  line-height: 1.8;
+}
+
+.textLabel {
+  color: var(--r2-ink-3);
+}
+
+.tw[data-current] {
+  color: var(--r2-ink);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.28em;
+}
+
+.note {
+  margin: 0;
+  font-size: 15px;
+  color: var(--r2-ink-3);
+}
+
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (max-width: 734px) {
+  .reader {
+    --rd-word: 44px;
+    --rd-screen-h: 230px;
+  }
+
+  .primary {
+    flex: 1 1 100%;
+  }
+
+  .speed {
+    flex-basis: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .baseFill {
+    transition: none;
+  }
+}
+
+/* With JS and motion allowed, the printed sentence is for screen readers only (the demo shows it word by word).
+   No-JS and reduced motion print it in full. */
+:global([data-js]) .reader[data-reduced='false'] .text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

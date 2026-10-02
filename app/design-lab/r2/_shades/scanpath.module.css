@@ -1,0 +1,166 @@
+/* Illustrative scanpath. --k: 0 = reading a line, 1 = one fixation point (RSVP). */
+.fig {
+  display: block;
+  width: 100%;
+  max-width: none;
+  height: auto;
+  overflow: visible;
+}
+
+.word {
+  opacity: clamp(0, 1 - var(--k, 0) * 1.6, 1);
+  transform: translateX(calc(var(--dx) * -0.55px * var(--k, 0)));
+}
+
+.box {
+  fill: none;
+  stroke: var(--r2-hairline);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.wordText {
+  fill: var(--r2-ink-2);
+  font-family: var(--font-read, var(--font-text));
+}
+
+.fixWrap {
+  transform: translateX(calc(var(--dx) * 1px * (1 - var(--k, 0))));
+  opacity: clamp(0, 1 - (var(--k, 0) - 0.55) * 2.6, 1);
+}
+
+.fix {
+  fill: color-mix(in oklab, var(--r2-ink) 18%, transparent);
+  stroke: var(--r2-ink);
+  stroke-width: 1.25;
+  vector-effect: non-scaling-stroke;
+}
+
+.arc {
+  fill: none;
+  stroke: var(--r2-ink-2);
+  stroke-width: 1.25;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  opacity: clamp(0, 1 - var(--k, 0) * 2.2, 1);
+}
+
+.back {
+  stroke: var(--r2-ink);
+  stroke-width: 1.6;
+}
+
+.point {
+  opacity: clamp(0, (var(--k, 0) - 0.7) * 3.4, 1);
+}
+
+.tick {
+  stroke: var(--r2-ink-2);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.oneWord {
+  fill: var(--r2-ink);
+  font-family: var(--font-read, var(--font-text));
+  font-weight: 600;
+}
+
+.anchor {
+  fill: var(--r2-trigger);
+}
+
+.axis {
+  stroke: var(--r2-hairline-strong);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.axisLabel {
+  fill: var(--r2-ink-3);
+  font-family: var(--font-mono);
+  font-size: 15px;
+  letter-spacing: 0.04em;
+}
+
+.flat {
+  stroke: var(--r2-ink-3);
+  stroke-width: 1;
+  stroke-dasharray: 3 5;
+  vector-effect: non-scaling-stroke;
+  opacity: clamp(0, var(--k, 0) * 1.5, 1);
+}
+
+.trace {
+  fill: none;
+  stroke: var(--r2-ink);
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  transform-box: view-box;
+  transform: scaleY(max(0.012, 1 - var(--k, 0)));
+}
+
+/* ---------- play once (Apple chapter): default is fully drawn ---------- */
+:global([data-run='armed']) .once .fixWrap,
+:global([data-run='armed']) .once .arc {
+  opacity: 0;
+}
+
+@keyframes fixIn {
+  from {
+    opacity: 0;
+    transform: translateX(calc(var(--dx) * 1px)) scale(0.4);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(calc(var(--dx) * 1px));
+  }
+}
+
+@keyframes draw {
+  from {
+    stroke-dashoffset: 1;
+    opacity: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :global([data-run='play']) .once .fixWrap {
+    transform-box: fill-box;
+    animation: fixIn 320ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: calc(var(--i) * 300ms);
+  }
+
+  :global([data-run='play']) .once .arc {
+    stroke-dasharray: 1;
+    animation: draw 220ms cubic-bezier(0.4, 0, 0.6, 1) both;
+    animation-delay: calc(var(--i) * 300ms - 160ms);
+  }
+}
+
+/* Static captures (shoot.mjs sets data-r2-static on <html>): show the drawn state. */
+:global([data-r2-static]) .once .fixWrap,
+:global([data-r2-static]) .once .arc {
+  opacity: 1 !important;
+  animation: none !important;
+}
+
+/* Phones: zoom into the middle of the line (the point everything converges on); the parent clips. */
+@media (max-width: 734px) {
+  .fig {
+    width: 170%;
+    margin-left: -35%;
+  }
+}
+
+.note {
+  fill: var(--r2-ink-3);
+  font-family: var(--font-mono);
+  font-size: 15px;
+  letter-spacing: 0.04em;
+}

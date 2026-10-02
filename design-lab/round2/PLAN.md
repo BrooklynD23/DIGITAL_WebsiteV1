@@ -73,6 +73,6 @@ About 15 agent runs, wall-clock similar to round 1. Commits `#0059`–`#0063`, e
 ## 6. Open decisions (none block W0 except the world)
 
 1. **World**: pick on the choice page (default: Signal Capture).
-2. **BRAIN length**: full 8 chapters, or the 6-chapter cut (merges context window into context engineering, and subagents into harness)? Default: build 8, measure, cut if it exceeds about 1,300 vh.
+2. **BRAIN length**: DECIDED 2026-10-02 after W1 measurement (0–8% quiet viewports at 8 chapters): **cut to 6 chapters**. Context window merges into context engineering; subagents merge into harness. Applied in W3 refine.
 3. **Fontshare exception** for the team-liked Clash/General Sans trio (DESIGN.md §8), or OFL-only.
 4. **Club confirmations** (before production, not for the lab): SIDEKICK "legacy"/paused status, SHADES phase, whether BRAIN may say it teaches MCP etc.

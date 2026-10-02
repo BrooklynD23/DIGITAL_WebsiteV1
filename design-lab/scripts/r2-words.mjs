@@ -35,11 +35,14 @@ for (let y = 0; y < total; y += height) {
       const el = n.parentElement;
       const cs = el && getComputedStyle(el);
       if (!cs || cs.visibility === 'hidden' || cs.display === 'none' || Number(cs.opacity) === 0) continue;
+      // Ancestors too: hidden/transparent wrappers (e.g. inactive panels faded on an outer element).
+      if (el.checkVisibility && !el.checkVisibility({ opacityProperty: true, visibilityProperty: true, contentVisibilityAuto: true })) continue;
       if (el.closest('[aria-hidden="true"], script, style, noscript, .sr-only, [data-chrome]')) continue;
       const range = document.createRange();
       range.selectNodeContents(n);
       const r = range.getBoundingClientRect();
       if (r.width < 1 || r.height < 1 || r.bottom <= 0 || r.top >= vh) continue;
+      if (r.right <= 0 || r.left >= window.innerWidth) continue; // off-screen carousel cards
       const visible = Math.max(0, Math.min(r.bottom, vh) - Math.max(r.top, 0)) / r.height;
       words += Math.round(text.split(/\s+/).length * visible);
     }

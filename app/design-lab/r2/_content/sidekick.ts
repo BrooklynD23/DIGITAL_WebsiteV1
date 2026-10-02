@@ -1,0 +1,184 @@
+/**
+ * SIDEKICK (formerly "The Modular Smartphone", DG-001): shared facts for both round-2 worlds.
+ * Source of truth: design-lab/round2/research/kb-smartphone.md (KB facts F1–F27) + PRODUCT.md.
+ * Every knowledge-base fact is club-unconfirmed and carries `confirm: true` → rendered with a [confirm] tag.
+ * No personal names or handles. No defect-level language. No fabricated, tested or shipped claims.
+ */
+import { siteConfig } from '@/lib/data/siteConfig';
+
+export type ModuleId = 'fingerprint' | 'sensor' | 'carrier' | 'compute' | 'planned';
+/** Line form carries state (Signal) / word carries state (Apple). Never colour. */
+export type ModuleState = 'routed' | 'partly-routed' | 'schematic' | 'external' | 'research';
+
+export interface SidekickModule {
+  readonly id: ModuleId;
+  /** Stack position, top (1) → back (5). The numbers lock the object to the list. */
+  readonly n: number;
+  readonly name: string;
+  /** One line, ≤ 12 words. */
+  readonly line: string;
+  readonly scope: string;
+  readonly risk: string;
+  readonly state: ModuleState;
+  readonly stateWord: string;
+  /** Measured value for the readout (mm or count). */
+  readonly measure: string;
+  /** Real KiCad geometry exists for this module. */
+  readonly board: 'zynq-carrier-power' | 'fingerprint' | null;
+  /** Apple caption: one line per layer of the pinned chapter. */
+  readonly caption: string;
+}
+
+export const sidekick = {
+  name: 'SIDEKICK',
+  channel: 'CH1',
+  formerly: 'formerly The Modular Smartphone, DG-001',
+  headline: 'A phone, part by part.',
+  lead: 'SIDEKICK splits a phone into boards a student can own: one board, one owner, one test.',
+  statusLine: 'Design paused August 2025. Three boards in KiCad. Every seat open.',
+  heroCaption: 'Power carrier, 49 × 41 mm, from the club’s KiCad file.',
+  joinLink: 'Take a subsystem',
+} as const;
+
+/** Top of the stack first. Order matches the drawing: the SoM mezzanine sits on the carrier's back side. */
+export const modules: readonly SidekickModule[] = [
+  {
+    id: 'fingerprint',
+    n: 1,
+    name: 'Fingerprint module',
+    line: 'An FPC2532AP sensor board, fully routed on two layers.',
+    scope: 'Sensor board, two headers, two test points',
+    risk: 'Lives on a side branch; never merged into the main design',
+    state: 'routed',
+    stateWord: 'Routed, not merged',
+    measure: '22.81 × 26.12 mm · 77 traces · 12 vias',
+    board: 'fingerprint',
+    caption: 'Fingerprint module. Routed, waiting to be merged.',
+  },
+  {
+    id: 'sensor',
+    n: 2,
+    name: 'Sensor module',
+    line: 'Thermocouple and pressure sensing on I²C, behind a 7-pin header.',
+    scope: 'Schematic, board outline, first layout',
+    risk: 'No mating connector on the carrier yet; the interface is open',
+    state: 'schematic',
+    stateWord: 'Schematic in rework',
+    measure: '4 parts · no outline yet',
+    board: null,
+    caption: 'Sensor module. A schematic in rework; no board yet.',
+  },
+  {
+    id: 'carrier',
+    n: 3,
+    name: 'Power & carrier',
+    line: 'USB-C and barrel-jack power, a one-cell charger, the battery rail.',
+    scope: 'Placement, routing, power path',
+    risk: '19 parts still sit beside the board, unplaced',
+    state: 'partly-routed',
+    stateWord: 'Partly routed',
+    measure: '49.0 × 41.0 mm · 14 traces · 8 vias',
+    board: 'zynq-carrier-power',
+    caption: 'Power carrier. Everything plugs in here. Partly routed.',
+  },
+  {
+    id: 'compute',
+    n: 4,
+    name: 'Compute',
+    line: 'A Zynq-7000 module, ARM and FPGA, on a 100-pin mezzanine.',
+    scope: 'Carrier-side interface to the module',
+    risk: 'Designed outside the club; the exact Zynq part is not stated',
+    state: 'external',
+    stateWord: 'External design',
+    measure: 'Zynq-7000 · ARM + FPGA',
+    board: null,
+    caption: 'Compute. A Zynq-7000 module, designed outside the club.',
+  },
+  {
+    id: 'planned',
+    n: 5,
+    name: 'Planned modules',
+    line: 'Clock, motion, distance, light, haptics, sound, camera and touch.',
+    scope: 'Pick one; draw its first schematic',
+    risk: 'Research notes only; no design files exist',
+    state: 'research',
+    stateWord: 'Research only',
+    measure: '9 modules · 0 files',
+    board: null,
+    caption: 'Planned modules. Nine ideas, no files. All open.',
+  },
+];
+
+/** The carrier's own layers, back → front, for the readout (Signal) and the captions (Apple). */
+export const carrierLayers = [
+  { layer: 'B.Cu', name: 'Back copper', line: 'Two fills on the back. No traces yet.' },
+  { layer: 'substrate', name: 'FR-4 core', line: '49 × 41 mm, 1.6 mm thick, 2.5 mm corners.' },
+  { layer: 'F.Cu', name: 'Front copper', line: 'Fourteen traces and the first fills, saved mid-layout.' },
+  { layer: 'F.Pads', name: 'Front pads', line: 'Land patterns for USB-C, charger and headers.' },
+  { layer: 'F.Silk', name: 'Silkscreen', line: 'Outlines for the 17 footprints placed so far.' },
+] as const;
+
+/** Highlights strip (Apple) / readout ticker (Signal). Captions 9–19 words. */
+export const highlights = [
+  { id: 'compute', title: 'Zynq-7000 module', line: 'ARM cores and an FPGA on one module, designed outside the club.' },
+  { id: 'kicad', title: 'KiCad 9', line: 'Three two-layer boards. Every drawing here comes from those files.' },
+  { id: 'fingerprint', title: 'Fingerprint module', line: 'The most finished board: 22.81 × 26.12 mm, fully routed.' },
+  { id: 'scope', title: 'No radio. No full OS.', line: 'Cellular, wireless and a full operating system are out of scope.' },
+  { id: 'paused', title: 'Paused, preserved', line: 'Main design stopped on 26 August 2025. Every file was kept.' },
+] as const;
+
+export const status = {
+  headline: 'Paused, not finished.',
+  lead: 'Nothing has been fabricated or tested. Every file is kept.',
+  timeline: [
+    { date: '2025-07-19', label: 'First commit' },
+    { date: '2025-08-26', label: 'Main design paused' },
+    { date: '2025-11', label: 'Fingerprint branch, last file' },
+  ],
+  boards: [
+    { id: 'fingerprint', name: 'Fingerprint module', word: 'Routed, not merged' },
+    { id: 'carrier', name: 'Power & carrier', word: 'Partly routed' },
+    { id: 'sensor', name: 'Sensor module', word: 'Schematic in rework' },
+  ],
+  notStarted: ['Operating system', 'Apps', 'Firmware', 'Enclosure'],
+  next: [
+    'Place the 19 waiting parts; finish the carrier.',
+    'Finish the sensor schematic, then draw its board.',
+    'Pick the sensor-to-carrier connector.',
+    'Merge the fingerprint board into main.',
+  ],
+} as const;
+
+export const swap = {
+  headline: 'One module out. The rest stays.',
+  lead: 'The goal: each module lifts out alone. None is built yet.',
+  out: 'Pull the fingerprint module',
+  in: 'Seat it again',
+} as const;
+
+/** Ownership rules (PRODUCT.md positioning, phoneV2.ts buildScope). */
+export const rules = [
+  { n: '1', what: 'owner', line: 'per subsystem' },
+  { n: '1', what: 'review path', line: 'per handoff' },
+  { n: '1', what: 'test gate', line: 'before merge' },
+  { n: '1', what: 'repair plan', line: 'before release' },
+] as const;
+
+export const join = {
+  headline: 'Take a subsystem.',
+  lead: 'Pick a board. Take it from file to tested.',
+  when: 'Thursdays, 6:00 PM',
+  where: 'Building 17, Room 1635',
+  discord: siteConfig.social.discord,
+} as const;
+
+export const confirmNote = '[confirm]';
+
+/** Apple pinned chapter: one line per layer while the two real boards separate (clip `sidekick-explode` or its code fallback). */
+export const explodeCaptions = [
+  'Two real boards, from KiCad 9.',
+  'Silkscreen. Outlines for every footprint placed so far.',
+  'Front copper. Routed on the fingerprint board, begun on the carrier.',
+  'FR-4 core. Two copper layers on a 1.6 mm board.',
+  'Back copper. Fills on both boards, eleven traces on one.',
+] as const;
