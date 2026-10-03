@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import type { ComponentType } from 'react';
 import { JoinChapter, LocalNav, WorldFooter, WorldNav } from '../../_chrome';
-import { GLYPHS, Highlights } from '../../_system';
 import { brain, chapters, close, coda, hero, type ChapterId } from '../../_content/brain';
 import {
   ChapterPin,
@@ -37,8 +36,6 @@ const DEMOS: Partial<Record<ChapterId, ComponentType<{ world: World }>>> = {
   evals: EvalsDemo,
 };
 
-const glyphOf = (name: string) => GLYPHS.find((g) => g.name === name)?.Component;
-
 export default function BrainApplePage() {
   return (
     <>
@@ -48,7 +45,6 @@ export default function BrainApplePage() {
         titleHref="/design-lab/r2/apple/brain/"
         tone="dark"
         links={[
-          { label: 'Concepts', href: '#concepts' },
           { label: 'Chapters', href: '#ch-loop' },
           { label: 'About BRAIN', href: '#brain' },
         ]}
@@ -67,17 +63,6 @@ export default function BrainApplePage() {
           </p>
         </section>
 
-        <div className={s.highlights} data-tone="dark">
-          <Highlights
-            id="concepts"
-            title="Six ideas. One system."
-            items={chapters.map((ch) => {
-              const G = glyphOf(ch.glyph);
-              return { id: ch.id, media: G ? <G size={64} state="idle" /> : undefined, title: ch.name, caption: ch.card };
-            })}
-          />
-        </div>
-
         {chapters.map((ch) => {
           const head = (
             <h2 id={`h-${ch.id}`} className={s.h2}>
@@ -90,7 +75,7 @@ export default function BrainApplePage() {
             </p>
           );
           const how = (
-            <div className={s.howRow} data-tone="dark">
+            <div className={s.howRow} data-late="">
               <HowItWorks ch={ch} world={WORLD} />
             </div>
           );
@@ -104,19 +89,20 @@ export default function BrainApplePage() {
                 classes={{ pin: s.chapter, pinB: `${s.chapter} ${s.chapterB}`, sticky: s.sticky, text: s.head, stage: s.stage }}
                 head={head}
                 caption={caption}
-                after={how}
+                how={how}
               />
             );
           }
           const Demo = DEMOS[ch.id];
           return (
             <div key={ch.id} className={s.group} data-tone="dark">
-              <ChapterPin id={`ch-${ch.id}`} labelledBy={`h-${ch.id}`} tone="dark" className={s.chapter} stickyClassName={s.sticky} after={how}>
+              <ChapterPin id={`ch-${ch.id}`} labelledBy={`h-${ch.id}`} tone="dark" className={s.chapter} stickyClassName={s.sticky}>
                 <div className={s.head}>
                   {head}
                   {caption}
                 </div>
                 <div className={s.stage}>{Demo ? <Demo world={WORLD} /> : null}</div>
+                {how}
               </ChapterPin>
               {ch.id === 'harness' ? (
                 <section className={s.coda} aria-labelledby="h-coda">

@@ -1,6 +1,6 @@
 /**
  * <SidekickStack>: the five SIDEKICK modules as one iso stack, top (01) → back (05), inside a never-started
- * phone shell (dashed, struck). Server-safe markup, hook-free. Static pose = fully open (no-JS, reduced motion, SSR);
+ * phone shell (dashed). Server-safe markup, hook-free. Static pose = fully open (no-JS, reduced motion, SSR);
  * a scroll driver (applyStackFrame) collapses and re-opens it. Real boards come from the club's KiCad files as
  * per-layer static SVGs (BoardLayers): no board geometry in the HTML or the client bundle.
  * `labels` draws E's locked name list beside the object: number, name, a dotted leader to the tier and an empty
@@ -96,8 +96,8 @@ export function SidekickStack({ label, seat = false, labels = true, note, legend
                     </>
                   ) : (
                     <>
-                      <span className={s.struckName}>{name}</span>
-                      <span className={s.num}>{enclosure.word.toLowerCase()}</span>
+                      <span className={s.shellName}>{name}</span>
+                      <span className={s.shellWord}>{enclosure.word.toLowerCase()}</span>
                     </>
                   )}
                 </span>
@@ -106,15 +106,19 @@ export function SidekickStack({ label, seat = false, labels = true, note, legend
           </div>
         );
       })}
-      {legend ? (
-        <span className={s.legend} aria-hidden="true" style={vars({ left: pct((LABEL_X / STACK_W) * 100) })}>
-          {legend}
-        </span>
-      ) : null}
-      {note ? (
-        <span className={s.note} aria-hidden="true" style={vars({ left: pct((LABEL_X / STACK_W) * 100) })}>
-          <span className={s.ring} />
-          {note}
+      {legend || note ? (
+        <span className={s.foot} aria-hidden="true" style={vars({ left: pct(((ART_CX - 60) / STACK_W) * 100) })}>
+          {legend ? (
+            <span className={s.legend}>
+              {legend} <span className={s.legendTag}>[confirm]</span>
+            </span>
+          ) : null}
+          {note ? (
+            <span className={s.note}>
+              <span className={s.ring} />
+              {note}
+            </span>
+          ) : null}
         </span>
       ) : null}
     </div>

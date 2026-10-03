@@ -425,8 +425,9 @@ export function evalsScene(t: number, size: number, k: number): Frame {
         dots.push(dot(x, y, c.r * 0.95, pass ? 0.9 : 0.9 - 0.45 * out));
       }
     }
-    const settled = seg(t, start + 0.75, start + 0.85);
-    if (settled > 0) lines.push(line(cx - 2.4 * pitch, cy + 3.3 * pitch, cx + 2.4 * pitch, cy + 3.3 * pitch, 0.7 * settled, pass ? 'solid' : 'dashed'));
+    // grade mark under each trial: dotted while it runs, then solid (pass) or dashed (fail)
+    const settled = seg(t, start + 0.75, start + 0.85) >= 1;
+    lines.push(line(cx - 2.4 * pitch, cy + 3.3 * pitch, cx + 2.4 * pitch, cy + 3.3 * pitch, settled ? 0.8 : 0.35, settled ? (pass ? 'solid' : 'dashed') : 'dotted'));
   }
   return finish(dots, lines);
 }

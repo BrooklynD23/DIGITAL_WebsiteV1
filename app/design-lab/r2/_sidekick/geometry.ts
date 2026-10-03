@@ -2,13 +2,13 @@
  * SIDEKICK stack geometry, shared by both worlds. Units are "stack mm": the container is STACK_W × STACK_H.
  * Real boards keep their true relative size (carrier 49 × 41 mm, fingerprint 22.81 × 26.12 mm). Modules without a
  * board file (sensor, compute, planned) and the never-started phone shell get nominal footprints and are drawn
- * dotted / dashed / struck so they never read as real outlines.
+ * dotted / dashed so they never read as real outlines.
  * The art is centred at ART_CX; the locked name list sits in a column from LABEL_X to STACK_W.
  */
 import type { ModuleId } from '../_content/sidekick';
 
 export const STACK_W = 220;
-export const STACK_H = 276;
+export const STACK_H = 316;
 export const ART_CX = 64;
 export const LABEL_X = 134;
 

@@ -27,8 +27,22 @@ export function Glasses({ className }: { readonly className?: string }) {
         <path className={s.gHair} d="M440 206q8 18 2 34M520 206q-8 18-2 34" />
         {/* the wire to the external controller (MVP: compute and power off the head) */}
         <path className={s.gWire} d="M850 128Q900 150 902 250T930 420" />
-        {/* the display region: one word at one point */}
-        <rect className={s.gDisplay} x={596} y={168} width={128} height={64} rx={6} />
+        {/* the display region: one word, luminous inside the lens (no box) */}
+        <defs>
+          <radialGradient id="shades-lens-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#f5f5f7" stopOpacity="0.22" />
+            <stop offset="60%" stopColor="#f5f5f7" stopOpacity="0.06" />
+            <stop offset="100%" stopColor="#f5f5f7" stopOpacity="0" />
+          </radialGradient>
+          <filter id="shades-lens-bloom" x="-40%" y="-80%" width="180%" height="260%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="bloom" />
+            <feMerge>
+              <feMergeNode in="bloom" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+        <ellipse className={s.gGlow} cx={660} cy={200} rx={92} ry={52} fill="url(#shades-lens-glow)" />
         <line className={s.gTick} x1={660} y1={176} x2={660} y2={184} />
         <line className={s.gTick} x1={660} y1={216} x2={660} y2={224} />
         <text className={s.gWord} x={660} y={209} textAnchor="middle">

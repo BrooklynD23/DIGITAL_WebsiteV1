@@ -25,32 +25,39 @@ const counts = [];
 for (let y = 0; y < total; y += height) {
   await page.evaluate((top) => window.scrollTo({ top, behavior: 'instant' }), y);
   await page.waitForTimeout(250);
-  counts.push(await page.evaluate(() => { const T=[];
+  counts.push(await page.evaluate(() => {
     const vh = window.innerHeight;
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
-    let words = 0;
+    let words = 0; const T = [];
     for (let n = walker.nextNode(); n; n = walker.nextNode()) {
       const text = n.textContent.trim();
       if (!text) continue;
       const el = n.parentElement;
       const cs = el && getComputedStyle(el);
       if (!cs || cs.visibility === 'hidden' || cs.display === 'none' || Number(cs.opacity) === 0) continue;
+      // Ancestors too: hidden/transparent wrappers (e.g. inactive panels faded on an outer element).
+      if (el.checkVisibility && !el.checkVisibility({ opacityProperty: true, visibilityProperty: true, contentVisibilityAuto: true })) continue;
       if (el.closest('[aria-hidden="true"], script, style, noscript, .sr-only, [data-chrome]')) continue;
       const range = document.createRange();
       range.selectNodeContents(n);
       const r = range.getBoundingClientRect();
       if (r.width < 1 || r.height < 1 || r.bottom <= 0 || r.top >= vh) continue;
-      const visible = Math.max(0, Math.min(r.bottom, vh) - Math.max(r.top, 0)) / r.height;
-      {const k=Math.round(text.split(/\s+/).length * visible); words += k; if(k) T.push(k+":"+text.slice(0,40));}
+      if (r.right <= 0 || r.left >= window.innerWidth) continue; // off-screen carousel cards
+      // Intersect with every clipping ancestor (carousels, overflow:hidden boxes) and the viewport.
+      let top = Math.max(r.top, 0), bottom = Math.min(r.bottom, vh), left = Math.max(r.left, 0), right = Math.min(r.right, window.innerWidth);
+      for (let a = el; a && a !== document.body; a = a.parentElement) {
+        const o = getComputedStyle(a);
+        if (/(hidden|auto|scroll|clip)/.test(o.overflowX + o.overflowY)) {
+          const c = a.getBoundingClientRect();
+          top = Math.max(top, c.top); bottom = Math.min(bottom, c.bottom); left = Math.max(left, c.left); right = Math.min(right, c.right);
+        }
+      }
+      if (right - left < 1 || bottom - top < 1) continue;
+      const visible = ((bottom - top) / r.height) * Math.min(1, (right - left) / r.width);
+      { const k = Math.round(text.split(/\s+/).length * visible); words += k; if (k) T.push(k + ':' + text.slice(0, 36)); }
     }
-    return words + " | " + T.join(" ; ");
+    return words + ' | ' + T.join(' ; ');
   }));
 }
 await browser.close();
-for (const [i,c] of counts.entries()) console.log(i, c); process.exit(0);
-const avg = Math.round(counts.reduce((a, b) => a + b, 0) / counts.length);
-const p90 = sorted[Math.min(sorted.length - 1, Math.floor(sorted.length * 0.9))];
-const quiet = Math.round((100 * counts.filter((c) => c <= 12).length) / counts.length);
-console.log(`${route} @${width}x${height}: ${counts.length} viewports, ${(total / height).toFixed(1)} vh`);
-console.log(`per viewport: ${counts.join(' ')}`);
-console.log(`avg ${avg} · p90 ${p90} · max ${sorted.at(-1)} · quiet(<=12) ${quiet}%  [budget: avg<=30, p90<=70, max<=100, quiet>=45%]`);
+for (const [i, c] of counts.entries()) console.log(i, c);

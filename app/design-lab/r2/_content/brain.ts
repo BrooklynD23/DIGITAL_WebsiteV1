@@ -156,7 +156,7 @@ export const chapters: readonly Chapter[] = [
     illus: 'scramble',
     glyph: 'eval',
     how: [
-      'Each trial runs the task; a grader (code, a model or a human) checks the end state, not the reply text.',
+      'Each trial runs the task; a grader (code, a model or a human) checks the outcome, the real end state.',
       'pass@k = 1 − (1 − p)^k rises with more trials. pass^k = p^k falls: every trial must pass.',
       'The scramble that clicks back is an illustrative picture of one trial. p = 0.7 is illustrative, and the formulas assume independent trials.',
       'Capability suites start low; regression suites sit near 100%.',

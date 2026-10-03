@@ -6,7 +6,8 @@ import { frame as engineFrame, clamp, easeOut } from '../engine.js';
 
 // shades-fixate (4 s, once): the live engine's `fixate` verb (scattered dots converge on one point
 // inside a reticle), then a single word lands on that point, RSVP style: the word's optimal
-// recognition letter sits exactly on the fixation point and is the clip's one red mark.
+// recognition letter sits exactly on the fixation point, set bold (as the live reader does). No red:
+// the anchor dot is the page's.
 // Rest (final frame / poster) = word on the reticle.
 
 export const SHADES_FIXATE_FRAMES = 120;
@@ -47,14 +48,14 @@ export const ShadesFixate = () => {
             fontFamily: FONT.reading,
             fontSize: size,
             lineHeight: `${size * 1.2}px`,
-            fontWeight: 500,
+            fontWeight: 400,
             color: C.ink,
             opacity: land,
             transform: `translateY(${(1 - land) * 10}px)`,
           }}
         >
           <span style={{ textAlign: 'right' }}>{WORD[0]}</span>
-          <span style={{ color: C.trigger }}>{WORD[1]}</span>
+          <span style={{ fontWeight: 700 }}>{WORD[1]}</span>
           <span style={{ textAlign: 'left' }}>{WORD[2]}</span>
         </div>
       )}

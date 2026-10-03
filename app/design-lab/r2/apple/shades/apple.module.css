@@ -159,14 +159,6 @@
   justify-items: center;
 }
 
-.productName {
-  margin: 0;
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--r2-fs-h3);
-  line-height: var(--r2-lh-h3);
-  color: var(--r2-ink);
-}
 
 .heroArt {
   display: block;
@@ -236,11 +228,8 @@
   stroke-dasharray: 0 7;
 }
 
-.gDisplay {
-  fill: rgba(245, 245, 247, 0.06);
-  stroke: var(--r2-ink-3);
-  stroke-width: 1;
-  stroke-dasharray: 3 4;
+.gGlow {
+  pointer-events: none;
 }
 
 .gTick {
@@ -249,7 +238,8 @@
 }
 
 .gWord {
-  fill: var(--r2-ink);
+  fill: #fff;
+  filter: url(#shades-lens-bloom);
   font-family: var(--font-read);
   font-size: 32px;
   font-weight: 500;
@@ -365,6 +355,20 @@
 }
 
 /* The rendered clips sit on #0b0c0a; a slight contrast lift lands them on this chapter's #000. */
+/* Entry: the clip's poster is its final frame. Hide it and let the step diagram (same index as the caption)
+   show through until the video's first decoded frame covers it, so "1 / 6" never sits under a fully lit ray. */
+.lpinFig :global([data-cine]) {
+  background: transparent;
+}
+
+.lpinFig :global([data-cine] picture) {
+  visibility: hidden;
+}
+
+.lpinUnder {
+  grid-area: 1 / 1;
+}
+
 .lpinFig :global(video),
 .lpinFig :global(img),
 .fixClip :global(video),
@@ -379,9 +383,8 @@
   justify-self: center;
   width: auto !important;
   padding-bottom: 6px;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.04em;
+  font-family: var(--font-read);
+  font-size: 14px;
   color: var(--r2-ink-2);
 }
 
@@ -692,7 +695,16 @@
 
 /* ---------- phones ---------- */
 @media (max-width: 734px) {
-  .localSpacing [data-part='state'] {
+  /* keep the value visible ("Spacing: standard") and fit the 390 nav: drop the switch graphic, keep the words */
+  .localSpacing {
+    gap: 3px;
+    padding: 0 2px;
+    font-size: 11px;
+    text-decoration: underline dotted;
+    text-underline-offset: 0.25em;
+  }
+
+  .localSpacing::before {
     display: none;
   }
 

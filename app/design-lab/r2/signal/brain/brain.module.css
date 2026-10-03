@@ -34,8 +34,7 @@
   align-items: center;
 }
 
-.tick,
-.tickInline {
+.tick {
   font-family: var(--font-mono);
   font-size: 12px;
   line-height: 16px;
@@ -58,7 +57,8 @@
   border-top: 1px solid var(--r2-ink);
 }
 
-.tickInline { display: block; margin-bottom: var(--r2-space-3); }
+.sticky .tick,
+.coda .tick { align-self: center; margin-top: 0; }
 
 /* ---------- hero ---------- */
 .hero { min-height: calc(100vh - var(--r2-nav-h)); padding: var(--r2-space-6) 0; grid-template-columns: var(--tb) minmax(0, 6fr) minmax(0, 6fr); }
@@ -80,8 +80,8 @@
 
 /* ---------- chapters (pinned captures) ---------- */
 .group { position: relative; }
-.capture { --pin: 150vh; }
-.scrub { --pin: 195vh; }
+.capture { --pin: 138vh; }
+.scrub { --pin: 170vh; }
 .sticky { padding: var(--r2-space-5) 0; align-content: center; }
 .text { grid-column: 2; display: grid; gap: var(--r2-space-4); align-content: center; }
 .instrument { grid-column: 3; width: 100%; max-width: min(600px, calc(100vh - 180px)); justify-self: center; }
@@ -112,7 +112,7 @@
 .small { margin: 0; font-size: var(--r2-fs-small); line-height: var(--r2-lh-small); color: var(--r2-ink-3); max-width: 30rem; }
 
 /* the harness coda: one quiet beat, no control */
-.coda { padding: var(--r2-space-6) 0 var(--r2-space-9); }
+.coda { padding: var(--r2-space-5) 0 var(--r2-space-7); }
 .coda .instrument { max-width: 460px; }
 
 /* reduced motion / no JS: no pin; captures stack with breathing room */
@@ -142,8 +142,8 @@
   .tick { grid-row: 1; padding-left: 0; writing-mode: vertical-rl; transform: rotate(180deg); }
   .tick::before { display: none; }
   .hero { min-height: 0; padding-top: var(--r2-space-6); row-gap: var(--r2-space-6); }
-  .capture { --pin: 185vh; }
-  .scrub { --pin: 225vh; }
+  .capture { --pin: 150vh; }
+  .scrub { --pin: 190vh; }
   .sticky { align-content: start; padding-top: var(--r2-space-4); }
   .instrument { max-width: min(100%, calc(100vh - 330px)); justify-self: start; }
   .h2 { font-size: 30px; line-height: 34px; }
@@ -153,8 +153,3 @@
   .sources { padding-left: calc(var(--tb) + var(--r2-space-3)); }
 }
 
-/* "How it works" sits on the text column, under the timebase */
-.page :global(details[data-world='signal']) { margin: 0 0 0 calc(var(--tb) + var(--r2-space-7)); padding-left: 0; }
-@media (max-width: 959px) {
-  .page :global(details[data-world='signal']) { margin-left: calc(var(--tb) + var(--r2-space-3)); }
-}

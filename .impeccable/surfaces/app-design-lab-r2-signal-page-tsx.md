@@ -17,7 +17,7 @@ OWN-WORLD: Near-black #0b0c0a graticule, bone #ece8de dots and 1px traces, Hubot
 
 STORY: Understand: every DIGITAL build runs the same four stages and every subsystem has one owner. Believe: the three channels are real builds with honest status. Do: pick a channel or come Thursday.
 
-FIRST VIEWPORT: Left 5 columns: thesis at 72px, one lead line, channel readout strip (CH1 SIDEKICK / CH2 SHADES / CH3 BRAIN). Right 7 columns: a 520px live orb inside a scope frame with stage readout top-left and the timebase ruler beneath it, red trigger cursor on the ruler. Join sits in the nav as an outlined trigger.
+FIRST VIEWPORT: Left 6 columns: thesis at 72px, one lead line, channel readout strip (CH1 SIDEKICK / CH2 SHADES / CH3 BRAIN). Right 6 columns (6/6, not 5/7: at 5/7 the 72px thesis wraps to 5 lines, at 6/6 it holds 4; ≤1068px the hero stacks): a 520px live orb inside a scope frame with stage readout top-left and the timebase ruler beneath it, red trigger cursor on the ruler. Join sits in the nav as an outlined trigger.
 
 FORM: Signal Capture, roll index 3, seed key 0a795440. Signature interaction: scrubbing the timebase (scroll, drag or arrow keys on the ruler) drives the orb through Plan → Prototype → Test → Integrate while the red trigger marker and cursor readout track the position.
 
@@ -40,3 +40,12 @@ Rejected:
 
 Deferred:
 - Channel-row empty bands at 1440. Kept full-viewport rows: they are the quiet, artifact-led viewports that hold the copy budget.
+
+## Finish fixes
+
+- Tablet hero (≤1068px): the hero now stacks (thesis over scope). The pin uses the stacked layout: the thesis scrolls away, and the scope and stage readout stick together and release together. Evidence: `design-lab/renders/r2/home/v3/sheet-signal-834.png`.
+- Channel rows: one channel per viewport. The scope box is up to 560px; every verb's rest pose is fitted to fill 84% of its box. SHADES shows the RSVP word "own" at the fixation point. Each verb plays once on entry and replays on hover. The box starts left of the page centre, so the graticule's major line runs behind it, not through copy. Evidence: `v3/steps/signal-1440-06..08.png`.
+- Join: shared `<JoinChapter>` on a transparent ground. The graticule continues with no seam, and the seat's red anchor renders at rest. Evidence: `v3/steps/signal-1440-09.png`.
+- Stage↔rule pairing: decided by the Head Designer (2026-10-02). The "to confirm" note is removed.
+- 6/6 column split: the reason is written into FIRST VIEWPORT.
+- Out of scope (SYS agent): mono "costume" on the join and nav actions.

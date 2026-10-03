@@ -54,6 +54,12 @@
   overflow: hidden;
 }
 
+.root .card[data-tone='dark'] {
+  /* world-apple's [data-tone='dark'] flips the tokens: ground-raised → #161617, ink → light */
+  background: var(--r2-ground-raised);
+  color: var(--r2-ink);
+}
+
 .media {
   display: grid;
   place-items: center;
@@ -83,8 +89,27 @@
 .nav {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   gap: 12px;
   margin-top: var(--r2-space-5);
+}
+
+.dots {
+  list-style: none;
+  margin: 0 auto 0 0;
+  padding: 0;
+  display: flex;
+  gap: 8px;
+}
+.dots li {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--r2-hairline-strong);
+  transition: background var(--r2-dur-ui-fast) var(--r2-ease-ui), transform var(--r2-dur-ui-fast) var(--r2-ease-ui);
+}
+.dots li[data-on='true'] {
+  background: var(--r2-ink);
 }
 
 .btn {
@@ -125,7 +150,25 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .btn {
+  .dots {
+  list-style: none;
+  margin: 0 auto 0 0;
+  padding: 0;
+  display: flex;
+  gap: 8px;
+}
+.dots li {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--r2-hairline-strong);
+  transition: background var(--r2-dur-ui-fast) var(--r2-ease-ui), transform var(--r2-dur-ui-fast) var(--r2-ease-ui);
+}
+.dots li[data-on='true'] {
+  background: var(--r2-ink);
+}
+
+.btn {
     transition: none;
   }
 }

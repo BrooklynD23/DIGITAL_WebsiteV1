@@ -16,6 +16,11 @@ const HIDE_GLOBAL_CHROME = [
   'body > nav[aria-label="Primary"], body > footer, body > a[href="#main-content"] { display: none !important; }',
   'html { cursor: auto !important; }',
   '[style*="ds-z-cursor"] { display: none !important; }',
+  // Overscroll / rubber-band and any gap below short pages show the world's ground, not the production page
+  // background. Apple's ground is its light end chapter + footer; Signal's is near-black. Signal wins when both
+  // exist on a page (the /system specimen is Signal-rooted).
+  'html:has(.world-apple), html:has(.world-apple) body { background: #f5f5f7 !important; color-scheme: light; }',
+  'html:has(.world-signal), html:has(.world-signal) body { background: #0b0c0a !important; color-scheme: dark; }',
 ].join(' ');
 
 // Lab-only: keep the production CursorProvider from starting its permanent 60/s rAF loop on r2 routes

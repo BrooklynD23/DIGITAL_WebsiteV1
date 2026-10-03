@@ -62,8 +62,19 @@ function geometry(w: number, rows: ReadonlyArray<readonly [number, number]>, tra
     const a = fix[i];
     const back = SEQ[i + 1][0] < SEQ[i][0];
     if (a.y !== f.y) {
-      // Return sweep to the next line: a long diagonal, drawn as a straight leader.
-      return { k: i + 1, back: false, d: `M${a.x.toFixed(1)} ${a.y}L${f.x.toFixed(1)} ${f.y}` };
+      // Return sweep to the next line, routed around the words (never through a glyph): out to the right margin,
+      // down through the gap between the rows, back left along the gap, then down onto the next fixation.
+      const edge = w - 14;
+      const gapY = (a.y + 56 + 26 + f.y) / 2 + 4;
+      const r = 10;
+      return {
+        k: i + 1,
+        back: false,
+        d:
+          `M${a.x.toFixed(1)} ${a.y}H${(edge - r).toFixed(1)}Q${edge} ${a.y} ${edge} ${a.y + r}` +
+          `V${(gapY - r).toFixed(1)}Q${edge} ${gapY.toFixed(1)} ${(edge - r).toFixed(1)} ${gapY.toFixed(1)}` +
+          `H${(f.x + r).toFixed(1)}Q${f.x.toFixed(1)} ${gapY.toFixed(1)} ${f.x.toFixed(1)} ${(gapY + r).toFixed(1)}V${f.y}`,
+      };
     }
     const lift = (back ? 62 : 22) + Math.min(16, Math.abs(f.x - a.x) / 10);
     return {

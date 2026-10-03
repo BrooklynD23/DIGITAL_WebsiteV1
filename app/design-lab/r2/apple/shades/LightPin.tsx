@@ -60,13 +60,16 @@ export function LightPin() {
             <h2 id="ap-light" className={s.h2}>{L.headline}</h2>
           </header>
           <div className={s.lpinFig}>
+            {/* under-layer: same step index as the caption; covered once the video shows its frame */}
+            <div className={s.lpinUnder} aria-hidden="true">
+              <LightPath mode="step" active={step} note={false} />
+            </div>
             <CineClip
               ref={clip}
               name="shades-lightpath"
               world="apple"
               mode="scrub"
               label={L.figureLabel}
-              fallback={<LightPath mode="step" active={step} note={false} />}
             />
             <span className={s.clipNote} aria-hidden="true">
               {L.note}

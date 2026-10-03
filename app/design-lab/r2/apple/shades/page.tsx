@@ -8,6 +8,7 @@ import { ShadesRoot, SpacingToggle } from '../../_shades/ShadesRoot';
 import { Reader } from '../../_shades/Reader';
 import { Scanpath } from '../../_shades/Scanpath';
 import { Seats } from '../../_shades/Seats';
+import { SeatRing } from '../../_shades/SeatRing';
 import { Glasses } from './Glasses';
 import { LightPin } from './LightPin';
 import { Art } from './HighlightArt';
@@ -35,7 +36,6 @@ export default function AppleShadesPage() {
         {/* Hero: the glasses as the object */}
         <section className={s.hero} data-tone="dark" aria-labelledby="ap-hero">
           <div className={s.heroCopy}>
-            <p className={s.productName}>{SHADES.name}</p>
             <h1 id="ap-hero" className={s.hero1}>{hero.headline}</h1>
             <p className={s.heroLead}>{hero.lead}</p>
             <a className={s.textLink} href="#reader">
@@ -199,6 +199,7 @@ export default function AppleShadesPage() {
         {/* Join: the shared ending; seats are links, the LocalNav pill stays the one filled CTA */}
         <JoinChapter
           world="apple"
+          visual={<SeatRing world="apple" />}
           headline={join.headline}
           lead={join.lead}
           primary={join.action}

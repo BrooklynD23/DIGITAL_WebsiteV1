@@ -118,6 +118,18 @@ Also in W3a:
 - The production cursor's rAF loop is opted out on r2 routes. The r2 layout makes its one media query report no match, so that loop now runs 0 callbacks at rest.
 - A one-pass stage that scrolls offscreen completes to its rest pose instead of freezing mid-motion.
 
+**Finish-fix batch (shared chrome):**
+
+| Change | What pages do |
+|---|---|
+| Mono only for measured values and readouts. The Signal Join action, the nav "Join", the "Back a build" label and the footer meta now use the text face, sentence case. Mono stays on readout labels (WHEN / WHERE / BRING, CH marks) | Delete page-scoped overrides of the join button (SHADES `signal` override) |
+| LocalNav tone follows the chapter under its bottom edge (`ToneSync`: one IntersectionObserver on a 1px band, no rAF). The CTA stays a 44px target | Mark every dark chapter `data-tone="dark"`; light is the default. `tone` only sets the first paint. `autoTone={false}` opts out |
+| WorldNav targets are ≥44×44 at 390 in both worlds | none |
+| `html` / `body` show the world's ground on r2 routes (Signal `#0b0c0a`, Apple `#f5f5f7`) via `:has()` in `r2/layout.tsx` | none |
+| `Highlights` items take `tone: 'dark' \| 'light'` (a dark clip sits in a dark rounded card). Progress dots are ink only, never red | Set `tone: 'dark'` on clip cards |
+| `<JoinChapter compact>`: facts on one line, a single "Back a build" link, no default visual. The Signal join has no solid band, so the page graticule runs under it. The seat's red anchor shows in every frame | Opt in per page |
+| `DotStage onFrame(t)` (after every paint) and `exclusive` (default true): one time-driven stage runs at a time per page, and starting one settles the previous. Scroll and slider drives are exempt | BRAIN: replace SceneStage tick hooks with `onFrame`. Pass `exclusive={false}` only for deliberate pairs |
+
 ## 6. Performance rules (hard gates)
 
 1. **0 rAF callbacks at rest.** Verify with `node design-lab/scripts/r2-sys-raf.mjs <route> [--rest-only] [--settle=ms]`, which attributes callbacks and separates out the production cursor loop. Pages with a timed intro (BRAIN hero, about 6 s) need `--settle=9000`. Use `r2-sys-routes.mjs` to sweep all 8 routes for console errors.

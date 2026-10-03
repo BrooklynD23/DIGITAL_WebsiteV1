@@ -367,3 +367,9 @@
     transition: none;
   }
 }
+
+/* Apple world: the key hint is guidance, not a readout, so it takes the text face */
+.reader[data-variant='apple'] .keys {
+  font-family: var(--font-text);
+  letter-spacing: normal;
+}

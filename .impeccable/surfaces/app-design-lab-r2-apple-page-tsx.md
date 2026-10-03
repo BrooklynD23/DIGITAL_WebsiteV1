@@ -43,3 +43,10 @@ Deferred:
 - The LocalNav tone follows the chapter (chrome, owned by W3a).
 - The home-stages clip is a black box inside a light card; that needs a per-card tone in `<Highlights>`.
 - The BRAIN bud rest pose looks smaller than the others (`_system`).
+
+## Finish fixes
+
+- Build chapters: each object is the chapter's hero, a 560px fitted rest pose (~62% of a 900px viewport). SIDEKICK explode, SHADES fixate with the RSVP word "own", and BRAIN bud now read at equal weight. The 78svh min-height is gone. On mobile each chapter fills one viewport with a 358px object. Evidence: `design-lab/renders/r2/home/v3/steps/apple-1440-05..07.png`, `sheet-apple-390.png`.
+- Highlights card 1: the home-stages clip sits in its own dark rounded card (local wrap until the shared Highlights card tone lands). Evidence: `v3/steps/apple-1440-08.png`.
+- LocalNav title is "DIGITAL" (Head Designer, 2026-10-02). The stage↔rule pairing is decided.
+- Out of scope (SYS agent): LocalNav tone over light chapters, the red active dot on the clip tracker, and nav targets at 390.

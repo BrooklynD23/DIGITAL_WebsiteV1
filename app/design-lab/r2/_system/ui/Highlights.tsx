@@ -17,6 +17,8 @@ export interface HighlightItem {
   /** Bold lead-in (rendered "Title."). */
   readonly title: string;
   readonly caption: string;
+  /** Card surface. 'dark' puts a dark clip/stage in a dark rounded card (data-tone="dark"). Default: the chapter's. */
+  readonly tone?: 'dark' | 'light';
 }
 
 export interface HighlightsProps {
@@ -32,12 +34,19 @@ export interface HighlightsProps {
 export function Highlights({ items, title, id = 'highlights', label = 'Highlights', className }: HighlightsProps) {
   const track = useRef<HTMLUListElement>(null);
   const [edge, setEdge] = useState({ start: true, end: false });
+  const [index, setIndex] = useState(0);
 
   const measure = useCallback(() => {
     const el = track.current;
     if (!el) return;
-    setEdge({ start: el.scrollLeft < 8, end: el.scrollLeft + el.clientWidth > el.scrollWidth - 8 });
-  }, []);
+    const start = el.scrollLeft < 8;
+    const end = el.scrollLeft + el.clientWidth > el.scrollWidth - 8;
+    setEdge((e) => (e.start === start && e.end === end ? e : { start, end }));
+    const card = el.querySelector('li');
+    const step = card ? card.getBoundingClientRect().width + 20 : el.clientWidth;
+    const i = end ? items.length - 1 : Math.round(el.scrollLeft / Math.max(1, step));
+    setIndex(Math.max(0, Math.min(items.length - 1, i)));
+  }, [items.length]);
 
   useEffect(() => {
     const el = track.current;
@@ -71,7 +80,7 @@ export function Highlights({ items, title, id = 'highlights', label = 'Highlight
       ) : null}
       <ul ref={track} className={s.track} aria-label={label} tabIndex={0}>
         {items.map((h) => (
-          <li key={h.id} className={s.card}>
+          <li key={h.id} className={s.card} data-tone={h.tone}>
             {h.media ? <div className={s.media}>{h.media}</div> : null}
             <p className={s.text}>
               <strong>{h.title}.</strong> {h.caption}
@@ -80,6 +89,12 @@ export function Highlights({ items, title, id = 'highlights', label = 'Highlight
         ))}
       </ul>
       <div className={`${s.inner} ${s.nav}`}>
+        {/* Progress: ink only, never red (the viewport's one red belongs to the page). Decorative; arrows are the control. */}
+        <ol className={s.dots} aria-hidden="true">
+          {items.map((h, i) => (
+            <li key={h.id} data-on={i === index ? 'true' : undefined} />
+          ))}
+        </ol>
         <button type="button" className={s.btn} onClick={() => step(-1)} disabled={edge.start} aria-label="Previous highlight">
           <Chevron dir="left" />
         </button>

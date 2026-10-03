@@ -43,9 +43,9 @@
 .hero .h1 { padding: 0 var(--r2-gutter); }
 .heroStage { width: 100%; max-width: 1440px; }
 /* crop the 16:9 loop to a wide band and scale it so the orb reads at hero size; tools stay in frame */
-.heroStage :global([data-cine='brain-orb']) { aspect-ratio: auto; height: clamp(380px, calc(100vh - 330px), 640px); }
+.heroStage :global([data-cine='brain-orb']) { aspect-ratio: auto; height: clamp(320px, calc(100vh - 500px), 600px); }
 .heroStage :global([data-cine='brain-orb']) video,
-.heroStage :global([data-cine='brain-orb']) img { transform: scale(1.18); }
+.heroStage :global([data-cine='brain-orb']) img { object-fit: contain; transform: scale(1.35); }
 .lead { margin: 0; padding: 0 var(--r2-gutter); max-width: 32rem; font-size: var(--r2-fs-lead); line-height: var(--r2-lh-lead); letter-spacing: var(--r2-ls-lead); color: var(--r2-ink-2); font-weight: 600; }
 
 /* ---------- highlights ---------- */
@@ -53,13 +53,13 @@
 
 /* ---------- chapters (pins) ---------- */
 .group { background: var(--r2-ground); }
-.chapter { --pin: 150vh; border-top: 1px solid var(--r2-hairline); }
-.chapterB { --pin: 125vh; border-top: 0; }
+.chapter { --pin: 132vh; border-top: 1px solid var(--r2-hairline); }
+.chapterB { --pin: 92vh; border-top: 0; }
 .sticky { display: grid; justify-items: center; align-content: center; gap: var(--r2-space-4); padding: var(--r2-space-5) var(--r2-gutter); text-align: center; }
 .head { display: grid; gap: var(--r2-space-3); justify-items: center; max-width: 46rem; }
-.stage { width: 100%; max-width: min(560px, calc(100vh - 330px)); }
+.stage { width: 100%; max-width: min(520px, calc(100vh - 400px)); }
 .chapter:not([data-pin='on']) .sticky { padding-top: var(--r2-space-9); }
-.howRow { background: var(--r2-ground); color: var(--r2-ink); }
+.howRow { width: min(100%, 34rem); text-align: left; }
 
 /* the harness coda: one quiet beat */
 .coda { display: grid; justify-items: center; gap: var(--r2-space-5); padding: var(--r2-space-6) var(--r2-gutter) var(--r2-space-7); background: var(--r2-ground); }
@@ -87,7 +87,7 @@
   .heroStage :global([data-cine='brain-orb']) { height: auto; aspect-ratio: 4 / 5; }
   .heroStage :global([data-cine='brain-orb']) video,
   .heroStage :global([data-cine='brain-orb']) img { transform: none; }
-  .chapter { --pin: 150vh; }
+  .chapter { --pin: 132vh; }
   .chapterB { --pin: 135vh; }
   .sticky { align-content: start; padding-top: var(--r2-space-5); }
   .stage { max-width: min(100%, calc(100vh - 360px)); }

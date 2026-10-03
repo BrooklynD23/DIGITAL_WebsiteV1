@@ -13,13 +13,15 @@ import { TAU, clamp, easeOut, lerp } from '../engine.js';
 
 export const SHADES_LIGHTPATH_FRAMES = 180;
 
-const STAGES = ['TEXT SOURCE', 'WORD TIMING', 'CONTROL', 'DISPLAY', 'OPTICS', 'FIXATION POINT'];
+const STAGES = ['Text source', 'Word timing', 'Control', 'Display', 'Optics', 'Fixation point'];
+// 4:5: glyph column x; labels sit 120 px to its right at 42 px (≥ 15 CSS px when the clip is 390 px wide).
+const TALL_X = 330;
 const START = 14;
 const END = 160;
 /** Arrival of the packet at stage i, as a fraction of the clip (frame / 180). Mirrored in the manifest `markers`. */
 export const SHADES_LIGHTPATH_MARKERS = STAGES.map((_, i) => +((START + ((END - START) * i) / 5) / SHADES_LIGHTPATH_FRAMES).toFixed(4));
 
-/** Node centres along the path: a row (16:9) or a gentle zig-zag column (4:5). */
+/** Node centres along the path: a row (16:9) or one column with labels to the right (4:5). */
 function nodes(width, height) {
   const tall = height > width;
   if (!tall) {
@@ -27,9 +29,9 @@ function nodes(width, height) {
     const x1 = width - 190;
     return STAGES.map((_, i) => [lerp(x0, x1, i / 5), height / 2 - 10]);
   }
-  const y0 = 190;
-  const y1 = height - 210;
-  return STAGES.map((_, i) => [width / 2 + (i % 2 ? 150 : -150), lerp(y0, y1, i / 5)]);
+  const y0 = 150;
+  const y1 = height - 150;
+  return STAGES.map((_, i) => [TALL_X, lerp(y0, y1, i / 5)]);
 }
 
 const on = (p, i) => clamp((p * 5 - i + 0.15) / 0.3); // 0..1 as the packet reaches stage i
@@ -172,10 +174,12 @@ export const ShadesLightpath = () => {
           const len = Math.hypot(x2 - x1, y2 - y1);
           const ux = (x2 - x1) / len;
           const uy = (y2 - y1) / len;
-          const ax = x1 + ux * (i === 4 ? 52 * GS : R) * (tall ? 0.8 : 1);
-          const ay = y1 + uy * (i === 4 ? 52 * GS : R) * (tall ? 0.8 : 1);
-          const bx = x2 - ux * (i === 3 ? 68 * GS : R) * (tall ? 0.8 : 1);
-          const by = y2 - uy * (i === 3 ? 68 * GS : R) * (tall ? 0.8 : 1);
+          const a0 = tall ? (i === 1 ? 118 : i === 4 ? 40 : 82) : i === 4 ? 52 * GS : R;
+          const ax = x1 + ux * a0;
+          const ay = y1 + uy * a0;
+          const b0 = tall ? (i === 3 ? 40 : i === 1 ? 46 : 82) : i === 3 ? 68 * GS : R; // i === 1 ends at the control pill
+          const bx = x2 - ux * b0;
+          const by = y2 - uy * b0;
           const f = clamp(segF - i);
           if (i === 4) {
             // optics → eye: three rays converging on the fixation point
@@ -207,16 +211,17 @@ export const ShadesLightpath = () => {
           const a = i === 0 ? Math.max(0.6, on(p, 0)) : on(p, i);
           return (
             <g key={i} transform={`translate(${x} ${y})`}>
-              <g transform={`scale(${GS})`}>
+              <g transform={`scale(${GS})${tall && i === 4 ? ' rotate(90)' : ''}`}>
                 <Glyph a={a} p={p} fix={fix} />
               </g>
               <text
-                x={0}
-                y={(tall ? 96 : 100) * GS}
-                textAnchor="middle"
+                x={tall ? 120 : 0}
+                y={tall ? 0 : 100 * GS}
+                textAnchor={tall ? 'start' : 'middle'}
+                dominantBaseline={tall ? 'middle' : undefined}
                 fontFamily={FONT.mono}
-                fontSize={tall ? 22 : 22}
-                letterSpacing="0.08em"
+                fontSize={tall ? 42 : 24}
+                letterSpacing="0.01em"
                 fill={a >= 1 ? C.ink2 : C.ink3}
               >
                 {STAGES[i]}

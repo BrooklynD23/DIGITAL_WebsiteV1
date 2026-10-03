@@ -204,7 +204,7 @@
 .codaStage { position: relative; width: 100%; max-width: 420px; }
 
 /* W3b confirm-round fixes */
-[data-world] .coda .illus,
-.coda[data-world='signal'] .illus { position: static; }
+[data-world='apple'].coda .illus { position: static; }
+.coda .screen { width: 100%; }
 .heroClip .traceRow { padding: 0 var(--r2-gutter, 16px); max-width: 100%; }
 .heroClip .trace { justify-content: center; }

@@ -2,8 +2,8 @@
 
 /**
  * <ChapterPin> — one BRAIN chapter as a scroll pin. The first part of the pin is stage-only (headline + stage
- * running its beat: the quiet viewport); elements marked data-late (caption, readout, control) fade in for the
- * `reveal` window of pin progress and out again before the next chapter, so viewports carry one idea at a time.
+ * running its beat: the quiet viewport); elements marked data-late (caption, readout, control, How it works)
+ * fade in once pin progress passes `reveal[0]` and stay until the stage has mostly left the screen.
  * Focus inside the chapter always shows them (keyboard users never meet an invisible control).
  * Without JS or under reduced motion there is no pin: everything is visible in normal flow.
  */
@@ -18,8 +18,8 @@ export function ChapterPin({
   tone,
   labelledBy,
   label,
-  reveal = [0.3, 0.9],
-  revealNarrow = [0.5, 0.92],
+  reveal = [0.55, 2],
+  revealNarrow = [0.75, 2],
   onProgress,
   after,
   children,
@@ -53,7 +53,9 @@ export function ChapterPin({
       const narrow = window.innerWidth <= 959;
       const lo = narrow ? na : a;
       const hi = narrow ? nb : b;
-      if (el) el.dataset.late = p >= lo && p <= hi ? 'on' : 'off';
+      // after the pin releases, keep them until the stage has mostly left (section bottom above mid-screen)
+      const leaving = el ? el.getBoundingClientRect().bottom < window.innerHeight * 0.7 : false;
+      if (el) el.dataset.late = p >= lo && p <= hi && !leaving ? 'on' : 'off';
       cb.current?.(p);
     },
     [a, b, na, nb],

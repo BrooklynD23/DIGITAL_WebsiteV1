@@ -17,9 +17,9 @@ All 7 clips have an apple variant. Every Apple chapter is `#000` or a dark well,
 | sidekick-explode | 6 | scrub | **15 fps all-intra**, 1280×720 / 864×1080 | 1.29 · 1.47 / 1.33 · 1.24 | fully exploded, layer tags |
 | sidekick-swap | 4 | once | 30 fps, GOP 60, full | 1.02 · 0.49 / 1.08 · 0.52 | seated, red mark at J3 |
 | shades-lightpath | 6 | scrub | **15 fps all-intra**, full | 1.47 · 1.41 / 1.35 · 1.33 | path live, red fixation point |
-| shades-fixate | 4 | once | 30 fps, GOP 60, full | 0.19 · 0.19 / 0.18 · 0.17 | "focus", ORP "o" red on the fixation point |
+| shades-fixate | 4 | once | 30 fps, GOP 60, full | 0.19 · 0.19 / 0.18 · 0.17 | "focus", ORP "o" bold bone on the fixation point (no red) |
 | brain-orb | 6 | **loop** | 30 fps, GOP 60, full | 0.86 · 0.86 / 0.74 · 0.74 | frame 0 (seamless) |
-| brain-context | 5 | scrub | **15 fps all-intra**, full | 1.43 · 1.49 / 1.36 · 1.39 | summary seated, head on next free slot |
+| brain-context | 5 | scrub | **15 fps all-intra**, full | 1.43 · 1.49 / 1.36 · 1.39 | summary seated, bone write-head ring on next free slot (no red) |
 
 There are 84 files (58 MB on disk). Per clip and world: `-16x9.{mp4,webm}`, `-4x5.{mp4,webm}`, `-poster.webp` and `-poster-4x5.webp`. Every mp4 is ≤ 1.5 MB.
 
@@ -108,11 +108,23 @@ node design-lab/scripts/r2-cine-seek.mjs [file…] [--out=…]           # scrub
 2. Scrub clips are now all-intra at 15 fps, with mp4 listed first.
 3. shades-lightpath:
    - The QFP chip and the word clock now sit at stage 2, and control is a pause/play pill. Both match `_shades/LightPath.tsx`.
-   - Labels now read TEXT SOURCE / WORD TIMING / CONTROL / DISPLAY / OPTICS / FIXATION POINT.
+   - Labels now read Text source / Word timing / Control / Display / Optics / Fixation point (sentence case since the finish fixes).
 4. Manifest additions: `worlds`, `markers` and `order`. `<CineClip>` gains `world`, `maxLoops`, `onTime`, a ref handle and world-token chrome, plus the once-retry fix.
 5. shades-fixate: the horizontal reticle ticks fade out as the word lands, so they no longer read as dashes beside "focus".
 
 Earlier Gemini review and revision: `round2/critiques/cine-gemini.md`. Explode tags were enlarged; home-stages got holds and a playhead snap; the swap return got a heavy decel; the lightpath trail is heavier; orb tools fire on uneven phases.
+
+## Finish-review fixes
+
+1. **shades-fixate:** the pivot letter is now bold (700) in the clip's ink instead of red. The anchor dot is the only red, and pages place it.
+2. **shades-lightpath:** labels are sentence case.
+   - 4:5 is now one glyph column with labels to the right at 42 px, which is ≥ 15 CSS px when the clip is 390 px wide. The optics lens turns 90° to suit the vertical path.
+   - 16:9 labels are 24 px.
+   - Timing is unchanged, so the markers stand.
+3. **brain-context:** the red write head is replaced by a bone ring + dot, in both worlds.
+4. **Red per clip:**
+   - Red remains only in home-stages (rail playhead), sidekick-swap (J3 seat) and shades-lightpath (the fixation point, the diagram's anchor dot).
+   - explode, fixate, orb and context carry no red.
 
 ## Known gaps
 

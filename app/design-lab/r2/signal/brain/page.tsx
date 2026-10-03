@@ -61,22 +61,26 @@ export default function BrainSignalPage() {
         </section>
 
         {chapters.map((ch) => {
+          const tick = (
+            <span className={s.tick} aria-hidden="true">
+              {t(ch.n)}
+            </span>
+          );
           const head = (
-            <>
-              <span className={s.tickInline} aria-hidden="true">
-                {t(ch.n)}
-              </span>
-              <h2 id={`h-${ch.id}`} className={s.h2}>
-                {ch.headline}
-              </h2>
-            </>
+            <h2 id={`h-${ch.id}`} className={s.h2}>
+              {ch.headline}
+            </h2>
           );
           const caption = (
             <p className={s.caption} data-late="">
               {ch.caption}
             </p>
           );
-          const how = <HowItWorks ch={ch} world={WORLD} />;
+          const how = (
+            <div data-late="">
+              <HowItWorks ch={ch} world={WORLD} />
+            </div>
+          );
           if (ch.id === 'context') {
             return (
               <ContextChapter
@@ -85,26 +89,29 @@ export default function BrainSignalPage() {
                 id={`ch-${ch.id}`}
                 labelledBy={`h-${ch.id}`}
                 classes={{ pin: `${s.capture} ${s.scrub}`, sticky: s.sticky, text: s.text, stage: s.instrument }}
+                tick={tick}
                 head={head}
                 caption={caption}
-                after={how}
+                how={how}
               />
             );
           }
           const Demo = DEMOS[ch.id];
           return (
             <div key={ch.id} className={s.group}>
-              <ChapterPin id={`ch-${ch.id}`} labelledBy={`h-${ch.id}`} className={s.capture} stickyClassName={s.sticky} after={how}>
+              <ChapterPin id={`ch-${ch.id}`} labelledBy={`h-${ch.id}`} className={s.capture} stickyClassName={s.sticky}>
+                {tick}
                 <div className={s.text}>
                   {head}
                   {caption}
+                  {how}
                 </div>
                 <div className={s.instrument}>{Demo ? <Demo world={WORLD} /> : null}</div>
               </ChapterPin>
               {ch.id === 'harness' ? (
                 <section className={s.coda} aria-labelledby="h-coda">
+                  <span className={s.tick} aria-hidden="true">{`${t(ch.n)} · CODA`}</span>
                   <div className={s.text}>
-                    <span className={s.tickInline} aria-hidden="true">{`${t(ch.n)} · CODA`}</span>
                     <h3 id="h-coda" className={s.h3}>
                       {coda.label}
                     </h3>

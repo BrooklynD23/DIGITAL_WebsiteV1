@@ -8,7 +8,7 @@ import { clamp, easeIn, easeInOut, easeOut, fibDir, hash, latticeDisc, lerp } fr
 //   fill  — slots fill in reading order behind a write head; the pinned top band is outlined
 //   evict — the oldest unpinned rows exit right; their slots stay empty (dashed)
 //   compress — a spread middle group collapses into a dense summary that seats in the freed slots
-// The red trigger dot is the write head ("next slot"); at rest it waits on the first free slot.
+// The write head ("next slot") is a bone ring; at rest it waits on the first free slot. No red in this clip.
 // Monotonic and cut-free so currentTime scrubbing reads cleanly. Rest = last frame.
 
 export const BRAIN_CONTEXT_FRAMES = 150;
@@ -123,7 +123,9 @@ export const BrainContext = () => {
         {dots.map((d, i) => (
           <circle key={i} cx={d.x} cy={d.y} r={d.r} fill={C.ink} fillOpacity={d.a} />
         ))}
-        <circle cx={head[0]} cy={head[1]} r={r * 1.1} fill={C.trigger} />
+        {/* write head: a solid bone ring on the next slot (no red: pages place their own single trigger) */}
+        <circle cx={head[0]} cy={head[1]} r={r * 1.9} fill="none" stroke={C.ink} strokeWidth={2} />
+        <circle cx={head[0]} cy={head[1]} r={r * 0.9} fill={C.ink} />
       </Stage>
     </AbsoluteFill>
   );

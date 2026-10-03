@@ -1,7 +1,7 @@
 /* SIDEKICK · Signal Capture. Ground, ink and type come from .world-signal + fontSignal (layout). */
 .page {
   --board-ink: var(--r2-ink);
-  --board-copper: var(--r2-phosphor);
+  --board-copper: var(--r2-ink);
   --board-silk: var(--r2-ink-2);
   --board-hole: var(--r2-ground);
   --board-substrate: var(--r2-ink);
@@ -39,11 +39,10 @@
   text-wrap: balance;
 }
 .h3 {
-  font-family: var(--font-mono);
+  font-family: var(--font-text);
   font-size: var(--r2-fs-label);
   line-height: var(--r2-lh-label);
   letter-spacing: var(--r2-ls-label);
-  text-transform: uppercase;
   color: var(--r2-ink-2);
   font-weight: 500;
   margin: 0 0 var(--r2-space-4);
@@ -77,16 +76,15 @@
   gap: 10px;
   min-height: var(--r2-target);
   margin-top: var(--r2-space-6);
-  font-family: var(--font-mono);
+  font-family: var(--font-text);
   font-size: var(--r2-fs-small);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
   color: var(--r2-ink);
   text-decoration: none;
   border-bottom: 1px solid var(--r2-hairline-strong);
   transition: border-color var(--r2-dur-ui) var(--r2-ease-ui);
 }
 .textLink:hover { border-bottom-color: var(--r2-ink); }
+.textLink, .swapBtn { font-weight: 600; font-size: var(--r2-fs-body); }
 .textLink svg {
   width: 16px;
   height: 16px;
@@ -151,14 +149,12 @@
 .flatBoard { width: auto; height: 100%; max-width: 100%; }
 
 /* ---------- teardown band ---------- */
-.band { padding-top: var(--r2-space-9); }
+.band { padding-top: var(--r2-space-9); overflow-anchor: none; }
 .bandHead { max-width: 40rem; }
 .bandNote {
   margin: var(--r2-space-3) 0 0;
-  font-family: var(--font-mono);
+  font-family: var(--font-text);
   font-size: var(--r2-fs-label);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
   color: var(--r2-ink-2);
 }
 .bandGrid {
@@ -180,13 +176,15 @@
 }
 .stackBox {
   height: min(calc(100svh - var(--r2-nav-h) - 150px), 780px);
-  aspect-ratio: 220 / 276;
+  aspect-ratio: 220 / 316;
   max-width: 100%;
   margin-inline: auto;
 }
 .readout {
   margin: 0 auto;
   display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 12px;
   align-items: center;
   min-height: 40px;
@@ -202,6 +200,8 @@
 .cursorIcon { width: 14px; height: 14px; fill: none; stroke: var(--r2-ink-3); stroke-width: 1; }
 .roVal { color: var(--r2-ink); }
 .roDim { color: var(--r2-ink-2); }
+.roState { display: inline-flex; align-items: center; gap: 6px; color: var(--r2-ink); }
+.roState :global(.r2g) { color: var(--r2-ink); }
 
 .listCol { position: relative; }
 .panel { position: relative; padding-left: 28px; }
@@ -261,10 +261,8 @@
   align-items: center;
   gap: 8px;
   margin: 0;
-  font-family: var(--font-mono);
+  font-family: var(--font-text);
   font-size: var(--r2-fs-label);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
 }
 .stepLine {
   margin: var(--r2-space-3) 0 0;
@@ -286,10 +284,8 @@
   min-height: var(--r2-target);
   cursor: pointer;
   list-style: none;
-  font-family: var(--font-mono);
+  font-family: var(--font-text);
   font-size: var(--r2-fs-label);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
   color: var(--r2-ink-2);
 }
 .more summary::-webkit-details-marker { display: none; }
@@ -307,7 +303,7 @@
 .moreLine { margin: 0 0 var(--r2-space-3); font-size: var(--r2-fs-body); line-height: var(--r2-lh-body); color: var(--r2-ink-2); }
 .kv { margin: 0; display: grid; border-top: 1px solid var(--r2-hairline); }
 .kv > div { display: grid; grid-template-columns: 64px 1fr; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--r2-hairline); }
-.kv dt { font-family: var(--font-mono); font-size: var(--r2-fs-label); letter-spacing: 0.06em; text-transform: uppercase; color: var(--r2-ink-3); padding-top: 3px; }
+.kv dt { font-family: var(--font-text); font-size: var(--r2-fs-label); letter-spacing: 0.06em; text-transform: uppercase; color: var(--r2-ink-3); padding-top: 3px; }
 .kv dd { margin: 0; font-size: var(--r2-fs-small); line-height: var(--r2-lh-small); padding-top: 2px; }
 
 .swapHead {
@@ -333,10 +329,8 @@
   border: 1px solid var(--r2-hairline-strong);
   border-radius: 2px;
   color: var(--r2-ink);
-  font-family: var(--font-mono);
+  font-family: var(--font-text);
   font-size: var(--r2-fs-small);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
   cursor: pointer;
   transition: border-color var(--r2-dur-ui) var(--r2-ease-ui), background-color var(--r2-dur-ui) var(--r2-ease-ui);
 }
@@ -409,10 +403,8 @@
   align-items: center;
   gap: 8px;
   margin: var(--r2-space-2) 0 0;
-  font-family: var(--font-mono);
+  font-family: var(--font-text);
   font-size: var(--r2-fs-label);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
   color: var(--r2-ink-2);
 }
 .statusFoot {
@@ -421,19 +413,10 @@
   gap: var(--r2-space-7);
   margin-top: var(--r2-space-8);
 }
-.struck {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: 8px;
-}
-.struck li {
-  font-size: var(--r2-fs-body);
-  color: var(--r2-ink-2);
-  text-decoration: line-through;
-  text-decoration-color: var(--r2-ink-3);
-}
+.notStarted { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+/* Never started: a dashed mark and the words; struck is reserved for "paused". */
+.notStarted li { display: flex; align-items: center; gap: 10px; font-size: var(--r2-fs-body); color: var(--r2-ink-2); }
+.notStarted li::before { content: ''; width: 18px; border-top: 1px dashed var(--r2-ink-3); }
 .next {
   margin: 0;
   padding: 0;
@@ -460,47 +443,24 @@
   padding-top: 4px;
 }
 
-/* ---------- rules ---------- */
+/* ---------- rules: four sentences on one rule line, no numerals ---------- */
 .rules {
   list-style: none;
   padding: 0;
-  margin: var(--r2-space-7) 0 0;
+  margin: var(--r2-space-6) 0 0;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  border-top: 1px solid var(--r2-hairline);
+  border-top: 1px solid var(--r2-ink-2);
 }
 .rules li {
-  display: flex;
-  flex-direction: column;
-  padding: var(--r2-space-5) var(--r2-space-5) var(--r2-space-5) 0;
-  border-right: 1px solid var(--r2-hairline);
-}
-.rules li + li { padding-left: var(--r2-space-5); }
-.rules li:last-child { border-right: 0; }
-.one {
-  font-family: var(--font-display);
-  font-weight: var(--r2-fw-display);
-  font-stretch: var(--r2-fstretch-display);
-  font-size: 112px;
-  line-height: 1;
-  letter-spacing: -0.02em;
-  color: var(--r2-ink);
-}
-.ruleWhat {
-  margin-top: var(--r2-space-4);
+  padding: var(--r2-space-4) var(--r2-space-5) 0 0;
   font-family: var(--font-display);
   font-weight: var(--r2-fw-display);
   font-stretch: var(--r2-fstretch-display);
   font-size: var(--r2-fs-h3);
   line-height: var(--r2-lh-h3);
-}
-.ruleLine {
-  margin-top: 4px;
-  font-family: var(--font-mono);
-  font-size: var(--r2-fs-label);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--r2-ink-2);
+  letter-spacing: var(--r2-ls-h3);
+  text-wrap: balance;
 }
 
 /* ---------- join ---------- */
@@ -524,10 +484,8 @@
 .seatName { font-size: var(--r2-fs-body); line-height: 1.3; }
 .seatOwner {
   margin: var(--r2-space-7) 0 0;
-  font-family: var(--font-mono);
+  font-family: var(--font-text);
   font-size: var(--r2-fs-label);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
   color: var(--r2-ink-3);
 }
 
@@ -549,17 +507,14 @@
   }
   .objectPin { position: static; height: auto; gap: var(--r2-space-2); }
   .stackBox { height: 36svh; --sk-label-size: 11px; }
-  .readout { padding: 6px 10px; min-height: 0; }
+  .readout { padding: 6px 10px; min-height: 56px; align-content: center; }
   .band[data-enhanced] .panel { top: calc(var(--r2-nav-h) + 36svh + 84px); }
   .step, .swapBtn, .swapInput, .more summary { scroll-margin-top: calc(var(--r2-nav-h) + 36svh + 96px); }
   .boards { grid-template-columns: 1fr; }
   .boardCell, .boardCell + .boardCell { padding-left: 0; border-right: 0; border-bottom: 1px solid var(--r2-hairline); }
   .statusFoot { grid-template-columns: 1fr; }
-  .rules { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .rules li:nth-child(2) { border-right: 0; }
-  .rules li:nth-child(3) { padding-left: 0; }
-  .rules li:nth-child(n + 3) { border-top: 1px solid var(--r2-hairline); }
-  .one { font-size: 72px; }
+  .rules { grid-template-columns: 1fr; }
+  .rules li { padding: var(--r2-space-3) 0; border-bottom: 1px solid var(--r2-hairline); }
   .seats { grid-template-columns: 1fr; }
   .seats li { flex-direction: row; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--r2-hairline); }
   .seatOwner { margin: var(--r2-space-6) 0 0; }

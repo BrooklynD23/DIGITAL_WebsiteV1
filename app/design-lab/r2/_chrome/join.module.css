@@ -112,6 +112,9 @@
 }
 
 /* ---------- Signal: readout grid, line-form action ---------- */
+.join[data-world-join='signal'] {
+  background: transparent;
+}
 [data-world-join='signal'] .inner {
   display: grid;
   grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
@@ -146,18 +149,20 @@
 }
 
 .lineBtn {
+  /* Signal action: outlined (line form, never filled), sentence case, text face. Mono is for readouts only. */
   display: inline-flex;
   align-items: center;
+  gap: 8px;
   min-height: 52px;
   padding: 0 24px;
   border: 1px solid var(--r2-ink);
   color: var(--r2-ink);
   background: transparent;
   text-decoration: none;
-  font-family: var(--font-mono);
-  font-size: 13px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-family: var(--font-text);
+  font-size: 17px;
+  font-weight: var(--r2-fw-strong);
+  letter-spacing: 0;
   transition:
     background var(--r2-dur-ui-fast) var(--r2-ease-ui),
     border-color var(--r2-dur-ui-fast) var(--r2-ease-ui);
@@ -167,12 +172,8 @@
 }
 
 [data-world-join='signal'] .backersLabel {
-  font-family: var(--font-mono);
-  font-size: var(--r2-fs-label);
-  font-weight: 400;
-  letter-spacing: var(--r2-ls-label);
-  text-transform: uppercase;
-  color: var(--r2-ink-3);
+  font-weight: var(--r2-fw-strong);
+  color: var(--r2-ink-2);
 }
 
 /* ---------- Apple: centred light chapter, one filled pill ---------- */
@@ -239,6 +240,32 @@
 }
 [data-world-join='apple'] .textLink:hover {
   text-decoration: underline;
+}
+
+/* ---------- compact variant: facts on one line, one backer link ---------- */
+.join[data-compact='true'] {
+  padding: var(--r2-space-9) 0;
+}
+[data-compact='true'] .inner {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+[data-compact='true'] .copy {
+  gap: var(--r2-space-4);
+}
+.factsLine {
+  margin: 0;
+  font-size: var(--r2-fs-lead);
+  line-height: var(--r2-lh-lead);
+  color: var(--r2-ink-2);
+}
+.factsLine strong {
+  color: var(--r2-ink);
+  font-weight: var(--r2-fw-strong);
+}
+[data-compact='true'] .backers {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
 }
 
 @media (max-width: 734px) {

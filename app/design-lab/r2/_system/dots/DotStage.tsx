@@ -68,9 +68,22 @@ export interface DotStageProps extends FrameOpts {
    * the initial t, reduced motion). `verb` still names the stage for its default label.
    */
   readonly scene?: (t: number, opts: FrameOpts) => Frame;
+  /**
+   * Called after every paint with the current t (time drive, scroll drive, seek). Runs inside the frame:
+   * write to refs / the DOM, or setState only when a derived value changes (never every frame).
+   */
+  readonly onFrame?: (t: number) => void;
+  /** Join the page-wide "one running stage" rule. Default true; false lets this stage run alongside others. */
+  readonly exclusive?: boolean;
 }
 
 const MAX_SIZE = 600;
+
+/**
+ * Page-wide rule: at most one stage runs a time drive at a time. Starting one (exclusive, the default)
+ * asks the previous runner to stop, so it settles to rest. Scroll / slider drives are not time drives.
+ */
+let runner: { readonly stop: () => void } | null = null;
 const SETTLE_MS = 450;
 
 function DotStageInner(props: DotStageProps, ref: ForwardedRef<DotStageHandle>) {
@@ -88,6 +101,8 @@ function DotStageInner(props: DotStageProps, ref: ForwardedRef<DotStageHandle>) 
     style,
     onSettle,
     scene,
+    onFrame,
+    exclusive = true,
     seed,
     density,
     shape,
@@ -106,8 +121,9 @@ function DotStageInner(props: DotStageProps, ref: ForwardedRef<DotStageHandle>) 
 
   const wrapRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const live = useRef({ verb, opts, duration: duration ?? spec.duration, loop, onSettle, scene });
-  live.current = { verb, opts, duration: duration ?? spec.duration, loop, onSettle, scene };
+  const live = useRef({ verb, opts, duration: duration ?? spec.duration, loop, onSettle, scene, onFrame, exclusive });
+  live.current = { verb, opts, duration: duration ?? spec.duration, loop, onSettle, scene, onFrame, exclusive };
+  const self = useRef<{ stop: () => void }>({ stop: () => undefined });
 
   const st = useRef({
     t: clamp(progress ?? initialT),
@@ -145,6 +161,7 @@ function DotStageInner(props: DotStageProps, ref: ForwardedRef<DotStageHandle>) 
     paintFrame(ctx, sc ? sc(S.t, o) : frame(v, S.t, o), o.size ?? 320, S.dpr, S.inks);
     S.dirty = false;
     if (wrapRef.current && !wrapRef.current.dataset.ready) wrapRef.current.dataset.ready = 'true';
+    live.current.onFrame?.(S.t);
   }, [readInks]);
 
   const scheduleDraw = useCallback(() => {
@@ -172,6 +189,7 @@ function DotStageInner(props: DotStageProps, ref: ForwardedRef<DotStageHandle>) 
     S.mode = 'idle';
     draw();
     halt();
+    if (runner === self.current) runner = null;
     live.current.onSettle?.();
   }, [draw, halt]);
 
@@ -231,6 +249,10 @@ function DotStageInner(props: DotStageProps, ref: ForwardedRef<DotStageHandle>) 
           live.current.onSettle?.();
           return;
         }
+        if (live.current.exclusive) {
+          if (runner && runner !== self.current) runner.stop();
+          runner = self.current;
+        }
         S.loop = options?.loop ?? live.current.loop;
         if (options?.from !== undefined) S.t = clamp(options.from);
         else if (S.t >= 1) S.t = 0;
@@ -265,9 +287,13 @@ function DotStageInner(props: DotStageProps, ref: ForwardedRef<DotStageHandle>) 
     [ensureTick, halt, scheduleDraw],
   );
   useImperativeHandle(ref, () => api, [api]);
+  useEffect(() => {
+    self.current.stop = api.stop;
+  }, [api]);
 
   // Mount: size the backing store, first paint synchronously (no rAF), wire sleep conditions.
   useEffect(() => {
+    const me = self.current; // stable object; captured so cleanup compares the same identity
     const el = wrapRef.current;
     const c = canvasRef.current;
     if (!el || !c) return undefined;
@@ -301,6 +327,7 @@ function DotStageInner(props: DotStageProps, ref: ForwardedRef<DotStageHandle>) 
             S.mode = 'idle';
             S.t = REST_T;
             S.dirty = true;
+            if (runner === self.current) runner = null;
             live.current.onSettle?.();
           }
         }
@@ -321,6 +348,7 @@ function DotStageInner(props: DotStageProps, ref: ForwardedRef<DotStageHandle>) 
       io.disconnect();
       document.removeEventListener('visibilitychange', onVis);
       halt();
+      if (runner === me) runner = null;
       S.pending?.();
       S.pending = null;
     };

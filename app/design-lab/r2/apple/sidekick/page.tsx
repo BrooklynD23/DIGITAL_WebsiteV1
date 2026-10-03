@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
-import { JoinChapter, LocalNav, WorldFooter, WorldNav } from '../../_chrome';
-import { Chevron, GlyphSeat, Highlights, StateMark } from '../../_system';
+import { CLUB, JoinChapter, LocalNav, WorldFooter, WorldNav } from '../../_chrome';
+import { GlyphSeat, Highlights, StateMark } from '../../_system';
 import { BoardLayers } from '../../_system/boards/BoardLayers';
 import { CineClip } from '../../_system/cine';
-import { highlights, join, modules, rules, sidekick, status, swap } from '../../_content/sidekick';
+import { highlights, join, modules, ruleSentences, rulesHeadline, sidekick, status, swap } from '../../_content/sidekick';
 import { ComputeModule, SensorModule } from '../../_sidekick/IsoModules';
 import { ApplePinned } from './ApplePinned';
 import { CloserLook } from './CloserLook';
@@ -68,6 +68,7 @@ export default function AppleSidekickPage() {
         title={sidekick.name}
         titleHref="#overview"
         tone="dark"
+        cta={{ label: sidekick.joinLink, href: '#join' }}
         links={[
           { label: 'Teardown', href: '#teardown' },
           { label: 'Boards', href: '#boards' },
@@ -79,12 +80,8 @@ export default function AppleSidekickPage() {
         {/* Hero: the carrier is the product. */}
         <section className={s.hero} data-tone="dark" id="overview" aria-labelledby="sk-title">
           <div className={s.heroCopy}>
-            <p className={s.productName}>{sidekick.name}</p>
             <h1 id="sk-title" className={s.hero1}>{sidekick.headline}</h1>
             <p className={s.heroLead}>{sidekick.lead}</p>
-            <a className={s.chev} href="#teardown">
-              See it come apart <Chevron dir="right" size={14} />
-            </a>
           </div>
           <figure className={s.heroFig}>
             <HeroSettle className={s.heroBoard}>
@@ -122,10 +119,13 @@ export default function AppleSidekickPage() {
         <section className={s.hl}>
           <Highlights
             id="highlights"
-            title="SIDEKICK at a glance."
+            title="At a glance."
             label="SIDEKICK highlights"
-            items={highlights.map((h) => ({ id: h.id, title: h.title, caption: `${h.line} [confirm]`, media: HL_MEDIA[h.id] }))}
+            items={highlights.map((h) => ({ id: h.id, title: h.title, caption: h.line, media: HL_MEDIA[h.id] }))}
           />
+          <p className={s.hlNote}>
+            From the club’s KiCad files and notes <span className={s.confirm}>[confirm]</span>
+          </p>
         </section>
 
         <section className={s.status} id="status" aria-labelledby="status-title">
@@ -160,7 +160,7 @@ export default function AppleSidekickPage() {
           <div className={s.statusFoot}>
             <div>
               <h3 className={s.h3}>Never started</h3>
-              <ul className={s.struck}>
+              <ul className={s.notStarted}>
                 {status.notStarted.map((n) => (
                   <li key={n}>{n}</li>
                 ))}
@@ -178,22 +178,20 @@ export default function AppleSidekickPage() {
         </section>
 
         <section className={s.rulesSec} aria-labelledby="rules-title">
-          <h2 id="rules-title" className={s.h1}>Every part has one.</h2>
+          <h2 id="rules-title" className={s.h1}>{rulesHeadline}</h2>
           <ul className={s.rules}>
-            {rules.map((r) => (
-              <li key={r.what}>
-                <span className={s.one} aria-hidden="true">1</span>
-                <span className={s.ruleWhat}>
-                  <span className="sr-only">One </span>
-                  {r.what}
-                </span>
-                <span className={s.ruleLine}>{r.line}</span>
-              </li>
+            {ruleSentences.map((r) => (
+              <li key={r}>{r}</li>
             ))}
           </ul>
         </section>
 
-        <JoinChapter world="apple" headline={join.headline} lead={join.lead}>
+        <JoinChapter
+          world="apple"
+          headline={join.headline}
+          lead={join.lead}
+          primary={{ label: 'Take a subsystem on Discord', href: CLUB.discord, external: true }}
+        >
           <p className={s.seatOwner} id="sk-seats">Every seat unassigned</p>
           <ul className={s.seats} aria-labelledby="sk-seats">
             {modules.map((m) => (

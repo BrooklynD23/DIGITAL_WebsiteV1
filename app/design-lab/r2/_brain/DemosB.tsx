@@ -352,15 +352,23 @@ export function SubagentsCoda({ world }: { readonly world: World }) {
   const host = useRef<HTMLDivElement>(null);
   useEntryPlay(host, () => stage.current?.play(SUB_MS));
   const draw = useCallback((t: number, sz: number) => subagentsScene(t, sz, 'sub'), []);
+  const signal = world === 'signal';
   return (
     <div ref={host} className={s.coda} data-world={world}>
-      <div className={s.codaStage}>
-        <SceneStage ref={stage} draw={draw} maxSize={420} label="Illustrative: the parent buds three helpers with clean windows; each returns one summary dot." />
-        <Tag x={-0.84} y={0.86} align="center">
-          parent window
-        </Tag>
+      <div className={signal ? `${s.screen} r2-graticule` : s.screen} data-pitch={signal ? 'scope' : undefined}>
+        {signal ? (
+          <span className={s.cornerTL} aria-hidden="true">
+            CH3 · 05 CODA · SUBAGENTS
+          </span>
+        ) : null}
+        <div className={s.codaStage}>
+          <SceneStage ref={stage} draw={draw} maxSize={420} label="Illustrative: the parent buds three helpers with clean windows; each returns one summary dot." />
+          <Tag x={-0.84} y={0.86} align="center">
+            parent window
+          </Tag>
+        </div>
+        <p className={s.illus}>{signal ? `${coda.illus.toUpperCase()} · METER` : 'Illustrative: meter'}</p>
       </div>
-      <p className={s.illus}>{world === 'signal' ? `${coda.illus.toUpperCase()} · METER` : 'Illustrative: meter'}</p>
     </div>
   );
 }

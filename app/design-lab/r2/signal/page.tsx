@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { DotStage, StateMark } from '../_system';
+import { StateMark } from '../_system';
+import { ChannelOrb } from '../_home/ChannelOrb';
 import { JoinChapter, WorldFooter, WorldNav } from '../_chrome';
 import { channels, channelsHeadline, confirmTag, join } from '../_content/home';
 import { ScopeHero } from './_home/ScopeHero';
@@ -24,10 +25,6 @@ export default function SignalHome() {
             <ul className={s.chRows}>
               {channels.map((c) => (
                 <li key={c.id} className={s.chRow} data-stage-host>
-                  <div className={s.chScope}>
-                    <span className={s.chRowMark}>{c.ch}</span>
-                    <DotStage verb={c.verb} size={300} seed={`ch-${c.id}`} playOnHover label={`${c.name}: ${c.verbNote}`} className={s.chOrb} />
-                  </div>
                   <div className={s.chBody}>
                     <h3 className={s.chTitle}>
                       <Link className={s.chProbe} href={`/design-lab/r2/signal/${c.id}/`} prefetch={false}>
@@ -44,13 +41,17 @@ export default function SignalHome() {
                       <span>{c.status} <span className={s.confirm}>{confirmTag}</span></span>
                     </p>
                   </div>
+                  <div className={s.chScope}>
+                    <span className={s.chRowMark}>{c.ch}</span>
+                    <ChannelOrb verb={c.verb} size={420} seed={`ch-${c.id}`} word={c.word} label={`${c.name}: ${c.verbNote}`} className={s.chOrb} />
+                  </div>
                 </li>
               ))}
             </ul>
           </div>
         </section>
 
-        <JoinChapter world="signal" secondary={{ label: join.secondary, href: '#channels' }} />
+        <JoinChapter world="signal" className={s.joinOnCapture} secondary={{ label: join.secondary, href: '#channels' }} />
       </main>
       <WorldFooter world="signal" />
     </div>

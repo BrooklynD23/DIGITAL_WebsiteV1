@@ -44,3 +44,11 @@ Applied (14):
 Rejected (2): channel-strip format unification across pages (system-level, not this page's call); 6 out-items / 7 phases chunking (they are the real scope and roadmap; Notion facts, kept whole).
 
 Deferred (2): WorldNav CH links ~25 px wide at 390 (shared _chrome); body overscroll colour (shared layout).
+
+## Finish fixes
+
+1. Scanpath below 735px: the return sweep is routed around the words (out to the right margin, down through the gap between rows, back left, down onto the next fixation). No trace crosses a glyph (`v3/steps/signal-390-01.png`, `-02.png`).
+2. Join action: sentence case in the reading face, outlined (scoped override of the shared JoinChapter button; request filed for _chrome).
+3. Boundary rows ("A research platform." / "Not a medical device…" / "Medical claims, now or later.") set in Atkinson 600 with normal word spacing.
+4. Join ornament: a 5-node seat ring (one per role; lights with its seat row on hover / focus), 240px desktop, 140px at 390.
+5. First viewport: a fixation reticle at ~46% of viewport height owns the centre crosshair; the CH2 SHADES readout now sits lower left above the headline, as the contract says (`v3/steps/signal-1440-00.png`).

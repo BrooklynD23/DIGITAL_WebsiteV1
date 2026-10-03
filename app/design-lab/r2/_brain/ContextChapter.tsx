@@ -29,7 +29,8 @@ export function ContextChapter({
   classes,
   head,
   caption,
-  after,
+  how,
+  tick,
 }: {
   readonly world: World;
   readonly id: string;
@@ -37,7 +38,10 @@ export function ContextChapter({
   readonly classes: ContextClasses;
   readonly head: ReactNode;
   readonly caption: ReactNode;
-  readonly after?: ReactNode;
+  /** "How it works", shown with the caption (late). */
+  readonly how?: ReactNode;
+  /** Signal: the T+ tick that sits on the timebase rule. */
+  readonly tick?: ReactNode;
 }) {
   const drive = useRef<ContextDrive>(null);
   const clip = useRef<ClipDrive>(null);
@@ -48,14 +52,15 @@ export function ContextChapter({
         labelledBy={labelledBy}
         className={classes.pin}
         stickyClassName={classes.sticky}
-        reveal={[0.56, 0.93]}
-        revealNarrow={[0.62, 0.94]}
+        reveal={[0.56, 2]}
+        revealNarrow={[0.6, 2]}
         onProgress={(p) => drive.current?.setFill(p / 0.52)}
-        after={after}
       >
+        {tick}
         <div className={classes.text}>
           {head}
           {caption}
+          {how}
         </div>
         <div className={classes.stage}>
           <ContextDemo ref={drive} world="signal" scrubbed />
@@ -79,11 +84,12 @@ export function ContextChapter({
           <ContextClip ref={clip} />
         </div>
       </ChapterPin>
-      <ChapterPin label="Context: choose what stays" tone="dark" className={classes.pinB ?? classes.pin} stickyClassName={classes.sticky} after={after}>
+      <ChapterPin label="Context: choose what stays" tone="dark" className={classes.pinB ?? classes.pin} stickyClassName={classes.sticky}>
         <div className={classes.text}>{caption}</div>
         <div className={classes.stage}>
           <ContextDemo world="apple" />
         </div>
+        {how}
       </ChapterPin>
     </>
   );

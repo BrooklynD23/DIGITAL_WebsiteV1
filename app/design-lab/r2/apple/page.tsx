@@ -16,11 +16,13 @@ export const metadata: Metadata = {
 /** Highlight media. Verbs keep their real-state meaning: form = scope drawn, seat = open role. */
 const MEDIA: Record<string, ReactNode> = {
   stages: (
-    <CineClip
-      name="home-stages"
-      world="apple"
-      fallback={<DotGlyph verb="wire" size={260} seed="hl-stages" label="Integrate: separate nodes wired into one graph" />}
-    />
+    <div className={s.clipCard} data-tone="dark">
+      <CineClip
+        name="home-stages"
+        world="apple"
+        fallback={<DotGlyph verb="wire" size={220} seed="hl-stages" label="Integrate: separate nodes wired into one graph" />}
+      />
+    </div>
   ),
   venture: <DotGlyph verb="form" size={260} seed="hl-venture" label="Plan: a scope being drawn" />,
   night: <GlyphNight size={200} state="idle" label="Build night: a ring of seats, one open" />,

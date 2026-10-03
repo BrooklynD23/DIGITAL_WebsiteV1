@@ -26,7 +26,7 @@ export interface Stage {
   readonly line: string;
   /**
    * The ownership rule this stage enforces (lib/data/phoneV2.ts buildScope.scopeItems), shown with the stage in
-   * the scrubbed pin. Pairing proposed by the W2 critique; Head Designer to confirm.
+   * the scrubbed pin. Pairing decided by the Head Designer, 2026-10-02.
    */
   readonly rule: string;
   readonly glyph: RuleGlyph;
@@ -53,18 +53,20 @@ export interface Channel {
   readonly verbNote: string;
   /** Notion status is "Planned" for all three; always shown with [confirm]. */
   readonly status: string;
+  /** RSVP word drawn at the fixation point of the channel's orb (SHADES only). */
+  readonly word?: string;
 }
 
 export const channels: readonly Channel[] = [
   { id: 'sidekick', ch: 'CH1', name: 'SIDEKICK', line: 'A modular Zynq-7000 phone', lineConfirm: true, verb: 'explode', verbNote: 'Its layers separate on one axis.', status: 'Legacy build' },
-  { id: 'shades', ch: 'CH2', name: 'SHADES', line: 'Glasses that show text word by word.', verb: 'fixate', verbNote: 'Scattered dots land on one point.', status: 'Planned' },
+  { id: 'shades', ch: 'CH2', name: 'SHADES', line: 'Glasses that show text word by word.', verb: 'fixate', verbNote: 'Scattered dots land on one point.', status: 'Planned', word: 'own' },
   { id: 'brain', ch: 'CH3', name: 'BRAIN', line: 'Build real software with agentic AI tools.', verb: 'bud', verbNote: 'Child orbs split off the parent.', status: 'Planned' },
 ];
 
 export const channelsHeadline = 'Three builds. One could be yours.';
 
-/** Apple LocalNav title: names the page subject, not the brand (the global bar already says DIGITAL). */
-export const localTitle = 'Venture studio';
+/** Apple LocalNav title (Head Designer, 2026-10-02: "DIGITAL"; positioning stays in the hero line). */
+export const localTitle = 'DIGITAL';
 
 export const highlightsHeadline = 'DIGITAL, in four parts.';
 

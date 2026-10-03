@@ -44,3 +44,22 @@ Rejected (1):
 Deferred (2):
 - Quiet viewports are 42% at 1440 and 36% at 390, against a 45% target. `r2-words.mjs` counts every horizontally clipped highlight card (+50–70 words in one viewport). The join chapter is shared.
 - The clips keep their own material: the CINE agent owns the Apple variants, and they are used as-is.
+
+## Finish fixes
+
+Evidence for every item is in `design-lab/renders/r2/sidekick/v3/`.
+
+1. **Kicker:** resolved. The 28px "SIDEKICK" above the headline is deleted; the local nav names the product. See `steps/apple-d-00-top`.
+2. **Quiet gate:** resolved. The clip-aware `r2-words.mjs` measures 50% at 1440 and 50% at 390. To get there:
+   - The viewer specs are shorter, and its risk line is dropped. Risks stay in Signal and in the status "Next" list.
+   - The highlights title is now "At a glance.".
+   - The status lists are shorter.
+   - The mobile pin runs 430 svh.
+3. **CTA contract:** resolved. The pill reads "Take a subsystem" → #join, and the join primary is "Take a subsystem on Discord". The hero's "See it come apart" link is removed.
+4. **Hero-metric "1"s:** resolved. The rules are now one headline plus four quiet lines. See `steps/apple-d-10`.
+5. **Truth:** resolved, but not routed through brand-voice-strategist or brand-guardian (lab).
+   - The pin's first caption reads "Three boards in KiCad. Two are routed."
+   - "Fully routed" became "routed".
+   - "Not built." became "No module swaps yet."
+6. **Legibility of module beats:** resolved. Board ink tokens are re-resolved inside dark chapters; the `.page` var had inherited the light #1d1d1f. Inactive tiers dim to 0.82 and the shell to 0.85–0.9. See `steps/apple-d-04`.
+7. **[confirm] style:** resolved. The highlight captions no longer carry an inline tag. One 12px confirm note sits under the strip.

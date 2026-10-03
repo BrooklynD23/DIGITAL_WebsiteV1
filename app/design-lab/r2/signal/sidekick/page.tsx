@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
-import { JoinChapter, WorldFooter, WorldNav } from '../../_chrome';
+import { CLUB, JoinChapter, WorldFooter, WorldNav } from '../../_chrome';
 import { GlyphSeat, StateMark } from '../../_system';
 import { BoardLayers } from '../../_system/boards/BoardLayers';
-import { join, modules, rules, sidekick, status } from '../../_content/sidekick';
+import { join, modules, ruleSentences, rulesHeadline, sidekick, status } from '../../_content/sidekick';
 import { SensorModule } from '../../_sidekick/IsoModules';
 import { LINE_FORM } from '../../_sidekick/lineForm';
 import { SignalTeardown } from './SignalTeardown';
@@ -143,7 +143,7 @@ export default function SignalSidekickPage() {
           <div className={s.statusFoot}>
             <div>
               <h3 className={s.h3}>Never started</h3>
-              <ul className={s.struck}>
+              <ul className={s.notStarted}>
                 {status.notStarted.map((n) => (
                   <li key={n}>{n}</li>
                 ))}
@@ -162,22 +162,20 @@ export default function SignalSidekickPage() {
 
         {/* The four "1" rules. */}
         <section className={s.section} aria-labelledby="rules-title">
-          <h2 id="rules-title" className={s.h2}>Every part has one.</h2>
+          <h2 id="rules-title" className={s.h2}>{rulesHeadline}</h2>
           <ul className={s.rules}>
-            {rules.map((r) => (
-              <li key={r.what}>
-                <span className={s.one} aria-hidden="true">1</span>
-                <span className={s.ruleWhat}>
-                  <span className="sr-only">One </span>
-                  {r.what}
-                </span>
-                <span className={s.ruleLine}>{r.line}</span>
-              </li>
+            {ruleSentences.map((r) => (
+              <li key={r}>{r}</li>
             ))}
           </ul>
         </section>
 
-        <JoinChapter world="signal" headline={join.headline} lead={join.lead}>
+        <JoinChapter
+          world="signal"
+          headline={join.headline}
+          lead={join.lead}
+          primary={{ label: 'Take a subsystem on Discord', href: CLUB.discord, external: true }}
+        >
           <p className={s.seatOwner} id="sk-seats">Every seat unassigned</p>
           <ul className={s.seats} aria-labelledby="sk-seats">
             {modules.map((m) => (

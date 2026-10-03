@@ -57,7 +57,6 @@ export function CloserLook() {
             <span className={s.viewerSpec}>
               {m.spec} <span className={s.confirm}>[confirm]</span>
             </span>
-            <span className={s.viewerRisk}>Risk: {m.risk.charAt(0).toLowerCase() + m.risk.slice(1)}.</span>
           </figcaption>
         </figure>
       </div>

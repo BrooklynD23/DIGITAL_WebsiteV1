@@ -11,9 +11,9 @@ export function Seats({ world }: { readonly world: 'signal' | 'apple' }) {
   const { roles, discord } = SHADES.join;
   return (
     <ul className={s.seats} data-world={world} aria-label="Open seats on SHADES">
-      {roles.map((r) => (
+      {roles.map((r, i) => (
         <li key={r.id}>
-          <a className={s.seat} href={discord.href} target="_blank" rel="noopener noreferrer" data-glyph-host="">
+          <a className={s.seat} data-seat={i} href={discord.href} target="_blank" rel="noopener noreferrer" data-glyph-host="">
             <GlyphSeat size={24} className={s.glyph} />
             <span className={s.name}>{r.name}</span>
             <span className={s.line}>{r.line}</span>

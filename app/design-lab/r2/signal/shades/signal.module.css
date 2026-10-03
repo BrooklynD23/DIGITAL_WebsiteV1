@@ -145,6 +145,32 @@
   color: var(--r2-phosphor);
 }
 
+.heroReticle {
+  position: absolute;
+  left: var(--cx);
+  top: var(--cy);
+  width: min(46vh, 78vw);
+  height: min(46vh, 78vw);
+  transform: translate(-50%, -50%);
+  overflow: visible;
+  pointer-events: none;
+}
+
+.heroReticle circle {
+  fill: none;
+  stroke: var(--r2-ink-3);
+  stroke-width: 0.3;
+  stroke-dasharray: 0.6 1.6;
+  vector-effect: non-scaling-stroke;
+}
+
+.heroReticle path {
+  fill: none;
+  stroke: var(--r2-ink-2);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
 .heroTop {
   position: absolute;
   top: var(--r2-space-5);
@@ -152,7 +178,7 @@
   right: var(--r2-gutter);
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   gap: var(--r2-space-3);
 }
@@ -531,8 +557,9 @@
 
 .boundary dd {
   margin: 0;
-  font-family: var(--font-display);
+  font-family: var(--font-read);
   font-weight: 600;
+  word-spacing: normal;
   font-size: var(--r2-fs-h3);
   line-height: var(--r2-lh-h3);
 }
@@ -747,4 +774,14 @@
     grid-template-columns: 1fr;
     gap: 4px;
   }
+}
+
+/* Join action in the world's button grammar: outlined, sentence case, the reading face (not a mono readout).
+   Scoped override of the shared JoinChapter's Signal button; request filed to change it in _chrome. */
+.join a[href='/get-involved'] {
+  font-family: var(--font-read);
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: normal;
+  text-transform: none;
 }

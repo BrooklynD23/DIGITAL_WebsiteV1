@@ -30,7 +30,7 @@
 .sources[data-world='signal'] summary { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; }
 
 /* "How it works" disclosure (after each chapter pin) */
-.how { max-width: 40rem; margin: 0 auto; padding: 0 var(--r2-gutter) var(--r2-space-7); color: var(--r2-ink-2); font-size: var(--r2-fs-small); line-height: 20px; }
+.how { max-width: 40rem; margin: 0; padding: 0; color: var(--r2-ink-2); font-size: var(--r2-fs-small); line-height: 20px; }
 .how summary { cursor: pointer; min-height: 44px; display: inline-flex; align-items: center; gap: 8px; color: var(--r2-ink-2); list-style: none; }
 .how summary::-webkit-details-marker { display: none; }
 .how summary::after { content: '+'; font-family: var(--font-mono); }
@@ -42,3 +42,6 @@
 .how[data-world='signal'] summary { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; }
 .how[data-world='apple'] { text-align: left; }
 .how[data-world='apple'] summary { font-size: 14px; }
+
+/* inside a pin the panel scrolls itself rather than outgrowing the sticky viewport */
+.how[open] ol { max-height: 32vh; overflow: auto; overscroll-behavior: contain; }

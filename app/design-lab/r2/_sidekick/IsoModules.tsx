@@ -99,12 +99,12 @@ export function EmptySeat({ w, h }: { readonly w: number; readonly h: number }) 
 }
 
 /**
- * The phone shell (enclosure), never started: dashed outline, struck through. Front carries a screen inset and
+ * The phone shell (enclosure), never started: dashed outline (struck is reserved for "paused"). Front carries a screen inset and
  * speaker slot, back a camera ring, so the stack reads as a phone without claiming any enclosure design exists.
  */
 export function PhoneShell({ w, h, side }: { readonly w: number; readonly h: number; readonly side: 'front' | 'back' }) {
   return (
-    <IsoFrame w={w} h={h} label={`Phone ${side === 'front' ? 'front shell' : 'back cover'}: never started, drawn dashed and struck (outline illustrative)`}>
+    <IsoFrame w={w} h={h} label={`Phone ${side === 'front' ? 'front shell' : 'back cover'}: never started, drawn dashed (outline illustrative)`}>
       <rect x={0} y={0} width={w} height={h} rx={7} fill="none" stroke={ink} strokeOpacity={0.8} strokeWidth={1} strokeDasharray="4 3" {...NS} />
       {side === 'front' ? (
         <>
@@ -118,7 +118,6 @@ export function PhoneShell({ w, h, side }: { readonly w: number; readonly h: num
           <circle cx={10.5} cy={18} r={3} fill="none" stroke={ink} strokeOpacity={0.6} strokeWidth={1} {...NS} />
         </>
       )}
-      <path d={`M${w * 0.15} ${h * 0.85}L${w * 0.85} ${h * 0.15}`} fill="none" stroke={ink} strokeOpacity={0.8} strokeWidth={1} {...NS} />
     </IsoFrame>
   );
 }

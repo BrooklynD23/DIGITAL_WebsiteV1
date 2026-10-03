@@ -6,6 +6,7 @@ import { SHADES } from '../../_content/shades';
 import { ShadesRoot, SpacingToggle } from '../../_shades/ShadesRoot';
 import { Reader } from '../../_shades/Reader';
 import { Seats } from '../../_shades/Seats';
+import { SeatRing } from '../../_shades/SeatRing';
 import { Saccade } from './Saccade';
 import { Band } from './Band';
 import s from './signal.module.css';
@@ -34,7 +35,15 @@ export default function SignalShadesPage() {
             label={SHADES.method.fixateLabel}
             className={s.heroStage}
           />
+          {/* the fixation reticle owns the crosshair: ~45% of the viewport height */}
+          <svg className={s.heroReticle} viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+            <circle cx="50" cy="50" r="46" />
+            <path d="M50 0v8M50 92v8M0 50h8M92 50h8" />
+          </svg>
           <div className={s.heroTop}>
+            <SpacingToggle className={s.spacingChip} label={`${spacing.label}:`} stateText={{ on: spacing.more, off: spacing.standard }} />
+          </div>
+          <div className={s.heroCopy}>
             <p className={s.readout}>
               <span className={s.channel}>{SHADES.channel}</span> {SHADES.name}
               <span className={s.status}>
@@ -42,9 +51,6 @@ export default function SignalShadesPage() {
                 {SHADES.status.text} <C />
               </span>
             </p>
-            <SpacingToggle className={s.spacingChip} label={`${spacing.label}:`} stateText={{ on: spacing.more, off: spacing.standard }} />
-          </div>
-          <div className={s.heroCopy}>
             <h1 id="sh-hero" className={s.hero1}>{hero.headline}</h1>
             <p className={s.heroLead}>{hero.lead}</p>
             <p className={s.expansion}>
@@ -160,6 +166,8 @@ export default function SignalShadesPage() {
         {/* 8 · Join: the shared ending, with SHADES' open seats as links */}
         <JoinChapter
           world="signal"
+          className={s.join}
+          visual={<SeatRing world="signal" />}
           headline={join.headline}
           lead={join.lead}
           primary={join.action}

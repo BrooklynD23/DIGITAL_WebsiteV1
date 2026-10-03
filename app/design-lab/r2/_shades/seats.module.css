@@ -78,3 +78,87 @@
     grid-row: 1 / span 2;
   }
 }
+
+/* ---------- seat ring: 5 nodes, one per role; a node lights with its row ---------- */
+.ring {
+  display: block;
+  width: min(240px, 60vw);
+  height: auto;
+  margin: 0 auto;
+  color: var(--r2-ink);
+  overflow: visible;
+}
+
+.ringTrack {
+  fill: none;
+  stroke: var(--r2-hairline-strong);
+  stroke-width: 0.5;
+  stroke-dasharray: 1 2.2;
+}
+
+.nodeRing {
+  fill: var(--r2-ground);
+  stroke: currentColor;
+  stroke-width: 0.6;
+  stroke-dasharray: 1.6 1.2;
+  transition: stroke-dasharray var(--r2-dur-ui) var(--r2-ease-ui);
+}
+
+.nodeCore {
+  fill: currentColor;
+  opacity: 0.25;
+  transition: opacity var(--r2-dur-ui) var(--r2-ease-ui);
+}
+
+:global([data-world-join]):has([data-seat='0']:is(:hover, :focus-visible)) .node[data-node='0'] .nodeRing {
+  stroke-dasharray: none;
+}
+
+:global([data-world-join]):has([data-seat='0']:is(:hover, :focus-visible)) .node[data-node='0'] .nodeCore {
+  opacity: 1;
+}
+
+:global([data-world-join]):has([data-seat='1']:is(:hover, :focus-visible)) .node[data-node='1'] .nodeRing {
+  stroke-dasharray: none;
+}
+
+:global([data-world-join]):has([data-seat='1']:is(:hover, :focus-visible)) .node[data-node='1'] .nodeCore {
+  opacity: 1;
+}
+
+:global([data-world-join]):has([data-seat='2']:is(:hover, :focus-visible)) .node[data-node='2'] .nodeRing {
+  stroke-dasharray: none;
+}
+
+:global([data-world-join]):has([data-seat='2']:is(:hover, :focus-visible)) .node[data-node='2'] .nodeCore {
+  opacity: 1;
+}
+
+:global([data-world-join]):has([data-seat='3']:is(:hover, :focus-visible)) .node[data-node='3'] .nodeRing {
+  stroke-dasharray: none;
+}
+
+:global([data-world-join]):has([data-seat='3']:is(:hover, :focus-visible)) .node[data-node='3'] .nodeCore {
+  opacity: 1;
+}
+
+:global([data-world-join]):has([data-seat='4']:is(:hover, :focus-visible)) .node[data-node='4'] .nodeRing {
+  stroke-dasharray: none;
+}
+
+:global([data-world-join]):has([data-seat='4']:is(:hover, :focus-visible)) .node[data-node='4'] .nodeCore {
+  opacity: 1;
+}
+
+@media (max-width: 734px) {
+  .ring {
+    width: 140px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nodeRing,
+  .nodeCore {
+    transition: none;
+  }
+}

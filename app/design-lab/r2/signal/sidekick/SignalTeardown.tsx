@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { StateMark, useScrollSteps } from '../../_system';
-import { modules, swap } from '../../_content/sidekick';
+import { modules, stackLegend, swap } from '../../_content/sidekick';
 import { SidekickStack } from '../../_sidekick/Stack';
 import { LINE_FORM } from '../../_sidekick/lineForm';
 import { MODULE_COUNT } from '../../_sidekick/geometry';
@@ -12,8 +12,6 @@ import s from './sidekick.module.css';
 /** Five module steps + the swap step. */
 const STEPS = MODULE_COUNT + 1;
 const SWAP_STEP = MODULE_COUNT;
-/** Readout value for modules with no board file. */
-const RO_STATE: Readonly<Record<string, string>> = { sensor: 'schematic', compute: 'external', planned: 'research' };
 
 /**
  * The teardown band. Scroll is the timebase: the stack opens one gap per step and the active real board separates
@@ -76,7 +74,8 @@ export function SignalTeardown() {
         ? SUB_NAME[sub]
         : mod.board
           ? 'assembled'
-          : RO_STATE[mod.id];
+          : null;
+  const roState = seatOpen || onSwapStep ? null : mod;
   const roModule = seatOpen || onSwapStep ? modules[0].name : mod.name;
 
   return (
@@ -91,8 +90,8 @@ export function SignalTeardown() {
               <SidekickStack
                 seat
                 note="Every seat open."
-                legend="2 real boards · 3 outlines [confirm]"
-                label="SIDEKICK inside a phone shell that was never started, exploded into five modules: 01 fingerprint module, 02 sensor module, 03 power and carrier, 04 compute, 05 planned modules. Two are real board files; three are outlines. Every seat is open."
+                legend={stackLegend}
+                label="SIDEKICK inside a phone shell that was never started, exploded into five modules: 01 fingerprint module, 02 sensor module, 03 power and carrier, 04 compute, 05 planned modules. Two are board layouts from the club's KiCad files, one is a schematic only, two are outlines (to be confirmed). Every seat is open."
               />
             </div>
             <p className={s.readout} aria-live="polite">
@@ -101,8 +100,14 @@ export function SignalTeardown() {
               </svg>
               <span className="sr-only">Cursor: </span>
               <span className={s.roVal}>{live ? roLayer : '5'}</span>
-              <span className={s.roDim}>{live ? roValue : 'modules'}</span>
-              <span className="sr-only">, {live ? roModule : 'two from board files'}</span>
+              {!live ? <span className={s.roDim}>modules</span> : roValue ? <span className={s.roDim}>{roValue}</span> : null}
+              {live && roState ? (
+                <span className={s.roState}>
+                  <StateMark state={LINE_FORM[roState.state]} size={14} />
+                  {roState.stateWord} <span className={s.confirm}>[confirm]</span>
+                </span>
+              ) : null}
+              <span className="sr-only">, {live ? roModule : 'two layouts, one schematic, two outlines'}</span>
             </p>
           </div>
         </div>
@@ -120,11 +125,11 @@ export function SignalTeardown() {
                     <span className={s.stepNum}>{String(m.n).padStart(2, '0')}</span>
                     {m.name}
                   </h3>
-                  <p className={s.stepState}>
+                  <p className={s.stepLine}>{m.short}</p>
+                  <p className={enhanced ? `${s.stepState} sr-only` : s.stepState}>
                     <StateMark state={LINE_FORM[m.state]} size={16} />
                     {m.stateWord} <span className={s.confirm}>[confirm]</span>
                   </p>
-                  <p className={s.stepLine}>{m.short}</p>
                   <details className={s.more}>
                     <summary>Scope, risk</summary>
                     <p className={s.moreLine}>{m.line}</p>

@@ -291,11 +291,22 @@ export function McpDemo({ world }: { readonly world: World }) {
           <>
             <Tag x={-0.42} y={-0.42} align="center">host</Tag>
             <Tag x={MACHINE.x0 + 0.04} y={MACHINE.y1 - 0.06}>this machine</Tag>
-            {SERVERS.map((srv, i) => (
-              <Tag key={srv.id} x={SERVER_POS[i][0] - 0.06} y={SERVER_POS[i][1] + (i === 2 ? 0.17 : i === 0 ? -0.15 : 0.15)} align={i === 2 ? 'end' : 'start'}>
-                {`${srv.label} · ${srv.wire}`}
-              </Tag>
-            ))}
+            {SERVERS.map((srv, i) => {
+              const [x, y] = SERVER_POS[i];
+              const remote = srv.transport === 'remote';
+              // name + transport on two lines beside each glyph; the remote pair sits outside "this machine"
+              const ny = remote ? y - 0.26 : i === 0 ? y - 0.24 : y + 0.14;
+              return (
+                <span key={srv.id}>
+                  <Tag x={x} y={ny} align="center">
+                    {srv.label}
+                  </Tag>
+                  <Tag x={x} y={ny + 0.09} align="center">
+                    {srv.wire}
+                  </Tag>
+                </span>
+              );
+            })}
           </>
         }
         controlsLabel="Connect servers"

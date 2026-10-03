@@ -10,7 +10,8 @@ import s from './join.module.css';
  * <JoinChapter world …> — the one join ending for every r2 page, both worlds (replaces 8 implementations).
  * Facts come from ./club (siteConfig): Thursdays 6:00 PM, Building 17 Room 1635, Discord, no experience needed.
  * One primary action + a "Back a build" path for sponsors, recruiters and faculty (/contact?type=…, production).
- *   Signal: WHEN / WHERE / BRING readout, line-form (outlined) action, never filled. The default seat carries
+ *   Signal: WHEN / WHERE / BRING readout, outlined action in the text face (sentence case; mono is for readouts
+ *           only), never filled. No solid band: the page graticule runs underneath. The default seat carries
  *           the page's red trigger (open seat) unless `trigger={false}`.
  *   Apple:  centred light chapter. The page's ONE filled CTA is the LocalNav pill ("Join build night" → #join),
  *           which stays in view here, so the primary action defaults to a chevron text link.
@@ -39,10 +40,17 @@ export interface JoinChapterProps {
   readonly trigger?: boolean;
   /** Show the sponsor / recruiter / faculty path. Default true. */
   readonly backers?: boolean;
+  /**
+   * Compact variant (opt-in): facts on one line, the sponsor path as a single "Back a build" link, no default
+   * visual. For pages whose ending is already long.
+   */
+  readonly compact?: boolean;
   /** Extra page content under the facts (e.g. SIDEKICK's open-seat rows). */
   readonly children?: ReactNode;
   readonly className?: string;
 }
+
+const SPONSOR_HREF = BACKER_PATHS.find((b) => b.id === 'sponsor')?.href ?? '/contact?type=sponsor';
 
 const DISCORD: JoinAction = { label: homeJoin.cta, href: CLUB.discord, external: true };
 
@@ -67,12 +75,13 @@ export function JoinChapter({
   visual,
   trigger = true,
   backers = true,
+  compact = false,
   children,
   className,
 }: JoinChapterProps) {
   const titleId = `${id}-title`;
   const seat =
-    visual === undefined ? (
+    visual === undefined && !compact ? (
       <PlayOnceStage
         verb="seat"
         size={world === 'signal' ? 320 : 200}
@@ -83,9 +92,13 @@ export function JoinChapter({
         className={s.seat}
       />
     ) : (
-      visual
+      visual ?? null
     );
-  const backerRow = backers ? (
+  const backerRow = !backers ? null : compact ? (
+    <div className={s.backers}>
+      <ActionLink a={{ label: 'Back a build', href: SPONSOR_HREF }} className={s.backerLink} chevron={world === 'apple'} />
+    </div>
+  ) : (
     <div className={s.backers}>
       <p className={s.backersLabel} id={`${id}-backers`}>
         Back a build
@@ -98,13 +111,14 @@ export function JoinChapter({
         ))}
       </ul>
     </div>
-  ) : null;
+  );
 
   return (
     <section
       id={id}
       className={className ? `${s.join} ${className}` : s.join}
       data-world-join={world}
+      data-compact={compact ? 'true' : undefined}
       aria-labelledby={titleId}
     >
       <div className={s.inner}>
@@ -114,7 +128,11 @@ export function JoinChapter({
             {headline}
           </h2>
           {lead ? <p className={s.lead}>{lead}</p> : null}
-          {world === 'signal' ? (
+          {compact ? (
+            <p className={s.factsLine}>
+              <strong>{CLUB.when}</strong> · {CLUB.where} · {CLUB.noExperience}
+            </p>
+          ) : world === 'signal' ? (
             <dl className={s.facts}>
               <div>
                 <dt>When</dt>

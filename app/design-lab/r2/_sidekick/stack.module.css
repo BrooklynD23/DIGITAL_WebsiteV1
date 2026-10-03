@@ -20,7 +20,7 @@
 .slide { position: relative; }
 .slide > svg,
 .board { width: 100%; height: auto; display: block; }
-.tier[data-kind='shell'] .art { opacity: 0.7; }
+.tier[data-kind='shell'] .art { opacity: var(--sk-shell, 0.7); }
 
 /* While a board is open, the cursor's layer stays at full ink and the rest recede. */
 .tier[data-exploding='true'] :global([data-board-layer]) { opacity: 0.3; }
@@ -32,7 +32,7 @@
 
 /* Driven state: inactive modules recede so the active one reads. Static pose keeps all at full ink. */
 [data-enhanced] .tier[data-active='false'] .art { opacity: var(--sk-dim, 0.5); }
-[data-enhanced] .tier[data-kind='shell'] .art { opacity: 0.55; }
+[data-enhanced] .tier[data-kind='shell'] .art { opacity: var(--sk-shell-dim, 0.55); }
 
 /* ---------- locked name list (annotations of the figure) ---------- */
 .leader {
@@ -69,30 +69,25 @@
   border: 1px dashed var(--r2-ink-2);
   flex: none;
 }
-.note {
+.foot {
   position: absolute;
+  right: 0;
   bottom: 0;
-  white-space: nowrap;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-family: var(--font-text);
+  font-size: var(--sk-label-size, 13px);
+  line-height: 1.25;
   color: var(--r2-ink-2);
 }
-.legend {
-  position: absolute;
-  bottom: 22px;
-  white-space: nowrap;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--r2-ink-3);
-}
-.struckName { text-decoration: line-through; text-decoration-color: var(--r2-ink-3); }
+/* The foot spans the full figure width under the back shell (room reserved in STACK_H). */
+.legend { color: var(--r2-ink-2); }
+.legendTag { font-family: var(--font-mono); font-size: 11px; color: var(--r2-ink-3); white-space: nowrap; }
+.note { display: inline-flex; align-items: center; gap: 7px; color: var(--r2-ink); }
+/* Never started = dashed + the words (struck is reserved for "paused"). */
+.shellName { color: var(--r2-ink-2); }
+.shellWord { font-size: 0.85em; color: var(--r2-ink-3); border-bottom: 1px dashed var(--r2-ink-3); }
 .tier[data-active='true'] .name { color: var(--r2-ink); }
 .leader { transition: opacity var(--r2-dur-ui) var(--r2-ease-ui); }
 .tier[data-label-open='false'] .name,

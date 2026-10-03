@@ -110,7 +110,7 @@ const results = [];
   const { ctx, page, errors } = await open(browser, mobile);
   for (const f of [0.25, 0.5, 0.75]) {
     await page.evaluate((f) => window.scrollTo(0, document.body.scrollHeight * f), f);
-    await page.waitForTimeout(1500);
+    await page.waitForTimeout(4500); // let one-pass entry plays (e.g. the JoinChapter seat orb) finish before measuring rest
     results.push({ scenario: `mobile 390 · scroll ${f} → rest`, ...(await measure(page, 2000)), errors: errors.length });
   }
   await ctx.close();

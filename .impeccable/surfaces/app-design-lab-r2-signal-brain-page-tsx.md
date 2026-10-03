@@ -40,3 +40,14 @@ Rejected (with reason):
 Deferred:
 - brain-context clip draws its own red "now" dot (CINE re-render owner).
 - Page length grew with the pins (1440: Signal 14.0 vh, Apple 16.4 vh); quiet/avg targets met.
+
+## Finish fixes
+
+Every material fix from design-lab/round2/finish/brain.md, applied in one batch:
+- MCP (both worlds): the "this machine" box ends at x 0.44. The remote server sits outside it, with its primitives stacked under the node. The labels are now two lines (name / transport), so "Issue tracker / Streamable HTTP" sits outside the box and clear of the host ring.
+- ChapterPin (both worlds): the caption, readout, control and How it works fade in once the pin passes 55% (75% on narrow screens). They stay visible until the chapter has scrolled about 30% off the top, which means the stage has started to leave. Focus inside the chapter always shows them. This is a compromise between "keep visible until the stage leaves" and the ≥45% quiet target, and the reviewer may score it partial.
+- Signal: the T+ ticks now sit on the timebase rule (grid column 1), including "T+05 · CODA". The chapter eyebrows are deleted. The coda is a framed scope screen with its own corner readout, and its ILLUSTRATIVE · METER tag is inside the frame. The evals grade marks show from the start as dotted lines and resolve to solid (pass) or dashed (fail), so the legend always matches what is drawn. How it works now sits under the caption, which removes the empty runway after each pin.
+- Apple: the "Six ideas" highlights strip and the nav's Concepts link are removed. The hero clip is contained and scaled so the orb, key, trace row and lead all fit in 1440×900. The trace row wraps centred inside the gutters at 390. How it works sits inside each pin.
+- Length (orchestrator decision): pins are shortened and no chapters are merged. Signal is 12.5 vh and Apple 12.9 vh at 1440.
+- Later item applied: the eval grader line now reads "checks the outcome, the real end state".
+- Open, CINE owner: the red dot in the brain-context clip (re-render in progress). The ARMED / TRIGGERED / HALTED readouts are deferred.

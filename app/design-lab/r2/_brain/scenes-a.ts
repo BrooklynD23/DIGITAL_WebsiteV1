@@ -269,9 +269,9 @@ export const MCP_ALL_MS = 4200;
 
 const HOST = { x: -0.42, y: 0.04, R: 0.34, belt: 0.2 };
 export const SERVER_POS: ReadonlyArray<[number, number]> = [
-  [0.22, -0.56],
-  [0.22, 0.6],
-  [0.86, 0.04],
+  [0.1, -0.56],
+  [0.1, 0.6],
+  [0.74, 0.04],
 ];
 const PORT_ANG = [-0.95, 0.95, 0];
 /** Fixed belt slots per tool (5 tools across 3 servers). */
@@ -280,7 +280,7 @@ const BELT: ReadonlyArray<ReadonlyArray<number>> = [
   [1.2],
   [2.4, 3.2],
 ];
-export const MACHINE = { x0: -0.9, y0: -0.86, x1: 0.56, y1: 0.9 };
+export const MACHINE = { x0: -0.9, y0: -0.86, x1: 0.44, y1: 0.9 };
 
 export type McpChange = number | 'all' | null;
 
@@ -311,9 +311,10 @@ export function mcpScene(t: number, size: number, on: readonly boolean[], change
     // server node + its primitives (always visible: it exists whether or not the host connects)
     dots.push(...block(sx, sy, 3, 3, 0.032, c.r, 0.35 + 0.55 * seg(k, 0.35, 0.5)));
     let off = 0;
-    for (let n = 0; n < srv.prims.tools; n++, off++) dots.push(...toolMark(sx + 0.13 + off * 0.075, sy, 0.024, c.r * 0.8, 0.75));
-    for (let n = 0; n < srv.prims.resources; n++, off++) dots.push(...resourceMark(sx + 0.13 + off * 0.075, sy, 0.018, c.r * 0.8, 0.75));
-    for (let n = 0; n < srv.prims.prompts; n++, off++) lines.push(...promptMark(sx + 0.13 + off * 0.075, sy, 0.022, 0.75));
+    const primAt = (k: number): [number, number] => (remote ? [sx - 0.075 + k * 0.075, sy + 0.14] : [sx + 0.13 + k * 0.075, sy]);
+    for (let n = 0; n < srv.prims.tools; n++, off++) dots.push(...toolMark(...primAt(off), 0.024, c.r * 0.8, 0.75));
+    for (let n = 0; n < srv.prims.resources; n++, off++) dots.push(...resourceMark(...primAt(off), 0.018, c.r * 0.8, 0.75));
+    for (let n = 0; n < srv.prims.prompts; n++, off++) lines.push(...promptMark(...primAt(off), 0.022, 0.75));
     // port on the host ring: one client per server
     const portA = seg(k, 0, 0.15);
     for (let j = -1; j <= 1; j++) {
@@ -336,8 +337,9 @@ export function mcpScene(t: number, size: number, on: readonly boolean[], change
       if (belt <= 0) return;
       const bx = HOST.x + Math.cos(ang) * HOST.belt;
       const by = HOST.y + Math.sin(ang) * HOST.belt;
-      const fx = sx + 0.13 + n * 0.075;
-      dots.push(...toolMark(lerp(fx, bx, belt), lerp(sy, by, belt), 0.022, c.r * 0.85, 0.95 * belt));
+      const fx = remote ? sx - 0.075 + n * 0.075 : sx + 0.13 + n * 0.075;
+      const fy = remote ? sy + 0.14 : sy;
+      dots.push(...toolMark(lerp(fx, bx, belt), lerp(fy, by, belt), 0.022, c.r * 0.85, 0.95 * belt));
     });
   });
   return finish(dots, lines);

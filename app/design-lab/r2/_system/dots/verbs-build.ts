@@ -271,10 +271,11 @@ export function seat(t: number, c: VerbContext): Frame {
   }
   pts.forEach(([x, y], i) => {
     if (i === 0) {
-      dots.push(dot(x, y, c.r * 2.2, 0.9 * (1 - e)));
-      // Open slot: a dashed ring. With `anchor`, the red trigger fills the slot at seat size, ring around it.
+      // Open slot: a dashed ring. With `anchor`, the red trigger IS the open seat for the whole pass (so any
+      // frame, including a capture mid-play, carries it); the ring forms around it as the seat opens.
+      if (c.opts.anchor) dots.push(dot(x, y, c.r * 2.2, 1, 'anchor'));
+      else dots.push(dot(x, y, c.r * 2.2, 0.9 * (1 - e)));
       dots.push(dot(x, y, c.r * (c.opts.anchor ? 3.4 : 2.6), 0.85 * e, 'hollow'));
-      if (c.opts.anchor && e > 0.5) dots.push(dot(x, y, c.r * 2.2, (e - 0.5) * 2, 'anchor'));
     } else {
       dots.push(dot(x, y, c.r * 2.2, 0.9));
     }

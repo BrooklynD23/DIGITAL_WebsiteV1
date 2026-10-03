@@ -12,6 +12,7 @@ const HL = VERBS.filter((v) => ['form', 'orbit', 'scramble', 'wire'].includes(v.
   title: v.label,
   caption: `${v.motion}. On a page it stands for one state: ${v.means.toLowerCase()}.`,
   media: <DotGlyph verb={v.verb} size={220} seed={`hl-${v.verb}`} />,
+  tone: v.verb === 'orbit' ? ('dark' as const) : undefined,
 }));
 
 /** Specimen of the shared chrome + UI extractions (W3a). Static content; ids are prefixed so they don't clash. */
@@ -40,6 +41,7 @@ export function ChromeDemo() {
 
       <div className={`world-signal ${fontSignal} ${s.chromeFrame}`}>
         <JoinChapter world="signal" id="join-signal" />
+        <JoinChapter world="signal" id="join-compact" headline="Compact variant." compact />
         <div className={s.graticules}>
           {(['base', 'fine', 'scope'] as const).map((p) => (
             <figure key={p} className={s.graticuleFig}>

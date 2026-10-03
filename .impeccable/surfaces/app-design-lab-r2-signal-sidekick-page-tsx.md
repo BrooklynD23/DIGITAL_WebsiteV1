@@ -45,3 +45,21 @@ Rejected (1):
 Deferred (2):
 - Glossary codes (F.Cu etc.) remain in the readout. They are measured values in the Signal grammar; the plain layer names sit beside them.
 - Production cursor rAF: W3a already opted it out.
+
+## Finish fixes
+
+Evidence for every item is in `design-lab/renders/r2/sidekick/v3/`.
+
+1. **Kicker:** resolved. The state label above each panel moved into the L0x readout box: layer, then state mark and word, then [confirm]. With JS it is screen-reader-only in the panel; without JS it sits under the line. See `steps/signal-d-02..05`.
+2. **Legend clipped at 390:** resolved. The figure foot now spans the full width under the back shell, and STACK_H went 276 → 316 to make room. See `steps/signal-m-02,07`.
+3. **Mono scope:** resolved. Mono declarations dropped from 17 to 7. Mono is kept for the readout, cursor values, dates, counters, layer numbers and [confirm]. CTAs, Scope/risk, list headers, state words and seat lines are now set in the text face.
+4. **Hero-metric "1"s:** resolved. The rules are now four sentences on one rule line, with no numerals. See `steps/signal-d-09`.
+5. **Struck vs never started:** resolved. Struck is reserved for "paused". The enclosure shell is dashed with no strike, and its label uses a dashed underline plus the words "never started". The never-started list uses dashed marks.
+6. **Truth:** resolved, but not routed through brand-voice-strategist or brand-guardian (lab).
+   - The legend now reads "2 layouts · 1 schematic · 2 outlines [confirm]".
+   - "Fully routed" became "routed".
+   - "Not built." became "No module swaps yet."
+   - The swap control is "Lift module".
+7. **Material:** resolved. Board copper now uses `--r2-ink` (the bone ramp) instead of phosphor.
+
+Also fixed: a mobile scroll-anchoring feedback loop (`overflow-anchor: none` and a fixed readout height). The rAF gate is back to 0 at rest.

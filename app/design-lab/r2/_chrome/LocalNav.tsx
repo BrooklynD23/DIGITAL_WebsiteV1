@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { SectionMenu } from './SectionMenu';
+import { ToneSync } from './ToneSync';
 import styles from './chrome.module.css';
 
 /**
@@ -11,7 +12,8 @@ import styles from './chrome.module.css';
  * (the page's <JoinChapter>, whose default id is "join"). Pass `cta={null}` only for a page with no join chapter.
  * `utility`: one extra control between the links and the CTA (e.g. SHADES' spacing toggle). It stays visible
  * on mobile. Links collapse into a section menu (chevron disclosure) at ≤734px.
- * The pill is 30px tall inside a 44px hit target. `tone="dark"` matches a dark first chapter.
+ * The pill is 30px tall inside a 44px hit target. Tone follows the chapter under the bar (pages mark dark
+ * chapters data-tone="dark"); `tone` sets the first paint, `autoTone={false}` freezes it.
  */
 export const LOCAL_CTA = { label: 'Join build night', href: '#join' } as const;
 
@@ -21,12 +23,15 @@ export interface LocalNavProps {
   readonly links: ReadonlyArray<{ readonly label: string; readonly href: string }>;
   readonly cta?: { readonly label: string; readonly href: string } | null;
   readonly utility?: ReactNode;
+  /** Initial tone (server HTML / no JS). With JS the bar follows the chapter under it unless autoTone={false}. */
   readonly tone?: 'light' | 'dark';
+  readonly autoTone?: boolean;
 }
 
-export function LocalNav({ title, titleHref, links, cta = LOCAL_CTA, utility, tone = 'light' }: LocalNavProps) {
+export function LocalNav({ title, titleHref, links, cta = LOCAL_CTA, utility, tone = 'light', autoTone = true }: LocalNavProps) {
   return (
     <div className={styles.local} data-chrome="local-nav" data-tone={tone === 'dark' ? 'dark' : undefined}>
+      {autoTone ? <ToneSync /> : null}
       <nav aria-label={`${title} sections`} className={styles.localInner}>
         <Link href={titleHref} className={styles.localTitle} prefetch={false}>
           {title}

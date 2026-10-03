@@ -15,7 +15,7 @@ OWN-WORLD: black chapters flipping once to white and #f5f5f7, Geist 600 headline
 
 STORY: meet the glasses, see the eyes chase a line, watch one word land, try it at your own pace, follow the light from laptop to eye, skim the highlights, read the two tracks and the boundary, see the 7 phases, pick a role.
 
-FIRST VIEWPORT: black chapter, centred: SHADES at 28px, the 4-word headline at 80px, one grey lead line, a text link "Try the reader". Below, the glasses drawn front-on in dots at about 760px wide, one word glowing inside the right lens. Local nav pinned with "Join the build" filled.
+FIRST VIEWPORT: black chapter, centred: the 4-word headline at 80px (no eyebrow; the local nav names SHADES), one grey lead line, a text link "Try the reader". Below, the glasses drawn front-on in dots at about 760px wide, one word glowing inside the right lens (luminous ink with a soft bloom, no box). The hero foot pairs the full name with "A research platform. Not a medical device." Local nav pinned with "Join build night" filled.
 
 SIGNATURE: a pinned light-path chapter: one scrubbed asset (clip shades-lightpath, or the light-path diagram) carries the ray from text source through FPGA timing, control, display and optics to the eye's fixation point, with a one-line caption per stage swapping in place; shades-fixate plays once on entry above the live reader.
 
@@ -45,3 +45,14 @@ Applied (15):
 Rejected (1): merging tracks and scope into one chapter (the compare list is its own idea; the copy budget passes without it).
 
 Deferred (2): the shades-fixate clip paints the pivot letter red (CINE owns the render; request filed); clip stage labels are small at 390 in the 4:5 render (CINE).
+
+## Finish fixes
+
+Amended FIRST VIEWPORT (finish review): the 28px "SHADES" eyebrow is removed (craft-floor ban; the local nav names the product) and the lens word glows instead of sitting in a dashed box.
+
+1. Light pin entry: the clip's final-frame poster is hidden inside the pin and the step diagram (same index as the caption) shows underneath until the video's first frame covers it. At entry, "1 / 6" sits under Text source only (`v3/steps/apple-1440-04.png`).
+2. Hero: eyebrow deleted; "here" rendered as luminous ink with an SVG bloom and a radial glow, no dashed rectangle (`v3/steps/apple-1440-00.png`).
+3. Spacing toggle at 390 keeps its value ("Spacing: standard"); the switch graphic drops on phones so the nav fits.
+4. Join ornament: JoinChapter's 8-seat orb replaced by a 5-node seat ring, one node per role, lighting with its seat row on hover / focus (CSS :has).
+5. Mono leaks: the clip note and the reader key hint use the text face in this world.
+Not mine (CINE, in progress): clip label face/size and the fixate clip's red pivot letter.
