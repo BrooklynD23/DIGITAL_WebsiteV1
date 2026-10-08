@@ -2,13 +2,19 @@
 
 ## Project Overview
 
-**DIGITAL @ Cal Poly Pomona** is a student engineering club website built with
-**Next.js 14 (App Router)**, React 18, TypeScript, and Tailwind CSS 3. The site is
-configured for **static export** (`output: 'export'` in `next.config.js`) and is deployed
-to Vercel. The UI/UX follows an **"industrial studio" theme** — a scroll-driven hardware
-teardown as the signature hero experience — documented fully in `DESIGN.md`. All design
-decisions are governed by `DESIGN.md`; when code and that document conflict, the document
-wins.
+**DIGITAL @ Cal Poly Pomona** is the website of a student-run venture studio, built with
+**Next.js 14 (App Router)**, React 18 and TypeScript. The site is configured for **static
+export** (`output: 'export'` in `next.config.js`) and is deployed to Vercel.
+
+As of 2026-10-07 the **Apple system** is the site's default design system. The live pages are
+in the `app/(apple)/` route group: `/` (phone-hero home), `/projects/sidekick/`,
+`/projects/shades/` and `/projects/brain/`. Routes still on the previous design are in
+`app/(legacy)/` and are being migrated onto the Apple system. Every earlier design and
+iteration is in `archive/`, which is excluded from the build and from type-checking.
+
+The system is documented as implemented in the root `DESIGN.md`. When code and that document
+disagree, fix whichever is wrong and record it in the `DESIGN.md` changelog; for a **locked**
+page, the route spec wins and the code does not change without Head Designer sign-off.
 
 ---
 
@@ -28,15 +34,22 @@ Run `./run.sh check` before committing to confirm TypeScript and lint are clean.
 
 ## Key Reference Files
 
-| File / Path      | Purpose                                                        |
-|------------------|----------------------------------------------------------------|
-| `DESIGN.md`      | Source-of-truth design system — colors, typography, components |
-| `TODO.md`        | Living work log — sprint tasks + Dev Build / Version Control   |
-| `lib/data/`      | All site content (projects, team, involvement, siteConfig)     |
-| `app/`           | Next.js App Router pages and layouts                           |
-| `components/`    | Shared React components                                        |
-| `Refractor/`     | Reference HTML/CSS build driving the industrial studio theme   |
-| `docs/design/`   | Route-scoped style references (see Design Docs below)          |
+| File / Path | Purpose |
+|-------------|---------|
+| `DESIGN.md` | Source-of-truth design system (Apple system): tokens, patterns, rules, route lock status |
+| `docs/design/` | Route specs for locked pages + `BRAND.md` (see Design Docs below) |
+| `TODO.md` | Living work log — sprint tasks + Dev Build / Version Control |
+| `app/(apple)/` | Live pages on the Apple system (route group; the folder name is not part of the URL) |
+| `app/(apple)/layout.tsx` | World shell: token class `world-apple` + font class |
+| `app/(apple)/_system/` | Shared system: tokens (`tokens/worlds.css`), scroll hooks (`tokens/scroll.ts`), fonts, dot engine, shared UI |
+| `app/(apple)/_chrome/` | `LocalNav`, `WorldFooter`, `JoinChapter`, `SitePage` (frame for simple pages), `routes.ts`, `club.ts` (`CLUB` / `LINKS` / `MEETINGS`) |
+| `app/(apple)/_content/` | Copy for the Apple pages (`home.ts`, `sidekick.ts`, `shades.ts`, `brain.ts`) |
+| `app/(apple)/projects/_hero/` | Home phone-hero artwork + `useStagePlayback.ts` (stage playback used by every pinned page) |
+| `app/(legacy)/` | Routes not yet migrated, their layout, and redirect stubs for retired URLs |
+| `lib/data/` | Club facts and content for the legacy routes (siteConfig, team, involvement, about, community) |
+| `components/` | Legacy chrome (`layout/`) and two legacy UI helpers (`ui/`) |
+| `archive/` | Every earlier design and iteration; not built, linted or type-checked. Index: `archive/README.md` |
+| `design-lab/` | Design-lab record: research, renders, scripts (e.g. `scripts/sidekick-mainboard.mjs`) |
 
 ### Design Docs — Route-Scoped Style References
 
@@ -46,15 +59,23 @@ implementation** — propose the change and wait for sign-off; never overhaul fi
 
 | Route | Governing style reference |
 |-------|---------------------------|
-| `/` home landing | `docs/design/landing.DESIGN.md` |
-| `/contact`, `/get-involved`, `/about` (incl. folded pillars), `/team`, `/community`, legal pages, error pages | `docs/design/landing.DESIGN.md` (secondary routes rebuilt 2026-08) |
-| `/projects/modular-smartphone` | `docs/design/smartphone.DESIGN.md` |
-| `/projects/smart-reading` | `docs/design/glasses.DESIGN.md` |
-| `/pillars` (redirect stub → `/about`) and `/review` (internal hub, removal pending) | root `DESIGN.md` legacy — do not extend |
+| `/` home | root `DESIGN.md` |
+| `/projects/shades/` | root `DESIGN.md` |
+| `/projects/sidekick/` | `docs/design/sidekick.DESIGN.md` — **LOCKED 2026-10-07: no changes without Head Designer sign-off** |
+| `/projects/brain/` | `docs/design/brain.DESIGN.md` — **LOCKED 2026-10-07: no changes without Head Designer sign-off** |
+| `(legacy)` routes: `/about`, `/team`, `/community`, `/contact`, `/get-involved`, `/privacy`, `/terms`, `/cookies`, error pages | Being migrated to the Apple system — root `DESIGN.md` |
+| Redirect stubs: `/pillars`, `/projects`, `/projects/modular-smartphone`, `/projects/smart-reading`, `/design-lab/r2/apple/*` | None — `app/(legacy)/_redirect.tsx`; do not extend |
+
+A locked page also depends on shared code (`_system`, `_chrome`, `projects/_hero/useStagePlayback.ts`).
+Each locked spec lists its dependencies; re-check the locked page after touching any of them.
+
+`docs/design/landing.DESIGN.md`, `docs/design/smartphone.DESIGN.md` and
+`docs/design/glasses.DESIGN.md` describe **archived** designs (now in `archive/`). They are
+kept as history, carry an "ARCHIVED 2026-10-07" banner, and govern no live route.
 
 **Copy and wording** are governed separately, across all routes, by
-[`docs/design/BRAND.md`](./docs/design/BRAND.md). Before changing any string in `lib/data/`,
-read it. Copy changes go through the `brand-voice-strategist` agent to write and the
+[`docs/design/BRAND.md`](./docs/design/BRAND.md). Before changing any string in
+`app/(apple)/_content/`, `app/(apple)/_chrome/club.ts` or `lib/data/`, read it. Copy changes go through the `brand-voice-strategist` agent to write and the
 `brand-guardian` agent to review before committing.
 
 ---
@@ -77,12 +98,17 @@ config, or feature work should be left unrecorded in that table.
 - **Static export only.** Do not introduce server-only Next.js features (Server Actions that
   require a Node.js runtime, API routes that persist state, etc.). All data must be
   resolvable at build time.
-- **Tailwind for styling.** Do not add a separate CSS-in-JS library. Global overrides go in
-  `app/globals.css`; component-level styles use Tailwind utility classes.
-- **Content lives in `lib/data/`** — never hard-code copy into page or component files.
-  Update the data files and let components consume them.
+- **Styling.** The Apple system uses CSS modules on the `--r2-*` tokens from
+  `app/(apple)/_system/tokens/worlds.css`; do not add Tailwind classes or new hex values to
+  Apple pages. Tailwind and `app/globals.css` remain only for the `app/(legacy)/` routes. Do
+  not add a CSS-in-JS library.
+- **Content lives in data files** — never hard-code copy into page or component files.
+  Apple pages read `app/(apple)/_content/*.ts` and `app/(apple)/_chrome/club.ts`; legacy
+  pages and club facts read `lib/data/`. Print only facts a source states.
 - **TypeScript strict.** The project uses `strict: true`. All new code must pass
   `tsc --noEmit` without errors.
-- **One signal-red accent (`#d8412f`).** Per `DESIGN.md`, this color is reserved for
-  eyebrows, margin notes, the progress rail, the active nav item, and the primary CTA hover.
-  Do not use it decoratively.
+- **One red (`#d8412f`, `--r2-trigger`).** Per `DESIGN.md` §6 it is a mark: the test point
+  and marker in the home artwork, the anchor dot of a dot figure, and (in its darker
+  text-safe shade `#b3321f`) the CTA hover. Never body text, never decoration.
+- **Scroll plays stages.** Scroll picks a stage and a timed tween plays it
+  (`useStagePlayback`); never scrub a figure frame by frame. One sticky nav bar per page.

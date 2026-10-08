@@ -60,7 +60,6 @@ export interface SiteConfig {
     logo: string;
     logoDark: string;
     logoFull: string;
-    landingHero: string;
   };
   contact: {
     email: string;
@@ -68,16 +67,13 @@ export interface SiteConfig {
     campus: string;
     meetingTime: string;
   };
+  /** The approved public links. The only place these URLs are written; app/(apple)/_chrome/club.ts re-exports them. */
   social: {
+    discord: string;
+    brainDiscord: string;
+    github: string;
     linkedin: string;
-    github: string;
     instagram: string;
-    discord: string;
-  };
-  community: {
-    discord: string;
-    github: string;
-    notion: string;
   };
   formspreeEndpoint: string;
 }

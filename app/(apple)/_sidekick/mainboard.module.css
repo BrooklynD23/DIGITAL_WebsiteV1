@@ -1,0 +1,91 @@
+/* SIDEKICK main board artwork + board story. Black ground, copper-gold line art, warm-white FR-4 outline.
+ * Default styles = the still page (no JS / reduced motion): every stage as a still with its copy and parts list.
+ * The pin switches on only under `(scripting: enabled) and (prefers-reduced-motion: no-preference)`.
+ * Group colours come from the page (--sk-g-*, sidekick.module.css) and are always paired with a text label. */
+
+/* ---------------------------------------------------------------- artwork */
+.rig { position: relative; width: 100%; color: var(--board-copper, #c9965f); --board-hole: #000; }
+.box { position: absolute; inset: 0; pointer-events: none; }
+.box[data-kind='core'] { color: var(--sk-fr4, #efe6d2); --board-substrate: var(--sk-fr4, #efe6d2); }
+.svg, .tint { display: block; position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.tint { color: var(--g); }
+.box[data-g='compute'], .swatch[data-g='compute'], .step[data-g='compute'] { --g: var(--sk-g-compute); }
+.box[data-g='memory'], .swatch[data-g='memory'], .step[data-g='memory'] { --g: var(--sk-g-memory); }
+.box[data-g='power'], .swatch[data-g='power'], .step[data-g='power'] { --g: var(--sk-g-power); }
+.box[data-g='usb'], .swatch[data-g='usb'], .step[data-g='usb'] { --g: var(--sk-g-usb); }
+.box[data-g='rf'], .swatch[data-g='rf'], .step[data-g='rf'] { --g: var(--sk-g-rf); }
+.box[data-g='io'], .swatch[data-g='io'], .step[data-g='io'] { --g: var(--sk-g-io); }
+
+/* ---------------------------------------------------------------- copy (shared by captions and stills) */
+.story { position: relative; background: #000; color: var(--r2-ink); }
+.sticky { padding: var(--r2-space-8) var(--r2-gutter) var(--r2-space-9); }
+.eyebrow { margin: 0; display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: var(--r2-fs-label); line-height: 16px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--r2-ink-2); }
+.swatch { flex: none; width: 10px; height: 10px; border-radius: 2px; background: var(--g, var(--board-copper, #c9965f)); }
+.heading { margin: 0; font-family: var(--font-display); font-weight: var(--r2-fw-display); font-size: var(--r2-fs-h2); line-height: var(--r2-lh-h2); letter-spacing: max(var(--r2-ls-h2), -0.03em); text-wrap: balance; }
+h1.heading { font-size: var(--r2-fs-h1); line-height: var(--r2-lh-h1); letter-spacing: max(var(--r2-ls-h1), -0.03em); }
+.line { margin: 0; max-width: 34rem; font-size: var(--r2-fs-body); line-height: var(--r2-lh-body); color: var(--r2-ink-2); text-wrap: pretty; }
+.rows { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--r2-hairline); font-size: 13px; line-height: 18px; }
+.rows li { display: grid; grid-template-columns: 7.5em minmax(0, 1fr); column-gap: 12px; padding: 6px 0; border-bottom: 1px solid var(--r2-hairline); }
+.ref { font-family: var(--font-mono); color: var(--r2-ink-2); }
+.value { font-family: var(--font-mono); color: var(--r2-ink); overflow-wrap: anywhere; }
+.value .swatch { display: inline-block; margin-right: 8px; }
+.note { color: var(--r2-ink-2); }
+.note::before { content: ' · '; }
+.link { display: inline-flex; align-items: center; gap: 4px; min-height: var(--r2-target); color: var(--r2-ink); font-size: var(--r2-fs-body); text-decoration: underline; text-underline-offset: 3px; justify-self: start; }
+.link:hover { text-decoration-thickness: 2px; }
+
+.art, .captions, .tracker { display: none; }
+.stills { list-style: none; margin: 0 auto; padding: 0; max-width: 720px; display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--r2-space-9); }
+.still, .caption { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--r2-space-4); align-content: start; }
+.stillArt { width: 100%; }
+
+/* ---------------------------------------------------------------- pinned */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  .story { height: calc(100svh + 8 * 50svh); } /* nine stages; scroll only triggers, so the holds stay short */
+  .sticky {
+    position: sticky; top: var(--r2-sticky-top, var(--r2-nav-h)); height: calc(100svh - var(--r2-nav-h)); overflow: hidden;
+    max-width: 1360px; margin: 0 auto; padding: 0 var(--r2-gutter);
+    display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) 52px; column-gap: var(--r2-space-7);
+    --art-h: calc(100svh - var(--r2-nav-h) - 52px);
+  }
+  .stills { display: none; }
+  .art { display: grid; place-items: center; position: relative; grid-area: 1 / 1; min-width: 0; min-height: 0; }
+  .art .rig { width: min(100%, calc(var(--art-h) * var(--mb-ratio))); transform-origin: 50% 50%; will-change: transform; }
+  .tag { position: absolute; left: 0; top: 0; margin-top: -6px; font-family: var(--font-mono); font-size: 11px; line-height: 12px; letter-spacing: 0.04em; white-space: nowrap; color: var(--board-copper, #c9965f); opacity: 0; pointer-events: none; }
+  .tag[data-core] { color: var(--sk-fr4, #efe6d2); }
+
+  /* Every caption starts at one fixed line, so the heading does not jump between stages of different length. */
+  .captions { display: grid; grid-area: 1 / 2; align-items: start; padding-top: clamp(64px, 16svh, 150px); min-height: 0; }
+  /* Out-then-in: the outgoing caption leaves in 160ms, the incoming one arrives after it (never two at once). */
+  .caption {
+    grid-area: 1 / 1; align-self: start; opacity: 0; transform: translateY(12px); visibility: hidden;
+    transition: opacity 160ms var(--r2-ease-ui), transform 160ms var(--r2-ease-ui), visibility 0s 160ms;
+  }
+  .caption[data-active] { opacity: 1; transform: none; visibility: visible; transition: opacity 240ms var(--r2-ease-ui) 160ms, transform 240ms var(--r2-ease-ui) 160ms, visibility 0s 160ms; }
+
+  .tracker { display: flex; grid-area: 2 / 1 / 3 / -1; justify-content: center; align-items: center; }
+  .step { position: relative; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; min-width: 28px; justify-content: center; padding: 0 8px; background: none; border: 0; border-radius: 980px; color: var(--r2-ink-2); font: inherit; font-size: 12px; line-height: 16px; cursor: pointer; transition: color var(--r2-dur-ui-fast) var(--r2-ease-ui); }
+  .step:hover, .step[aria-current] { color: var(--r2-ink); }
+  .dot { width: 8px; height: 8px; border-radius: 2px; border: 1px solid var(--g, currentColor); }
+  .step[aria-current] .dot { background: var(--g, currentColor); }
+  .stepLabel { display: none; white-space: nowrap; }
+  .step[aria-current] .stepLabel { display: inline; }
+  /* Other steps name themselves on hover and keyboard focus, floated above the square so the row does not shift. */
+  .step:not([aria-current]):hover .stepLabel, .step:not([aria-current]):focus-visible .stepLabel { display: block; position: absolute; left: 50%; bottom: calc(100% + 4px); transform: translateX(-50%); color: var(--r2-ink); pointer-events: none; }
+}
+
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) and (max-width: 1200px) {
+  .heading, h1.heading { font-size: 36px; line-height: 40px; }
+}
+
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) and (max-width: 899px) {
+  .sticky { grid-template-columns: minmax(0, 1fr); grid-template-rows: var(--art-h) minmax(0, 1fr) 48px; --art-h: 40svh; }
+  .captions { grid-area: 2 / 1; padding-top: var(--r2-space-3); }
+  .tracker { grid-area: 3 / 1; }
+  .caption { gap: var(--r2-space-3); }
+  .heading, h1.heading { font-size: 28px; line-height: 32px; }
+  .line { font-size: 15px; line-height: 21px; }
+  .rows { font-size: 12px; line-height: 16px; }
+  .rows li { padding: 4px 0; grid-template-columns: 5.5em minmax(0, 1fr); }
+  .step { padding: 0 4px; }
+}

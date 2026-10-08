@@ -1,0 +1,853 @@
+/* SHADES · Apple product page played straight. Geist 600 headlines; Atkinson Hyperlegible Next for every sentence. */
+
+.root {
+  /* one sticky bar: the 52px local nav */
+  --chrome: var(--r2-nav-h);
+  --wrap: 1200px;
+  font-family: var(--font-read);
+  background: #000; /* the page opens dark; light chapters paint their own ground */
+  color: var(--r2-ink);
+}
+
+/* ---------- type ---------- */
+.hero1,
+.h2,
+.h3 {
+  font-family: var(--font-display);
+  font-weight: var(--r2-fw-display);
+  margin: 0;
+  text-wrap: balance;
+}
+
+.hero1 {
+  font-size: var(--r2-fs-hero);
+  line-height: var(--r2-lh-hero);
+  letter-spacing: var(--r2-ls-hero);
+}
+
+.h2 {
+  font-size: var(--r2-fs-h1);
+  line-height: var(--r2-lh-h1);
+  letter-spacing: var(--r2-ls-h1);
+}
+
+.h3 {
+  font-size: var(--r2-fs-h3);
+  line-height: var(--r2-lh-h3);
+  letter-spacing: var(--r2-ls-h3);
+}
+
+.lead,
+.heroLead {
+  margin: 0 auto;
+  max-width: 40rem;
+  font-size: var(--r2-fs-lead);
+  line-height: 1.5;
+  font-weight: 500;
+  color: var(--r2-ink-2);
+  text-wrap: pretty;
+}
+
+.body {
+  margin: 0;
+  max-width: 60ch;
+  font-size: var(--r2-fs-body);
+  line-height: 1.6;
+  color: var(--r2-ink-2);
+}
+
+.note,
+.noteCenter {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--r2-ink-2);
+  text-align: center;
+}
+
+.confirm {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--r2-ink-2);
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.root[data-spacing='more'] :is(.lead, .heroLead, .body, .note, .noteCenter, .capLine, .compareList li, .tName, .heroFoot, .heroFine, .figCaption, .boundaryNever) {
+  letter-spacing: var(--reading-spaced-tracking, 0.05em);
+  word-spacing: var(--reading-spaced-word, 0.16em);
+  line-height: 1.75;
+}
+
+.textLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: var(--r2-target);
+  font-size: var(--r2-fs-lead);
+  font-weight: 600;
+  color: var(--r2-ink);
+  text-decoration: none;
+}
+
+.textLink:hover {
+  text-decoration: underline;
+}
+
+.textLink svg path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- reader setting, in the shared LocalNav utility slot ---------- */
+.localSpacing {
+  position: relative;
+  min-height: var(--r2-target);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 4px;
+  font-family: var(--font-text);
+  font-size: 12px;
+  color: var(--r2-ink);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.localSpacing::before {
+  content: '';
+  width: 26px;
+  height: 16px;
+  border-radius: 8px;
+  border: 1px solid var(--r2-hairline-strong);
+  background: radial-gradient(circle at 8px 50%, var(--r2-ink-2) 4px, transparent 4.5px) no-repeat;
+  transition:
+    background-position var(--r2-dur-ui) var(--r2-ease-ui),
+    background-color var(--r2-dur-ui) var(--r2-ease-ui);
+}
+
+.localSpacing[aria-pressed='true']::before {
+  background:
+    radial-gradient(circle at 18px 50%, var(--r2-ground) 4px, transparent 4.5px) no-repeat,
+    var(--r2-ink);
+  border-color: var(--r2-ink);
+}
+
+.localSpacing [data-part='label'] {
+  font-weight: 600;
+}
+
+.localSpacing [data-part='state'] {
+  color: var(--r2-ink-2);
+}
+
+/* ---------- hero (dark) ---------- */
+.hero {
+  min-height: calc(100svh - var(--chrome));
+  display: grid;
+  align-content: center;
+  padding: var(--r2-space-7) var(--r2-gutter) var(--r2-space-5);
+  text-align: center;
+  overflow: hidden;
+}
+
+.heroCopy {
+  display: grid;
+  gap: var(--r2-space-3);
+  justify-items: center;
+}
+
+
+.heroArt {
+  display: block;
+  /* height-aware, so the lines under it stay above the fold on short screens */
+  width: min(820px, 100%, max(300px, calc((100svh - var(--chrome) - 400px) * 960 / 420)));
+  margin: clamp(16px, 4svh, 32px) auto 0;
+}
+
+.heroFoot {
+  margin: var(--r2-space-2) auto 0;
+  max-width: 46rem;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--r2-ink-2);
+  text-wrap: balance;
+}
+
+.heroFine {
+  margin: 4px auto 0;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--r2-ink-2);
+  text-wrap: balance;
+}
+
+.boundaryShort {
+  font-weight: 600;
+  color: var(--r2-ink);
+}
+
+.figCaption {
+  margin: var(--r2-space-4) auto 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--r2-ink-2);
+  text-align: center;
+}
+
+.scanFig {
+  margin: 0;
+}
+
+.fixFallback {
+  width: min(420px, 80vw);
+  margin: 0 auto;
+}
+
+/* glasses line art: dots are round-capped zero-length dashes */
+.glasses {
+  overflow: visible;
+}
+
+.gLens {
+  fill: rgba(245, 245, 247, 0.025);
+}
+
+.gDots {
+  fill: none;
+  stroke: var(--r2-ink);
+  stroke-width: 3.2;
+  stroke-linecap: round;
+  stroke-dasharray: 0 9;
+}
+
+.gHair {
+  fill: none;
+  stroke: var(--r2-ink-3);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+}
+
+.gWire {
+  fill: none;
+  stroke: var(--r2-ink-3);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-dasharray: 0 7;
+}
+
+.gGlow {
+  pointer-events: none;
+}
+
+.gTick {
+  stroke: var(--r2-ink-2);
+  stroke-width: 1.2;
+}
+
+.gWord {
+  fill: #fff;
+  filter: url(#shades-lens-bloom);
+  font-family: var(--font-read);
+  font-size: 32px;
+  font-weight: 500;
+}
+
+.gPivot {
+  font-weight: 700;
+}
+
+.gAnchor {
+  fill: var(--r2-trigger);
+}
+
+@keyframes wordIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .gWord,
+  .gAnchor,
+  .gTick {
+    animation: wordIn 480ms var(--r2-ease-entrance) 650ms both;
+  }
+}
+
+:global([data-r2-static]) .gWord,
+:global([data-r2-static]) .gAnchor,
+:global([data-r2-static]) .gTick {
+  animation: none;
+}
+
+/* ---------- dark chapters ---------- */
+.chapter {
+  min-height: 100svh;
+  align-content: center;
+  padding: var(--r2-space-9) var(--r2-gutter);
+  display: grid;
+  gap: var(--r2-space-7);
+}
+
+.chapterHead {
+  display: grid;
+  gap: var(--r2-space-4);
+  justify-items: center;
+  text-align: center;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.scanWrap {
+  width: min(1000px, 100%);
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.chapter .fixClip {
+  width: min(960px, 100%, calc((100svh - 400px) * 16 / 9));
+  margin: 0 auto;
+}
+
+.readerChapter {
+  scroll-margin-top: var(--chrome);
+  padding-top: var(--r2-space-9);
+}
+
+/* ---------- signature: pinned light path ---------- */
+/* Default = the still page (reduced motion, no JS): heading, lead, the six stations stacked with their captions.
+   The pin switches on only under `(scripting: enabled) and (prefers-reduced-motion: no-preference)`. */
+.lpin {
+  --lp-ground: #000;
+  position: relative;
+  background: #000;
+  scroll-margin-top: var(--chrome);
+}
+
+.lpinStage {
+  padding: var(--r2-space-9) var(--r2-gutter);
+  display: grid;
+  gap: var(--r2-space-7);
+}
+
+.lpinHead {
+  display: grid;
+  gap: var(--r2-space-4);
+  justify-items: center;
+  text-align: center;
+}
+
+.lpinFig,
+.lpinBand {
+  display: none;
+}
+
+.capName {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 24px;
+  color: var(--r2-ink-2);
+}
+
+.capLine {
+  margin: 0;
+  font-family: var(--font-read);
+  font-weight: 600;
+  font-size: var(--r2-fs-h3);
+  line-height: 1.3;
+  color: var(--r2-ink);
+  text-wrap: balance;
+}
+
+.lstaticList {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  width: min(640px, 100%);
+  display: grid;
+  gap: var(--r2-space-5);
+}
+
+.lstaticList li {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: var(--r2-space-5);
+  align-items: center;
+}
+
+.lstaticIcon {
+  width: 72px;
+  height: 72px;
+  color: var(--r2-ink);
+  overflow: visible;
+}
+
+.lstaticList .capLine {
+  font-size: 21px;
+}
+
+.lstaticNote,
+.lpinFoot {
+  margin: 0;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--r2-ink-2);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  /* One screen per view, half a screen of scroll per stage, then a black tail so the last caption has left before
+     the light chapter arrives. */
+  .lpin {
+    padding-bottom: 96px;
+  }
+
+  .lpinPin {
+    height: calc(100svh + 6 * 50svh);
+  }
+
+  /* The figure takes whatever the heading and the caption band leave (minmax(0, 1fr)): no pixel offsets. */
+  .lpinStage {
+    position: sticky;
+    top: var(--chrome);
+    height: calc(100svh - var(--chrome));
+    overflow: hidden;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    gap: clamp(8px, 2svh, 24px);
+    padding: clamp(20px, 5svh, 56px) var(--r2-gutter) clamp(4px, 1.2svh, 16px);
+  }
+
+  .lpinLead,
+  .lstaticList,
+  .lstaticNote {
+    display: none;
+  }
+
+  .lpinFig {
+    display: grid;
+    place-items: center;
+    min-height: 0;
+    container-type: size;
+  }
+
+  /* 5.3 = the strip's aspect: never taller than the free row */
+  .lpinFig .lpinPath {
+    width: min(1100px, 100cqw, 100cqh * 5.3);
+  }
+
+  .lpinBand {
+    display: grid;
+    justify-items: center;
+    gap: clamp(4px, 1svh, 12px);
+    text-align: center;
+  }
+
+  /* All captions share one cell, so the band is as tall as the tallest and never moves the figure. */
+  .lpinCaps {
+    display: grid;
+    justify-items: center;
+  }
+
+  /* Out-then-in: the outgoing caption leaves in 160ms, the incoming one arrives after it (never two at once). */
+  .lpinCap {
+    grid-area: 1 / 1;
+    display: grid;
+    gap: 4px;
+    justify-items: center;
+    max-width: 44rem;
+    opacity: 0;
+    transform: translateY(12px);
+    visibility: hidden;
+    transition:
+      opacity 160ms var(--r2-ease-ui),
+      transform 160ms var(--r2-ease-ui),
+      visibility 0s 160ms;
+  }
+
+  .lpinCap[data-active] {
+    opacity: 1;
+    transform: none;
+    visibility: visible;
+    transition:
+      opacity 240ms var(--r2-ease-ui) 160ms,
+      transform 240ms var(--r2-ease-ui) 160ms,
+      visibility 0s 160ms;
+  }
+
+  .tracker {
+    display: flex;
+  }
+
+  .trackBtn {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    background: none;
+    border: 0;
+    border-radius: 50%;
+    color: var(--r2-ink-2);
+    cursor: pointer;
+    transition: color var(--r2-dur-ui-fast) var(--r2-ease-ui);
+  }
+
+  .trackBtn:hover,
+  .trackBtn[aria-current] {
+    color: var(--r2-ink);
+  }
+
+  .trackBtn:focus-visible {
+    outline: 2px solid var(--r2-focus);
+    outline-offset: -4px;
+  }
+
+  .trackDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid currentColor;
+    transition: background var(--r2-dur-ui-fast) var(--r2-ease-ui);
+  }
+
+  .trackBtn[aria-current] .trackDot {
+    background: currentColor;
+  }
+}
+
+/* Narrow screens: the strip runs edge to edge and pans with the playhead (see lightpath.module.css). */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) and (max-width: 899px) {
+  .lpinFig {
+    --lp-pan-w: min(max(1200px, 100cqw * 1.9), 100cqh * 5.3);
+    margin: 0 calc(-1 * var(--r2-gutter));
+  }
+
+  .lpinFig .lpinPath {
+    width: 100cqw;
+  }
+}
+
+.art {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* The shared card's media row is auto-sized; pin it to the card so the art fits above the caption. */
+.highlights div:has(> .art) {
+  grid-template-rows: minmax(0, 1fr);
+}
+
+/* One drawing style with the dotted glasses: thin lines that do not scale with the card. */
+.artLine,
+.artHair,
+.artDots,
+.artFill,
+.artKnob {
+  fill: none;
+  stroke: var(--r2-ink);
+  stroke-opacity: 0.9;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.artHair {
+  stroke-width: 1;
+  stroke: var(--r2-ink-2);
+}
+
+.artDots {
+  stroke-width: 2.5;
+  stroke-dasharray: 0 7;
+}
+
+.artKnob {
+  fill: var(--r2-ground-raised);
+}
+
+.artKnobSmall {
+  fill: var(--r2-ink);
+  fill-opacity: 0.9;
+}
+
+.artAnchor {
+  fill: var(--r2-trigger);
+}
+
+.artMono {
+  fill: var(--r2-ink);
+  font-family: var(--font-mono);
+  font-size: 18px;
+}
+
+.artType {
+  fill: var(--r2-ink);
+  font-family: var(--font-read);
+  font-size: 64px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+/* ---------- light chapters ---------- */
+.light {
+  background: var(--r2-ground);
+  padding: 96px var(--r2-gutter);
+  display: grid;
+  gap: var(--r2-space-7);
+}
+
+.grey {
+  background: var(--r2-ground-raised);
+}
+
+.trackCols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: min(980px, 100%);
+  margin: 0 auto;
+}
+
+.track {
+  display: grid;
+  gap: var(--r2-space-3);
+  align-content: start;
+  padding: 0 var(--r2-space-7);
+}
+
+.track + .track {
+  border-left: 1px solid var(--r2-hairline);
+}
+
+.boundary {
+  width: min(760px, 100%);
+  margin: 0 auto;
+  display: grid;
+  gap: var(--r2-space-2);
+  justify-items: center;
+  text-align: center;
+  padding-top: var(--r2-space-7);
+  border-top: 1px solid var(--r2-hairline);
+}
+
+.boundaryIs,
+.boundaryNot {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--r2-fs-h3);
+  line-height: var(--r2-lh-h3);
+  letter-spacing: var(--r2-ls-h3);
+}
+
+.boundaryNever {
+  margin: var(--r2-space-2) 0 0;
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--r2-ink);
+}
+
+/* label over value: size and colour mark the label, no punctuation needed */
+.neverLabel {
+  display: block;
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: 600;
+  color: var(--r2-ink-2);
+}
+
+.boundary .body {
+  margin-top: var(--r2-space-3);
+}
+
+.compare {
+  width: min(980px, 100%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--r2-space-7);
+}
+
+.compareHead {
+  margin: 0 0 var(--r2-space-3);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 21px;
+}
+
+.compareList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--r2-hairline);
+}
+
+.compareList li {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  align-items: center;
+  min-height: 52px;
+  border-bottom: 1px solid var(--r2-hairline);
+  font-size: 17px;
+}
+
+.compareList li::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--r2-ink);
+}
+
+.compareList li[data-kind='out'] {
+  color: var(--r2-ink-2);
+}
+
+.compareList li[data-kind='out']::before {
+  background: transparent;
+  border: 1px solid var(--r2-ink-2);
+}
+
+.timeline {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  width: min(1100px, 100%);
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  position: relative;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 7px;
+  left: calc(100% / 14);
+  right: calc(100% / 14);
+  border-top: 1px dashed var(--r2-hairline-strong);
+}
+
+.tPhase {
+  position: relative;
+  display: grid;
+  gap: var(--r2-space-2);
+  justify-items: center;
+  text-align: center;
+  padding: 0 var(--r2-space-2);
+}
+
+.tDot {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 1px solid var(--r2-ink-2);
+  background: var(--r2-ground);
+}
+
+.tPhase[data-current] .tDot {
+  background: var(--r2-ink);
+  border-color: var(--r2-ink);
+}
+
+.tN {
+  margin-top: var(--r2-space-2);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--r2-ink-2);
+}
+
+.tName {
+  font-family: var(--font-read);
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 1.35;
+}
+
+/* ---------- phones ---------- */
+@media (max-width: 734px) {
+  /* keep the value visible ("Spacing: standard") and fit the 390 nav: drop the switch graphic, keep the words */
+  .localSpacing {
+    gap: 3px;
+    padding: 0 2px;
+    font-size: 11px;
+    text-decoration: underline dotted;
+    text-underline-offset: 0.25em;
+  }
+
+  .localSpacing::before {
+    display: none;
+  }
+
+  .hero {
+    padding-top: var(--r2-space-7);
+  }
+
+  .heroFoot {
+    font-size: 13px; /* the boundary and the status stay on one line at 360 to 390px */
+  }
+
+  .chapter,
+  .light {
+    padding-top: var(--r2-space-9);
+    padding-bottom: var(--r2-space-9);
+  }
+
+  .trackCols,
+  .compare {
+    grid-template-columns: 1fr;
+    gap: var(--r2-space-6);
+  }
+
+  .track {
+    padding: 0;
+  }
+
+  .track + .track {
+    border-left: 0;
+    border-top: 1px solid var(--r2-hairline);
+    padding-top: var(--r2-space-6);
+  }
+
+  .timeline {
+    grid-template-columns: 1fr;
+    gap: var(--r2-space-4);
+    width: min(320px, 100%);
+  }
+
+  .timeline::before {
+    top: 8px;
+    bottom: 8px;
+    left: 7px;
+    right: auto;
+    border-top: 0;
+    border-left: 1px dashed var(--r2-hairline-strong);
+  }
+
+  .tPhase {
+    grid-template-columns: 15px 64px 1fr;
+    justify-items: start;
+    align-items: center;
+    text-align: left;
+    gap: var(--r2-space-3);
+    padding: 0;
+  }
+
+  .tN {
+    margin-top: 0;
+  }
+}

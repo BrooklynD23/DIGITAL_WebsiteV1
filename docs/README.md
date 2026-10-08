@@ -15,13 +15,13 @@ Central map for the DIGITAL @ Cal Poly Pomona website repository.
 
 | Doc | Governs |
 |-----|---------|
-| [`DESIGN.md`](../DESIGN.md) | Industrial studio theme — all routes **except** the three immersive experiences below |
-| [`design/landing.DESIGN.md`](design/landing.DESIGN.md) | `/` homepage (+ subsidiary direction for `/contact`, `/get-involved`) |
-| [`design/smartphone.DESIGN.md`](design/smartphone.DESIGN.md) | `/projects/modular-smartphone` (PhoneV2) |
-| [`design/glasses.DESIGN.md`](design/glasses.DESIGN.md) | `/projects/smart-reading` |
+| [`DESIGN.md`](../DESIGN.md) | The Apple system (default since 2026-10-07): tokens, patterns, rules for every route |
+| [`design/sidekick.DESIGN.md`](design/sidekick.DESIGN.md) | `/projects/sidekick/` — **locked** |
+| [`design/brain.DESIGN.md`](design/brain.DESIGN.md) | `/projects/brain/` — **locked** |
 | [`design/BRAND.md`](design/BRAND.md) | Voice, story spine, copy rules (all routes) |
+| [`design/landing.DESIGN.md`](design/landing.DESIGN.md), [`smartphone.DESIGN.md`](design/smartphone.DESIGN.md), [`glasses.DESIGN.md`](design/glasses.DESIGN.md) | Archived designs (now in `archive/`); history only |
 
-**Rule:** Read the governing design doc before any UI/UX change. Copy changes in `lib/data/` must follow `BRAND.md`.
+**Rule:** Read the governing design doc before any UI/UX change. Copy changes in `app/(apple)/_content/` and `lib/data/` must follow `BRAND.md`.
 
 ## Operations
 

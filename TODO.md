@@ -97,10 +97,29 @@ committed — see the standing rule in `CLAUDE.md` and `AGENT.md`.
 | lab.10 | #0063    | — | feat(design-lab): round 2 Wave 3a shared fixes: chrome, boards, cinematics (#0063) | `_system`: opt-in red anchor, PlayOnce / useScrollSteps (fixes Home reduced-motion P0) / Highlights / Graticule extracted, BRAIN math exports, Monaspace Krypton subset 445→41 KB, production cursor rAF silenced on r2 routes; `_chrome`: LocalNav utility slot + one CTA contract + mobile menu, WorldNav sticky/join props, shared JoinChapter with sponsor/faculty path; boards: 38 static layer SVGs + `BoardLayers` (specimen HTML 969→158 KB); cinematics: Apple variants of all 7 clips, all-intra scrub clips (seek p90 ≤23 ms), lightpath corrected + stage markers, `CineClip world` |
 | lab.11 | #0064    | — | feat(design-lab): round 2 Wave 3b page refines (#0064) | One critique-driven pass per page × world (logs under "## W3b changes" in `.impeccable/surfaces/*`). Home: reduced-motion P0 fixed, no hydration flip, stages told once with their rules, true morph (Apple). SIDEKICK: `BoardLayers` (HTML 605/763→125/160 KB), active-entry walk, never-started phone shell, sponsor path. SHADES: permanent no-medical-claims boundary, marker-synced captions, shared LocalNav + spacing utility. BRAIN: cut to 6 chapters (quiet 59–71%), 5 accuracy fixes, looping Apple hero. Gate: 0 console errors × 8 routes, tsc + lint clean; open: Apple SIDEKICK quiet 36% at 390 |
 | lab.12 | #0065    | — | feat(design-lab): round 2 finish-review fixes + stakeholder review page (#0065) | Fresh impeccable finish reviewers (`design-lab/round2/finish/*.md`, all FIX) → one fix batch per page + clips + shared chrome: eyebrows removed, honest board facts, BRAIN ≤13 vh, SHADES boundary/sync, Home tablet + channel rows, LocalNav tone sync, mono only on readouts, 44px nav targets, Highlights tone, DotStage onFrame/exclusive. Stakeholder side-by-side page (live site vs both worlds + round 1) at `/design-lab/r2/review.html`. Gates: 8 routes 200, tsc + lint clean, 0 rAF at rest. Handoff for next session: `design-lab/round2/HANDOFF.md` |
+| lab.13 | #0066    | uncommitted | feat(site): promote the Apple system to the default routes; lock BRAIN + SIDEKICK; archive prior designs; rewrite DESIGN.md (#0066) | **Not committed yet — replace the SHA when the Head Designer commits.** Head Designer decision 2026-10-07. Apple pages become `/`, `/projects/sidekick/`, `/projects/shades/`, `/projects/brain/` in `app/(apple)/`; unmigrated routes and redirect stubs in `app/(legacy)/` (migration onto `SitePage` in progress); every earlier design moved to `archive/` (excluded from build + tsc; `archive/README.md`). BRAIN and SIDEKICK locked (`docs/design/brain.DESIGN.md`, new `docs/design/sidekick.DESIGN.md`). Root `DESIGN.md` rewritten as the Apple system as implemented (previous brand-system doc in git history). Docs updated: `CLAUDE.md`, `README.md`, `AGENT.md`, `AGENTS.md`, `docs/ROUTES.md`, `docs/README.md`, `design-lab/round2/HANDOFF.md`; ARCHIVED banner on `docs/design/{landing,smartphone,glasses}.DESIGN.md`. |
 
 ---
 
 ## Backlog / Blocked (needs org input)
+
+### Open items from the Head Designer, 2026-10-07
+
+- [ ] **Public contact email** — none exists yet; a new address is coming. `siteConfig.contact.email` is `''`, so
+  Contact shows no email row, the form's fallback points to Discord, the legal address block omits the email
+  line and Privacy says "through the contact page". When the address exists: set it in
+  `lib/data/siteConfig.ts` (one edit), then re-read Privacy, Terms and Cookies.
+- [ ] **Formspree form ID** — `siteConfig.formspreeEndpoint` is still `YOUR_FORM_ID`; the contact form cannot send.
+- [ ] **Favicon and social-share image** — none ship (`/favicon.ico` 404s; no `og:image`).
+- [ ] **Legal pages** — still "Draft — pending review" (2026-06-19). Cookies says no browser storage is used, but
+  SHADES saves a spacing preference in `localStorage`; "club" wording; Terms of Service / Terms of Use naming;
+  Terms names Notion links; one "[To be confirmed by the organization.]" placeholder.
+- [ ] **SIDEKICK board file** — the README photo board (XC7Z020 CLG484, RTL8211F) has no design file in the repo;
+  the page renders `zynq_sdr_dongle` for now. Rerun `design-lab/scripts/sidekick-mainboard.mjs` when the file exists.
+- [ ] **Team roster** — `/team/` shows seats only; names, a BRAIN lead and the "Venture Studies" seat need confirming.
+- [ ] **Brand-voice pass** on the eight redesigned pages, the 404 / error copy and the root page title.
+- [ ] **Stakeholder decision** — keep or archive `/team/` and `/community/`.
+- Domain: no custom domain; the site is served at `https://digitalcpp.vercel.app/` (`siteConfig.url`).
 
 - **Custom domain** — awaiting DNS credentials / domain decision from club leadership.
   *Deferred to next session (2026-08): see README "Deferred work".*

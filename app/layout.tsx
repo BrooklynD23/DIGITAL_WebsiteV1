@@ -1,36 +1,30 @@
 import type { Metadata } from 'next';
-import dynamic from 'next/dynamic';
 import './globals.css';
-import { Navbar } from '@/components/layout/Navbar';
-import { Footer } from '@/components/layout/Footer';
 import { siteConfig } from '@/lib/data/siteConfig';
-import { landingFonts, studioFonts } from '@/lib/fonts';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
-// Progressive enhancement — never in server HTML; the site is fully
-// functional with it absent (ui-revision D8).
-const CursorProvider = dynamic(() => import('@/components/ui/CursorProvider'), {
-  ssr: false,
-});
-
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || siteConfig.url;
+
+const TITLE = `${siteConfig.name} · A student-run venture studio at Cal Poly Pomona`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
-  title: `${siteConfig.name} - Engineering Club @ Cal Poly Pomona`,
+  title: TITLE,
   description: siteConfig.description,
-  keywords: ['engineering club', 'Cal Poly Pomona', 'student organization', 'hardware', 'modular smartphone', 'DIGITAL'],
+  keywords: ['DIGITAL', 'Cal Poly Pomona', 'student-run venture studio', 'student organization', 'SIDEKICK', 'SHADES', 'BRAIN'],
+  // './' resolves against each route, so every page gets its own canonical and og:url (with the trailing slash).
+  alternates: { canonical: './' },
   openGraph: {
     title: siteConfig.fullName,
     description: siteConfig.description,
-    url: siteConfig.url,
+    url: './',
     siteName: siteConfig.name,
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: `${siteConfig.name} - Engineering Club @ Cal Poly Pomona`,
+    title: TITLE,
     description: siteConfig.description,
   },
 };
@@ -41,12 +35,7 @@ const organizationSchema = {
   name: siteConfig.fullName,
   url: baseUrl,
   description: siteConfig.description,
-  sameAs: [
-    siteConfig.social.linkedin,
-    siteConfig.social.github,
-    siteConfig.social.instagram,
-    siteConfig.social.discord,
-  ],
+  sameAs: [siteConfig.social.linkedin, siteConfig.social.instagram, siteConfig.social.github, siteConfig.social.discord],
 };
 
 export default function RootLayout({
@@ -56,39 +45,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body
-        className={[
-          landingFonts.serif.variable,
-          landingFonts.sans.variable,
-          landingFonts.mono.variable,
-          // Studio stack: consumed by routes not yet migrated onto the landing
-          // system; retires from <body> once the consolidation completes.
-          studioFonts.display.variable,
-          studioFonts.body.variable,
-          studioFonts.mono.variable,
-          'font-homeSans text-dg-ink bg-dg-bg overflow-x-hidden antialiased',
-        ].join(' ')}
-      >
-        {/* Skip-to-content link — visually hidden until focused */}
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-studio focus:text-ink focus:border focus:border-ink focus:rounded focus:outline-none focus:ring-2 focus:ring-offset-2"
-        >
-          Skip to main content
-        </a>
-
-        <Navbar />
-        <main id="main-content" tabIndex={-1}>
-          {children}
-        </main>
-        <Footer />
+      {/* Fonts, chrome and <main> belong to the route group: app/(apple)/layout.tsx. */}
+      <body className="overflow-x-hidden antialiased">
+        {children}
 
         {/* Vercel Analytics & Speed Insights — cookieless, static-export compatible */}
         <Analytics />
         <SpeedInsights />
-
-        {/* Custom cursor — progressive enhancement only */}
-        <CursorProvider />
 
         {/* JSON-LD Organization schema */}
         <script

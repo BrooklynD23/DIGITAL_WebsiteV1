@@ -1,0 +1,92 @@
+/* SIDEKICK · Apple product page. Tokens from .world-apple + fontApple. The board story (dark, pinned) is styled in
+   ../../_sidekick/mainboard.module.css; the facts strip under it stays black and closes the story; the catalogue below is light: subsystems, status, rules, join. */
+.page {
+  --wrap: 980px;
+  background: var(--r2-ground);
+  /* Board base colours (same variables BoardLayers uses). */
+  --board-copper: #c9965f;
+  --sk-fr4: #efe6d2;
+  /* Functional palette for the part groups: six hues with alternating lightness, so neighbours also separate
+     without hue (colour-blind viewers). Clear of the copper base and of the red trigger. Asked for by the Head
+     Designer for this page only. Never used without a text label. Hex = sRGB fallback of the oklch below. */
+  --sk-g-compute: #60c2ff;
+  --sk-g-memory: #b28fef;
+  --sk-g-power: #68d7a1;
+  --sk-g-usb: #5ce9f0;
+  --sk-g-rf: #ef8bc5;
+  --sk-g-io: #cce576;
+}
+@supports (color: oklch(0.78 0.13 240)) {
+  .page {
+    --sk-g-compute: oklch(0.78 0.13 240);
+    --sk-g-memory: oklch(0.72 0.14 300);
+    --sk-g-power: oklch(0.8 0.13 160);
+    --sk-g-usb: oklch(0.86 0.12 200);
+    --sk-g-rf: oklch(0.76 0.14 345);
+    --sk-g-io: oklch(0.88 0.14 120);
+  }
+}
+
+/* ---------- type ---------- */
+.h1 {
+  font-family: var(--font-display);
+  font-weight: var(--r2-fw-display);
+  font-size: var(--r2-fs-h1);
+  line-height: var(--r2-lh-h1);
+  letter-spacing: var(--r2-ls-h1);
+  margin: 0;
+  text-wrap: balance;
+}
+.h3 { font-size: var(--r2-fs-body); font-weight: 600; margin: 0 0 var(--r2-space-4); color: var(--r2-ink); }
+.chapterHead { width: 100%; max-width: var(--wrap); margin: 0 auto; text-align: center; }
+.chapterLead {
+  max-width: 34rem;
+  margin: var(--r2-space-5) auto 0;
+  font-size: var(--r2-fs-lead);
+  line-height: var(--r2-lh-lead);
+  letter-spacing: var(--r2-ls-lead);
+  font-weight: 600;
+  color: var(--r2-ink-2);
+  text-wrap: pretty;
+}
+
+/* ---------- board facts ---------- */
+.facts { background: #000; color: var(--r2-ink); padding: var(--r2-space-8) var(--r2-gutter) var(--r2-space-9); text-align: center; }
+.factsInner { max-width: var(--wrap); margin: 0 auto; }
+.factGrid { margin: var(--r2-space-7) 0 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--r2-space-6) var(--r2-space-5); text-align: left; }
+.factGrid > div { border-top: 1px solid var(--r2-hairline-strong); padding-top: var(--r2-space-3); }
+.factGrid dt { font-size: var(--r2-fs-small); line-height: var(--r2-lh-small); color: var(--r2-ink-2); }
+.factGrid dd { margin: 0; }
+.factValue { font-family: var(--font-display); font-weight: var(--r2-fw-display); font-size: var(--r2-fs-h3); line-height: var(--r2-lh-h3); margin-top: 4px; }
+.factNote { font-size: var(--r2-fs-small); line-height: var(--r2-lh-small); color: var(--r2-ink-2); margin-top: 4px; }
+
+/* ---------- subsystems ---------- */
+.subs { max-width: var(--wrap); margin: 0 auto; padding: var(--r2-space-9) var(--r2-gutter) var(--r2-space-8); }
+.subList { list-style: none; margin: var(--r2-space-8) 0 0; padding: 0; border-top: 1px solid var(--r2-hairline); }
+.subList li { display: grid; grid-template-columns: minmax(0, 1.1fr) 9em minmax(0, 1.6fr); gap: var(--r2-space-4); align-items: baseline; padding: 14px 0; border-bottom: 1px solid var(--r2-hairline); font-size: var(--r2-fs-body); line-height: var(--r2-lh-body); }
+.subName { font-weight: 600; }
+.subPart { grid-column: 2; font-family: var(--font-mono); font-size: 13px; color: var(--r2-ink); }
+.subLine { grid-column: 3; color: var(--r2-ink-2); }
+
+/* ---------- status ---------- */
+.status { padding: var(--r2-space-9) var(--r2-gutter) var(--r2-space-8); max-width: var(--wrap); margin: 0 auto; }
+.statusFoot { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--r2-space-7); margin-top: var(--r2-space-8); text-align: left; }
+.next { margin: 0; padding: 0; list-style: none; counter-reset: nx; border-top: 1px solid var(--r2-hairline); }
+.next li { counter-increment: nx; display: grid; grid-template-columns: 32px 1fr; padding: 14px 0; border-bottom: 1px solid var(--r2-hairline); font-size: var(--r2-fs-body); line-height: var(--r2-lh-body); }
+.next li::before { content: counter(nx); font-weight: 600; color: var(--r2-ink-2); }
+.targets { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--r2-hairline); }
+.targets li { padding: 14px 0; border-bottom: 1px solid var(--r2-hairline); font-size: var(--r2-fs-body); line-height: var(--r2-lh-body); }
+.targetsNote { margin: var(--r2-space-4) 0 0; font-size: var(--r2-fs-small); line-height: var(--r2-lh-small); color: var(--r2-ink-2); }
+
+/* ---------- rules (light grey): one headline, four quiet lines ---------- */
+.rulesSec { background: var(--r2-ground-raised); padding: var(--r2-space-9) var(--r2-gutter); text-align: center; }
+.rules { list-style: none; padding: 0; margin: var(--r2-space-6) auto 0; max-width: 40rem; display: grid; gap: 6px; }
+.rules li { font-size: var(--r2-fs-lead); line-height: var(--r2-lh-lead); font-weight: 600; color: var(--r2-ink-2); }
+
+/* ---------- small screens ---------- */
+@media (max-width: 734px) {
+  .factGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .subList li { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .subPart, .subLine { grid-column: 1; }
+  .statusFoot { grid-template-columns: 1fr; }
+}

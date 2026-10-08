@@ -1,3 +1,5 @@
+> **ARCHIVED 2026-10-07 — describes a design now in `archive/`.** Kept as history; it governs no live route. The current system is the root `DESIGN.md`.
+
 # DIGITAL Home Landing — Style Reference
 
 > A field notebook set in warm paper and forest ink — quiet serif declarations, mono annotations, and one bar of gold.

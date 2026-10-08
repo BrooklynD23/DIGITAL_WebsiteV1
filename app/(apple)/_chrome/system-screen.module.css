@@ -1,0 +1,30 @@
+/* Chrome-less black screen (404, errors, redirect stubs). Tokens come from the dark tone on the wrapper. */
+html:has(.screen),
+html:has(.screen) body { background: #000 !important; color-scheme: dark; }
+.screen {
+  box-sizing: border-box;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--r2-space-8) var(--r2-gutter);
+  background: var(--r2-ground);
+  color: var(--r2-ink);
+  font-family: var(--font-text);
+  font-size: var(--r2-fs-body);
+  line-height: var(--r2-lh-body);
+  letter-spacing: var(--r2-ls-body);
+  text-align: center;
+}
+.actions {
+  list-style: none;
+  margin: var(--r2-space-7) 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--r2-space-3) var(--r2-space-5);
+}
+.screen a:focus-visible, .screen button:focus-visible { outline: 2px solid var(--r2-focus); outline-offset: 2px; }

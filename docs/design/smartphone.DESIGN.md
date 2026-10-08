@@ -1,3 +1,5 @@
+> **ARCHIVED 2026-10-07 — describes a design now in `archive/`.** Kept as history; it governs no live route. The current system is the root `DESIGN.md`.
+
 # Modular Smartphone Page — Style Reference
 
 > An engineering bench at midnight: navy glass, schematic strokes, and seven signal colors calling out the subsystems of a phone laid open.

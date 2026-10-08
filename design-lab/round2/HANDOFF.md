@@ -1,5 +1,7 @@
 # Round 2 handoff — DIGITAL design lab
 
+> **Historical from 2026-10-07.** Every section except "Head Designer decisions, 2026-10-07" describes the lab as it was on 2026-10-02: the `/design-lab/r2/...` routes and `app/design-lab/r2/...` paths no longer exist (promoted to `app/(apple)/` or moved to `archive/`). Current state: root `DESIGN.md`, `CLAUDE.md`, `archive/README.md`.
+
 Written 2026-10-02 by the round-2 orchestrator (context full). **Point the next agent's `/goal` at this file.**
 
 ## Goal for the next agent
@@ -21,6 +23,22 @@ Then STOP. Do not pick a winner. Do not touch production.
 3. Read, in order: `PRODUCT.md` → `design-lab/round2/PLAN.md` (§4b, §6, §7) → this file → `design-lab/round2/system/SYSTEM.md`.
 4. Delegate every substantial task to subagents (Agent tool, `model: "opus"`). The orchestrator plans, routes, verifies and commits. Every Agent prompt must include `Output style: follow ~/.claude/rules/common/subagent-output.md (i-have-adhd)`.
 5. Ask the user decisions in chat with AskUserQuestion. Never use a localhost decision page: impeccable's `serve-question` does not load for this user.
+
+## Head Designer decisions, 2026-10-07 (these override older lines in this file)
+
+- **The Apple pages are the default routes.** `/` → `app/(apple)/page.tsx` (phone hero; artwork in `app/(apple)/projects/_hero/`), `/projects/sidekick/`, `/projects/shades/`, `/projects/brain/` → `app/(apple)/projects/…`. Shared code moved with them: `app/(apple)/_system/`, `_chrome/`, `_content/`. The old `/design-lab/r2/apple/*` URLs are redirect stubs in `app/(legacy)/design-lab/`.
+- **SIDEKICK is LOCKED** (approved as built, 2026-10-07). Spec and locked-file list: `docs/design/sidekick.DESIGN.md`. It keeps the repository board `zynq_sdr_dongle.kicad_pcb` for now; swapping boards is a rerun of `design-lab/scripts/sidekick-mainboard.mjs`.
+- **BRAIN stays LOCKED** at its new path `app/(apple)/projects/brain/` (`docs/design/brain.DESIGN.md`). SHADES and the home page are not locked.
+- **`archive/`** holds every earlier design and iteration (lab round 1, the Signal world, the unpromoted round-2 parts, the previous production site). It is excluded from the build and from type-checking. Index: `archive/README.md`.
+- **Legacy pages are being redesigned onto the Apple system.** `app/(legacy)/` (about, team, community, get-involved, contact, legal) moves to `app/(apple)/` on the shared `SitePage` frame (`app/(apple)/_chrome/SitePage.tsx`).
+- **Root `DESIGN.md` is now the Apple system**, written from the shipped code. The previous brand-system document is in git history. The "never touch the root `DESIGN.md`" line under "Work queue" no longer applies.
+- **One sticky nav bar** per page (BRAIN keeps its two-bar chrome because it is locked).
+- **BRAIN (Apple world) is LOCKED.** `/design-lab/r2/apple/brain/` (now `/projects/brain/`) is approved as built. Spec and the locked-file list: `docs/design/brain.DESIGN.md`. Do not edit those files, and re-check BRAIN after any change to `_system`, `_chrome` or `apple/_hero/useStagePlayback.ts`. The "6 chapters / words gate" notes below describe the earlier build.
+- **Focus from here:** SIDEKICK, the home page (phone hero at `/design-lab/r2/apple/hero/`) and SHADES. The Apple world is the direction for production.
+- **`[confirm]` tags are removed** from the Apple-world pages by Head Designer instruction. The fabrication rule still stands: print only what a source states.
+- **Scroll model:** scroll picks the target stage and a timed tween plays it (`app/(apple)/projects/_hero/useStagePlayback.ts`). No frame-by-frame scrubbing.
+- **Links:** main club Discord `https://discord.gg/U77P2U2D84` (`CLUB.discord`), BRAIN Discord `https://discord.gg/Smfv4weJMz`, GitHub and LinkedIn in `_chrome/club.ts` `LINKS`. `lib/data` still has an older Discord invite; production data is not edited from the lab.
+- **Meetings:** BRAIN Fridays 12:00 – 1:00 PM. SIDEKICK and SHADES subteam meetings depend on the team (`MEETINGS` in `_chrome/club.ts`).
 
 ## Hard rules (unchanged from round 1)
 

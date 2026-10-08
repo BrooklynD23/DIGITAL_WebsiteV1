@@ -1,0 +1,22 @@
+/* Classes the about / team / community / get-involved pages need beyond _chrome/site-page.module.css.
+ * Candidates for the shell: .rowText/.rowTitle/.rowMeta (two-line link rows), .sub, .anchor. Tokens only. */
+
+/* two-line content inside a shell .linkRow */
+.rowText { display: grid; gap: 2px; min-width: 0; }
+.rowTitle { font-weight: var(--r2-fw-strong); }
+.rowMeta { color: var(--r2-ink-2); text-wrap: pretty; }
+
+/* an .h3 that opens a second list inside one section */
+h3.sub { margin: var(--r2-space-8) 0 var(--r2-space-4); }
+
+/* in-page anchor target: lands below the sticky bar */
+.anchor { scroll-margin-top: var(--r2-sticky-top); }
+
+/* plain statement list (about: beliefs) */
+.statements { list-style: none; margin: var(--r2-space-7) 0 0; padding: 0; display: grid; gap: var(--r2-space-4); }
+
+/* about: the four build stages. Separated by space, not rules (DESIGN.md §8). */
+.stages { list-style: none; margin: var(--r2-space-8) 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); gap: var(--r2-space-7) var(--r2-space-5); }
+.stageArt { color: var(--r2-ink); margin-bottom: var(--r2-space-5); }
+.stageLine { margin: var(--r2-space-2) 0 0; }
+.stageRule { margin: 2px 0 0; color: var(--r2-ink-2); }

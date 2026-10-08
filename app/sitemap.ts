@@ -1,21 +1,23 @@
 import { MetadataRoute } from 'next';
 import { siteConfig } from '@/lib/data/siteConfig';
 
-const base = process.env.NEXT_PUBLIC_SITE_URL || siteConfig.url;
+const base = (process.env.NEXT_PUBLIC_SITE_URL || siteConfig.url).replace(/\/$/, '');
 
+// Exactly the indexable pages. Redirect stubs (/pillars/, /projects/, the old project and lab URLs) are noindex
+// and stay out. Trailing slashes match `trailingSlash: true` in next.config.js.
 const routes = [
   '/',
-  '/about',
-  '/community',
-  '/projects',
-  '/projects/modular-smartphone',
-  '/projects/smart-reading',
-  '/team',
-  '/contact',
-  '/get-involved',
-  '/privacy',
-  '/terms',
-  '/cookies',
+  '/projects/sidekick/',
+  '/projects/shades/',
+  '/projects/brain/',
+  '/about/',
+  '/team/',
+  '/community/',
+  '/get-involved/',
+  '/contact/',
+  '/privacy/',
+  '/terms/',
+  '/cookies/',
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

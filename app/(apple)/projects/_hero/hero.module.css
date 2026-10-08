@@ -1,0 +1,85 @@
+/* Apple world · phone hero (replacement candidate for the orb hero). Pure black, no grid / glow / card.
+ * Default styles = the still page (reduced motion, no JS): thesis, then four stills with their headings.
+ * The pin is switched on only under `(scripting: enabled) and (prefers-reduced-motion: no-preference)`.
+ * The stage tracker reuses the button row from ../_home/home.module.css. */
+
+.pin { position: relative; background: #000; color: var(--r2-ink); }
+.pinSticky { padding: var(--r2-space-9) 0; text-align: center; }
+.heroText { max-width: 1024px; margin: 0 auto; padding: 0 var(--r2-gutter); display: grid; gap: var(--r2-space-4); justify-items: center; }
+.heroTitle { margin: 0; max-width: 12em; font-family: var(--font-display); font-weight: var(--r2-fw-display); font-size: var(--r2-fs-hero); line-height: var(--r2-lh-hero); letter-spacing: var(--r2-ls-hero); text-wrap: balance; }
+.heroLead { margin: 0; max-width: 31rem; font-size: var(--r2-fs-lead); line-height: var(--r2-lh-lead); letter-spacing: var(--r2-ls-lead); font-weight: 600; color: var(--r2-ink-2); text-wrap: balance; }
+
+.heading { margin: 0; font-family: var(--font-display); font-weight: var(--r2-fw-display); font-size: var(--r2-fs-h1); line-height: var(--r2-lh-h1); letter-spacing: max(var(--r2-ls-h1), -0.03em); text-wrap: balance; }
+.rule { margin: 0; font-size: var(--r2-fs-lead); line-height: var(--r2-lh-lead); font-weight: 600; color: var(--r2-ink-2); text-wrap: balance; }
+.svg { display: block; width: 100%; height: auto; }
+
+.art, .captions, .debug { display: none; }
+.stills { list-style: none; margin: var(--r2-space-8) auto 0; padding: 0 var(--r2-gutter); max-width: 1024px; display: grid; gap: var(--r2-space-9); }
+.still { display: grid; gap: var(--r2-space-3); justify-items: center; }
+
+@property --h { syntax: '<number>'; inherits: true; initial-value: 0; }
+
+/* ---------------------------------------------------------------- pinned */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  .pin {
+    height: 400vh;
+    /* hero → stages is a played move, not a scrubbed one: the first scroll flips data-phase and --h runs to the end.
+       --h flips on .pin; .heroText, .art and .captions each run their OWN --h transition (registered + inherited, so
+       the flip restarts it per element), which sequences text out → art up → heading in, and the reverse on return. */
+    --h: 0;
+    --art-gap: 24px; /* thesis → art box, first viewport */
+    --art-b0: 72px; /* art box bottom inset, first viewport (clears the tracker) */
+    --band: 32%; /* lower band: heading, rule, tracker */
+    --text-b: calc(clamp(28px, 6svh, 64px) + 2 * var(--r2-lh-hero) + var(--r2-space-4) + 2 * var(--r2-lh-lead)); /* until HeroStages measures it */
+  }
+  .pinSticky { position: sticky; top: var(--r2-sticky-top, var(--r2-nav-h)); height: calc(100svh - var(--r2-nav-h)); padding: 0; overflow: hidden; }
+  .heroText { position: absolute; z-index: 1; left: 0; right: 0; top: clamp(28px, 6svh, 64px); opacity: calc(1 - var(--h)); transform: translateY(calc(var(--h) * -48px)); transition: --h 240ms var(--r2-ease-ui) 520ms; }
+  .pin[data-phase='stages'] { --h: 1; }
+  .pin[data-phase='stages'] .heroText { visibility: hidden; transition: --h 240ms var(--r2-ease-ui), visibility 0s 240ms; }
+  .stills { display: none; }
+
+  /* First viewport: the Plan sheet sits in the space between the thesis and the tracker (the box, not a transform,
+     so it can never touch the text), then the box opens to the full upper band. */
+  .art {
+    display: block; position: absolute; left: 0; right: 0;
+    top: calc((1 - var(--h)) * (var(--text-b) + var(--art-gap)) + var(--h) * 28px);
+    bottom: calc(var(--band) + (1 - var(--h)) * (var(--art-b0) - var(--band)));
+    transition: --h 600ms var(--r2-ease-emphasized) 120ms;
+    /* the pushed-in Test pose runs past the box: fade both edges instead of a hard clip */
+    mask-image: linear-gradient(transparent, #000 6%, #000 88%, transparent);
+  }
+  .pin[data-phase='stages'] .art { transition-delay: 160ms; }
+  .svg { width: 100%; height: 100%; }
+
+  .captions { display: block; position: absolute; left: 0; right: 0; top: calc(100% - var(--band) + 8px); padding: 0 var(--r2-gutter); opacity: var(--h); transition: --h 200ms var(--r2-ease-ui); }
+  .pin[data-phase='stages'] .captions { transition: --h 240ms var(--r2-ease-ui) 420ms; }
+  /* Out-then-in: the outgoing heading leaves in 160ms, the incoming one arrives after it (never two at once). */
+  .caption {
+    position: absolute; left: var(--r2-gutter); right: var(--r2-gutter); top: 0; margin: 0 auto; max-width: 44rem;
+    display: grid; justify-items: center; gap: var(--r2-space-3);
+    opacity: 0; transform: translateY(12px); visibility: hidden;
+    transition: opacity 160ms var(--r2-ease-ui), transform 160ms var(--r2-ease-ui), visibility 0s 160ms;
+  }
+  .caption[data-active] { opacity: 1; transform: none; visibility: visible; transition: opacity 240ms var(--r2-ease-ui) 160ms, transform 240ms var(--r2-ease-ui) 160ms, visibility 0s 160ms; }
+
+  .debug { display: block; position: fixed; z-index: 99; right: 8px; bottom: 8px; padding: 4px 8px; background: #000; color: var(--r2-ink); border: 1px solid var(--r2-hairline); font-family: var(--font-mono); font-size: 12px; line-height: 16px; }
+}
+
+/* Short desktop viewports (1280×800, 1024×768): keep heading + rule clear of the tracker. */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) and (max-height: 820px) and (min-width: 735px) {
+  .heading { font-size: 40px; line-height: 44px; }
+}
+
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) and (max-width: 734px) {
+  /* first viewport: the box is only as tall as the drawing needs (≈ the 150%-wide viewBox), so the sheet sits under the lead */
+  .pin { height: 320vh; --band: 34%; --art-gap: 8px; --art-b0: max(72px, calc(100svh - var(--r2-nav-h) - var(--text-b) - 344px)); }
+  .heroText { top: 16px; }
+  .art { left: -25%; right: -25%; } /* 150% wide, centred: the device is not tiny on a phone */
+  .heading { font-size: 30px; line-height: 34px; }
+  .rule { font-size: 17px; line-height: 24px; }
+}
+
+/* Narrow layouts (pinned or still) use the narrow camera set written by PhoneArtwork / HeroStages. */
+@media (max-width: 734px) {
+  .svg [data-rig] { --rig: var(--rig-n); }
+}

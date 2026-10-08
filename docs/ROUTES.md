@@ -4,63 +4,50 @@ This document outlines all routes and pages in the DIGITAL website.
 
 ## Route Overview
 
-### Production routes (public nav + sitemap)
+Updated 2026-10-07, when the Apple-system pages became the default routes. Pages live in two
+route groups (the group folder is not part of the URL). Every route is statically exported.
 
-| Route | Page | Description |
-|-------|------|-------------|
-| `/` | Homepage | Newsreader landing — thesis, pathways, build record, join CTA (own nav/footer) |
-| `/pillars` | DIGITAL Pillars | The DIGITAL acronym and engineering framework |
-| `/about` | About | Mission, values, flagship project, roadmap |
-| `/team` | Team | Filterable team directory |
-| `/contact` | Contact | Contact form and club information |
-| `/projects` | Projects | Filterable project grid |
-| `/projects/modular-smartphone` | Modular Smartphone | Immersive exploded-smartphone scrollytelling (PhoneV2 experience) |
-| `/projects/smart-reading` | Smart Reading | Immersive R3F scroll experience (wearable project) |
-| `/get-involved` | Get Involved | Membership, alumni, and sponsor paths |
-| `/privacy` | Privacy Policy | Legal — privacy |
-| `/terms` | Terms of Service | Legal — terms |
-| `/cookies` | Cookie Policy | Legal — cookies |
+### Live pages — Apple system (`app/(apple)/`)
 
-### Preview / candidate routes (not in sitemap or public nav)
+| Route | File | Description | Design doc |
+|-------|------|-------------|------------|
+| `/` | `app/(apple)/page.tsx` | Home: phone hero (four played stages), the three builds, join | `DESIGN.md` |
+| `/projects/sidekick/` | `app/(apple)/projects/sidekick/page.tsx` | SIDEKICK: the FPGA main board in nine played stages | `docs/design/sidekick.DESIGN.md` (**locked**) |
+| `/projects/shades/` | `app/(apple)/projects/shades/page.tsx` | SHADES: reading glasses, live reader, light-path stages | `DESIGN.md` |
+| `/projects/brain/` | `app/(apple)/projects/brain/page.tsx` | BRAIN: six lessons on one dot figure | `docs/design/brain.DESIGN.md` (**locked**) |
 
-| Route | Status | Description |
-|-------|--------|-------------|
-| `/review` | Internal | Stakeholder hub for remaining variant review (`noindex`) |
+### Pages being migrated to the Apple system (`app/(legacy)/` → `app/(apple)/`)
 
----
+`/about`, `/team`, `/community`, `/contact`, `/get-involved`, `/privacy`, `/terms`, `/cookies`.
+Until a page is migrated it renders with the legacy layout (`app/(legacy)/layout.tsx`:
+`components/layout/Navbar` + `Footer`). A migrated page uses the `SitePage` frame
+(`app/(apple)/_chrome/SitePage.tsx`). Governing doc: `DESIGN.md`.
 
-## Stakeholder review hub
+### Redirect stubs (`app/(legacy)/`, `noindex`, not in the sitemap)
 
-**File:** `app/review/page.tsx`  
-**Data:** `lib/data/reviewRoutes.ts`
+| Old route | Goes to |
+|-----------|---------|
+| `/pillars` | `/about#how-we-work` |
+| `/projects` | `/#builds` |
+| `/projects/modular-smartphone` | `/projects/sidekick/` |
+| `/projects/smart-reading` | `/projects/shades/` |
+| `/design-lab/r2/apple/hero` | `/` |
+| `/design-lab/r2/apple/sidekick`, `/shades`, `/brain` | the matching `/projects/…/` page |
 
-Internal-only page for comparing experience variants before promotion. Not linked from Navbar, Footer, or sitemap. Open at `/review` during stakeholder meetings.
+Stubs use `app/(legacy)/_redirect.tsx`: a client-side `location.replace` plus a visible
+fallback link (static-export safe).
 
-**Decision groups:**
-1. **Smart Reading** — `/projects/smart-reading` (production); the legacy `/experiments/glasses` URL has been retired
+### Retired
 
----
-
-## Immersive routes
-
-These routes hide the global Navbar and Footer (`lib/immersiveRoutes.ts`):
-
-- `/` (homepage has own nav/footer)
-- `/experiments/*`
-- `/projects/modular-smartphone`
-- `/projects/smart-reading`
-
-Each immersive experience includes an `EscapeHatch` component linking back to `/`.
-
-Route-scoped style references (authoritative per route; root `DESIGN.md` governs everything else):
-
-- `/` → `docs/design/landing.DESIGN.md`
-- `/projects/modular-smartphone` → `docs/design/smartphone.DESIGN.md`
-- `/projects/smart-reading` → `docs/design/glasses.DESIGN.md`
+`/review` (internal stakeholder hub) was archived with no redirect. The previous landing, the
+PhoneV2 smartphone page and the R3F smart-reading page are in `archive/` (see
+`archive/README.md`).
 
 ---
 
 ## Page details
+
+> **Note (2026-10-07):** the sections below were written before the route groups. For a page that still exists, read `app/<route>/` as `app/(legacy)/<route>/` (or `app/(apple)/<route>/` once migrated). The Homepage, DIGITAL Pillars, Projects, Modular Smartphone and Smart Reading sections describe archived pages; the live pages are in the tables above.
 
 ### Homepage (`/`)
 **Files:** `app/page.tsx`, `components/home/HomeLanding.tsx`
