@@ -3,6 +3,8 @@
  * except the dark ground, which the tokens already define as #000. No shadows, gradients, glass or cards. */
 
 /* ---------- layout ---------- */
+/* Black only in the sticky bar's slot at the top of the page (see SitePage.tsx); the rest of the frame stays clear. */
+.frameDark { background: linear-gradient(#000, #000) top / 100% var(--r2-nav-h) no-repeat; }
 .hero {
   background: var(--r2-ground);
   color: var(--r2-ink);

@@ -27,7 +27,7 @@ export const involvementCategories: InvolvementCategory[] = [
     options: [
       {
         id: 'membership',
-        title: 'Become a Member',
+        title: 'Become a member',
         description: 'Join DIGITAL and start building real systems with the team.',
         icon: 'person_add',
         link: '/contact/?type=membership',
@@ -36,7 +36,7 @@ export const involvementCategories: InvolvementCategory[] = [
       },
       {
         id: 'project-team',
-        title: 'Join a Project Team',
+        title: 'Join a project team',
         description: 'Work hardware, software, or embedded with experienced leads.',
         icon: 'groups',
         link: '/contact/?type=project-team',
@@ -44,7 +44,7 @@ export const involvementCategories: InvolvementCategory[] = [
       },
       {
         id: 'leadership',
-        title: 'Apply for Leadership',
+        title: 'Apply for leadership',
         description: 'Run a side of the club — budgets, outreach, or engineering.',
         icon: 'supervisor_account',
         link: '/contact/?type=leadership',
@@ -52,7 +52,7 @@ export const involvementCategories: InvolvementCategory[] = [
       },
       {
         id: 'mentorship',
-        title: 'Get Mentorship',
+        title: 'Get mentorship',
         description: 'Get unstuck fast — pair with senior members and industry mentors.',
         icon: 'support_agent',
         link: '/contact/?type=mentorship',
@@ -68,7 +68,7 @@ export const involvementCategories: InvolvementCategory[] = [
     options: [
       {
         id: 'alumni-network',
-        title: 'Join Alumni Network',
+        title: 'Join alumni network',
         description: 'Keep your name on the roster, come to demos, meet the current team.',
         icon: 'hub',
         link: '/contact/?type=alumni-network',
@@ -77,7 +77,7 @@ export const involvementCategories: InvolvementCategory[] = [
       },
       {
         id: 'mentor-students',
-        title: 'Mentor Students',
+        title: 'Mentor students',
         description: 'Share what industry taught you with students on the bench.',
         icon: 'school',
         link: '/contact/?type=mentor',
@@ -85,7 +85,7 @@ export const involvementCategories: InvolvementCategory[] = [
       },
       {
         id: 'speak-event',
-        title: 'Speak at an Event',
+        title: 'Speak at an event',
         description: 'Present your work at a workshop or a general meeting.',
         icon: 'podium',
         link: '/contact/?type=speaker',
@@ -101,7 +101,7 @@ export const involvementCategories: InvolvementCategory[] = [
     options: [
       {
         id: 'sponsor',
-        title: 'Become a Sponsor',
+        title: 'Become a sponsor',
         description: 'Fund a build and work with the team doing it.',
         icon: 'handshake',
         link: '/contact/?type=sponsor',
@@ -110,7 +110,7 @@ export const involvementCategories: InvolvementCategory[] = [
       },
       {
         id: 'recruit',
-        title: 'Recruit Talent',
+        title: 'Recruit talent',
         description: 'Hire from the bench — interns and full-time grads who have shipped.',
         icon: 'work',
         link: '/contact/?type=recruit',
@@ -118,7 +118,7 @@ export const involvementCategories: InvolvementCategory[] = [
       },
       {
         id: 'workshop',
-        title: 'Host a Workshop',
+        title: 'Host a workshop',
         description: 'Bring your platform to a workshop and put it in student hands.',
         icon: 'co_present',
         link: '/contact/?type=workshop',
@@ -126,7 +126,7 @@ export const involvementCategories: InvolvementCategory[] = [
       },
       {
         id: 'donate',
-        title: 'Donate Equipment',
+        title: 'Donate equipment',
         description: 'Give boards, tools, or licenses a second life inside a build.',
         icon: 'volunteer_activism',
         link: '/contact/?type=donate',

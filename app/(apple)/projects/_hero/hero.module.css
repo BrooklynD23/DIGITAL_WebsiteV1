@@ -22,7 +22,7 @@
 /* ---------------------------------------------------------------- pinned */
 @media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
   .pin {
-    height: 400vh;
+    height: calc(var(--steps) * 100vh);
     /* hero → stages is a played move, not a scrubbed one: the first scroll flips data-phase and --h runs to the end.
        --h flips on .pin; .heroText, .art and .captions each run their OWN --h transition (registered + inherited, so
        the flip restarts it per element), which sequences text out → art up → heading in, and the reverse on return. */
@@ -72,7 +72,7 @@
 
 @media (scripting: enabled) and (prefers-reduced-motion: no-preference) and (max-width: 734px) {
   /* first viewport: the box is only as tall as the drawing needs (≈ the 150%-wide viewBox), so the sheet sits under the lead */
-  .pin { height: 320vh; --band: 34%; --art-gap: 8px; --art-b0: max(72px, calc(100svh - var(--r2-nav-h) - var(--text-b) - 344px)); }
+  .pin { height: calc(var(--steps) * 80vh); --band: 34%; --art-gap: 8px; --art-b0: max(72px, calc(100svh - var(--r2-nav-h) - var(--text-b) - 344px)); }
   .heroText { top: 16px; }
   .art { left: -25%; right: -25%; } /* 150% wide, centred: the device is not tiny on a phone */
   .heading { font-size: 30px; line-height: 34px; }

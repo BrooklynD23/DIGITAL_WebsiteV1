@@ -416,7 +416,7 @@
   }
 
   .lpinPin {
-    height: calc(100svh + 6 * 50svh);
+    height: calc(100svh + var(--steps) * 50svh);
   }
 
   /* The figure takes whatever the heading and the caption band leave (minmax(0, 1fr)): no pixel offsets. */
@@ -849,5 +849,12 @@
 
   .tN {
     margin-top: 0;
+  }
+}
+
+/* No JS: the spacing toggle cannot work, so it is not shown. */
+@media (scripting: none) {
+  .localSpacing {
+    display: none;
   }
 }

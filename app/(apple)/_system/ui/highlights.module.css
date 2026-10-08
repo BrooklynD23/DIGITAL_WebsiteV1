@@ -172,3 +172,10 @@
     transition: none;
   }
 }
+
+/* No JS: the arrows cannot work, so they are not shown; the row still scrolls and snaps natively. */
+@media (scripting: none) {
+  .btn {
+    display: none;
+  }
+}

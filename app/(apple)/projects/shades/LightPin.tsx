@@ -8,7 +8,7 @@
  *
  * Reduced motion / no JS: no pin; the six stations as a stacked list, each with its caption.
  */
-import { useRef } from 'react';
+import { useRef, type CSSProperties } from 'react';
 import { useScrollSteps } from '../../_system';
 import { SHADES } from '../../_content/shades';
 import { LightPath, StationIcon } from '../../_shades/LightPath';
@@ -31,7 +31,7 @@ export function LightPin() {
   return (
     <section id="light-path" className={s.lpin} data-tone="dark" aria-labelledby="ap-light">
       {/* the pin is measured without the section's black tail, so the last stage rests while still pinned */}
-      <div ref={pin} className={s.lpinPin}>
+      <div ref={pin} className={s.lpinPin} style={{ '--steps': N } as CSSProperties}>
         <div className={s.lpinStage}>
         <header className={s.lpinHead}>
           <h2 id="ap-light" className={s.h2}>{L.headline}</h2>

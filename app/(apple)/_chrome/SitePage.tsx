@@ -55,6 +55,7 @@ import { LOCAL_CTA, LocalNav } from './LocalNav';
 import { WorldFooter } from './WorldFooter';
 import { PAGES, href } from './routes';
 import chrome from './chrome.module.css';
+import page from './site-page.module.css';
 
 const SITE_CTA = { label: LOCAL_CTA.label, href: '/#join' } as const;
 const BUILD_LINKS = PAGES.filter((p) => p.id !== 'home').map((p) => ({ label: p.label, href: href('apple', p.id) }));
@@ -67,11 +68,13 @@ export interface SitePageProps {
 
 export function SitePage({ children, cta = SITE_CTA, tone = 'dark' }: SitePageProps) {
   return (
-    <>
+    // The frame paints black behind the bar's slot: at scroll 0 the translucent dark bar would otherwise sit on the
+    // light page ground and read grey (home, BRAIN and SIDEKICK have a black page wrapper there).
+    <div className={tone === 'dark' ? page.frameDark : undefined}>
       <a className={chrome.skip} href="#r2-main">Skip to content</a>
       <LocalNav title={localTitle} titleHref="/" links={BUILD_LINKS} cta={cta} tone={tone} />
       <main id="r2-main">{children}</main>
       <WorldFooter world="apple" />
-    </>
+    </div>
   );
 }

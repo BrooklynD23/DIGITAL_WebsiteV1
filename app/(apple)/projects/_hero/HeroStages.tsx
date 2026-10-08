@@ -11,7 +11,7 @@
  * Reduced motion / no JS: the thesis, then four stills with their headings (full parity, no pin).
  * `?heroDebug=1` shows a playhead / target readout.
  */
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from 'react';
 import { animate, stagger } from 'animejs';
 import { useScrollSteps } from '../../_system';
 import { hero, stages, thesis } from '../../_content/home';
@@ -133,7 +133,7 @@ export function HeroStages() {
   }, [enhanced, head]);
 
   return (
-    <section ref={section} id="stages" data-tone="dark" className={s.pin} data-phase="hero" aria-labelledby="hero-title">
+    <section ref={section} id="stages" data-tone="dark" className={s.pin} style={{ '--steps': STEPS.count } as CSSProperties} data-phase="hero" aria-labelledby="hero-title">
       <div className={s.pinSticky}>
         <div ref={text} className={s.heroText}>
           <h1 id="hero-title" className={s.heroTitle}>{thesis}</h1>

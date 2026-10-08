@@ -373,3 +373,10 @@
   font-family: var(--font-text);
   letter-spacing: normal;
 }
+
+/* No JS: the controls cannot work, so they are not shown; the printed sentence above stays. */
+@media (scripting: none) {
+  .controls {
+    display: none;
+  }
+}
