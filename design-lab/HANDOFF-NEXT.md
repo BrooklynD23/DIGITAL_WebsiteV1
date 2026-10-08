@@ -3,6 +3,19 @@
 Written 2026-10-08 by the outgoing orchestrator. **Point the next session at this file first.**
 You are the orchestrator: plan, route, verify, report. Delegate the work to subagents.
 
+## 0. Status after the second session (2026-10-08) — read this first
+
+| Item | State |
+|---|---|
+| Commits | `#0066` to `#0071` are committed. Nothing is uncommitted |
+| Draft PR | [#4](https://github.com/BrooklynD23/DIGITAL_WebsiteV1/pull/4): `design-lab/exploration` → `main`, at `#0070`. CI green. **Squash-merge** (branch history carries about 620 MB of lab renders). Vercel builds only the `deployment` branch, so there is no preview: stakeholders see it after merge → CI → promote |
+| Working branch | `design-lab/shades-revamp` (PR branch + the two SHADES mockups) |
+| §5.1 docs sweep, clean-up, small code items | Done. Left: Tailwind / `globals.css` token trim, dead `design-lab/scripts/*.mjs`, unread fields in `_content/shades.ts`, `npm ci` in this tree (node_modules still holds the 21 removed packages) |
+| §5.2 SHADES mockups | Built and verified: `/projects/shades-a/` (object leads) and `/projects/shades-b/` (book leads), `noindex`, not in nav or sitemap. Screenshots and `NOTES.md` in `design-lab/shades-concept/mockups/{a,b}/`. Copy: `app/(apple)/_content/shades-concept.ts` (brand-reviewed) |
+| Image prompts | `design-lab/image-prompts/PROMPTS.md`: 28 prompts (icon, share image, seat art, community art, book plate, optional SHADES pack). Nothing generated |
+
+**Next action:** the Head Designer picks A or B (or parts of each), then answers: green or white held word; dashed or solid frame; blurred book or a new plate (`BOOK-01` prompt); concept-label wording. Then promote the pick to `/projects/shades/`, archive V0.1 and the other mockup, and move the styles mockup A borrows from `projects/shades/apple.module.css`.
+
 ## 1. Where things are
 
 | Thing | Value |
@@ -14,9 +27,7 @@ You are the orchestrator: plan, route, verify, report. Delegate the work to suba
 | Backup | `~/worktrees/_backups/digital-design-lab-pre-promotion-2026-10-07.tgz` (1.4 GB, taken before the restructure) |
 | Deploy | Vercel static export, no custom domain: `https://digitalcpp.vercel.app/`. Last measured build: 41 s, `out/` 6.0 MB, 128 files. |
 
-**First action:** ask the Head Designer whether to commit the current state (one commit, `#0066`, row `lab.13`
-already drafted in `TODO.md` with SHA "uncommitted"). Everything below is safer on top of a commit. Commit only
-when they say so.
+Committed as `#0066` on 2026-10-08 (see §0). The "Git state" row above describes the state before that commit.
 
 ## 2. Read, in this order (about 10 minutes)
 

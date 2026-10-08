@@ -1,0 +1,233 @@
+/* SHADES mockup B · "the book leads". Paper ground (the blurred book photograph), ink type, one green word.
+ * Default styles = the still page (reduced motion, no JS): captions stacked, each with its still.
+ * The pin switches on only under `(scripting: enabled) and (prefers-reduced-motion: no-preference)`.
+ * Type scale, caption swap and tracker follow the BRAIN and SIDEKICK pins. */
+
+.root {
+  --paper: #ece5d6;
+  --hud: #7fe6a3; /* held word and in-lens display content only (DECISIONS #3). Flat: no glow, no halo. */
+  --plate: #0b0f0d; /* the local dimming behind the word */
+  --wrap: 1200px;
+  font-family: var(--font-read, var(--font-text));
+  background: #000;
+}
+
+/* ---------------------------------------------------------------- the pin: ground and copy */
+.pin { position: relative; background: var(--paper); scroll-margin-top: var(--r2-sticky-top, 52px); }
+.sticky {
+  --b-ink: #1d1d1f; /* 13.6:1 on the washed plate */
+  --b-ink-2: #3d3d42; /* 8.4:1 */
+  position: relative; overflow: hidden; color: var(--b-ink);
+  padding: var(--r2-space-8) var(--r2-gutter) var(--r2-space-7);
+  transition: color 600ms var(--r2-ease-ui);
+}
+.sticky[data-tone='dark'] { --b-ink: #f5f5f7; --b-ink-2: #a1a1a6; }
+
+.plate { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.plate img {
+  display: block; width: 100%; height: 100%; object-fit: cover; object-position: 100% 100%;
+  /* Frame the right-hand page: spine at the left, paper everywhere else. Warmed, since the scan is cool grey. */
+  transform: scale(var(--plate-zoom, 1.5)); transform-origin: 100% 100%;
+  filter: sepia(0.3) saturate(1.2) brightness(1.08);
+}
+.wash, .shade { position: absolute; inset: 0; }
+.wash { background: var(--paper); opacity: 0.4; }
+.shade { background: #000; opacity: 0; }
+
+.captions, .figBox, .bar { position: relative; }
+.captions { display: grid; gap: var(--r2-space-9); justify-items: center; text-align: center; }
+.caption { display: grid; gap: clamp(8px, 1.6svh, 16px); justify-items: center; max-width: 46rem; }
+.h1, .h2 { margin: 0; font-family: var(--font-display); font-weight: var(--r2-fw-display); text-wrap: balance; }
+.h1 { font-size: clamp(34px, min(10vw, 11svh), 80px); line-height: 1.05; letter-spacing: var(--r2-ls-hero); }
+.h2 { font-size: clamp(28px, min(8vw, 8svh), 56px); line-height: 1.08; letter-spacing: var(--r2-ls-h1); }
+.line { margin: 0; max-width: 34rem; font-size: clamp(17px, min(4.6vw, 3.2svh), 21px); line-height: 1.4; font-weight: 600; color: var(--b-ink-2); text-wrap: balance; transition: color 600ms var(--r2-ease-ui); }
+.foot { margin: 0; font-size: 14px; line-height: 20px; font-weight: 600; color: var(--b-ink); }
+
+.figBox, .controls { display: none; }
+.bar { margin-top: var(--r2-space-8); display: grid; justify-items: center; }
+.concept { margin: 0; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 4px 10px; font-size: 12px; line-height: 16px; color: var(--b-ink-2); text-align: center; transition: color 600ms var(--r2-ease-ui); }
+.chip { padding: 3px 9px; border: 1px dashed currentColor; border-radius: 980px; font-weight: 600; color: var(--b-ink); white-space: nowrap; transition: color 600ms var(--r2-ease-ui); }
+
+/* ---------------------------------------------------------------- the glasses (live figure and stills) */
+.body, .elev, .chain { fill: none; stroke: currentColor; stroke-width: 1.25; stroke-linecap: round; stroke-linejoin: round; }
+.body { opacity: var(--frame, 1); }
+.front, .back, .temple { fill: currentColor; }
+.front { fill-opacity: var(--fill, 0); }
+.back { fill-opacity: calc(var(--fill, 0) * 0.82); }
+.temple { fill-opacity: calc(var(--fill, 0) * 0.7); opacity: var(--temple, 1); } /* edge-on in a front view: not drawn */
+/* dashed = planned */
+.art[data-line='dashed'] .front, .art[data-line='dashed'] .temple, .body[data-line='dashed'] .front, .body[data-line='dashed'] .temple, .optics { stroke-dasharray: 5 4; }
+.art[data-line='dashed'] .back, .body[data-line='dashed'] .back { stroke-opacity: 0.28; }
+.art[data-line='dashed'] .temple, .body[data-line='dashed'] .temple { stroke-opacity: 0.55; }
+.tint { fill: #000; fill-opacity: var(--tint, 0); stroke: none; } /* flat lens tint: lets the green word read over paper */
+.glass { fill: var(--paper); fill-opacity: var(--glass, 0); stroke: none; } /* the word lens as a window onto the page */
+.optics { fill: currentColor; fill-opacity: 0.05; opacity: var(--lift, 1); }
+.axis { stroke-dasharray: 2 5; stroke-opacity: 0.6; opacity: var(--lift, 1); }
+.cons { stroke-dasharray: 10 4 2 4; stroke-opacity: 0.4; stroke-width: 1; opacity: var(--cons-main, 1); }
+.chain { stroke-dasharray: 5 4; stroke-opacity: 0.7; opacity: var(--sys, 1); }
+.elev { stroke-opacity: 0.45; stroke-dasharray: 5 4; opacity: var(--cons, 0); }
+
+.still { display: block; width: min(100%, 720px); height: auto; margin-bottom: var(--r2-space-4); color: #1d1d1f; overflow: hidden; }
+.still[data-tone='dark'] { color: #f5f5f7; }
+.stillGround { fill: #000; }
+.stillPage { font-family: var(--font-read, var(--font-text)); font-size: 19px; fill: currentColor; }
+.stillScan { fill: none; stroke: currentColor; stroke-width: 1.25; stroke-opacity: 0.55; }
+.stillSys { font-size: 13px; fill: currentColor; }
+.stillOff { fill: none; stroke: currentColor; stroke-dasharray: 5 4; stroke-opacity: 0.7; }
+.stillPlate { fill: var(--plate); }
+.stillWord { font-family: var(--font-read, var(--font-text)); font-size: 44px; font-weight: 600; fill: var(--hud); }
+.stillPoint, .point { fill: var(--r2-trigger); background: var(--r2-trigger); }
+
+/* ---------------------------------------------------------------- pinned */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  .pin { height: calc(100svh + 7 * 50svh); } /* seven stages, half a viewport of scroll each */
+  .sticky {
+    position: sticky; top: var(--r2-sticky-top, var(--r2-nav-h)); height: calc(100svh - var(--r2-nav-h));
+    display: grid; grid-template-rows: auto minmax(0, 1fr) auto; gap: clamp(8px, 2svh, 20px);
+    padding: clamp(16px, 4svh, 40px) var(--r2-gutter) clamp(6px, 1.4svh, 14px);
+  }
+
+  /* All captions share one cell, so the band is as tall as the tallest and never moves the figure. */
+  .captions { gap: 0; align-items: start; }
+  .still { display: none; }
+  /* Out-then-in: the outgoing caption leaves in 160ms, the incoming one arrives after it (never two at once). */
+  .caption {
+    grid-area: 1 / 1; opacity: 0; transform: translateY(12px); visibility: hidden;
+    transition: opacity 160ms var(--r2-ease-ui), transform 160ms var(--r2-ease-ui), visibility 0s 160ms;
+  }
+  .caption[data-active] { opacity: 1; transform: none; visibility: visible; transition: opacity 240ms var(--r2-ease-ui) 160ms, transform 240ms var(--r2-ease-ui) 160ms, visibility 0s 160ms; }
+
+  .figBox { display: block; min-height: 0; }
+  .fig { position: relative; width: 100%; height: 100%; }
+
+  /* The live page. Two halves around the fixed point, so the held word always sits on clear paper. */
+  .pageClip { position: absolute; inset: 0; }
+  .page {
+    position: absolute; inset: 0; margin: 0 auto; width: min(100%, 33em);
+    display: grid; grid-template-rows: minmax(0, 1fr) auto minmax(0, 1fr); justify-items: center;
+    font-size: clamp(18px, min(2vw, 3.6svh), 27px); line-height: 1.8; text-align: center; color: #1d1d1f; /* ink on paper in every stage: it is only ever seen on the page */
+    opacity: var(--page, 1);
+  }
+  .half { margin: 0; text-wrap: balance; }
+  .half:first-child { align-self: end; }
+  .gap { height: clamp(92px, 17svh, 150px); }
+  .half span { opacity: 0.6; transition: opacity 200ms var(--r2-ease-ui); }
+  .half span[data-on] { opacity: 1; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.22em; }
+
+  .scan, .art { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+  .scan { opacity: 0; transition: opacity 320ms var(--r2-ease-ui); }
+  .fig[data-stage='0'] .scan { opacity: 1; }
+  .ring, .jump { fill: none; stroke: var(--b-ink); stroke-width: 1; opacity: 0; }
+  .fix { fill: var(--b-ink); opacity: 0; transform-box: fill-box; transform-origin: center; }
+  .jump { stroke-dasharray: 1; stroke-dashoffset: 1; stroke-linecap: round; }
+  .fig:is([data-phase='scan'], [data-phase='held']) .ring { animation: sbRing 220ms var(--r2-ease-ui) calc(var(--n) * 150ms) both; }
+  .fig:is([data-phase='scan'], [data-phase='held']) .jump { animation: sbJump 150ms linear calc(var(--n) * 150ms - 150ms) both; }
+  .fig[data-phase='scan'] .fix { animation: sbFix 220ms var(--r2-ease-ui) calc(var(--n) * 150ms) both; }
+  /* Every fixation lands on the one point. */
+  .fig[data-phase='held'] .fix { animation: sbLand 620ms var(--r2-ease-emphasized) calc(var(--n) * 24ms) both; }
+
+  .held {
+    position: absolute; left: 0; top: 0; width: 300px; height: 96px; transform-origin: 0 0; will-change: transform;
+    display: grid; place-items: center; border-radius: 14px; background: var(--plate); color: var(--hud);
+    border: 1px dashed rgb(245 245 247 / 0.32); /* the display region: dashed = planned */
+    opacity: 0; transition: opacity 320ms var(--r2-ease-ui);
+  }
+  .fig[data-phase='held'] .held { opacity: 1; transition-delay: 360ms; }
+  .word { display: grid; grid-template-columns: 1fr auto 1fr; width: 100%; font-size: 44px; line-height: 1; font-weight: 500; white-space: nowrap; transform: translateY(-6px); }
+  .word span:first-child { text-align: right; }
+  .word b { font-weight: 800; }
+  .point { position: absolute; left: 50%; bottom: 13px; width: 8px; height: 8px; margin-left: -4px; border-radius: 50%; }
+
+  .tag, .off, .figNote { font-size: 12px; line-height: 16px; white-space: nowrap; pointer-events: none; }
+  .tag { position: absolute; left: 0; top: 0; translate: -50% -100%; color: var(--b-ink); opacity: var(--lab, 0); }
+  .tag[data-tag='frame'] { opacity: var(--sys, 0); }
+  /* The display tag sits on the paper window in the optics stage, on black in the system stage. */
+  .tag[data-tag='display'] { color: color-mix(in srgb, #1d1d1f calc(var(--glass, 0) * 116%), var(--b-ink)); }
+  .tag[data-side='1'] { translate: -50% 0; }
+  .off {
+    position: absolute; top: 80%; left: 4%; min-width: 108px; padding: 11px 14px; text-align: center;
+    border: 1px dashed currentColor; border-radius: 10px; color: var(--b-ink); opacity: var(--sys, 0);
+  }
+  .off + .off { left: calc(4% + 168px); }
+  .figNote { position: absolute; left: 50%; bottom: 0; translate: -50% 0; color: var(--b-ink-2); opacity: 0; transition: opacity 160ms var(--r2-ease-ui), color 600ms var(--r2-ease-ui); }
+  .figNote[data-active] { opacity: 1; transition: opacity 320ms var(--r2-ease-ui) 620ms, color 600ms var(--r2-ease-ui); }
+
+  .bar { margin-top: 0; gap: 2px; }
+  .controls { display: flex; justify-content: center; align-items: center; gap: 4px; }
+  .tracker { display: flex; gap: 4px; }
+  .trackBtn, .pause { min-width: 44px; min-height: 44px; background: none; border: 0; border-radius: 980px; color: var(--b-ink-2); font: inherit; font-size: 12px; line-height: 16px; cursor: pointer; transition: color var(--r2-dur-ui-fast) var(--r2-ease-ui); }
+  .trackBtn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 0 12px; }
+  .trackBtn:hover, .trackBtn[aria-current], .pause:hover { color: var(--b-ink); }
+  .trackBtn:focus-visible, .pause:focus-visible { outline: 2px solid var(--b-ink); outline-offset: -4px; }
+  .trackDot { width: 8px; height: 8px; border-radius: 50%; border: 1px solid currentColor; transition: background var(--r2-dur-ui-fast) var(--r2-ease-ui); }
+  .trackBtn[aria-current] .trackDot { background: currentColor; }
+  .pause { display: grid; place-items: center; margin-left: 8px; }
+  .pause svg { fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+}
+
+@keyframes sbRing { from { opacity: 0; } to { opacity: 0.42; } }
+@keyframes sbFix { from { opacity: 0; transform: scale(0.4); } to { opacity: 0.9; transform: none; } }
+@keyframes sbJump { from { opacity: 0.42; stroke-dashoffset: 1; } to { opacity: 0.42; stroke-dashoffset: 0; } }
+@keyframes sbLand { from { opacity: 0.9; transform: none; } to { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0.3); } }
+
+/* Phones: six 44px markers and the pause fit one row; the stage is the heading above, names stay for screen readers. */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) and (max-width: 734px) {
+  .sticky { --plate-zoom: 1.9; }
+  .tracker { gap: 0; }
+  .trackBtn { padding: 0; }
+  .trackName { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .pause { margin-left: 0; }
+  .tag, .off { font-size: 11px; }
+  .off { top: 84%; left: 0; min-width: 0; padding: 9px 10px; }
+  .off + .off { left: 112px; }
+}
+
+/* ---------------------------------------------------------------- after the pin: black chapters */
+.h2c, .h3 { margin: 0; font-family: var(--font-display); font-weight: var(--r2-fw-display); text-wrap: balance; }
+.h2c { font-size: var(--r2-fs-h1); line-height: var(--r2-lh-h1); letter-spacing: var(--r2-ls-h1); }
+.h3 { font-size: var(--r2-fs-h3); line-height: var(--r2-lh-h3); letter-spacing: var(--r2-ls-h3); }
+.lead { margin: 0 auto; max-width: 40rem; font-size: var(--r2-fs-lead); line-height: 1.5; font-weight: 500; color: var(--r2-ink-2); text-wrap: pretty; }
+.copy { margin: 0; max-width: 60ch; font-size: var(--r2-fs-body); line-height: 1.6; color: var(--r2-ink-2); }
+.note { margin: 0; font-size: 13px; line-height: 1.5; color: var(--r2-ink-2); text-align: center; }
+
+.chapter { padding: var(--r2-space-9) var(--r2-gutter); display: grid; gap: var(--r2-space-7); scroll-margin-top: var(--r2-nav-h); }
+.raised { background: var(--r2-ground-raised); }
+.chapterHead { display: grid; gap: var(--r2-space-4); justify-items: center; text-align: center; max-width: 860px; margin: 0 auto; }
+
+.cols { display: grid; grid-template-columns: 1fr 1fr; width: min(1040px, 100%); margin: 0 auto; }
+.col { display: grid; gap: var(--r2-space-4); align-content: start; padding: 0 var(--r2-space-7); }
+.col + .col { border-left: 1px solid var(--r2-hairline); }
+.groups { margin: var(--r2-space-3) 0 0; border-top: 1px solid var(--r2-hairline); }
+.groups div { display: grid; grid-template-columns: 7.5em minmax(0, 1fr); column-gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--r2-hairline); font-size: 15px; line-height: 22px; }
+.groups dt { font-weight: 600; color: var(--r2-ink); }
+.groups dd { margin: 0; color: var(--r2-ink-2); }
+.groups div[data-off] dt { text-decoration: underline dashed; text-decoration-thickness: 1px; text-underline-offset: 0.3em; } /* dashed = not placed yet */
+.boundary { display: grid; gap: var(--r2-space-2); margin-top: var(--r2-space-3); padding-top: var(--r2-space-4); border-top: 1px solid var(--r2-hairline); }
+.boundary strong { font-family: var(--font-display); font-weight: 600; font-size: 21px; line-height: 28px; color: var(--r2-ink); }
+.neverLabel { display: block; font-size: 13px; line-height: 20px; font-weight: 600; color: var(--r2-ink-2); }
+.never { margin: 0; font-size: 17px; line-height: 1.5; color: var(--r2-ink); }
+
+.compare { width: min(980px, 100%); margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: var(--r2-space-7); }
+.compareHead { margin: 0 0 var(--r2-space-3); font-family: var(--font-display); font-weight: 600; font-size: 21px; line-height: 28px; }
+.compareList { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--r2-hairline); }
+.compareList li { display: grid; grid-template-columns: 24px 1fr; align-items: center; min-height: 52px; border-bottom: 1px solid var(--r2-hairline); font-size: 17px; }
+.compareList li::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--r2-ink); }
+.compareList li[data-kind='out'] { color: var(--r2-ink-2); }
+.compareList li[data-kind='out']::before { background: transparent; border: 1px solid var(--r2-ink-2); }
+
+.timeline { list-style: none; margin: 0 auto; padding: 0; width: min(1100px, 100%); display: grid; grid-template-columns: repeat(7, 1fr); position: relative; }
+.timeline::before { content: ''; position: absolute; top: 7px; left: calc(100% / 14); right: calc(100% / 14); border-top: 1px dashed var(--r2-hairline-strong); }
+.tPhase { position: relative; display: grid; gap: var(--r2-space-2); justify-items: center; text-align: center; padding: 0 var(--r2-space-2); }
+.tDot { width: 15px; height: 15px; border-radius: 50%; border: 1px solid var(--r2-ink-2); background: var(--r2-ground); }
+.tN { margin-top: var(--r2-space-2); font-family: var(--font-mono); font-size: 12px; color: var(--r2-ink-2); }
+.tName { font-weight: 600; font-size: 17px; line-height: 1.35; }
+
+@media (max-width: 734px) {
+  .cols, .compare { grid-template-columns: 1fr; gap: var(--r2-space-6); }
+  .col { padding: 0; }
+  .col + .col { border-left: 0; border-top: 1px solid var(--r2-hairline); padding-top: var(--r2-space-6); }
+  .timeline { grid-template-columns: 1fr; gap: var(--r2-space-4); width: min(320px, 100%); }
+  .timeline::before { top: 8px; bottom: 8px; left: 7px; right: auto; border-top: 0; border-left: 1px dashed var(--r2-hairline-strong); }
+  .tPhase { grid-template-columns: 15px 32px 1fr; justify-items: start; align-items: center; text-align: left; gap: var(--r2-space-3); padding: 0; }
+  .tN { margin-top: 0; }
+}

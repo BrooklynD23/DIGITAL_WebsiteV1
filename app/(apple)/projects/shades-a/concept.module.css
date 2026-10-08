@@ -1,0 +1,178 @@
+/* SHADES concept · mockup A, "the object leads". Pure black, one code-drawn frame, seven played stages.
+ * Default styles = the still page (reduced motion, no JS): seven stills in normal flow, each with its copy.
+ * The pin switches on only under `(scripting: enabled) and (prefers-reduced-motion: no-preference)`.
+ * Type clamps on viewport height as well as width (BRAIN's values) and the figure takes what is left. */
+
+.page {
+  /* The in-lens display colour (Head Designer, DECISIONS #3). Flat: no glow, no halo. */
+  --hud: #7fe6a3;
+  --word: var(--hud);
+  /* Functional palette for the System stage: five hues with alternating lightness, the SIDEKICK recipe.
+     The display takes the HUD green. Never used without a text label. Hex = sRGB fallback of the oklch below. */
+  --sh-frame: #60c2ff;
+  --sh-display: var(--hud);
+  --sh-optics: #b28fef;
+  --sh-timing: #ef8bc5;
+  --sh-control: #dfe072;
+}
+@supports (color: oklch(0.78 0.13 240)) {
+  .page {
+    --sh-frame: oklch(0.78 0.13 240);
+    --sh-optics: oklch(0.72 0.14 300);
+    --sh-timing: oklch(0.76 0.14 345);
+    --sh-control: oklch(0.88 0.14 105);
+  }
+}
+.pin[data-word='white'] { --word: #fff; }
+
+.page [data-g='frame'] { --g: var(--sh-frame); }
+.page [data-g='display'] { --g: var(--sh-display); }
+.page [data-g='optics'] { --g: var(--sh-optics); }
+.page [data-g='timing'] { --g: var(--sh-timing); }
+.page [data-g='control'] { --g: var(--sh-control); }
+
+/* ---------------------------------------------------------------- artwork */
+.svg { display: block; width: 100%; height: 100%; overflow: visible; color: var(--r2-ink); --tint: 0; }
+.svg path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.25;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+/* A part takes its group colour as the System stage opens (--tint 0 → 1). */
+.svg path[data-g] { stroke: color-mix(in oklab, var(--g) calc(var(--tint) * 100%), currentColor); }
+/* Flat black faces: a nearer part hides the lines behind it. */
+.svg path[data-kind='solid'] { fill: #000; stroke-dasharray: 7 3; }
+.svg path[data-kind='glass'] { fill: var(--g); fill-opacity: calc(var(--tint) * 0.1); }
+/* Dashed = planned, not chosen: the display region and the two functions drawn off the frame. */
+.svg path[data-kind='region'] { stroke-dasharray: 4 4; fill: var(--g); fill-opacity: calc(var(--tint) * 0.1); }
+.svg path[data-kind='cons'] { stroke-width: 1; stroke-dasharray: 2 5; }
+.svg path[data-kind='matte'] { fill: #000; stroke: none; }
+.word { fill: var(--word); font-family: var(--font-read, var(--font-text)); font-weight: 600; letter-spacing: 0.01em; }
+.fix { fill: var(--r2-trigger); }
+
+/* Hero dots: where a reader's eyes might land along the lines of a page (illustrative). */
+.dots { position: absolute; left: 50%; top: 50%; width: 0; height: 0; color: var(--r2-ink); --bw: 100cqw; --bh: 100cqh; pointer-events: none; }
+.dot {
+  position: absolute; left: 0; top: 0; width: var(--r); height: var(--r); margin: calc(var(--r) / -2); border-radius: 50%;
+  background: currentColor; opacity: 0.3;
+  transform: translate(calc(var(--u) * var(--bw)), calc(var(--v) * var(--bh)));
+}
+
+.tag {
+  position: absolute; left: 0; top: 0; transform: translate(-50%, -50%); display: inline-flex; align-items: center; gap: 6px;
+  white-space: nowrap; pointer-events: none; font-size: 12px; line-height: 16px; color: var(--r2-ink-2); opacity: 0;
+}
+.swatch { flex: none; display: inline-block; width: 8px; height: 8px; border-radius: 2px; background: var(--g); }
+
+/* The one raster: the book, behind the lens. Its own printed text is softened until it cannot be read. */
+.photo { position: absolute; overflow: hidden; background: #000; }
+.photo img { position: absolute; left: 50%; top: 50%; width: 215%; max-width: none; height: auto; transform: translate(-64%, -70%); filter: blur(3.5px); opacity: 0.5; }
+
+/* ---------------------------------------------------------------- copy (shared by captions and stills) */
+.pin { position: relative; background: #000; color: var(--r2-ink); scroll-margin-top: var(--r2-sticky-top, 52px); }
+.sticky { padding: var(--r2-space-8) var(--r2-gutter) var(--r2-space-9); }
+.h1, .h2 { margin: 0; font-family: var(--font-display); font-weight: var(--r2-fw-display); text-wrap: balance; }
+.h1 { font-size: clamp(34px, min(10vw, 11svh), 80px); line-height: 1.05; letter-spacing: var(--r2-ls-hero); }
+.h2 { font-size: clamp(28px, min(8vw, 8svh), 56px); line-height: 1.08; letter-spacing: var(--r2-ls-h1); }
+.line { margin: 0; max-width: 34rem; font-size: clamp(17px, min(4.6vw, 3.2svh), 21px); line-height: 1.4; font-weight: 600; color: var(--r2-ink-2); text-wrap: balance; }
+.foot { margin: 0; font-size: 12px; line-height: 16px; color: var(--r2-ink-2); text-align: center; }
+
+.legend { margin: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--r2-space-4); width: min(100%, 1040px); text-align: left; font-size: 12px; line-height: 16px; }
+.legend > div { border-top: 1px solid var(--r2-hairline); padding-top: 8px; }
+.legend dt { display: flex; align-items: center; gap: 8px; font-weight: 600; color: var(--r2-ink); }
+.legend dd { margin: 2px 0 0; color: var(--r2-ink-2); text-wrap: pretty; }
+
+.road { display: grid; gap: 10px; justify-items: center; width: min(100%, 1040px); }
+.phases { list-style: none; margin: 0; padding: 0; width: 100%; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: var(--r2-space-3); text-align: left; font-size: 12px; line-height: 16px; color: var(--r2-ink); }
+.phases li { border-top: 1px dashed var(--r2-hairline-strong); padding-top: 8px; display: grid; gap: 2px; align-content: start; }
+.phaseN { font-family: var(--font-mono); color: var(--r2-ink-2); }
+
+.concept { margin: 0; text-align: center; font-size: 12px; line-height: 16px; color: var(--r2-ink-2); }
+.concept strong { margin-right: 8px; padding: 1px 7px; border: 1px solid var(--r2-hairline-strong); border-radius: 980px; font-weight: 500; color: var(--r2-ink); }
+
+/* ---------------------------------------------------------------- stills (the default page) */
+.fig, .bar { display: none; }
+/* The hero copy is the first caption; the still page shows it above the first still and hides the other six. */
+.captions { display: grid; justify-items: center; text-align: center; margin-bottom: var(--r2-space-4); }
+.caption { display: grid; gap: var(--r2-space-4); justify-items: center; }
+.caption:not(:first-child) { display: none; }
+.stills { list-style: none; margin: 0 auto var(--r2-space-8); padding: 0; max-width: 960px; display: grid; gap: var(--r2-space-9); }
+.still { display: grid; gap: var(--r2-space-4); justify-items: center; text-align: center; }
+.stillFig { position: relative; width: 100%; aspect-ratio: 960 / 440; container-type: size; margin: var(--r2-space-4) 0; }
+.stillFig .svg { position: absolute; inset: 0; }
+
+/* ---------------------------------------------------------------- pinned */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  .pin { height: calc(100svh + 7 * 50svh); } /* seven stages; scroll only triggers, so the holds stay short */
+  .sticky {
+    position: sticky; top: var(--r2-sticky-top, var(--r2-nav-h)); height: calc(100svh - var(--r2-nav-h)); overflow: hidden;
+    display: grid; grid-template-rows: auto minmax(0, 1fr) auto auto; gap: clamp(6px, 1.4svh, 14px);
+    padding: clamp(16px, 4svh, 44px) var(--r2-gutter) clamp(8px, 1.6svh, 18px);
+  }
+  .stills { display: none; }
+
+  /* All captions share one cell, so the band is as tall as the tallest and never moves the figure. */
+  .captions { align-items: start; margin-bottom: 0; }
+  .caption:not(:first-child) { display: grid; }
+  /* Out-then-in: the outgoing caption leaves in 160ms, the incoming one arrives after it (never two at once). */
+  .caption, .panel {
+    grid-area: 1 / 1; opacity: 0; transform: translateY(12px); visibility: hidden;
+    transition: opacity 160ms var(--r2-ease-ui), transform 160ms var(--r2-ease-ui), visibility 0s 160ms;
+  }
+  .caption { display: grid; gap: clamp(8px, 1.6svh, 16px); justify-items: center; max-width: 46rem; }
+  .caption[data-active], .panel[data-active] { opacity: 1; transform: none; visibility: visible; transition: opacity 240ms var(--r2-ease-ui) 160ms, transform 240ms var(--r2-ease-ui) 160ms, visibility 0s 160ms; }
+  .panel[data-active] { transition-delay: 620ms, 620ms, 160ms; transition-duration: 320ms, 320ms, 0s; }
+
+  .fig { display: block; position: relative; min-height: 0; container-type: size; }
+  .art { position: absolute; inset: 0; }
+  .photo { z-index: 0; }
+  .art, .dots, .tag { z-index: 1; }
+  .panel { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; display: grid; justify-items: center; }
+
+  /* Hero entry, once per entry: the dots travel to the point, then the word appears. */
+  .dot::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: currentColor; opacity: 0; }
+  .fig[data-play] .dot::after { animation: converge 1500ms cubic-bezier(0.6, 0, 0.2, 1) calc(var(--i) * 16ms + 250ms) both; }
+  .fig[data-play] .word { animation: wordIn 400ms var(--r2-ease-ui) 2100ms both; }
+
+  .bar { display: flex; justify-content: center; align-items: center; gap: 4px; }
+  .tracker { display: flex; gap: 4px; }
+  .step, .colour { min-width: 44px; min-height: 44px; background: none; border: 0; border-radius: 980px; color: var(--r2-ink-2); font: inherit; font-size: 12px; line-height: 16px; cursor: pointer; transition: color var(--r2-dur-ui-fast) var(--r2-ease-ui); }
+  .step, .colour { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 0 12px; }
+  .step:hover, .step[aria-current], .colour:hover, .colour[aria-pressed='true'] { color: var(--r2-ink); }
+  .step:focus-visible, .colour:focus-visible { outline: 2px solid var(--r2-focus); outline-offset: -4px; }
+  .stepDot { width: 8px; height: 8px; border-radius: 50%; border: 1px solid currentColor; transition: background var(--r2-dur-ui-fast) var(--r2-ease-ui); }
+  .step[aria-current] .stepDot { background: currentColor; }
+  .colours { display: flex; margin-left: 8px; }
+  .colour { gap: 6px; padding: 0 8px; }
+  .colourChip { width: 10px; height: 10px; border-radius: 50%; opacity: 0.45; }
+  .colour[aria-pressed='true'] .colourChip { opacity: 1; box-shadow: 0 0 0 2px #000, 0 0 0 3px var(--r2-ink-2); }
+  .colourHex { font-family: var(--font-mono); font-size: 11px; }
+}
+
+@keyframes converge {
+  from { transform: none; opacity: 1; }
+  to { transform: translate(calc(var(--u) * var(--bw) * -1), calc(var(--v) * var(--bh) * -1)); opacity: 0; }
+}
+@keyframes wordIn { from { opacity: 0; } to { opacity: 1; } }
+
+@media (max-width: 734px) {
+  .legend { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .legend > div { display: grid; grid-template-columns: 7.5em minmax(0, 1fr); column-gap: 8px; padding: 5px 0; }
+  .legend dd { margin: 0; }
+  .phases { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--r2-space-4); }
+  .phases li { grid-template-columns: 1.4em minmax(0, 1fr); padding: 4px 0; border-top-style: solid; border-top-color: var(--r2-hairline); }
+  .stillFig .tag { display: none; }
+}
+
+/* Phones: six 44px markers on one row (names stay for screen readers), the two word colours on the next. */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) and (max-width: 734px) {
+  .tracker { gap: 0; }
+  .step { padding: 0; }
+  .stepName { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .bar { flex-wrap: wrap; row-gap: 0; }
+  .colours { margin-left: 0; flex-basis: 100%; justify-content: center; }
+  .tag { font-size: 11px; }
+}
