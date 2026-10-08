@@ -8,8 +8,8 @@ export** (`output: 'export'` in `next.config.js`) and is deployed to Vercel.
 
 As of 2026-10-07 the **Apple system** is the site's default design system. The live pages are
 in the `app/(apple)/` route group: `/` (phone-hero home), `/projects/sidekick/`,
-`/projects/shades/` and `/projects/brain/`. Routes still on the previous design are in
-`app/(legacy)/` and are being migrated onto the Apple system. Every earlier design and
+`/projects/shades/` and `/projects/brain/`. The remaining pages (about, team, community, get involved, contact, legal) are in
+`app/(apple)/` on the same system. Every earlier design and
 iteration is in `archive/`, which is excluded from the build and from type-checking.
 
 The system is documented as implemented in the root `DESIGN.md`. When code and that document
@@ -45,9 +45,7 @@ Run `./run.sh check` before committing to confirm TypeScript and lint are clean.
 | `app/(apple)/_chrome/` | `LocalNav`, `WorldFooter`, `JoinChapter`, `SitePage` (frame for simple pages), `routes.ts`, `club.ts` (`CLUB` / `LINKS` / `MEETINGS`) |
 | `app/(apple)/_content/` | Copy for the Apple pages (`home.ts`, `sidekick.ts`, `shades.ts`, `brain.ts`) |
 | `app/(apple)/projects/_hero/` | Home phone-hero artwork + `useStagePlayback.ts` (stage playback used by every pinned page) |
-| `app/(legacy)/` | Routes not yet migrated, their layout, and redirect stubs for retired URLs |
-| `lib/data/` | Club facts and content for the legacy routes (siteConfig, team, involvement, about, community) |
-| `components/` | Legacy chrome (`layout/`) and two legacy UI helpers (`ui/`) |
+| `lib/data/` | Club facts and content read by the Apple pages (siteConfig, team, involvement, about, community) |
 | `archive/` | Every earlier design and iteration; not built, linted or type-checked. Index: `archive/README.md` |
 | `design-lab/` | Design-lab record: research, renders, scripts (e.g. `scripts/sidekick-mainboard.mjs`) |
 
@@ -63,8 +61,8 @@ implementation** — propose the change and wait for sign-off; never overhaul fi
 | `/projects/shades/` | root `DESIGN.md` |
 | `/projects/sidekick/` | `docs/design/sidekick.DESIGN.md` — **LOCKED 2026-10-07: no changes without Head Designer sign-off** |
 | `/projects/brain/` | `docs/design/brain.DESIGN.md` — **LOCKED 2026-10-07: no changes without Head Designer sign-off** |
-| `(legacy)` routes: `/about`, `/team`, `/community`, `/contact`, `/get-involved`, `/privacy`, `/terms`, `/cookies`, error pages | Being migrated to the Apple system — root `DESIGN.md` |
-| Redirect stubs: `/pillars`, `/projects`, `/projects/modular-smartphone`, `/projects/smart-reading`, `/design-lab/r2/apple/*` | None — `app/(legacy)/_redirect.tsx`; do not extend |
+| `/about`, `/team`, `/community`, `/contact`, `/get-involved`, `/privacy`, `/terms`, `/cookies`, error pages | Apple system (`SitePage` / `LegalPage` frames) — root `DESIGN.md` |
+| Redirect stubs: `/pillars`, `/projects`, `/projects/modular-smartphone`, `/projects/smart-reading`, `/design-lab/r2/apple/*` | None — `app/(apple)/_redirect.tsx`; do not extend |
 
 A locked page also depends on shared code (`_system`, `_chrome`, `projects/_hero/useStagePlayback.ts`).
 Each locked spec lists its dependencies; re-check the locked page after touching any of them.
@@ -100,11 +98,11 @@ config, or feature work should be left unrecorded in that table.
   resolvable at build time.
 - **Styling.** The Apple system uses CSS modules on the `--r2-*` tokens from
   `app/(apple)/_system/tokens/worlds.css`; do not add Tailwind classes or new hex values to
-  Apple pages. Tailwind and `app/globals.css` remain only for the `app/(legacy)/` routes. Do
+  Apple pages. Tailwind (`tailwind.config.ts`) is configured but no live route uses it. Do
   not add a CSS-in-JS library.
 - **Content lives in data files** — never hard-code copy into page or component files.
-  Apple pages read `app/(apple)/_content/*.ts` and `app/(apple)/_chrome/club.ts`; legacy
-  pages and club facts read `lib/data/`. Print only facts a source states.
+  Apple pages read `app/(apple)/_content/*.ts` and `app/(apple)/_chrome/club.ts`; club facts,
+  team, involvement and community content live in `lib/data/`. Print only facts a source states.
 - **TypeScript strict.** The project uses `strict: true`. All new code must pass
   `tsc --noEmit` without errors.
 - **One red (`#d8412f`, `--r2-trigger`).** Per `DESIGN.md` §6 it is a mark: the test point

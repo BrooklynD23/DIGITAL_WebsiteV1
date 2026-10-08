@@ -18,7 +18,7 @@ formspreeEndpoint: 'https://formspree.io/f/YOUR_FORM_ID',
 ```
 
 Until it is replaced, `/contact` **refuses to submit** and tells visitors to email directly
-(`app/contact/page.tsx`, `status === 'unconfigured'`). This is deliberate — a placeholder POST
+(`app/(apple)/contact/ContactForm.tsx`, `status === 'unconfigured'`). This is deliberate — a placeholder POST
 would 404 and read to the user as a transient network glitch.
 
 - [ ] Create the form at [formspree.io](https://formspree.io) on the club account
@@ -42,11 +42,10 @@ by design and **must not** be promoted before a deployed validation pass — a b
 a report-only phase that has never shipped.
 
 Validate in the browser console on a production deploy, exercising **every** route, especially the
-two immersive ones:
+the pinned build pages:
 
-- [ ] `/` — home landing (GSAP, Lenis, next/font)
-- [ ] `/projects/modular-smartphone` — PhoneV2 (inline SVG styles)
-- [ ] `/projects/smart-reading` — R3F/three.js (WebGL, blob workers)
+- [ ] `/` — home (phone hero, pinned stages)
+- [ ] `/projects/sidekick/`, `/projects/shades/`, `/projects/brain/` — pinned stage pages
 - [ ] `/contact` — Formspree `form-action` and `connect-src`
 - [ ] Vercel Analytics + Speed Insights beacons on any route
 
@@ -64,7 +63,7 @@ and remove the `_comment` guard:
 
 - [ ] Zero violations observed across all routes above
 - [ ] Header promoted and `_comment` guard removed
-- [ ] Post-promotion smoke test — all three immersive routes still render
+- [ ] Post-promotion smoke test — `/`, `/projects/sidekick/`, `/projects/shades/` and `/projects/brain/` still render
 
 ## 4. Dependency + preflight gates
 
@@ -74,8 +73,7 @@ and remove the `_comment` guard:
 
 ## 5. Search-engine hygiene
 
-- [x] `/review` is `noindex` (`app/review/page.tsx`) and excluded from `app/sitemap.ts`
-- [x] `/review` disallowed in `app/robots.ts`
+- [x] `/review` retired 2026-10-07: no route (`app/review/` is gone), not in `app/sitemap.ts` or `app/robots.ts`
 - [ ] Submit `/sitemap.xml` to Google Search Console once the domain is live
 
 ---

@@ -1,7 +1,6 @@
 # Maintainer Guide
 
-How to update and maintain the DIGITAL website. For route maps and immersive-route
-behavior, see [`ROUTES.md`](./ROUTES.md). For design rules, see [`DESIGN.md`](../DESIGN.md)
+How to update and maintain the DIGITAL website. For route maps, see [`ROUTES.md`](./ROUTES.md). For design rules, see [`DESIGN.md`](../DESIGN.md)
 and route-scoped docs under [`docs/design/`](./design/). For copy voice, see
 [`docs/design/BRAND.md`](./design/BRAND.md).
 
@@ -11,7 +10,7 @@ and route-scoped docs under [`docs/design/`](./design/). For copy voice, see
 2. [Updating Team Members](#updating-team-members)
 3. [Updating Projects](#updating-projects)
 4. [Updating Site Configuration](#updating-site-configuration)
-5. [Updating Immersive Experience Copy](#updating-immersive-experience-copy)
+5. [Updating Page Copy](#updating-page-copy)
 6. [Updating Get Involved Options](#updating-get-involved-options)
 7. [Replacing Placeholder Images](#replacing-placeholder-images)
 8. [Adding New Pages](#adding-new-pages)
@@ -27,20 +26,16 @@ and route-scoped docs under [`docs/design/`](./design/). For copy voice, see
 | Task | File to Edit |
 |------|--------------|
 | Add/edit team members | `lib/data/team.ts` |
-| Add/edit projects | `lib/data/projects.ts` |
+| Build pages' copy (home, SIDEKICK, SHADES, BRAIN) | `app/(apple)/_content/{home,sidekick,shades,brain}.ts` |
 | Update contact info | `lib/data/siteConfig.ts` |
-| Change social links | `lib/data/siteConfig.ts` |
-| Update stats | `lib/data/siteConfig.ts` |
-| Update sponsors | `lib/data/siteConfig.ts` |
-| Homepage landing copy | `lib/data/homeLanding.ts` |
-| Smartphone experience copy | `lib/data/phoneV2.ts` |
-| Smart Reading copy | `lib/data/experiments/glasses.ts` |
+| Change social links | `lib/data/siteConfig.ts` (`social`) |
+| Update stats | `lib/data/siteConfig.ts` (exported; no live page renders it) |
+| Update sponsors | `lib/data/siteConfig.ts` (exported; no live page renders it) |
 | Add/edit involvement options | `lib/data/involvement.ts` |
-| Replace images | `public/images/` or `public/assets/` |
-| Edit standard page content | `app/[page]/page.tsx` + data files |
-| Modify shared UI | `components/ui/` |
-| Update navigation | `components/layout/Navbar.tsx` |
-| Immersive chrome rules | `lib/immersiveRoutes.ts` |
+| Replace images | `public/assets/` |
+| Edit a standard page's content | `app/(apple)/<page>/page.tsx` + `app/(apple)/_content/<page>.ts` |
+| Modify shared UI | `app/(apple)/_system/ui/` |
+| Update navigation and footer lists | `app/(apple)/_chrome/routes.ts` |
 
 ---
 
@@ -89,7 +84,9 @@ Find their object by `id` and modify the fields.
 
 ## Updating Projects
 
-**File:** `lib/data/projects.ts`
+> **Retired 2026-10-07.** `lib/data/projects.ts` is archived at `archive/lib/data/projects.ts`. The build pages' copy now lives in `app/(apple)/_content/{sidekick,shades,brain}.ts`. The schema below is kept for reference only.
+
+**File (archived):** `archive/lib/data/projects.ts`
 
 ### Add a New Project
 
@@ -168,7 +165,7 @@ Only one project should have `isFlagship: true`. This project appears in the her
 
 ```typescript
 contact: {
-  email: 'digital@cpp.edu',
+  email: '', // no public email yet; empty makes pages show Discord instead
   meetingTime: 'Thursdays @ 6:00 PM',
   location: 'Building 17, Room 1635',
   campus: 'Cal Poly Pomona',
@@ -177,16 +174,19 @@ contact: {
 
 ### Social Links
 
+Edit links in this one block only. `app/(apple)/_chrome/club.ts`, the footer and the Community page read it.
+
 ```typescript
 social: {
-  linkedin: 'https://linkedin.com/company/digital-cpp',
-  instagram: 'https://instagram.com/digital_cpp',
-  discord: 'https://discord.gg/your-invite-code',
-  github: 'https://github.com/digital-cpp',
+  discord: 'https://discord.gg/U77P2U2D84',
+  brainDiscord: 'https://discord.gg/Smfv4weJMz',
+  github: 'https://github.com/DIGITALatCalPolyPomonaCPP/SIDEKICK-Prev.-TheSmartphoneProject-',
+  linkedin: 'https://www.linkedin.com/company/digital-cal-poly-pomona',
+  instagram: 'https://www.instagram.com/digital.cpp/',
 },
 ```
 
-### Stats (Homepage)
+### Stats (exported; no live page renders it)
 
 ```typescript
 stats: {
@@ -197,7 +197,7 @@ stats: {
 },
 ```
 
-### Sponsors
+### Sponsors (exported; no live page renders it)
 
 ```typescript
 sponsors: [
@@ -220,22 +220,25 @@ To get your form ID:
 
 ---
 
-## Updating Immersive Experience Copy
+## Updating Page Copy
 
-Immersive routes hide the global Navbar/Footer (`lib/immersiveRoutes.ts`). Copy for each
-experience lives in dedicated data files — **never** hard-code strings in experience components.
+Copy for each live page lives in `app/(apple)/_content/`. **Never** hard-code strings in page components.
 
-| Route | Data file | Component |
-|-------|-----------|-----------|
-| `/` | `lib/data/homeLanding.ts` | `components/home/HomeLanding.tsx` |
-| `/projects/modular-smartphone` | `lib/data/phoneV2.ts` | `components/phone-v2/PhoneV2Experience.tsx` |
-| `/projects/smart-reading` | `lib/data/experiments/glasses.ts` | `components/experiments/glasses/GlassesExperience.tsx` |
+| Route | Copy file | Page |
+|-------|-----------|------|
+| `/` | `app/(apple)/_content/home.ts` | `app/(apple)/page.tsx` + `app/(apple)/projects/_hero/` |
+| `/projects/sidekick/` | `app/(apple)/_content/sidekick.ts` | `app/(apple)/projects/sidekick/` (LOCKED) |
+| `/projects/shades/` | `app/(apple)/_content/shades.ts` | `app/(apple)/projects/shades/` |
+| `/projects/brain/` | `app/(apple)/_content/brain.ts` | `app/(apple)/projects/brain/` (LOCKED) |
+| `/about`, `/team`, `/community`, `/get-involved`, `/contact` | `app/(apple)/_content/<page>.ts` | `app/(apple)/<page>/page.tsx` |
 
 **Copy workflow:** Read [`docs/design/BRAND.md`](./design/BRAND.md) first. Route copy changes
 through the `brand-voice-strategist` agent and `brand-guardian` review before commit.
+Locked pages (`/projects/sidekick/`, `/projects/brain/`) also need Head Designer sign-off.
 
-**GSAP text reveals:** The smartphone route uses `components/motion/TextReveal.tsx`.
-Register plugins once via `components/motion/gsapSetup.ts`. Respect `prefers-reduced-motion`.
+**Motion:** The GSAP text reveal (`TextReveal.tsx`, `gsapSetup.ts`) is archived in
+`archive/components/motion/` with the smartphone page; no live page imports it.
+Respect `prefers-reduced-motion`.
 
 ---
 
@@ -304,7 +307,9 @@ export const meetingInfo = {
 
 ## Replacing Placeholder Images
 
-### Image Locations
+> **Retired 2026-10-07.** `public/images/` no longer exists. Live images are under `public/assets/` (`landing/`, `boards/`, `cine/`). The placeholder inventory in `IMAGE_REPLACEMENT_GUIDE.md` is partly legacy.
+
+### Image Locations (retired tree)
 
 ```
 public/images/
@@ -333,10 +338,10 @@ public/images/
 
 ### How to Replace
 
-1. Add your image to the appropriate folder in `public/images/`
+1. Add your image to the appropriate folder in `public/assets/`
 2. Update the path in the data file:
    - Team: `lib/data/team.ts` → `image` field
-   - Projects: `lib/data/projects.ts` → `image` field
+   - Projects: retired (`archive/lib/data/projects.ts`)
 3. Use the path starting from `/images/...`
 
 Example:
@@ -354,14 +359,15 @@ image: '/images/team/john-doe.jpg',
 
 ### Create a New Page
 
-1. Create a new folder in `app/`:
+1. Create a new folder in `app/(apple)/`:
    ```
-   app/
+   app/(apple)/
    └── new-page/
        └── page.tsx
    ```
+   Build it on the `SitePage` frame (`app/(apple)/_chrome/SitePage.tsx`) with CSS modules on the `--r2-*` tokens. The Tailwind example in step 2 is retired.
 
-2. Create the page component:
+2. Create the page component (retired pattern, kept for reference):
    ```typescript
    import type { Metadata } from 'next';
    import { Button, Card } from '@/components/ui';
@@ -389,11 +395,11 @@ image: '/images/team/john-doe.jpg',
    }
    ```
 
-3. Add navigation link in `components/layout/Navbar.tsx`:
+3. Add the page to `SITE_PAGES` (or `LEGAL_PAGES`) in `app/(apple)/_chrome/routes.ts`. The footer reads those lists:
    ```typescript
-   const navLinks = [
-     // ... existing links
-     { href: '/new-page', label: 'New Page' },
+   export const SITE_PAGES = [
+     // ... existing pages
+     { label: 'New Page', href: '/new-page/' },
    ];
    ```
 
@@ -430,7 +436,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
 ## UI Components Guide
 
-All reusable UI components are in `components/ui/`. Import them from the barrel export:
+> **Retired 2026-10-07.** `components/ui/` is archived (`archive/components/ui/`). Shared UI for live pages is `app/(apple)/_system/ui/` (`Chevron`, `Graticule`, `Highlights`, `PlayOnce`). The reference below describes the retired library.
+
+All reusable UI components were in `components/ui/`. Import them from the barrel export:
 
 ```typescript
 import { Button, Card, Badge, Timeline, ProgressBar } from '@/components/ui';
@@ -572,19 +580,20 @@ Uses Google Material Symbols. Find icons at [fonts.google.com/icons](https://fon
 
 ## Styling Guide
 
-The site uses **multiple design systems** depending on route:
+All live pages use one design system, the Apple system:
 
 | Scope | Reference | Theme |
 |-------|-----------|-------|
-| Standard pages (`/about`, `/team`, etc.) | `DESIGN.md` | Industrial studio — grey sweep, signal-red accent |
-| `/` homepage | `docs/design/landing.DESIGN.md` | Warm editorial — cream, forest green, gold |
-| `/projects/modular-smartphone` | `docs/design/smartphone.DESIGN.md` | Dark technical bench — navy, indigo CTA |
-| `/projects/smart-reading` | `docs/design/glasses.DESIGN.md` | Ambient wearable — paper beige, phosphor HUD |
+| All live routes (`app/(apple)/`) | `DESIGN.md`; locked: `docs/design/sidekick.DESIGN.md`, `docs/design/brain.DESIGN.md` | Apple system — CSS modules on `--r2-*` tokens |
+| Archived: old `/` landing, smartphone, smart reading | `docs/design/landing.DESIGN.md`, `smartphone.DESIGN.md`, `glasses.DESIGN.md` | History only |
 
-**Signal-red (`#d8412f`)** is reserved per `DESIGN.md` — eyebrows, margin notes, progress rail,
-active nav, primary CTA hover. Do not use decoratively.
+**Signal-red (`#d8412f`, `--r2-trigger`)** is a mark only, per `DESIGN.md` §6: the test point,
+anchor dot, and (darker `#b3321f`) the CTA hover. Never body text, never decoration.
 
-### Tailwind tokens (industrial studio routes)
+### Tailwind tokens (retired)
+
+> The Tailwind sections below (tokens, shadows, animations, typography, patterns) describe the archived industrial-studio pages. No live route uses Tailwind.
+
 
 | Token | Tailwind Class | Usage |
 |-------|----------------|-------|
@@ -653,7 +662,7 @@ animate-slide-in-right // Mobile menu animation
 
 ### Automatic (Vercel)
 
-If connected to GitHub, Vercel automatically deploys on every push to `main`.
+Production deploys from the `deployment` branch only (`ignoreCommand` in `vercel.json`). See [`DEPLOYMENT.md`](./DEPLOYMENT.md).
 
 ### Manual Deployment
 
@@ -683,7 +692,7 @@ Run `npm install` to reinstall dependencies.
 ### Images Not Loading
 
 - Check the file path starts with `/images/...`
-- Verify the file exists in `public/images/`
+- Verify the file exists in `public/assets/`
 - File names are case-sensitive
 
 ### Contact Form Not Working
@@ -701,15 +710,15 @@ Run `npm install` to reinstall dependencies.
 ### Styles Not Applying
 
 1. Check class names for typos
-2. Verify Tailwind classes are valid
+2. Check the CSS module import and the `--r2-*` token names in `app/(apple)/_system/tokens/worlds.css`
 3. Run `npm run dev` to rebuild styles
 4. Clear `.next` folder and rebuild: `rm -rf .next && npm run build`
 
 ### Animations Not Working
 
 1. Check if `prefers-reduced-motion` is enabled in your OS
-2. Verify the animation classes are in `tailwind.config.ts`
-3. Ensure `ease-smooth` timing function is defined
+2. Check stage playback in `app/(apple)/projects/_hero/useStagePlayback.ts`
+3. Check the scroll hooks in `app/(apple)/_system/tokens/scroll.ts`
 
 ---
 

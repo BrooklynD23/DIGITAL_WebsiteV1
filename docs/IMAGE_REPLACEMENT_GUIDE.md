@@ -2,7 +2,7 @@
 
 > **Note (2026-07):** The homepage now uses the immersive `HomeLanding` component with
 > assets under `public/assets/landing/`. Sections below referencing `app/page.tsx` hero
-> placeholders are **legacy** from the pre-overhaul layout. See `lib/data/homeLanding.ts`
+> placeholders are **legacy** from the pre-overhaul layout. See `archive/lib/data/homeLanding.ts`
 > and `docs/design/landing.DESIGN.md` for current homepage imagery.
 
 This document provides a complete audit of all placeholder images in the codebase and step-by-step instructions for replacing them with PNG images.

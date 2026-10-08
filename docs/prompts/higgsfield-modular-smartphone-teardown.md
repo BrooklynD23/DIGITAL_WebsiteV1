@@ -42,7 +42,7 @@ This is **not** a glossy Apple-style hero ad. It is a **bench teardown** — par
 
 ## LAYER MAP — 14 PARTS → 6 REGISTERED LAYERS → 7 TEAMS
 
-Canonical teardown order (outer → inner → exploded). Source: `lib/teardown/config.ts` registered layers + `components/phone-v2/PhoneSchematicSvg.tsx` part IDs + `lib/data/phoneV2.ts` subsystem sections.
+Canonical teardown order (outer → inner → exploded). Source: `archive/lib/teardown/config.ts` registered layers + `archive/components/phone-v2/PhoneSchematicSvg.tsx` part IDs + `archive/lib/data/phoneV2.ts` subsystem sections.
 
 | Order | Layer ID | Part name(s) | Team / Subsystem | Accent color (label only) | Explode vector (world space) |
 |------:|----------|--------------|------------------|---------------------------|------------------------------|
@@ -62,7 +62,7 @@ Canonical teardown order (outer → inner → exploded). Source: `lib/teardown/c
 | 13 | screws | Fasteners / screw tray | **Integration / Testing** | `#FACC15` | micro scatter to tray |
 | 99 | exploded | Full exploded isometric | **All teams** | white labels | hold 2s |
 
-### Registered layer labels (from `lib/teardown/config.ts`)
+### Registered layer labels (from `archive/lib/teardown/config.ts`)
 - LAYER 01 — CHASSIS (`sealed.`)
 - LAYER 02 — FRAME (`frame out.`)
 - LAYER 03 — BATTERY (`swappable.`)
@@ -73,7 +73,7 @@ Canonical teardown order (outer → inner → exploded). Source: `lib/teardown/c
 ### 14 schematic part IDs (from PhoneSchematicSvg)
 `phone-front-glass`, `phone-screen-ui`, `phone-display-panel`, `phone-midframe`, `phone-main-pcb`, `phone-battery`, `phone-camera-module`, `phone-antenna-module`, `phone-speakers`, `phone-buttons`, `phone-haptics`, `phone-flex-cables`, `phone-screws`, `phone-back-cover`
 
-### 7 subsystem teams (from `lib/data/phoneV2.ts`)
+### 7 subsystem teams (from `archive/lib/data/phoneV2.ts`)
 1. Systems Architecture (`#F87171`) — display panel, midframe
 2. Hardware / PCB (`#FBBF24`) — main PCB, flex cables
 3. Firmware / Embedded (`#4ADE80`) — battery, flex cables
@@ -118,7 +118,7 @@ Flex ribbons, camera, antenna, speakers pop out per offset table. Team label: HA
 Button assemblies, haptic motor, screws detach. Teams: MECHANICAL / CAD, INTEGRATION / TESTING.
 
 ### CLIP J — `99_full_exploded_hold` (6s)
-Full exploded isometric of all 14 parts — match `public/assets/teardown/frames/f-0097.webp` layout. Hold 2s.
+Full exploded isometric of all 14 parts — match `archive/public/assets/teardown/frames/f-0097.webp` layout. Hold 2s.
 
 ---
 
@@ -140,7 +140,7 @@ Reverse sequence optional for reassembly CTA.
 
 ## TECHNICAL EXPORT SPECS (FOR WEB SCROLL-SCRUB)
 
-Repo assets: `public/assets/teardown/teardown.mp4`, `teardown.webm`, `teardown-poster.jpg`, `frames/f-0001.webp` … `f-0097.webp` (97 frames). Config: `lib/teardown/config.ts`.
+Repo assets: `archive/public/assets/teardown/teardown.mp4`, `teardown.webm`, `teardown-poster.jpg`, `frames/f-0001.webp` … `f-0097.webp` (97 frames). Config: `archive/lib/teardown/config.ts`.
 
 | Spec | Value |
 |------|-------|
@@ -164,11 +164,11 @@ no hands, no fingers, no tools, no smoke, no sparks, no destruction, no cracked 
 ## REFERENCE ANCHORS
 
 Upload to Higgsfield in order:
-1. `public/assets/teardown/teardown-poster.jpg` — hero assembled
-2. `public/assets/teardown/frames/f-0001.webp` — start pose
-3. `public/assets/teardown/frames/f-0048.webp` — mid teardown
-4. `public/assets/teardown/frames/f-0097.webp` — final exploded
-5. `public/images/placeholders/projects/modular-phone.png` — project thumbnail
+1. `archive/public/assets/teardown/teardown-poster.jpg` — hero assembled
+2. `archive/public/assets/teardown/frames/f-0001.webp` — start pose
+3. `archive/public/assets/teardown/frames/f-0048.webp` — mid teardown
+4. `archive/public/assets/teardown/frames/f-0097.webp` — final exploded
+5. `archive/public/images/placeholders/projects/modular-phone.png` — project thumbnail
 6. Phone-v2 schematic style — thin stroke technical line-art exploded diagram
 
 Instruction: "Match the reference phone geometry and materials exactly; only animate separation of parts listed in the current clip."
@@ -204,8 +204,8 @@ Create a calm, studio-lit, multi-clip modular smartphone teardown of the DIGITAL
 
 | Asset / file | Purpose |
 |--------------|---------|
-| `public/assets/teardown/` | Existing teardown video + 97-frame sequence |
-| `lib/teardown/config.ts` | Layer labels, scroll states, video paths |
-| `lib/data/phoneV2.ts` | Subsystem teams, accents, activePartIds |
-| `components/phone-v2/PhoneSchematicSvg.tsx` | 14-part explode transforms |
-| `lib/data/projects.ts` | Modular smartphone module descriptions |
+| `archive/public/assets/teardown/` | Existing teardown video + 97-frame sequence (archived 2026-10-07) |
+| `archive/lib/teardown/config.ts` | Layer labels, scroll states, video paths |
+| `archive/lib/data/phoneV2.ts` | Subsystem teams, accents, activePartIds |
+| `archive/components/phone-v2/PhoneSchematicSvg.tsx` | 14-part explode transforms |
+| `archive/lib/data/projects.ts` | Modular smartphone module descriptions |

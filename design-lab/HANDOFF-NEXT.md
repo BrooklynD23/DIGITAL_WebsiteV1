@@ -91,7 +91,7 @@ build cannot decode H.264. Then `npx tsc --noEmit` and `npx next lint`. If `tsc`
 
 ### 5.1 Docs sweep and clean-up — Haiku agents
 
-The Head Designer asked for "haiku 5.5"; the current Haiku is **Haiku 4.5** (`model: "haiku"`). Use it for
+Use **Haiku 5.5** (`model: "haiku"`, `claude-haiku-5-5`), as the Head Designer asked. Use it for
 read-and-report exploration and mechanical doc edits; check its edits before accepting them.
 
 Run in parallel, disjoint ownership, each reporting a list before changing anything risky:

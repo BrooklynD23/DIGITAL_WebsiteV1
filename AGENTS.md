@@ -16,7 +16,7 @@ sign-off; never overhaul first.
 | `/` home, `/projects/shades/` | root `DESIGN.md` |
 | `/projects/sidekick/` | `docs/design/sidekick.DESIGN.md` — **LOCKED 2026-10-07** |
 | `/projects/brain/` | `docs/design/brain.DESIGN.md` — **LOCKED 2026-10-07** |
-| `(legacy)` routes: `/about`, `/team`, `/community`, `/contact`, `/get-involved`, legal pages, error pages | Being migrated to the Apple system — root `DESIGN.md` |
+| `/about`, `/team`, `/community`, `/contact`, `/get-involved`, legal pages, error pages | Apple system (`SitePage` / `LegalPage` frames) — root `DESIGN.md` |
 
 Locked pages change only with Head Designer sign-off. `docs/design/landing.DESIGN.md`,
 `smartphone.DESIGN.md` and `glasses.DESIGN.md` describe archived designs.
@@ -29,5 +29,5 @@ Locked pages change only with Head Designer sign-off. `docs/design/landing.DESIG
 ## Quick Constraints
 
 - Verify with `./run.sh check` before committing.
-- Static export only; content lives in `app/(apple)/_content/` and `lib/data/`; Apple pages use CSS modules on tokens (Tailwind only in `app/(legacy)/`); TypeScript strict.
+- Static export only; content lives in `app/(apple)/_content/` and `lib/data/`; Apple pages use CSS modules on tokens (no live route uses Tailwind); TypeScript strict.
 - Record every commit in `TODO.md`'s Dev Build / Version Control table.

@@ -6,15 +6,14 @@ and deployed on **Vercel**.
 
 The live site is the "Apple" design system (default since 2026-10-07): a phone-hero home page
 and three build pages (SIDEKICK, SHADES, BRAIN) in `app/(apple)/`. The remaining pages
-(about, team, community, get involved, contact, legal) are in `app/(legacy)/` and are being
-migrated onto the same system. Earlier designs are in `archive/`.
+(about, team, community, get involved, contact, legal) are in `app/(apple)/` on the same system. Earlier designs are in `archive/`.
 
 ## Tech stack
 
 | Layer | Choice |
 |-------|--------|
 | Framework | Next.js 14 (App Router, `output: 'export'`) |
-| UI | React 18; CSS modules on design tokens (`app/(apple)/_system/tokens/worlds.css`); Tailwind CSS 3 for `app/(legacy)/` only |
+| UI | React 18; CSS modules on design tokens (`app/(apple)/_system/tokens/worlds.css`); Tailwind CSS 3 configured, no live route uses it |
 | Motion | Anime.js (stage playback), CSS scroll timelines, canvas dot engine |
 | Forms | Formspree |
 | Analytics | Vercel Analytics + Speed Insights |
@@ -61,9 +60,7 @@ DIGITAL_WebsiteV1/
 │   │   ├── _system/              # Tokens, fonts, scroll hooks, dot engine
 │   │   ├── _chrome/              # LocalNav, WorldFooter, JoinChapter, SitePage, club.ts
 │   │   └── _content/             # Copy for the Apple pages
-│   └── (legacy)/                 # about, team, community, get-involved, legal, redirect stubs
-├── components/layout/            # Legacy Navbar, Footer, PageShell
-├── lib/data/                     # Club facts + content for legacy pages
+├── lib/data/                     # Club facts, team, involvement, community content
 ├── public/boards/                # SIDEKICK board SVG layers
 ├── archive/                      # Earlier designs; not built → archive/README.md
 ├── design-lab/                   # Design-lab research, renders, scripts
@@ -80,9 +77,9 @@ DIGITAL_WebsiteV1/
 | `/projects/sidekick/` | SIDEKICK: the FPGA main board in nine played stages (**locked**) |
 | `/projects/shades/` | SHADES: reading glasses, live reader, light-path stages |
 | `/projects/brain/` | BRAIN: six agentic-AI lessons on one dot figure (**locked**) |
-| `/about`, `/team`, `/community` | Studio info (being migrated to the Apple system) |
-| `/get-involved`, `/contact` | Join paths + form (being migrated) |
-| `/privacy`, `/terms`, `/cookies` | Legal pages (being migrated) |
+| `/about`, `/team`, `/community` | Studio info |
+| `/get-involved`, `/contact` | Join paths + form |
+| `/privacy`, `/terms`, `/cookies` | Legal pages |
 | `/pillars`, `/projects`, `/projects/modular-smartphone`, `/projects/smart-reading` | Redirect stubs to the pages above |
 
 Full route map: [`docs/ROUTES.md`](docs/ROUTES.md).
@@ -96,8 +93,8 @@ input** — see also the Backlog section in [`TODO.md`](TODO.md):
 1. **Real Formspree endpoint** — club leadership provisions a Formspree form and supplies
    the form ID hash; set `siteConfig.formspreeEndpoint`, verify submission end-to-end, and
    add `connect-src https://formspree.io` to the CSP report-only policy first.
-2. **Custom domain DNS** — leadership points `digitalcpp.org` at Vercel; then set
-   `NEXT_PUBLIC_SITE_URL` so canonicals/metadata resolve to production.
+2. **No custom domain** — the site is served at `https://digitalcpp.vercel.app/`. Set
+   `NEXT_PUBLIC_SITE_URL` only if a domain is added later (canonicals default to `siteConfig.url`).
 3. **Real roster content** — team placeholders ("To be announced") await confirmed names,
    photos, and links for 2026–27; also OG image + favicon assets from the design lead.
 4. **Heads-up Display Glasses copy** — project description/team/timeline from that team.
@@ -116,8 +113,8 @@ social links, stats, sponsors, and the Formspree endpoint.
 
 ### Content
 
-Copy is never hard-coded in page components. Apple pages read `app/(apple)/_content/`;
-legacy pages read `lib/data/`. Voice and story rules: [`docs/design/BRAND.md`](docs/design/BRAND.md).
+Copy is never hard-coded in page components. Apple pages read `app/(apple)/_content/`
+and `lib/data/` (club facts, team, involvement). Voice and story rules: [`docs/design/BRAND.md`](docs/design/BRAND.md).
 
 | File | Content |
 |------|---------|

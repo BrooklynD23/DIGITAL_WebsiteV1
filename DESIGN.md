@@ -4,7 +4,7 @@
 
 **Status:** Authoritative. As of 2026-10-07 the "Apple" system is the site's default design system. This document is extracted from the shipped code in `app/(apple)/`. Every value below was read from a source file; where this document and the code disagree, fix the one that is wrong and note it in the changelog. Locked pages (§2) change only with Head Designer sign-off.
 
-**Stack:** Next.js 14 (App Router, static export) · React 18 · TypeScript strict · CSS modules on `--r2-*` custom properties · anime.js for stage playback. The Apple system does not use Tailwind classes; Tailwind remains only for the routes still in `app/(legacy)/`.
+**Stack:** Next.js 14 (App Router, static export) · React 18 · TypeScript strict · CSS modules on `--r2-*` custom properties · anime.js for stage playback. The Apple system does not use Tailwind classes; Tailwind CSS 3 is configured (`tailwind.config.ts`) but no live route uses it.
 
 ---
 
@@ -15,7 +15,7 @@
 | Brand + system | `DESIGN.md` (this file) | What DIGITAL is, tokens, patterns, rules for every route |
 | Voice | `docs/design/BRAND.md` | Wording, cadence, the copy review workflow |
 | Route specs | `docs/design/sidekick.DESIGN.md`, `docs/design/brain.DESIGN.md` | As-built specs and locked-file lists for the two locked pages |
-| Content | `app/(apple)/_content/*.ts`, `app/(apple)/_chrome/club.ts`; `lib/data/*` for legacy routes and club facts | Every printed string, number and link |
+| Content | `app/(apple)/_content/*.ts`, `app/(apple)/_chrome/club.ts`; `lib/data/*` for club facts, team and involvement | Every printed string, number and link |
 
 Conflict order for look: locked route spec → this file → code comments. Conflict order for words: `BRAND.md` → the content files.
 
@@ -29,8 +29,8 @@ Conflict order for look: locked route spec → this file → code comments. Conf
 | `/projects/sidekick/` | `app/(apple)/projects/sidekick/` | `docs/design/sidekick.DESIGN.md` | **LOCKED 2026-10-07** |
 | `/projects/brain/` | `app/(apple)/projects/brain/` | `docs/design/brain.DESIGN.md` | **LOCKED 2026-10-07** |
 | `/projects/shades/` | `app/(apple)/projects/shades/` | this file | Open |
-| `/about`, `/team`, `/community`, `/contact`, `/get-involved`, `/privacy`, `/terms`, `/cookies` | `app/(legacy)/…`, moving to `app/(apple)/…` | this file | Being migrated to the Apple system on the `SitePage` frame (§13.4) |
-| `/pillars`, `/projects`, `/projects/modular-smartphone`, `/projects/smart-reading`, `/design-lab/r2/apple/*` | `app/(legacy)/…` | none | Redirect stubs only (`app/(legacy)/_redirect.tsx`); do not extend |
+| `/about`, `/team`, `/community`, `/contact`, `/get-involved`, `/privacy`, `/terms`, `/cookies` | `app/(apple)/…` | this file | Apple system on the `SitePage` frame (§13.4); legal pages on `LegalPage` |
+| `/pillars`, `/projects`, `/projects/modular-smartphone`, `/projects/smart-reading`, `/design-lab/r2/apple/*` | `app/(apple)/…` | none | Redirect stubs only (`app/(apple)/_redirect.tsx`); do not extend |
 
 Every earlier design and iteration is in `archive/` (index: `archive/README.md`). `archive/` is excluded from the build, lint and type-check (`tsconfig.json` `exclude`).
 
@@ -304,7 +304,7 @@ Facts come from `_chrome/club.ts`, not from the page:
 
 ### 13.3 Footer
 
-`<WorldFooter world="apple">`: `--r2-ground-raised`, 1024px column, padding 48px top / 56px bottom. Three rows: the thesis (17/25, 600); links (DIGITAL, SIDEKICK, SHADES, BRAIN, Discord, GitHub, LinkedIn; 12px, 44px tall, external links open in a new tab with `rel="noopener noreferrer"`); meta (12/16: build night, room, "DIGITAL @ Cal Poly Pomona").
+`<WorldFooter world="apple">`: `--r2-ground-raised`, 1024px column, padding 48px top / 56px bottom. Rows, top to bottom: the thesis (17/25, 600); the build links (DIGITAL, SIDEKICK, SHADES, BRAIN; 12px, 44px tall); site and legal links; the social icons (Discord, Instagram, LinkedIn, GitHub; external, new tab, `rel="noopener noreferrer"`); meta (12/16: build night, room, "DIGITAL @ Cal Poly Pomona").
 
 **Rows (2026-10-07):** builds, then site pages, then legal (`SITE_PAGES`, `LEGAL_PAGES` in `routes.ts`), then the social row, then the meta lines.
 

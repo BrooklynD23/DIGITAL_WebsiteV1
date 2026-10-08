@@ -33,13 +33,13 @@ invites the reader to join it — nothing sits outside the spine.
 
 | Route | Spine |
 |---|---|
-| `/projects/modular-smartphone` | One device, owned in parts. You don't join a club — you take a subsystem. |
-| `/projects/smart-reading` | Reading without the chase. The text moves so your eyes don't have to. |
+| `/projects/modular-smartphone` (archived; redirects to `/projects/sidekick/`) | One device, owned in parts. You don't join a club — you take a subsystem. |
+| `/projects/smart-reading` (archived; redirects to `/projects/shades/`) | Reading without the chase. The text moves so your eyes don't have to. |
 | `/` | Make something worth putting your name on. — the studio thesis, stated in the hero. |
 
 The mission commitments (WE EXPLORE / WE DESIGN / WE BUILD / WE COMMUNICATE) and the vision line —
 *"Real systems, built by students, handed to the next cohort."* — are **canonical copy** living in
-`lib/data/mission.ts` (`MISSION_BEATS`, `VISION_LINE`). The homepage mission band renders them
+`archive/lib/data/mission.ts` (`MISSION_BEATS`, `VISION_LINE`). The homepage mission band renders them
 verbatim; no other route may restate or paraphrase them without the copy workflow below.
 
 ## Message Hierarchy
@@ -57,7 +57,7 @@ present, but never load-bearing for the argument.
 
 ## Cadence Rules for Animated Text
 
-Lines that will be revealed word-by-word or line-by-line (see `components/motion/TextReveal`
+Lines that will be revealed word-by-word or line-by-line (see `archive/components/motion/TextReveal`
 on the smartphone page) are written for that reveal:
 
 - Front-load the subject. The first word or two should carry meaning on its own, since it's
@@ -73,7 +73,7 @@ Each pair is a real line from the current codebase and a direction to rewrite to
 are illustrative, not final copy — the actual rewrite happens per-phase via the
 `brand-voice-strategist` agent, briefed against this file.
 
-### Smartphone (`lib/data/phoneV2.ts`)
+### Smartphone (`archive/lib/data/phoneV2.ts`)
 
 **Do** open with the promise, not the mechanism.
 - Before: *"One interface for architecture, tooling, ownership, and the trade-offs that keep
@@ -95,7 +95,7 @@ are illustrative, not final copy — the actual rewrite happens per-phase via th
 - Toward: something that echoes the page's opening promise ("Build the phone. Build the
   team. Build the system.") rather than introducing new abstractions at the close.
 
-### Smart Reading (`lib/data/experiments/glasses.ts`)
+### Smart Reading (`archive/lib/data/experiments/glasses.ts`)
 
 **Do** lead with the benefit, not the acronym.
 - Before: *"RSVP, rapid serial visual presentation, shows one word at a time at a single
@@ -107,7 +107,7 @@ are illustrative, not final copy — the actual rewrite happens per-phase via th
 the headline and body, in mono key-value pairs. This page already does progressive
 disclosure correctly; preserve the pattern.
 
-### Landing (`lib/data/homeLanding.ts`)
+### Landing (`archive/lib/data/homeLanding.ts`)
 
 **Don't** give three cards the same weight as a three-paragraph essay.
 - Before: three "Gap" cards (Theory / Access / Ownership), each ~50 words, reading as a

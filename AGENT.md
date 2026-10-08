@@ -11,8 +11,7 @@ or other tooling) working in this repository. For full detail on every conventio
 **DIGITAL @ Cal Poly Pomona** is the website of a student-run venture studio, built with
 **Next.js 14 (App Router)**, static export (`output: 'export'`), React 18 and TypeScript, and
 deployed to Vercel. The **Apple system** is the default design system (2026-10-07): live
-pages are in `app/(apple)/`, unmigrated routes in `app/(legacy)/`, earlier designs in
-`archive/` (not built). All design decisions are governed by `DESIGN.md`.
+pages are in `app/(apple)/`, earlier designs in `archive/` (not built). All design decisions are governed by `DESIGN.md`.
 
 ---
 
@@ -48,7 +47,7 @@ implementation** — propose the change and wait for sign-off; never overhaul fi
 | `/` home, `/projects/shades/` | root `DESIGN.md` |
 | `/projects/sidekick/` | `docs/design/sidekick.DESIGN.md` — **LOCKED 2026-10-07** |
 | `/projects/brain/` | `docs/design/brain.DESIGN.md` — **LOCKED 2026-10-07** |
-| `(legacy)` routes: `/about`, `/team`, `/community`, `/contact`, `/get-involved`, legal pages, error pages | Being migrated to the Apple system — root `DESIGN.md` |
+| `/about`, `/team`, `/community`, `/contact`, `/get-involved`, legal pages, error pages | Apple system (`SitePage` / `LegalPage` frames) — root `DESIGN.md` |
 
 Locked pages change only with Head Designer sign-off. `docs/design/landing.DESIGN.md`,
 `smartphone.DESIGN.md` and `glasses.DESIGN.md` describe archived designs.
@@ -75,8 +74,8 @@ Version Control table in `TODO.md`. Do not leave commits unrecorded.
 ## Quick Constraints
 
 - Static export only — no runtime server features.
-- Content in `app/(apple)/_content/` (Apple pages) and `lib/data/` (legacy pages, club facts) — never hard-code copy into pages or components.
-- Apple pages: CSS modules on `--r2-*` tokens. Tailwind only in `app/(legacy)/`. No CSS-in-JS libraries.
+- Content in `app/(apple)/_content/` (Apple pages) and `lib/data/` (club facts, team, involvement) — never hard-code copy into pages or components.
+- Apple pages: CSS modules on `--r2-*` tokens. No live route uses Tailwind. No CSS-in-JS libraries.
 - TypeScript strict — all code must pass `tsc --noEmit`.
 - One red (`#d8412f`) — a mark only, per `DESIGN.md` §6.
 - Scroll picks a stage and a timed tween plays it; never scrub. One sticky nav bar per page.
