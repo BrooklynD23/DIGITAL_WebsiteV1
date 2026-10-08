@@ -1,7 +1,0 @@
-PASS  r2 rAF   0 · cursor 180 · console errors 0 · desktop · load → rest
-PASS  r2 rAF   0 · cursor 180 · console errors 0 · desktop · after scroll + controls → rest
-PASS  r2 rAF   0 · cursor 0 · console errors 0 · desktop · reduced motion · after scroll → rest
-PASS  r2 rAF   0 · cursor 0 · console errors 0 · mobile 390 · scroll 0.25 → rest
-PASS  r2 rAF   0 · cursor 0 · console errors 0 · mobile 390 · scroll 0.5 → rest
-PASS  r2 rAF   0 · cursor 0 · console errors 0 · mobile 390 · scroll 0.75 → rest
-GATE PASS: 0 r2 rAF callbacks at rest

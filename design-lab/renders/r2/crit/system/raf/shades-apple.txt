@@ -1,7 +1,0 @@
-PASS  r2 rAF   0 / 3 s · production cursor 181 · active ticks 0 · console errors 0 · desktop · load → rest
-PASS  r2 rAF   0 / 3 s · production cursor 181 · active ticks 0 · console errors 0 · desktop · after interaction → rest  (while playing: 23 in 0.6 s)
-PASS  r2 rAF   0 / 3 s · production cursor   0 · active ticks 0 · console errors 0 · desktop · reduced motion · load → rest
-PASS  r2 rAF   0 / 3 s · production cursor   0 · active ticks 0 · console errors 0 · desktop · reduced motion · after play → rest
-PASS  r2 rAF   0 / 3 s · production cursor   0 · active ticks 0 · console errors 0 · mobile 390 · load → rest
-PASS  r2 rAF   0 / 3 s · production cursor   0 · active ticks 0 · console errors 0 · mobile 390 · after scroll → rest
-GATE PASS: 0 r2 rAF callbacks at rest in every scenario

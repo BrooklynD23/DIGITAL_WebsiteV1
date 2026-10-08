@@ -1,4 +1,0 @@
-file '/home/danny/worktrees/digital-design-lab/design-lab/renders/r2/crit/system/video/apple-home.webm'
-file '/home/danny/worktrees/digital-design-lab/design-lab/renders/r2/crit/system/video/apple-sidekick.webm'
-file '/home/danny/worktrees/digital-design-lab/design-lab/renders/r2/crit/system/video/apple-shades.webm'
-file '/home/danny/worktrees/digital-design-lab/design-lab/renders/r2/crit/system/video/apple-brain.webm'

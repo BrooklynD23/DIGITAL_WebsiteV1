@@ -1,9 +1,0 @@
-FAIL  r2 rAF  22 / 3 s · production cursor 180 · active ticks 0 · console errors 0 · desktop · load → rest
-        22  at loop (webpack-internal:///(app-pages-browser)/./app/design-lab/r2/_system/dots/ticker.ts:29:33) <- at <anonymous>:18:7
-PASS  r2 rAF   0 / 3 s · production cursor 181 · active ticks 0 · console errors 0 · desktop · after interaction → rest  (while playing: 0 in 0.6 s)
-PASS  r2 rAF   0 / 3 s · production cursor   0 · active ticks 0 · console errors 0 · desktop · reduced motion · load → rest
-PASS  r2 rAF   0 / 3 s · production cursor   0 · active ticks 0 · console errors 0 · desktop · reduced motion · after play → rest
-FAIL  r2 rAF  53 / 3 s · production cursor   0 · active ticks 0 · console errors 0 · mobile 390 · load → rest
-        53  at loop (webpack-internal:///(app-pages-browser)/./app/design-lab/r2/_system/dots/ticker.ts:29:33) <- at <anonymous>:18:7
-PASS  r2 rAF   0 / 3 s · production cursor   0 · active ticks 0 · console errors 0 · mobile 390 · after scroll → rest
-GATE FAIL

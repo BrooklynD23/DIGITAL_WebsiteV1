@@ -1,4 +1,0 @@
-file '/home/danny/worktrees/digital-design-lab/design-lab/renders/r2/crit/system/video/signal-home.webm'
-file '/home/danny/worktrees/digital-design-lab/design-lab/renders/r2/crit/system/video/signal-sidekick.webm'
-file '/home/danny/worktrees/digital-design-lab/design-lab/renders/r2/crit/system/video/signal-shades.webm'
-file '/home/danny/worktrees/digital-design-lab/design-lab/renders/r2/crit/system/video/signal-brain.webm'

@@ -63,3 +63,6 @@ design-lab/round2/assets/kb/source/
 design-lab/renders/r2/crit/**/*.webm
 design-lab/renders/r2/crit/**/frames*/
 design-lab/renders/r2/crit/**/gframes/
+
+# Design-lab render output (screenshots, motion captures): kept on disk, not in git
+design-lab/renders/

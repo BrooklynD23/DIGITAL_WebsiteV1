@@ -1,2 +1,0 @@
-saved design-lab/renders/r2/crit/home/gemini.md
-exit=0

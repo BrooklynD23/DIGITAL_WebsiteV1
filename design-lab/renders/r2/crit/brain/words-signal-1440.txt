@@ -1,3 +1,0 @@
-/design-lab/r2/signal/brain/ @1440x900: 11 viewports, 10.8 vh
-per viewport: 45 31 29 40 30 34 40 46 36 68 45
-avg 40 · p90 46 · max 68 · quiet(<=12) 0%  [budget: avg<=30, p90<=70, max<=100, quiet>=45%]
