@@ -6,11 +6,6 @@ export const siteConfig: SiteConfig = {
   description: 'A student-run venture studio at Cal Poly Pomona. Pick one part of a real build and own it.',
   // No custom domain: the site is served from Vercel (Head Designer, 2026-10-07).
   url: 'https://digitalcpp.vercel.app',
-  assets: {
-    logo: '/assets/landing/DIGITAL_V1_Logo1.png',
-    logoDark: '/assets/landing/DIGITAL_V1_Logo1_DarkMode.png',
-    logoFull: '/assets/landing/DIGITAL_V1_Logo1_Full.png',
-  },
   contact: {
     // No public email yet (Head Designer, 2026-10-07; tracked in TODO.md backlog). Empty = pages show Discord instead.
     email: '',
@@ -28,15 +23,3 @@ export const siteConfig: SiteConfig = {
   },
   formspreeEndpoint: 'https://formspree.io/f/YOUR_FORM_ID',
 };
-
-export const stats = {
-  activeMembers: '120+',
-  prototypes: '15',
-  linesOfCode: '50k+',
-  sponsors: '2',
-};
-
-export const sponsors = [
-  { name: 'Cal Poly Pomona Project Hatchery' },
-  { name: 'College of Engineering: MEP-WiSE' },
-];

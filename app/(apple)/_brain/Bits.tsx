@@ -3,7 +3,7 @@
  */
 import { DotGlyph } from '../_system';
 import { close, footnote, sources } from '../_content/brain';
-import type { World } from './DemoShell';
+type World = 'signal' | 'apple';
 import s from './bits.module.css';
 
 export function Confirm() {

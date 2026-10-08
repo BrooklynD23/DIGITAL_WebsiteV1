@@ -12,55 +12,11 @@ export interface TeamMember {
   };
 }
 
-export interface ProjectTimeline {
-  phase: number;
-  title: string;
-  description: string;
-  status: 'completed' | 'current' | 'upcoming';
-}
-
-export interface ProjectModule {
-  icon: string;
-  title: string;
-  description: string;
-  color: string;
-}
-
-export interface ProjectStat {
-  label: string;
-  value: string;
-}
-
-export interface Project {
-  id: string;
-  slug: string;
-  title: string;
-  shortDescription: string;
-  fullDescription: string;
-  category: 'hardware' | 'software' | 'embedded' | 'robotics' | 'iot' | 'wearable';
-  status: 'active' | 'completed' | 'paused';
-  isFlagship: boolean;
-  comingSoon?: boolean;
-  image: string;
-  gallery?: string[];
-  techStack: string[];
-  stats?: ProjectStat[];
-  timeline?: ProjectTimeline[];
-  modules?: ProjectModule[];
-  specifications?: { label: string; value: string }[];
-  teamMembers?: string[];
-}
-
 export interface SiteConfig {
   name: string;
   fullName: string;
   description: string;
   url: string;
-  assets: {
-    logo: string;
-    logoDark: string;
-    logoFull: string;
-  };
   contact: {
     email: string;
     location: string;

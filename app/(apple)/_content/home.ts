@@ -48,8 +48,6 @@ export interface Channel {
   readonly ch: 'CH1' | 'CH2' | 'CH3';
   readonly name: string;
   readonly line: string;
-  /** The line itself carries an unconfirmed knowledgebase fact. */
-  readonly lineConfirm?: boolean;
   /** Signature micro-motion for the channel. */
   readonly verb: Verb;
   readonly verbNote: string;
@@ -60,7 +58,7 @@ export interface Channel {
 }
 
 export const channels: readonly Channel[] = [
-  { id: 'sidekick', ch: 'CH1', name: 'SIDEKICK', line: 'A modular phone design on a Zynq-7000.', lineConfirm: true, verb: 'explode', verbNote: 'Its layers separate on one axis.', status: 'Archived design' },
+  { id: 'sidekick', ch: 'CH1', name: 'SIDEKICK', line: 'A modular phone design on a Zynq-7000.', verb: 'explode', verbNote: 'Its layers separate on one axis.', status: 'Archived design' },
   { id: 'shades', ch: 'CH2', name: 'SHADES', line: 'Glasses that show text word by word.', verb: 'fixate', verbNote: 'Scattered dots land on one point.', status: 'Planned', word: 'own' },
   { id: 'brain', ch: 'CH3', name: 'BRAIN', line: 'Software built with agentic AI tools.', verb: 'bud', verbNote: 'Child orbs split off the parent.', status: 'Planned' },
 ];
@@ -69,8 +67,6 @@ export const channelsHeadline = 'Three builds. One could be yours.';
 
 /** Apple LocalNav title (Head Designer, 2026-10-02: "DIGITAL"; positioning stays in the hero line). */
 export const localTitle = 'DIGITAL';
-
-export const highlightsHeadline = 'DIGITAL, in four parts.';
 
 /** Apple-world highlights strip (breadth without length). Captions 9–19 words. */
 export const highlights: ReadonlyArray<{ readonly id: string; readonly title: string; readonly caption: string }> = [
@@ -87,5 +83,3 @@ export const join = {
   cta: 'Join the Discord',
   secondary: 'Pick a build first',
 } as const;
-
-export const confirmTag = '[confirm]';

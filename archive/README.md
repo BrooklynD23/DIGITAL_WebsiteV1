@@ -78,8 +78,8 @@ Archived 2026-10-07 by the link audit, after `app/(legacy)/` held no page. Nothi
 
 Same method as below: `tsc --listFilesOnly` from `app/**` (134 files in the graph), then a string search for each public asset.
 Left in place: `app/globals.css` and `tailwind.config.ts` (Tailwind preflight, the forms plugin, `sr-only`, `antialiased`,
-`overflow-x-hidden` and `html { scroll-behavior }` still reach the live pages; the legacy tokens in them do not), and
-`public/assets/landing/DIGITAL_V1_Logo1*.png` (still named by `siteConfig.assets`, though no live component reads it).
+`overflow-x-hidden` and `html { scroll-behavior }` still reach the live pages; the legacy tokens in them do not).
+The `public/assets/landing/DIGITAL_V1_Logo1*.png` files were left then and archived on 2026-10-08 (see the clean-up table).
 
 ## Earlier references and prototypes
 
@@ -102,3 +102,16 @@ file name appears in any file of the graph (template-built URLs — `public/boar
 - `design-lab/` (top level): the lab's docs, research, renders and scripts — the working record.
 - `docs/`, `scripts/`, config files.
 - Unused exports inside `app/(apple)/_system`, `_brain`, `_sidekick`, `_shades`, `_content`, `_home`: left in place on purpose.
+
+## Clean-up 2026-10-08 — dead code found by the redundant-file audit
+
+Approved by the Head Designer on 2026-10-08. Each item was re-checked with a string search before the move: no live file imports it.
+
+| Original path | What it was | Why | Files |
+|---|---|---|---|
+| `app/(apple)/_home/stageScene.ts` | Dot scene for the old orb home | No importer | 1 |
+| `app/(apple)/_sidekick/{Stack.tsx,IsoModules.tsx,stackFrame.ts,lineForm.ts,geometry.ts,stack.module.css}` | Earlier SIDEKICK module-stack figure | Only imported each other; the live page draws `Mainboard` | 6 |
+| `app/(apple)/_system/boards/` | KiCad board JSON, `BoardSvg`, `BoardLayers` | Only importer was the archived `Stack.tsx` | 9 |
+| `app/(apple)/_brain/{ChapterPin.tsx,pin.module.css,ContextChapter.tsx,DemosA.tsx,DemosB.tsx,HowItWorks.tsx,scenes-a.ts,scenes-b.ts,DemoShell.tsx,SceneStage.tsx,demo.module.css,stage.module.css}` | Older BRAIN chapters, demos and scenes | The live page only takes `Sources` from the barrel; the `World` type moved into `Bits.tsx` | 12 |
+| `public/assets/landing/DIGITAL_V1_Logo1{,_DarkMode,_Full}.png` | Club logo rasters (the only copies) | No page renders them; `siteConfig.assets` removed | 3 (1.8 MB) |
+| `removed-content-2026-10-08.ts` (new file, not a move) | Unread exports and fields cut from `app/(apple)/_content/{sidekick,home}.ts`, `lib/data/{siteConfig,community,about}.ts`, `lib/types.ts` | Nothing read them; text kept verbatim | 1 |
