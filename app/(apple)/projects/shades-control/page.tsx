@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { Fragment } from 'react';
 import { JoinChapter, LocalNav, MEETINGS, PAGES, WorldFooter, href } from '../../_chrome';
 import chrome from '../../_chrome/chrome.module.css';
 import { PlayOnce } from '../../_system';
@@ -12,7 +11,7 @@ import { Reader } from '../../_shades/Reader';
 import { SeatRing } from '../../_shades/SeatRing';
 import { Seats } from '../../_shades/Seats';
 import { HoldStill } from './HoldStill';
-import { FOCUS, WORDS } from './words';
+import { HoldStillStills } from './HoldStillStills';
 import s from './control.module.css';
 
 /** SHADES round 2, approach 3: one signature control ("Hold still"). Review route: not linked, not indexed. */
@@ -23,46 +22,6 @@ export const metadata: Metadata = {
 };
 
 const conceptLine = hero.conceptLines.find((l) => l.isDefault) ?? hero.conceptLines[0];
-
-/** No-JS still: the five steps as five frames, each with its caption. */
-const FRAMES: ReadonlyArray<readonly string[]> = [
-  WORDS,
-  WORDS.slice(FOCUS - 4, FOCUS + 1),
-  WORDS.slice(FOCUS - 2, FOCUS + 1),
-  [control.heldWord],
-  [control.heldWord],
-];
-
-function Stills() {
-  return (
-    <ol className={s.stills}>
-      {control.steps.map((st, i) => (
-        <li key={st.id} className={s.still} data-step={st.id}>
-          <p className={s.stillFig} aria-hidden="true">
-            {FRAMES[i].map((w, j) => {
-              const focus = i === 0 ? j === FOCUS : j === FRAMES[i].length - 1;
-              return (
-                <Fragment key={`${w}${j}`}>
-                  {focus ? (
-                    <span className={s.stillFocus}>
-                      <span className={s.stillDot} />
-                      {w}
-                    </span>
-                  ) : (
-                    w
-                  )}
-                  {j < FRAMES[i].length - 1 ? ' ' : null}
-                </Fragment>
-              );
-            })}
-          </p>
-          <p className={s.stillName}>{st.name}</p>
-          <p className={s.stillCaption}>{st.caption}</p>
-        </li>
-      ))}
-    </ol>
-  );
-}
 
 export default function ShadesControlPage() {
   const { join } = SHADES;
@@ -90,7 +49,7 @@ export default function ShadesControlPage() {
             <HoldStill />
           </div>
           <div className={s.noscript}>
-            <Stills />
+            <HoldStillStills />
             <p className={s.note}>{control.simulationNote}</p>
           </div>
         </section>

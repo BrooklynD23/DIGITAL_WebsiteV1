@@ -71,3 +71,24 @@ Round-1 failure checks:
 | 6 | Pre-separation pose centred | object centre 65px left of the art centre at 1600, 58px at 390 | 8px right at 1600, 4px right at 390 (`translateX(10%)` in solid pose, slides back over 640ms as the parts separate) |
 
 Re-verified after the fixes: 7 of 7 runs status 200, 0 console errors, no overflow, one `main` / `h1`, pin at 52px; `tsc` and `lint` clean. One run during the re-shoot logged a React key warning from `_shades-art/Glasses.tsx` while the artwork agent was editing it; it did not recur. Not ours.
+
+## Merge with "Hold still" (Head Designer pick, 2026-10-09)
+
+This route is the SHADES direction: the product reveal with the Hold still slider as its view beat.
+
+| # | Change | Where |
+|---|---|---|
+| 1 | Beat 4 is now `HoldStill` (imported from `projects/shades-control/HoldStill.tsx`, unchanged; it prints `simulationNote` as its own figcaption). Not pinned. Title and caption from `view`. The old lens-window figure, `figureLabel` and all its CSS are deleted. No-JS: `ViewStills.tsx` (the control page's five-frame still, which is local to its `page.tsx`, so it is mirrored here) plus `simulationNote`; it reuses `control.module.css` `.live` / `.noscript` (read-only import) | `page.tsx`, `ViewStills.tsx`, `reveal.module.css` |
+| 2 | Hero line: still the `isDefault` entry, now "A concept in planning. A research platform, not a medical device." | `page.tsx` |
+| 3 | Box caption (`boxCaption` default) under the hero and closing objects, as a second quiet line under "Concept render. Not a built device." Each fits on one line at 390 | `RenderCaption` in `page.tsx` |
+| 4 | "Is SHADES a medical device?": the `boundaryTable` rows (Is / Is not / Never) as a small hairline `dl` under the sentence | `page.tsx`, `.bounds` |
+| 5 | The grey display panel: approved. With the lens figure gone, no word sits on paper on this page (HoldStill sets its page on black), so there is no panel to keep | — |
+| 6 | `SHADES.expansion` is not printed anywhere (grep clean) | — |
+| 7 | Standard local nav with its "Pick your seat" button, unchanged | — |
+| — | `whatItIs` is now 2 lines (brand review); the layout maps the array, no count assumed | — |
+
+Critique → fix loop (merged page): the "what" band left an empty 256px under the second statement before the pin's own top room → bottom padding 128 → 64px. Open, outside this folder: at the Hold step `HoldStill` clears the page completely (ghost lines go to 0 at Word and Hold; `GHOST = 0.08` only at Line), so the title's claim "The page stays in view" is not shown at the end of the slider (see `1600-04-view-5-hold.png`). Needs a change in `shades-control/HoldStill.tsx` (see "Prop change" below).
+
+**Prop change needed in HoldStill (not made; not my folder):** keep the typeset page faint behind the word at Word and Hold, e.g. an optional `pageAtHold?: number` (opacity of the off-line words at steps 3–4, default today's 0; this page would pass about 0.12–0.16), or make that the default for both routes.
+
+Verification after the merge: 7 of 7 runs status 200, 0 console errors, no overflow, one `main` / `h1`, pin at 52px; the range input and tracker are ≥ 44px; no-JS shows the five stills and the note (range hidden); reduced motion keeps the slider (poses snap). `tsc` exit 0, `next lint` clean. Screenshots: every beat and stage at 1600×790 and 390×844, including the five slider steps (`*-04-view-1-page.png` … `*-04-view-5-hold.png`), plus `nojs-390-view.png`, `reduced-390-view.png`, `nojs-390-full.png`, `reduced-390-full.png`.

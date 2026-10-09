@@ -4,14 +4,16 @@ import chrome from '../../_chrome/chrome.module.css';
 import { fontReadingText } from '../../_system/fonts';
 import { localTitle } from '../../_content/home';
 import { SHADES } from '../../_content/shades';
-import { bookWords, heldWord } from '../../_content/shades-concept';
-import { closing, faq, hero, view, whatItIs } from '../../_content/shades-reveal';
+import { boundaryTable, boxCaption, closing, faq, hero, view, whatItIs } from '../../_content/shades-reveal';
 import { ShadesRoot, SpacingToggle } from '../../_shades/ShadesRoot';
 import { Seats } from '../../_shades/Seats';
 import { SeatRing } from '../../_shades/SeatRing';
 import { Glasses } from '../../_shades-art/Glasses';
 import v1 from '../shades/apple.module.css';
+import { HoldStill } from '../shades-control/HoldStill';
+import hold from '../shades-control/control.module.css';
 import { AnatomyPin } from './AnatomyPin';
+import { HoldStillStills } from '../shades-control/HoldStillStills';
 import s from './reveal.module.css';
 
 /** SHADES round 2, approach 1: product reveal. Review route; not in the nav or the sitemap. */
@@ -21,10 +23,20 @@ export const metadata: Metadata = {
   robots: { index: false },
 };
 
-/** Paragraph break in the typeset page, after "Each word hands you to the next." The held word sits in the gap. */
-const PARA = 23;
-
 const conceptLine = hero.conceptLines.find((l) => l.isDefault)?.text ?? hero.conceptLines[0].text;
+const boxLine = boxCaption.options.find((l) => l.isDefault)?.text ?? boxCaption.options[0].text;
+/** "Is SHADES a medical device?" carries the Is / Is not / Never rows under its sentence. */
+const BOUNDARY_FAQ = 2;
+
+/** Both object figures: the render caption, then the controller-box line. */
+function RenderCaption() {
+  return (
+    <figcaption className={s.renderCaption}>
+      <span>{hero.renderCaption}</span>
+      <span>{boxLine}</span>
+    </figcaption>
+  );
+}
 
 export default function ShadesRevealPage() {
   const { join, spacing } = SHADES;
@@ -52,7 +64,7 @@ export default function ShadesRevealPage() {
             <div className={s.heroObject}>
               <Glasses mode="solid" view="three-quarter" ground="dark" tether title={hero.renderCaption} />
             </div>
-            <figcaption className={s.renderCaption}>{hero.renderCaption}</figcaption>
+            <RenderCaption />
           </figure>
         </section>
 
@@ -66,25 +78,19 @@ export default function ShadesRevealPage() {
         {/* 3 · Anatomy: the same object separates. One pin, four stages. */}
         <AnatomyPin />
 
-        {/* 4 · The view: a page typeset live behind one held word. */}
-        <section className={s.view} data-tone="dark" aria-labelledby="rv-view">
+        {/* 4 · The view: the "Hold still" slider. Not pinned; the visitor drives it. */}
+        <section id="view" className={s.view} data-tone="dark" aria-labelledby="rv-view">
           <header className={s.head}>
             <h2 id="rv-view" className={s.h2}>{view.title}</h2>
             <p className={s.lead}>{view.caption}</p>
           </header>
-          <figure className={s.viewFig}>
-            <div className={s.lens}>
-              <div className={s.paper} aria-hidden="true">
-                <p className={s.pageText}>{bookWords.slice(0, PARA).join(' ')}</p>
-                <div className={s.hud}>
-                  <span className={s.point} />
-                  <span className={s.heldWord}>{heldWord}</span>
-                </div>
-                <p className={s.pageText}>{bookWords.slice(PARA).join(' ')}</p>
-              </div>
-            </div>
-            <figcaption className={s.renderCaption}>{view.figureLabel}</figcaption>
-          </figure>
+          <div className={`${hold.live} ${s.holdWrap}`}>
+            <HoldStill pageAtHold={0.14} />
+          </div>
+          <div className={`${hold.noscript} ${s.holdWrap}`}>
+            <HoldStillStills />
+            <p className={hold.note}>{view.simulationNote}</p>
+          </div>
         </section>
 
         {/* 5 · Close: the object again, the roadmap, the honest answers. */}
@@ -93,7 +99,7 @@ export default function ShadesRevealPage() {
             <div className={s.closeObject}>
               <Glasses mode="solid" view="front" ground="dark" tether title={hero.renderCaption} />
             </div>
-            <figcaption className={s.renderCaption}>{hero.renderCaption}</figcaption>
+            <RenderCaption />
           </figure>
           <div className={`${s.road} ${s.col}`}>
             <header className={s.roadHead}>
@@ -115,10 +121,22 @@ export default function ShadesRevealPage() {
         <section className={`${s.faq} ${s.col}`} data-tone="dark" aria-labelledby="rv-faq">
           <h2 id="rv-faq" className={s.h2}>{faq.heading}</h2>
           <div className={s.faqList}>
-            {faq.items.map((it) => (
+            {faq.items.map((it, i) => (
               <div key={it.q} className={s.faqRow}>
                 <h3 className={s.faqQ}>{it.q}</h3>
-                <p className={s.faqA}>{it.a}</p>
+                <div className={s.faqA}>
+                  <p>{it.a}</p>
+                  {i === BOUNDARY_FAQ ? (
+                    <dl className={s.bounds}>
+                      {boundaryTable.rows.map((r) => (
+                        <div key={r.term}>
+                          <dt>{r.term}</dt>
+                          <dd>{r.detail}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  ) : null}
+                </div>
               </div>
             ))}
           </div>

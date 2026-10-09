@@ -1,7 +1,13 @@
 /* SHADES approach 3, "Hold still". Shared --r2-* tokens only; HUD green is the one SHADES display colour. */
 
-.root {
+/* HUD green is declared on every exported root, so HoldStill / HoldStillStills keep it when imported elsewhere */
+.root,
+.control,
+.stills {
   --hud: #7fe6a3;
+}
+
+.root {
   background: #000;
 }
 

@@ -49,7 +49,7 @@ const lerp = (a: number, b: number, t: number): number => a + (b - a) * t;
 
 /* ------------------------------------------------------------------ geometry: five poses from one measured layout */
 
-function build(w: number, h: number, inner: number, fs: number, lh: number, boxes: Box[], pivot: number): Geo {
+function build(w: number, h: number, inner: number, fs: number, lh: number, boxes: Box[], pivot: number, pageAtHold: number): Geo {
   const F = FOCUS;
   const n = boxes.length;
   const C = { x: w / 2, y: h / 2 };
@@ -96,7 +96,10 @@ function build(w: number, h: number, inner: number, fs: number, lh: number, boxe
     return { dx: C.x + (px - C.x) * kk - (b.x + b.w / 2), dy: C.y + (py - C.y) * kk - cy(b), o, sc: s2 };
   };
   const focus: Pose = { dx: focusDx, dy: focusDy, o: 1, sc };
-  const word: Pose[] = boxes.map((b, i) => (i === F ? focus : toward(b, i, 0, 0, 0.4)));
+  // pageAtHold > 0: the see-through view. The page settles back into its own lines at that ink, behind the held
+  // word, instead of collapsing into the point. Flow positions sit inside the figure box by construction.
+  const settle: Pose = { dx: 0, dy: 0, o: pageAtHold, sc: 1 };
+  const word: Pose[] = boxes.map((b, i) => (i === F ? focus : pageAtHold > 0 ? settle : toward(b, i, 0, 0, 0.4)));
   const poses = [page, line, phrase, word, word]; // Hold = Word's pose; only the dot and the colour change
 
   // Fixation sequences (illustrative): skip short words, one regression, always end on the held word.
@@ -148,7 +151,14 @@ function hop(a: Pt, b: Pt): Hop {
 
 /* ------------------------------------------------------------------ component */
 
-export function HoldStill() {
+export interface HoldStillProps {
+  /** Ink (0–1) of the surrounding page at the Word and Hold steps. 0 (default): the page collapses into the point
+   *  and leaves. Above 0: the page stays faintly in view behind the held word (see-through display). */
+  readonly pageAtHold?: number;
+}
+
+export function HoldStill({ pageAtHold = 0 }: HoldStillProps = {}) {
+  const pageInk = Math.min(1, Math.max(0, pageAtHold));
   const reduced = useReducedMotion();
   const [step, setStep] = useState(0);
   const [geo, setGeo] = useState<Geo | null>(null);
@@ -257,7 +267,7 @@ export function HoldStill() {
     const lh = parseFloat(cs.lineHeight) || fs * 1.45;
     const boxes = wordRefs.current.map((el) => (el ? { x: el.offsetLeft, y: el.offsetTop, w: el.offsetWidth, h: el.offsetHeight } : { x: 0, y: 0, w: 0, h: 0 }));
     const inner = pageRef.current?.clientWidth ?? box.clientWidth;
-    const g = build(box.clientWidth, box.clientHeight, inner, fs, lh, boxes, pv.offsetLeft + pv.offsetWidth / 2);
+    const g = build(box.clientWidth, box.clientHeight, inner, fs, lh, boxes, pv.offsetLeft + pv.offsetWidth / 2, pageInk);
     const fe = wordRefs.current[FOCUS];
     if (fe) fe.style.transformOrigin = `${g.pivot.toFixed(1)}px 50%`;
     geoRef.current = g;
@@ -267,7 +277,7 @@ export function HoldStill() {
     const st = Math.max(0, target.current);
     moveDot(g.rest[st]);
     if (head.current.pos === Math.min(st, LAST - 1)) setScan({ step: st, shown: g.fix[st].length });
-  }, [paint]);
+  }, [paint, pageInk]);
 
   useLayoutEffect(() => {
     measure();

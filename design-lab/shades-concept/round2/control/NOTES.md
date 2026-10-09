@@ -86,3 +86,16 @@ The slider thumb is 44×44 (20px visible knob). `npx tsc --noEmit` and `npx next
    - Words faded linearly while collapsing, so they now leave early and arrive late.
    - The no-JS stills were stacked one word per line inside card frames. They are now plain typeset frames.
 3. **Loop 3 (motion):** the Hold → Page dead time (see above).
+
+## Exports for the reveal page (2026-10-09)
+
+- `HoldStill` from `app/(apple)/projects/shades-control/HoldStill.tsx`, props `{ pageAtHold?: number }` (default 0, clamped to 0–1).
+  - Above 0, at the Word and Hold steps the surrounding page settles back into its own lines at that ink, behind the held word (see-through view). It does not collapse into the point.
+  - Flow positions sit inside the figure box: checked at `pageAtHold={0.14}`, 0 inked words outside the box at 1600 and 390. The held word stays at full ink.
+  - Captures: `page-at-hold-0.14-{1600,390}.png`.
+- `HoldStillStills` from `app/(apple)/projects/shades-control/HoldStillStills.tsx`: the no-JS five-frame still, no props, server-safe. The caller shows it only under `@media (scripting: none)`.
+- HUD green (`--hud`) is now declared on `.control` and `.stills` as well as the page root, so both components keep the green when imported elsewhere.
+- **Default route unchanged.** Before/after screenshots:
+  - 15 of 20 are byte-identical.
+  - The 5 that differ, differ by at most 0.0006% of pixels: anti-aliasing on the scanpath marks, or sub-threshold encoding noise.
+  - Two runs of the unchanged build differ by the same amount.

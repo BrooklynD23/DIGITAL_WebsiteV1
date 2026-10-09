@@ -57,6 +57,8 @@
 }
 
 .renderCaption {
+  display: grid;
+  gap: 2px;
   font-size: 12px;
   line-height: 16px;
   letter-spacing: 0.01em;
@@ -116,7 +118,7 @@
 .what {
   display: grid;
   gap: clamp(20px, 3vw, 40px);
-  padding-block: var(--r2-space-10);
+  padding-block: var(--r2-space-10) var(--r2-space-8); /* the pin below brings its own top room */
 }
 
 .whatLine {
@@ -374,84 +376,16 @@
   }
 }
 
-/* ---------- 4 · the view ---------- */
+/* ---------- 4 · the view: the "Hold still" slider (shades-control/HoldStill, styled by its own module) ---------- */
 .view {
   display: grid;
-  gap: var(--r2-space-7);
-  padding: var(--r2-space-9) var(--r2-gutter);
+  gap: var(--r2-space-5);
+  padding: var(--r2-space-10) var(--r2-gutter) var(--r2-space-9);
+  scroll-margin-top: var(--r2-nav-h);
 }
 
-.viewFig {
-  margin: 0;
-  display: grid;
-  justify-items: center;
-  gap: var(--r2-space-4);
-}
-
-/* The lens: a window in the black. The page is seen through a grey tint; the display adds one flat green word. */
-.lens {
-  position: relative;
-  width: min(820px, 100%, (100svh - var(--r2-nav-h) - 280px) * 1.4);
-  aspect-ratio: 1.4;
-  border-radius: 14% 14% 46% 46% / 18% 18% 64% 64%;
-  overflow: hidden;
-  background: #232220;
-  container-type: inline-size;
-  isolation: isolate;
-}
-
-/* A page with its top edge in view: paper, margin, set text. */
-.paper {
-  position: absolute;
-  left: 9%;
-  right: -12%;
-  top: 14%;
-  bottom: -20%;
-  background: #8f8c85; /* ink #1d1d1f on it: 5.0:1 */
-  padding: 6cqw 18% 0 7cqw;
-}
-
-
-
-.pageText {
-  margin: 0;
-  font-family: var(--font-read);
-  font-size: max(12px, 2.9cqw);
-  line-height: 1.6;
-  color: #1d1d1f;
-  text-align: left;
-  hyphens: none;
-}
-
-/* The display's word, held in the gap between two paragraphs, so the page stays legible around it. */
-.hud {
-  margin: 1.8cqw 0 2.2cqw;
-  /* centred on the lens, not on the paper: paper starts 9% + 7cqw in */
-  transform: translateX(calc(34cqw - 50%));
-  display: grid;
-  width: fit-content;
-  justify-items: center;
-  gap: 1.1cqw;
-  /* the see-through display's own region: one flat darker field, so the green word holds 8:1 on a light page */
-  padding: 1.6cqw 3cqw 2cqw;
-  border-radius: 1.2cqw;
-  background: rgba(16, 16, 16, 0.72);
-}
-
-.point {
-  width: max(5px, 0.9cqw);
-  height: max(5px, 0.9cqw);
-  border-radius: 50%;
-  background: var(--point);
-}
-
-.heldWord {
-  font-family: var(--font-read);
-  font-weight: 700;
-  font-size: max(26px, 7.4cqw);
-  line-height: 1;
-  letter-spacing: 0.01em;
-  color: var(--hud);
+.holdWrap {
+  width: 100%;
 }
 
 /* ---------- 5 · close ---------- */
@@ -538,12 +472,41 @@
   letter-spacing: -0.01em;
 }
 
-.faqA {
+.faqA p {
   margin: 0;
+}
+
+.faqA {
+  display: grid;
+  gap: var(--r2-space-4);
   max-width: 60ch;
   font-size: var(--r2-fs-body);
   line-height: 1.6;
   color: var(--r2-ink-2);
+}
+
+.bounds {
+  margin: 0;
+  border-top: 1px solid var(--r2-hairline);
+}
+
+.bounds > div {
+  display: grid;
+  grid-template-columns: 5.5em minmax(0, 1fr);
+  gap: var(--r2-space-3);
+  padding: 8px 0;
+  border-bottom: 1px solid var(--r2-hairline);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.bounds dt {
+  font-weight: 600;
+  color: var(--r2-ink);
+}
+
+.bounds dd {
+  margin: 0;
 }
 
 @media (max-width: 734px) {
@@ -572,7 +535,7 @@
   }
 }
 
-.page[data-spacing='more'] :is(.lead, .heroLine, .beatLine, .legendRole, .faqA, .pageText, .phases li) {
+.page[data-spacing='more'] :is(.lead, .heroLine, .beatLine, .legendRole, .faqA, .bounds, .phases li) {
   letter-spacing: var(--reading-spaced-tracking, 0.05em);
   word-spacing: var(--reading-spaced-word, 0.16em);
 }
