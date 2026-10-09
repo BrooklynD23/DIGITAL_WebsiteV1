@@ -1,0 +1,107 @@
+/* SHADES glasses artwork. Ground and group hues are tokens here; override --glasses-ground to sit the line
+   drawing on another flat ground. Transitions are on opacity and transform only. */
+
+.root {
+  position: relative;
+  width: 100%;
+  --glasses-dur: 640ms;
+  --glasses-ease: var(--r2-ease-emphasized, cubic-bezier(0.2, 0, 0, 1));
+}
+
+.dark {
+  color: #f5f5f7;
+  --gg: var(--glasses-ground, #000000);
+  --g-frame-1: #d8d8dd;
+  --g-frame-2: #9c9ca1;
+  --g-frame-3: #5e5e63;
+  --g-outline: #f5f5f7;
+}
+
+.light {
+  color: #1d1d1f;
+  --gg: var(--glasses-ground, #f5f5f7);
+  --g-frame-1: #a9a9ae;
+  --g-frame-2: #77777c;
+  --g-frame-3: #48484c;
+  --g-outline: #1d1d1f;
+}
+
+/* Group hues: oklch with sRGB fallbacks, alternating lightness so neighbours separate without hue. */
+.root {
+  --g-optics-1: #b9e2fb;
+  --g-optics-2: #6cbcea;
+  --g-optics-3: #3b7ea8;
+  --g-display-1: #c4f5d6;
+  --g-display-2: #4fa877;
+  --g-display-3: #24563c;
+  --g-timing: #f0c76a;
+  --g-control: #c3a6f5;
+}
+
+@supports (color: oklch(0.5 0.1 200)) {
+  .root {
+    --g-optics-1: oklch(0.9 0.06 235);
+    --g-optics-2: oklch(0.76 0.11 235);
+    --g-optics-3: oklch(0.56 0.1 235);
+    --g-display-1: oklch(0.93 0.07 155);
+    --g-display-2: oklch(0.67 0.12 155);
+    --g-display-3: oklch(0.42 0.08 155);
+    --g-timing: oklch(0.85 0.12 85);
+    --g-control: oklch(0.77 0.12 300);
+  }
+}
+
+.svg {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.layer,
+.group {
+  transition:
+    opacity var(--glasses-dur) var(--glasses-ease),
+    transform var(--glasses-dur) var(--glasses-ease);
+}
+
+.ground {
+  fill: var(--gg);
+}
+
+.label {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-text, system-ui, sans-serif);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  pointer-events: none;
+  transition: opacity var(--glasses-dur) var(--glasses-ease);
+}
+
+.swatch {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  flex: none;
+}
+
+.swatchDashed {
+  background: none !important;
+  border: 1px dashed currentColor;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .layer,
+  .group,
+  .label {
+    transition: none;
+  }
+}
