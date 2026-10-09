@@ -34,3 +34,10 @@ The seven-stage arc (hero + Idea · Form · System · Optics · View · Glasses)
 through the brand agents before building, the honesty guard-rails (concept in planning, research platform,
 not a medical device, no efficacy claims, no invented hardware, no part names), reduced-motion and no-JS
 stills, the verification recipe in `design-lab/HANDOFF-NEXT.md` §4, and that SIDEKICK and BRAIN are locked.
+
+## Added 2026-10-09 (Head Designer)
+
+| # | Decision | What it means for the build |
+|---|---|---|
+| 7 | "We connect it externally as wired-up as no software will be run on it. The glasses should be bulky on the side and feel heavier as it has additional components." | SHADES is shown **tethered**: a cable from one temple to an external controller box (compute and power, consistent with `shades.ts` scope.in "external controller"). No software runs on the glasses. Temples are thick and heavy, housing components. Form reference was a tethered display-glasses product photo: proportions and mood only, original design, no brand marks. Word timing and Control are drawn in the controller box. |
+| 2 | Superseded 2026-10-09: the archived book photograph is retired; the page behind the word is typeset live. | |

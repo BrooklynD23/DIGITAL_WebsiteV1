@@ -3,7 +3,7 @@
  * Copy written before the build. The page prints only strings from this file, ./shades and ./shades-concept.
  * Facts: ./shades.ts (lines cited in `sources`) and design-lab/shades-concept/DECISIONS.md (#6: see-through).
  * Step captions describe the illustrative figure, never the device. No speed, comfort or comprehension claim.
- * brand-guardian review pending.
+ * Reviewed by brand-guardian 2026-10-09 (revisions applied). Head Designer sign-off pending.
  */
 import { SHADES } from './shades';
 import { conceptLabels, hero as conceptHero, viewNote } from './shades-concept';

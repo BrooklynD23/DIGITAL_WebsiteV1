@@ -1,0 +1,331 @@
+/* SHADES · approach 2, research platform. A lab notice: Geist 600 headings, Atkinson Hyperlegible Next for every
+   sentence, 1px hairlines for structure. Tokens only. No cards, no eyebrows, no diagrams. */
+
+.page {
+  --wrap: 1024px; /* same measure as the LocalNav and footer, so every left edge lines up */
+  font-family: var(--font-read);
+  background: #000;
+  color: var(--r2-ink);
+}
+
+.page ::selection {
+  background: var(--r2-ink);
+  color: var(--r2-ground);
+}
+
+/* ---------- type ---------- */
+.h1,
+.h2,
+.h3,
+.term {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--r2-fw-display);
+  text-wrap: balance;
+}
+
+.h1 {
+  scroll-margin-top: calc(var(--r2-nav-h) + var(--r2-space-5));
+  font-size: var(--r2-fs-hero);
+  line-height: var(--r2-lh-hero);
+  letter-spacing: var(--r2-ls-hero);
+}
+
+.h2 {
+  font-size: var(--r2-fs-h2);
+  line-height: var(--r2-lh-h2);
+  letter-spacing: var(--r2-ls-h2);
+  scroll-margin-top: calc(var(--r2-nav-h) + var(--r2-space-5));
+}
+
+.h3 {
+  font-size: 17px;
+  line-height: 24px;
+  margin-bottom: var(--r2-space-3);
+}
+
+.lead {
+  margin: 0;
+  max-width: 26rem;
+  font-size: var(--r2-fs-lead);
+  line-height: var(--r2-lh-lead);
+  color: var(--r2-ink-2);
+  text-wrap: pretty;
+}
+
+.note,
+.mentor {
+  margin: var(--r2-space-5) 0 0;
+  font-size: var(--r2-fs-body);
+  line-height: var(--r2-lh-body);
+  color: var(--r2-ink-2);
+  text-wrap: pretty;
+}
+
+.mentor {
+  margin-top: var(--r2-space-4);
+  color: var(--r2-ink);
+}
+
+/* ---------- dark story ---------- */
+.dark {
+  background: #000;
+  color: var(--r2-ink);
+}
+
+.hero {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: var(--r2-space-4);
+  padding: var(--r2-space-9) var(--r2-gutter) var(--r2-space-8);
+}
+
+.stage {
+  margin: 0;
+  font-size: 21px;
+  line-height: 30px;
+  color: var(--r2-ink-2);
+  text-wrap: balance;
+}
+
+.stage > span {
+  display: block;
+}
+
+.object {
+  margin: var(--r2-space-7) 0 0;
+  width: min(380px, 66vw);
+  display: grid;
+  gap: var(--r2-space-5);
+  justify-items: center;
+}
+
+.object > :first-child {
+  width: 100%;
+  height: auto;
+}
+
+.fine {
+  text-wrap: balance;
+  font-size: var(--r2-fs-small);
+  line-height: var(--r2-lh-small);
+  color: var(--r2-ink-3);
+}
+
+.notice {
+  width: calc(min(var(--wrap), 100%) - 2 * var(--r2-gutter));
+  margin: 0 auto;
+  padding-bottom: var(--r2-space-9);
+  border-top: 1px solid var(--r2-hairline);
+}
+
+.statement {
+  margin: 0;
+  padding: var(--r2-space-8) 0 var(--r2-space-9);
+  max-width: 22ch;
+  font-family: var(--font-display);
+  font-weight: var(--r2-fw-display);
+  font-size: var(--r2-fs-h1);
+  line-height: var(--r2-lh-h1);
+  letter-spacing: var(--r2-ls-h1);
+  text-wrap: balance;
+}
+
+/* ---------- the notice row: heading left, matter right, one hairline above ---------- */
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  gap: var(--r2-space-5) var(--r2-space-8);
+  align-items: start;
+  border-top: 1px solid var(--r2-hairline);
+  padding: var(--r2-space-7) 0 var(--r2-space-9);
+}
+
+.notice .row {
+  padding-bottom: 0;
+}
+
+.head {
+  display: grid;
+  gap: var(--r2-space-4);
+  align-content: start;
+}
+
+/* dl grid: term column, detail column, a hairline under each pair */
+.defs {
+  margin: 0;
+  border-top: 1px solid var(--r2-hairline-strong);
+}
+
+.def {
+  display: grid;
+  grid-template-columns: 9rem minmax(0, 1fr);
+  gap: var(--r2-space-4);
+  padding: var(--r2-space-4) 0;
+  border-bottom: 1px solid var(--r2-hairline);
+}
+
+.term {
+  font-size: 17px;
+  line-height: 26px;
+}
+
+.detail {
+  margin: 0;
+  font-size: var(--r2-fs-lead);
+  line-height: var(--r2-lh-lead);
+  text-wrap: pretty;
+}
+
+/* ---------- light catalogue ---------- */
+.light {
+  background: var(--r2-ground);
+  color: var(--r2-ink);
+  padding-top: var(--r2-space-9);
+}
+
+.light > .row {
+  width: calc(min(var(--wrap), 100%) - 2 * var(--r2-gutter));
+  margin: 0 auto;
+}
+
+.light > .row:first-child {
+  border-top-color: var(--r2-ink);
+}
+
+/* scope: two hairline lists */
+.lists {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--r2-space-6);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--r2-hairline-strong);
+}
+
+.list li {
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  align-items: baseline;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--r2-hairline);
+  font-size: 17px;
+  line-height: 25px;
+}
+
+.list li::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--r2-ink);
+  transform: translateY(-2px);
+}
+
+.list li[data-kind='out'] {
+  color: var(--r2-ink-2);
+}
+
+.list li[data-kind='out']::before {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--r2-ink-2);
+}
+
+/* seats: the shared rows, left-aligned in the matter column */
+.seats > ul {
+  margin: 0;
+  max-width: none;
+  border-top: 1px solid var(--r2-hairline-strong);
+}
+
+/* open seats keep their glyph; rows use the page's solid hairline */
+.seats a {
+  border-bottom-style: solid;
+  border-bottom-color: var(--r2-hairline);
+}
+
+.seats a:hover,
+.seats a:focus-visible {
+  border-bottom-color: var(--r2-ink);
+}
+
+/* roadmap: seven numbered hairline rows */
+.phases {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--r2-hairline-strong);
+  counter-reset: none;
+}
+
+.phases li {
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  align-items: baseline;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--r2-hairline);
+  font-size: 17px;
+  line-height: 25px;
+}
+
+.n {
+  font-family: var(--font-display);
+  font-weight: var(--r2-fw-display);
+  font-variant-numeric: tabular-nums;
+  color: var(--r2-ink-2);
+}
+
+/* join: continues the light catalogue */
+.join {
+  border-top: 0;
+  padding-top: var(--r2-space-8);
+}
+
+.join :global(h2) {
+  scroll-margin-top: calc(var(--r2-nav-h) + var(--r2-space-5));
+}
+
+/* ---------- small screens ---------- */
+@media (max-width: 1068px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 734px) {
+  .hero {
+    padding-top: var(--r2-space-8);
+  }
+
+  .stage {
+    font-size: 19px;
+    line-height: 27px;
+  }
+
+  .statement {
+    padding: var(--r2-space-7) 0 var(--r2-space-8);
+  }
+
+  .lists {
+    grid-template-columns: 1fr;
+    gap: var(--r2-space-7);
+  }
+
+  .def {
+    grid-template-columns: 1fr;
+    gap: var(--r2-space-1);
+  }
+
+  .row {
+    padding-bottom: var(--r2-space-8);
+  }
+
+  .light {
+    padding-top: var(--r2-space-8);
+  }
+}

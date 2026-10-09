@@ -1,0 +1,492 @@
+/* SHADES approach 3, "Hold still". Shared --r2-* tokens only; HUD green is the one SHADES display colour. */
+
+.root {
+  --hud: #7fe6a3;
+  background: #000;
+}
+
+/* ------------------------------------------------------------------ hero */
+
+.hero {
+  background: #000;
+  overflow-x: clip;
+  padding: var(--r2-space-7) var(--r2-gutter) var(--r2-space-9);
+}
+
+.heroHead {
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--r2-fw-display);
+  font-size: var(--r2-fs-hero);
+  line-height: var(--r2-lh-hero);
+  letter-spacing: var(--r2-ls-hero);
+}
+
+.concept {
+  margin: var(--r2-space-4) auto 0;
+  max-width: var(--r2-measure);
+  font-size: var(--r2-fs-lead);
+  line-height: var(--r2-lh-lead);
+  letter-spacing: var(--r2-ls-lead);
+  font-weight: var(--r2-fw-strong);
+  text-wrap: balance;
+}
+
+.boundary {
+  margin: var(--r2-space-2) auto 0;
+  font-size: var(--r2-fs-body);
+  line-height: var(--r2-lh-body);
+  color: var(--r2-ink-2);
+}
+
+/* ------------------------------------------------------------------ the control */
+
+.live,
+.noscript {
+  max-width: 1000px;
+  margin: var(--r2-space-6) auto 0;
+}
+
+.noscript {
+  display: none;
+}
+
+@media (scripting: none) {
+  .live {
+    display: none;
+  }
+  .noscript {
+    display: block;
+  }
+}
+
+.control {
+  display: grid;
+}
+
+.figure {
+  margin: 0;
+}
+
+/* The typeset page. Words stay in flow; every pose is a transform from that flow position. */
+.box {
+  position: relative;
+  font-family: var(--font-read, var(--font-text));
+  font-size: clamp(19px, 0.9rem + 1.3vw, 34px);
+  /* open leading: the fixation dots ride in the gap above each line */
+  line-height: 2.05;
+  /* bleed into the gutter so the side fade never touches the page's own first and last letters */
+  margin-inline: calc(-1 * var(--r2-gutter));
+  padding: 0.75em var(--r2-gutter);
+  color: var(--r2-ink);
+  /* the page parts around the line; anything pushed past an edge leaves softly, never cut */
+  mask-image:
+    linear-gradient(to bottom, transparent 0, #000 0.6em, #000 calc(100% - 0.6em), transparent 100%),
+    linear-gradient(to right, transparent 0, #000 var(--r2-gutter), #000 calc(100% - var(--r2-gutter)), transparent 100%);
+  mask-composite: intersect;
+}
+
+.page {
+  margin: 0;
+  text-wrap: pretty;
+  font-variant-ligatures: none;
+}
+
+.w {
+  display: inline-block;
+  position: relative;
+  transform-origin: 50% 50%;
+}
+
+.focus {
+  transition: color var(--r2-dur-snap, 120ms) var(--r2-ease-ui);
+}
+
+.box[data-hold='true'] .focus {
+  color: var(--hud);
+}
+
+.scan {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.arc {
+  fill: none;
+  stroke: var(--r2-ink-2);
+  stroke-width: 1.25;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  opacity: 0.6;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw var(--r2-dur-snap, 120ms) var(--r2-ease-ui) forwards;
+}
+
+.mark {
+  fill: var(--r2-ink-2);
+  opacity: 0.45;
+}
+
+.tick {
+  stroke: var(--r2-ink-2);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  opacity: 0;
+  transition: opacity var(--r2-dur-snap, 120ms) var(--r2-ease-ui);
+}
+
+.box[data-hold='true'] .tick {
+  opacity: 1;
+}
+
+/* The one red: the fixation point. Shown once the page is live. */
+.dot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border-radius: 50%;
+  background: var(--r2-trigger);
+  pointer-events: none;
+}
+
+.box[data-live='false'] .dot {
+  display: none;
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.note {
+  margin: var(--r2-space-3) 0 0;
+  text-align: center;
+  font-size: var(--r2-fs-small);
+  line-height: var(--r2-lh-small);
+  color: var(--r2-ink-2);
+}
+
+/* ------------------------------------------------------------------ the slider: one native range, five detents */
+
+.slider {
+  margin-top: var(--r2-space-5);
+}
+
+.range {
+  --thumb: 44px;
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: var(--thumb);
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+  touch-action: pan-y;
+}
+
+.range::-webkit-slider-runnable-track {
+  height: 2px;
+  border-radius: 1px;
+  background: linear-gradient(to right, var(--r2-ink) calc(var(--thumb) / 2 + var(--p, 0) * (100% - var(--thumb))), var(--r2-hairline) 0);
+}
+
+.range::-moz-range-track {
+  height: 2px;
+  background: var(--r2-hairline);
+}
+
+.range::-moz-range-progress {
+  height: 2px;
+  background: var(--r2-ink);
+}
+
+/* 44px hit area, 20px visible knob (transparent border, background clipped to the padding box) */
+.range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: var(--thumb);
+  height: var(--thumb);
+  margin-top: calc(1px - var(--thumb) / 2);
+  border: 12px solid transparent;
+  border-radius: 50%;
+  background: var(--r2-ink);
+  background-clip: padding-box;
+}
+
+.range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 12px solid transparent;
+  border-radius: 50%;
+  background: var(--r2-ink);
+  background-clip: padding-box;
+}
+
+/* focus ring on the knob (replaces the global outline, same 2px focus colour) */
+.range:focus-visible {
+  outline: none;
+}
+
+.range:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 2px var(--r2-focus);
+}
+
+.range:focus-visible::-moz-range-thumb {
+  box-shadow: 0 0 0 2px var(--r2-focus);
+}
+
+.names {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.names li {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 44px;
+  white-space: nowrap;
+  font-size: var(--r2-fs-body);
+  line-height: var(--r2-lh-body);
+  color: var(--r2-ink-3);
+  transition: color var(--r2-dur-ui-fast, 240ms) var(--r2-ease-ui);
+}
+
+/* the detent: a small mark on the track above each name */
+.names li::before {
+  content: '';
+  position: absolute;
+  top: -27px;
+  left: calc(50% - 3px);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--r2-hairline-strong);
+}
+
+.names li[data-past='true'] {
+  color: var(--r2-ink-2);
+}
+
+.names li[data-past='true']::before {
+  background: var(--r2-ink);
+}
+
+.names li[data-on='true'] {
+  color: var(--r2-ink);
+  font-weight: var(--r2-fw-strong);
+}
+
+.caption {
+  margin: var(--r2-space-5) auto 0;
+  max-width: var(--r2-measure);
+  min-height: calc(var(--r2-lh-lead) * 2);
+  text-align: center;
+  font-size: var(--r2-fs-lead);
+  line-height: var(--r2-lh-lead);
+  letter-spacing: var(--r2-ls-lead);
+  color: var(--r2-ink);
+  text-wrap: balance;
+  animation: caption var(--r2-dur-ui-fast, 240ms) var(--r2-ease-ui);
+}
+
+@keyframes caption {
+  from {
+    opacity: 0;
+  }
+}
+
+/* ------------------------------------------------------------------ no-JS still: five frames */
+
+.stills {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--r2-space-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.still {
+  display: grid;
+  align-content: start;
+  gap: var(--r2-space-2);
+}
+
+.stillFig {
+  display: block;
+  align-content: center;
+  min-height: 9.5rem;
+  margin: 0 0 var(--r2-space-2);
+  padding: var(--r2-space-4) 0;
+  font-family: var(--font-read, var(--font-text));
+  font-size: 13px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.still[data-step='page'] .stillFig {
+  text-align: left;
+  font-size: 11px;
+}
+
+.still[data-step='word'] .stillFig,
+.still[data-step='hold'] .stillFig {
+  font-size: 24px;
+}
+
+.stillFocus {
+  position: relative;
+  display: inline-block;
+}
+
+.still[data-step='hold'] .stillFocus {
+  color: var(--hud);
+}
+
+.stillDot {
+  position: absolute;
+  left: calc(50% - 3px);
+  top: -6px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--r2-trigger);
+}
+
+.stillName {
+  margin: 0;
+  font-weight: var(--r2-fw-strong);
+  font-size: var(--r2-fs-body);
+  line-height: var(--r2-lh-body);
+}
+
+.stillCaption {
+  margin: 0;
+  font-size: var(--r2-fs-body);
+  line-height: var(--r2-lh-body);
+  color: var(--r2-ink-2);
+}
+
+@media (max-width: 1068px) {
+  .stills {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 734px) {
+  .stills {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ------------------------------------------------------------------ beats 2 and 3 */
+
+.chapter {
+  background: #000;
+  /* the shared reader's printed text and the artwork's hidden part labels can sit past the edge at 390 */
+  overflow-x: clip;
+  padding: var(--r2-space-10) var(--r2-gutter);
+}
+
+.chapterHead {
+  max-width: 1000px;
+  margin: 0 auto var(--r2-space-7);
+  text-align: center;
+}
+
+.h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--r2-fw-display);
+  font-size: var(--r2-fs-h2);
+  line-height: var(--r2-lh-h2);
+  letter-spacing: var(--r2-ls-h2);
+  text-wrap: balance;
+}
+
+.lead {
+  margin: var(--r2-space-4) auto 0;
+  max-width: var(--r2-measure);
+  font-size: var(--r2-fs-lead);
+  line-height: var(--r2-lh-lead);
+  letter-spacing: var(--r2-ls-lead);
+  color: var(--r2-ink-2);
+  text-wrap: balance;
+}
+
+.glassesFig {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.arrive {
+  display: grid;
+  place-items: center;
+}
+
+.glasses {
+  width: min(880px, 100%);
+  height: auto;
+}
+
+/* The arrival plays once on entry (PlayOnce sets data-run). Default: fully present (no JS, reduced motion). */
+.arrive[data-run='armed'] .glasses {
+  opacity: 0;
+  transform: translateY(48px) scale(0.94);
+}
+
+.arrive[data-run='armed'] .glasses text {
+  opacity: 0;
+}
+
+.arrive[data-run='play'] .glasses {
+  transition:
+    transform 900ms var(--r2-ease-entrance),
+    opacity var(--r2-dur-draw, 480ms) var(--r2-ease-ui);
+}
+
+/* the held word switches on in the lens once the glasses have landed: a snap, never a fade-in from dim */
+.arrive[data-run='play'] .glasses text {
+  transition: opacity var(--r2-dur-snap, 120ms) var(--r2-ease-ui) 900ms;
+}
+
+.figCaption {
+  margin: var(--r2-space-5) auto 0;
+  text-wrap: balance;
+  max-width: var(--r2-measure);
+  text-align: center;
+  font-size: var(--r2-fs-body);
+  line-height: var(--r2-lh-body);
+  color: var(--r2-ink-2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arc,
+  .caption {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .focus,
+  .tick,
+  .names li {
+    transition: none;
+  }
+}

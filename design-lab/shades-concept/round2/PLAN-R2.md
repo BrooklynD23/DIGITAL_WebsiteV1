@@ -104,3 +104,9 @@ Creative briefs for the builders: the audit's §7, briefs 1–3 (kept in the ses
 `app/(apple)/_shades-art/Glasses.tsx` approved; props frozen. Polish continues in parallel without prop changes.
 Waivers for SHADES only: gradients in solid mode (`DESIGN.md` §11) and the group hues in exploded mode
 (`DESIGN.md` §12: optics blue, display green, timing amber, control violet, frame greys).
+
+## Form change (Head Designer, 2026-10-09)
+
+Glasses are tethered to an external controller box; no software on the glasses; bulky, heavier temples (see
+`../DECISIONS.md` #7). `Glasses.tsx` gains one additive optional prop, `tether?: boolean` (default false, no change
+when off). All three approaches use it on their object views.

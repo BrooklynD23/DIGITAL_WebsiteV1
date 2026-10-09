@@ -11,26 +11,49 @@ export const metadata: Metadata = {
 const MODES: readonly GlassesMode[] = ['solid', 'line', 'exploded'];
 const VIEWS: readonly GlassesView[] = ['front', 'three-quarter', 'side'];
 const WORD = { word: 'word' } as const;
+const SOLO = 'SHADES glasses, three-quarter view, the word shown in the right lens';
+const WIRED = 'SHADES glasses wired by a cable from the right temple to the external controller box';
+const BIG: readonly { id: string; mode: GlassesMode; ground: 'dark' | 'light'; tether: boolean; title: string }[] = [
+  { id: 'crop-v2-solid-dark', mode: 'solid', ground: 'dark', tether: false, title: SOLO },
+  { id: 'crop-v2-solid-light', mode: 'solid', ground: 'light', tether: false, title: SOLO },
+  { id: 'crop-v2-exploded', mode: 'exploded', ground: 'dark', tether: false, title: 'SHADES glasses taken apart: frame, optics, display; word timing and control drawn off the frame' },
+  { id: 'crop-v2-tether-dark', mode: 'solid', ground: 'dark', tether: true, title: WIRED },
+  { id: 'crop-v2-tether-light', mode: 'solid', ground: 'light', tether: true, title: WIRED },
+  { id: 'crop-v2-tether-exploded', mode: 'exploded', ground: 'dark', tether: true, title: 'SHADES taken apart: frame, optics and display on the glasses; word timing and control lifted out of the controller box' },
+];
+const GRIDS = [
+  { ground: 'dark', tether: false },
+  { ground: 'light', tether: false },
+  { ground: 'dark', tether: true },
+  { ground: 'light', tether: true },
+] as const;
 
 export default function ShadesArtPreview() {
   return (
     <main className={s.page}>
       <h1 className={s.h1}>SHADES glasses artwork</h1>
-      <section id="big-dark" className={`${s.big} ${s.dark}`}>
-        <Glasses mode="solid" view="three-quarter" ground="dark" display={WORD} title="SHADES glasses, three-quarter view, the word shown in the right lens" />
-      </section>
-      <section id="big-light" className={`${s.big} ${s.light}`}>
-        <Glasses mode="solid" view="three-quarter" ground="light" display={WORD} title="SHADES glasses, three-quarter view, the word shown in the right lens" />
-      </section>
-      <section id="big-exploded" className={`${s.big} ${s.dark}`}>
-        <Glasses mode="exploded" view="three-quarter" ground="dark" display={WORD} title="SHADES glasses taken apart: frame, optics, display; word timing and control drawn off the frame" />
-      </section>
-      {(['dark', 'light'] as const).map((ground) => (
-        <section key={ground} id={`grid-${ground}`} className={`${s.grid} ${ground === 'dark' ? s.dark : s.light}`}>
+      {BIG.map((b) => (
+        <section key={b.id} id={b.id} className={`${s.big} ${b.ground === 'dark' ? s.dark : s.light}`}>
+          <Glasses mode={b.mode} view="three-quarter" ground={b.ground} tether={b.tether} display={WORD} title={b.title} />
+        </section>
+      ))}
+      {GRIDS.map(({ ground, tether }) => (
+        <section key={`${ground}-${tether}`} id={`grid-${tether ? 'tether-' : ''}${ground}`} className={`${s.grid} ${ground === 'dark' ? s.dark : s.light}`}>
+          <h2 className={s.h2}>
+            {ground} · tether {tether ? 'on' : 'off'}
+          </h2>
           {MODES.map((mode) =>
             VIEWS.map((view) => (
               <figure key={`${mode}-${view}`} className={s.cell}>
-                <Glasses mode={mode} view={view} ground={ground} display={WORD} fixation={mode !== 'solid'} title={`SHADES glasses, ${mode}, ${view}`} />
+                <Glasses
+                  mode={mode}
+                  view={view}
+                  ground={ground}
+                  tether={tether}
+                  display={WORD}
+                  fixation={mode !== 'solid'}
+                  title={`SHADES glasses, ${mode}, ${view}${tether ? ', wired to the controller box' : ''}`}
+                />
                 <figcaption className={s.cap}>
                   {mode} · {view}
                 </figcaption>

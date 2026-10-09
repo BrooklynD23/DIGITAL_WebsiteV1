@@ -2,7 +2,7 @@
 
 import { useId, type CSSProperties, type ReactNode } from 'react';
 import { systemGroups, type SystemGroup } from '../_content/shades-concept';
-import { VIEW_ANGLES, draw, type Box, type Drawing, type Face, type P2, type ViewName } from './geometry';
+import { VIEW_ANGLES, draw, type Box, type Drawing, type Face, type P2, type Slab, type ViewName } from './geometry';
 import s from './glasses.module.css';
 
 /**
@@ -10,8 +10,10 @@ import s from './glasses.module.css';
  *   solid     a product shot: graphite acetate with tone-stepped occlusion faces, tinted lenses, one contact shadow
  *   line      anatomy line art: 1.25px union outlines (no stray segments at joints), creases at the same weight
  *   exploded  flat solid bodies in their group hue (2–3 tone steps, 1.25px outline); display rises, optics drop;
- *             word timing and control drawn off the frame, dashed, because no source places them
- * Switching mode crossfades; entering `exploded` also slides the parts out (CSS transitions, off under reduced motion).
+ *             word timing and control drawn off the frame, dashed, because no source places them; with `tether`
+ *             they are solid modules lifted out of the controller box, which places them
+ * Switching mode crossfades; entering `exploded` also slides the parts out and fades the labels in (CSS, off under
+ * reduced motion). Labels exist only in `exploded`, so they never add scrollable overflow in other modes.
  * `yaw` overrides the view's turn so a consumer can play a turn frame by frame.
  */
 export type GlassesMode = 'solid' | 'line' | 'exploded';
@@ -37,6 +39,11 @@ export interface GlassesProps {
   /** 'object' crops tight to the glasses; 'room' leaves space for the exploded parts and labels.
    *  Default: 'object' for solid, 'room' for line and exploded, so line ↔ exploded animates in place. */
   readonly fit?: 'object' | 'room';
+  /** Draw the wired setup: a cable from the end of the right temple to the external controller box
+   *  (compute and power live in the box; no software runs on the glasses). The root's aspect ratio grows
+   *  to fit the box only when this is on. Exploded: word timing and control become modules of the box.
+   *  Default false: output and aspect ratio are unchanged. */
+  readonly tether?: boolean;
   readonly className?: string;
   /** Accessible name (role="img"). */
   readonly title: string;
@@ -62,6 +69,14 @@ interface Layout {
   readonly labels: Readonly<Record<SystemGroupId, { readonly at: P2; readonly anchor: 'left' | 'below' | 'above' }>>;
 }
 
+const union = (a: Box, b: Box): Box => {
+  const x = Math.min(a.x, b.x);
+  const y = Math.min(a.y, b.y);
+  return { x, y, w: Math.max(a.x + a.w, b.x + b.w) - x, h: Math.max(a.y + a.h, b.y + b.h) - y };
+};
+/** Room kept right of a tether module for its label, viewBox units. */
+const TETHER_LABEL_ROOM = 58;
+
 function layout(g: Drawing, fit: 'object' | 'room'): Layout {
   const fb = g.frontBox;
   const lr = g.lensRBox;
@@ -72,30 +87,45 @@ function layout(g: Drawing, fit: 'object' | 'room'): Layout {
   const bw = 34;
   const bh = 15;
   const by = fb.y + fb.h + 12;
-  const bcx = Math.min(ll.x + ll.w / 2, lr.x - 10 - bw - 6);
-  const boxes = {
-    timing: { x: bcx - bw - 6, y: by, w: bw, h: bh },
-    control: { x: bcx + 6, y: by, w: bw, h: bh },
-  };
+  // A narrow front (the side view) has no room for two boxes side by side: stack them, labels centred below.
+  const stack = fb.w < 2 * bw + 40;
+  const bcx = stack ? lr.x - 12 - bw / 2 : Math.min(ll.x + ll.w / 2, lr.x - 10 - bw - 6);
+  const boxes = stack
+    ? { timing: { x: bcx - bw / 2, y: by, w: bw, h: bh }, control: { x: bcx - bw / 2, y: by + bh + 22, w: bw, h: bh } }
+    : { timing: { x: bcx - bw - 6, y: by, w: bw, h: bh }, control: { x: bcx + 6, y: by, w: bw, h: bh } };
   const dx = g.displayAt[0];
   const dy = g.displayAt[1] + display[1];
+  const t = g.tether;
+  const modLabel = (k: 'timing' | 'control'): { at: P2; anchor: 'left' | 'below' } =>
+    t
+      ? { at: [t.moduleEnd[k][0] + t.lift[k][0] + 5, t.moduleEnd[k][1] + t.lift[k][1]], anchor: 'left' }
+      : { at: [boxes[k].x + bw / 2, boxes[k].y + bh + 3], anchor: 'below' };
   const labels: Layout['labels'] = {
     frame: { at: [fb.x + 2, fb.y - 3], anchor: 'above' },
     display: { at: [dx + 13, dy], anchor: 'left' },
     optics: { at: [lr.x + lr.w / 2, lr.y + lr.h + optics[1] + 3], anchor: 'below' },
-    timing: { at: [boxes.timing.x + bw / 2, by + bh + 3], anchor: 'below' },
-    control: { at: [boxes.control.x + bw / 2, by + bh + 3], anchor: 'below' },
+    timing: modLabel('timing'),
+    control: modLabel('control'),
   };
-  const b = g.box;
+  const b = t ? union(g.box, t.bounds) : g.box;
   let vb: Box;
   if (fit === 'object') {
     const p = Math.max(b.w, b.h) * 0.04;
     vb = { x: b.x - p, y: b.y - p, w: b.w + 2 * p, h: b.h + 2 * p };
+  } else if (t) {
+    const e = t.explodedBounds;
+    const x0 = Math.min(b.x, e.x) - 6;
+    const xr = Math.max(b.x + b.w, e.x + e.w, lr.x + lr.w + 4, dx + 46);
+    const room = Math.max(TETHER_LABEL_ROOM, (xr - x0) * 0.27);
+    const x1 = Math.max(xr, labels.timing.at[0] + room, labels.control.at[0] + room) + 4;
+    const y0 = Math.min(b.y, e.y, dy - dispHalfH - 6, fb.y - 12) - 4;
+    const y1 = Math.max(b.y + b.h, e.y + e.h, lr.y + lr.h + optics[1] + 12) + 4;
+    vb = { x: x0, y: y0, w: x1 - x0, h: y1 - y0 };
   } else {
     const x0 = Math.min(b.x, boxes.timing.x) - 6;
     const x1 = Math.max(b.x + b.w, lr.x + lr.w + 4, dx + 46) + 4;
     const y0 = Math.min(b.y, dy - dispHalfH - 6, fb.y - 12) - 4;
-    const y1 = Math.max(b.y + b.h, lr.y + lr.h + optics[1] + 12, by + bh + 12) + 4;
+    const y1 = Math.max(b.y + b.h, lr.y + lr.h + optics[1] + 12, boxes.control.y + bh + 12) + 4;
     vb = { x: x0, y: y0, w: x1 - x0, h: y1 - y0 };
   }
   return { vb, move: { optics, display }, boxes, labels };
@@ -149,13 +179,18 @@ export function Glasses({
   highlight = null,
   ground = 'dark',
   fit,
+  tether = false,
   className,
   title,
 }: GlassesProps) {
   const uid = useId().replace(/:/g, '');
   const id = (k: string): string => `g${uid}${k}`;
   const angles = VIEW_ANGLES[view];
-  const g = draw(yaw ?? angles.yaw, angles.pitch);
+  const g = draw(yaw ?? angles.yaw, angles.pitch, tether);
+  const T = g.tether;
+  // Near-frontal views: perspective pulls the temple end inside the lens, so the cable would show through the
+  // lens hole as a stray line. Hide it behind the front, as the temples drop their ear bend there.
+  const cableMask = T && Math.abs(yaw ?? angles.yaw) < 15 ? `url(#${id('cablemask')})` : undefined;
   const L = layout(g, fit ?? (mode === 'solid' ? 'object' : 'room'));
   const { vb } = L;
   const dark = ground === 'dark';
@@ -178,8 +213,8 @@ export function Glasses({
 
   /* -------- solid palette -------- */
   const SOL = dark
-    ? { f0: '#55595f', f1: '#2b2d31', f2: '#111214', w0: '#2a2c30', w1: '#08090a', bevel: '#767b83', tLo: '#16171a', tHi: '#71767e', pad: '#2e3034' }
-    : { f0: '#4a4d53', f1: '#26282c', f2: '#0e0f10', w0: '#26282b', w1: '#060607', bevel: '#7d828a', tLo: '#0b0c0d', tHi: '#575b62', pad: '#45484e' };
+    ? { f0: '#55595f', f1: '#2b2d31', f2: '#111214', w0: '#2a2c30', w1: '#08090a', bevel: '#767b83', tLo: '#16171a', tHi: '#71767e', pad: '#2e3034', cable: '#1b1c1f' }
+    : { f0: '#4a4d53', f1: '#26282c', f2: '#0e0f10', w0: '#26282b', w1: '#060607', bevel: '#7d828a', tLo: '#0b0c0d', tHi: '#575b62', pad: '#45484e', cable: '#17181a' };
 
   const templeFill = (f: Face): string => mix(SOL.tLo, SOL.tHi, 0.18 + 0.82 * f.light);
   const tone = (f: Face): string => (f.light > 0.62 ? 'var(--g-frame-1)' : f.light > 0.3 ? 'var(--g-frame-2)' : 'var(--g-frame-3)');
@@ -209,7 +244,15 @@ export function Glasses({
       <g filter={`url(#${id('blur')})`}>
         <path d={g.shadow[0]} fill="#000" fillOpacity={dark ? 0.5 : 0.1} />
         <path d={g.shadow[1]} fill="#000" fillOpacity={dark ? 0.8 : 0.3} />
+        {T ? <path d={T.shadow} fill="#000" fillOpacity={dark ? 0.75 : 0.22} /> : null}
       </g>
+      {T ? (
+        <g fill="none" strokeLinecap="round" strokeLinejoin="round" mask={cableMask}>
+          <path d={T.cable} stroke={SOL.cable} strokeWidth={T.width} />
+          <path d={T.cable} stroke="#fff" strokeOpacity={dark ? 0.1 : 0.16} strokeWidth={T.width * 0.28} transform={`translate(0 ${-T.width * 0.24})`} />
+          <path d={T.boot} stroke={SOL.cable} strokeWidth={T.bootWidth} />
+        </g>
+      ) : null}
       {g.temples.map((faces, ti) => (
         <g key={ti}>
           {faces.map((f, i) => (
@@ -217,6 +260,14 @@ export function Glasses({
           ))}
         </g>
       ))}
+      <g fill="none" strokeLinecap="round" strokeLinejoin="round">
+        {g.seams.map((d, i) => (
+          <g key={i}>
+            <path d={d} stroke={SOL.tHi} strokeOpacity={0.55} strokeWidth={0.32} transform="translate(0 0.28)" />
+            <path d={d} stroke="#000" strokeOpacity={0.75} strokeWidth={0.32} />
+          </g>
+        ))}
+      </g>
       {g.pads.map((d, i) => (
         <path key={i} d={d} fill={SOL.pad} />
       ))}
@@ -249,10 +300,30 @@ export function Glasses({
       <use href={faceRef} fill={SOL.bevel} />
       <use href={faceRef} fill={`url(#${id('face')}g)`} transform="translate(0 0.3)" />
       <use href={faceRef} fill={`url(#${id('sheen')})`} transform="translate(0 0.3)" />
+      {T ? (
+        <g>
+          <path d={T.box.hull} fill={SOL.tLo} />
+          {T.box.sides.map((f, i) => (
+            <path key={i} d={f.d} fill={templeFill(f)} stroke={templeFill(f)} strokeWidth={0.15} strokeLinejoin="round" />
+          ))}
+          <path d={T.box.top} fill={mix(SOL.tLo, SOL.tHi, 0.1 + 0.6 * T.box.topLight)} />
+          <path d={T.box.top} fill={`url(#${id('boxsheen')})`} />
+          {T.ports.map((d, i) => (
+            <path key={i} d={d} fill="#040405" stroke={SOL.bevel} strokeOpacity={0.35} strokeWidth={0.25} />
+          ))}
+        </g>
+      ) : null}
     </g>
   );
 
   /* -------- LINE: anatomy line art -------- */
+  const seamLines = (
+    <g fill="none" stroke="currentColor" strokeWidth={OUTLINE * 0.8} strokeLinecap="round" strokeLinejoin="round" strokeOpacity={0.8}>
+      {g.seams.map((d, i) => (
+        <path key={i} d={d} {...nsProps} />
+      ))}
+    </g>
+  );
   const templeUnion = (faces: readonly Face[], key: number) => (
     <g key={key}>
       <Union>{() => faces.map((f, i) => <path key={i} d={f.d} {...nsProps} />)}</Union>
@@ -261,14 +332,51 @@ export function Glasses({
       ))}
     </g>
   );
+  /** Tube outline: a wide currentColor stroke, the ground stroke inside it. */
+  const cableTube = (fill: string, open = false) =>
+    T ? (
+      <g fill="none" strokeLinecap="round" strokeLinejoin="round" mask={cableMask}>
+        <path d={open ? T.cableOpen : T.cable} stroke="currentColor" strokeWidth={T.width + OUTLINE * 1.6} />
+        {[T.boot, ...(open ? [T.plug] : [])].map((d) => (
+          <path key={d} d={d} stroke="currentColor" strokeWidth={T.bootWidth + OUTLINE * 1.6} />
+        ))}
+        <path d={open ? T.cableOpen : T.cable} stroke={fill} strokeWidth={T.width - OUTLINE * 0.4} />
+        {[T.boot, ...(open ? [T.plug] : [])].map((d) => (
+          <path key={d} d={d} stroke={fill} strokeWidth={T.bootWidth - OUTLINE * 0.4} />
+        ))}
+      </g>
+    ) : null;
+  /** One clean silhouette from the hull, then the strips and the top; the top's edge is the one crease. */
+  const slabUnion = (sl: Slab, fill?: (f: Face) => string, top?: string) => (
+    <>
+      <path d={sl.hull} fill={fill ? top : 'var(--gg)'} stroke="currentColor" strokeWidth={OUTLINE * 2} strokeLinejoin="round" {...nsProps} />
+      {fill
+        ? sl.sides.map((f, i) => <path key={i} d={f.d} fill={fill(f)} stroke={fill(f)} strokeWidth={0.2} strokeLinejoin="round" />)
+        : null}
+      <path d={sl.hull} fill={fill ? 'none' : 'var(--gg)'} />
+      {fill ? <path d={sl.top} fill={top} /> : null}
+      <path d={sl.top} fill="none" stroke="currentColor" strokeWidth={OUTLINE} strokeLinejoin="round" {...nsProps} />
+    </>
+  );
+  const tetherLine = T ? (
+    <>
+      {slabUnion(T.box)}
+      {T.ports.map((d, i) => (
+        <path key={i} d={d} fill="none" stroke="currentColor" strokeWidth={OUTLINE} {...nsProps} />
+      ))}
+    </>
+  ) : null;
   const line = (
     <g className={s.layer} style={{ opacity: mode === 'line' ? 1 : 0 }}>
+      {T ? <g className={s.group} style={{ opacity: highlight ? 0.3 : 1 }}>{cableTube('var(--gg)')}</g> : null}
       <g className={s.group} style={{ opacity: dim('frame') }}>
         {g.temples.map((faces, i) => templeUnion(faces, i))}
+        {seamLines}
         <Union>{() => g.pads.map((d, i) => <path key={i} d={d} {...nsProps} />)}</Union>
         <Union>{() => copies(1, -1).map((t) => faceCopy(t))}</Union>
         <Union>{() => <use href={faceRef} />}</Union>
       </g>
+      {T ? <g className={s.group} style={{ opacity: highlight ? 0.3 : 1 }}>{tetherLine}</g> : null}
       <g className={s.group} style={{ opacity: dim('display') * (g.display.visible || 0) }}>
         <rect
           transform={dm}
@@ -289,19 +397,50 @@ export function Glasses({
   );
 
   /* -------- EXPLODED: flat bodies in group hues -------- */
-  const lensBack: P2 = [g.depth[0] * 0.38, g.depth[1] * 0.38];
+  const lensBack: P2 = [g.depth[0] * 0.26, g.depth[1] * 0.26];
   const slab: P2 = [g.depth[0] * 0.5, g.depth[1] * 0.5];
   const displayRect = (extra: Record<string, unknown>) => (
     <rect transform={dm} x={-dw / 2} y={-dh / 2} width={dw} height={dh} rx={1.1} {...extra} />
   );
+  const shade = (f: Face): number => 0.42 * (1 - f.light);
+  const moduleSlab = (k: 'timing' | 'control') => {
+    if (!T) return null;
+    const sl = T.modules[k];
+    const hue = `var(--g-${k})`;
+    return (
+      <g key={k} className={s.group} style={{ opacity: dim(k), transform: exploded ? tr(T.lift[k]) : 'none' }}>
+        {slabUnion(sl, () => hue, hue)}
+        {sl.sides.map((f, i) => (
+          <path key={i} d={f.d} fill="#000" fillOpacity={shade(f)} />
+        ))}
+      </g>
+    );
+  };
+  const tetherExploded = T ? (
+    <>
+      <g className={s.group} style={{ opacity: highlight ? 0.3 : 1, transform: exploded ? tr(T.lift.body) : 'none' }}>
+        {slabUnion(T.body, tone, 'var(--g-frame-1)')}
+        {T.ports.map((d, i) => (
+          <path key={i} d={d} fill="var(--g-frame-3)" stroke="currentColor" strokeWidth={OUTLINE} {...nsProps} />
+        ))}
+      </g>
+      {moduleSlab('control')}
+      {moduleSlab('timing')}
+      <g className={s.group} style={{ opacity: highlight ? 0.3 : 1 }}>
+        {slabUnion(T.lid, tone, 'var(--g-frame-1)')}
+      </g>
+    </>
+  ) : null;
   const explodedLayer = (
     <g className={s.layer} style={{ opacity: exploded ? 1 : 0, color: 'var(--g-outline)' }}>
+      {T ? <g className={s.group} style={{ opacity: highlight ? 0.3 : 1 }}>{cableTube('var(--g-frame-2)', true)}</g> : null}
       <g className={s.group} style={{ opacity: dim('frame') }}>
         {g.temples.map((faces, ti) => (
           <Union key={ti} fills={faces.map((f, i) => <path key={i} d={f.d} fill={tone(f)} stroke={tone(f)} strokeWidth={0.15} />)}>
             {() => faces.map((f, i) => <path key={i} d={f.d} {...nsProps} />)}
           </Union>
         ))}
+        {seamLines}
         <Union fills={g.pads.map((d, i) => <path key={i} d={d} fill="var(--g-frame-2)" />)}>
           {() => g.pads.map((d, i) => <path key={i} d={d} {...nsProps} />)}
         </Union>
@@ -321,16 +460,16 @@ export function Glasses({
         <Union
           fills={
             <>
-              <path d={g.lensR} fill="var(--g-optics-3)" transform={`translate(${lensBack[0]} ${lensBack[1]})`} />
-              <path d={g.lensR} fill="var(--g-optics-2)" />
-              <path d={g.lensR} fill="var(--g-optics-1)" transform="translate(0 0.6)" />
+              <path d={g.holeR} fill="var(--g-optics-2)" transform={`translate(${lensBack[0]} ${lensBack[1]})`} />
+              <path d={g.holeR} fill="var(--g-optics-1)" />
+              <path d={g.holeR} fill={`url(#${id('reflect')}x)`} />
             </>
           }
         >
           {() => (
             <>
-              <path d={g.lensR} transform={`translate(${lensBack[0]} ${lensBack[1]})`} {...nsProps} />
-              <path d={g.lensR} {...nsProps} />
+              <path d={g.holeR} transform={`translate(${lensBack[0]} ${lensBack[1]})`} {...nsProps} />
+              <path d={g.holeR} {...nsProps} />
             </>
           )}
         </Union>
@@ -356,7 +495,8 @@ export function Glasses({
           {wordEl(wordColor)}
         </g>
       </g>
-      {(['timing', 'control'] as const).map((k) => {
+      {tetherExploded}
+      {(T ? [] : (['timing', 'control'] as const)).map((k) => {
         const b = L.boxes[k];
         const hue = `var(--g-${k})`;
         const cx = b.x + b.w / 2;
@@ -403,6 +543,16 @@ export function Glasses({
       <svg className={s.svg} viewBox={`${vb.x.toFixed(2)} ${vb.y.toFixed(2)} ${vb.w.toFixed(2)} ${vb.h.toFixed(2)}`} aria-hidden="true" focusable="false">
         <defs>
           <path id={id('face')} d={g.face} vectorEffect="non-scaling-stroke" />
+          {cableMask ? (
+            <mask id={id('cablemask')} maskUnits="userSpaceOnUse" x={vb.x} y={vb.y} width={vb.w} height={vb.h}>
+              <rect x={vb.x} y={vb.y} width={vb.w} height={vb.h} fill="#fff" />
+              <g fill="#000">
+                <path d={g.face} />
+                <path d={g.lensR} />
+                <path d={g.lensL} />
+              </g>
+            </mask>
+          ) : null}
           <filter id={id('blur')} x="-20%" y="-50%" width="140%" height="200%">
             <feGaussianBlur stdDeviation={2.2} />
           </filter>
@@ -422,6 +572,16 @@ export function Glasses({
             <stop offset="0.7" stopColor="#fff" stopOpacity={0.04} />
             <stop offset="1" stopColor="#fff" stopOpacity={0} />
           </linearGradient>
+          <linearGradient id={id('boxsheen')} x1={0} y1={0} x2={1} y2={1}>
+            <stop offset="0" stopColor="#fff" stopOpacity={dark ? 0.07 : 0.1} />
+            <stop offset="0.55" stopColor="#fff" stopOpacity={0} />
+          </linearGradient>
+          <linearGradient id={`${id('reflect')}x`} x1={0} y1={0} x2={0.7} y2={1}>
+            <stop offset="0.28" stopColor="#fff" stopOpacity={0} />
+            <stop offset="0.28" stopColor="#fff" stopOpacity={0.55} />
+            <stop offset="0.35" stopColor="#fff" stopOpacity={0.55} />
+            <stop offset="0.35" stopColor="#fff" stopOpacity={0} />
+          </linearGradient>
           <linearGradient id={id('tint')} gradientUnits="userSpaceOnUse" x1={0} y1={fb.y} x2={0} y2={fb.y + fb.h}>
             {dark ? (
               <>
@@ -430,16 +590,32 @@ export function Glasses({
               </>
             ) : (
               <>
-                <stop offset="0" stopColor="#3b4552" stopOpacity={0.16} />
-                <stop offset="1" stopColor="#1a1e24" stopOpacity={0.34} />
+                <stop offset="0" stopColor="#8ea9c4" stopOpacity={0.24} />
+                <stop offset="1" stopColor="#5a7894" stopOpacity={0.3} />
               </>
             )}
           </linearGradient>
           <linearGradient id={id('reflect')} x1={0} y1={0} x2={0.7} y2={1}>
-            <stop offset="0.2" stopColor="#fff" stopOpacity={0} />
-            <stop offset="0.34" stopColor="#fff" stopOpacity={dark ? 0.12 : 0.3} />
-            <stop offset="0.44" stopColor="#fff" stopOpacity={dark ? 0.035 : 0.09} />
-            <stop offset="0.58" stopColor="#fff" stopOpacity={0} />
+            {dark ? (
+              <>
+                <stop offset="0.2" stopColor="#fff" stopOpacity={0} />
+                <stop offset="0.34" stopColor="#fff" stopOpacity={0.12} />
+                <stop offset="0.44" stopColor="#fff" stopOpacity={0.035} />
+                <stop offset="0.58" stopColor="#fff" stopOpacity={0} />
+              </>
+            ) : (
+              <>
+                {/* clear glass on paper: two crisp bands, hard edged */}
+                <stop offset="0.27" stopColor="#fff" stopOpacity={0} />
+                <stop offset="0.27" stopColor="#fff" stopOpacity={0.62} />
+                <stop offset="0.335" stopColor="#fff" stopOpacity={0.62} />
+                <stop offset="0.335" stopColor="#fff" stopOpacity={0} />
+                <stop offset="0.37" stopColor="#fff" stopOpacity={0} />
+                <stop offset="0.37" stopColor="#fff" stopOpacity={0.4} />
+                <stop offset="0.385" stopColor="#fff" stopOpacity={0.4} />
+                <stop offset="0.385" stopColor="#fff" stopOpacity={0} />
+              </>
+            )}
           </linearGradient>
         </defs>
         {solid}
@@ -448,14 +624,16 @@ export function Glasses({
       </svg>
       {(Object.keys(L.labels) as SystemGroupId[]).map((k) => {
         const lab = L.labels[k];
-        const off = k === 'timing' || k === 'control';
+        const off = !T && (k === 'timing' || k === 'control');
         const hidden = (k === 'display' || k === 'optics') && g.display.visible === 0;
+        // Not rendered while hidden: an invisible label would still widen the page's scrollable overflow.
+        if (!exploded || hidden) return null;
         return (
           <span
             key={k}
             className={s.label}
             aria-hidden="true"
-            style={{ ...pct(lab.at), transform: ANCHOR[lab.anchor], opacity: exploded && !hidden ? dim(k) : 0 }}
+            style={{ ...pct(lab.at), transform: ANCHOR[lab.anchor], opacity: dim(k) }}
           >
             <i
               className={`${s.swatch}${off ? ` ${s.swatchDashed}` : ''}`}

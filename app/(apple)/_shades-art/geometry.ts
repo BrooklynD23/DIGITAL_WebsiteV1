@@ -26,7 +26,7 @@ const TAU = Math.PI * 2;
 const LENS_CX = 34.5;
 const LENS_A = 25;
 const LENS_B = 19.5;
-const RIM = { top: 5.8, bottom: 4.2, side: 4.7 } as const;
+const RIM = { top: 4.9, bottom: 2.5, side: 3.4 } as const;
 export const DEPTH = 5.2;
 /** Lenses and the display sit this far behind the front face. */
 const LENS_Z = -DEPTH * 0.45;
@@ -34,8 +34,12 @@ const LENS_Z = -DEPTH * 0.45;
 const K = 0.0019;
 const wrap = (x: number): number => -K * x * x;
 
-const HINGE_X = 64.2;
+const HINGE_X = 63.6;
 const HINGE_Y = 13;
+/** Temple half-height at the hinge. The front third is a deep housing; it tapers hard to a slim ear piece. */
+const TEMPLE_H = 5.2;
+/** Temple thickness at the hinge (the housing). */
+const TEMPLE_T = 8;
 
 /** Display region in the right lens: centre and size, mm in the lens plane. */
 const DISPLAY = { x: LENS_CX + 1.5, y: 9.2, w: 19, h: 7.4 } as const;
@@ -48,11 +52,13 @@ function lensRight(grow = 0, n = 144): P2[] {
     const t = (i / n) * TAU;
     const c = Math.cos(t);
     const s = Math.sin(t);
-    const e = 2 / (s > 0 ? 3.7 : 2.8); // squarer brow, rounder bottom
+    const e = 2 / (s > 0 ? 4.4 : 2.6); // flat, crisp brow; softer, rounder bottom
     let x = LENS_A * Math.sign(c) * Math.abs(c) ** e;
-    const y = LENS_B * Math.sign(s) * Math.abs(s) ** e;
-    x *= 1 + 0.045 * (y / LENS_B); // top a touch wider than the bottom
-    if (x < 0 && y < 0) x *= 1 - 0.1 * (-y / LENS_B) ** 1.6; // the nose side cut away below
+    let y = LENS_B * Math.sign(s) * Math.abs(s) ** e;
+    x *= 1 + 0.06 * (y / LENS_B); // top a touch wider than the bottom
+    if (x < 0 && y < 0) x *= 1 - 0.12 * (-y / LENS_B) ** 1.6; // the nose side cut away below
+    if (y > 0 && x > 0) y += 1.6 * (x / LENS_A) ** 3 * (y / LENS_B); // the outer brow corner lifts a little
+    if (y < 0) y *= 1 - 0.07 * Math.max(0, -x / LENS_A); // bottom rises toward the nose: a slight downward taper outward
     pts.push([LENS_CX + x, y]);
   }
   return grow ? offset(pts, [LENS_CX, 0], () => grow) : pts;
@@ -78,8 +84,12 @@ function offset(pts: readonly P2[], centre: P2, width: (nx: number, ny: number) 
   });
 }
 
-const rimWidth = (fraction: number) => (_nx: number, ny: number): number =>
-  fraction * (ny > 0 ? RIM.side + (RIM.top - RIM.side) * ny * ny : RIM.side + (RIM.bottom - RIM.side) * ny * ny);
+/** Rim width by normal direction: a brow that thickens toward the temple, a fine lower rim. */
+const rimWidth = (fraction: number) => (nx: number, ny: number): number =>
+  fraction *
+  (ny > 0
+    ? RIM.side + (RIM.top * (1 + 0.16 * nx) - RIM.side) * ny ** 2
+    : RIM.side + (RIM.bottom - RIM.side) * Math.abs(ny) ** 1.4);
 
 const mirror = (pts: readonly P2[]): P2[] => pts.map(([x, y]) => [-x, y] as P2).reverse();
 
@@ -137,8 +147,8 @@ function buildFront(): Front {
   const iBot = at(174);
   const oT = rim[iTop];
   const oB = rim[iBot];
-  const yT = 21.4;
-  const yB = 10.2;
+  const yT = 22.4;
+  const yB = 13.6;
   // Right half of the bridge: top-centre → into the rim body → bottom-centre, then mirrored.
   const half: P2[] = [
     [0, yT],
@@ -148,7 +158,8 @@ function buildFront(): Front {
     ...cubic(oB, [oB[0] - 2.2, oB[1] + 4], [3, yB], [0, yB]),
   ];
   const bridge = [...half, ...mirror(half).slice(1, -1)];
-  const wingR = roundedRect(60.8, 8.6, 66.6, 17.4, 2.2);
+  // End piece: as tall as the temple it carries, so the hinge reads as one block, not a hook.
+  const wingR = roundedRect(57.8, HINGE_Y - TEMPLE_H - 0.3, HINGE_X + TEMPLE_T / 2 + 0.2, HINGE_Y + TEMPLE_H + 0.3, 2.4);
   const lens = lensRight(0.9);
   const pad: P2[] = [];
   for (let i = 0; i < 24; i++) {
@@ -181,6 +192,8 @@ interface TempleSample {
   readonly up: V3;
   readonly h: number;
   readonly t: number;
+  /** 0 at the hinge, 1 at the tip. */
+  readonly q: number;
 }
 
 function templeSamples(side: 1 | -1, bend: boolean): TempleSample[] {
@@ -213,16 +226,29 @@ function templeSamples(side: 1 | -1, bend: boolean): TempleSample[] {
   return raw.map(({ c, tan, q }) => {
     const len = Math.hypot(tan[1], tan[2]);
     const up: V3 = [0, -tan[2] / len, tan[1] / len];
+    // Housing (q < HOUSING), a short firm step down, then the slim ear piece.
     let h: number;
-    if (q < 0.09) h = 4.6 - 1.4 * smooth(q / 0.09);
-    else if (q < 0.8) h = 3.2 - 1.1 * ((q - 0.09) / 0.71);
-    else h = 2.1 - 0.35 * ((q - 0.8) / 0.17);
+    let t: number;
+    if (q < HOUSING) {
+      h = TEMPLE_H + 0.55 * Math.sin((Math.PI * q) / HOUSING) ** 0.6 - 0.3 * (q / HOUSING); // a slight belly: the pod
+      t = TEMPLE_T - 0.5 * (q / HOUSING);
+    } else if (q < HOUSING + 0.13) {
+      const u = smooth((q - HOUSING) / 0.13);
+      h = TEMPLE_H - 0.3 - (TEMPLE_H - 0.3 - 2.2) * u;
+      t = TEMPLE_T - 0.5 - (TEMPLE_T - 0.5 - 3.3) * u;
+    } else {
+      const u = (q - HOUSING - 0.13) / (1 - HOUSING - 0.13);
+      h = 2.2 - 0.5 * u;
+      t = 3.3 - 0.6 * u;
+    }
     if (q > 0.965) h *= Math.sqrt(Math.max(0, 1 - ((q - 0.965) / 0.035) ** 2)) * 0.8 + 0.2;
-    return { c, up, h, t: 3.5 - 1.1 * q };
+    return { c, up, h, t, q };
   });
 }
 
 const smooth = (u: number): number => u * u * (3 - 2 * u);
+/** Share of the temple length that is the component housing. */
+const HOUSING = 0.34;
 
 /* ------------------------------------------------------------------ projection */
 
@@ -339,11 +365,54 @@ export interface Drawing {
   readonly lensRBox: Box;
   readonly lensLBox: Box;
   readonly displayAt: P2;
+  /** Parting lines on the outer face of each housing that faces the camera (open polylines). */
+  readonly seams: readonly string[];
+  /** Present only when `draw` is asked for the tether. */
+  readonly tether?: Tether;
+}
+
+/** A rounded slab (the controller box or a part of it): visible side strips, already culled, and the top face. */
+export interface Slab {
+  /** Silhouette (convex hull): one clean outline and an underlay that hides seams between strips. */
+  readonly hull: string;
+  readonly top: string;
+  readonly topLight: number;
+  readonly sides: readonly Face[];
+}
+
+/** Cable and external controller box. Drawn only when the consumer asks for the tether. */
+export interface Tether {
+  /** Open polyline, the cable's centre line (temple end → box). Stroke it `width` wide. */
+  readonly cable: string;
+  /** The strain-relief boot at the temple end. Stroke it `bootWidth` wide. */
+  readonly boot: string;
+  /** Exploded: the cable unplugged, ending in its plug behind the box (stroke `cable` style; `plug` at `bootWidth`). */
+  readonly cableOpen: string;
+  readonly plug: string;
+  readonly width: number;
+  readonly bootWidth: number;
+  /** The whole box (solid and line). */
+  readonly box: Slab;
+  /** Unlabelled port openings on the front face; empty when that face is turned away. */
+  readonly ports: readonly string[];
+  readonly shadow: string;
+  /** Exploded: the lid stays, the two internal modules and the body drop away below it, each moved by `lift`. */
+  readonly body: Slab;
+  readonly lid: Slab;
+  readonly modules: Readonly<Record<'timing' | 'control', Slab>>;
+  readonly lift: Readonly<Record<'body' | 'timing' | 'control', P2>>;
+  /** Rightmost point of each module's top, at rest (add `lift` for the exploded label anchor). */
+  readonly moduleEnd: Readonly<Record<'timing' | 'control', P2>>;
+  /** Cable, box and its shadow, at rest. */
+  readonly bounds: Box;
+  /** Also covers the lifted exploded parts. */
+  readonly explodedBounds: Box;
 }
 
 const to3 = (pts: readonly P2[], dz = 0): V3[] => pts.map(([x, y]) => [x, y, wrap(x) + dz] as V3);
 
-export function draw(yaw: number, pitch: number): Drawing {
+/** `tether`: also build the cable and controller box (off by default; the frame output is identical either way). */
+export function draw(yaw: number, pitch: number, tether = false): Drawing {
   const P = projector(yaw, pitch);
   const flat = (pts: readonly P2[], dz = 0): P2[] => to3(pts, dz).map(P.proj);
 
@@ -369,9 +438,12 @@ export function draw(yaw: number, pitch: number): Drawing {
   const temples: Face[][] = [];
   const order: (1 | -1)[] = yaw >= 0 ? [-1, 1] : [1, -1];
   const allTemplePts: P2[] = [];
+  const seams: string[] = [];
+  let tipEnd: readonly V3[] = [];
   for (const side of order) {
     // Near-frontal views drop the ear bend: it would otherwise show through the lens holes as stray hooks.
     const S = templeSamples(side, Math.abs(yaw) >= 15);
+    if (side === 1) tipEnd = S.slice(-3).map((q) => q.c);
     const out: V3 = [side, 0, 0];
     const corner = (s: TempleSample, o2: number, u: number): P2 =>
       P.proj([s.c[0] + out[0] * o2 * s.t * 0.5, s.c[1] + s.up[1] * u * s.h, s.c[2] + s.up[2] * u * s.h]);
@@ -410,6 +482,17 @@ export function draw(yaw: number, pitch: number): Drawing {
     ] as const) {
       const n: V3 = [nx, 0, 0];
       if (P.facing(n)) faces.push({ d: pathOf([...A, ...[...B].reverse()]), kind, light: P.lambert(n) });
+    }
+    if (P.facing(out)) {
+      // An L-shaped parting line: the housing's cover, along the lower third and down its back edge.
+      const run = S.filter((q) => q.q > 0.035 && q.q < HOUSING - 0.03);
+      const end = run[run.length - 1];
+      seams.push(
+        pathOf(
+          [...run.map((q) => corner(q, 1.02, -0.42)), corner(end, 1.02, 0.78)],
+          false,
+        ),
+      );
     }
     temples.push(faces);
   }
@@ -455,5 +538,150 @@ export function draw(yaw: number, pitch: number): Drawing {
     lensRBox: bboxOf([lensRp]),
     lensLBox: bboxOf([lensLp]),
     displayAt: p0,
+    seams,
+    ...(tether ? { tether: buildTether(P, tipEnd, yG) } : {}),
+  };
+}
+
+/* ------------------------------------------------------------------ tether: cable + controller box */
+
+/** The controller box, mm: centre on the table, footprint, height, corner radius, turn about y (degrees).
+ *  The turn keeps the port face toward the camera in all three views. Original form: a flat, matte slab. */
+const BOX = { x: 118, z: -50, w: 60, d: 37, h: 12, r: 6.5, turn: 41, lid: 2.6 } as const;
+const CABLE_W = 3.1;
+
+function cubic3(p0: V3, p1: V3, p2: V3, p3: V3, n: number): V3[] {
+  const out: V3[] = [];
+  for (let i = 1; i <= n; i++) {
+    const t = i / n;
+    const u = 1 - t;
+    const at = (k: 0 | 1 | 2): number => u * u * u * p0[k] + 3 * u * u * t * p1[k] + 3 * u * t * t * p2[k] + t * t * t * p3[k];
+    out.push([at(0), at(1), at(2)]);
+  }
+  return out;
+}
+
+/** Convex hull (monotone chain). */
+function hull(pts: readonly P2[]): P2[] {
+  const p = [...pts].sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+  const cross = (o: P2, a: P2, b: P2): number => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
+  const half = (list: P2[]): P2[] => {
+    const out: P2[] = [];
+    for (const q of list) {
+      while (out.length >= 2 && cross(out[out.length - 2], out[out.length - 1], q) <= 0) out.pop();
+      out.push(q);
+    }
+    out.pop();
+    return out;
+  };
+  return [...half(p), ...half([...p].reverse())];
+}
+
+function buildTether(P: Projector, tipEnd: readonly V3[], yG: number): Tether {
+  const a = BOX.turn * DEG;
+  const ex: V3 = [Math.cos(a), 0, -Math.sin(a)]; // box long axis
+  const ez: V3 = [Math.sin(a), 0, Math.cos(a)]; // port-face normal
+  const W = (lx: number, ly: number, lz: number): V3 => [BOX.x + lx * ex[0] + lz * ez[0], yG + ly, BOX.z + lx * ex[2] + lz * ez[2]];
+
+  const slab = (x0: number, z0: number, x1: number, z1: number, y0: number, y1: number, r: number): { s: Slab; pts: P2[]; right: P2 } => {
+    const ring = roundedRect(x0, z0, x1, z1, r);
+    const top = ring.map(([lx, lz]) => P.proj(W(lx, y1, lz)));
+    const bot = ring.map(([lx, lz]) => P.proj(W(lx, y0, lz)));
+    const sides: Face[] = [];
+    const cx = (x0 + x1) / 2;
+    const cz = (z0 + z1) / 2;
+    for (let i = 0; i < ring.length; i++) {
+      const j = (i + 1) % ring.length;
+      const [ax, az] = ring[i];
+      const [bx, bz] = ring[j];
+      if (Math.hypot(bx - ax, bz - az) < 1e-6) continue;
+      let nx = bz - az;
+      let nz = -(bx - ax);
+      if (nx * ((ax + bx) / 2 - cx) + nz * ((az + bz) / 2 - cz) < 0) {
+        nx = -nx;
+        nz = -nz;
+      }
+      const n = norm([nx * ex[0] + nz * ez[0], 0, nx * ex[2] + nz * ez[2]]);
+      if (!P.facing(n)) continue;
+      sides.push({ d: pathOf([top[i], top[j], bot[j], bot[i]]), kind: 'outer', light: P.lambert(n) });
+    }
+    const right = top.reduce((m, p) => (p[0] > m[0] ? p : m), top[0]);
+    return { s: { hull: pathOf(hull([...top, ...bot])), top: pathOf(top), topLight: P.lambert([0, 1, 0]), sides }, pts: [...top, ...bot], right };
+  };
+
+  const { w, d, h, r, lid } = BOX;
+  const box = slab(-w / 2, -d / 2, w / 2, d / 2, 0, h, r);
+  const body = slab(-w / 2, -d / 2, w / 2, d / 2, 0, h - lid, r);
+  const lidS = slab(-w / 2, -d / 2, w / 2, d / 2, h - lid, h, r);
+  // Internal modules, inset in the body: control (the larger board) below, word timing above it.
+  const control = slab(-w * 0.38, -d * 0.35, w * 0.38, d * 0.35, h - lid - 2.8, h - lid, 3);
+  const timing = slab(-w * 0.3, -d * 0.28, w * 0.18, d * 0.28, h - lid - 2.8, h - lid, 2.4);
+
+  // Ports: openings on the front face, only when it faces the camera.
+  const front: V3 = ez;
+  const ports: string[] = [];
+  if (P.facing(front)) {
+    const onFace = (pts: readonly P2[]): string => pathOf(pts.map(([lx, ly]) => P.proj(W(lx, ly, d / 2 + 0.05))));
+    const py = (h - lid) * 0.5;
+    ports.push(onFace(roundedRect(-18, py - 1.5, -9.4, py + 1.5, 1.45)));
+    ports.push(onFace(roundedRect(-6.4, py - 1.5, 2.2, py + 1.5, 1.45)));
+    const jack: P2[] = [];
+    for (let i = 0; i < 24; i++) jack.push([10 + 1.75 * Math.cos((i / 24) * TAU), py + 1.75 * Math.sin((i / 24) * TAU)]);
+    ports.push(onFace(jack));
+  }
+
+  // Cable: out of the temple end along its line, a gravity drop to the table, a lazy S along it, into the back port.
+  const T = tipEnd[tipEnd.length - 1];
+  const Tp = tipEnd[0];
+  const tan = norm([T[0] - Tp[0], T[1] - Tp[1], T[2] - Tp[2]]);
+  const rc = CABLE_W / 2;
+  const bootEnd: V3 = [T[0] + tan[0] * 8, T[1] + tan[1] * 8, T[2] + tan[2] * 8];
+  // One smooth chain: fall along the temple's line, touch the table a little outboard, swing forward along it,
+  // straighten behind the box, rise into the back port. Matching tangents at each joint: no kinks or hooks.
+  const port = W(0, (h - lid) * 0.5, -d / 2);
+  const before = W(0, rc, -d / 2 - 14);
+  const land: V3 = [T[0] + 15, yG + rc, T[2] + 4];
+  const dir = norm([before[0] - ez[0] * 20 - land[0], 0, before[2] - ez[2] * 20 - land[2]]);
+  const along = (p: V3, v: V3, k: number): V3 => [p[0] + v[0] * k, p[1] + v[1] * k, p[2] + v[2] * k];
+  const toBefore = [
+    T,
+    bootEnd,
+    ...cubic3(bootEnd, along(bootEnd, tan, 9), along(land, dir, -11), land, 16),
+    ...cubic3(land, along(land, dir, 18), along(before, ez, -22), before, 24),
+  ];
+  const pts3: V3[] = [...toBefore, ...cubic3(before, along(before, ez, 6), [port[0] - ez[0] * 5, port[1], port[2] - ez[2] * 5], port, 6)];
+  const plugEnd = toBefore[toBefore.length - 1];
+  const plugStart = along(plugEnd, ez, -6);
+  const cable2 = pts3.map(P.proj);
+  const boot2 = [T, bootEnd].map(P.proj);
+
+  // Contact shadow: the footprint, grown, on the table.
+  const sh = roundedRect(-w / 2 - 3, -d / 2 - 3, w / 2 + 3, d / 2 + 3, r + 3).map(([lx, lz]) => P.proj(W(lx, 0, lz)));
+
+  const o = P.proj(W(0, 0, 0));
+  const up = (k: number): P2 => {
+    const q = P.proj(W(0, k, 0));
+    return [q[0] - o[0], q[1] - o[1]];
+  };
+  const lift = { timing: up(-15), control: up(-30), body: up(-46) };
+  const shift = (pts: readonly P2[], v: P2): P2[] => pts.map(([x, y]) => [x + v[0], y + v[1]] as P2);
+  const restPts = [...box.pts, ...cable2, ...sh];
+  return {
+    cable: pathOf(cable2, false),
+    boot: pathOf(boot2, false),
+    cableOpen: pathOf(toBefore.slice(0, -1).map(P.proj), false),
+    plug: pathOf([plugStart, plugEnd].map(P.proj), false),
+    width: CABLE_W,
+    bootWidth: CABLE_W * 1.55,
+    box: box.s,
+    ports,
+    shadow: pathOf(sh),
+    body: body.s,
+    lid: lidS.s,
+    modules: { timing: timing.s, control: control.s },
+    lift,
+    moduleEnd: { timing: timing.right, control: control.right },
+    bounds: bboxOf([restPts]),
+    explodedBounds: bboxOf([restPts, shift(body.pts, lift.body), shift(timing.pts, lift.timing), shift(control.pts, lift.control)]),
   };
 }

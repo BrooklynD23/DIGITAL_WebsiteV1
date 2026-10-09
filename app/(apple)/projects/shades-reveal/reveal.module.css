@@ -1,0 +1,560 @@
+/* SHADES · approach 1, product reveal. One dark world, literal black, from hero to the join chapter.
+   Type and colour tokens from worlds.css; the V0.1 page root (../shades/apple.module.css .root) supplies the fonts. */
+
+.page {
+  background: #000;
+  --hud: #7fe6a3;
+  --point: #d8412f;
+}
+
+.page ::selection {
+  background: rgba(127, 230, 163, 0.32);
+  color: #fff;
+}
+
+/* ---------- shared type ---------- */
+.h2,
+.heroName,
+.beatTitle,
+.faqQ {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--r2-fw-display);
+  text-wrap: balance;
+}
+
+.h2 {
+  font-size: var(--r2-fs-h1);
+  line-height: var(--r2-lh-h1);
+  letter-spacing: max(var(--r2-ls-h1), -0.03em);
+}
+
+.lead {
+  margin: 0 auto;
+  max-width: 36rem;
+  font-size: var(--r2-fs-lead);
+  line-height: 1.5;
+  font-weight: 500;
+  color: var(--r2-ink-2);
+  text-wrap: pretty;
+}
+
+.head {
+  display: grid;
+  gap: var(--r2-space-4);
+  justify-items: center;
+  text-align: center;
+  padding: 0 var(--r2-gutter);
+}
+
+.render {
+  margin: 0;
+  width: 100%;
+  overflow-x: clip; /* Glasses keeps its (hidden) exploded labels positioned past its box in solid mode */
+  display: grid;
+  justify-items: center;
+  gap: var(--r2-space-4);
+}
+
+.renderCaption {
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.01em;
+  color: var(--r2-ink-3);
+  text-align: center;
+}
+
+/* ---------- 1 · hero ---------- */
+.hero {
+  min-height: calc(100svh - var(--r2-nav-h));
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: clamp(16px, 4svh, 48px);
+  padding: clamp(32px, 7svh, 88px) var(--r2-gutter) clamp(24px, 5svh, 56px);
+  overflow: hidden;
+}
+
+.heroHead {
+  display: grid;
+  gap: var(--r2-space-3);
+  justify-items: center;
+  text-align: center;
+}
+
+.heroName {
+  font-size: clamp(56px, 9vw, 112px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.heroLine {
+  margin: 0;
+  font-size: var(--r2-fs-lead);
+  line-height: 1.4;
+  font-weight: 500;
+  color: var(--r2-ink-2);
+  text-wrap: balance;
+}
+
+/* The object sizes to the room left under the name: never taller than the viewport allows. */
+.heroObject {
+  width: min(1080px, 100%, (100svh - var(--r2-nav-h) - 300px) * 2.1);
+  min-width: min(320px, 100%);
+}
+
+/* ---------- 2 · what SHADES is ---------- */
+.what {
+  display: grid;
+  gap: clamp(20px, 3vw, 40px);
+  width: min(960px, 100%);
+  margin: 0 auto;
+  padding: var(--r2-space-10) var(--r2-gutter);
+}
+
+.whatLine {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--r2-fw-display);
+  font-size: clamp(28px, 4.2vw, 52px);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  color: var(--r2-ink);
+  text-wrap: balance;
+}
+
+.whatLine + .whatLine {
+  color: var(--r2-ink-2);
+}
+
+/* ---------- 3 · anatomy ---------- */
+.anat {
+  position: relative;
+  background: #000;
+  scroll-margin-top: var(--r2-nav-h);
+}
+
+.anatStatic {
+  display: grid;
+  gap: var(--r2-space-7);
+  width: min(960px, 100%);
+  margin: 0 auto;
+  padding: var(--r2-space-9) var(--r2-gutter);
+}
+
+.anatStatic .anatArt {
+  width: min(760px, 100%);
+  margin: 0 auto;
+}
+
+.beatList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--r2-space-6);
+}
+
+.beatTitle {
+  font-size: var(--r2-fs-h2);
+  hyphens: manual;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+}
+
+.beatLine {
+  margin: var(--r2-space-3) 0 0;
+  max-width: 34rem;
+  font-size: 17px;
+  line-height: 25px;
+  color: var(--r2-ink-2);
+  text-wrap: pretty;
+}
+
+.legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--r2-hairline);
+}
+
+.legend li {
+  display: grid;
+  grid-template-columns: 10px 7.5em minmax(0, 1fr);
+  align-items: baseline;
+  column-gap: var(--r2-space-3);
+  padding: 11px 0;
+  border-bottom: 1px solid var(--r2-hairline);
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--r2-ink-3);
+  transition: color var(--r2-dur-ui) var(--r2-ease-ui);
+}
+
+.legend li[data-lit] {
+  color: var(--r2-ink);
+}
+
+.swatch {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  align-self: center;
+  opacity: 0.35;
+  transition: opacity var(--r2-dur-ui) var(--r2-ease-ui);
+}
+
+.legend li[data-lit] .swatch {
+  opacity: 1;
+}
+
+.legendName {
+  font-weight: 600;
+}
+
+.legend li[data-lit] .legendRole {
+  color: var(--r2-ink-2);
+}
+
+.anatPin,
+.anatStage {
+  position: relative;
+}
+
+.anatPin {
+  height: calc(100svh + var(--steps) * 50svh);
+}
+
+.anatStage {
+  position: sticky;
+  top: var(--r2-nav-h);
+  height: calc(100svh - var(--r2-nav-h));
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) 52px;
+  column-gap: var(--r2-space-7);
+  padding: clamp(16px, 4svh, 48px) max(var(--r2-gutter), (100vw - 1320px) / 2) 8px;
+}
+
+.anatStage .anatArt {
+  align-self: center;
+  justify-self: center;
+  width: min(100%, (100svh - var(--r2-nav-h) - 140px) * 1.25);
+}
+
+.anatCopy {
+  align-self: center;
+  display: grid;
+  gap: var(--r2-space-6);
+  max-width: 34rem;
+}
+
+.anatCaps {
+  display: grid;
+}
+
+/* Out-then-in: the outgoing caption leaves in 160ms, the incoming one arrives after it. */
+.anatCap {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transform: translateY(12px);
+  visibility: hidden;
+  transition:
+    opacity 160ms var(--r2-ease-ui),
+    transform 160ms var(--r2-ease-ui),
+    visibility 0s 160ms;
+}
+
+.anatCap[data-active] {
+  opacity: 1;
+  transform: none;
+  visibility: visible;
+  transition:
+    opacity 280ms cubic-bezier(0.2, 0, 0, 1) 160ms,
+    transform 280ms cubic-bezier(0.2, 0, 0, 1) 160ms,
+    visibility 0s 160ms;
+}
+
+.tracker {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.trackBtn {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: 50%;
+  color: var(--r2-ink-3);
+  cursor: pointer;
+}
+
+.trackBtn:focus-visible {
+  outline: 2px solid var(--r2-focus);
+  outline-offset: -4px;
+}
+
+.trackDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  border: 1px solid var(--hue);
+  transition: background var(--r2-dur-ui-fast) var(--r2-ease-ui);
+}
+
+.trackBtn:hover .trackDot,
+.trackBtn[aria-current] .trackDot {
+  background: var(--hue);
+}
+
+@media (max-width: 899px) {
+  .anatStage {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 42svh) minmax(0, 1fr) 48px;
+    row-gap: var(--r2-space-4);
+    padding-top: var(--r2-space-4);
+  }
+
+  .anatStage .anatArt {
+    width: min(100%, 42svh * 1.25);
+  }
+
+  .anatCopy {
+    align-self: start;
+    max-width: none;
+    gap: var(--r2-space-4);
+  }
+
+  .beatTitle {
+    font-size: 28px;
+  }
+
+  .beatLine {
+    font-size: 15px;
+    line-height: 21px;
+  }
+
+  .legend li {
+    padding: 7px 0;
+    font-size: 13px;
+    line-height: 18px;
+    grid-template-columns: 10px 6.5em minmax(0, 1fr);
+  }
+}
+
+/* ---------- 4 · the view ---------- */
+.view {
+  display: grid;
+  gap: var(--r2-space-7);
+  padding: var(--r2-space-9) var(--r2-gutter);
+}
+
+.viewFig {
+  margin: 0;
+  display: grid;
+  justify-items: center;
+  gap: var(--r2-space-4);
+}
+
+/* The lens: a window in the black. The page is seen through a grey tint; the display adds one flat green word. */
+.lens {
+  position: relative;
+  width: min(820px, 100%, (100svh - var(--r2-nav-h) - 280px) * 1.4);
+  aspect-ratio: 1.4;
+  border-radius: 14% 14% 46% 46% / 18% 18% 64% 64%;
+  overflow: hidden;
+  background: #232220;
+  container-type: inline-size;
+  isolation: isolate;
+}
+
+/* lens curvature: the edge darkens a little, like a tinted lens seen from inside */
+.lens::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    inset 0 0 6cqw rgba(0, 0, 0, 0.55);
+  pointer-events: none;
+}
+
+/* A page with its top edge in view: paper, margin, set text. */
+.paper {
+  position: absolute;
+  left: 9%;
+  right: -12%;
+  top: 14%;
+  bottom: -20%;
+  background: #5b5852;
+  box-shadow: 0 2cqw 5cqw rgba(0, 0, 0, 0.45);
+  padding: 6cqw 18% 0 7cqw;
+}
+
+
+
+.pageText {
+  margin: 0;
+  font-family: var(--font-read);
+  font-size: max(12px, 2.9cqw);
+  line-height: 1.6;
+  color: #26241f;
+  text-align: left;
+  hyphens: none;
+}
+
+/* The display's word, held in the gap between two paragraphs, so the page stays legible around it. */
+.hud {
+  margin: 2.2cqw 0 2.6cqw;
+  /* centred on the lens, not on the paper: paper starts 9% + 7cqw in */
+  transform: translateX(calc(34cqw - 50%));
+  display: grid;
+  width: fit-content;
+  justify-items: center;
+  gap: 1.1cqw;
+}
+
+.point {
+  width: max(5px, 0.9cqw);
+  height: max(5px, 0.9cqw);
+  border-radius: 50%;
+  background: var(--point);
+}
+
+.heldWord {
+  font-family: var(--font-read);
+  font-weight: 700;
+  font-size: max(26px, 7.4cqw);
+  line-height: 1;
+  letter-spacing: 0.01em;
+  color: var(--hud);
+}
+
+/* ---------- 5 · close ---------- */
+.close {
+  display: grid;
+  gap: var(--r2-space-8);
+  padding: var(--r2-space-10) var(--r2-gutter) var(--r2-space-9);
+  scroll-margin-top: var(--r2-nav-h);
+}
+
+.closeObject {
+  width: min(820px, 100%);
+}
+
+.phases {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  width: min(640px, 100%);
+  border-top: 1px solid var(--r2-hairline);
+  counter-reset: none;
+}
+
+.phases li {
+  display: grid;
+  grid-template-columns: 3em minmax(0, 1fr);
+  align-items: baseline;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--r2-hairline);
+  font-size: var(--r2-fs-body);
+  line-height: 24px;
+  color: var(--r2-ink);
+}
+
+.phaseN {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--r2-ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.note {
+  margin: calc(-1 * var(--r2-space-6)) 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--r2-ink-2);
+  text-align: center;
+}
+
+/* ---------- Is this real? ---------- */
+.faq {
+  display: grid;
+  gap: var(--r2-space-7);
+  width: min(1080px, 100%);
+  margin: 0 auto;
+  padding: var(--r2-space-8) var(--r2-gutter) var(--r2-space-10);
+}
+
+.faqList {
+  border-top: 1px solid var(--r2-hairline-strong);
+}
+
+.faqRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+  gap: var(--r2-space-3) var(--r2-space-7);
+  padding: var(--r2-space-5) 0;
+  border-bottom: 1px solid var(--r2-hairline);
+}
+
+.faqQ {
+  font-size: 19px;
+  line-height: 26px;
+  letter-spacing: -0.01em;
+}
+
+.faqA {
+  margin: 0;
+  max-width: 60ch;
+  font-size: var(--r2-fs-body);
+  line-height: 1.6;
+  color: var(--r2-ink-2);
+}
+
+@media (max-width: 734px) {
+  .faqRow {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ---------- motion: one authored moment on arrival ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .heroObject {
+    animation: rv-arrive 1400ms cubic-bezier(0.16, 1, 0.3, 1) 120ms both;
+  }
+}
+
+@keyframes rv-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+.page[data-spacing='more'] :is(.lead, .heroLine, .beatLine, .legendRole, .faqA, .pageText, .phases li) {
+  letter-spacing: var(--reading-spaced-tracking, 0.05em);
+  word-spacing: var(--reading-spaced-word, 0.16em);
+}
+
+/* Glasses prints the module labels to the right of the controller box, past its own box: keep room for them. */
+@media (max-width: 899px) {
+  .anatArt {
+    box-sizing: border-box;
+    padding-inline-end: 64px;
+  }
+}

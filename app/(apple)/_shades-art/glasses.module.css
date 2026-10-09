@@ -84,6 +84,13 @@
   white-space: nowrap;
   pointer-events: none;
   transition: opacity var(--glasses-dur) var(--glasses-ease);
+  animation: labelIn var(--glasses-dur) var(--glasses-ease) backwards;
+}
+
+@keyframes labelIn {
+  from {
+    opacity: 0;
+  }
 }
 
 .swatch {
@@ -103,5 +110,6 @@
   .group,
   .label {
     transition: none;
+    animation: none;
   }
 }

@@ -4,7 +4,7 @@
  * Facts: ./shades.ts (lines cited in `sources`) and design-lab/shades-concept/DECISIONS.md (#6).
  * The only research sentence on the page is SHADES.tracks.items[research].line, imported verbatim.
  * Never: "applications", "participants", "study" (outside that one line), "protocol", "research questions".
- * brand-guardian review pending.
+ * Reviewed by brand-guardian 2026-10-09 (revisions applied). Head Designer sign-off pending.
  */
 import { SHADES } from './shades';
 import { hero as conceptHero } from './shades-concept';

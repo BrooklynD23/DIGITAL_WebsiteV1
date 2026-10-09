@@ -3,7 +3,7 @@
  * Copy written before the build. The page prints only strings from this file, ./shades and ./shades-concept.
  * Facts: ./shades.ts (lines cited in `sources`) and design-lab/shades-concept/DECISIONS.md (#6: display is see-through).
  * Concept in planning. Research platform, not a medical device. No availability, dates, prices or part names.
- * brand-guardian review pending.
+ * Reviewed by brand-guardian 2026-10-09 (revisions applied). Head Designer sign-off pending.
  */
 import { SHADES } from './shades';
 import { conceptLabels, hero as conceptHero, stages, systemGroups, viewNote, type SystemGroup } from './shades-concept';
