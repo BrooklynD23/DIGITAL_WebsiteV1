@@ -1,0 +1,28 @@
+.stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  contain: layout paint;
+  margin-inline: auto;
+}
+
+.fallback,
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* SVG rest pose until the canvas has painted once (and always without JS). */
+.canvas {
+  opacity: 0;
+}
+
+.stage[data-ready='true'] .canvas {
+  opacity: 1;
+}
+
+.stage[data-ready='true'] .fallback {
+  visibility: hidden;
+}

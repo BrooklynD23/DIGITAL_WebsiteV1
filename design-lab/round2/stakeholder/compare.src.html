@@ -1,0 +1,701 @@
+<title>DIGITAL Redesign Review</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg: #f3f3f6;
+  --surface: #ffffff;
+  --surface-2: #e9e9ee;
+  --ink: #1a1a1f;
+  --ink-2: #45454e;
+  --ink-3: #62626c;
+  --line: #d4d4db;
+  --line-strong: #b5b5bf;
+  --accent: #2f55c4;
+  --accent-soft: #e3e9fb;
+  --on-accent: #ffffff;
+  --shadow: 0 1px 2px rgba(20, 20, 30, 0.06), 0 4px 16px rgba(20, 20, 30, 0.05);
+  --scrim: rgba(12, 12, 16, 0.72);
+  --pending: #d9d9de;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #131316;
+    --surface: #1b1b20;
+    --surface-2: #26262d;
+    --ink: #ececf1;
+    --ink-2: #b9b9c3;
+    --ink-3: #93939e;
+    --line: #31313a;
+    --line-strong: #4a4a55;
+    --accent: #9fb3ff;
+    --accent-soft: #232a45;
+    --on-accent: #10131f;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 16px rgba(0, 0, 0, 0.3);
+    --scrim: rgba(0, 0, 0, 0.8);
+    --pending: #2a2a31;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #131316;
+  --surface: #1b1b20;
+  --surface-2: #26262d;
+  --ink: #ececf1;
+  --ink-2: #b9b9c3;
+  --ink-3: #93939e;
+  --line: #31313a;
+  --line-strong: #4a4a55;
+  --accent: #9fb3ff;
+  --accent-soft: #232a45;
+  --on-accent: #10131f;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 16px rgba(0, 0, 0, 0.3);
+  --scrim: rgba(0, 0, 0, 0.8);
+  --pending: #2a2a31;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Instrument Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+img { display: block; max-width: 100%; height: auto; }
+[hidden] { display: none !important; }
+a { color: inherit; text-underline-offset: 2px; }
+code, .mono { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace; font-size: 0.86em; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+.wrap { width: 100%; max-width: 1480px; margin: 0 auto; padding: 0 16px; }
+@media (min-width: 700px) { .wrap { padding: 0 32px; } }
+
+/* Header */
+.masthead { padding: 40px 0 28px; border-bottom: 1px solid var(--line); }
+.masthead h1 { font-size: clamp(28px, 4vw, 44px); line-height: 1.1; letter-spacing: -0.015em; margin: 0 0 12px; font-weight: 600; }
+.masthead .lead { font-size: 18px; color: var(--ink-2); max-width: 62ch; margin: 0 0 24px; }
+.meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px 24px; margin: 0; }
+.meta div { border-top: 1px solid var(--line); padding-top: 10px; min-width: 0; }
+.meta dt { font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3); margin-bottom: 2px; }
+.meta dd { margin: 0; font-size: 15px; color: var(--ink); overflow-wrap: anywhere; }
+.meta dd small { display: block; color: var(--ink-3); font-size: 13px; }
+
+/* Tabs */
+.tabbar { position: sticky; top: 0; z-index: 20; background: var(--bg); border-bottom: 1px solid var(--line); }
+.tabs { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; padding: 10px 0; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  flex: none; display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px;
+  border-radius: 999px; text-decoration: none; color: var(--ink-2); font-weight: 500; font-size: 15px;
+  border: 1px solid transparent; white-space: nowrap;
+}
+.tab:hover { color: var(--ink); background: var(--surface-2); }
+.tab[aria-selected="true"] { color: var(--accent); background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 35%, transparent); }
+.tab .tag { font-size: 11px; margin-left: 6px; padding: 1px 6px; border-radius: 999px; border: 1px solid var(--line-strong); color: var(--ink-3); }
+
+/* Panels */
+.panel { padding-top: 32px; padding-bottom: 48px; scroll-margin-top: 72px; }
+.js .panel[hidden] { display: none; }
+.panel-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 16px 32px; margin-bottom: 24px; }
+.panel-head h2 { font-size: clamp(24px, 3vw, 34px); line-height: 1.15; margin: 0 0 6px; font-weight: 600; letter-spacing: -0.01em; }
+.panel-head p { margin: 0; color: var(--ink-2); max-width: 70ch; }
+.controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.ctl-label { font-size: 13px; color: var(--ink-3); }
+
+.seg { display: inline-flex; border: 1px solid var(--line-strong); border-radius: 999px; padding: 3px; background: var(--surface); }
+.seg button {
+  font: inherit; font-size: 14px; color: var(--ink-2); background: none; border: 0; border-radius: 999px;
+  min-height: 36px; padding: 0 14px; cursor: pointer;
+}
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.btn {
+  font: inherit; font-size: 14px; font-weight: 500; color: var(--ink); background: var(--surface);
+  border: 1px solid var(--line-strong); border-radius: 999px; min-height: 44px; padding: 0 18px; cursor: pointer;
+}
+.btn:hover { background: var(--surface-2); }
+.btn[aria-expanded="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.compare-toggle { display: none; }
+@media (min-width: 900px) { .compare-toggle { display: inline-flex; align-items: center; } }
+
+/* Compare slider */
+.compare { display: none; margin: 0 0 28px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px; box-shadow: var(--shadow); }
+@media (min-width: 900px) { .compare.open { display: block; } }
+.compare-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; }
+.compare-top p { margin: 0; color: var(--ink-2); font-size: 14px; }
+.ba { position: relative; overflow: hidden; border-radius: 6px; border: 1px solid var(--line); user-select: none; touch-action: pan-y; aspect-ratio: 1200 / 750; background: var(--surface-2); }
+.ba img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.ba .over { clip-path: inset(0 calc(100% - var(--pos, 50%)) 0 0); }
+.ba .tagl, .ba .tagr {
+  position: absolute; top: 10px; font-size: 12px; font-weight: 600; padding: 3px 8px; border-radius: 4px;
+  background: var(--surface); color: var(--ink); border: 1px solid var(--line); pointer-events: none;
+}
+.ba .tagl { left: 10px; }
+.ba .tagr { right: 10px; }
+.ba .bar { position: absolute; top: 0; bottom: 0; left: var(--pos, 50%); width: 2px; margin-left: -1px; background: var(--surface); box-shadow: 0 0 0 1px rgba(0,0,0,.35); pointer-events: none; }
+.ba .handle {
+  position: absolute; top: 50%; left: var(--pos, 50%); width: 44px; height: 44px; margin: -22px 0 0 -22px;
+  border-radius: 50%; background: var(--surface); border: 2px solid var(--ink); box-shadow: var(--shadow);
+  display: grid; place-items: center; cursor: ew-resize; color: var(--ink);
+}
+.ba .handle:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.ba .handle svg { width: 22px; height: 22px; }
+.hint { font-size: 13px; color: var(--ink-3); margin: 8px 0 0; }
+
+/* Columns */
+.cols { display: grid; gap: 20px; grid-template-columns: 1fr; }
+@media (min-width: 900px) { .cols { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.col { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.col-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: start; gap: 10px; }
+.col-head h3 { margin: 0; font-size: 18px; font-weight: 600; }
+.col-head .where { display: block; font-size: 13px; color: var(--ink-3); overflow-wrap: anywhere; }
+.frames { display: flex; flex-direction: column; gap: 10px; }
+.frames.mobile { flex-direction: row; overflow-x: auto; padding-bottom: 8px; scroll-snap-type: x proximity; }
+.frames.mobile figure { flex: none; width: 196px; scroll-snap-align: start; }
+figure { margin: 0; }
+.shot { display: block; width: 100%; padding: 0; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: var(--pending); cursor: zoom-in; }
+.shot:hover { border-color: var(--line-strong); }
+figcaption { font-size: 12.5px; color: var(--ink-3); margin-top: 4px; line-height: 1.4; }
+figcaption .note { display: block; color: var(--ink-2); }
+.empty {
+  display: grid; place-items: center; text-align: center; min-height: 260px; padding: 24px;
+  border: 1px dashed var(--line-strong); border-radius: 6px; color: var(--ink-2); background: var(--surface-2);
+}
+.empty strong { display: block; font-size: 18px; color: var(--ink); margin-bottom: 6px; }
+.facts { margin: 0; display: grid; gap: 10px; border-top: 1px solid var(--line); padding-top: 12px; }
+.facts dt { font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3); }
+.facts dd { margin: 2px 0 0; font-size: 14.5px; color: var(--ink); }
+.confirm { font-size: 0.85em; color: var(--ink-3); white-space: nowrap; }
+
+.changed { margin-top: 28px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px; }
+.changed h3 { margin: 0 0 12px; font-size: 18px; font-weight: 600; }
+.changed ul { margin: 0; padding-left: 20px; display: grid; gap: 8px; columns: 1; }
+@media (min-width: 900px) { .changed ul { grid-template-columns: 1fr 1fr; column-gap: 40px; } }
+.changed li { color: var(--ink-2); }
+.changed li b { color: var(--ink); font-weight: 600; }
+
+/* Round 1 */
+.r1-grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+.r1-grid figure, .picked figure { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px; }
+.r1-grid figcaption, .picked figcaption { font-size: 14px; color: var(--ink-2); margin-top: 8px; }
+.r1-grid figcaption b, .picked figcaption b { color: var(--ink); display: block; }
+.picked { display: grid; gap: 16px; grid-template-columns: 1fr; margin-top: 16px; }
+@media (min-width: 900px) { .picked { grid-template-columns: 1fr 1fr; } }
+h3.sub { font-size: 20px; margin: 36px 0 4px; font-weight: 600; }
+p.subnote { margin: 0 0 12px; color: var(--ink-2); max-width: 70ch; }
+
+/* Decisions */
+.decisions { padding: 40px 0 64px; border-top: 1px solid var(--line); }
+.decisions h2 { font-size: clamp(24px, 3vw, 34px); margin: 0 0 6px; font-weight: 600; letter-spacing: -0.01em; }
+.decisions > .wrap > p { color: var(--ink-2); margin: 0 0 24px; max-width: 70ch; }
+.dgrid { display: grid; gap: 16px; grid-template-columns: 1fr; counter-reset: d; }
+@media (min-width: 900px) { .dgrid { grid-template-columns: 1fr 1fr; } }
+.dcard { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px; counter-increment: d; min-width: 0; }
+.dcard h3 { margin: 0 0 10px; font-size: 18px; font-weight: 600; }
+.dcard h3::before { content: counter(d) ". "; color: var(--ink-3); }
+.dcard ul { margin: 0; padding-left: 20px; display: grid; gap: 8px; color: var(--ink-2); }
+.dcard li b { color: var(--ink); font-weight: 600; }
+.dcard .src { margin: 12px 0 0; font-size: 13px; color: var(--ink-3); overflow-wrap: anywhere; }
+.choice { display: grid; gap: 10px; grid-template-columns: 1fr; margin: 0 0 4px; padding: 0; list-style: none; }
+.choice li { border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; color: var(--ink-2); }
+.choice li b { display: block; color: var(--ink); }
+
+.golink {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; align-self: flex-start;
+  border: 1px solid var(--line-strong); border-radius: 999px; text-decoration: none; font-weight: 500; font-size: 14px; color: var(--ink); background: var(--surface);
+}
+.golink:hover { background: var(--surface-2); }
+.routes { margin-top: 24px; }
+.routes h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3); font-weight: 500; margin: 0 0 8px; }
+.routes ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.routes .grp { font-size: 13px; color: var(--ink-3); align-self: center; padding: 0 4px 0 8px; }
+.r1-links { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 0; }
+footer.foot { padding: 24px 0 48px; color: var(--ink-3); font-size: 13px; border-top: 1px solid var(--line); }
+
+/* Lightbox */
+dialog.lb { border: 0; padding: 0; background: transparent; max-width: min(1240px, 96vw); width: auto; max-height: 94vh; }
+dialog.lb::backdrop { background: var(--scrim); }
+.lb-inner { background: var(--surface); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 8px; max-height: 94vh; }
+.lb-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.lb-top p { margin: 0; font-size: 14px; color: var(--ink-2); }
+.lb-img { overflow: auto; border-radius: 6px; }
+.lb-img img { margin: 0 auto; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .tab, .seg button, .btn, .shot { transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease; }
+}
+</style>
+
+<header class="masthead">
+  <div class="wrap">
+    <h1>DIGITAL redesign review</h1>
+    <p class="lead">The current website next to two experimental directions for the redesign: <b>Signal Capture</b> and <b>Apple product page, played straight</b>. Same content and facts in both directions; layout, type and colour differ. Nothing here is decided yet.</p>
+    <dl class="meta">
+      <div><dt>Captured</dt><dd>2026-10-02<small>1440×900 desktop, 390×844 mobile, real scroll positions</small></dd></div>
+      <div><dt>Current site (what visitors see)</dt><dd><a href="https://digitalcpp.vercel.app/">digitalcpp.vercel.app</a><small>Production build <span class="mono">1e1a9da</span>, deployed 2026-08-01</small></dd></div>
+      <div><dt>Main branch</dt><dd><span class="mono">37dfd63</span> (2026-09-27)<small>26 commits ahead of the live build, not yet deployed. digitalcpp.org does not resolve yet.</small></dd></div>
+      <div><dt>Mockups</dt><dd>Local prototypes, not online<small>Screenshots shown. Facts the club has not confirmed are marked [confirm].</small></dd></div>
+    </dl>
+    <nav class="routes" aria-labelledby="routes-h">
+      <h2 id="routes-h">All approaches (open in this tab)</h2>
+      <ul>
+        <li><a class="golink" href="https://digitalcpp.vercel.app/">Current site</a></li>
+        <li class="grp">Signal Capture</li>
+        <li><a class="golink" href="/design-lab/r2/signal/">Home</a></li>
+        <li><a class="golink" href="/design-lab/r2/signal/sidekick/">SIDEKICK</a></li>
+        <li><a class="golink" href="/design-lab/r2/signal/shades/">SHADES</a></li>
+        <li><a class="golink" href="/design-lab/r2/signal/brain/">BRAIN</a></li>
+        <li class="grp">Apple product page</li>
+        <li><a class="golink" href="/design-lab/r2/apple/">Home</a></li>
+        <li><a class="golink" href="/design-lab/r2/apple/sidekick/">SIDEKICK</a></li>
+        <li><a class="golink" href="/design-lab/r2/apple/shades/">SHADES</a></li>
+        <li><a class="golink" href="/design-lab/r2/apple/brain/">BRAIN</a></li>
+        <li class="grp">Round 1</li>
+        <li><a class="golink" href="/design-lab/">Round 1 gallery</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<nav class="tabbar" aria-label="Pages">
+  <div class="wrap">
+    <div class="tabs" role="tablist" aria-label="Page to compare">
+      <a class="tab" role="tab" id="tab-home" href="#home" aria-controls="home">Home</a>
+      <a class="tab" role="tab" id="tab-sidekick" href="#sidekick" aria-controls="sidekick">Smartphone → SIDEKICK</a>
+      <a class="tab" role="tab" id="tab-shades" href="#shades" aria-controls="shades">Smart Reading → SHADES</a>
+      <a class="tab" role="tab" id="tab-brain" href="#brain" aria-controls="brain">BRAIN<span class="tag">new</span></a>
+      <a class="tab" role="tab" id="tab-round1" href="#round1" aria-controls="round1">Round 1</a>
+    </div>
+  </div>
+</nav>
+
+<main id="panels"></main>
+
+<section class="decisions" aria-labelledby="dec-h">
+  <div class="wrap">
+    <h2 id="dec-h">Decisions for stakeholders</h2>
+    <p>Four calls are needed before any of this moves to the live site. Each is independent.</p>
+    <div class="dgrid">
+      <article class="dcard">
+        <h3>Pick a direction</h3>
+        <ul class="choice">
+          <li><b>Signal Capture</b>The site reads as a live oscilloscope capture: near-black grid, bone-white dots and lines, scroll as the timebase, each initiative a channel (CH1, CH2, CH3).</li>
+          <li><b>Apple product page, played straight</b>Each project presented like a product launch: black hardware chapters, centred type, one scrubbed animation per page, light closing chapters.</li>
+          <li><b>A mix</b>For example, the Apple page layout with Signal's dot-and-line language. Possible because content, the dot animation engine, icons and board drawings are already shared by both.</li>
+        </ul>
+      </article>
+      <article class="dcard">
+        <h3>Confirm club facts</h3>
+        <ul>
+          <li><b>SIDEKICK:</b> the name, "legacy" project status, and "design paused mid-way". Hardware facts from the knowledgebase: Zynq-7000 module, KiCad 9, three two-layer boards, nothing fabricated or tested.</li>
+          <li><b>SHADES:</b> current phase ("Planning" on the mockups), the 7-phase roadmap, the two tracks, and the mentor line.</li>
+          <li><b>BRAIN:</b> the wording "builds software with agentic tools" and "competes in hackathons". The page claims no curriculum; confirm that is right.</li>
+          <li><b>Counts:</b> member numbers stay off the redesign until verified. The live site shows "40+ members".</li>
+        </ul>
+      </article>
+      <article class="dcard">
+        <h3>Fonts: no licence exception needed</h3>
+        <ul>
+          <li>Round 1 used Fontshare fonts, which the design rules do not allow without an exception. <b>Round 2 does not use them.</b></li>
+          <li>Signal Capture uses Hubot Sans, Mona Sans and Monaspace Krypton. Apple product page uses Geist and Geist Mono. SHADES uses Atkinson Hyperlegible Next for reading text in both. All are open-licence and self-hosted.</li>
+        </ul>
+      </article>
+      <article class="dcard">
+        <h3>Fix live-site issues found in the audit</h3>
+        <ul>
+          <li><b>Blank pages:</b> /about, /get-involved, /projects and /community render blank. 57 content blocks wait for a scroll reveal that is never switched on.</li>
+          <li><b>Project-page fonts:</b> the smartphone and smart reading pages never load their fonts, so headings fall back to a system font (visible in the captures).</li>
+          <li><b>Red accent contrast:</b> #d8412f fails WCAG AA as text on paper (about 4.1:1) and under white text (4.45:1).</li>
+          <li><b>Cursor:</b> the custom crosshair cursor runs a 60 fps animation loop even when the pointer is still.</li>
+          <li><b>Deployment:</b> the live build is from 2026-08-01; main has 26 newer commits, and digitalcpp.org does not resolve yet.</li>
+        </ul>
+        <p class="src">Sources: design-lab/comparison/REPORT.md, design-lab/audit.md; deployment state checked 2026-10-02.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">Prepared for the DIGITAL @ Cal Poly Pomona redesign review, 2026-10-02. Mockup screenshots come from local prototypes in the design lab; the current-site screenshots come from digitalcpp.vercel.app.</div>
+</footer>
+
+<dialog class="lb" id="lb" aria-label="Screenshot">
+  <div class="lb-inner">
+    <div class="lb-top"><p id="lb-cap"></p><button class="btn" type="button" id="lb-close">Close</button></div>
+    <div class="lb-img"><img id="lb-img" alt=""></div>
+  </div>
+</dialog>
+
+<script>
+(() => {
+  const C = '<span class="confirm">[confirm]</span>';
+  const STEP_D = ['Top of page', '25% down', '50% down', '75% down'];
+  const STEP_M = ['Top of page', '33% down', '66% down'];
+  // caps: chapter names for mockup frames; production frames use scroll depth.
+  const frames = (prefix, caps = { d: STEP_D, m: STEP_M }, notes = {}) => ({
+    d: [0, 1, 2, 3].map((i) => ({ key: `${prefix}-d-${i}`, cap: caps.d[i], note: notes[`d${i}`] })),
+    m: [0, 1, 2].map((i) => ({ key: `${prefix}-m-${i}`, cap: caps.m[i], note: notes[`m${i}`] })),
+  });
+  const CAPS = {
+    home: { d: ['Top of page', 'Build stages: Test', 'Initiatives: SIDEKICK', 'Build night'], m: ['Top of page', 'Build stages: Test', 'Build night'] },
+    sidekick: { d: ['Top of page', 'Teardown: the stack comes apart', 'Module swap', 'Status: paused, not finished'], m: ['Top of page', 'Teardown: the stack comes apart', 'Module swap'] },
+    shades: { d: ['Top of page', 'Eye movement, then one point', 'Live reader', 'Light path'], m: ['Top of page', 'Live reader', 'Light path'] },
+    brain: { d: ['Top of page', 'Context window', 'Harness gate', 'Build night'], m: ['Top of page', 'Context window', 'Harness gate'] },
+  };
+  const IMG = {
+    'prod-home-d-0': '{{img:prod-home-d-0}}', 'prod-home-d-1': '{{img:prod-home-d-1}}', 'prod-home-d-2': '{{img:prod-home-d-2}}', 'prod-home-d-3': '{{img:prod-home-d-3}}',
+    'prod-home-m-0': '{{img:prod-home-m-0}}', 'prod-home-m-1': '{{img:prod-home-m-1}}', 'prod-home-m-2': '{{img:prod-home-m-2}}',
+    'signal-home-d-0': '{{img:signal-home-d-0}}', 'signal-home-d-1': '{{img:signal-home-d-1}}', 'signal-home-d-2': '{{img:signal-home-d-2}}', 'signal-home-d-3': '{{img:signal-home-d-3}}',
+    'signal-home-m-0': '{{img:signal-home-m-0}}', 'signal-home-m-1': '{{img:signal-home-m-1}}', 'signal-home-m-2': '{{img:signal-home-m-2}}',
+    'apple-home-d-0': '{{img:apple-home-d-0}}', 'apple-home-d-1': '{{img:apple-home-d-1}}', 'apple-home-d-2': '{{img:apple-home-d-2}}', 'apple-home-d-3': '{{img:apple-home-d-3}}',
+    'apple-home-m-0': '{{img:apple-home-m-0}}', 'apple-home-m-1': '{{img:apple-home-m-1}}', 'apple-home-m-2': '{{img:apple-home-m-2}}',
+    'prod-sidekick-d-0': '{{img:prod-sidekick-d-0}}', 'prod-sidekick-d-1': '{{img:prod-sidekick-d-1}}', 'prod-sidekick-d-2': '{{img:prod-sidekick-d-2}}', 'prod-sidekick-d-3': '{{img:prod-sidekick-d-3}}',
+    'prod-sidekick-m-0': '{{img:prod-sidekick-m-0}}', 'prod-sidekick-m-1': '{{img:prod-sidekick-m-1}}', 'prod-sidekick-m-2': '{{img:prod-sidekick-m-2}}',
+    'signal-sidekick-d-0': '{{img:signal-sidekick-d-0}}', 'signal-sidekick-d-1': '{{img:signal-sidekick-d-1}}', 'signal-sidekick-d-2': '{{img:signal-sidekick-d-2}}', 'signal-sidekick-d-3': '{{img:signal-sidekick-d-3}}',
+    'signal-sidekick-m-0': '{{img:signal-sidekick-m-0}}', 'signal-sidekick-m-1': '{{img:signal-sidekick-m-1}}', 'signal-sidekick-m-2': '{{img:signal-sidekick-m-2}}',
+    'apple-sidekick-d-0': '{{img:apple-sidekick-d-0}}', 'apple-sidekick-d-1': '{{img:apple-sidekick-d-1}}', 'apple-sidekick-d-2': '{{img:apple-sidekick-d-2}}', 'apple-sidekick-d-3': '{{img:apple-sidekick-d-3}}',
+    'apple-sidekick-m-0': '{{img:apple-sidekick-m-0}}', 'apple-sidekick-m-1': '{{img:apple-sidekick-m-1}}', 'apple-sidekick-m-2': '{{img:apple-sidekick-m-2}}',
+    'prod-shades-d-0': '{{img:prod-shades-d-0}}', 'prod-shades-d-1': '{{img:prod-shades-d-1}}', 'prod-shades-d-2': '{{img:prod-shades-d-2}}', 'prod-shades-d-3': '{{img:prod-shades-d-3}}',
+    'prod-shades-m-0': '{{img:prod-shades-m-0}}', 'prod-shades-m-1': '{{img:prod-shades-m-1}}', 'prod-shades-m-2': '{{img:prod-shades-m-2}}',
+    'signal-shades-d-0': '{{img:signal-shades-d-0}}', 'signal-shades-d-1': '{{img:signal-shades-d-1}}', 'signal-shades-d-2': '{{img:signal-shades-d-2}}', 'signal-shades-d-3': '{{img:signal-shades-d-3}}',
+    'signal-shades-m-0': '{{img:signal-shades-m-0}}', 'signal-shades-m-1': '{{img:signal-shades-m-1}}', 'signal-shades-m-2': '{{img:signal-shades-m-2}}',
+    'apple-shades-d-0': '{{img:apple-shades-d-0}}', 'apple-shades-d-1': '{{img:apple-shades-d-1}}', 'apple-shades-d-2': '{{img:apple-shades-d-2}}', 'apple-shades-d-3': '{{img:apple-shades-d-3}}',
+    'apple-shades-m-0': '{{img:apple-shades-m-0}}', 'apple-shades-m-1': '{{img:apple-shades-m-1}}', 'apple-shades-m-2': '{{img:apple-shades-m-2}}',
+    'signal-brain-d-0': '{{img:signal-brain-d-0}}', 'signal-brain-d-1': '{{img:signal-brain-d-1}}', 'signal-brain-d-2': '{{img:signal-brain-d-2}}', 'signal-brain-d-3': '{{img:signal-brain-d-3}}',
+    'signal-brain-m-0': '{{img:signal-brain-m-0}}', 'signal-brain-m-1': '{{img:signal-brain-m-1}}', 'signal-brain-m-2': '{{img:signal-brain-m-2}}',
+    'apple-brain-d-0': '{{img:apple-brain-d-0}}', 'apple-brain-d-1': '{{img:apple-brain-d-1}}', 'apple-brain-d-2': '{{img:apple-brain-d-2}}', 'apple-brain-d-3': '{{img:apple-brain-d-3}}',
+    'apple-brain-m-0': '{{img:apple-brain-m-0}}', 'apple-brain-m-1': '{{img:apple-brain-m-1}}', 'apple-brain-m-2': '{{img:apple-brain-m-2}}',
+    'r1-a': '{{img:r1-a}}', 'r1-b': '{{img:r1-b}}', 'r1-c': '{{img:r1-c}}', 'r1-d': '{{img:r1-d}}', 'r1-e': '{{img:r1-e}}', 'r1-f': '{{img:r1-f}}',
+    'r1-c-strip': '{{img:r1-c-strip}}', 'r1-e-phone': '{{img:r1-e-phone}}',
+  };
+
+  const PAGES = [
+    {
+      id: 'home', title: 'Home',
+      sub: 'The landing page. Live route: /. Mockup routes: /design-lab/r2/signal/ and /design-lab/r2/apple/.',
+      cols: [
+        { kind: 'current', title: 'Current site', where: 'digitalcpp.vercel.app/', frames: frames('prod-home'),
+          facts: [
+            ['Shows', 'Serif headline, a drafting-table photo, a dark "founding philosophy" band, two ways to join, and project cards with stats such as "40+ members" (unverified).'],
+            ['Motion', 'A 1.9 s loading screen, then words and sections fade in on scroll.'],
+            ['Known issues', 'Icon chips in the dark band render as empty boxes (the font has no such glyphs). No BRAIN.'],
+          ] },
+        { kind: 'signal', title: 'Signal Capture', where: 'Mockup · /design-lab/r2/signal/', frames: frames('signal-home', CAPS.home),
+          facts: [
+            ['Shows', 'The thesis next to one live dot orb in a scope frame, then one viewport per build (CH1 SIDEKICK, CH2 SHADES, CH3 BRAIN), each with its object at full size, then build night.'],
+            ['Signature interaction', 'Scroll, drag or use the arrow keys on the ruler to move the orb through Plan → Prototype → Test → Integrate; a red trigger marker tracks the position.'],
+            ['Open items', 'Copy has not been through brand review yet.'],
+          ] },
+        { kind: 'apple', title: 'Apple product page', where: 'Mockup · /design-lab/r2/apple/', frames: frames('apple-home', CAPS.home),
+          facts: [
+            ['Shows', 'A dark hero with the centred thesis and one orb, the build stages, one viewport per build, then a light highlights strip, ending on build night.'],
+            ['Signature interaction', 'A pinned chapter where one orb morphs Plan → Prototype → Test → Integrate, with one caption at a time and a 4-dot tracker.'],
+            ['Open items', 'Copy has not been through brand review yet.'],
+          ] },
+      ],
+      changed: [
+        '<b>Team-picked piece kept:</b> round 1\'s four-stage dot-orb strip becomes the hero, with one owner, one review path, one test gate and one repair plan.',
+        '<b>Projects renamed per Notion:</b> SIDEKICK, SHADES and BRAIN, with status tagged [confirm].',
+        '<b>Unverified numbers removed:</b> no member counts or sponsor names until the club confirms them.',
+        '<b>Less reading:</b> copy budget of at most 12 words in at least 45% of viewports (about half the screens are quiet, artifact-led views).',
+        '<b>One action:</b> Thursday build night, 6:00 PM, Building 17, Room 1635.',
+        '<b>Motion rules:</b> nothing animates at rest; reduced-motion visitors get stacked stills with the same content; content is visible without JavaScript.',
+      ],
+    },
+    {
+      id: 'sidekick', title: 'Smartphone → SIDEKICK',
+      sub: 'Formerly "The Modular Smartphone" (DG-001). Live route: /projects/modular-smartphone/. Notion calls it the legacy project.',
+      cols: [
+        { kind: 'current', title: 'Current site', where: 'digitalcpp.vercel.app/projects/modular-smartphone/', frames: frames('prod-sidekick', undefined, { d1: 'The empty area is real: this chapter is still fading in at this scroll position.' }),
+          facts: [
+            ['Shows', '"One device. Owned in parts. Take a subsystem." on a navy and indigo palette, generic phone outline drawings, and seven subsystem chapters with scope and risk notes.'],
+            ['Motion', 'A loading animation, then a sticky phone drawing that changes per subsystem as you scroll.'],
+            ['Known issues', 'Headings fall back to a system font because the page fonts never load. The /projects data on the live site lists ESP32-S3, Wi-Fi 6 and Android, which the club knowledgebase contradicts.'],
+          ] },
+        { kind: 'signal', title: 'Signal Capture', where: 'Mockup · /design-lab/r2/signal/sidekick/', frames: frames('signal-sidekick', CAPS.sidekick),
+          facts: [
+            ['Shows', `The real power carrier board drawn from the club's KiCad file, measured 49.0 × 41.0 mm, with an honest "paused" status line ${C}.`],
+            ['Signature interaction', 'Scroll explodes a five-module stack one gap at a time while the active board separates into copper, substrate and silk. "Lift module" swaps the fingerprint module out (keyboard and no-JS friendly).'],
+            ['Open items', `All hardware and status facts ${C}. Copy has not been through brand review yet.`],
+          ] },
+        { kind: 'apple', title: 'Apple product page', where: 'Mockup · /design-lab/r2/apple/sidekick/', frames: frames('apple-sidekick', CAPS.sidekick),
+          facts: [
+            ['Shows', 'The same unfinished board shot like a flagship product on black, an "At a glance" strip, then status, ownership rules and joining on light chapters.'],
+            ['Signature interaction', 'A pinned chapter scrubs an explode animation of the real boards layer by layer with one caption per layer; a module-swap clip plays once with a replay control.'],
+            ['Open items', `All hardware and status facts ${C}. Copy has not been through brand review. The animation clips are used as rendered.`],
+          ] },
+      ],
+      changed: [
+        '<b>Renamed:</b> SIDEKICK, per Notion.',
+        '<b>Real board drawings:</b> the power carrier (49 × 41 mm) and fingerprint board (22.8 × 26.1 mm) are parsed from the club\'s KiCad files instead of generic phone illustrations.',
+        `<b>Accuracy:</b> Zynq-7000 module (ARM + FPGA), not ESP32-S3; no radio; KiCad 9; three two-layer boards; nothing fabricated or tested; main design paused 2025-08-26 ${C}.`,
+        '<b>Honest status by line style:</b> solid = exists, dashed = pending, struck = paused. Every seat is shown as open.',
+        '<b>Less reading:</b> 50% of viewports are quiet at both 1440 px and 390 px.',
+        '<b>Fonts load:</b> open-licence, self-hosted faces replace the broken font setup; the indigo palette goes.',
+      ],
+    },
+    {
+      id: 'shades', title: 'Smart Reading → SHADES',
+      sub: 'Formerly "Smart Reading" (DG-002). SHADES = Smart Headset for Adaptive Dyslexia Enhancement System. Live route: /projects/smart-reading/.',
+      cols: [
+        { kind: 'current', title: 'Current site', where: 'digitalcpp.vercel.app/projects/smart-reading/', frames: frames('prod-shades', undefined, { d1: 'Between scenes: the background darkens as you scroll.' }),
+          facts: [
+            ['Shows', '"Read without the chase." with a 3D model of glasses, a word-at-a-time demo over an open book, and a dark explainer section.'],
+            ['Motion', 'The glasses turn and move as you scroll; the reading demo runs inside the book scene.'],
+            ['Known issues', 'Headings fall back to a system font because the page fonts never load.'],
+          ] },
+        { kind: 'signal', title: 'Signal Capture', where: 'Mockup · /design-lab/r2/signal/shades/', frames: frames('signal-shades', CAPS.shades),
+          facts: [
+            ['Shows', 'A fixation point on the scope\'s centre crosshair, a trace of eyes jumping along a line, a live reader, the light path, two tracks and a roadmap drawn dashed until confirmed.'],
+            ['Signature interaction', 'Scrolling flattens the eye-jump trace into one red fixation dot; then the visitor sets a speed, presses Read and words land on that point (K and arrow keys work).'],
+            ['Open items', `Phase, roadmap and tracks ${C}. The page states it is a research platform, not a medical device, and makes no efficacy claims.`],
+          ] },
+        { kind: 'apple', title: 'Apple product page', where: 'Mockup · /design-lab/r2/apple/shades/', frames: frames('apple-shades', CAPS.shades),
+          facts: [
+            ['Shows', 'The glasses drawn in dots, front-on, with one word glowing in the right lens; then the reader, the light path, highlights, the 7 phases and open roles.'],
+            ['Signature interaction', 'A pinned light-path chapter: text → FPGA timing → control → display → optics → eye, one caption per stage; a "word lands" clip plays once above the live reader.'],
+            ['Open items', `Phase and roadmap ${C}. Copy has not been through brand review yet.`],
+          ] },
+      ],
+      changed: [
+        '<b>Renamed:</b> SHADES, per Notion.',
+        '<b>The page models readable type:</b> Atkinson Hyperlegible Next for body text and the reader, plus a "more spacing" setting in the nav.',
+        '<b>Try it, don\'t read about it:</b> a live word-at-a-time reader with keyboard controls; under reduced motion it steps through and prints the full sentence.',
+        '<b>Clear boundary:</b> "A research platform. Not a medical device." and "Never: medical claims, now or later." are on the page.',
+        '<b>Line drawings replace the 3D model:</b> the glasses and the light path are drawn in the shared dot style.',
+        '<b>One named person:</b> mentor Dr. Mohamed El Hadedy. No member names are published.',
+      ],
+    },
+    {
+      id: 'brain', title: 'BRAIN (new page)',
+      sub: 'BRAIN = Building Remarkable AI Innovation and kNowledge, the agentic-AI initiative. There is no page for it on the current site.',
+      cols: [
+        { kind: 'current', title: 'Current site', where: 'No page', empty: true,
+          facts: [
+            ['Today', 'BRAIN does not appear on the live site. This would be a new page.'],
+          ] },
+        { kind: 'signal', title: 'Signal Capture', where: 'Mockup · /design-lab/r2/signal/brain/', frames: frames('signal-brain', CAPS.brain),
+          facts: [
+            ['Shows', '"A model predicts. A system gets work done." A dot orb on a framed screen runs an agent loop three times and stops, then six chapters: loop, tools, MCP, context, harness, evals.'],
+            ['Signature interaction', 'Approve or deny a pending edit at the harness gate (Enter / Esc), drag a document into a full context window and choose evict, compact or load on demand, and toggle MCP servers.'],
+            ['Open items', `BRAIN facts ${C}. Some status readouts are deferred. Pictures that are metaphors are labelled "illustrative".`],
+          ] },
+        { kind: 'apple', title: 'Apple product page', where: 'Mockup · /design-lab/r2/apple/brain/', frames: frames('apple-brain', CAPS.brain),
+          facts: [
+            ['Shows', 'A 560 px orb shot like hardware on black, one mechanism per dark chapter, ending light on BRAIN\'s facts and build night.'],
+            ['Signature interaction', 'The context chapter scrubs one animation as you scroll; the same gate, drag-a-document and server toggles as Signal, in this world\'s style.'],
+            ['Open items', `"Competes in hackathons" and other BRAIN facts ${C}. Copy has not been through brand review yet.`],
+          ] },
+      ],
+      changed: [
+        '<b>New page:</b> tells a concept story about agent systems: the loop, tool use, MCP, context engineering, harness gates, subagents and evals.',
+        '<b>No overclaiming:</b> it does not say DIGITAL teaches or built these systems, and shows no curriculum.',
+        '<b>Labelled pictures:</b> every metaphor is tagged "illustrative"; documented mechanisms are drawn as documented.',
+        '<b>Length cut:</b> 8 planned chapters became 6; each page is about 12.5–13 screens at 1440 px.',
+      ],
+    },
+  ];
+
+  const WORLD = { signal: 'Signal Capture', apple: 'Apple product page', current: 'Current site' };
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+  function figure(f, colTitle, pageTitle, mobile) {
+    const [w, h] = mobile ? [390, 844] : [1200, 750];
+    const label = `${pageTitle}, ${colTitle}, ${mobile ? 'mobile' : 'desktop'}, ${f.cap.toLowerCase()}`;
+    return `<figure><button class="shot" type="button" data-key="${f.key}" data-cap="${esc(label)}" aria-label="Enlarge: ${esc(label)}"><img src="${IMG[f.key]}" width="${w}" height="${h}" alt="${esc(label)}" loading="lazy" decoding="async"></button><figcaption>${esc(f.cap)}${f.note ? `<span class="note">${esc(f.note)}</span>` : ''}</figcaption></figure>`;
+  }
+
+  const PROD = 'https://digitalcpp.vercel.app';
+  const ROUTE = { home: '/', sidekick: '/projects/modular-smartphone/', shades: '/projects/smart-reading/' };
+  function goLink(p, c) {
+    if (c.kind === 'current') return ROUTE[p.id] ? `<a class="golink" href="${PROD}${ROUTE[p.id]}">Open current site →</a>` : '';
+    return `<a class="golink" href="/design-lab/r2/${c.kind}/${p.id === 'home' ? '' : p.id + '/'}">Open live prototype →</a>`;
+  }
+  function column(p, c, idx) {
+    const facts = `<dl class="facts">${c.facts.map(([t, d]) => `<div><dt>${esc(t)}</dt><dd>${d}</dd></div>`).join('')}</dl>`;
+    if (c.empty) {
+      return `<section class="col" aria-label="${esc(c.title)}"><div class="col-head"><div><h3>${esc(c.title)}</h3><span class="where">${esc(c.where)}</span></div></div><div class="empty"><div><strong>New page</strong>No equivalent on the current site.</div></div>${facts}</section>`;
+    }
+    const id = `${p.id}-${c.kind}`;
+    return `<section class="col" aria-label="${esc(c.title)}" data-col="${id}">
+      <div class="col-head"><div><h3>${esc(c.title)}</h3><span class="where">${esc(c.where)}</span></div>
+        <div class="seg" role="group" aria-label="${esc(c.title)} viewport"><button type="button" data-vp="d" aria-pressed="true">Desktop</button><button type="button" data-vp="m" aria-pressed="false">Mobile</button></div></div>
+      <div class="frames desktop" data-vpset="d">${c.frames.d.map((f) => figure(f, c.title, p.title, false)).join('')}</div>
+      <div class="frames mobile" data-vpset="m" hidden tabindex="0" aria-label="${esc(c.title)} mobile frames, scroll sideways">${c.frames.m.map((f) => figure(f, c.title, p.title, true)).join('')}</div>
+      ${facts}${goLink(p, c)}</section>`;
+  }
+
+  function compare(p) {
+    const hasCurrent = !p.cols[0].empty;
+    const left = hasCurrent ? 'current' : 'signal';
+    const options = hasCurrent ? ['signal', 'apple'] : ['apple'];
+    const seg = options.length > 1
+      ? `<div class="seg" role="group" aria-label="Compare current site with"><span class="ctl-label" style="align-self:center;padding:0 8px">Compare with</span>${options.map((o, i) => `<button type="button" data-world="${o}" aria-pressed="${i === 0}">${WORLD[o]}</button>`).join('')}</div>`
+      : '';
+    const note = hasCurrent ? 'First screen at 1440 px. Drag the handle or focus it and use the arrow keys.' : 'BRAIN has no current page, so this compares the two directions. Drag the handle or use the arrow keys.';
+    return `<div class="compare" id="cmp-${p.id}" data-left="${left}" data-right="${options[0]}" data-page="${p.id}">
+      <div class="compare-top"><p>${note}</p>${seg}</div>
+      <div class="ba" style="--pos:50%">
+        <img class="under" alt="" src="${IMG[`${options[0]}-${p.id}-d-0`]}">
+        <img class="over" alt="" src="${IMG[`${left === 'current' ? 'prod' : left}-${p.id}-d-0`]}">
+        <span class="tagl">${WORLD[left]}</span><span class="tagr">${WORLD[options[0]]}</span>
+        <span class="bar"></span>
+        <div class="handle" role="slider" tabindex="0" aria-label="Reveal: ${WORLD[left]} on the left" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="50% ${WORLD[left]}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6"/></svg>
+        </div>
+      </div>
+      <p class="hint">Left: ${WORLD[left]}. Right: <span data-rightname>${WORLD[options[0]]}</span>.</p>
+    </div>`;
+  }
+
+  function panel(p) {
+    return `<section class="panel wrap" id="${p.id}" role="tabpanel" aria-labelledby="tab-${p.id}" tabindex="-1">
+      <div class="panel-head"><div><h2>${esc(p.title)}</h2><p>${esc(p.sub)}</p></div>
+        <div class="controls">
+          <div class="seg" role="group" aria-label="Viewport for all columns"><span class="ctl-label" style="align-self:center;padding:0 8px">All columns</span><button type="button" data-all="d" aria-pressed="true">Desktop</button><button type="button" data-all="m" aria-pressed="false">Mobile</button></div>
+          <button class="btn compare-toggle" type="button" aria-expanded="false" aria-controls="cmp-${p.id}">Compare first screen</button>
+        </div></div>
+      ${compare(p)}
+      <div class="cols">${p.cols.map((c, i) => column(p, c, i)).join('')}</div>
+      <section class="changed" aria-label="What changed vs today"><h3>What changed vs today</h3><ul>${p.changed.map((x) => `<li>${x}</li>`).join('')}</ul></section>
+    </section>`;
+  }
+
+  function round1() {
+    const R = [
+      ['a', 'A · The Signed Edition', 'The club\'s work published as a printed edition; every story ends on a signature line that is still blank.'],
+      ['b', 'B · Engineering system', 'The homepage as the build\'s documentation set, every drawing computed from the club\'s project records.'],
+      ['c', 'C · Formation', 'The page draws itself from the work; every moving point is computed from a real build.'],
+      ['d', 'D · Pull up a chair', 'The room where you stop being "a CS major" and become the person who owns a part of the build.'],
+      ['e', 'E · The Ledger', 'A startup studio\'s build ledger with honest status, real ownership and blanks left visibly blank.'],
+      ['f', 'F · The Bench', 'The homepage as a bench you sign, not a brochure you read.'],
+    ];
+    return `<section class="panel wrap" id="round1" role="tabpanel" aria-labelledby="tab-round1" tabindex="-1">
+      <div class="panel-head"><div><h2>Round 1 (appendix)</h2><p>Six homepage concepts explored first. The team kept two pieces from them, and those seeded round 2. Everything else was dropped.</p></div></div>
+      <div class="r1-grid">${R.map(([k, t, d]) => `<figure><button class="shot" type="button" data-cap="${esc(t)}" aria-label="Enlarge: ${esc(t)}"><img src="${IMG['r1-' + k]}" width="720" height="450" alt="${esc(t)}, first screen at 1440 px" loading="lazy" decoding="async"></button><figcaption><b>${esc(t)}</b>${esc(d)}</figcaption><div class="r1-links"><a class="golink" href="/design-lab/${k}/">Open concept ${k.toUpperCase()} →</a></div></figure>`).join('')}</div>
+      <div class="r1-links"><a class="golink" href="/design-lab/">Open the round 1 gallery →</a></div>
+      <h3 class="sub">The two pieces the team picked</h3>
+      <p class="subnote">Both carry into round 2 in each direction: the strip became the Home hero, and the exploded phone became the SIDEKICK teardown, now drawn from real board files.</p>
+      <div class="picked">
+        <figure><button class="shot" type="button" data-cap="Concept C, four-stage strip" aria-label="Enlarge: concept C four-stage strip"><img src="${IMG['r1-c-strip']}" width="1200" height="728" alt="Concept C: four build stages, Plan, Prototype, Test, Integrate, each with an animated dot orb, and four ownership counters" loading="lazy" decoding="async"></button><figcaption><b>Concept C · four-stage strip with dot orbs</b>Plan, Prototype, Test, Integrate, each with its own dot animation, and the "1 owner / 1 review / 1 gate / 1 repair plan" counters.</figcaption></figure>
+        <figure><button class="shot" type="button" data-cap="Concept E, exploded phone" aria-label="Enlarge: concept E exploded phone"><img src="${IMG['r1-e-phone']}" width="1200" height="750" alt="Concept E: an exploded isometric phone with seven labelled layers next to a list of subsystems, each unassigned" loading="lazy" decoding="async"></button><figcaption><b>Concept E · exploded isometric phone</b>Scroll separates the phone into its seven subsystems next to a locked list, each with scope, risk and an open owner seat.</figcaption></figure>
+      </div>
+    </section>`;
+  }
+
+  document.documentElement.classList.add('js');
+  const main = document.getElementById('panels');
+  main.innerHTML = PAGES.map(panel).join('') + round1();
+
+  // Viewport toggles
+  function setVp(col, vp) {
+    col.querySelectorAll('[data-vp]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.vp === vp)));
+    col.querySelectorAll('[data-vpset]').forEach((s) => { s.hidden = s.dataset.vpset !== vp; });
+  }
+  main.addEventListener('click', (e) => {
+    const vpBtn = e.target.closest('[data-vp]');
+    if (vpBtn) { setVp(vpBtn.closest('.col'), vpBtn.dataset.vp); return; }
+    const allBtn = e.target.closest('[data-all]');
+    if (allBtn) {
+      const panelEl = allBtn.closest('.panel');
+      allBtn.parentElement.querySelectorAll('[data-all]').forEach((b) => b.setAttribute('aria-pressed', String(b === allBtn)));
+      panelEl.querySelectorAll('.col[data-col]').forEach((c) => setVp(c, allBtn.dataset.all));
+      return;
+    }
+    const tgl = e.target.closest('.compare-toggle');
+    if (tgl) {
+      const box = document.getElementById(tgl.getAttribute('aria-controls'));
+      const open = tgl.getAttribute('aria-expanded') !== 'true';
+      tgl.setAttribute('aria-expanded', String(open));
+      box.classList.toggle('open', open);
+      return;
+    }
+    const wb = e.target.closest('[data-world]');
+    if (wb) {
+      const box = wb.closest('.compare');
+      box.querySelectorAll('[data-world]').forEach((b) => b.setAttribute('aria-pressed', String(b === wb)));
+      box.querySelector('.under').src = IMG[`${wb.dataset.world}-${box.dataset.page}-d-0`];
+      box.querySelector('.tagr').textContent = WORLD[wb.dataset.world];
+      box.querySelector('[data-rightname]').textContent = WORLD[wb.dataset.world];
+      return;
+    }
+    const shot = e.target.closest('.shot');
+    if (shot) openLb(shot);
+  });
+
+  // Before/after slider
+  function setPos(ba, v) {
+    const pos = Math.max(0, Math.min(100, Math.round(v)));
+    ba.style.setProperty('--pos', pos + '%');
+    const h = ba.querySelector('.handle');
+    h.setAttribute('aria-valuenow', String(pos));
+    h.setAttribute('aria-valuetext', `${pos}% ${ba.querySelector('.tagl').textContent}`);
+  }
+  document.querySelectorAll('.ba').forEach((ba) => {
+    const h = ba.querySelector('.handle');
+    const fromEvent = (e) => { const r = ba.getBoundingClientRect(); return ((e.clientX - r.left) / r.width) * 100; };
+    let drag = false;
+    ba.addEventListener('pointerdown', (e) => { drag = true; ba.setPointerCapture(e.pointerId); setPos(ba, fromEvent(e)); h.focus({ preventScroll: true }); });
+    ba.addEventListener('pointermove', (e) => { if (drag) setPos(ba, fromEvent(e)); });
+    ba.addEventListener('pointerup', () => { drag = false; });
+    ba.addEventListener('pointercancel', () => { drag = false; });
+    h.addEventListener('keydown', (e) => {
+      const cur = Number(h.getAttribute('aria-valuenow'));
+      const step = e.shiftKey ? 10 : 2;
+      const map = { ArrowLeft: cur - step, ArrowDown: cur - step, ArrowRight: cur + step, ArrowUp: cur + step, Home: 0, End: 100, PageDown: cur - 10, PageUp: cur + 10 };
+      if (e.key in map) { e.preventDefault(); setPos(ba, map[e.key]); }
+    });
+  });
+
+  // Tabs: roving tabindex, aria-selected, bare #anchors
+  const tabs = [...document.querySelectorAll('[role="tab"]')];
+  const ids = tabs.map((t) => t.getAttribute('aria-controls'));
+  function select(id, { focus = false, push = true } = {}) {
+    if (!ids.includes(id)) id = ids[0];
+    tabs.forEach((t) => {
+      const on = t.getAttribute('aria-controls') === id;
+      t.setAttribute('aria-selected', String(on));
+      t.tabIndex = on ? 0 : -1;
+      if (on && focus) t.focus();
+      if (on) t.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    });
+    ids.forEach((pid) => { document.getElementById(pid).hidden = pid !== id; });
+    if (push && location.hash !== '#' + id) history.replaceState(null, '', '#' + id);
+  }
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', (e) => { e.preventDefault(); select(t.getAttribute('aria-controls')); });
+    t.addEventListener('keydown', (e) => {
+      let j = null;
+      if (e.key === 'ArrowRight') j = (i + 1) % tabs.length;
+      else if (e.key === 'ArrowLeft') j = (i - 1 + tabs.length) % tabs.length;
+      else if (e.key === 'Home') j = 0;
+      else if (e.key === 'End') j = tabs.length - 1;
+      else if (e.key === ' ') { e.preventDefault(); select(t.getAttribute('aria-controls')); return; }
+      if (j !== null) { e.preventDefault(); select(ids[j], { focus: true }); }
+    });
+  });
+  window.addEventListener('hashchange', () => select(location.hash.slice(1), { push: false }));
+  select(location.hash.slice(1), { push: false });
+
+  // Lightbox
+  const lb = document.getElementById('lb');
+  const lbImg = document.getElementById('lb-img');
+  let lastShot = null;
+  function openLb(shot) {
+    const img = shot.querySelector('img');
+    lastShot = shot;
+    lbImg.src = img.src;
+    lbImg.alt = img.alt;
+    lbImg.width = img.naturalWidth || img.width;
+    document.getElementById('lb-cap').textContent = shot.dataset.cap || img.alt;
+    if (typeof lb.showModal === 'function') lb.showModal();
+  }
+  document.getElementById('lb-close').addEventListener('click', () => lb.close());
+  lb.addEventListener('click', (e) => { if (e.target === lb) lb.close(); });
+  lb.addEventListener('close', () => { lbImg.removeAttribute('src'); if (lastShot) lastShot.focus(); });
+})();
+</script>

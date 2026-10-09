@@ -1,0 +1,208 @@
+/* SHADES light path diagram. Ink from the world tokens; the ray is dotted (planned), the lit ray solid. */
+.wrap {
+  width: 100%;
+  color: var(--r2-ink);
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.v {
+  display: none;
+}
+
+@media (max-width: 734px) {
+  .wrap[data-layout='auto'] .h {
+    display: none;
+  }
+
+  .wrap[data-layout='auto'] .v {
+    display: block;
+    max-width: 360px;
+    margin: 0 auto;
+  }
+}
+
+.ray {
+  stroke: var(--r2-ink-3);
+  stroke-width: 1.5;
+  stroke-dasharray: 0 7;
+  stroke-linecap: round;
+}
+
+.rayLit {
+  stroke: var(--r2-ink);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+  transform-box: view-box;
+  transition: transform var(--r2-dur-ui-slow) var(--r2-ease-ui);
+}
+
+.wrap[data-mode='scrub'] .rayLit {
+  transition: none;
+}
+
+.wrap[data-mode='scrub'] .horizontal {
+  transform: scaleX(clamp(0, var(--k, 1) * 1.2, 1));
+}
+
+.wrap[data-mode='scrub'] .vertical {
+  transform: scaleY(clamp(0, var(--k, 1) * 1.2, 1));
+}
+
+.station {
+  transition: opacity var(--r2-dur-ui-slow) var(--r2-ease-ui);
+}
+
+.wrap[data-mode='scrub'] .station {
+  transition: none;
+  opacity: calc(0.28 + 0.72 * clamp(0, (var(--k, 1) - var(--t)) * 12 + 1, 1));
+}
+
+.station[data-reached='false'] {
+  opacity: 0.28;
+}
+
+.solidFill {
+  fill: var(--lp-ground, var(--r2-ground));
+  stroke: currentColor;
+  stroke-width: 1.25;
+  vector-effect: non-scaling-stroke;
+}
+
+.line,
+.hair,
+.dotted {
+  fill: none;
+  stroke: currentColor;
+  vector-effect: non-scaling-stroke;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.line {
+  stroke-width: 1.25;
+}
+
+.hair {
+  stroke-width: 1;
+  opacity: 0.8;
+}
+
+.dotted {
+  stroke-width: 1.5;
+  stroke-dasharray: 0 5;
+}
+
+.node,
+.pupil {
+  fill: currentColor;
+}
+
+.label {
+  fill: var(--r2-ink-2);
+  font-family: var(--font-mono);
+  font-size: 19px;
+  letter-spacing: 0.03em;
+}
+
+.labelV {
+  font-size: 26px;
+}
+
+.station[data-current='true'] .label {
+  fill: var(--r2-ink);
+}
+
+.anchor {
+  fill: var(--r2-trigger);
+}
+
+.fixation {
+  transition: opacity var(--r2-dur-ui-slow) var(--r2-ease-ui);
+}
+
+.fixation[data-reached='false'] {
+  opacity: 0;
+}
+
+.wrap[data-mode='scrub'] .fixation {
+  transition: none;
+  opacity: clamp(0, (var(--k, 1) - 0.86) * 12, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rayLit,
+  .station,
+  .fixation {
+    transition: none;
+  }
+}
+
+.note {
+  fill: var(--r2-ink-3);
+  font-family: var(--font-mono);
+  font-size: 15px;
+  letter-spacing: 0.04em;
+}
+
+.noteV {
+  font-size: 19px;
+}
+
+/* ---------- mode "play": --pos (float stage index) comes from a timed playhead, never from scroll ---------- */
+.packet {
+  fill: var(--r2-ink);
+  transform: translateX(calc(var(--pos, 0) * var(--dx) * 1px));
+}
+
+.wrap[data-mode='play'] {
+  container-type: inline-size;
+}
+
+.wrap[data-mode='play'] .rayLit {
+  transition: none;
+  transform: scaleX(calc(var(--pos, 0) / var(--n)));
+}
+
+/* Emphasis: not reached 0.32, passed 0.6, current 1; linear in the playhead, so it hands over between neighbours.
+   stroke-opacity (not opacity) keeps each station's ground fill opaque, so the ray and packet stay hidden behind it. */
+.wrap[data-mode='play'] .station {
+  transition: none;
+  --near: clamp(0, 1 - max(var(--pos, 0) - var(--i), var(--i) - var(--pos, 0)), 1);
+  --o: calc(0.32 + 0.28 * clamp(0, var(--pos, 0) - var(--i) + 1, 1) + 0.4 * var(--near));
+  stroke-opacity: var(--o);
+}
+
+.wrap[data-mode='play'] :is(.node, .pupil) {
+  fill-opacity: var(--o);
+}
+
+.wrap[data-mode='play'] .icon {
+  transform: scale(calc(1 + 0.1 * var(--near)));
+}
+
+.wrap[data-mode='play'] .label {
+  transition: fill var(--r2-dur-ui) var(--r2-ease-ui);
+}
+
+.wrap[data-mode='play'] .fixation {
+  transition: none;
+  opacity: clamp(0, (var(--pos, 0) - var(--n) + 0.5) * 4, 1);
+}
+
+/* Narrow screens: the strip keeps its station size and pans, so the playhead stays centred. */
+@media (max-width: 899px) {
+  .wrap[data-mode='play'] {
+    mask-image: linear-gradient(to right, transparent, #000 14%, #000 86%, transparent);
+  }
+
+  .wrap[data-mode='play'] .h {
+    width: var(--lp-pan-w, 1200px);
+    transform: translateX(calc(50cqw - var(--lp-pan-w, 1200px) * (var(--c0) + var(--pos, 0) * var(--dc))));
+  }
+}

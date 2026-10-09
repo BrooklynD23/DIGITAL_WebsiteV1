@@ -1,0 +1,294 @@
+/* Shared JoinChapter. World grammar via [data-world-join]; tokens only. */
+.join {
+  padding: var(--r2-space-10) 0;
+  border-top: 1px solid var(--r2-hairline);
+  background: var(--r2-ground);
+  color: var(--r2-ink);
+  scroll-margin-top: var(--r2-sticky-top, 52px);
+  font-family: var(--font-text);
+}
+
+.inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--r2-gutter);
+}
+
+.visual {
+  display: grid;
+  place-items: center;
+  color: var(--r2-ink);
+}
+
+.seat {
+  color: var(--r2-ink);
+}
+
+.copy {
+  display: grid;
+  gap: var(--r2-space-5);
+  align-content: start;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--r2-fw-display);
+  font-stretch: var(--r2-fstretch-display);
+  font-size: var(--r2-fs-h1);
+  line-height: var(--r2-lh-h1);
+  letter-spacing: var(--r2-ls-h1);
+  text-wrap: balance;
+}
+
+.lead {
+  margin: 0;
+  max-width: 36rem;
+  font-size: var(--r2-fs-lead);
+  line-height: var(--r2-lh-lead);
+  color: var(--r2-ink-2);
+  text-wrap: pretty;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--r2-space-3) var(--r2-space-6);
+  margin-top: var(--r2-space-2);
+}
+
+.textLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: var(--r2-target);
+  color: var(--r2-ink);
+  text-decoration: underline;
+  text-decoration-color: var(--r2-hairline-strong);
+  text-underline-offset: 0.25em;
+  transition: text-decoration-color var(--r2-dur-ui-fast) var(--r2-ease-ui);
+}
+.textLink:hover {
+  text-decoration-color: currentColor;
+}
+
+.backers {
+  display: grid;
+  gap: var(--r2-space-2);
+  margin-top: var(--r2-space-5);
+  padding-top: var(--r2-space-5);
+  border-top: 1px solid var(--r2-hairline);
+}
+
+.backersLabel {
+  margin: 0;
+  color: var(--r2-ink);
+  font-weight: var(--r2-fw-strong);
+}
+
+.backerLinks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--r2-space-5);
+}
+
+.backerLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: var(--r2-target);
+  color: var(--r2-ink-2);
+  text-decoration: none;
+  transition: color var(--r2-dur-ui-fast) var(--r2-ease-ui);
+}
+.backerLink:hover {
+  color: var(--r2-ink);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
+/* ---------- Signal: readout grid, line-form action ---------- */
+.join[data-world-join='signal'] {
+  background: transparent;
+}
+[data-world-join='signal'] .inner {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  gap: var(--r2-space-8);
+  align-items: center;
+}
+
+.facts {
+  margin: 0;
+  display: grid;
+  border-top: 1px solid var(--r2-hairline);
+}
+.facts > div {
+  display: grid;
+  grid-template-columns: 88px 1fr;
+  gap: var(--r2-space-4);
+  align-items: baseline;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--r2-hairline);
+}
+.facts dt {
+  font-family: var(--font-mono);
+  font-size: var(--r2-fs-label);
+  letter-spacing: var(--r2-ls-label);
+  text-transform: uppercase;
+  color: var(--r2-ink-3);
+}
+.facts dd {
+  margin: 0;
+  font-size: var(--r2-fs-lead);
+  line-height: var(--r2-lh-lead);
+}
+
+.lineBtn {
+  /* Signal action: outlined (line form, never filled), sentence case, text face. Mono is for readouts only. */
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 52px;
+  padding: 0 24px;
+  border: 1px solid var(--r2-ink);
+  color: var(--r2-ink);
+  background: transparent;
+  text-decoration: none;
+  font-family: var(--font-text);
+  font-size: 17px;
+  font-weight: var(--r2-fw-strong);
+  letter-spacing: 0;
+  transition:
+    background var(--r2-dur-ui-fast) var(--r2-ease-ui),
+    border-color var(--r2-dur-ui-fast) var(--r2-ease-ui);
+}
+.lineBtn:hover {
+  background: var(--r2-ground-raised);
+}
+
+[data-world-join='signal'] .backersLabel {
+  font-weight: var(--r2-fw-strong);
+  color: var(--r2-ink-2);
+}
+
+/* ---------- Apple: centred light chapter, one filled pill ---------- */
+[data-world-join='apple'] .inner {
+  max-width: 1024px;
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: var(--r2-space-6);
+}
+[data-world-join='apple'] .copy {
+  justify-items: center;
+}
+[data-world-join='apple'] .title {
+  font-size: var(--r2-fs-h2);
+  line-height: var(--r2-lh-h2);
+  letter-spacing: var(--r2-ls-h2);
+}
+[data-world-join='apple'] .actions,
+[data-world-join='apple'] .backerLinks {
+  justify-content: center;
+}
+[data-world-join='apple'] .backers {
+  justify-items: center;
+  width: 100%;
+  max-width: 40rem;
+}
+
+.when {
+  margin: 0;
+  font-size: var(--r2-fs-h3);
+  line-height: var(--r2-lh-h3);
+  font-weight: var(--r2-fw-display);
+}
+
+.bring {
+  margin: 0;
+  font-size: var(--r2-fs-lead);
+  line-height: var(--r2-lh-lead);
+  color: var(--r2-ink-2);
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--r2-target);
+  padding: 0 22px;
+  border-radius: 980px;
+  background: var(--r2-cta-bg);
+  color: var(--r2-cta-ink);
+  font-size: 17px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background var(--r2-dur-ui-fast) var(--r2-ease-ui);
+}
+.pill:hover {
+  background: var(--r2-cta-bg-hover);
+  color: var(--r2-cta-ink-hover);
+}
+
+[data-world-join='apple'] .textLink {
+  text-decoration: none;
+  font-size: var(--r2-fs-lead);
+}
+[data-world-join='apple'] .textLink:hover {
+  text-decoration: underline;
+}
+
+/* ---------- compact variant: facts on one line, one backer link ---------- */
+.join[data-compact='true'] {
+  padding: var(--r2-space-9) 0;
+}
+[data-compact='true'] .inner {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+[data-compact='true'] .copy {
+  gap: var(--r2-space-4);
+}
+.factsLine {
+  margin: 0;
+  font-size: var(--r2-fs-lead);
+  line-height: var(--r2-lh-lead);
+  color: var(--r2-ink-2);
+}
+.factsLine strong {
+  color: var(--r2-ink);
+  font-weight: var(--r2-fw-strong);
+}
+[data-compact='true'] .backers {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+@media (max-width: 734px) {
+  .join {
+    padding: var(--r2-space-9) 0;
+  }
+  [data-world-join='signal'] .inner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--r2-space-6);
+  }
+  [data-world-join='signal'] .visual > * {
+    width: 220px !important;
+  }
+  .facts > div {
+    grid-template-columns: 64px 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lineBtn,
+  .pill,
+  .textLink,
+  .backerLink {
+    transition: none;
+  }
+}

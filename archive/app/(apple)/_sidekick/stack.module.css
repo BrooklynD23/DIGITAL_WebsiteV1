@@ -1,0 +1,118 @@
+/* SIDEKICK stack. Static pose = fully open. The scroll driver writes each tier's transform and --e (no transition:
+   scroll position is the timebase). Board layers are BoardLayers boxes (composited), never paths inside one SVG. */
+.stack {
+  position: relative;
+  width: 100%;
+  margin-inline: auto;
+  color: var(--board-ink, currentColor);
+}
+
+.tier {
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+/* Dim the art, never the label (tags keep ink-3 contrast). */
+.art {
+  position: relative;
+  transition: opacity var(--r2-dur-ui) var(--r2-ease-ui);
+}
+.slide { position: relative; }
+.slide > svg,
+.board { width: 100%; height: auto; display: block; }
+.tier[data-kind='shell'] .art { opacity: var(--sk-shell, 0.7); }
+
+/* While a board is open, the cursor's layer stays at full ink and the rest recede. */
+.tier[data-exploding='true'] :global([data-board-layer]) { opacity: 0.3; }
+.tier[data-exploding='true'] :global([data-board-layer][data-cur]),
+.tier[data-exploding='true'] :global([data-board-layer='edge']) { opacity: 1; }
+
+/* Driven: each tier is its own compositor layer, so moving it never re-rasterises the board files. */
+[data-enhanced] .tier { will-change: transform; }
+
+/* Driven state: inactive modules recede so the active one reads. Static pose keeps all at full ink. */
+[data-enhanced] .tier[data-active='false'] .art { opacity: var(--sk-dim, 0.5); }
+[data-enhanced] .tier[data-kind='shell'] .art { opacity: var(--sk-shell-dim, 0.55); }
+
+/* ---------- locked name list (annotations of the figure) ---------- */
+.leader {
+  position: absolute;
+  height: 0;
+  border-top: 1px dotted var(--r2-hairline-strong);
+  pointer-events: none;
+}
+.name {
+  position: absolute;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+  font-family: var(--font-text);
+  font-size: var(--sk-label-size, 13px);
+  line-height: 1;
+  color: var(--r2-ink-2);
+  transition: color var(--r2-dur-ui) var(--r2-ease-ui);
+}
+.num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--r2-ink-3);
+  font-variant-numeric: tabular-nums;
+}
+/* The owner seat: an empty dashed ring. Every seat is open. */
+.ring {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1px dashed var(--r2-ink-2);
+  flex: none;
+}
+.foot {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-family: var(--font-text);
+  font-size: var(--sk-label-size, 13px);
+  line-height: 1.25;
+  color: var(--r2-ink-2);
+}
+/* The foot spans the full figure width under the back shell (room reserved in STACK_H). */
+.legend { color: var(--r2-ink-2); }
+.legendTag { font-family: var(--font-mono); font-size: 11px; color: var(--r2-ink-3); white-space: nowrap; }
+.note { display: inline-flex; align-items: center; gap: 7px; color: var(--r2-ink); }
+/* Never started = dashed + the words (struck is reserved for "paused"). */
+.shellName { color: var(--r2-ink-2); }
+.shellWord { font-size: 0.85em; color: var(--r2-ink-3); border-bottom: 1px dashed var(--r2-ink-3); }
+.tier[data-active='true'] .name { color: var(--r2-ink); }
+.leader { transition: opacity var(--r2-dur-ui) var(--r2-ease-ui); }
+.tier[data-label-open='false'] .name,
+.tier[data-label-open='false'] .leader { opacity: 0; }
+.tier[data-active='true'] .leader { border-top-style: solid; border-top-color: var(--r2-ink-2); }
+
+/* ---------- swap beat: the fingerprint module lifts out; the dashed seat and its red anchor appear ---------- */
+.seat {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity var(--r2-dur-ui) var(--r2-ease-ui);
+}
+.seat > svg { width: 100%; height: auto; }
+.tier[data-tier='fingerprint'] .slide {
+  /* A user action, not a scrub: this transform may ease. */
+  transition: transform var(--r2-spring-spatial-dur, 420ms) var(--r2-spring-spatial, ease-out);
+}
+:global([data-swap-host]):has(input[data-swap]:checked) .tier[data-tier='fingerprint'] .seat { opacity: 1; }
+:global([data-swap-host]):has(input[data-swap]:checked) .tier[data-tier='fingerprint'] .slide { transform: translate(-70%, -30%); }
+:global([data-swap-host]):has(input[data-swap]:checked) .tier[data-tier='fingerprint'] .art { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .art,
+  .seat,
+  .name,
+  .tier[data-tier='fingerprint'] .slide { transition: none; }
+}

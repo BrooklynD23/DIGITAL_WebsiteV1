@@ -1,3 +1,5 @@
+> **ARCHIVED 2026-10-07 — describes a design now in `archive/`.** Kept as history; it governs no live route. The current system is the root `DESIGN.md`.
+
 # Smart Reading Glasses Page — Style Reference
 
 > A paper-warm world seen through a wearable; the phosphor HUD is the only chromatic event.

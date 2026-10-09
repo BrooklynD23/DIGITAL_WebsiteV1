@@ -15,21 +15,21 @@ Central map for the DIGITAL @ Cal Poly Pomona website repository.
 
 | Doc | Governs |
 |-----|---------|
-| [`DESIGN.md`](../DESIGN.md) | Industrial studio theme — all routes **except** the three immersive experiences below |
-| [`design/landing.DESIGN.md`](design/landing.DESIGN.md) | `/` homepage (+ subsidiary direction for `/contact`, `/get-involved`) |
-| [`design/smartphone.DESIGN.md`](design/smartphone.DESIGN.md) | `/projects/modular-smartphone` (PhoneV2) |
-| [`design/glasses.DESIGN.md`](design/glasses.DESIGN.md) | `/projects/smart-reading` |
+| [`DESIGN.md`](../DESIGN.md) | The Apple system (default since 2026-10-07): tokens, patterns, rules for every route |
+| [`design/sidekick.DESIGN.md`](design/sidekick.DESIGN.md) | `/projects/sidekick/` — **locked** |
+| [`design/brain.DESIGN.md`](design/brain.DESIGN.md) | `/projects/brain/` — **locked** |
 | [`design/BRAND.md`](design/BRAND.md) | Voice, story spine, copy rules (all routes) |
+| [`design/landing.DESIGN.md`](design/landing.DESIGN.md), [`smartphone.DESIGN.md`](design/smartphone.DESIGN.md), [`glasses.DESIGN.md`](design/glasses.DESIGN.md) | Archived designs (now in `archive/`); history only |
 
-**Rule:** Read the governing design doc before any UI/UX change. Copy changes in `lib/data/` must follow `BRAND.md`.
+**Rule:** Read the governing design doc before any UI/UX change. Copy changes in `app/(apple)/_content/` and `lib/data/` must follow `BRAND.md`.
 
 ## Operations
 
 | Doc | Purpose |
 |-----|---------|
-| [`ROUTES.md`](ROUTES.md) | Production routes, immersive chrome, data file map |
+| [`ROUTES.md`](ROUTES.md) | Production routes, page chrome, data file map |
 | [`PRE-LAUNCH.md`](PRE-LAUNCH.md) | Production config that can't be set in-repo — do before launch |
-| [`MAINTAINER_GUIDE.md`](MAINTAINER_GUIDE.md) | How to update team, projects, config, pages |
+| [`MAINTAINER_GUIDE.md`](MAINTAINER_GUIDE.md) | How to update team, involvement, config, pages |
 | [`troubleshooting/KNOWN_ISSUES.md`](troubleshooting/KNOWN_ISSUES.md) | Common dev/build issues |
 | [`IMAGE_REPLACEMENT_GUIDE.md`](IMAGE_REPLACEMENT_GUIDE.md) | Placeholder image inventory (partially legacy — see note inside) |
 
@@ -48,15 +48,10 @@ Central map for the DIGITAL @ Cal Poly Pomona website repository.
 ./run.sh build    # full static export
 ```
 
-## Branch: `feature/brand-story-gsap`
+## Branch: `design-lab/shades-revamp`
 
-This overhaul branch ships:
+Current working branch. `design-lab/exploration` is open as a draft PR into `main`.
 
-- **Home landing** — Newsreader editorial experience at `/`
-- **PhoneV2** — exploded-smartphone scrollytelling at `/projects/modular-smartphone`
-- **Smart Reading** — R3F glasses experience at `/projects/smart-reading`
-- **GSAP text reveals** — `TextReveal` component + `components/motion/gsapSetup.ts`
-- **Brand voice** — `docs/design/BRAND.md` + brand-guardian / brand-voice-strategist agents
-- **IA cleanup** — dedicated project routes, `/review` stakeholder hub, legal pages
-
-See [`AUDIT-brand-story-gsap.md`](AUDIT-brand-story-gsap.md) for the pre-merge code audit.
+The earlier `feature/brand-story-gsap` overhaul (home landing, PhoneV2, Smart Reading, GSAP reveals,
+`/review` hub) is superseded; its designs are in `archive/`. See
+[`AUDIT-brand-story-gsap.md`](AUDIT-brand-story-gsap.md) for that branch's pre-merge code audit (historical).

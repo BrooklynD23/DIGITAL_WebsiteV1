@@ -1,0 +1,24 @@
+{
+  "id": "thermometer",
+  "title": "Sensor module",
+  "status": "schematic-in-rework",
+  "statusLabel": "Schematic in rework (no board layout yet)",
+  "source": "KiCad 9 schematic file (club knowledge base)",
+  "paper": "A4",
+  "sheets": 1,
+  "sheetNames": [
+    "Root"
+  ],
+  "components": 4,
+  "refs": [
+    "J1",
+    "TC1",
+    "U1",
+    "U2"
+  ],
+  "powerSymbols": 7,
+  "namedNets": 12,
+  "wires": 20,
+  "junctions": 3,
+  "note": "Named nets = unique label and power-symbol names; a full netlist needs KiCad connectivity."
+}

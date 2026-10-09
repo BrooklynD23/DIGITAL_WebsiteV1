@@ -1,0 +1,154 @@
+{
+  "source": "zynq_sdr_dongle.kicad_pcb",
+  "size": {
+    "w": 61.3,
+    "h": 22.8
+  },
+  "viewBox": [
+    -1.2,
+    -6.32,
+    75.23,
+    51.97
+  ],
+  "anchor": [
+    72.83,
+    30.65
+  ],
+  "layers": [
+    {
+      "id": "f-cu",
+      "name": "F.Cu",
+      "tier": 3,
+      "tracks": 2422,
+      "planes": [
+        "GND",
+        "VBUS_5V0_USB",
+        "VCC_5V0_AUX"
+      ]
+    },
+    {
+      "id": "in1-cu",
+      "name": "In1.Cu",
+      "tier": 2,
+      "tracks": 25,
+      "planes": [
+        "GND"
+      ]
+    },
+    {
+      "id": "in2-cu",
+      "name": "In2.Cu",
+      "tier": 1,
+      "tracks": 2030,
+      "planes": [
+        "+1V8",
+        "VBUS_5V0_USB",
+        "GND",
+        "+5V"
+      ]
+    },
+    {
+      "id": "in3-cu",
+      "name": "In3.Cu",
+      "tier": -1,
+      "tracks": 61,
+      "planes": [
+        "VBUS_5V0_USB",
+        "+1V8",
+        "+1V0",
+        "GND",
+        "VCC_BANK34",
+        "VCC_DDR"
+      ]
+    },
+    {
+      "id": "in4-cu",
+      "name": "In4.Cu",
+      "tier": -2,
+      "tracks": 1511,
+      "planes": [
+        "+1V8",
+        "GND",
+        "+1V0",
+        "+3V3"
+      ]
+    },
+    {
+      "id": "b-cu",
+      "name": "B.Cu",
+      "tier": -3,
+      "tracks": 676,
+      "planes": [
+        "+1V0",
+        "+1V8",
+        "+5V",
+        "+3V3",
+        "VCC_1V3_TRANS_0",
+        "VCC_DDR",
+        "VCC_1V3_TRANS_1",
+        "Net-(U8-SW)",
+        "GND"
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "id": "compute",
+      "sides": [
+        "f",
+        "b"
+      ],
+      "count": 67
+    },
+    {
+      "id": "memory",
+      "sides": [
+        "f",
+        "b"
+      ],
+      "count": 37
+    },
+    {
+      "id": "power",
+      "sides": [
+        "f",
+        "b"
+      ],
+      "count": 89
+    },
+    {
+      "id": "usb",
+      "sides": [
+        "f",
+        "b"
+      ],
+      "count": 30
+    },
+    {
+      "id": "rf",
+      "sides": [
+        "f",
+        "b"
+      ],
+      "count": 42
+    },
+    {
+      "id": "io",
+      "sides": [
+        "f",
+        "b"
+      ],
+      "count": 12
+    }
+  ],
+  "counts": {
+    "footprints": 277,
+    "vias": 924,
+    "mountingHoles": 4,
+    "mountingHoleDrill": 2,
+    "copperLayers": 6,
+    "tracks": 6725,
+    "minTrack": 0.1,
+    "stackupThickness": 1.217
+  }
+}

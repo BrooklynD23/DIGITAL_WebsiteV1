@@ -7,6 +7,8 @@
  * posts, videos, or stats.
  */
 
+import { siteConfig } from './siteConfig';
+
 export interface CommunityChannel {
   readonly id: 'discord' | 'linkedin' | 'youtube';
   readonly name: string;
@@ -22,7 +24,7 @@ export const communityChannels: readonly CommunityChannel[] = [
     id: 'discord',
     name: 'Discord',
     description: 'The day-to-day bench: subsystem standups, part drops, meeting reminders.',
-    url: 'https://discord.gg/Vsg3qcNVzv',
+    url: siteConfig.social.discord,
     expectations: [
       'Weekly meeting notes in #announcements',
       'One channel per subsystem — questions land where the owners are',
@@ -33,7 +35,7 @@ export const communityChannels: readonly CommunityChannel[] = [
     id: 'linkedin',
     name: 'LinkedIn',
     description: 'Build milestones and sponsor-facing updates.',
-    url: '',
+    url: siteConfig.social.linkedin,
   },
   {
     id: 'youtube',
@@ -43,19 +45,3 @@ export const communityChannels: readonly CommunityChannel[] = [
   },
 ];
 
-/** LinkedIn post refs (urn:li:share:…) — starts empty; add as posts ship. */
-export const linkedInPosts: readonly unknown[] = [];
-
-export interface VideoItem {
-  readonly id: string;
-  readonly youtubeId?: string;
-  readonly title: string;
-  readonly project?: string;
-  readonly isPlaceholder: boolean;
-}
-
-/** Video shelf — placeholders until the team publishes real recordings. */
-export const videos: readonly VideoItem[] = [
-  { id: 'video-1', title: 'Build review — Modular Smartphone', project: 'Modular Smartphone', isPlaceholder: true },
-  { id: 'video-2', title: 'RSVP demo — Smart Reading', project: 'Smart Reading', isPlaceholder: true },
-];

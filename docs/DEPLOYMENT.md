@@ -70,7 +70,7 @@ node scripts/validate-vercel-json.mjs   # or: npm run validate:vercel
 
 ## Rollout checklist
 
-1. Merge CI/CD changes to `main` (via PR from `feature/brand-story-gsap` or direct push).
+1. Merge CI/CD changes to `main` (via PR from a `feature/*` branch or direct push).
 2. Ensure `deployment` branch exists on GitHub (created from `main` if missing).
 3. Set Vercel **Production Branch** to `deployment` (above).
 4. Merge feature work into `main`; wait for **CI** then **Promote to deployment** workflows.

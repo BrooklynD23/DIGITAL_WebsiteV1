@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DIGITAL — Brand Sheet 01 · Design System Prototype</title>
+<meta name="description" content="Prototype of the DIGITAL brand system — the drawing office that ships.">
+
+<!--
+  DIGITAL BRAND SYSTEM — PROTOTYPE SHEET 01
+  A self-contained demonstration of DESIGN.md (2026-09-14 rewrite).
+  Production loads fonts via next/font; this sheet uses the CDN for portability.
+  Everything on this page is a device from the spec: the red pencil, the three
+  type registers, the sign-off block, the stage rail, discipline codes, the
+  revision log, and the sheet-model layout with a title-block footer.
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   TOKENS — DESIGN.md §20
+============================================================ */
+:root {
+  --paper:        #F7F6F2;
+  --paper-raised: #FCFBF8;
+  --plate-a:      #E7E4DC;
+  --plate-b:      #EFEDE6;
+  --ink:          #111311;
+  --graphite:     #5A615B;
+  --void:         #0A0C0A;
+  --void-raised:  #111511;
+  --cream:        #F2F0E8;
+  --cream-dim:    #8B948C;
+
+  --signal:       #D8412F;   /* the red pencil — marks only, ≤1/viewport */
+  --blueprint:    #1C6CFF;   /* functional: focus, interactive */
+  --ok:           #1E4D2B;
+  --warn:         #C28E0E;
+  --err:          #9C3A2A;
+
+  --font-promise: 'Newsreader', 'Source Serif 4', Georgia, serif;
+  --font-proof:   'IBM Plex Sans', Helvetica, Arial, sans-serif;
+  --font-record:  'IBM Plex Mono', Consolas, monospace;
+
+  --ease-reveal:  cubic-bezier(.22,1,.36,1);
+  --ease-mark:    cubic-bezier(.22,.61,.36,1);
+  --ease-exit:    cubic-bezier(.76,0,.24,1);
+  --dur-reveal:   .8s;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-proof);
+  background: var(--paper);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection { background: rgba(216, 65, 47, .18); }
+
+/* ============================================================
+   LOADER — the sheet lifts (§11.1)
+============================================================ */
+#loader {
+  position: fixed; inset: 0; z-index: 100;
+  background: var(--void);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 30px;
+  transition: transform 850ms var(--ease-exit);
+}
+#loader.done { transform: translateY(-100%); }
+#loader .wordmark {
+  font-family: var(--font-record); font-weight: 500;
+  font-size: clamp(30px, 4.5vw, 44px);
+  letter-spacing: .42em; text-indent: .42em;
+  color: var(--cream);
+}
+#loader .sub {
+  font-family: var(--font-record); font-size: 10px;
+  letter-spacing: .3em; text-transform: uppercase;
+  color: var(--cream-dim);
+}
+#loader .track {
+  width: min(300px, 60vw); height: 1px;
+  background: rgba(242,240,232,.16);
+}
+#loader .fill {
+  height: 100%; width: 0;
+  background: var(--signal);   /* the pencil draws the line */
+  transition: width 1.6s cubic-bezier(.65,0,.35,1);
+}
+#loader .status {
+  font-family: var(--font-record); font-size: 9.5px;
+  letter-spacing: .22em; text-transform: uppercase;
+  color: var(--cream-dim);
+  animation: blink 1.2s ease-in-out infinite;
+}
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: .15; } }
+
+/* ============================================================
+   INSTRUMENT BAR (§13.1)
+============================================================ */
+.bar {
+  position: sticky; top: 0; z-index: 50;
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+  padding: 10px 18px;
+  background: rgba(247,246,242,.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(17,19,17,.12);
+}
+.bar .brand { display: flex; align-items: center; gap: 10px; }
+.bar .brand .wm {
+  font-family: var(--font-record); font-weight: 500;
+  font-size: 13px; letter-spacing: .12em; color: var(--ink);
+}
+.bar nav { display: flex; gap: 26px; }
+.bar nav a {
+  font-family: var(--font-record); font-size: 10.5px;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--graphite); text-decoration: none;
+  position: relative; padding: 4px 0;
+}
+.bar nav a:hover { color: var(--ink); }
+/* active route carries the signal underline — the only red in the bar */
+.bar nav a.active { color: var(--ink); }
+.bar nav a.active::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0;
+  height: 2px; background: var(--signal);
+}
+.bar .cta-cell { display: flex; justify-content: flex-end; }
+@media (max-width: 640px) { .bar nav { display: none; } }
+
+/* ============================================================
+   BUTTONS — the signature underline (§13.2)
+============================================================ */
+.btn {
+  font-family: var(--font-record); font-size: 10.5px;
+  letter-spacing: .12em; text-transform: uppercase;
+  text-decoration: none; cursor: pointer;
+  border-radius: 2px;
+  padding: 11px 24px;
+  display: inline-block; position: relative;
+  transition: color .2s var(--ease-mark), border-color .2s var(--ease-mark);
+}
+.btn .u {
+  position: absolute; left: 24px; right: 24px; bottom: 7px; height: 2px;
+  background: var(--signal);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 180ms var(--ease-mark);
+}
+.btn:hover .u { transform: scaleX(1); }
+.btn:focus-visible { outline: 2px solid var(--blueprint); outline-offset: 2px; }
+
+.btn-primary { background: var(--ink); color: var(--paper); border: 1px solid var(--ink); }
+.btn-primary.on-dark { background: var(--cream); color: var(--void); border-color: var(--cream); }
+.btn-ghost { background: transparent; color: var(--ink); border: 1px solid rgba(17,19,17,.35); }
+.btn-ghost:hover { color: var(--signal); border-color: var(--signal); }
+.btn-ghost.on-dark { color: var(--cream); border-color: rgba(242,240,232,.3); }
+.btn-ghost.on-dark:hover { color: var(--signal); border-color: var(--signal); }
+.btn-ghost .u { display: none; }  /* ghost hover IS the red mark; underline reserved for primary */
+
+/* ============================================================
+   SHEET FURNITURE
+============================================================ */
+.mono { font-family: var(--font-record); }
+.eyebrow {
+  font-family: var(--font-record); font-size: 10px;
+  letter-spacing: .24em; text-transform: uppercase;
+  color: var(--graphite);
+}
+.eyebrow.on-dark { color: var(--cream-dim); }
+
+/* ✳ divider (§9.2) */
+.divider {
+  display: flex; align-items: center; gap: 18px;
+  padding: 14px 18px;
+}
+.divider .star {
+  font-family: var(--font-record); font-size: 11px;
+  color: rgba(17,19,17,.5);
+}
+.divider .rule { flex: 1; height: 1px; background: rgba(17,19,17,.25); }
+.divider.on-dark .star { color: rgba(242,240,232,.35); }
+.divider.on-dark .rule { background: rgba(242,240,232,.18); }
+
+section { position: relative; }
+.band { padding-left: 18px; padding-right: 18px; }
+.dark-band { background: var(--void); color: var(--cream); }
+
+/* reveal — one gesture: rise 18px, fade (§11.1) */
+[data-reveal] {
+  opacity: 0; transform: translateY(18px);
+  transition: opacity var(--dur-reveal) var(--ease-reveal),
+              transform var(--dur-reveal) var(--ease-reveal);
+}
+[data-reveal].is-visible { opacity: 1; transform: none; }
+
+/* ============================================================
+   HERO / REGISTER (§12.1)
+============================================================ */
+.hero {
+  padding-top: clamp(48px, 8vh, 90px);
+  text-align: center;
+}
+.hero h1 {
+  font-family: var(--font-promise); font-weight: 500;
+  font-size: clamp(34px, 5vw, 58px);
+  line-height: 1.14; letter-spacing: -.01em;
+  max-width: 760px; margin: 18px auto 0;
+}
+.hero .subline {
+  font-family: var(--font-record); font-size: 11px;
+  letter-spacing: .06em; color: var(--graphite);
+  margin-top: 22px;
+}
+.hero .ctas { margin-top: 34px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+/* hero plate — drafted slot for imagery (§10.2) */
+.plate {
+  margin: 56px auto 0;
+  width: min(880px, calc(100% - 36px));
+  height: clamp(300px, 52vh, 460px);
+  border: 1px solid rgba(17,19,17,.1);
+  background: repeating-linear-gradient(-45deg, var(--plate-a) 0 14px, var(--plate-b) 14px 28px);
+  position: relative;
+}
+.plate .frame {
+  position: absolute; inset: 18%;
+  border: 1px solid rgba(17,19,17,.25);
+}
+.plate .cross {
+  position: absolute; font-family: var(--font-record); font-size: 13px;
+  color: rgba(17,19,17,.4);
+}
+.plate .cap {
+  position: absolute; top: 14px; left: 0; right: 0;
+  font-family: var(--font-record); font-size: 9.5px;
+  letter-spacing: .2em; color: rgba(17,19,17,.45);
+  text-align: center; text-transform: uppercase;
+}
+.plate .rule-fade {
+  position: absolute; left: 12%; right: 12%; height: 1px;
+  background: rgba(17,19,17,.15);
+}
+
+/* dimension line — a real measurement (§9.4) */
+.dim {
+  margin: 10px auto 0; width: min(880px, calc(100% - 36px));
+  display: flex; align-items: center; gap: 10px;
+}
+.dim .tick { width: 1px; height: 8px; background: rgba(17,19,17,.4); }
+.dim .ln { flex: 1; height: 1px; background: rgba(17,19,17,.25); }
+.dim .m {
+  font-family: var(--font-record); font-size: 9px;
+  letter-spacing: .18em; color: rgba(17,19,17,.5); text-transform: uppercase;
+}
+
+/* ============================================================
+   DOCUMENT META ROW — sheet header furniture
+============================================================ */
+.meta-row {
+  margin: 72px 18px 0;
+  border-top: 1px solid rgba(17,19,17,.25);
+  border-bottom: 1px solid rgba(17,19,17,.12);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+}
+.meta-row .cell {
+  padding: 12px 14px;
+  border-left: 1px solid rgba(17,19,17,.12);
+}
+.meta-row .cell:first-child { border-left: none; }
+.meta-row .k {
+  font-family: var(--font-record); font-size: 9px;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--graphite);
+}
+.meta-row .v {
+  font-family: var(--font-proof); font-weight: 600;
+  font-size: 12.5px; margin-top: 4px;
+}
+.meta-row .v.red { color: var(--signal); }  /* a REV may wear the pencil */
+
+/* ============================================================
+   BELIEFS LEDGER — void band (§2.2)
+============================================================ */
+.ledger { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%,380px),1fr)); border-top: 1px solid rgba(242,240,232,.12); }
+.ledger .intro { padding: clamp(40px,6vh,72px) clamp(24px,3vw,36px); border-right: 1px solid rgba(242,240,232,.12); }
+.ledger .intro h2 {
+  font-family: var(--font-proof); font-weight: 600;
+  font-size: clamp(26px,3.4vw,42px); line-height: 1.2;
+  color: var(--cream); max-width: 420px; margin-top: 16px;
+}
+.ledger .intro p { font-size: 13px; line-height: 1.75; color: var(--cream-dim); max-width: 460px; margin-top: 18px; }
+.ledger .rows > div {
+  padding: clamp(24px,3.5vw,44px) clamp(24px,3vw,36px);
+  border-bottom: 1px solid rgba(242,240,232,.12);
+  transition: background .2s var(--ease-mark);
+}
+.ledger .rows > div:hover { background: var(--void-raised); }
+.ledger .rows > div:last-child { border-bottom: none; }
+.ledger .bid {
+  font-family: var(--font-record); font-size: 9.5px;
+  letter-spacing: .18em; color: var(--cream-dim); text-transform: uppercase;
+}
+.ledger .bt {
+  font-family: var(--font-proof); font-weight: 600;
+  font-size: 15px; letter-spacing: .02em; color: var(--cream);
+  margin-top: 8px;
+}
+.ledger .bd { font-size: 12.5px; line-height: 1.7; color: var(--cream-dim); max-width: 460px; margin-top: 6px; }
+
+/* ============================================================
+   STAGE RAIL (§13.6)
+============================================================ */
+.stage-section { padding: clamp(56px,9vh,96px) 18px; }
+.stage-head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 12px; }
+.stage-head h2 { font-family: var(--font-proof); font-weight: 600; font-size: clamp(26px,3.4vw,42px); line-height: 1.2; margin-top: 14px; }
+.rail {
+  margin-top: 56px;
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  position: relative;
+}
+.rail::before {
+  content: ""; position: absolute; top: 5px; left: 0; right: 0; height: 1px;
+  background: rgba(17,19,17,.25);
+}
+.rail .st { position: relative; padding-top: 22px; }
+.rail .st::before {
+  content: ""; position: absolute; top: 0; left: 0;
+  width: 11px; height: 11px; border-radius: 999px;
+  border: 1px solid var(--ink); background: var(--paper);
+}
+.rail .st.done::before { background: var(--ink); }
+.rail .st.now::before { background: var(--signal); border-color: var(--signal); }
+.rail .st.next::before { border-color: rgba(17,19,17,.4); background: var(--paper); }
+.rail .st .nm {
+  font-family: var(--font-record); font-size: 10.5px;
+  letter-spacing: .18em; text-transform: uppercase; color: var(--ink);
+}
+.rail .st.now .nm { color: var(--signal); }
+.rail .st.next .nm { color: rgba(90,97,91,.6); }
+.rail .st .ds { font-family: var(--font-record); font-size: 9px; letter-spacing: .12em; color: var(--graphite); margin-top: 5px; text-transform: uppercase; }
+.stage-note { margin-top: 40px; font-size: 13px; line-height: 1.75; color: var(--graphite); max-width: 460px; }
+
+/* margin note — the one place red sets display type (§13.7) */
+.margin-note {
+  font-family: var(--font-proof); font-weight: 600;
+  font-size: clamp(26px, 3.4vw, 46px); line-height: .95;
+  color: var(--signal); letter-spacing: -.01em;
+}
+.margin-note::before { content: "◂ "; font-size: .6em; }
+
+/* ============================================================
+   SWATCHES — the palette as spec sheet (§7)
+============================================================ */
+.swatches { padding: clamp(56px,9vh,96px) 18px; }
+.swatches h2 { font-family: var(--font-proof); font-weight: 600; font-size: clamp(26px,3.4vw,42px); line-height: 1.2; margin-top: 14px; }
+.swatches .note { font-size: 13px; line-height: 1.75; color: var(--graphite); max-width: 460px; margin-top: 16px; }
+.sw-grid { margin-top: 40px; display: grid; grid-template-columns: repeat(auto-fill, minmax(180px,1fr)); border-top: 1px solid rgba(17,19,17,.15); border-left: 1px solid rgba(17,19,17,.15); }
+.sw { border-right: 1px solid rgba(17,19,17,.15); border-bottom: 1px solid rgba(17,19,17,.15); }
+.sw .chip { height: 84px; }
+.sw .lbl { padding: 10px 12px 12px; }
+.sw .nm { font-family: var(--font-record); font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--graphite); }
+.sw .hx { font-family: var(--font-record); font-size: 11px; margin-top: 4px; }
+.sw .rl { font-size: 11.5px; line-height: 1.5; color: var(--graphite); margin-top: 5px; }
+
+/* ============================================================
+   TYPE SPECIMEN — three registers (§8)
+============================================================ */
+.typespec { padding: clamp(56px,9vh,96px) 18px; }
+.typespec .row { border-top: 1px solid rgba(17,19,17,.15); padding: 30px 0; display: grid; grid-template-columns: 200px 1fr; gap: 24px; align-items: baseline; }
+.typespec .row:last-child { border-bottom: 1px solid rgba(17,19,17,.15); }
+.typespec .tag { font-family: var(--font-record); font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: var(--graphite); line-height: 1.8; }
+.typespec .serif-sample { font-family: var(--font-promise); font-weight: 500; font-size: clamp(28px,4vw,44px); line-height: 1.14; letter-spacing: -.01em; }
+.typespec .sans-sample { font-family: var(--font-proof); font-weight: 600; font-size: clamp(22px,3vw,32px); line-height: 1.2; }
+.typespec .sans-body { font-weight: 400; font-size: 13px; line-height: 1.75; color: var(--graphite); max-width: 560px; margin-top: 10px; }
+.typespec .mono-sample { font-family: var(--font-record); font-size: 11px; letter-spacing: .2em; text-transform: uppercase; line-height: 2.2; }
+@media (max-width: 720px) { .typespec .row { grid-template-columns: 1fr; gap: 12px; } }
+
+/* ============================================================
+   THE SIGN-OFF BLOCK (§4)
+============================================================ */
+.signoff-sec { padding: clamp(56px,9vh,96px) 18px; }
+.signoff-sec h2 { font-family: var(--font-proof); font-weight: 600; font-size: clamp(26px,3.4vw,42px); line-height: 1.2; margin-top: 14px; }
+.signoff-sec .lede { font-size: 13px; line-height: 1.75; color: var(--graphite); max-width: 460px; margin-top: 16px; }
+
+.sob {
+  margin-top: 48px;
+  border: 1px solid rgba(17,19,17,.25);
+  max-width: 880px;
+  background: var(--paper-raised);
+}
+.sob .row { display: grid; }
+.sob .row.top { grid-template-columns: 2fr 1fr .7fr 1.1fr .8fr; border-bottom: 1px solid rgba(17,19,17,.15); }
+.sob .row.sig { grid-template-columns: 2fr 1.3fr 1fr; }
+.sob .cell { padding: 12px 14px 14px; border-left: 1px solid rgba(17,19,17,.15); }
+.sob .cell:first-child { border-left: none; }
+.sob .k { font-family: var(--font-record); font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: var(--graphite); }
+.sob .v { font-family: var(--font-proof); font-weight: 600; font-size: 13px; margin-top: 5px; }
+.sob .v.sig { font-family: var(--font-promise); font-style: italic; font-weight: 500; font-size: 15px; }
+.sob .v .code {
+  font-family: var(--font-record); font-style: normal; font-weight: 400;
+  font-size: 9.5px; letter-spacing: .1em; color: var(--graphite);
+}
+.sob .v.red { color: var(--signal); }
+.sob .cell.blank { background: repeating-linear-gradient(-45deg, rgba(231,228,220,.5) 0 10px, transparent 10px 20px); }
+.sob .cell.blank .v { color: rgba(17,19,17,.35); font-style: normal; font-weight: 400; }
+@media (max-width: 720px) {
+  .sob .row.top { grid-template-columns: 1fr 1fr; }
+  .sob .row.top .cell { border-left: none; border-top: 1px solid rgba(17,19,17,.15); }
+  .sob .row.top .cell:nth-child(-n+2) { border-top: none; }
+  .sob .row.top .cell:nth-child(even) { border-left: 1px solid rgba(17,19,17,.15); }
+  .sob .row.sig { grid-template-columns: 1fr; }
+  .sob .row.sig .cell { border-left: none; border-top: 1px solid rgba(17,19,17,.15); }
+  .sob .row.sig .cell:first-child { border-top: none; }
+}
+.sob-pair { display: grid; grid-template-columns: 1fr; gap: 34px; }
+.sob-cap { font-family: var(--font-record); font-size: 9.5px; letter-spacing: .18em; text-transform: uppercase; color: var(--graphite); margin-top: 14px; }
+.sob-cap em { color: var(--signal); font-style: normal; }
+
+/* discipline chips (§9.3) */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 40px; }
+.chip {
+  font-family: var(--font-record); font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase;
+  border: 1px solid rgba(17,19,17,.3); border-radius: 3px;
+  padding: 5px 9px; color: var(--ink);
+}
+.chip.sem-ok { border-color: var(--ok); color: var(--ok); }
+.chip.sem-warn { border-color: var(--warn); color: var(--ink); }
+.chip.sem-err { border-color: var(--err); color: var(--err); }
+
+/* ============================================================
+   BUILD RECORD CARD (§14)
+============================================================ */
+.record-sec { padding: clamp(56px,9vh,96px) 18px; }
+.record-sec h2 { font-family: var(--font-proof); font-weight: 600; font-size: clamp(26px,3.4vw,42px); line-height: 1.2; margin-top: 14px; }
+.record {
+  margin-top: 44px; display: flex; gap: 14px; flex-wrap: wrap;
+}
+.record .photo {
+  flex: none; width: clamp(160px, 18vw, 220px); min-height: 300px;
+  border-radius: 10px; border: 1px solid rgba(17,19,17,.12);
+  background: repeating-linear-gradient(-45deg, var(--plate-a) 0 14px, var(--plate-b) 14px 28px);
+  display: flex; align-items: center; justify-content: center; padding: 14px;
+}
+.record .photo span {
+  font-family: var(--font-record); font-size: 9px; line-height: 1.8; letter-spacing: .14em;
+  color: rgba(17,19,17,.45); text-transform: uppercase; text-align: center;
+}
+.record .card {
+  flex: 1; min-width: min(520px, 100%);
+  background: var(--paper-raised); border: 1px solid rgba(17,19,17,.15);
+  border-radius: 8px;
+  transition: border-color .2s var(--ease-mark);
+}
+.record .card:hover { border-color: rgba(17,19,17,.35); }
+.record .card .rhead { display: flex; align-items: center; gap: 12px; padding: 16px 20px; border-bottom: 1px solid rgba(17,19,17,.12); }
+.record .glyph {
+  width: 28px; height: 28px; border-radius: 4px;
+  border: 1px solid rgba(17,19,17,.25);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-record); font-size: 13px;
+}
+.record .rhead .kick { font-family: var(--font-record); font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: var(--graphite); }
+.record .rhead .ttl { font-family: var(--font-proof); font-weight: 600; font-size: 16px; }
+.record .body-line { padding: 12px 20px; font-size: 12.5px; color: var(--graphite); border-bottom: 1px solid rgba(17,19,17,.12); }
+.record .specs { display: grid; grid-template-columns: repeat(3,1fr); border-bottom: 1px solid rgba(17,19,17,.12); }
+.record .specs > div { padding: 12px 20px; border-left: 1px solid rgba(17,19,17,.12); }
+.record .specs > div:first-child { border-left: none; }
+.record .specs .n { font-family: var(--font-promise); font-weight: 500; font-size: 24px; }
+.record .specs .l { font-family: var(--font-record); font-size: 8.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--graphite); margin-top: 3px; }
+.record .revlog { padding: 12px 20px 16px; }
+.record .revlog .rl-head { font-family: var(--font-record); font-size: 8.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--graphite); margin-bottom: 8px; }
+.record .revlog .rev { font-family: var(--font-record); font-size: 11px; line-height: 2; color: var(--ink); }
+.record .revlog .rev b { font-weight: 500; color: var(--signal); }
+
+/* ============================================================
+   JOIN BAND — the close (§12.1)
+============================================================ */
+.join { text-align: center; padding: clamp(80px,13vh,140px) 18px; }
+.join h2 {
+  font-family: var(--font-promise); font-weight: 500;
+  font-size: clamp(34px,5vw,58px); line-height: 1.14; letter-spacing: -.01em;
+  color: var(--cream); max-width: 640px; margin: 0 auto;
+}
+.join p { font-size: 13px; line-height: 1.75; color: var(--cream-dim); max-width: 460px; margin: 22px auto 0; }
+.join .ctas { margin-top: 38px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.join .sig-line {
+  margin-top: 44px;
+  font-family: var(--font-record); font-size: 9.5px; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--cream-dim);
+}
+.join .sig-line .blank { border-bottom: 1px solid rgba(242,240,232,.3); padding: 0 34px 2px; }
+
+/* ============================================================
+   FOOTER — the title block (§4.3)
+============================================================ */
+footer { background: var(--void); border-top: 1px solid rgba(242,240,232,.12); }
+.foot-block {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(140px,1fr));
+  border-bottom: 1px solid rgba(242,240,232,.12);
+}
+.foot-block .cell { padding: 12px 18px 14px; border-left: 1px solid rgba(242,240,232,.12); }
+.foot-block .cell:first-child { border-left: none; }
+.foot-block .k { font-family: var(--font-record); font-size: 8.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--cream-dim); }
+.foot-block .v { font-family: var(--font-proof); font-weight: 600; font-size: 12px; color: var(--cream); margin-top: 5px; }
+.foot-colophon {
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+  padding: 28px 18px;
+}
+.foot-colophon .left { display: flex; align-items: center; gap: 10px; }
+.foot-colophon .taglines {
+  font-family: var(--font-record); font-size: 9.5px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--cream-dim);
+  display: flex; flex-direction: column; gap: 7px; text-align: right;
+}
+.foot-legal {
+  display: flex; gap: 20px; flex-wrap: wrap;
+  padding: 0 18px 24px;
+}
+.foot-legal a {
+  font-family: var(--font-record); font-size: 9.5px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--cream-dim); text-decoration: none;
+}
+.foot-legal a:hover { color: var(--cream); }
+
+/* the exploded mark — three shards (§9.1) */
+.mark { width: 18px; height: 18px; display: block; }
+.mark.on-dark polygon { fill: var(--cream); }
+.mark polygon { fill: var(--ink); }
+
+/* zone ticks — sheet edge marks (§9.4) */
+.zone {
+  position: fixed; top: 50%; transform: translateY(-50%);
+  font-family: var(--font-record); font-size: 8.5px; letter-spacing: .2em;
+  color: rgba(17,19,17,.35); z-index: 40; pointer-events: none;
+  writing-mode: vertical-rl;
+}
+.zone.left { left: 4px; } .zone.right { right: 4px; }
+@media (max-width: 900px) { .zone { display: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+  [data-reveal] { opacity: 1 !important; transform: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============ LOADER ============ -->
+<div id="loader" role="status" aria-label="Loading">
+  <div class="wordmark">DIGITAL</div>
+  <div class="sub">Cal Poly Pomona · Brand Sheet 01</div>
+  <div class="track"><div class="fill" id="loaderFill"></div></div>
+  <div class="status">Drawing the sheet</div>
+</div>
+
+<!-- zone ticks -->
+<div class="zone left" aria-hidden="true">A — — — — B — — — — C — — — — D</div>
+<div class="zone right" aria-hidden="true">1 — — — — 2 — — — — 3 — — — — 4</div>
+
+<!-- ============ INSTRUMENT BAR ============ -->
+<header class="bar">
+  <div class="brand">
+    <svg class="mark" viewBox="0 0 100 100" aria-hidden="true">
+      <polygon points="50,4 74,34 48,64 28,38"/>
+      <polygon points="10,64 46,56 56,80 18,90"/>
+      <polygon points="60,50 96,44 94,82 64,90 54,64"/>
+    </svg>
+    <span class="wm">DIGITAL</span>
+  </div>
+  <nav aria-label="Sheet register">
+    <a href="#beliefs">Beliefs</a>
+    <a href="#pipeline">Pipeline</a>
+    <a href="#system">System</a>
+    <a href="#record">Record</a>
+    <a href="#sign" class="active">Sign</a>
+  </nav>
+  <div class="cta-cell">
+    <a class="btn btn-ghost" href="#join">Talk to us</a>
+  </div>
+</header>
+
+<!-- ============ REGISTER / HERO ============ -->
+<section class="band hero">
+  <div class="eyebrow" data-reveal>DG-000 · Brand Sheet 01 · Prototype</div>
+  <h1 data-reveal>Make something worth putting your name on.</h1>
+  <div class="subline" data-reveal data-reveal-delay="110">A student-run venture studio at Cal Poly Pomona — drawn, revised, signed.</div>
+  <div class="ctas" data-reveal data-reveal-delay="200">
+    <a class="btn btn-primary" href="#sign">See the sign-off<span class="u"></span></a>
+    <a class="btn btn-ghost" href="#beliefs">Read the creed</a>
+  </div>
+
+  <div class="plate" data-reveal data-reveal-delay="260">
+    <div class="cap">[ Brand Sheet — System Specimen · REV A ]</div>
+    <div class="frame"></div>
+    <span class="cross" style="top:6%;left:6%">+</span>
+    <span class="cross" style="top:6%;right:6%">+</span>
+    <span class="cross" style="bottom:6%;left:6%">+</span>
+    <span class="cross" style="bottom:6%;right:6%">+</span>
+    <div class="rule-fade" style="bottom:26%"></div>
+    <div class="rule-fade" style="bottom:20%;opacity:.7"></div>
+    <div class="rule-fade" style="bottom:14%;opacity:.4"></div>
+  </div>
+  <div class="dim" aria-hidden="true">
+    <div class="tick"></div><div class="ln"></div>
+    <div class="m">880px sheet plate · 18px gutter</div>
+    <div class="ln"></div><div class="tick"></div>
+  </div>
+</section>
+
+<!-- ============ SHEET META ============ -->
+<div class="meta-row" data-reveal>
+  <div class="cell"><div class="k">Title</div><div class="v">Brand System</div></div>
+  <div class="cell"><div class="k">Dwg No</div><div class="v">DG-000</div></div>
+  <div class="cell"><div class="k">Rev</div><div class="v red">A</div></div>
+  <div class="cell"><div class="k">Date of issue</div><div class="v">2026-09-14</div></div>
+  <div class="cell"><div class="k">Sheet</div><div class="v">01 / 01</div></div>
+</div>
+
+<div class="divider" aria-hidden="true"><span class="star">✳</span><div class="rule"></div><span class="star">✳</span><div class="rule"></div><span class="star">✳</span><div class="rule"></div><span class="star">✳</span></div>
+
+<!-- ============ BELIEFS — VERSO BAND ============ -->
+<section class="dark-band" id="beliefs">
+  <div class="ledger">
+    <div class="intro" data-reveal>
+      <div class="eyebrow on-dark">The creed</div>
+      <h2>Four beliefs. Every sheet answers to them.</h2>
+      <p>These are the studio's permanent terms. Copy may quote them verbatim; design may set them in the promise register; nothing may paraphrase them.</p>
+    </div>
+    <div class="rows">
+      <div data-reveal data-reveal-delay="120"><div class="bid">B1 · Accomplishment</div><div class="bt">Ideas aren't accomplishments. Making them real is.</div><div class="bd">Pitches, brainstorms, and mood boards don't ship. The artifact does.</div></div>
+      <div data-reveal data-reveal-delay="230"><div class="bid">B2 · Teams</div><div class="bt">The problem picks the team.</div><div class="bd">Disciplines are tools, not borders. Biology + mechanical + marketing is a normal Tuesday.</div></div>
+      <div data-reveal data-reveal-delay="340"><div class="bid">B3 · Review</div><div class="bt">Reality grades the work.</div><div class="bd">Users, tests, and the world are the final reviewers — not the org chart.</div></div>
+      <div data-reveal data-reveal-delay="450"><div class="bid">B4 · Authorship</div><div class="bt">Sign your work.</div><div class="bd">Every artifact carries names. Work nobody will own publicly isn't finished.</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true"><span class="star">✳</span><div class="rule"></div><span class="star">✳</span><div class="rule"></div><span class="star">✳</span><div class="rule"></div><span class="star">✳</span></div>
+
+<!-- ============ PIPELINE — STAGE RAIL ============ -->
+<section class="stage-section" id="pipeline">
+  <div class="stage-head">
+    <div>
+      <div class="eyebrow" data-reveal>The operating model</div>
+      <h2 data-reveal data-reveal-delay="110">Five stages. A ledger, not a funnel.</h2>
+    </div>
+    <div class="eyebrow" data-reveal data-reveal-delay="160">DG-001 · currently</div>
+  </div>
+
+  <div class="rail" data-reveal data-reveal-delay="200" role="list" aria-label="Project lifecycle">
+    <div class="st done" role="listitem"><div class="nm">Find</div><div class="ds">A problem worth solving</div></div>
+    <div class="st done" role="listitem"><div class="nm">Prove</div><div class="ds">The need is real</div></div>
+    <div class="st now" role="listitem"><div class="nm">Make</div><div class="ds">Build the credible answer</div></div>
+    <div class="st next" role="listitem"><div class="nm">Ship</div><div class="ds">Reality reviews it</div></div>
+    <div class="st next" role="listitem"><div class="nm">Sign</div><div class="ds">Names go on it</div></div>
+  </div>
+
+  <p class="stage-note" data-reveal>Every artifact moves through the same rail and shows where it stands. The current stage is the pencil's mark — the rail's one red element. Completed stages are ink; future stages are graphite.</p>
+
+  <div data-reveal style="margin-top:56px">
+    <div class="margin-note">One mark per viewport.</div>
+    <p class="stage-note" style="margin-top:14px">Signal red is spent like a highlighter you only get to use once — a signature, a revision tag, the current stage. If removing it loses no information, it shouldn't be red.</p>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true"><span class="star">✳</span><div class="rule"></div><span class="star">✳</span><div class="rule"></div><span class="star">✳</span><div class="rule"></div><span class="star">✳</span></div>
+
+<!-- ============ PALETTE ============ -->
+<section class="swatches" id="system">
+  <div class="eyebrow" data-reveal>Color — drawn, not decorated</div>
+  <h2 data-reveal data-reveal-delay="110">Drafting ink, paper, and two working colors.</h2>
+  <p class="note" data-reveal data-reveal-delay="160">Red pencil marks what matters. Blueprint marks what's interactive. Everything else is paper, ink, and graphite.</p>
+
+  <div class="sw-grid" data-reveal data-reveal-delay="200">
+    <div class="sw"><div class="chip" style="background:var(--paper);border-bottom:1px solid rgba(17,19,17,.08)"></div><div class="lbl"><div class="nm">--paper</div><div class="hx">#F7F6F2</div><div class="rl">The sheet itself</div></div></div>
+    <div class="sw"><div class="chip" style="background:var(--ink)"></div><div class="lbl"><div class="nm">--ink</div><div class="hx">#111311</div><div class="rl">Text, rules, the mark</div></div></div>
+    <div class="sw"><div class="chip" style="background:var(--graphite)"></div><div class="lbl"><div class="nm">--graphite</div><div class="hx">#5A615B</div><div class="rl">Labels, captions</div></div></div>
+    <div class="sw"><div class="chip" style="background:var(--void)"></div><div class="lbl"><div class="nm">--void</div><div class="hx">#0A0C0A</div><div class="rl">Verso bands</div></div></div>
+    <div class="sw"><div class="chip" style="background:var(--signal)"></div><div class="lbl"><div class="nm">--signal</div><div class="hx">#D8412F</div><div class="rl">Red pencil — marks only</div></div></div>
+    <div class="sw"><div class="chip" style="background:var(--blueprint)"></div><div class="lbl"><div class="nm">--blueprint</div><div class="hx">#1C6CFF</div><div class="rl">Focus + interactive</div></div></div>
+    <div class="sw"><div class="chip" style="background:var(--ok)"></div><div class="lbl"><div class="nm">--ok</div><div class="hx">#1E4D2B</div><div class="rl">Verified / passed</div></div></div>
+    <div class="sw"><div class="chip" style="background:var(--warn)"></div><div class="lbl"><div class="nm">--warn</div><div class="hx">#C28E0E</div><div class="rl">Caution — never text</div></div></div>
+    <div class="sw"><div class="chip" style="background:var(--err)"></div><div class="lbl"><div class="nm">--err</div><div class="hx">#9C3A2A</div><div class="rl">Error — pair w/ icon</div></div></div>
+  </div>
+
+  <div class="chips" data-reveal>
+    <span class="chip">EE — Electrical</span>
+    <span class="chip">ME — Mechanical</span>
+    <span class="chip">SW — Software</span>
+    <span class="chip">DS — Data &amp; Science</span>
+    <span class="chip">ID — Industrial Design</span>
+    <span class="chip">VN — Venture</span>
+    <span class="chip">CM — Comms</span>
+    <span class="chip">OP — Operations</span>
+    <span class="chip sem-ok">✓ Rev B verified</span>
+    <span class="chip sem-warn">⚠ Pending review</span>
+    <span class="chip sem-err">✕ Check failed</span>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true"><span class="star">✳</span><div class="rule"></div><span class="star">✳</span><div class="rule"></div><span class="star">✳</span><div class="rule"></div><span class="star">✳</span></div>
+
+<!-- ============ TYPE SPECIMEN ============ -->
+<section class="typespec">
+  <div class="eyebrow" data-reveal>Typography — three registers</div>
+  <div class="row" data-reveal data-reveal-delay="110">
+    <div class="tag">Promise — Newsreader 500<br>clamp(34px,5vw,58px) · lh 1.14 · −0.01em</div>
+    <div>
+      <div class="serif-sample">Students become builders.</div>
+      <div class="sans-body">The serif states the claim — at most twice per page: the opening promise and the closing invitation. Sentence case, always; the display layer never wears uppercase.</div>
+    </div>
+  </div>
+  <div class="row" data-reveal data-reveal-delay="160">
+    <div class="tag">Proof — IBM Plex Sans 600<br>clamp(26px,3.4vw,42px) · lh 1.2</div>
+    <div>
+      <div class="sans-sample">Coursework describes systems. We build them.</div>
+      <div class="sans-body">Sans carries every section heading and all body copy — the evidence between the two promises. 12–13px at 1.7+ line height; mechanism before abstraction.</div>
+    </div>
+  </div>
+  <div class="row" data-reveal data-reveal-delay="200">
+    <div class="tag">Record — IBM Plex Mono 400/500<br>8.5–13px · tracked · uppercase</div>
+    <div class="mono-sample">DG-001 · Rev C · Sheet 02<br>Built by — checked by — approved<br>Find · Prove · Make · Ship · Sign<br>Thursday 6:00 PM · Bldg 17 · Rm 1635</div>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true"><span class="star">✳</span><div class="rule"></div><span class="star">✳</span><div class="rule"></div><span class="star">✳</span><div class="rule"></div><span class="star">✳</span></div>
+
+<!-- ============ SIGN-OFF BLOCKS ============ -->
+<section class="signoff-sec" id="sign">
+  <div class="eyebrow" data-reveal>The identity device</div>
+  <h2 data-reveal data-reveal-delay="110">The sign-off block. Authorship as infrastructure.</h2>
+  <p class="lede" data-reveal data-reveal-delay="160">Every engineering drawing has carried a title block for a century — who drew it, who checked it, who approved it. DIGITAL's version puts the signature first. Discipline codes sit inside the names: different disciplines, shared ownership, made literal.</p>
+
+  <div class="sob-pair">
+    <div data-reveal data-reveal-delay="200">
+      <div class="sob" role="group" aria-label="Document control — signed">
+        <div class="row top">
+          <div class="cell"><div class="k">Title</div><div class="v">Modular Smartphone</div></div>
+          <div class="cell"><div class="k">Dwg No</div><div class="v">DG-001</div></div>
+          <div class="cell"><div class="k">Rev</div><div class="v red">C</div></div>
+          <div class="cell"><div class="k">Date</div><div class="v">2026-09-14</div></div>
+          <div class="cell"><div class="k">Sheet</div><div class="v">01 / 03</div></div>
+        </div>
+        <div class="row sig">
+          <div class="cell"><div class="k">Built by</div><div class="v sig">A. Nguyen <span class="code">EE</span> · R. Okafor <span class="code">SW</span> · M. Torres <span class="code">ME</span> · J. Park <span class="code">VN</span></div></div>
+          <div class="cell"><div class="k">Checked by</div><div class="v sig">S. Iyer <span class="code">DS</span></div></div>
+          <div class="cell"><div class="k">Approved</div><div class="v">DIGITAL LEADS</div></div>
+        </div>
+      </div>
+      <div class="sob-cap">Fig. 1 — signed work. Serif italic is the signature voice; one per surface.</div>
+    </div>
+
+    <div data-reveal data-reveal-delay="260">
+      <div class="sob" role="group" aria-label="Document control — unsigned">
+        <div class="row top">
+          <div class="cell"><div class="k">Title</div><div class="v">Next Project</div></div>
+          <div class="cell"><div class="k">Dwg No</div><div class="v">DG-003</div></div>
+          <div class="cell"><div class="k">Rev</div><div class="v">—</div></div>
+          <div class="cell"><div class="k">Date</div><div class="v">—</div></div>
+          <div class="cell"><div class="k">Sheet</div><div class="v">— / —</div></div>
+        </div>
+        <div class="row sig">
+          <div class="cell blank"><div class="k">Built by</div><div class="v">awaiting signature</div></div>
+          <div class="cell blank"><div class="k">Checked by</div><div class="v">awaiting signature</div></div>
+          <div class="cell"><div class="k">Approved</div><div class="v">—</div></div>
+        </div>
+      </div>
+      <div class="sob-cap">Fig. 2 — the unsigned block. <em>This space is waiting for a name.</em> The studio's recruitment image.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true"><span class="star">✳</span><div class="rule"></div><span class="star">✳</span><div class="rule"></div><span class="star">✳</span><div class="rule"></div><span class="star">✳</span></div>
+
+<!-- ============ BUILD RECORD ============ -->
+<section class="record-sec" id="record">
+  <div class="eyebrow" data-reveal>Project presentation</div>
+  <h2 data-reveal data-reveal-delay="110">The build record. A controlled document, not a landing page.</h2>
+
+  <div class="record" data-reveal data-reveal-delay="200">
+    <div class="photo"><span>[ Project photo —<br>prototype bench shot ]</span></div>
+    <div class="card">
+      <div class="rhead">
+        <div class="glyph">⌗</div>
+        <div>
+          <div class="kick">DG-001 · Stage — Make · Flagship</div>
+          <div class="ttl">The Modular Smartphone</div>
+        </div>
+      </div>
+      <div class="body-line">A fully modular, repairable smartphone built from scratch — swappable modules, custom PCB, open-source everything.</div>
+      <div class="specs">
+        <div><div class="n">4</div><div class="l">Core modules</div></div>
+        <div><div class="n">25+</div><div class="l">Student engineers</div></div>
+        <div><div class="n">100%</div><div class="l">Open source</div></div>
+      </div>
+      <div class="revlog">
+        <div class="rl-head">Revision log</div>
+        <div class="rev"><b>REV A</b> — requirements locked; module boundaries drawn</div>
+        <div class="rev"><b>REV B</b> — first board spun; power subsystem checked</div>
+        <div class="rev"><b>REV C</b> — prototyping; component testing in progress</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ JOIN — VERSO CLOSE ============ -->
+<section class="dark-band join" id="join">
+  <div class="eyebrow on-dark" data-reveal>Invitation</div>
+  <h2 data-reveal data-reveal-delay="110" style="margin-top:16px">Your transcript says what you studied. Your work says what you can do.</h2>
+  <p data-reveal data-reveal-delay="160">Bring engineering, computer science, design, business, or a discipline we haven't listed yet. The problem picks the team. No experience required.</p>
+  <div class="ctas" data-reveal data-reveal-delay="220">
+    <a class="btn btn-primary on-dark" href="#">Get involved<span class="u"></span></a>
+    <a class="btn btn-ghost on-dark" href="#">Come Thursday 6PM</a>
+  </div>
+  <div class="sig-line" data-reveal data-reveal-delay="280">Built by <span class="blank">&nbsp;</span> — the next sheet needs a name</div>
+</section>
+
+<!-- ============ FOOTER — TITLE BLOCK ============ -->
+<footer>
+  <div class="foot-block">
+    <div class="cell"><div class="k">Issued by</div><div class="v">DIGITAL @ Cal Poly Pomona</div></div>
+    <div class="cell"><div class="k">Sheet</div><div class="v">BRAND-01</div></div>
+    <div class="cell"><div class="k">Rev</div><div class="v">A</div></div>
+    <div class="cell"><div class="k">Contact</div><div class="v">contact@digitalcpp.org</div></div>
+    <div class="cell"><div class="k">Meets</div><div class="v">Thu 6PM · B17-1635</div></div>
+  </div>
+  <div class="foot-colophon">
+    <div class="left">
+      <svg class="mark on-dark" viewBox="0 0 100 100" aria-hidden="true">
+        <polygon points="50,4 74,34 48,64 28,38"/>
+        <polygon points="10,64 46,56 56,80 18,90"/>
+        <polygon points="60,50 96,44 94,82 64,90 54,64"/>
+      </svg>
+      <span class="wm" style="font-family:var(--font-record);font-size:13px;letter-spacing:.12em;color:var(--cream)">DIGITAL</span>
+    </div>
+    <div class="taglines">
+      <span>Make something worth putting your name on</span>
+      <span>Different disciplines · shared ownership</span>
+      <span>Work that survives the semester</span>
+      <span>Run by students</span>
+    </div>
+  </div>
+  <div class="foot-legal">
+    <a href="#">Privacy</a><a href="#">Terms</a><a href="#">Cookies</a>
+  </div>
+</footer>
+
+<script>
+// Loader — the sheet lifts after the pencil draws its line
+(function () {
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var dwell = reduced ? 250 : 1500;
+  var loader = document.getElementById('loader');
+  var fill = document.getElementById('loaderFill');
+  requestAnimationFrame(function () { fill.style.width = '100%'; });
+  setTimeout(function () {
+    loader.classList.add('done');
+    setTimeout(function () { loader.remove(); }, 900);
+  }, dwell);
+})();
+
+// Reveal — one gesture: rise 18px, fade, once
+(function () {
+  var els = document.querySelectorAll('[data-reveal]');
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced || !('IntersectionObserver' in window)) {
+    els.forEach(function (el) { el.classList.add('is-visible'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      var d = e.target.getAttribute('data-reveal-delay');
+      if (d) e.target.style.transitionDelay = d + 'ms';
+      e.target.classList.add('is-visible');
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -6% 0px' });
+  els.forEach(function (el) { io.observe(el); });
+})();
+</script>
+</body>
+</html>

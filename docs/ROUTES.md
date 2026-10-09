@@ -4,91 +4,77 @@ This document outlines all routes and pages in the DIGITAL website.
 
 ## Route Overview
 
-### Production routes (public nav + sitemap)
+Updated 2026-10-07, when the Apple-system pages became the default routes. Pages live in one
+route group (`app/(apple)/`; the group folder is not part of the URL). Every route is statically exported.
 
-| Route | Page | Description |
-|-------|------|-------------|
-| `/` | Homepage | Newsreader landing — thesis, pathways, build record, join CTA (own nav/footer) |
-| `/pillars` | DIGITAL Pillars | The DIGITAL acronym and engineering framework |
-| `/about` | About | Mission, values, flagship project, roadmap |
-| `/team` | Team | Filterable team directory |
-| `/contact` | Contact | Contact form and club information |
-| `/projects` | Projects | Filterable project grid |
-| `/projects/modular-smartphone` | Modular Smartphone | Immersive exploded-smartphone scrollytelling (PhoneV2 experience) |
-| `/projects/smart-reading` | Smart Reading | Immersive R3F scroll experience (wearable project) |
-| `/get-involved` | Get Involved | Membership, alumni, and sponsor paths |
-| `/privacy` | Privacy Policy | Legal — privacy |
-| `/terms` | Terms of Service | Legal — terms |
-| `/cookies` | Cookie Policy | Legal — cookies |
+### Live pages — Apple system (`app/(apple)/`)
 
-### Preview / candidate routes (not in sitemap or public nav)
+| Route | File | Description | Design doc |
+|-------|------|-------------|------------|
+| `/` | `app/(apple)/page.tsx` | Home: phone hero (four played stages), the three builds, join | `DESIGN.md` |
+| `/projects/sidekick/` | `app/(apple)/projects/sidekick/page.tsx` | SIDEKICK: the FPGA main board in nine played stages | `docs/design/sidekick.DESIGN.md` (**locked**) |
+| `/projects/shades/` | `app/(apple)/projects/shades/page.tsx` | SHADES: reading glasses, live reader, light-path stages | `DESIGN.md` |
+| `/projects/brain/` | `app/(apple)/projects/brain/page.tsx` | BRAIN: six lessons on one dot figure | `docs/design/brain.DESIGN.md` (**locked**) |
 
-| Route | Status | Description |
-|-------|--------|-------------|
-| `/review` | Internal | Stakeholder hub for remaining variant review (`noindex`) |
+### Shared-frame pages (`app/(apple)/`)
 
----
+`/about`, `/team`, `/community`, `/contact`, `/get-involved`, `/privacy`, `/terms`, `/cookies`.
+Simple pages use the `SitePage` frame (`app/(apple)/_chrome/SitePage.tsx`); legal pages use
+`LegalPage` (`app/(apple)/_legal/LegalPage.tsx`). Governing doc: `DESIGN.md`.
 
-## Stakeholder review hub
+### Redirect stubs (`app/(apple)/`, `noindex`, not in the sitemap)
 
-**File:** `app/review/page.tsx`  
-**Data:** `lib/data/reviewRoutes.ts`
+| Old route | Goes to |
+|-----------|---------|
+| `/pillars` | `/about#how-we-work` |
+| `/projects` | `/#builds` |
+| `/projects/modular-smartphone` | `/projects/sidekick/` |
+| `/projects/smart-reading` | `/projects/shades/` |
+| `/design-lab/r2/apple/hero` | `/` |
+| `/design-lab/r2/apple/sidekick`, `/shades`, `/brain` | the matching `/projects/…/` page |
 
-Internal-only page for comparing experience variants before promotion. Not linked from Navbar, Footer, or sitemap. Open at `/review` during stakeholder meetings.
+Stubs use `app/(apple)/_redirect.tsx`: a client-side `location.replace` plus a visible
+fallback link (static-export safe).
 
-**Decision groups:**
-1. **Smart Reading** — `/projects/smart-reading` (production); the legacy `/experiments/glasses` URL has been retired
+### Retired
 
----
-
-## Immersive routes
-
-These routes hide the global Navbar and Footer (`lib/immersiveRoutes.ts`):
-
-- `/` (homepage has own nav/footer)
-- `/experiments/*`
-- `/projects/modular-smartphone`
-- `/projects/smart-reading`
-
-Each immersive experience includes an `EscapeHatch` component linking back to `/`.
-
-Route-scoped style references (authoritative per route; root `DESIGN.md` governs everything else):
-
-- `/` → `docs/design/landing.DESIGN.md`
-- `/projects/modular-smartphone` → `docs/design/smartphone.DESIGN.md`
-- `/projects/smart-reading` → `docs/design/glasses.DESIGN.md`
+`/review` (internal stakeholder hub) was archived with no redirect. The previous landing, the
+PhoneV2 smartphone page and the R3F smart-reading page are in `archive/` (see
+`archive/README.md`).
 
 ---
 
 ## Page details
 
+> **Note (2026-10-07):** the sections below were written before the route groups. Live pages are under `app/(apple)/`. The Homepage, DIGITAL Pillars, Projects, Modular Smartphone and Smart Reading sections describe archived designs or redirect stubs; the live pages are in the tables above.
+
 ### Homepage (`/`)
-**Files:** `app/page.tsx`, `components/home/HomeLanding.tsx`
+**Files (archived):** `archive/app/page.tsx`, `archive/components/home/HomeLanding.tsx`
 
 Newsreader / IBM Plex landing with loader, sticky anchor nav, thesis gaps, pathways, build-record cards, and join CTA. Hides global Navbar/Footer.
 
-**Data:** `lib/data/homeLanding.ts`
+**Data (archived):** `archive/lib/data/homeLanding.ts`
 
 ---
 
 ### DIGITAL Pillars (`/pillars`)
-**File:** `app/pillars/page.tsx`
+**File:** `app/(apple)/pillars/page.tsx` (redirect stub to `/about/#how-we-work`; the original page is archived)
 
 Interactive DIGITAL acronym, seven pillar cards, mission statement, framework phases, CTA.
 
 ---
 
 ### About (`/about`)
-**File:** `app/about/page.tsx`
+**File:** `app/(apple)/about/page.tsx`
 
 Mission cards, flagship project showcase, roadmap, executive team preview, CTA.
 
-**Data:** `lib/data/team.ts`
+**Data:** `app/(apple)/_content/about.ts`, `lib/data/about.ts`
 
 ---
 
 ### Team (`/team`)
-**Files:** `app/team/page.tsx`, `app/team/layout.tsx`
+**File:** `app/(apple)/team/page.tsx`
 
 Search, department filters, responsive member grid.
 
@@ -97,7 +83,7 @@ Search, department filters, responsive member grid.
 ---
 
 ### Contact (`/contact`)
-**Files:** `app/contact/page.tsx`, `app/contact/layout.tsx`
+**Files:** `app/(apple)/contact/page.tsx`, `app/(apple)/contact/ContactForm.tsx`
 
 Contact form with topic dropdown, info sidebar, social links, campus map.
 
@@ -112,34 +98,34 @@ Supported `type` values map from `lib/data/involvement.ts`:
 ---
 
 ### Projects (`/projects`)
-**Files:** `app/projects/page.tsx`, `app/projects/layout.tsx`
+**File:** `app/(apple)/projects/page.tsx` (redirect stub to `/#builds`; the original page is archived)
 
 Flagship hero, search/filter, project grid, CTA.
 
-**Data:** `lib/data/projects.ts`
+**Data (archived):** `archive/lib/data/projects.ts`
 
 ---
 
 ### Modular Smartphone (`/projects/modular-smartphone`)
-**Files:** `app/projects/modular-smartphone/page.tsx`, `app/projects/modular-smartphone/layout.tsx`
+**File:** `app/(apple)/projects/modular-smartphone/page.tsx` (redirect stub to `/projects/sidekick/`; the original page is archived)
 
 Immersive Anime.js exploded-smartphone scrollytelling (`PhoneV2Experience`). Hides global Navbar/Footer.
 
-**Data:** `lib/data/phoneV2.ts`, `lib/data/projects.ts`
+**Data (archived):** `archive/lib/data/phoneV2.ts`, `archive/lib/data/projects.ts`
 
 ---
 
 ### Smart Reading (`/projects/smart-reading`)
-**File:** `app/projects/smart-reading/page.tsx`
+**File:** `app/(apple)/projects/smart-reading/page.tsx` (redirect stub to `/projects/shades/`; the original page is archived)
 
 Client-only R3F immersive scroll experience (`GlassesExperience`).
 
-**Data:** `lib/data/experiments/glasses.ts`, `lib/data/projects.ts`
+**Data (archived):** `archive/lib/data/experiments/glasses.ts`, `archive/lib/data/projects.ts`
 
 ---
 
 ### Get Involved (`/get-involved`)
-**File:** `app/get-involved/page.tsx`
+**File:** `app/(apple)/get-involved/page.tsx`
 
 Student, alumni, and company involvement cards with deep-links to `/contact?type=...`.
 
@@ -151,9 +137,9 @@ Student, alumni, and company involvement cards with deep-links to `/contact?type
 
 | Route | File |
 |-------|------|
-| `/privacy` | `app/privacy/page.tsx` |
-| `/terms` | `app/terms/page.tsx` |
-| `/cookies` | `app/cookies/page.tsx` |
+| `/privacy` | `app/(apple)/privacy/page.tsx` |
+| `/terms` | `app/(apple)/terms/page.tsx` |
+| `/cookies` | `app/(apple)/cookies/page.tsx` |
 
 Linked from Footer legal row. Included in `app/sitemap.ts`.
 
@@ -166,18 +152,14 @@ Linked from Footer legal row. Included in `app/sitemap.ts`.
 
 ## Navigation structure
 
-**Navbar** (`components/layout/Navbar.tsx`):
+**Sticky bar:** `app/(apple)/_chrome/LocalNav.tsx` (one per page).
 
-1. Home (`/`)
-2. Pillars (`/pillars`)
-3. Projects (`/projects`)
-4. About (`/about`)
-5. Team (`/team`)
-6. Get Involved (`/get-involved`)
-7. Contact (`/contact`)
+**Footer** (`app/(apple)/_chrome/WorldFooter.tsx`; link lists in `app/(apple)/_chrome/routes.ts`):
 
-**Footer quick links:** Projects, Team, About, Contact  
-**Footer legal:** Privacy, Terms, Cookies
+1. Builds: DIGITAL (`/`), SIDEKICK, SHADES, BRAIN
+2. Site pages (`SITE_PAGES`): About, Team, Community, Get involved, Contact
+3. Legal (`LEGAL_PAGES`): Privacy, Terms, Cookies
+4. Social icons: Discord, Instagram, LinkedIn, GitHub
 
 ---
 
@@ -201,12 +183,14 @@ Includes production routes and legal pages. Excludes the internal review hub (`/
 
 | File | Purpose |
 |------|---------|
-| `lib/data/siteConfig.ts` | Site metadata, contact, social, stats, sponsors |
-| `lib/data/projects.ts` | Project data |
+| `lib/data/siteConfig.ts` | Site metadata, contact, social links (stats and sponsors are exported but not rendered) |
 | `lib/data/team.ts` | Team members |
 | `lib/data/involvement.ts` | Get Involved options |
 | `lib/data/contactTopics.ts` | Contact form topics + `?type=` mapping |
-| `lib/data/reviewRoutes.ts` | Stakeholder review hub metadata |
-| `lib/data/homeLanding.ts` | Homepage landing copy |
-| `lib/data/phoneV2.ts` | Modular smartphone experience copy |
-| `lib/data/experiments/glasses.ts` | Smart Reading experience copy |
+| `lib/data/about.ts` | About page acronym |
+| `lib/data/community.ts` | Community channels |
+| `archive/lib/data/projects.ts` | Project data (archived) |
+| `archive/lib/data/reviewRoutes.ts` | Stakeholder review hub metadata (archived) |
+| `archive/lib/data/homeLanding.ts` | Homepage landing copy (archived) |
+| `archive/lib/data/phoneV2.ts` | Modular smartphone experience copy (archived) |
+| `archive/lib/data/experiments/glasses.ts` | Smart Reading experience copy (archived) |

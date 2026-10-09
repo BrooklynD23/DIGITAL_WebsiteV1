@@ -1,0 +1,219 @@
+.page {
+  font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  min-height: 100vh;
+}
+
+.mono {
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.world {
+  padding: clamp(32px, 6vw, 88px) clamp(16px, 5vw, 72px);
+}
+
+/* Dark graticule world: board ink is the page ink; copper a muted warm tone. */
+.graticule {
+  color: #e6e8e3;
+  background-color: #0c0d0e;
+  background-image:
+    linear-gradient(rgba(230, 232, 227, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(230, 232, 227, 0.05) 1px, transparent 1px);
+  background-size: 24px 24px;
+  --board-copper: #d4a373;
+  --board-hole: #0c0d0e;
+  --muted: rgba(230, 232, 227, 0.62);
+  --rule: rgba(230, 232, 227, 0.16);
+}
+
+/* Light Apple world: same component, different variables. */
+.apple {
+  color: #1d1d1f;
+  background: #f5f5f7;
+  --board-copper: #8a5a2b;
+  --board-hole: #f5f5f7;
+  --muted: rgba(29, 29, 31, 0.6);
+  --rule: rgba(29, 29, 31, 0.14);
+}
+
+.intro {
+  max-width: 760px;
+  margin-bottom: clamp(32px, 5vw, 64px);
+}
+
+.eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 12px;
+}
+
+.h1 {
+  font-size: clamp(32px, 5vw, 56px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0 0 16px;
+  font-weight: 600;
+}
+
+.h2 {
+  font-size: clamp(24px, 3.4vw, 36px);
+  line-height: 1.1;
+  margin: 0;
+  font-weight: 600;
+}
+
+.lede {
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.55;
+  max-width: 64ch;
+  margin: 0;
+}
+
+.board {
+  border-top: 1px solid var(--rule);
+  padding-top: 28px;
+  margin-bottom: clamp(48px, 7vw, 96px);
+}
+
+.boardHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 16px;
+  margin-bottom: 24px;
+}
+
+.boardTitle {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.pill {
+  font-size: 12px;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  padding: 3px 10px;
+  color: var(--muted);
+}
+
+.dims,
+.counts {
+  flex-basis: 100%;
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.dims em {
+  font-style: normal;
+}
+
+.views {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(16px, 3vw, 40px);
+  align-items: start;
+}
+
+.lightRow {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(16px, 3vw, 40px);
+}
+
+.fig {
+  margin: 0;
+  min-width: 0;
+}
+
+.fig figcaption {
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.svg {
+  width: 100%;
+  height: auto;
+  max-height: 520px;
+}
+
+.explorer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.controls {
+  display: grid;
+  gap: 8px;
+}
+
+.ctlLabel {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.range {
+  width: 100%;
+  accent-color: currentColor;
+}
+
+.states {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.stateBtn {
+  font: inherit;
+  font-size: 12px;
+  color: inherit;
+  background: transparent;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  padding: 6px 12px;
+  min-height: 32px;
+  cursor: pointer;
+}
+
+.stateBtn[aria-pressed='true'] {
+  border-color: currentColor;
+}
+
+.stateBtn:focus-visible,
+.range:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin: 24px 0 0;
+  font-size: 14px;
+}
+
+.summary dt {
+  color: var(--muted);
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.summary dd {
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .views,
+  .lightRow {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

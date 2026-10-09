@@ -1,21 +1,20 @@
 # DIGITAL @ Cal Poly Pomona Website
 
-Official website for **DIGITAL**, the student engineering club at Cal Poly Pomona.
-Built with **Next.js 14 (App Router)**, **TypeScript**, and **Tailwind CSS 3**, configured
-for **static export** and deployed on **Vercel**.
+Official website for **DIGITAL**, a student-run venture studio at Cal Poly Pomona.
+Built with **Next.js 14 (App Router)** and **TypeScript**, configured for **static export**
+and deployed on **Vercel**.
 
-The site features three immersive product experiences — a warm editorial home landing,
-an exploded-smartphone scrollytelling page, and a 3D smart-glasses scroll experience —
-alongside standard club pages (about, team, projects, get involved, contact).
+The live site is the "Apple" design system (default since 2026-10-07): a phone-hero home page
+and three build pages (SIDEKICK, SHADES, BRAIN) in `app/(apple)/`. The remaining pages
+(about, team, community, get involved, contact, legal) are in `app/(apple)/` on the same system. Earlier designs are in `archive/`.
 
 ## Tech stack
 
 | Layer | Choice |
 |-------|--------|
 | Framework | Next.js 14 (App Router, `output: 'export'`) |
-| UI | React 18, Tailwind CSS 3 |
-| Motion | GSAP, Anime.js, Framer Motion, Lenis |
-| 3D | React Three Fiber + Drei (Smart Reading route) |
+| UI | React 18; CSS modules on design tokens (`app/(apple)/_system/tokens/worlds.css`); Tailwind CSS 3 configured, no live route uses it |
+| Motion | Anime.js (stage playback), CSS scroll timelines, canvas dot engine |
 | Forms | Formspree |
 | Analytics | Vercel Analytics + Speed Insights |
 | Hosting | Vercel |
@@ -50,40 +49,38 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ```
 DIGITAL_WebsiteV1/
-├── app/                          # Next.js App Router pages
-│   ├── page.tsx                  # Homepage (immersive landing)
-│   ├── projects/
-│   │   ├── modular-smartphone/   # PhoneV2 scrollytelling
-│   │   └── smart-reading/        # R3F glasses experience
-│   ├── review/                   # Internal stakeholder variant hub
-│   └── …                         # about, team, contact, legal, etc.
-├── components/
-│   ├── home/                     # HomeLanding
-│   ├── phone-v2/                 # Smartphone experience
-│   ├── experiments/glasses/      # Smart Reading experience
-│   ├── motion/                   # TextReveal, GSAP setup
-│   └── layout/                   # Navbar, Footer, BrandLogo
-├── lib/
-│   ├── data/                     # All site content (edit here, not in pages)
-│   ├── immersiveRoutes.ts        # Routes that hide global chrome
-│   └── types.ts
+├── app/
+│   ├── (apple)/                  # Live pages on the Apple system (route group, not in the URL)
+│   │   ├── page.tsx              # / — phone-hero home
+│   │   ├── projects/
+│   │   │   ├── _hero/            # Home hero artwork + useStagePlayback
+│   │   │   ├── sidekick/         # /projects/sidekick/ (LOCKED)
+│   │   │   ├── shades/           # /projects/shades/
+│   │   │   └── brain/            # /projects/brain/ (LOCKED)
+│   │   ├── _system/              # Tokens, fonts, scroll hooks, dot engine
+│   │   ├── _chrome/              # LocalNav, WorldFooter, JoinChapter, SitePage, club.ts
+│   │   └── _content/             # Copy for the Apple pages
+├── lib/data/                     # Club facts, team, involvement, community content
+├── public/boards/                # SIDEKICK board SVG layers
+├── archive/                      # Earlier designs; not built → archive/README.md
+├── design-lab/                   # Design-lab research, renders, scripts
 ├── docs/                         # Documentation hub → docs/README.md
-├── DESIGN.md                     # Industrial studio design system
-├── run.sh                        # Preflight + dev/build launcher
-└── Refractor/                    # Reference HTML/CSS for industrial theme
+├── DESIGN.md                     # Design system (Apple system, as implemented)
+└── run.sh                        # Preflight + dev/build launcher
 ```
 
 ## Key routes
 
-| Route | Experience |
-|-------|------------|
-| `/` | Editorial home landing (own nav/footer, mission band) |
-| `/projects/modular-smartphone` | PhoneV2 exploded-smartphone scrollytelling |
-| `/projects/smart-reading` | Immersive smart-glasses scroll (R3F) |
-| `/projects` | Project grid |
-| `/about`, `/team`, `/community` | Club info (`/pillars` folded into `/about`) |
+| Route | Page |
+|-------|------|
+| `/` | Home: phone hero (four played stages), the three builds, join |
+| `/projects/sidekick/` | SIDEKICK: the FPGA main board in nine played stages (**locked**) |
+| `/projects/shades/` | SHADES: reading glasses, live reader, light-path stages |
+| `/projects/brain/` | BRAIN: six agentic-AI lessons on one dot figure (**locked**) |
+| `/about`, `/team`, `/community` | Studio info |
 | `/get-involved`, `/contact` | Join paths + form |
 | `/privacy`, `/terms`, `/cookies` | Legal pages |
+| `/pillars`, `/projects`, `/projects/modular-smartphone`, `/projects/smart-reading` | Redirect stubs to the pages above |
 
 Full route map: [`docs/ROUTES.md`](docs/ROUTES.md).
 
@@ -96,8 +93,8 @@ input** — see also the Backlog section in [`TODO.md`](TODO.md):
 1. **Real Formspree endpoint** — club leadership provisions a Formspree form and supplies
    the form ID hash; set `siteConfig.formspreeEndpoint`, verify submission end-to-end, and
    add `connect-src https://formspree.io` to the CSP report-only policy first.
-2. **Custom domain DNS** — leadership points `digitalcpp.org` at Vercel; then set
-   `NEXT_PUBLIC_SITE_URL` so canonicals/metadata resolve to production.
+2. **No custom domain** — the site is served at `https://digitalcpp.vercel.app/`. Set
+   `NEXT_PUBLIC_SITE_URL` only if a domain is added later (canonicals default to `siteConfig.url`).
 3. **Real roster content** — team placeholders ("To be announced") await confirmed names,
    photos, and links for 2026–27; also OG image + favicon assets from the design lead.
 4. **Heads-up Display Glasses copy** — project description/team/timeline from that team.
@@ -116,15 +113,16 @@ social links, stats, sponsors, and the Formspree endpoint.
 
 ### Content
 
-All copy lives in `lib/data/` — never hard-code strings in page components.
-Voice and story rules: [`docs/design/BRAND.md`](docs/design/BRAND.md).
+Copy is never hard-coded in page components. Apple pages read `app/(apple)/_content/`
+and `lib/data/` (club facts, team, involvement). Voice and story rules: [`docs/design/BRAND.md`](docs/design/BRAND.md).
 
 | File | Content |
 |------|---------|
-| `lib/data/homeLanding.ts` | Homepage copy |
-| `lib/data/phoneV2.ts` | Smartphone experience copy |
-| `lib/data/experiments/glasses.ts` | Smart Reading copy |
-| `lib/data/projects.ts` | Project cards |
+| `app/(apple)/_content/home.ts` | Home copy |
+| `app/(apple)/_content/sidekick.ts` | SIDEKICK copy and board facts |
+| `app/(apple)/_content/shades.ts` | SHADES copy |
+| `app/(apple)/_content/brain.ts` | BRAIN copy |
+| `app/(apple)/_chrome/club.ts` | Meeting times, Discord, GitHub and LinkedIn links |
 | `lib/data/team.ts` | Team members |
 | `lib/data/involvement.ts` | Get Involved options |
 
@@ -134,10 +132,12 @@ Before UI/UX changes, read the governing style reference:
 
 | Route | Doc |
 |-------|-----|
-| `/` | `docs/design/landing.DESIGN.md` |
-| `/projects/modular-smartphone` | `docs/design/smartphone.DESIGN.md` |
-| `/projects/smart-reading` | `docs/design/glasses.DESIGN.md` |
-| All other routes | `DESIGN.md` |
+| `/`, `/projects/shades/`, all other routes | `DESIGN.md` |
+| `/projects/sidekick/` | `docs/design/sidekick.DESIGN.md` (locked) |
+| `/projects/brain/` | `docs/design/brain.DESIGN.md` (locked) |
+
+`docs/design/landing.DESIGN.md`, `smartphone.DESIGN.md` and `glasses.DESIGN.md` describe
+archived designs.
 
 ## Scripts
 

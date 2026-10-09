@@ -1,0 +1,5 @@
+/* BRAIN · Apple page: one black surface from hero to join. The pinned stage lives in stages.module.css. */
+.page { background: #000; color: var(--r2-ink); }
+/* no rule between the lessons and the join */
+.page .join { border-top: 0; background: #000; }
+.sources { display: grid; justify-items: center; padding: 0 var(--r2-gutter) var(--r2-space-7); }

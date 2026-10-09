@@ -1,0 +1,787 @@
+/* SHADES · Signal Capture (CH2). World tokens from _system/tokens/worlds.css; reading face = Atkinson Hyperlegible Next. */
+
+.root {
+  --lp-ground: var(--r2-ground);
+  --wrap: 1200px;
+  font-family: var(--font-read);
+  background: var(--r2-ground);
+  color: var(--r2-ink);
+}
+
+.root ::selection {
+  background: var(--r2-ink);
+  color: var(--r2-ground);
+}
+
+/* ---------- type ---------- */
+.hero1,
+.h2,
+.h3 {
+  font-family: var(--font-display);
+  font-weight: var(--r2-fw-display);
+  font-stretch: var(--r2-fstretch-display);
+  margin: 0;
+  text-wrap: balance;
+}
+
+.hero1 {
+  font-size: var(--r2-fs-hero);
+  line-height: var(--r2-lh-hero);
+  letter-spacing: var(--r2-ls-hero);
+}
+
+.h2 {
+  font-size: var(--r2-fs-h1);
+  line-height: var(--r2-lh-h1);
+  letter-spacing: var(--r2-ls-h1);
+}
+
+.h3 {
+  font-size: var(--r2-fs-h3);
+  line-height: var(--r2-lh-h3);
+  letter-spacing: var(--r2-ls-h3);
+  font-weight: 600;
+  font-stretch: 100%;
+}
+
+.lead,
+.heroLead {
+  margin: 0;
+  max-width: 34rem;
+  font-size: 20px;
+  line-height: 1.5;
+  color: var(--r2-ink-2);
+  text-wrap: pretty;
+}
+
+.body {
+  margin: 0;
+  max-width: 62ch;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--r2-ink-2);
+}
+
+/* Reader setting, page-wide: wider letters, words and lines (BDA style guide values). */
+.root[data-spacing='more'] :is(.lead, .heroLead, .body, .expansion, .inList li, .outList li, .phaseName, .boundary dd, .capLine, .figCaption) {
+  letter-spacing: var(--reading-spaced-tracking, 0.05em);
+  word-spacing: var(--reading-spaced-word, 0.16em);
+  line-height: 1.75;
+}
+
+.confirm {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 400;
+  font-stretch: 100%;
+  letter-spacing: 0.02em;
+  color: var(--r2-ink-3);
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.figCaption {
+  margin: 0;
+  font-family: var(--font-read);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--r2-ink-2);
+}
+
+.figNote {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--r2-fs-label);
+  line-height: var(--r2-lh-label);
+  letter-spacing: var(--track-mono, 0.04em);
+  color: var(--r2-ink-3);
+}
+
+.action {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: var(--r2-target);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--r2-ink);
+  text-decoration: underline;
+  text-decoration-color: var(--r2-hairline-strong);
+  transition: text-decoration-color var(--r2-dur-ui) var(--r2-ease-ui);
+}
+
+.action:hover {
+  text-decoration-color: var(--r2-ink);
+}
+
+.action svg path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- 1 · hero: fixation point = graticule centre ---------- */
+.root .hero {
+  --cx: 62%;
+  --cy: 46%;
+  position: relative;
+  min-height: calc(100svh - var(--r2-nav-h));
+  overflow: hidden;
+  background-position:
+    0 var(--cy),
+    var(--cx) 0,
+    var(--cx) var(--cy),
+    var(--cx) var(--cy);
+}
+
+.heroStage {
+  position: absolute;
+  left: var(--cx);
+  top: var(--cy);
+  width: min(560px, 86vw);
+  transform: translate(-50%, -50%);
+  color: var(--r2-phosphor);
+}
+
+.heroReticle {
+  position: absolute;
+  left: var(--cx);
+  top: var(--cy);
+  width: min(46vh, 78vw);
+  height: min(46vh, 78vw);
+  transform: translate(-50%, -50%);
+  overflow: visible;
+  pointer-events: none;
+}
+
+.heroReticle circle {
+  fill: none;
+  stroke: var(--r2-ink-3);
+  stroke-width: 0.3;
+  stroke-dasharray: 0.6 1.6;
+  vector-effect: non-scaling-stroke;
+}
+
+.heroReticle path {
+  fill: none;
+  stroke: var(--r2-ink-2);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.heroTop {
+  position: absolute;
+  top: var(--r2-space-5);
+  left: var(--r2-gutter);
+  right: var(--r2-gutter);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--r2-space-3);
+}
+
+.readout {
+  margin: 0;
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 14px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: var(--track-mono, 0.04em);
+  color: var(--r2-ink);
+}
+
+.channel {
+  padding: 2px 6px;
+  border: 1px solid var(--r2-hairline-strong);
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--r2-ink-2);
+}
+
+.spacingChip {
+  min-height: var(--r2-target);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+  font-family: var(--font-read);
+  font-size: 15px;
+  color: var(--r2-ink-2);
+  background: var(--r2-ground);
+  border: 1px dashed var(--r2-hairline-strong);
+  border-radius: 2px;
+  cursor: pointer;
+  transition:
+    color var(--r2-dur-ui) var(--r2-ease-ui),
+    border-color var(--r2-dur-ui) var(--r2-ease-ui);
+}
+
+.spacingChip [data-part='state'] {
+  color: var(--r2-ink);
+}
+
+.spacingChip:hover,
+.spacingChip[aria-pressed='true'] {
+  color: var(--r2-ink);
+  border-color: var(--r2-ink);
+}
+
+.spacingChip[aria-pressed='true'] {
+  border-style: solid;
+}
+
+.heroCopy {
+  position: absolute;
+  left: var(--r2-gutter);
+  bottom: var(--r2-space-8);
+  max-width: 540px;
+  display: grid;
+  gap: var(--r2-space-4);
+}
+
+.heroLead {
+  color: var(--r2-ink);
+}
+
+.expansion {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--r2-ink-2);
+}
+
+.boundaryShort {
+  font-weight: 600;
+  color: var(--r2-ink);
+}
+
+/* ---------- 2 · saccade pin (signature) ---------- */
+.pin {
+  display: none;
+  height: 340vh;
+  position: relative;
+}
+
+.pinStage {
+  --k: clamp(0, calc((var(--p) - 0.16) / 0.6), 1);
+  position: sticky;
+  top: var(--r2-nav-h);
+  height: calc(100vh - var(--r2-nav-h));
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: var(--r2-space-8) var(--r2-gutter) var(--r2-space-6);
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: var(--r2-space-6);
+  border-top: 1px solid var(--r2-hairline);
+}
+
+.pinCopy {
+  display: grid;
+}
+
+.capA,
+.capB {
+  grid-area: 1 / 1;
+  display: grid;
+  gap: var(--r2-space-3);
+  align-content: start;
+}
+
+.capA > * {
+  opacity: clamp(0, 1 - var(--k) * 2.5, 1);
+}
+
+.capB > * {
+  opacity: clamp(0, (var(--k) - 0.62) * 2.7, 1);
+}
+
+.pinFigure {
+  margin: 0;
+  align-self: center;
+  display: grid;
+  gap: var(--r2-space-4);
+}
+
+.pair {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--r2-space-8) var(--r2-space-7);
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: var(--r2-space-9) var(--r2-gutter);
+  border-top: 1px solid var(--r2-hairline);
+}
+
+.pairItem {
+  display: grid;
+  gap: var(--r2-space-4);
+  align-content: start;
+}
+
+
+.root[data-js] .pin {
+  display: block;
+}
+
+.root[data-js] .pair {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root[data-js] .pin {
+    display: none;
+  }
+
+  .root[data-js] .pair {
+    display: grid;
+  }
+}
+
+/* ---------- 3 · reader ---------- */
+.reader {
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: var(--r2-space-10) var(--r2-gutter) var(--r2-space-9);
+  display: grid;
+  gap: var(--r2-space-7);
+  scroll-margin-top: var(--r2-nav-h);
+}
+
+.readerHead {
+  display: grid;
+  gap: var(--r2-space-3);
+  justify-items: center;
+  text-align: center;
+}
+
+.reader > .figCaption {
+  margin: 0;
+  font-family: var(--font-read);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--r2-ink-2);
+}
+
+.figNote {
+  text-align: center;
+}
+
+/* ---------- 4 · light-path band ---------- */
+.band {
+  border-top: 1px solid var(--r2-hairline);
+  padding-top: var(--r2-space-10);
+}
+
+.bandHead {
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: 0 var(--r2-gutter) var(--r2-space-6);
+  display: grid;
+  gap: var(--r2-space-3);
+}
+
+.bandPin {
+  position: relative;
+}
+
+.bandPin[data-enhanced] {
+  height: calc(250vh + 100vh);
+}
+
+.bandStage {
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: var(--r2-space-6) var(--r2-gutter) var(--r2-space-9);
+  display: grid;
+  gap: var(--r2-space-5);
+  align-content: center;
+}
+
+.bandPin[data-enhanced] .bandStage {
+  position: sticky;
+  top: var(--r2-sticky-top, var(--r2-nav-h));
+  height: calc(100vh - var(--r2-sticky-top, var(--r2-nav-h)));
+  padding-bottom: var(--r2-space-6);
+}
+
+.bandFigure {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+/* one measurement readout line, swapping in place */
+.bandCaption {
+  margin: 0 auto;
+  min-height: 56px;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: var(--r2-space-4);
+  text-align: center;
+}
+
+.capIndex {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: var(--track-mono, 0.04em);
+  color: var(--r2-ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.capName {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 19px;
+}
+
+.capLine {
+  font-family: var(--font-read);
+  font-size: 21px;
+  line-height: 1.45;
+  color: var(--r2-ink);
+}
+
+.stagesStatic {
+  list-style: none;
+  margin: var(--r2-space-5) auto 0;
+  padding: 0;
+  max-width: 760px;
+  display: grid;
+  gap: var(--r2-space-4);
+}
+
+.stagesStatic .capLine {
+  font-size: 17px;
+  color: var(--r2-ink-2);
+}
+
+/* ---------- 5 · tracks ---------- */
+.tracks,
+.scope,
+.roadmap {
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: var(--r2-space-9) var(--r2-gutter);
+  border-top: 1px solid var(--r2-hairline);
+  display: grid;
+  gap: var(--r2-space-6);
+}
+
+.tracksFig {
+  width: 100%;
+  height: auto;
+  max-height: 120px;
+}
+
+.trackLine,
+.trackJoin {
+  fill: none;
+  stroke: var(--r2-ink-2);
+  stroke-width: 1.25;
+  vector-effect: non-scaling-stroke;
+}
+
+.trackLine {
+  stroke-dasharray: 4 3;
+}
+
+.trackPoint {
+  fill: var(--r2-ink);
+}
+
+.trackCols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--r2-space-7);
+}
+
+.track {
+  display: grid;
+  gap: var(--r2-space-2);
+  align-content: start;
+}
+
+.trackCh {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: var(--track-mono, 0.04em);
+  color: var(--r2-ink-3);
+}
+
+.boundary {
+  margin: var(--r2-space-4) 0 0;
+  display: grid;
+  border-top: 1px solid var(--r2-hairline-strong);
+}
+
+.boundary div {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: var(--r2-space-4);
+  align-items: baseline;
+  padding: var(--r2-space-4) 0;
+  border-bottom: 1px solid var(--r2-hairline);
+}
+
+.boundary dt {
+  font-family: var(--font-read);
+  font-size: 15px;
+  color: var(--r2-ink-2);
+}
+
+/* "Never": the permanent line, struck-form marker (the paused / closed line form) */
+.boundary [data-never] dt::after {
+  content: '';
+  display: inline-block;
+  width: 14px;
+  height: 9px;
+  margin-left: 8px;
+  vertical-align: middle;
+  background:
+    linear-gradient(currentColor, currentColor) 0 50% / 14px 1px no-repeat,
+    linear-gradient(currentColor, currentColor) 7px 0 / 1px 9px no-repeat;
+  transform: rotate(-35deg);
+}
+
+.boundary dd {
+  margin: 0;
+  font-family: var(--font-read);
+  font-weight: 600;
+  word-spacing: normal;
+  font-size: var(--r2-fs-h3);
+  line-height: var(--r2-lh-h3);
+}
+
+/* ---------- 6 · scope ---------- */
+.scopeCols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--r2-space-7);
+}
+
+.scopeCols > div {
+  display: grid;
+  gap: var(--r2-space-4);
+  align-content: start;
+}
+
+.inList,
+.outList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+}
+
+.inList li,
+.outList li {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  align-items: center;
+  min-height: 48px;
+  border-bottom: 1px solid var(--r2-hairline);
+  font-size: 17px;
+}
+
+.inList li {
+  color: var(--r2-ink);
+}
+
+.outList li {
+  color: var(--r2-ink-2);
+}
+
+/* line form: solid = in scope, struck = out of scope */
+.inList li::before,
+.outList li::before {
+  content: '';
+  width: 14px;
+  height: 1px;
+  background: currentColor;
+}
+
+.outList li::before {
+  height: 9px;
+  background:
+    linear-gradient(currentColor, currentColor) 0 50% / 14px 1px no-repeat,
+    linear-gradient(currentColor, currentColor) 7px 0 / 1px 9px no-repeat;
+  transform: rotate(-35deg);
+}
+
+/* ---------- 7 · roadmap ---------- */
+.roadHead {
+  display: grid;
+  gap: var(--r2-space-3);
+}
+
+.phases {
+  list-style: none;
+  margin: var(--r2-space-4) 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  position: relative;
+}
+
+.phases::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 20px;
+  border-top: 1px dashed var(--r2-hairline-strong);
+}
+
+.phase {
+  display: grid;
+  gap: var(--r2-space-2);
+  padding-right: var(--r2-space-3);
+  align-content: start;
+}
+
+.phaseTick {
+  width: 1px;
+  height: 40px;
+  border-left: 1px dashed var(--r2-ink-2);
+}
+
+.phase[data-current] .phaseTick {
+  border-left-style: solid;
+  border-left-color: var(--r2-ink);
+}
+
+.phaseN {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--r2-ink-3);
+}
+
+.phaseName {
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--r2-ink);
+}
+
+.roadNote {
+  margin: 0;
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  color: var(--r2-ink-2);
+}
+
+/* ---------- phones ---------- */
+@media (max-width: 734px) {
+  .root .hero {
+    --cx: 50%;
+    --cy: 31%;
+    min-height: max(760px, calc(100svh - var(--r2-nav-h)));
+  }
+
+  .heroStage {
+    width: min(340px, 88vw);
+  }
+
+  .heroCopy {
+    right: var(--r2-gutter);
+    bottom: var(--r2-space-7);
+  }
+
+  .lead,
+  .heroLead {
+    font-size: 18px;
+  }
+
+  .pinStage {
+    padding-top: var(--r2-space-7);
+  }
+
+  .pair,
+  .trackCols,
+  .scopeCols {
+    grid-template-columns: 1fr;
+  }
+
+  /* phones: one idea per screen, so each pinned figure holds a little longer (still within 1–4 vh of scroll) */
+  .pin {
+    height: 420vh;
+  }
+
+  .bandPin[data-enhanced] {
+    height: calc(330vh + 100vh);
+  }
+
+  /* phones: the vertical light path, capped so the caption stays in the pinned viewport */
+  .bandFigure :global(svg) {
+    max-height: calc(100svh - var(--r2-nav-h) - 200px);
+    width: auto;
+    margin: 0 auto;
+  }
+
+  .bandCaption {
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .capLine {
+    font-size: 18px;
+  }
+
+  .phases {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .phases::before {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: auto;
+    border-top: 0;
+    border-left: 1px dashed var(--r2-hairline-strong);
+  }
+
+  .phase {
+    grid-template-columns: 24px 28px 1fr;
+    align-items: center;
+    min-height: 48px;
+    padding: 0;
+  }
+
+  .phaseTick {
+    width: 16px;
+    height: 1px;
+    border-left: 0;
+    border-top: 1px dashed var(--r2-ink-2);
+  }
+
+  .boundary div {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+}
+
+/* Join action in the world's button grammar: outlined, sentence case, the reading face (not a mono readout).
+   Scoped override of the shared JoinChapter's Signal button; request filed to change it in _chrome. */
+.join a[href='/get-involved'] {
+  font-family: var(--font-read);
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: normal;
+  text-transform: none;
+}

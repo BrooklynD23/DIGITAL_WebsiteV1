@@ -1,0 +1,194 @@
+[
+  {
+    "file": "brain-context-16x9.mp4",
+    "size": "1920x1080",
+    "mb": 1.42,
+    "median": 15.2,
+    "p90": 17.4,
+    "max": 21.7
+  },
+  {
+    "file": "brain-context-16x9.webm",
+    "size": "1280x720",
+    "mb": 1.35,
+    "median": 12.6,
+    "p90": 15.7,
+    "max": 23.4
+  },
+  {
+    "file": "brain-context-4x5.mp4",
+    "size": "1080x1350",
+    "mb": 1.49,
+    "median": 13.7,
+    "p90": 16.2,
+    "max": 21.3
+  },
+  {
+    "file": "brain-context-4x5.webm",
+    "size": "864x1080",
+    "mb": 1.65,
+    "median": 16.1,
+    "p90": 19.3,
+    "max": 26
+  },
+  {
+    "file": "brain-context-apple-16x9.mp4",
+    "size": "1920x1080",
+    "mb": 1.35,
+    "median": 15.5,
+    "p90": 17.3,
+    "max": 20.5
+  },
+  {
+    "file": "brain-context-apple-16x9.webm",
+    "size": "1280x720",
+    "mb": 1.34,
+    "median": 12.5,
+    "p90": 14.1,
+    "max": 17.5
+  },
+  {
+    "file": "brain-context-apple-4x5.mp4",
+    "size": "1080x1350",
+    "mb": 1.39,
+    "median": 14.4,
+    "p90": 16.5,
+    "max": 17.8
+  },
+  {
+    "file": "brain-context-apple-4x5.webm",
+    "size": "864x1080",
+    "mb": 1.6,
+    "median": 16.7,
+    "p90": 21.4,
+    "max": 27.2
+  },
+  {
+    "file": "shades-lightpath-16x9.mp4",
+    "size": "1920x1080",
+    "mb": 1.47,
+    "median": 14.2,
+    "p90": 16.5,
+    "max": 18
+  },
+  {
+    "file": "shades-lightpath-16x9.webm",
+    "size": "1280x720",
+    "mb": 1.16,
+    "median": 6.5,
+    "p90": 12.5,
+    "max": 13.2
+  },
+  {
+    "file": "shades-lightpath-4x5.mp4",
+    "size": "1080x1350",
+    "mb": 1.41,
+    "median": 12.8,
+    "p90": 14.3,
+    "max": 16.9
+  },
+  {
+    "file": "shades-lightpath-4x5.webm",
+    "size": "864x1080",
+    "mb": 1.5,
+    "median": 13.6,
+    "p90": 17.2,
+    "max": 18.2
+  },
+  {
+    "file": "shades-lightpath-apple-16x9.mp4",
+    "size": "1920x1080",
+    "mb": 1.35,
+    "median": 13.8,
+    "p90": 15.3,
+    "max": 17.9
+  },
+  {
+    "file": "shades-lightpath-apple-16x9.webm",
+    "size": "1280x720",
+    "mb": 1.15,
+    "median": 8.5,
+    "p90": 12.1,
+    "max": 19.7
+  },
+  {
+    "file": "shades-lightpath-apple-4x5.mp4",
+    "size": "1080x1350",
+    "mb": 1.33,
+    "median": 13.9,
+    "p90": 17.3,
+    "max": 19.2
+  },
+  {
+    "file": "shades-lightpath-apple-4x5.webm",
+    "size": "864x1080",
+    "mb": 1.46,
+    "median": 13.8,
+    "p90": 17.7,
+    "max": 25.3
+  },
+  {
+    "file": "sidekick-explode-16x9.mp4",
+    "size": "1280x720",
+    "mb": 1.29,
+    "median": 10.2,
+    "p90": 13,
+    "max": 13.4
+  },
+  {
+    "file": "sidekick-explode-16x9.webm",
+    "size": "1280x720",
+    "mb": 2.1,
+    "median": 14.8,
+    "p90": 21.9,
+    "max": 29.2
+  },
+  {
+    "file": "sidekick-explode-4x5.mp4",
+    "size": "864x1080",
+    "mb": 1.47,
+    "median": 12.6,
+    "p90": 16.7,
+    "max": 23.9
+  },
+  {
+    "file": "sidekick-explode-4x5.webm",
+    "size": "864x1080",
+    "mb": 2.33,
+    "median": 17.7,
+    "p90": 22.5,
+    "max": 37.1
+  },
+  {
+    "file": "sidekick-explode-apple-16x9.mp4",
+    "size": "1280x720",
+    "mb": 1.33,
+    "median": 10,
+    "p90": 12.2,
+    "max": 13
+  },
+  {
+    "file": "sidekick-explode-apple-16x9.webm",
+    "size": "1280x720",
+    "mb": 2.12,
+    "median": 13.7,
+    "p90": 15.7,
+    "max": 16.2
+  },
+  {
+    "file": "sidekick-explode-apple-4x5.mp4",
+    "size": "864x1080",
+    "mb": 1.24,
+    "median": 10.8,
+    "p90": 12.7,
+    "max": 13.9
+  },
+  {
+    "file": "sidekick-explode-apple-4x5.webm",
+    "size": "864x1080",
+    "mb": 2.39,
+    "median": 18.6,
+    "p90": 21.6,
+    "max": 28
+  }
+]

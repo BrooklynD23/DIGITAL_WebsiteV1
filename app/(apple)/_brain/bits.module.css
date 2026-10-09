@@ -1,0 +1,47 @@
+.confirm { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.02em; color: var(--r2-ink-3); white-space: nowrap; }
+
+.fidelity { margin: 0; display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; font-size: var(--r2-fs-small); line-height: var(--r2-lh-small); color: var(--r2-ink-3); max-width: 34rem; }
+.kind { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--r2-ink-2); padding: 1px 6px; border: 1px solid var(--r2-hairline-strong); }
+.kind[data-kind='metaphor'] { border-style: dashed; }
+.fidelity[data-world='apple'] .kind { border-radius: 980px; letter-spacing: 0.04em; }
+
+.coda { margin: 0; display: grid; gap: 8px; justify-items: start; color: var(--r2-ink-2); }
+.coda svg { max-width: 100%; height: auto; color: var(--r2-ink); }
+.coda figcaption { font-size: var(--r2-fs-small); line-height: var(--r2-lh-small); color: var(--r2-ink-3); max-width: 28rem; }
+.coda[data-world='apple'] { justify-items: center; text-align: center; }
+
+.method { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 12px 0; counter-reset: none; }
+.method li { position: relative; display: inline-flex; align-items: center; gap: 10px; padding-right: 36px; font-weight: 600; }
+.method li::after { content: ''; position: absolute; right: 8px; width: 20px; top: 50%; border-top: 1px dotted currentColor; opacity: 0.5; }
+.method li:last-child::after { border-top-style: dashed; width: 20px; }
+.node { width: 8px; height: 8px; border-radius: 50%; background: currentColor; flex: none; }
+.method[data-world='signal'] { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; }
+.method[data-world='apple'] { font-size: var(--r2-fs-lead); justify-content: center; }
+
+.sources { font-size: var(--r2-fs-small); line-height: var(--r2-lh-small); color: var(--r2-ink-3); max-width: 46rem; }
+.sources:not([open]) > :not(summary) { display: none; }
+.sources summary { cursor: pointer; min-height: 44px; display: inline-flex; align-items: center; color: var(--r2-ink-2); }
+.sources summary:hover { color: var(--r2-ink); }
+.sources p { margin: 4px 0 8px; }
+.sources ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.sources a { color: var(--r2-ink-2); }
+.sources a:hover { color: var(--r2-ink); }
+.srcId { font-family: var(--font-mono); }
+.sources[data-world='signal'] summary { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; }
+
+/* "How it works" disclosure (after each chapter pin) */
+.how { max-width: 40rem; margin: 0; padding: 0; color: var(--r2-ink-2); font-size: var(--r2-fs-small); line-height: 20px; }
+.how summary { cursor: pointer; min-height: 44px; display: inline-flex; align-items: center; gap: 8px; color: var(--r2-ink-2); list-style: none; }
+.how summary::-webkit-details-marker { display: none; }
+.how summary::after { content: '+'; font-family: var(--font-mono); }
+.how[open] summary::after { content: '−'; }
+.how summary:hover { color: var(--r2-ink); }
+.how:not([open]) > :not(summary) { display: none; }
+.how ol { margin: 4px 0 8px; padding-left: 1.3em; display: grid; gap: 6px; }
+.srcLine { margin: 0; font-family: var(--font-mono); font-size: 11px; color: var(--r2-ink-3); }
+.how[data-world='signal'] summary { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; }
+.how[data-world='apple'] { text-align: left; }
+.how[data-world='apple'] summary { font-size: 14px; }
+
+/* inside a pin the panel scrolls itself rather than outgrowing the sticky viewport */
+.how[open] ol { max-height: 32vh; overflow: auto; overscroll-behavior: contain; }

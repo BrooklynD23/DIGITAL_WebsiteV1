@@ -1,0 +1,11 @@
+import { chromium } from 'playwright';
+import { existsSync, readdirSync } from 'node:fs'; import { homedir } from 'node:os'; import { join } from 'node:path';
+const root = join(homedir(), '.cache', 'ms-playwright');
+const shell = readdirSync(root).filter((d) => d.startsWith('chromium_headless_shell-')).sort().reverse().map((d) => join(root, d, 'chrome-headless-shell-linux64', 'chrome-headless-shell')).find(existsSync);
+const b = await chromium.launch({ executablePath: shell });
+const p = await b.newPage({ viewport: { width: 1440, height: 900 } });
+await p.goto('http://localhost:3100/design-lab/r2/apple/sidekick/', { waitUntil: 'networkidle' });
+await p.evaluate(() => document.querySelector('#swap-title').scrollIntoView());
+await p.waitForTimeout(2500);
+console.log(await p.evaluate(() => { const m = document.querySelector('#swap-title').parentElement.nextElementSibling; const r = m.getBoundingClientRect(); return { r: [r.top, r.width, r.height], html: m.innerHTML.slice(0, 600) }; }));
+await b.close();

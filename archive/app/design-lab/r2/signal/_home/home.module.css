@@ -1,0 +1,165 @@
+/* Signal Capture · Home. One capture of a build: scroll is the timebase, red is the single trigger marker,
+ * state is carried by line form (solid = live/captured, dashed = pending).
+ * Default styles = the still capture (reduced motion, no JS). The pinned instrument is switched on only under
+ * `(scripting: enabled) and (prefers-reduced-motion: no-preference)`, so the server HTML already paints the final
+ * layout (no hydration flip). */
+
+.page { min-height: 100vh; color: var(--r2-ink); }
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 var(--r2-gutter); }
+.h2, .thesis, .chTitle, .stageBigName, .divName, .chName { font-family: var(--font-display); }
+.h2 { margin: 0; font-weight: var(--r2-fw-display); font-stretch: var(--r2-fstretch-display); font-size: var(--r2-fs-h1); line-height: var(--r2-lh-h1); letter-spacing: var(--r2-ls-h1); text-wrap: balance; }
+
+/* ---------------------------------------------------------------- capture: still (default) */
+.capture { position: relative; }
+.capturePin { padding: var(--r2-space-8) 0 var(--r2-space-9); }
+.heroGrid { max-width: 1200px; margin: 0 auto; padding: 0 var(--r2-gutter); width: 100%; display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); gap: var(--r2-space-7); align-items: center; }
+.leftCol { display: grid; align-items: center; }
+.leftCol > * { grid-area: 1 / 1; }
+.heroCopy { display: grid; gap: var(--r2-space-5); align-content: center; }
+.thesis { margin: 0; font-weight: var(--r2-fw-display); font-stretch: var(--r2-fstretch-display); font-size: var(--r2-fs-hero); line-height: var(--r2-lh-hero); letter-spacing: var(--r2-ls-hero); text-wrap: balance; }
+.lead { margin: 0; max-width: 30rem; font-size: var(--r2-fs-lead); line-height: var(--r2-lh-lead); letter-spacing: var(--r2-ls-lead); color: var(--r2-ink-2); text-wrap: pretty; }
+
+.chStrip { list-style: none; margin: var(--r2-space-2) 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--r2-space-2); }
+.chLink { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 12px 0 14px; border: 1px solid var(--r2-hairline); color: var(--r2-ink); text-decoration: none; transition: border-color var(--r2-dur-ui-fast) var(--r2-ease-ui); }
+.chLink:hover { border-color: var(--r2-ink); }
+.chMark { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.04em; color: var(--r2-ink-3); }
+.chName { font-weight: 650; font-stretch: 110%; font-size: 13px; letter-spacing: 0.08em; }
+.chLink svg { color: var(--r2-ink-2); }
+
+/* the stage readout that replaces the thesis while pinned (hidden in the still capture) */
+.stageBig { display: none; }
+.stageBigItem { grid-area: 1 / 1; display: grid; gap: var(--r2-space-4); align-content: center; justify-items: start; opacity: 0; transform: translateY(12px); visibility: hidden; transition: opacity 160ms var(--r2-ease-ui), transform 160ms var(--r2-ease-ui), visibility 0s 160ms; }
+.stageBigItem[data-active] { opacity: 1; transform: none; visibility: visible; transition: opacity 240ms var(--r2-ease-ui) 160ms, transform 240ms var(--r2-ease-ui) 160ms, visibility 0s 160ms; }
+.stageBigName { font-weight: 750; font-stretch: 118%; font-size: var(--r2-fs-hero); line-height: var(--r2-lh-hero); letter-spacing: 0.01em; text-transform: uppercase; }
+.stageBigRule { display: inline-flex; align-items: center; gap: 12px; font-family: var(--font-mono); font-size: 15px; line-height: 22px; letter-spacing: 0.02em; color: var(--r2-ink); padding-top: var(--r2-space-3); border-top: 1px solid var(--r2-hairline-strong); }
+.ruleGlyph { flex: none; color: var(--r2-ink-2); }
+
+/* the scope: readout · orb · timebase */
+.scope { margin: 0; display: grid; gap: var(--r2-space-3); justify-items: center; }
+.readout { width: 100%; max-width: 560px; display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 12px; line-height: 16px; letter-spacing: 0.04em; color: var(--r2-ink-2); border-bottom: 1px solid var(--r2-hairline); padding-bottom: 8px; }
+.cursorRead { display: none; color: var(--r2-ink); font-variant-numeric: tabular-nums; }
+.orbStack { position: relative; width: min(440px, 100%); aspect-ratio: 1; color: var(--r2-ink); }
+.orb { position: absolute !important; inset: 0; width: 100% !important; }
+
+.timebase { position: relative; width: 100%; max-width: 560px; padding-top: 6px; }
+.ruler { position: relative; height: 20px; container-type: inline-size; }
+.ruler::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; border-top: 1px dashed var(--r2-hairline-strong); }
+.traceDone, .marker { display: none; }
+
+.divisions { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.divisions li { border-left: 1px solid var(--r2-hairline); padding: 0 12px 0 10px; display: grid; gap: 6px; align-content: start; }
+.division { display: inline-flex; align-items: center; min-height: 44px; padding: 0; background: none; border: 0; color: var(--r2-ink); text-align: left; font: inherit; cursor: default; }
+.divName { font-weight: 650; font-stretch: 108%; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; }
+.divLine { font-size: var(--r2-fs-small); line-height: var(--r2-lh-small); color: var(--r2-ink-2); }
+.divRule { font-family: var(--font-mono); font-size: 12px; line-height: 16px; letter-spacing: 0.02em; color: var(--r2-ink); }
+.scrub { display: none; }
+
+/* ---------------------------------------------------------------- capture: pinned instrument */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  .capture {
+    height: 500vh;
+    --h: clamp(0, calc(var(--p) / 0.08), 1);
+    --q: clamp(0, calc((var(--p) - 0.1) / 0.9), 1);
+  }
+  .capturePin {
+    position: sticky; top: var(--r2-sticky-top, var(--r2-nav-h)); height: calc(100svh - var(--r2-nav-h));
+    padding: 0; display: grid; align-items: center; overflow: hidden;
+  }
+  .heroCopy { opacity: calc(1 - var(--h)); transform: translateY(calc(var(--h) * -24px)); }
+  .capture[data-phase='stages'] .heroCopy { visibility: hidden; }
+  .stageBig { display: grid; opacity: var(--h); }
+  .capture[data-phase='hero'] .stageBig { visibility: hidden; }
+
+  .cursorRead { display: inline; }
+  .orbStack { width: min(520px, 100%, calc(100svh - 300px)); }
+  .traceDone { display: block; position: absolute; left: 0; top: calc(50% - 0.5px); width: 100%; height: 1px; background: var(--r2-ink); transform-origin: left center; transform: scaleX(var(--q, 0)); }
+  .marker { display: block; position: absolute; left: 0; top: -4px; width: 1px; height: 28px; background: var(--r2-trigger); transform: translateX(calc(var(--q, 0) * 100cqi)); }
+  .marker::before { content: ''; position: absolute; left: -4px; top: -2px; width: 9px; height: 7px; background: var(--r2-trigger); clip-path: polygon(0 0, 100% 0, 50% 100%); }
+
+  .divLine, .divRule { display: none; }
+  .division { color: var(--r2-ink-2); cursor: pointer; transition: color var(--r2-dur-ui-fast) var(--r2-ease-ui); }
+  .division:hover, .divisions li[data-active] .division { color: var(--r2-ink); }
+  .scrub { display: block; position: absolute; left: 0; right: 0; top: -6px; height: 40px; margin: 0; width: 100%; appearance: none; -webkit-appearance: none; background: transparent; cursor: ew-resize; }
+  .scrub::-webkit-slider-runnable-track { height: 40px; background: transparent; }
+  .scrub::-webkit-slider-thumb { -webkit-appearance: none; width: 24px; height: 40px; background: transparent; border: 0; }
+  .scrub::-moz-range-track { height: 40px; background: transparent; }
+  .scrub::-moz-range-thumb { width: 24px; height: 40px; background: transparent; border: 0; }
+  .scrub:focus-visible { outline: 2px solid var(--r2-focus); outline-offset: 4px; }
+}
+
+/* ---------------------------------------------------------------- channels */
+.channels { padding: var(--r2-space-9) 0 var(--r2-space-8); }
+.channels .h2 { max-width: 16ch; margin-bottom: var(--r2-space-6); }
+.chRows { list-style: none; margin: 0; padding: 0; }
+/* One channel per viewport, object at ~2/3 of its height. The scope box (solid ground) starts left of the page centre,
+   so the graticule's major vertical runs behind the box, never through copy. */
+.chRow { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 560px); column-gap: var(--r2-space-9); align-items: center; min-height: calc(100svh - var(--r2-nav-h)); padding: var(--r2-space-7) 0; border-top: 1px dashed var(--r2-hairline-strong); }
+.chRow:last-child { border-bottom: 1px dashed var(--r2-hairline-strong); }
+.chScope { position: relative; justify-self: end; width: min(100%, 560px, calc(100svh - 200px)); aspect-ratio: 1; display: grid; place-items: center; border: 1px solid var(--r2-hairline); background: var(--r2-ground); }
+.chRowMark { position: absolute; left: 10px; top: 8px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em; color: var(--r2-ink-2); }
+.chOrb { width: 88%; color: var(--r2-ink); }
+.chBody { display: grid; gap: var(--r2-space-5); justify-items: start; }
+.chTitle { margin: 0; font-weight: 750; font-stretch: 118%; font-size: clamp(40px, 4.4vw, 64px); line-height: 1.05; letter-spacing: 0.01em; }
+.chLine { margin: 0; max-width: 26rem; font-size: var(--r2-fs-h3); line-height: var(--r2-lh-lead); color: var(--r2-ink-2); text-wrap: pretty; }
+.chStatus { margin: 0; display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 12px; line-height: 16px; color: var(--r2-ink-2); }
+.confirm { color: var(--r2-ink-3); font-family: var(--font-mono); font-size: 0.6em; letter-spacing: 0.02em; }
+.chStatus .confirm { font-size: inherit; }
+.chProbe { display: inline-flex; align-items: center; gap: 16px; min-height: 44px; color: var(--r2-ink); text-decoration: none; }
+.chProbe:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.12em; }
+.chProbe svg { transition: transform var(--r2-dur-ui-fast) var(--r2-ease-ui); }
+.chProbe:hover svg { transform: translateX(3px); }
+
+/* Join continues the capture: the page graticule runs under it (no solid band, no seam). */
+.page .joinOnCapture { background: transparent; }
+
+/* ---------------------------------------------------------------- tablet / mobile */
+/* ≤1068: the hero stacks (thesis over scope) — two columns cannot hold a 72px thesis and a 4-division ruler. */
+@media (max-width: 1068px) {
+  .heroGrid { grid-template-columns: minmax(0, 1fr); gap: var(--r2-space-5); }
+  .heroCopy { max-width: 40rem; }
+  .scope { justify-self: start; width: 100%; max-width: 560px; }
+  .chRow { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--r2-space-6); min-height: 0; padding: var(--r2-space-8) 0; }
+}
+
+@media (max-width: 734px) {
+  .heroGrid { gap: var(--r2-space-4); }
+  .heroCopy { gap: var(--r2-space-3); }
+  .chStrip { flex-wrap: nowrap; gap: 6px; }
+  .chLink { padding: 0 8px; gap: 6px; }
+  .chLink svg { display: none; }
+  .chName { font-size: 12px; letter-spacing: 0.04em; }
+  .scope { gap: var(--r2-space-2); }
+  .stageBigName { font-size: 40px; line-height: 44px; }
+  .stageBigRule { font-size: 13px; line-height: 18px; }
+  .divisions { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: var(--r2-space-4); }
+
+  .chRow { grid-template-columns: minmax(0, 1fr); row-gap: var(--r2-space-5); padding: var(--r2-space-7) 0; min-height: 0; }
+  .chScope { order: -1; width: 100%; max-width: 358px; }
+  .chTitle { font-size: 40px; line-height: 44px; }
+  .chProbe svg { width: 22px; height: 22px; }
+}
+
+/* ≤1068 pin: the thesis scrolls away in flow; the scope and the stage readout stick, stacked, with no dead band. */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) and (max-width: 1068px) {
+  .capture { --orb-m: min(calc(100vw - 2 * var(--r2-gutter)), calc(100svh - 400px), 400px); --scope-h: calc(var(--orb-m) + 112px); --sb: 140px; }
+  .capturePin { position: static; height: 100%; display: block; overflow: visible; }
+  .heroGrid { display: flex; flex-direction: column; align-items: stretch; height: 100%; gap: var(--r2-space-3); padding-top: var(--r2-space-4); }
+  .leftCol { display: contents; }
+  .heroCopy { order: 0; opacity: 1; transform: none; }
+  .capture[data-phase='stages'] .heroCopy { visibility: visible; }
+  /* The scope's margin box reserves the stage readout below it, so both release together at the pin's end. */
+  .scope { order: 1; position: sticky; top: calc(var(--r2-nav-h) + 8px); margin-bottom: calc(var(--sb) - var(--r2-space-3)); }
+  .orbStack { width: var(--orb-m); }
+  .stageBig { order: 2; position: sticky; top: calc(var(--r2-nav-h) + 20px + var(--scope-h)); align-self: stretch; margin-top: calc(-1 * var(--sb)); min-height: var(--sb); }
+  .stageBigItem { justify-items: start; }
+  .divisions { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .scope { max-width: none; justify-self: stretch; }
+}
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) and (max-width: 734px) {
+  .divisions li { padding-left: 6px; }
+  .divName { font-size: 11px; letter-spacing: 0.02em; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stageBigItem, .chOrb, .chProbe svg { transition: none; }
+}
