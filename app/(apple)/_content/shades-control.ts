@@ -79,16 +79,16 @@ export const glasses = {
 /* ------------------------------------------------------------------ sources (new strings only) */
 
 export const sources = {
-  'hero.conceptLines.a': 'shades.ts:50 status ("Planning"); DECISIONS #6 ("planning-stage concept"); reader demo runs in the browser (shades.ts:111 reader.label "RSVP reader demo")',
-  'control.label': 'PLAN-R2.md revisions table, approach 3 ("Hold still" slider, Page → Hold); shades.ts:95 method.oneWord',
-  'control.steps.page': 'shades.ts:77 problem.lead ("your eyes jump from word to word"); describes the illustrative figure',
-  'control.steps.line': 'shades.ts:77 problem.lead ("Along a line ... stop, and sometimes jump back")',
+  'hero.conceptLines.a': 'shades.ts:51 status ("Planning"); DECISIONS #6 ("planning-stage concept"); reader demo runs in the browser (shades.ts:112 reader.label "RSVP reader demo")',
+  'control.label': 'PLAN-R2.md revisions table, approach 3 ("Hold still" slider, Page → Hold); shades.ts:96 method.oneWord',
+  'control.steps.page': 'shades.ts:78 problem.lead ("your eyes jump from word to word"); describes the illustrative figure',
+  'control.steps.line': 'shades.ts:78 problem.lead ("Along a line ... stop, and sometimes jump back")',
   'control.steps.phrase': 'Describes the illustrative figure only (PLAN-R2.md:87 figure behaviour, not a fact source)',
   'control.steps.word': 'Describes the illustrative figure only (PLAN-R2.md:87 figure behaviour, not a fact source)',
-  'hero.boundary': 'shades.ts:52 boundaryShort (verbatim)',
-  'control.steps.hold': 'shades.ts:93 method.lead ("Your eyes can stay"); shades.ts:92 method.appleHeadline ("One word. One point.")',
+  'hero.boundary': 'shades.ts:53 boundaryShort (verbatim)',
+  'control.steps.hold': 'shades.ts:94 method.lead ("Your eyes can stay"); shades.ts:93 method.appleHeadline ("One word. One point.")',
   'control.simulationNote': 'PLAN-R2.md rule 4 (verbatim)',
-  'pace.title': 'shades.ts:103 reader.headline (first sentence)',
-  'pace.caption': 'shades.ts:110 reader.wpm min/max; shades.ts:104 reader.lead ("Nothing plays until you do"); shades.ts:113 controls.read',
-  'glasses.caption': 'shades.ts:155 lightPath.stages[display]; shades.ts:161 lightPath.stages[optics] ("one eye"); DECISIONS #6 (see-through)',
+  'pace.title': 'shades.ts:104 reader.headline (first sentence)',
+  'pace.caption': 'shades.ts:111 reader.wpm min/max; shades.ts:105 reader.lead ("Nothing plays until you do"); shades.ts:114 controls.read',
+  'glasses.caption': 'shades.ts:156 lightPath.stages[display]; shades.ts:162 lightPath.stages[optics] ("one eye"); DECISIONS #6 (see-through)',
 } as const;

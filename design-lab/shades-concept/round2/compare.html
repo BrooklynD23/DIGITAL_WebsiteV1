@@ -33,7 +33,11 @@
   img { display:block; width:100%; height:auto; }
   body.phone .cols img { width:auto; max-width:100%; max-height:620px; margin:0 auto; }
   .art { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
-  ol { padding-left:20px; } li { margin:6px 0; }
+  ol, ul { padding-left:20px; } li { margin:6px 0; }
+  .finds { max-width:90ch; }
+  .finds li { color:var(--dim); font-size:14px; }
+  .finds li b { color:var(--ink); font-weight:600; }
+  .finds .src { font-size:12px; }
   code { color:var(--green); }
   @media (max-width:900px) { .cols, .art { grid-template-columns:1fr; } }
 </style>
@@ -47,6 +51,7 @@
     <a class="btn" target="_blank" rel="noopener" href="http://localhost:3100/projects/shades-control/">2 Hold still</a>
     <a class="btn" target="_blank" rel="noopener" href="http://localhost:3100/projects/shades-research/">3 Research</a>
     <a class="btn" target="_blank" rel="noopener" href="http://localhost:3100/projects/shades-art-preview/">Artwork</a>
+    <a class="btn" href="#notion">Notion</a>
     <span class="spacer"></span>
     <button type="button" id="vDesk" aria-pressed="true">Desktop 1600</button>
     <button type="button" id="vPhone" aria-pressed="false">Phone 390</button>
@@ -82,6 +87,55 @@
       <li>Caption for the controller box and cable: add one (new string, brand review) or leave unlabelled.</li>
     </ol>
     <p class="note">Notes: <a class="btn" href="reveal/NOTES.md" target="_blank">Reveal</a> <a class="btn" href="control/NOTES.md" target="_blank">Hold still</a> <a class="btn" href="research-page/NOTES.md" target="_blank">Research</a> <a class="btn" href="PLAN-R2.md" target="_blank">Plan</a></p>
+  </section>
+
+  <section id="notion" class="finds">
+    <h3>Notion findings (read 2026-10-09)</h3>
+    <p class="note">What the DIGITAL Notion SHADES pages say, set against <code>shades.ts</code> and <code>DECISIONS.md</code>. Facts: 48. Of these, 21 agree, 6 conflict, 17 are new and 4 are site claims Notion does not back. Nothing here is printed on a page yet. Every change goes through the brand agents and needs Head Designer sign-off. Raw quotes: <a href="../research/notion/" target="_blank"><code>research/notion/</code></a>.</p>
+
+    <h3>Conflicts</h3>
+    <ol>
+      <li><b>Seats vs subteams.</b> Notion has four subteams: Product Development, SoC/FPGA, Hardware (PCB) and Mech-E. The site's seats are Engineering, Firmware, Optics, Design and Research. Optics and Design have no Notion pages, and PCB and Mech-E are missing from the site. <span class="src">SHADES root, 2026-09-28</span></li>
+      <li><b>One word vs words or short phrases.</b> The first build must "render words or phrases in a fixed display region", but the site only ever says "one word at a time". <span class="src">Engineering Scope, 2026-07-29; ConOps, 2026-08-05</span></li>
+      <li><b>Light glasses vs bulky temples.</b> Notion keeps components off the glasses and targets "Less than 40-50 grams" with a 30/70 nose-to-ear balance. DECISIONS #7 draws heavy temples that house components. <span class="src">Focal Plane Adjustment, 2026-09-28; Mass Balancing, 2026-08-23</span></li>
+      <li><b>"In development" vs "Planned".</b> The root status is Planned and every task row is Not Started, but the site's meta description says "in development". <span class="src">SHADES root, 2026-09-28</span></li>
+      <li><b>Fixed focus vs a focal slider.</b> The first-build scope says fixed focus, which matches the site. A newer Mech-E task designs a ±4 mm focal carriage. <span class="src">Focal Plane Adjustment, 2026-09-28</span></li>
+      <li><b>Light-path order.</b> In Notion, controls feed a microcontroller, which feeds the FPGA. The site draws Text → Word timing → Control. <span class="src">Engineering Scope, 2026-07-29</span></li>
+    </ol>
+
+    <h3>New facts (printable, no parts named)</h3>
+    <ol>
+      <li><b>Controller.</b> It is pocket or hip sized (about 7 × 14 × 1 cm), with a speed dial and buttons for play, pause and rewind that work by touch. <span class="src">ConOps, 2026-08-05; Compute Puck Enclosure, 2026-09-28</span></li>
+      <li><b>Cable.</b> One cable carries both power and data between the controller and the glasses. <span class="src">USB-C module, 2026-09-23</span></li>
+      <li><b>See-through, now sourced.</b> The optics return the image "while preserving a view of the surrounding environment". Backs DECISIONS #6. <span class="src">Background &amp; Project Solution, 2026-09-28</span></li>
+      <li><b>Aim.</b> "The central engineering challenge is therefore not to maximize reading speed. It is to control the delivery of text in a manner that supports the construction of meaning." <span class="src">Background, 2026-09-28</span></li>
+      <li><b>Research questions.</b> The study would evaluate "comprehension, reading speed, retention, comfort". These are questions, not outcomes. <span class="src">Background, 2026-09-28</span></li>
+      <li><b>Settings and safety.</b> Phrase length, punctuation pauses, font size and contrast are adjustable. If the link drops, the display goes blank. <span class="src">Engineering Scope; ConOps</span></li>
+      <li><b>Pace.</b> The site demo's 100–600 wpm in 25-wpm steps matches Notion's "possible MVP range", which Notion marks as not final. <span class="src">SoC Logic Design, 2026-09-22</span></li>
+    </ol>
+    <p class="note">Do not print: the part names (FPGA board, microcontroller, connector, haptic driver), the optics type, display resolution, the 8-month proposal, the inspiration products, or Notion's "assistive … ADHD … speed reading" line, which reads as an efficacy claim.</p>
+
+    <h3>What each approach gains or must change</h3>
+    <div class="cols">
+      <div class="col"><h2>Product reveal</h2>
+        <ul>
+          <li><b>Gains:</b> a dial and two buttons on the controller box; a cable caption ("one cable, power and data"); a Notion source for the see-through view; "Is this real?" can quote status Planned and the aim line.</li>
+          <li><b>Must change:</b> the seat rows (conflict 1). Decide the temple bulk (conflict 3). In anatomy, put Control before Word timing (conflict 6).</li>
+        </ul>
+      </div>
+      <div class="col"><h2>Hold still</h2>
+        <ul>
+          <li><b>Gains:</b> Notion's own mechanism line backs the slider: RSVP "reduces the need for eye scanning, line tracking, and repeated regressions" (Product Definition, 2026-09-10). The Phrase step now matches "words or phrases", and the pace beat matches the 100–600 range.</li>
+          <li><b>Must change:</b> the join beat (conflict 1). Keep the mechanism line out of benefit wording, since brand-guardian checks it for efficacy.</li>
+        </ul>
+      </div>
+      <div class="col"><h2>Research platform</h2>
+        <ul>
+          <li><b>Gains the most:</b> the Scope page's in and out lists match almost line for line. It can add the four research questions, the aim line, the safe blank display and "medical-device approval out of scope".</li>
+          <li><b>Must change:</b> the seats (conflict 1), "words or short phrases" in the scope list (conflict 2) and the stage wording (conflict 4).</li>
+        </ul>
+      </div>
+    </div>
   </section>
 </main>
 <script>

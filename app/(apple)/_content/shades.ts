@@ -2,7 +2,8 @@
  * SHADES page content, shared by both round-2 worlds (now live at /projects/shades; the Signal world is archived).
  * Owner: W1-SHADES. Same facts, two compositions.
  *
- * Sources: design-lab/round2/research/notion-directives.md (Notion SHADES pages, all tagged [confirm]),
+ * Sources: design-lab/round2/research/notion-directives.md and design-lab/shades-concept/research/notion/SUMMARY.md
+ * (Notion SHADES pages, re-read 2026-10-09, all tagged [confirm]),
  * lib/data/projects.ts + lib/data/experiments/glasses.ts (RSVP method, reader sets WPM, FPGA, Verilog, Embedded C,
  * optics, mentor), PRODUCT.md (build night). No medical or efficacy claims. No personal names except the mentor.
  * Unconfirmed component choices (FPGA part, display panel, optics type) are not named.
@@ -52,7 +53,7 @@ export const SHADES = {
   boundaryShort: 'A research platform. Not a medical device.',
   meta: {
     title: 'SHADES · DIGITAL',
-    description: 'RSVP reading glasses in development at DIGITAL, Cal Poly Pomona: one word at a time, at one fixed point, at your pace.',
+    description: 'RSVP reading glasses, a concept in planning at DIGITAL, Cal Poly Pomona: one word at a time, at one fixed point, at your pace.',
   },
 
   /** Apple local product nav. */
@@ -129,7 +130,7 @@ export const SHADES = {
     /** Signal pinned band: one caption line under the strip. */
     pinNote: 'Diagram, not a render.',
     figureLabel:
-      'Diagram, not a render, of the SHADES light path in six stages: text source, word timing on an FPGA, control, display, optics, and the eye’s fixation point. Parts are not chosen yet and are unconfirmed by the club.',
+      'Diagram, not a render, of the SHADES light path in six stages: text source, control, word timing on an FPGA, display, optics, and the eye’s fixation point. Parts are not chosen yet and are unconfirmed by the club.',
     stages: [
       {
         id: 'text',
@@ -138,15 +139,15 @@ export const SHADES = {
         confirm: true,
       },
       {
-        id: 'timing',
-        name: 'Word timing',
-        caption: 'An FPGA gives each word its slot.',
-        confirm: true,
-      },
-      {
         id: 'control',
         name: 'Control',
         caption: 'You pause, resume, speed up or rewind.',
+        confirm: true,
+      },
+      {
+        id: 'timing',
+        name: 'Word timing',
+        caption: 'An FPGA gives each word its slot.',
         confirm: true,
       },
       {
@@ -173,8 +174,8 @@ export const SHADES = {
   tracks: {
     headline: 'Two tracks. One build.',
     items: [
-      { id: 'engineering', name: 'Engineering', line: 'Build the RSVP heads-up display: word timing, control, display and optics.' },
-      { id: 'research', name: 'Medical research', line: 'Study how readers with dyslexia respond to RSVP, with no outcome promised in advance.' },
+      { id: 'engineering', name: 'Engineering', line: 'Build the RSVP heads-up display: control, word timing, display and optics.' },
+      { id: 'research', name: 'Medical research', line: 'Ask whether RSVP changes comprehension, reading speed, retention or comfort for readers with dyslexia. No outcome promised in advance.' },
     ],
     boundary: {
       is: 'A research platform.',
@@ -191,10 +192,11 @@ export const SHADES = {
     outLabel: 'Not in it',
     in: [
       'Prepared text over one wired link',
+      'Words or short phrases in one fixed spot',
       'A limited English character set',
-      'Pause, resume, speed and rewind',
-      'One eye, fixed focus',
-      'An external controller for compute and power',
+      'Pause, resume, speed and rewind, from a dial and buttons',
+      'One eye, fixed focus, see-through',
+      'A pocket-sized controller for compute and power, on one cable to the glasses',
     ],
     out: ['Wireless', 'Camera or text recognition', 'AI pacing', 'Eye tracking', 'Standalone use'],
     confirm: true,
@@ -202,7 +204,7 @@ export const SHADES = {
 
   roadmap: {
     headline: 'Seven phases.',
-    lead: 'From basic FPGA operation to a wearable prototype.',
+    lead: 'The FPGA team’s plan, from basic FPGA operation to a wearable prototype.',
     note: 'Current phase not yet confirmed.',
     phases: [
       { n: 1, name: 'Basic FPGA operation' },
@@ -232,10 +234,10 @@ export const SHADES = {
     headline: 'Pick your seat.',
     lead: 'SHADES needs five kinds of builders.',
     roles: [
-      { id: 'fpga', name: 'Engineering', line: 'FPGA timing and video output.' },
-      { id: 'firmware', name: 'Firmware', line: 'Embedded C for control.' },
-      { id: 'optics', name: 'Optics', line: 'Lenses and a frame that fits.' },
-      { id: 'design', name: 'Design', line: 'How a reader sets the pace.' },
+      { id: 'fpga', name: 'SoC and FPGA', line: 'Word timing, text rendering and video output.' },
+      { id: 'pcb', name: 'Hardware (PCB)', line: 'Circuit boards for power, controls and the display.' },
+      { id: 'mech', name: 'Mechanical', line: 'The frame, the optics mounts and the controller case.' },
+      { id: 'product', name: 'Product development', line: 'Requirements, scope and how a reader sets the pace.' },
       { id: 'research', name: 'Research', line: 'The medical-research track.' },
     ] as ReadonlyArray<Role>,
     mentor: 'Mentored by Dr. Mohamed El Hadedy.',

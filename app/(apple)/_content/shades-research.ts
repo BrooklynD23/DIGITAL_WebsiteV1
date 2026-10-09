@@ -83,10 +83,10 @@ export const roadmap = {
 /* ------------------------------------------------------------------ sources (new strings only) */
 
 export const sources = {
-  'hero.conceptLines.a': 'shades.ts:50 status ("Planning"); DECISIONS #6 ("planning-stage concept"); shades.ts:52 boundaryShort',
-  'hero.conceptLines.b': 'shades.ts:50 status; shades.ts:52 boundaryShort (verbatim)',
-  whatItIs: 'shades.ts:70 hero.lead; DECISIONS #6 ("concept")',
-  'boundary.title': 'shades.ts:66 labels.is / isNot; shades.ts:179-183 tracks.boundary',
-  'scope.intro': 'shades.ts:192-198 scope.in (5 items); shades.ts:199 scope.out (5 items)',
-  'seats.intro': 'shades.ts:234-240 join.roles (5 roles; first fpga "FPGA timing", last research "The medical-research track.")',
+  'hero.conceptLines.a': 'shades.ts:51 status ("Planning"); DECISIONS #6 ("planning-stage concept"); shades.ts:53 boundaryShort',
+  'hero.conceptLines.b': 'shades.ts:51 status; shades.ts:53 boundaryShort (verbatim)',
+  whatItIs: 'shades.ts:71 hero.lead; DECISIONS #6 ("concept")',
+  'boundary.title': 'shades.ts:67 labels.is / isNot; shades.ts:180-184 tracks.boundary',
+  'scope.intro': 'shades.ts:193-200 scope.in (6 items); shades.ts:201 scope.out (5 items)',
+  'seats.intro': 'shades.ts:236-242 join.roles (5 roles; first fpga "SoC and FPGA", last research "The medical-research track.")',
 } as const;
