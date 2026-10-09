@@ -5,7 +5,7 @@
  * Sources: design-lab/round2/research/notion-directives.md and design-lab/shades-concept/research/notion/SUMMARY.md
  * (Notion SHADES pages, re-read 2026-10-09, all tagged [confirm]),
  * lib/data/projects.ts + lib/data/experiments/glasses.ts (RSVP method, reader sets WPM, FPGA, Verilog, Embedded C,
- * optics, mentor), PRODUCT.md (build night). No medical or efficacy claims. No personal names except the mentor.
+ * optics, mentor), PRODUCT.md (build night). No medical or efficacy claims. Affiliation: Head Designer, 2026-10-09. The mentor is the only personal name.
  * Unconfirmed component choices (FPGA part, display panel, optics type) are not named.
  */
 import { CLUB } from '../_chrome/club';
@@ -124,7 +124,7 @@ export const SHADES = {
 
   lightPath: {
     headline: 'Follow the light.',
-    lead: 'Six stages, from a text file on a laptop to the point where you look.',
+    lead: 'Six stages, from plain text on a host computer to the point where you look.',
     /** Shown inside the figure (its accessible name starts with "Diagram"). */
     note: 'Diagram, not a render',
     /** Signal pinned band: one caption line under the strip. */
@@ -135,7 +135,7 @@ export const SHADES = {
       {
         id: 'text',
         name: 'Text source',
-        caption: 'Prepared text leaves a laptop over one wire.',
+        caption: 'A host computer sends text over a wired link.',
         confirm: true,
       },
       {
@@ -232,7 +232,7 @@ export const SHADES = {
 
   join: {
     headline: 'Pick your seat.',
-    lead: 'SHADES needs five kinds of builders.',
+    lead: 'Four subteams and a medical-research track.',
     roles: [
       { id: 'fpga', name: 'SoC and FPGA', line: 'Word timing, text rendering and video output.' },
       { id: 'pcb', name: 'Hardware (PCB)', line: 'Circuit boards for power, controls and the display.' },
@@ -241,6 +241,7 @@ export const SHADES = {
       { id: 'research', name: 'Research', line: 'The medical-research track.' },
     ] as ReadonlyArray<Role>,
     mentor: 'Mentored by Dr. Mohamed El Hadedy.',
+    affiliation: 'DIGITAL is a student organization under the MEP-WiSE Department at Cal Poly Pomona.',
     discord: { label: 'Ask on Discord', href: CLUB.discord },
     /** Primary join action (production route with the build-night details). */
     action: { label: 'Come to build night', href: '/get-involved/' },

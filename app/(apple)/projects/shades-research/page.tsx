@@ -129,6 +129,7 @@ export default function ShadesResearchPage() {
               <h2 id="sr-seats" className={s.h2}>{seats.title}</h2>
               <p className={s.lead}>{seats.intro}</p>
               <p className={s.mentor}>{SHADES.join.mentor}</p>
+              <p className={s.mentor}>{SHADES.join.affiliation}</p>
             </div>
             <div className={s.seats}>
               <Seats world="apple" />

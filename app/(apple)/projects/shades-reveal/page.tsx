@@ -151,6 +151,8 @@ export default function ShadesRevealPage() {
           primary={{ label: closing.join.discord.label, href: closing.join.discord.href, external: true }}
         >
           <Seats world="apple" />
+          <p className={s.note}>{SHADES.join.mentor}</p>
+          <p className={s.note}>{SHADES.join.affiliation}</p>
         </JoinChapter>
       </main>
       <WorldFooter world="apple" />

@@ -65,7 +65,7 @@ export const scope = {
 
 export const seats = {
   title: SHADES.join.headline,
-  intro: 'Five seats, from FPGA timing to the medical-research track.',
+  intro: SHADES.join.lead,
   roles: SHADES.join.roles,
   action: SHADES.join.action,
   discord: SHADES.join.discord,
@@ -88,5 +88,5 @@ export const sources = {
   whatItIs: 'shades.ts:71 hero.lead; DECISIONS #6 ("concept")',
   'boundary.title': 'shades.ts:67 labels.is / isNot; shades.ts:180-184 tracks.boundary',
   'scope.intro': 'shades.ts:193-200 scope.in (6 items); shades.ts:201 scope.out (5 items)',
-  'seats.intro': 'shades.ts:236-242 join.roles (5 roles; first fpga "SoC and FPGA", last research "The medical-research track.")',
+  'seats.intro': 'shades.ts:235 join.lead (verbatim)',
 } as const;
