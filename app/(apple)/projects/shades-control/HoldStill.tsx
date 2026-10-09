@@ -71,6 +71,9 @@ function build(w: number, h: number, inner: number, fs: number, lh: number, boxe
   const P0 = F - 2;
   const phraseShift = C.x - (lineX[P0] + (lineX[F] + fb.w - lineX[P0]) / 2);
   const push = (b: Box, f: number): number => (cy(b) < C.y - 1 ? -1 : 1) * lh * f;
+  // a parted ghost line stays only if its glyphs land fully inside the figure's unfaded band (never near the
+  // boundary line above or the simulation note below); otherwise it leaves to 0
+  const inside = (y: number): boolean => y - fs * 0.6 >= fs * 1.35 && y + fs * 0.6 <= h - fs * 1.35;
 
   const sc = Math.min(2, Math.max(1.25, 46 / fs));
   const focusDx = C.x - (fb.x + pivot);
@@ -78,7 +81,7 @@ function build(w: number, h: number, inner: number, fs: number, lh: number, boxe
 
   const page: Pose[] = boxes.map(() => ({ dx: 0, dy: 0, o: 1, sc: 1 }));
   const line: Pose[] = boxes.map((b, i) =>
-    inLine(i) ? { dx: lineX[i] - b.x, dy: C.y - cy(b), o: 1, sc: 1 } : { dx: 0, dy: push(b, 0.9), o: b.y === fb.y ? 0 : GHOST, sc: 1 },
+    inLine(i) ? { dx: lineX[i] - b.x, dy: C.y - cy(b), o: 1, sc: 1 } : { dx: 0, dy: push(b, 0.9), o: b.y !== fb.y && inside(cy(b) + push(b, 0.9)) ? GHOST : 0, sc: 1 },
   );
   const phrase: Pose[] = boxes.map((b, i) =>
     inLine(i)
@@ -105,20 +108,20 @@ function build(w: number, h: number, inner: number, fs: number, lh: number, boxe
     const x = i === F ? b.x + pivot + p.dx + (frac ?? 0) * b.w * p.sc : b.x + (b.w * (pivotIndex(WORDS[i]) + 0.5)) / Math.max(1, WORDS[i].length) + p.dx;
     return { x, y: cy(b) + p.dy - fs * 0.55 * p.sc - lift, r: r ?? 3 + Math.min(3, bare(WORDS[i]) * 0.5) };
   };
-  const reading = (from: number): number[] => {
+  const reading = (from: number, to: number = F): number[] => {
     const seq: number[] = [];
-    for (let i = from; i <= F; i += 1) if (bare(WORDS[i]) >= 3 || i === F) seq.push(i);
+    for (let i = from; i <= to; i += 1) if (bare(WORDS[i]) >= 3 || i === F || i === to) seq.push(i);
     if (seq.length > 4) seq.splice(4, 0, seq[2]); // one regression, early
     return seq;
   };
   const fix: Fix[][] = [
-    reading(0).map((i) => at(0, i)),
+    reading(0, n - 1).map((i) => at(0, i)), // the whole page, every line
     reading(k).map((i) => at(1, i)),
     [P0, P0 + 1, F].map((i) => at(2, i)),
-    [-0.16, 0.12, -0.06, 0].map((f, j) => at(3, F, f, j === 3 ? 4 : 2.5)),
+    [at(3, F, -0.1, 2.5), at(3, F, 0, 4)], // one last, tiny correction onto the point (no arc drawn)
     [],
   ];
-  const rest = poses.map((_, st) => at(st, F));
+  const rest = poses.map((_, st) => (st === 0 ? fix[0][fix[0].length - 1] : at(st, F)));
   const hops = fix.map((seq, st) => seq.map((f, j) => hop(j === 0 ? rest[st] : seq[j - 1], f)));
   const top = cy(fb) + focusDy - fs * 0.55 * sc;
   return { w, h, fs, lh, boxes, pivot, poses, fix, hops, rest, hold: { x: C.x, top: rest[4].y + 8, bottom: top - 3 } };
@@ -183,8 +186,13 @@ export function HoldStill() {
       const p = g.poses[a][i];
       const q = g.poses[b][i];
       el.style.transform = `translate(${lerp(p.dx, q.dx, t).toFixed(2)}px, ${lerp(p.dy, q.dy, t).toFixed(2)}px) scale(${lerp(p.sc, q.sc, t).toFixed(4)})`;
-      // a word leaves early and arrives late, so collapsing words never sit on top of each other at full ink
-      el.style.opacity = lerp(p.o, q.o, q.o < p.o ? Math.sqrt(t) : t * t).toFixed(3);
+      // A word changes ink only in the half of the move nearest its brighter pose: it is gone before the
+      // collapse starts and back only once it has arrived, so moving words never pile up legibly.
+      const f = q.o < p.o ? Math.min(1, t / 0.5) : Math.max(0, (t - 0.5) / 0.5);
+      // a word that changes row (the line re-forming) dips while it crosses the other lines, so it never
+      // travels over them at full ink
+      const dip = Math.abs(q.dy - p.dy) > g.lh * 0.5 ? 1 - 0.75 * Math.sin(Math.PI * t) : 1;
+      el.style.opacity = (lerp(p.o, q.o, f) * dip).toFixed(3);
     });
     const box = boxRef.current;
     // Hold: the moment the playhead reaches the collapsed pose on its way to Hold, the dot is already still;
@@ -344,7 +352,7 @@ export function HoldStill() {
                 const a = i === 0 ? null : shown[i - 1];
                 return (
                   <g key={`${scan?.step}-${i}`}>
-                    {i > 0 && scan && geo.hops[scan.step][i].d ? <path className={s.arc} d={geo.hops[scan.step][i].d} pathLength={1} /> : null}
+                    {i > 0 && scan && scan.step !== 3 && geo.hops[scan.step][i].d ? <path className={s.arc} d={geo.hops[scan.step][i].d} pathLength={1} /> : null}
                     <circle className={s.mark} cx={f.x} cy={f.y} r={f.r} style={{ '--r': f.r } as CSSProperties} />
                   </g>
                 );

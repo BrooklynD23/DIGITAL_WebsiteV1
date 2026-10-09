@@ -6,13 +6,14 @@ import { localTitle } from '../../_content/home';
 import { SHADES } from '../../_content/shades';
 import { heldWord } from '../../_content/shades-concept';
 import { boundary, hero, roadmap, scope, seats, tracks, whatItIs } from '../../_content/shades-research';
+import { hero as revealHero } from '../../_content/shades-reveal';
 import { Glasses } from '../../_shades-art/Glasses';
 import { Seats } from '../../_shades/Seats';
 import s from './research.module.css';
 
 /**
  * SHADES round 2, approach 2: research platform. Review route, not in the nav or the sitemap.
- * A calm lab notice: type and hairlines carry it. No pin, no diagram, no call to action above the description.
+ * A calm lab notice: type carries it; hairlines only inside data (dl rows, lists). No pin, no diagram, no call to action above the description.
  * Dark story (hero, what it is, two tracks) → one seam → light catalogue (boundary, scope, seats, roadmap, join).
  */
 export const metadata: Metadata = {
@@ -39,7 +40,7 @@ export default function ShadesResearchPage() {
 
       <main id="r2-main">
         <div className={s.dark} data-tone="dark">
-          {/* Hero: name, stage and aim, the object once and small. */}
+          {/* Hero: name, stage and aim, then the one visual: the solid glasses on their tether, captioned. */}
           <section className={s.hero} aria-labelledby="sr-h1">
             <h1 id="sr-h1" className={s.h1}>{hero.h1}</h1>
             {/* One sentence per line: stage, then aim. Split for layout only; the string is unchanged. */}
@@ -57,7 +58,10 @@ export default function ShadesResearchPage() {
                 display={{ word: heldWord }}
                 title={SHADES.hero.glassesLabel}
               />
-              <figcaption className={s.fine}>{SHADES.expansion}</figcaption>
+              <figcaption className={s.caption}>
+                <span className={s.renderCaption}>{revealHero.renderCaption}</span>
+                <span className={s.fine}>{SHADES.expansion}</span>
+              </figcaption>
             </figure>
           </section>
 
@@ -79,24 +83,22 @@ export default function ShadesResearchPage() {
         </div>
 
         <div className={s.light}>
-          {/* The boundary, as a definition list. */}
-          <section className={s.row} aria-labelledby="sr-boundary">
+          {/* The boundary: the page's centrepiece, set large. */}
+          <section className={s.boundary} aria-labelledby="sr-boundary">
             <h2 id="sr-boundary" className={s.h2}>{boundary.title}</h2>
-            <div>
-              <dl className={s.defs}>
-                {boundary.rows.map((r) => (
-                  <div key={r.term} className={s.def}>
-                    <dt className={s.term}>{r.term}</dt>
-                    <dd className={s.detail}>{r.detail}</dd>
-                  </div>
-                ))}
-              </dl>
-              <p className={s.note}>{boundary.line}</p>
-            </div>
+            <dl className={s.bigDefs}>
+              {boundary.rows.map((r) => (
+                <div key={r.term} className={s.bigDef}>
+                  <dt className={s.bigTerm}>{r.term}</dt>
+                  <dd className={s.bigDetail}>{r.detail}</dd>
+                </div>
+              ))}
+            </dl>
+            <p className={s.note}>{boundary.line}</p>
           </section>
 
           {/* What the first build covers: two hairline lists. */}
-          <section className={s.row} aria-labelledby="sr-scope">
+          <section className={s.stack} aria-labelledby="sr-scope">
             <div className={s.head}>
               <h2 id="sr-scope" className={s.h2}>{scope.title}</h2>
               <p className={s.lead}>{scope.intro}</p>
@@ -133,23 +135,21 @@ export default function ShadesResearchPage() {
             </div>
           </section>
 
-          {/* Roadmap: seven phases, no current phase claimed. */}
-          <section id="roadmap" className={s.row} aria-labelledby="sr-road">
+          {/* Roadmap: seven phases as a numbered list, no current phase claimed. */}
+          <section id="roadmap" className={s.stack} aria-labelledby="sr-road">
             <div className={s.head}>
               <h2 id="sr-road" className={s.h2}>{roadmap.title}</h2>
               <p className={s.lead}>{roadmap.intro}</p>
             </div>
-            <div>
-              <ol className={s.phases}>
-                {roadmap.phases.map((p) => (
-                  <li key={p.n}>
-                    <span className={s.n}>{p.n}</span>
-                    <span>{p.name}</span>
-                  </li>
-                ))}
-              </ol>
-              <p className={s.note}>{roadmap.note}</p>
-            </div>
+            <ol className={s.phases}>
+              {roadmap.phases.map((p) => (
+                <li key={p.n}>
+                  <span className={s.n}>{p.n}</span>
+                  <span className={s.phaseName}>{p.name}</span>
+                </li>
+              ))}
+            </ol>
+            <p className={s.note}>{roadmap.note}</p>
           </section>
         </div>
 

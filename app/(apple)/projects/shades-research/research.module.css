@@ -1,8 +1,10 @@
 /* SHADES · approach 2, research platform. A lab notice: Geist 600 headings, Atkinson Hyperlegible Next for every
-   sentence, 1px hairlines for structure. Tokens only. No cards, no eyebrows, no diagrams. */
+   sentence. Space separates chapters; 1px hairlines appear only inside data (dl rows, lists) — DESIGN.md §8.
+   Tokens only. No cards, no eyebrows, no diagrams. */
 
 .page {
   --wrap: 1024px; /* same measure as the LocalNav and footer, so every left edge lines up */
+  --measure: calc(min(var(--wrap), 100%) - 2 * var(--r2-gutter));
   font-family: var(--font-read);
   background: #000;
   color: var(--r2-ink);
@@ -17,7 +19,8 @@
 .h1,
 .h2,
 .h3,
-.term {
+.term,
+.bigTerm {
   margin: 0;
   font-family: var(--font-display);
   font-weight: var(--r2-fw-display);
@@ -78,7 +81,7 @@
   justify-items: center;
   text-align: center;
   gap: var(--r2-space-4);
-  padding: var(--r2-space-9) var(--r2-gutter) var(--r2-space-8);
+  padding: var(--r2-space-9) var(--r2-gutter) var(--r2-space-9);
 }
 
 .stage {
@@ -93,9 +96,10 @@
   display: block;
 }
 
+/* the page's one visual: the solid glasses on their tether, at the full measure */
 .object {
-  margin: var(--r2-space-7) 0 0;
-  width: min(380px, 66vw);
+  margin: var(--r2-space-6) 0 0;
+  width: var(--measure);
   display: grid;
   gap: var(--r2-space-5);
   justify-items: center;
@@ -106,6 +110,18 @@
   height: auto;
 }
 
+.caption {
+  display: grid;
+  gap: var(--r2-space-1);
+  justify-items: center;
+}
+
+.renderCaption {
+  font-size: var(--r2-fs-body);
+  line-height: var(--r2-lh-body);
+  color: var(--r2-ink-2);
+}
+
 .fine {
   text-wrap: balance;
   font-size: var(--r2-fs-small);
@@ -114,15 +130,13 @@
 }
 
 .notice {
-  width: calc(min(var(--wrap), 100%) - 2 * var(--r2-gutter));
+  width: var(--measure);
   margin: 0 auto;
-  padding-bottom: var(--r2-space-9);
-  border-top: 1px solid var(--r2-hairline);
+  padding-bottom: var(--r2-space-10);
 }
 
 .statement {
-  margin: 0;
-  padding: var(--r2-space-8) 0 var(--r2-space-9);
+  margin: 0 0 var(--r2-space-10);
   max-width: 22ch;
   font-family: var(--font-display);
   font-weight: var(--r2-fw-display);
@@ -132,18 +146,23 @@
   text-wrap: balance;
 }
 
-/* ---------- the notice row: heading left, matter right, one hairline above ---------- */
+/* ---------- chapter layouts ---------- */
+/* row: heading left, matter right (tracks, seats) */
 .row {
   display: grid;
   grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
   gap: var(--r2-space-5) var(--r2-space-8);
   align-items: start;
-  border-top: 1px solid var(--r2-hairline);
-  padding: var(--r2-space-7) 0 var(--r2-space-9);
 }
 
-.notice .row {
-  padding-bottom: 0;
+/* stack: heading on top, matter at the full measure (scope, roadmap) */
+.stack {
+  display: grid;
+  gap: var(--r2-space-7);
+}
+
+.stack > .note {
+  margin-top: calc(-1 * var(--r2-space-5));
 }
 
 .head {
@@ -152,7 +171,7 @@
   align-content: start;
 }
 
-/* dl grid: term column, detail column, a hairline under each pair */
+/* dl rows: term column, detail column, a hairline under each pair */
 .defs {
   margin: 0;
   border-top: 1px solid var(--r2-hairline-strong);
@@ -182,23 +201,66 @@
 .light {
   background: var(--r2-ground);
   color: var(--r2-ink);
-  padding-top: var(--r2-space-9);
+  padding-top: var(--r2-space-10);
 }
 
-.light > .row {
-  width: calc(min(var(--wrap), 100%) - 2 * var(--r2-gutter));
+.light > section {
+  width: var(--measure);
   margin: 0 auto;
+  padding-bottom: var(--r2-space-10);
 }
 
-.light > .row:first-child {
-  border-top-color: var(--r2-ink);
+/* boundary: the centrepiece. Centred title, three large dl rows, the claim line under them. */
+.boundary {
+  display: grid;
+  justify-items: center;
+  text-align: center;
 }
 
-/* scope: two hairline lists */
+.bigDefs {
+  margin: var(--r2-space-7) 0 0;
+  width: min(760px, 100%);
+  text-align: left;
+}
+
+.bigDef {
+  display: grid;
+  grid-template-columns: 7rem minmax(0, 1fr);
+  gap: var(--r2-space-5);
+  align-items: baseline;
+  padding: var(--r2-space-5) 0;
+  border-bottom: 1px solid var(--r2-hairline);
+}
+
+.bigDef:first-child {
+  border-top: 1px solid var(--r2-ink);
+}
+
+.bigTerm {
+  font-size: var(--r2-fs-lead);
+  line-height: var(--r2-lh-lead);
+  color: var(--r2-ink-2);
+}
+
+.bigDetail {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--r2-fw-display);
+  font-size: var(--r2-fs-h2);
+  line-height: var(--r2-lh-h2);
+  letter-spacing: var(--r2-ls-h2);
+  text-wrap: balance;
+}
+
+.boundary > .note {
+  margin-top: var(--r2-space-6);
+}
+
+/* scope: two hairline lists side by side */
 .lists {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--r2-space-6);
+  gap: var(--r2-space-8);
 }
 
 .list {
@@ -236,14 +298,13 @@
   box-shadow: inset 0 0 0 1px var(--r2-ink-2);
 }
 
-/* seats: the shared rows, left-aligned in the matter column */
+/* seats: the shared rows, left-aligned in the matter column, on the page's solid hairline */
 .seats > ul {
   margin: 0;
   max-width: none;
   border-top: 1px solid var(--r2-hairline-strong);
 }
 
-/* open seats keep their glyph; rows use the page's solid hairline */
 .seats a {
   border-bottom-style: solid;
   border-bottom-color: var(--r2-hairline);
@@ -254,52 +315,65 @@
   border-bottom-color: var(--r2-ink);
 }
 
-/* roadmap: seven numbered hairline rows */
+/* roadmap: seven numbered entries in one line of columns; large numerals, names under them */
 .phases {
   list-style: none;
   margin: 0;
   padding: 0;
-  border-top: 1px solid var(--r2-hairline-strong);
-  counter-reset: none;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: var(--r2-space-5);
 }
 
 .phases li {
   display: grid;
-  grid-template-columns: 3rem 1fr;
-  align-items: baseline;
-  padding: 13px 0;
-  border-bottom: 1px solid var(--r2-hairline);
-  font-size: 17px;
-  line-height: 25px;
+  gap: var(--r2-space-2);
+  align-content: start;
+  padding-top: var(--r2-space-3);
+  border-top: 1px solid var(--r2-hairline-strong);
 }
 
 .n {
   font-family: var(--font-display);
   font-weight: var(--r2-fw-display);
+  font-size: var(--r2-fs-h2);
+  line-height: var(--r2-lh-h2);
   font-variant-numeric: tabular-nums;
+}
+
+.phaseName {
+  font-size: 17px;
+  line-height: 24px;
   color: var(--r2-ink-2);
+  text-wrap: balance;
 }
 
 /* join: continues the light catalogue */
 .join {
   border-top: 0;
-  padding-top: var(--r2-space-8);
+  padding-top: 0;
 }
 
 .join :global(h2) {
   scroll-margin-top: calc(var(--r2-nav-h) + var(--r2-space-5));
 }
 
-/* ---------- small screens ---------- */
+/* ---------- smaller screens ---------- */
 @media (max-width: 1068px) {
   .row {
     grid-template-columns: 1fr;
+  }
+
+  .phases {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    row-gap: var(--r2-space-6);
   }
 }
 
 @media (max-width: 734px) {
   .hero {
     padding-top: var(--r2-space-8);
+    padding-bottom: var(--r2-space-8);
   }
 
   .stage {
@@ -307,8 +381,20 @@
     line-height: 27px;
   }
 
+  .notice {
+    padding-bottom: var(--r2-space-9);
+  }
+
   .statement {
-    padding: var(--r2-space-7) 0 var(--r2-space-8);
+    margin-bottom: var(--r2-space-9);
+  }
+
+  .light {
+    padding-top: var(--r2-space-9);
+  }
+
+  .light > section {
+    padding-bottom: var(--r2-space-9);
   }
 
   .lists {
@@ -316,16 +402,34 @@
     gap: var(--r2-space-7);
   }
 
-  .def {
+  .def,
+  .bigDef {
     grid-template-columns: 1fr;
     gap: var(--r2-space-1);
   }
 
-  .row {
-    padding-bottom: var(--r2-space-8);
+  /* roadmap becomes plain numbered rows */
+  .phases {
+    grid-template-columns: 1fr;
+    gap: 0;
+    border-top: 1px solid var(--r2-hairline-strong);
   }
 
-  .light {
-    padding-top: var(--r2-space-8);
+  .phases li {
+    grid-template-columns: 2.5rem 1fr;
+    align-items: baseline;
+    padding: 13px 0;
+    border-top: 0;
+    border-bottom: 1px solid var(--r2-hairline);
+  }
+
+  .n {
+    font-size: 17px;
+    line-height: 25px;
+    color: var(--r2-ink-2);
+  }
+
+  .phaseName {
+    color: var(--r2-ink);
   }
 }

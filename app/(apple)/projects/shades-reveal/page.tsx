@@ -57,7 +57,7 @@ export default function ShadesRevealPage() {
         </section>
 
         {/* 2 · What SHADES is: three declaratives. */}
-        <section className={s.what} data-tone="dark">
+        <section className={`${s.what} ${s.col}`} data-tone="dark">
           {whatItIs.map((line) => (
             <p key={line} className={s.whatLine}>{line}</p>
           ))}
@@ -95,22 +95,24 @@ export default function ShadesRevealPage() {
             </div>
             <figcaption className={s.renderCaption}>{hero.renderCaption}</figcaption>
           </figure>
-          <header className={s.head}>
-            <h2 id="rv-road" className={s.h2}>{closing.title}</h2>
-            <p className={s.lead}>{closing.intro}</p>
-          </header>
-          <ol className={s.phases}>
-            {closing.phases.map((ph) => (
-              <li key={ph.n}>
-                <span className={s.phaseN}>{ph.n}</span>
-                <span>{ph.name}</span>
-              </li>
-            ))}
-          </ol>
-          <p className={s.note}>{closing.note}</p>
+          <div className={`${s.road} ${s.col}`}>
+            <header className={s.roadHead}>
+              <h2 id="rv-road" className={s.h2}>{closing.title}</h2>
+              <p className={s.lead}>{closing.intro}</p>
+            </header>
+            <ol className={s.phases}>
+              {closing.phases.map((ph) => (
+                <li key={ph.n}>
+                  <span className={s.phaseN}>{ph.n}</span>
+                  <span>{ph.name}</span>
+                </li>
+              ))}
+            </ol>
+            <p className={s.note}>{closing.note}</p>
+          </div>
         </section>
 
-        <section className={s.faq} data-tone="dark" aria-labelledby="rv-faq">
+        <section className={`${s.faq} ${s.col}`} data-tone="dark" aria-labelledby="rv-faq">
           <h2 id="rv-faq" className={s.h2}>{faq.heading}</h2>
           <div className={s.faqList}>
             {faq.items.map((it) => (

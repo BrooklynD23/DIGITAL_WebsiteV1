@@ -83,9 +83,9 @@
 }
 
 .heroName {
-  font-size: clamp(56px, 9vw, 112px);
-  line-height: 1;
-  letter-spacing: -0.03em;
+  font-size: var(--r2-fs-hero);
+  line-height: var(--r2-lh-hero);
+  letter-spacing: var(--r2-ls-hero);
 }
 
 .heroLine {
@@ -103,22 +103,29 @@
   min-width: min(320px, 100%);
 }
 
+/* One column: the 1024px measure of the local nav and the footer (chrome.module.css .localInner / .footInner). */
+.col {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1024px;
+  margin-inline: auto;
+  padding-inline: var(--r2-gutter);
+}
+
 /* ---------- 2 · what SHADES is ---------- */
 .what {
   display: grid;
   gap: clamp(20px, 3vw, 40px);
-  width: min(960px, 100%);
-  margin: 0 auto;
-  padding: var(--r2-space-10) var(--r2-gutter);
+  padding-block: var(--r2-space-10);
 }
 
 .whatLine {
   margin: 0;
   font-family: var(--font-display);
   font-weight: var(--r2-fw-display);
-  font-size: clamp(28px, 4.2vw, 52px);
-  line-height: 1.12;
-  letter-spacing: -0.025em;
+  font-size: var(--r2-fs-h1);
+  line-height: var(--r2-lh-h1);
+  letter-spacing: max(var(--r2-ls-h1), -0.03em);
   color: var(--r2-ink);
   text-wrap: balance;
 }
@@ -284,11 +291,16 @@
 }
 
 .trackBtn {
-  display: grid;
-  place-items: center;
-  width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 44px;
   height: 44px;
-  padding: 0;
+  padding: 0 4px;
+  font: inherit;
+  font-size: 12px;
+  line-height: 16px;
   background: none;
   border: 0;
   border-radius: 50%;
@@ -296,9 +308,22 @@
   cursor: pointer;
 }
 
+.trackBtn:hover,
+.trackBtn[aria-current] {
+  color: var(--r2-ink);
+}
+
+.trackBtn[aria-current] {
+  padding-inline-end: 12px;
+}
+
 .trackBtn:focus-visible {
   outline: 2px solid var(--r2-focus);
   outline-offset: -4px;
+}
+
+.trackDot + .trackDot {
+  margin-left: -4px;
 }
 
 .trackDot {
@@ -375,18 +400,6 @@
   isolation: isolate;
 }
 
-/* lens curvature: the edge darkens a little, like a tinted lens seen from inside */
-.lens::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
-    inset 0 0 6cqw rgba(0, 0, 0, 0.55);
-  pointer-events: none;
-}
-
 /* A page with its top edge in view: paper, margin, set text. */
 .paper {
   position: absolute;
@@ -394,8 +407,7 @@
   right: -12%;
   top: 14%;
   bottom: -20%;
-  background: #5b5852;
-  box-shadow: 0 2cqw 5cqw rgba(0, 0, 0, 0.45);
+  background: #8f8c85; /* ink #1d1d1f on it: 5.0:1 */
   padding: 6cqw 18% 0 7cqw;
 }
 
@@ -406,20 +418,24 @@
   font-family: var(--font-read);
   font-size: max(12px, 2.9cqw);
   line-height: 1.6;
-  color: #26241f;
+  color: #1d1d1f;
   text-align: left;
   hyphens: none;
 }
 
 /* The display's word, held in the gap between two paragraphs, so the page stays legible around it. */
 .hud {
-  margin: 2.2cqw 0 2.6cqw;
+  margin: 1.8cqw 0 2.2cqw;
   /* centred on the lens, not on the paper: paper starts 9% + 7cqw in */
   transform: translateX(calc(34cqw - 50%));
   display: grid;
   width: fit-content;
   justify-items: center;
   gap: 1.1cqw;
+  /* the see-through display's own region: one flat darker field, so the green word holds 8:1 on a light page */
+  padding: 1.6cqw 3cqw 2cqw;
+  border-radius: 1.2cqw;
+  background: rgba(16, 16, 16, 0.72);
 }
 
 .point {
@@ -442,19 +458,32 @@
 .close {
   display: grid;
   gap: var(--r2-space-8);
-  padding: var(--r2-space-10) var(--r2-gutter) var(--r2-space-9);
+  padding: var(--r2-space-10) 0 var(--r2-space-9);
   scroll-margin-top: var(--r2-nav-h);
 }
 
 .closeObject {
-  width: min(820px, 100%);
+  width: min(820px, 100% - 2 * var(--r2-gutter));
+}
+
+.road {
+  display: grid;
+  gap: var(--r2-space-6);
+}
+
+.roadHead {
+  display: grid;
+  gap: var(--r2-space-4);
+}
+
+.roadHead .lead {
+  margin: 0;
 }
 
 .phases {
   list-style: none;
-  margin: 0 auto;
+  margin: var(--r2-space-4) 0 0;
   padding: 0;
-  width: min(640px, 100%);
   border-top: 1px solid var(--r2-hairline);
   counter-reset: none;
 }
@@ -478,20 +507,17 @@
 }
 
 .note {
-  margin: calc(-1 * var(--r2-space-6)) 0 0;
+  margin: 0;
   font-size: 13px;
   line-height: 1.5;
   color: var(--r2-ink-2);
-  text-align: center;
 }
 
 /* ---------- Is this real? ---------- */
 .faq {
   display: grid;
   gap: var(--r2-space-7);
-  width: min(1080px, 100%);
-  margin: 0 auto;
-  padding: var(--r2-space-8) var(--r2-gutter) var(--r2-space-10);
+  padding-block: var(--r2-space-8) var(--r2-space-10);
 }
 
 .faqList {
@@ -551,10 +577,27 @@
   word-spacing: var(--reading-spaced-word, 0.16em);
 }
 
-/* Glasses prints the module labels to the right of the controller box, past its own box: keep room for them. */
-@media (max-width: 899px) {
-  .anatArt {
-    box-sizing: border-box;
-    padding-inline-end: 64px;
+/* Two label systems in the pin, not three: the legend and the labelled tracker name every group, so the drawing's
+   own labels are not shown. */
+.anatArt [role='img'] > span {
+  display: none;
+}
+
+/* Before the parts separate, the whole object sits left in the exploded pose's room: centre it, then let it slide
+   back as the parts move out (same duration and ease as Glasses). */
+.anatArt [role='img'] {
+  transition: transform 640ms var(--r2-ease-emphasized, cubic-bezier(0.2, 0, 0, 1));
+}
+
+.anatArt[data-pose='solid'] [role='img'] {
+  transform: translateX(var(--pre-x, 10%));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anatArt [role='img'] {
+    transition: none;
   }
 }
+
+/* Glasses prints the module labels to the right of the controller box, past its own box: keep room for them. */
+

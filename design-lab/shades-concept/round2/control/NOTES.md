@@ -27,26 +27,25 @@ No pin, no scroll scrubbing, no wheel capture. There is one control in the hero.
 - **No JS:** `@media (scripting: none)` hides the live figure and shows a five-frame still with step names and captions.
 - **Keyboard and screen reader:** arrow keys, Home and End step the slider. `aria-valuetext` is the step name. The caption is `aria-live="polite"`. Focus shows a 2px ring on the 44px knob.
 
-## Measured motion (1600×790, headless Chromium)
+## Measured motion (1600×790, headless Chromium; re-measured after the Fable render-audit fixes)
 
-Method: an in-page rAF sampler reads the held word's computed `transform` and `color` every frame (60fps). It is cross-checked by frame differences on a `recordVideo` capture (25fps, ±40ms per edge; the diff window also includes the 240ms step-label colour change). Contact sheets are in `motion/` (40ms per cell, 5×6).
+Method: an in-page rAF sampler reads the held word's computed `transform` and `color` every frame (60fps). It is cross-checked by frame differences on a `recordVideo` capture (25fps, ±40ms per edge; the diff window also includes the 240ms step-label colour change). Contact sheets are in `motion/` (40ms per cell, 5×6; `sheet-arrival.png` is 60ms per cell).
 
-| Transition | Intended | rAF measured | Video frame diff | Easing check (progress at 25/50/75% of time) |
+| Transition | Intended | rAF measured | Video frame diff | Easing (progress at 25/50/75% of time; `inOut(3)` = 0.063/0.500/0.938) |
 |---|---|---|---|---|
-| Page → Line | 900ms `inOut(3)` | 917ms | 1040ms | 0.036 / 0.477 / 0.942 (expected 0.063 / 0.500 / 0.938) |
-| Line → Phrase | 900ms `inOut(3)` | 900ms | 1000ms | 0.041 / 0.378 / 0.931 * |
-| Phrase → Word | 900ms `inOut(3)` | 850ms | 960ms | 0.069 / 0.464 / 0.922 |
-| Word → Hold | 120ms colour snap (`--r2-dur-snap`), no movement | 100ms colour, 0 transform frames | 360ms (snap + 240ms label + marks clearing) | — |
-| Hold → Page (Home key) | 1350ms (1.5× cap) | 1300ms | 1560ms | — (mixed scale and translate signal) |
-| Glasses arrival | 900ms `--r2-ease-entrance` transform + 480ms opacity; word on at +900ms in 120ms | 833ms of visible change | 1520ms (includes the page's smooth scroll) | ease-out: 0.20 / 0.96 / 1.00 |
-| Each jump | 120ms `inOut(2)` | by code (`HOP_MS`) | visible in `sheet-line-jumps.png` | — |
-| Caption swap | 240ms opacity (`--r2-dur-ui-fast`, ease-ui) | by CSS | — | — |
+| Page → Line | 900ms `inOut(3)` | 900ms | 919ms | 0.092 / 0.516 / 0.953 |
+| Line → Phrase | 900ms | 900ms | 920ms | 0.072 / 0.467 / 0.934 |
+| Phrase → Word | 900ms | 867ms | 879ms | 0.062 / 0.461 / 0.910 |
+| Word → Hold | 120ms colour snap, no movement | 100ms colour, 0 transform frames | under the diff threshold (1 frame) | — |
+| Hold → Page (Home key) | 1350ms (1.5× cap), starts at once | 1300ms | 1520ms | — |
+| Glasses arrival | 900ms `--r2-ease-entrance` + 480ms opacity; word on at +900ms in 120ms | 833ms of visible change | 1040ms + 280ms (word switching on) | 0.27 / 0.96 / 1.00 (ease-out) |
+| Each jump | 120ms `inOut(2)` | by code (`HOP_MS`) | `sheet-line-jumps.png` | — |
+| Caption swap | 240ms opacity | by CSS | — | — |
 
-\* The Line → Phrase signature mixes x and y movement of the held word, so the midpoint reads low. Its duration matches.
-
-The rAF numbers run 0–50ms under the intended value: the flat tails of `inOut(3)` fall under the 0.01px change threshold. The video numbers run 60–140ms over: 25fps binning plus the label crossfade inside the crop.
-
-**Earlier issue, fixed:** "Hold → Page" used to sit still for about 540ms, because the playhead first crossed the identical Hold → Word segment. Hold now shares Word's pose and the playhead never travels 3 → 4.
+Opacity during moves:
+- A word changes ink only in the half of the move nearest its brighter pose: it is gone before the collapse closes, and back only once it has arrived.
+- A word that changes row (the line re-forming into the page) dips to 25% at mid-move.
+- `sheet-t4-0.png` shows no legible pile-up over the held word.
 
 ## Verification
 
@@ -60,6 +59,18 @@ The rAF numbers run 0–50ms under the intended value: the flat tails of `inOut(
 | 1600 / 390 | no JS | 200 | 0 | 0 | 1 / 1 | 0 | stills: 5 frames shown, live figure hidden |
 
 The slider thumb is 44×44 (20px visible knob). `npx tsc --noEmit` and `npx next lint` are clean.
+
+## Fable render-audit fixes (2026-10-09)
+
+1. **Ghost lines:** a parted line stays only if its glyphs land inside the figure's unfaded band; otherwise it goes to 0. Measured on every step at 1600 and 390: 0 inked words cross the boundary line or the simulation note.
+2. **Scanpath coverage:**
+   - Page now reads every line: 3 of 3 rows at 1600, 5 of 5 at 390; marks x 321–1184 on a 300–1240 page.
+   - Line covers the whole line: marks x 366–1219 on a 337–1264 line.
+3. **Join:** `<Seats>` rows render inside `JoinChapter`, as on approach 1.
+4. **Mid-tween pile-up and smudge:**
+   - The opacity windows above fix the pile-up.
+   - Word's micro-jumps are now one tiny correction onto the point with no arc drawn (the squiggle is gone).
+5. **Caption height:** reserved at two lines and measured constant across all five steps (58px at 1600, 50px at 390).
 
 ## Critique → fix loops (impeccable)
 

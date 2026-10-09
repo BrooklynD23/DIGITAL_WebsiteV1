@@ -10,6 +10,7 @@ import { control, glasses, hero, pace } from '../../_content/shades-control';
 import { Glasses } from '../../_shades-art/Glasses';
 import { Reader } from '../../_shades/Reader';
 import { SeatRing } from '../../_shades/SeatRing';
+import { Seats } from '../../_shades/Seats';
 import { HoldStill } from './HoldStill';
 import { FOCUS, WORDS } from './words';
 import s from './control.module.css';
@@ -133,7 +134,9 @@ export default function ShadesControlPage() {
           lead={join.lead}
           {...MEETINGS.subteam}
           primary={{ label: join.discord.label, href: join.discord.href, external: true }}
-        />
+        >
+          <Seats world="apple" />
+        </JoinChapter>
       </main>
       <WorldFooter world="apple" />
     </div>

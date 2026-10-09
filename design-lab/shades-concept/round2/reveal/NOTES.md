@@ -57,3 +57,17 @@ Round-1 failure checks:
 2. Loop 2: re-shot all beats at both sizes after `tether` landed; one defect: 390 horizontal overflow (32px) from the artwork's hidden labels → clipped / padded. Re-verified: all 7 runs clean.
 3. Known: the verify runs saw dev-server reloads while the artwork agent edited `_shades-art/` (one run hit a 500 from their mid-edit `Glasses.tsx`); the final runs were taken after 90 s of no artwork edits.
 4. Left as is: at 390 the anatomy drawing is small (about 310px wide) because the tethered pose is wide; legible, labels intact.
+
+## Fable render audit fixes (2026-10-09)
+
+| # | Fix | Before | After |
+|---|---|---|---|
+| 1 | View: paper and ink; shadows removed | ink rgb(38,36,31) on paper rgb(91,88,82) = 2.19:1; `.paper` box-shadow 0 12.8px 32px; `.lens::after` inset 38px darkening | ink #1d1d1f on paper #8f8c85 = 5.02:1; no shadow, no edge gradient |
+| 1b | Held word on the lighter page | green on paper would be about 2.3:1 | the word sits on the display's own region (one flat field, rgba(16,16,16,.72) ≈ #343331): 8.3:1. No glow, no shadow |
+| 2 | Tracker labelled (DESIGN §12) | 4 unlabelled squares | active stage names its group(s) beside its square(s): "Frame", "Display", "Optics", "Word timing, Control"; the last stage shows both hues |
+| 3 | Pin label systems 3 → 2 | drawing labels + legend + tracker | drawing labels hidden (`[role=img] > span`); legend + labelled tracker carry every name (390 too) |
+| 4 | One column, 1024 measure | what x368 w864 · roadmap x480 w640 · FAQ x308 w984 (nav content x336) | what, roadmap (heading, list, note) and FAQ all x336 w928 at 1600, the nav and footer content edge |
+| 5 | Type to the scale | `h1` 112/112; statements 52/58 | `h1` `--r2-fs-hero` 80/84 (40/44 at 390); statements `--r2-fs-h1` 56/60 (32/36 at 390) |
+| 6 | Pre-separation pose centred | object centre 65px left of the art centre at 1600, 58px at 390 | 8px right at 1600, 4px right at 390 (`translateX(10%)` in solid pose, slides back over 640ms as the parts separate) |
+
+Re-verified after the fixes: 7 of 7 runs status 200, 0 console errors, no overflow, one `main` / `h1`, pin at 52px; `tsc` and `lint` clean. One run during the re-shoot logged a React key warning from `_shades-art/Glasses.tsx` while the artwork agent was editing it; it did not recur. Not ours.

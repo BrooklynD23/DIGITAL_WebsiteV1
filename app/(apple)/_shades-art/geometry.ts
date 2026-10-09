@@ -35,7 +35,9 @@ const K = 0.0019;
 const wrap = (x: number): number => -K * x * x;
 
 const HINGE_X = 63.6;
-const HINGE_Y = 13;
+const HINGE_Y = 10.5;
+/** Temple droop over its straight run (pantoscopic tilt), mm. */
+const DROOP = 4;
 /** Temple half-height at the hinge. The front third is a deep housing; it tapers hard to a slim ear piece. */
 const TEMPLE_H = 5.2;
 /** Temple thickness at the hinge (the housing). */
@@ -161,12 +163,14 @@ function buildFront(): Front {
   // End piece: as tall as the temple it carries, so the hinge reads as one block, not a hook.
   const wingR = roundedRect(57.8, HINGE_Y - TEMPLE_H - 0.3, HINGE_X + TEMPLE_T / 2 + 0.2, HINGE_Y + TEMPLE_H + 0.3, 2.4);
   const lens = lensRight(0.9);
+  // Nose pad: a small oval set behind the nasal edge of the rim, top leaning toward the bridge.
   const pad: P2[] = [];
-  for (let i = 0; i < 24; i++) {
-    const t = (i / 24) * TAU;
-    const yy = -6.5 + 4.2 * Math.sin(t);
-    const w = 1.05 * (1 - 0.25 * Math.sin(t)); // slim teardrop, fuller at the bottom
-    pad.push([5.5 + w * Math.cos(t), yy]);
+  const tilt = 20 * DEG;
+  for (let i = 0; i < 28; i++) {
+    const t = (i / 28) * TAU;
+    const dx = 1.35 * Math.cos(t);
+    const dy = 2.8 * Math.sin(t);
+    pad.push([9.4 + dx * Math.cos(tilt) - dy * Math.sin(tilt), -5.4 + dx * Math.sin(tilt) + dy * Math.cos(tilt)]);
   }
   return {
     lensHoleR: hole,
@@ -206,14 +210,14 @@ function templeSamples(side: 1 | -1, bend: boolean): TempleSample[] {
   for (let i = 0; i <= N1; i++) {
     const s = i / N1;
     raw.push({
-      c: [side * (HINGE_X + 1.4 * s), HINGE_Y - 2.2 * s, z0 - STRAIGHT * s],
-      tan: [0, -2.2 / STRAIGHT, -1],
+      c: [side * (HINGE_X + 1.4 * s), HINGE_Y - DROOP * s, z0 - STRAIGHT * s],
+      tan: [0, -DROOP / STRAIGHT, -1],
       q: (STRAIGHT * s) / total,
     });
   }
   const N2 = bend ? 26 : 0;
   let [x, y, z] = raw[raw.length - 1].c;
-  const t0 = Math.atan2(-2.2, STRAIGHT);
+  const t0 = Math.atan2(-DROOP, STRAIGHT);
   for (let i = 1; i <= N2; i++) {
     const u = i / N2;
     const th = t0 - 52 * DEG * (u * u * (3 - 2 * u));
@@ -382,13 +386,13 @@ export interface Slab {
 
 /** Cable and external controller box. Drawn only when the consumer asks for the tether. */
 export interface Tether {
-  /** Open polyline, the cable's centre line (temple end → box). Stroke it `width` wide. */
+  /** Cable centre line, temple end → beside the box. Draw it behind the glasses. Stroke `width` wide. */
   readonly cable: string;
   /** The strain-relief boot at the temple end. Stroke it `bootWidth` wide. */
   readonly boot: string;
-  /** Exploded: the cable unplugged, ending in its plug behind the box (stroke `cable` style; `plug` at `bootWidth`). */
-  readonly cableOpen: string;
-  readonly plug: string;
+  /** The rest of the cable, from beside the box into the front port, and its plug. Draw these after the box.
+   *  `exploded` ends at the port of the dropped body. */
+  readonly front: Readonly<Record<'rest' | 'exploded', { readonly cable: string; readonly plug: string; readonly joint: string }>>;
   readonly width: number;
   readonly bootWidth: number;
   /** The whole box (solid and line). */
@@ -432,7 +436,7 @@ export function draw(yaw: number, pitch: number, tether = false): Drawing {
 
   const lensRp = flat(FRONT.lensR, LENS_Z);
   const lensLp = flat(FRONT.lensL, LENS_Z);
-  const padZ = -DEPTH + 0.2;
+  const padZ = -DEPTH - 2.6;
   const pads = [FRONT.padR, FRONT.padL].map((p) => pathOf(flat(p, padZ)));
 
   const temples: Face[][] = [];
@@ -618,11 +622,11 @@ function buildTether(P: Projector, tipEnd: readonly V3[], yG: number): Tether {
   const timing = slab(-w * 0.3, -d * 0.28, w * 0.18, d * 0.28, h - lid - 2.8, h - lid, 2.4);
 
   // Ports: openings on the front face, only when it faces the camera.
+  const py = (h - lid) * 0.5;
   const front: V3 = ez;
   const ports: string[] = [];
   if (P.facing(front)) {
     const onFace = (pts: readonly P2[]): string => pathOf(pts.map(([lx, ly]) => P.proj(W(lx, ly, d / 2 + 0.05))));
-    const py = (h - lid) * 0.5;
     ports.push(onFace(roundedRect(-18, py - 1.5, -9.4, py + 1.5, 1.45)));
     ports.push(onFace(roundedRect(-6.4, py - 1.5, 2.2, py + 1.5, 1.45)));
     const jack: P2[] = [];
@@ -635,26 +639,34 @@ function buildTether(P: Projector, tipEnd: readonly V3[], yG: number): Tether {
   const Tp = tipEnd[0];
   const tan = norm([T[0] - Tp[0], T[1] - Tp[1], T[2] - Tp[2]]);
   const rc = CABLE_W / 2;
-  const bootEnd: V3 = [T[0] + tan[0] * 8, T[1] + tan[1] * 8, T[2] + tan[2] * 8];
-  // One smooth chain: fall along the temple's line, touch the table a little outboard, swing forward along it,
-  // straighten behind the box, rise into the back port. Matching tangents at each joint: no kinks or hooks.
-  const port = W(0, (h - lid) * 0.5, -d / 2);
-  const before = W(0, rc, -d / 2 - 14);
-  const land: V3 = [T[0] + 15, yG + rc, T[2] + 4];
-  const dir = norm([before[0] - ez[0] * 20 - land[0], 0, before[2] - ez[2] * 20 - land[2]]);
+  const bootEnd: V3 = [T[0] + tan[0] * 7, T[1] + tan[1] * 7, T[2] + tan[2] * 7];
   const along = (p: V3, v: V3, k: number): V3 => [p[0] + v[0] * k, p[1] + v[1] * k, p[2] + v[2] * k];
-  const toBefore = [
+  // Slack, one curve: off the temple end, a long sag to the table that sweeps forward past the box's near end
+  // (A), then round to the front and into the first port. Tangents match at A: no kinks.
+  const portAt = (dy: number): V3 => W(-13.7, py + dy, d / 2);
+  const A = W(-w / 2 - 9, rc, d / 2 + 6);
+  const dirA = norm([ex[0] + ez[0] * 0.9, 0, ex[2] + ez[2] * 0.9]);
+  const back: V3[] = [
     T,
     bootEnd,
-    ...cubic3(bootEnd, along(bootEnd, tan, 9), along(land, dir, -11), land, 16),
-    ...cubic3(land, along(land, dir, 18), along(before, ez, -22), before, 24),
+    ...cubic3(bootEnd, along(bootEnd, tan, 26), [A[0] - dirA[0] * 46, rc + yG, A[2] - dirA[2] * 46], A, 34),
   ];
-  const pts3: V3[] = [...toBefore, ...cubic3(before, along(before, ez, 6), [port[0] - ez[0] * 5, port[1], port[2] - ez[2] * 5], port, 6)];
-  const plugEnd = toBefore[toBefore.length - 1];
-  const plugStart = along(plugEnd, ez, -6);
-  const cable2 = pts3.map(P.proj);
+  const frontTo = (dy: number): V3[] => {
+    const port = portAt(dy);
+    const plugFrom = along(port, ez, 7);
+    return [
+      A,
+      ...cubic3(A, along(A, dirA, 14), along(plugFrom, ez, 14 + Math.abs(dy) * 0.4), plugFrom, 16 + Math.round(Math.abs(dy) / 4)),
+      port,
+    ];
+  };
+  /** A short run across the seam between the two halves (line art redraws its fill there to hide the cap). */
+  const jointOf = (f: V3[]): string => pathOf([...back.slice(-4), ...f.slice(1, 4)].map(P.proj), false);
+  const plugOf = (pts: V3[]): string => pathOf(pts.slice(-2).map(P.proj), false);
+  const restF = frontTo(0);
+  const explF = frontTo(-46);
+  const cable2 = [...back, ...restF].map(P.proj);
   const boot2 = [T, bootEnd].map(P.proj);
-
   // Contact shadow: the footprint, grown, on the table.
   const sh = roundedRect(-w / 2 - 3, -d / 2 - 3, w / 2 + 3, d / 2 + 3, r + 3).map(([lx, lz]) => P.proj(W(lx, 0, lz)));
 
@@ -666,11 +678,14 @@ function buildTether(P: Projector, tipEnd: readonly V3[], yG: number): Tether {
   const lift = { timing: up(-15), control: up(-30), body: up(-46) };
   const shift = (pts: readonly P2[], v: P2): P2[] => pts.map(([x, y]) => [x + v[0], y + v[1]] as P2);
   const restPts = [...box.pts, ...cable2, ...sh];
+  const explPts = explF.map(P.proj);
   return {
-    cable: pathOf(cable2, false),
+    cable: pathOf(back.map(P.proj), false),
     boot: pathOf(boot2, false),
-    cableOpen: pathOf(toBefore.slice(0, -1).map(P.proj), false),
-    plug: pathOf([plugStart, plugEnd].map(P.proj), false),
+    front: {
+      rest: { cable: pathOf(restF.slice(0, -1).map(P.proj), false), plug: plugOf(restF), joint: jointOf(restF) },
+      exploded: { cable: pathOf(explF.slice(0, -1).map(P.proj), false), plug: plugOf(explF), joint: jointOf(explF) },
+    },
     width: CABLE_W,
     bootWidth: CABLE_W * 1.55,
     box: box.s,
@@ -682,6 +697,6 @@ function buildTether(P: Projector, tipEnd: readonly V3[], yG: number): Tether {
     lift,
     moduleEnd: { timing: timing.right, control: control.right },
     bounds: bboxOf([restPts]),
-    explodedBounds: bboxOf([restPts, shift(body.pts, lift.body), shift(timing.pts, lift.timing), shift(control.pts, lift.control)]),
+    explodedBounds: bboxOf([restPts, explPts, shift(body.pts, lift.body), shift(timing.pts, lift.timing), shift(control.pts, lift.control)]),
   };
 }

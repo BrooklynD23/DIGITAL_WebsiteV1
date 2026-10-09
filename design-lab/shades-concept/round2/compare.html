@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>SHADES round 2</title>
+<style>
+  :root { --bg:#0b0b0c; --panel:#161617; --line:#2a2a2d; --ink:#f5f5f7; --dim:#a1a1a6; --green:#7FE6A3; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif; }
+  header { position:sticky; top:0; z-index:2; background:rgba(22,22,23,.95); border-bottom:1px solid var(--line); padding:12px 16px; }
+  .bar { max-width:1500px; margin:0 auto; display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+  h1 { font-size:17px; margin:0 12px 0 0; }
+  a.btn, button { min-height:44px; display:inline-flex; align-items:center; padding:0 16px; border-radius:22px; border:1px solid var(--line);
+    background:var(--panel); color:var(--ink); font:inherit; font-size:14px; text-decoration:none; cursor:pointer; }
+  a.btn:hover, button:hover { border-color:var(--dim); }
+  a.btn:focus-visible, button:focus-visible { outline:2px solid var(--green); outline-offset:2px; }
+  button.primary { background:var(--ink); color:#000; border-color:var(--ink); font-weight:600; }
+  button[aria-pressed="true"] { border-color:var(--green); color:var(--green); }
+  .spacer { flex:1; }
+  main { max-width:1500px; margin:0 auto; padding:24px 16px 64px; }
+  .note { color:var(--dim); font-size:14px; max-width:75ch; }
+  .cols { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  .col h2 { margin:0; font-size:19px; }
+  .col p { margin:4px 0 12px; color:var(--dim); font-size:14px; }
+  .rank { color:var(--green); font-size:13px; font-weight:600; }
+  section { margin-top:32px; }
+  section > h3 { margin:0 0 8px; font-size:15px; color:var(--dim); font-weight:600; }
+  figure { margin:0 0 12px; background:var(--panel); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  figure a { display:block; }
+  figcaption { padding:6px 10px; font-size:12px; color:var(--dim); }
+  img { display:block; width:100%; height:auto; }
+  body.phone .cols img { width:auto; max-width:100%; max-height:620px; margin:0 auto; }
+  .art { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+  ol { padding-left:20px; } li { margin:6px 0; }
+  code { color:var(--green); }
+  @media (max-width:900px) { .cols, .art { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <h1>SHADES round 2</h1>
+    <button class="primary" id="openAll" type="button">Open all routes</button>
+    <a class="btn" target="_blank" rel="noopener" href="http://localhost:3100/projects/shades-reveal/">1 Reveal</a>
+    <a class="btn" target="_blank" rel="noopener" href="http://localhost:3100/projects/shades-control/">2 Hold still</a>
+    <a class="btn" target="_blank" rel="noopener" href="http://localhost:3100/projects/shades-research/">3 Research</a>
+    <a class="btn" target="_blank" rel="noopener" href="http://localhost:3100/projects/shades-art-preview/">Artwork</a>
+    <span class="spacer"></span>
+    <button type="button" id="vDesk" aria-pressed="true">Desktop 1600</button>
+    <button type="button" id="vPhone" aria-pressed="false">Phone 390</button>
+  </div>
+</header>
+<main>
+  <p class="note">Ordered by the Fable render audit. Links need the dev server on <code>localhost:3100</code>; screenshots load from this folder without it. Click a screenshot for full size.</p>
+
+  <div class="cols">
+    <div class="col"><span class="rank">Fable rank 1</span><h2>Product reveal</h2><p>Solid tethered object, "what it is", a 4-stage anatomy pin, the view through the lens, roadmap, "Is this real?", seats.</p></div>
+    <div class="col"><span class="rank">Fable rank 2</span><h2>Hold still</h2><p>One slider, Page → Hold: the eye's jumps shrink until one green word holds. Then pace, then the glasses with the word.</p></div>
+    <div class="col"><span class="rank">Fable rank 3</span><h2>Research platform</h2><p>A typographic lab notice: stage and aim, Is / Is not / Never, first-build scope, seats, roadmap. No diagrams.</p></div>
+  </div>
+  <div id="rows"></div>
+
+  <section>
+    <h3>Glasses artwork (shared by all three)</h3>
+    <div class="art">
+      <figure><a href="art/crop-v2-tether-dark.png" target="_blank"><img loading="lazy" src="art/crop-v2-tether-dark.png" alt="Tethered glasses, dark"></a><figcaption>Tethered, dark</figcaption></figure>
+      <figure><a href="art/crop-v2-tether-light.png" target="_blank"><img loading="lazy" src="art/crop-v2-tether-light.png" alt="Tethered glasses, light"></a><figcaption>Tethered, light</figcaption></figure>
+      <figure><a href="art/crop-v2-tether-exploded.png" target="_blank"><img loading="lazy" src="art/crop-v2-tether-exploded.png" alt="Tethered glasses, exploded"></a><figcaption>Exploded: timing and control inside the box</figcaption></figure>
+      <figure><a href="control/motion/sheet-t3-4.png" target="_blank"><img loading="lazy" src="control/motion/sheet-t3-4.png" alt="Motion contact sheet, Word to Hold"></a><figcaption>Hold still motion, measured frames (Word → Hold)</figcaption></figure>
+    </div>
+  </section>
+
+  <section>
+    <h3>Decisions</h3>
+    <ol>
+      <li>Which approach, or which merge (Fable suggests: reveal + the Hold still slider as its "view" moment).</li>
+      <li>Reveal: translucent grey panel behind the green word on the page (see "View").</li>
+      <li>Research: nav "Join" button removed; seat rows solid instead of dashed.</li>
+      <li>Full name "…Adaptive Dyslexia Enhancement System" under the glasses: keep or drop.</li>
+      <li>Caption for the controller box and cable: add one (new string, brand review) or leave unlabelled.</li>
+    </ol>
+    <p class="note">Notes: <a class="btn" href="reveal/NOTES.md" target="_blank">Reveal</a> <a class="btn" href="control/NOTES.md" target="_blank">Hold still</a> <a class="btn" href="research-page/NOTES.md" target="_blank">Research</a> <a class="btn" href="PLAN-R2.md" target="_blank">Plan</a></p>
+  </section>
+</main>
+<script>
+  const ROUTES = ['shades-reveal', 'shades-control', 'shades-research'].map(r => 'http://localhost:3100/projects/' + r + '/');
+  // [label, reveal file, control file, research file] — {s} is replaced by the size.
+  const ROWS = [
+    ['First screen', 'reveal/{s}-01-hero.png', 'control/step-0-{s}.png', 'research-page/{s}-viewport.png'],
+    ['Second beat', 'reveal/{s}-02-what.png', 'control/step-2-{s}.png', 'research-page/{s}-s1.png'],
+    ['Signature moment', 'reveal/{s}-03-anatomy-4.png', 'control/step-4-{s}.png', 'research-page/{s}-s2.png'],
+    ['View / glasses', 'reveal/{s}-04-view.png', 'control/beat-glasses-{s}.png', 'research-page/{s}-s0.png'],
+    ['Close', 'reveal/{s}-06-faq.png', 'control/beat-pace-{s}.png', 'research-page/{s}-s4.png'],
+    ['Join', 'reveal/{s}-07-join.png', 'control/beat-join-{s}.png', 'research-page/{s}-s6.png'],
+  ];
+  let size = 1600;
+  const fig = (src, alt) => '<figure><a href="' + src + '" target="_blank"><img loading="lazy" src="' + src + '" alt="' + alt + '"></a></figure>';
+  function render() {
+    document.body.classList.toggle('phone', size === 390);
+    document.getElementById('rows').innerHTML = ROWS.map(([label, ...files]) =>
+      '<section><h3>' + label + '</h3><div class="cols">' +
+      files.map((f, i) => fig(f.replace('{s}', size), ['Reveal', 'Hold still', 'Research'][i] + ', ' + label + ', ' + size + 'px')).join('') +
+      '</div></section>').join('');
+    document.getElementById('vDesk').setAttribute('aria-pressed', size === 1600);
+    document.getElementById('vPhone').setAttribute('aria-pressed', size === 390);
+  }
+  document.getElementById('vDesk').onclick = () => { size = 1600; render(); };
+  document.getElementById('vPhone').onclick = () => { size = 390; render(); };
+  document.getElementById('openAll').onclick = () => ROUTES.forEach(u => window.open(u, '_blank', 'noopener'));
+  render();
+</script>
+</body>
+</html>

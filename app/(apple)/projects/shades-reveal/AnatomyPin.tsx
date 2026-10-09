@@ -32,6 +32,10 @@ const HUE: Readonly<Record<SystemGroupId, string>> = {
 /** Non-breaking hyphen: "see-through" never splits across lines. Same text, same glyph. */
 const nb = (t: string): string => t.replace(/-/g, '\u2011');
 
+/** Tracker label: the group name(s) the stage lights, so a group colour never shows without its name. */
+const LABEL = Object.fromEntries(anatomy.groups.map((g) => [g.id, g.label])) as Record<SystemGroupId, string>;
+const trackLabel = (groups: readonly SystemGroupId[]): string => groups.map((id) => LABEL[id]).join(', ');
+
 const ART_TITLE = anatomy.groups.map((g) => g.label).join(', ');
 
 function Legend({ lit }: { readonly lit: readonly SystemGroupId[] | null }) {
@@ -101,7 +105,7 @@ export function AnatomyPin() {
     <section id="anatomy" className={s.anat} data-tone="dark" aria-labelledby={`rv-anat-${shown}`}>
       <div ref={pin} className={s.anatPin} style={{ '--steps': N + LEAD * 4 } as CSSProperties}>
         <div className={s.anatStage}>
-          <div className={s.anatArt}>
+          <div className={s.anatArt} data-pose={apart ? 'exploded' : 'solid'}>
             <Glasses
               mode={apart ? 'exploded' : 'solid'}
               view="three-quarter"
@@ -126,8 +130,10 @@ export function AnatomyPin() {
           <nav className={s.tracker} aria-label={ART_TITLE}>
             {anatomy.beats.map((b, i) => (
               <button key={b.id} type="button" className={s.trackBtn} aria-current={i === active ? 'step' : undefined} onClick={() => jumpTo(i)}>
-                <i className={s.trackDot} style={{ '--hue': HUE[b.groups[0]] } as CSSProperties} aria-hidden="true" />
-                <span className="sr-only">{b.title}</span>
+                {b.groups.map((g) => (
+                  <i key={g} className={s.trackDot} style={{ '--hue': HUE[g] } as CSSProperties} aria-hidden="true" />
+                ))}
+                <span className={i === active ? undefined : 'sr-only'}>{trackLabel(b.groups)}</span>
               </button>
             ))}
           </nav>
