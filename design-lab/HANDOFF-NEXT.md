@@ -18,6 +18,8 @@ You are the orchestrator: plan, route, verify, report. Delegate the work to suba
 
 ## 0b. Status after the third session (2026-10-09)
 
+**Next task: `design-lab/shades-concept/round2/HANDOFF-NOTION.md` (Notion pass on SHADES).**
+
 SHADES round 2 is done and the Head Designer picked a direction: **`/projects/shades-reveal/`** (product reveal with the
 Hold still slider as its view beat). Plan, decisions and audits: `design-lab/shades-concept/round2/PLAN-R2.md`,
 `design-lab/shades-concept/DECISIONS.md` (#7 tethered controller box). Fable's last verdict: ready with small fixes, all
