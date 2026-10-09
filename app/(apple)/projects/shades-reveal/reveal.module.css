@@ -380,12 +380,14 @@
 .view {
   display: grid;
   gap: var(--r2-space-5);
-  padding: var(--r2-space-10) var(--r2-gutter) var(--r2-space-9);
+  padding: var(--r2-space-8) var(--r2-gutter) var(--r2-space-9);
   scroll-margin-top: var(--r2-nav-h);
 }
 
 .holdWrap {
   width: 100%;
+  max-width: 928px; /* the page column: 1024 measure less the 48px gutters */
+  margin-inline: auto;
 }
 
 /* ---------- 5 · close ---------- */
@@ -554,6 +556,13 @@
 
 .anatArt[data-pose='solid'] [role='img'] {
   transform: translateX(var(--pre-x, 10%));
+}
+
+/* One column (≤ 899px): the separated pose also sits left in its room; centre it in the art column. */
+@media (max-width: 899px) {
+  .anatArt[data-pose='exploded'] [role='img'] {
+    transform: translateX(var(--exp-x, 10%));
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

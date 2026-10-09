@@ -99,3 +99,11 @@ The slider thumb is 44×44 (20px visible knob). `npx tsc --noEmit` and `npx next
   - 15 of 20 are byte-identical.
   - The 5 that differ, differ by at most 0.0006% of pixels: anti-aliasing on the scanpath marks, or sub-threshold encoding noise.
   - Two runs of the unchanged build differ by the same amount.
+
+## Fable final check fixes (2026-10-09)
+
+- **`pageAtHold > 0`, held-word cut-out.** Any settled page word whose box meets the held word's target box (scaled word, its red dot and tick, plus 0.25em margin) goes to ink 0.
+  - Checked at `pageAtHold={0.18}`, 1600 and 390: 0 inked words overlap the held word at Word and Hold.
+  - The held word turns green at Hold.
+  - Captures: `page-at-hold-0.18-{1600,390}.png`.
+- **Phrase step, side band.** A word that would sit even partly in the side fade is hidden whole; 0 words are cut at the edge on every step. This is the one visible change on the default route: at Phrase, the faint, half-faded word at the left edge ("time," at 1600) is gone. That is 0.06% of pixels in `step-2-*`; every other default capture is byte-identical or within run-to-run noise (≤ 0.002%).

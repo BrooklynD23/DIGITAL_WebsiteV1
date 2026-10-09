@@ -33,8 +33,8 @@ export interface GlassesProps {
   readonly display?: GlassesDisplay | null;
   /** Red fixation point above the word (site red #d8412f). */
   readonly fixation?: boolean;
-  /** Line and exploded only: this group at full strength, the rest dimmed. */
-  readonly highlight?: SystemGroupId | null;
+  /** Line and exploded only: this group (or every group in the list) at full strength, the rest dimmed. */
+  readonly highlight?: SystemGroupId | readonly SystemGroupId[] | null;
   readonly ground?: 'dark' | 'light';
   /** 'object' crops tight to the glasses; 'room' leaves space for the exploded parts and labels.
    *  Default: 'object' for solid, 'room' for line and exploded, so line ↔ exploded animates in place. */
@@ -198,7 +198,10 @@ export function Glasses({
   const { vb } = L;
   const dark = ground === 'dark';
   const exploded = mode === 'exploded';
-  const dim = (grp: SystemGroupId): number => (highlight && highlight !== grp ? 0.3 : 1);
+  const lit: readonly SystemGroupId[] | null = highlight == null ? null : typeof highlight === 'string' ? [highlight] : highlight;
+  const dim = (grp: SystemGroupId): number => (lit && !lit.includes(grp) ? 0.3 : 1);
+  /** The controller box and cable belong to no group: dimmed whenever any highlight is set. */
+  const boxDim = lit ? 0.3 : 1;
   const fb = g.frontBox;
   const word = display?.word ?? '';
   const wordColor = display?.color ?? HUD_GREEN;
@@ -385,7 +388,7 @@ export function Glasses({
   ) : null;
   const line = (
     <g className={s.layer} style={{ opacity: mode === 'line' ? 1 : 0 }}>
-      {T ? <g className={s.group} style={{ opacity: highlight ? 0.3 : 1 }}>{cableTube('var(--gg)', 'back')}</g> : null}
+      {T ? <g className={s.group} style={{ opacity: boxDim }}>{cableTube('var(--gg)', 'back')}</g> : null}
       <g className={s.group} style={{ opacity: dim('frame') }}>
         <g mask={frontMask}>{g.temples.map((faces, i) => templeUnion(faces, i))}</g>
         {seamLines}
@@ -393,7 +396,7 @@ export function Glasses({
         <Union>{() => copies(1, -1).map((t) => faceCopy(t))}</Union>
         <Union>{() => <use href={faceRef} />}</Union>
       </g>
-      {T ? <g className={s.group} style={{ opacity: highlight ? 0.3 : 1 }}>{tetherLine}</g> : null}
+      {T ? <g className={s.group} style={{ opacity: boxDim }}>{tetherLine}</g> : null}
       <g className={s.group} style={{ opacity: dim('display') * (g.display.visible || 0) }}>
         <rect
           transform={dm}
@@ -435,7 +438,7 @@ export function Glasses({
   };
   const tetherExploded = T ? (
     <>
-      <g className={s.group} style={{ opacity: highlight ? 0.3 : 1, transform: exploded ? tr(T.lift.body) : 'none' }}>
+      <g className={s.group} style={{ opacity: boxDim, transform: exploded ? tr(T.lift.body) : 'none' }}>
         {slabUnion(T.body, tone, 'var(--g-frame-1)')}
         {T.ports.map((d, i) => (
           <path key={i} d={d} fill="var(--g-frame-3)" stroke="currentColor" strokeWidth={OUTLINE} {...nsProps} />
@@ -443,18 +446,18 @@ export function Glasses({
       </g>
       {moduleSlab('control')}
       {moduleSlab('timing')}
-      <g className={s.group} style={{ opacity: highlight ? 0.3 : 1 }}>
+      <g className={s.group} style={{ opacity: boxDim }}>
         {slabUnion(T.lid, tone, 'var(--g-frame-1)')}
       </g>
       {/* the cable's front run is nearer than every part of the box: last */}
-      <g className={s.group} style={{ opacity: highlight ? 0.3 : 1 }}>
+      <g className={s.group} style={{ opacity: boxDim }}>
         {cableTube('var(--g-frame-2)', 'exploded')}
       </g>
     </>
   ) : null;
   const explodedLayer = (
     <g className={s.layer} style={{ opacity: exploded ? 1 : 0, color: 'var(--g-outline)' }}>
-      {T ? <g className={s.group} style={{ opacity: highlight ? 0.3 : 1 }}>{cableTube('var(--g-frame-2)', 'back')}</g> : null}
+      {T ? <g className={s.group} style={{ opacity: boxDim }}>{cableTube('var(--g-frame-2)', 'back')}</g> : null}
       <g className={s.group} style={{ opacity: dim('frame') }}>
         {g.temples.map((faces, ti) => (
           <g key={ti} mask={frontMask}>

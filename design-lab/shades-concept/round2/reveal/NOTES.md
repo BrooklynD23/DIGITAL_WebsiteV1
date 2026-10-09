@@ -92,3 +92,15 @@ Critique → fix loop (merged page): the "what" band left an empty 256px under t
 **Prop change needed in HoldStill (not made; not my folder):** keep the typeset page faint behind the word at Word and Hold, e.g. an optional `pageAtHold?: number` (opacity of the off-line words at steps 3–4, default today's 0; this page would pass about 0.12–0.16), or make that the default for both routes.
 
 Verification after the merge: 7 of 7 runs status 200, 0 console errors, no overflow, one `main` / `h1`, pin at 52px; the range input and tracker are ≥ 44px; no-JS shows the five stills and the note (range hidden); reduced motion keeps the slider (poses snap). `tsc` exit 0, `next lint` clean. Screenshots: every beat and stage at 1600×790 and 390×844, including the five slider steps (`*-04-view-1-page.png` … `*-04-view-5-hold.png`), plus `nojs-390-view.png`, `reduced-390-view.png`, `nojs-390-full.png`, `reduced-390-full.png`.
+
+## Fable final check fixes (2026-10-09)
+
+| # | Fix | Before | After |
+|---|---|---|---|
+| 1 | Slider on the page column (`.holdWrap` max-width 928, centred) | x300 w1000 | x336 w928; page still sets in 3 clean lines at 1600 (`1600-04-view-1-page.png`) |
+| 2 | Last pin stage lights only its groups (`highlight={apart ? beat.groups : null}`, Glasses now takes an array) | stage 4 lit every group | stage 4 lights Word timing + Control; frame, display, optics dimmed (`*-03-anatomy-4.png`) |
+| 3 | `pageAtHold={0.18}` | 0.14 | 0.18: the page stays faint behind the held word at Hold (`*-04-view-5-hold.png`) |
+| 4 | `.view` top padding `--r2-space-10` → `--r2-space-8` | 128px | 64px; `h2` top to step caption bottom = 658px, fits the 738px under the bar at 1600×790 |
+| 5 | 390 pin: exploded pose centred (`translateX(10%)` at ≤ 899px) | drawing centre 160 vs column 195 | 197 vs 195 |
+
+`ViewStills.tsx` is gone: the page now uses the shared `shades-control/HoldStillStills` (changed by the coordinator). Verification: 7 of 7 runs status 200, 0 console errors, no overflow, one `main` / `h1`, pin at 52px; no-JS shows 5 stills + note; `tsc` exit 0, `next lint` clean. All screenshots re-shot at both sizes.

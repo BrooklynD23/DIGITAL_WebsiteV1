@@ -85,7 +85,7 @@ export default function ShadesRevealPage() {
             <p className={s.lead}>{view.caption}</p>
           </header>
           <div className={`${hold.live} ${s.holdWrap}`}>
-            <HoldStill pageAtHold={0.14} />
+            <HoldStill pageAtHold={0.18} />
           </div>
           <div className={`${hold.noscript} ${s.holdWrap}`}>
             <HoldStillStills />

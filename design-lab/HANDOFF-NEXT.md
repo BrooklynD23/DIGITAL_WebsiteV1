@@ -16,6 +16,16 @@ You are the orchestrator: plan, route, verify, report. Delegate the work to suba
 
 **Next action:** the Head Designer picks A or B (or parts of each), then answers: green or white held word; dashed or solid frame; blurred book or a new plate (`BOOK-01` prompt); concept-label wording. Then promote the pick to `/projects/shades/`, archive V0.1 and the other mockup, and move the styles mockup A borrows from `projects/shades/apple.module.css`.
 
+## 0b. Status after the third session (2026-10-09)
+
+SHADES round 2 is done and the Head Designer picked a direction: **`/projects/shades-reveal/`** (product reveal with the
+Hold still slider as its view beat). Plan, decisions and audits: `design-lab/shades-concept/round2/PLAN-R2.md`,
+`design-lab/shades-concept/DECISIONS.md` (#7 tethered controller box). Fable's last verdict: ready with small fixes, all
+applied. Next: Head Designer review beside BRAIN and SIDEKICK, then promote it to `/projects/shades/` (move
+`HoldStill`, `HoldStillStills` and `_shades-art/` into shared homes, archive V0.1, shades-a/b, research and control
+routes, drop the art preview from the export). Open: an on-page caption for the anatomy drawing (new string, brand
+review); optional generated renders (`round2/reveal/RENDER-PROMPTS.md`).
+
 ## 1. Where things are
 
 | Thing | Value |

@@ -83,9 +83,13 @@ function build(w: number, h: number, inner: number, fs: number, lh: number, boxe
   const line: Pose[] = boxes.map((b, i) =>
     inLine(i) ? { dx: lineX[i] - b.x, dy: C.y - cy(b), o: 1, sc: 1 } : { dx: 0, dy: push(b, 0.9), o: b.y !== fb.y && inside(cy(b) + push(b, 0.9)) ? GHOST : 0, sc: 1 },
   );
+  // the unfaded band between the side fades (the box bleeds one gutter each side): a word that would sit even
+  // partly in a fade is hidden whole, never cut mid-glyph
+  const gutter = (w - inner) / 2;
+  const inBand = (x0: number, ww: number): boolean => x0 >= gutter && x0 + ww <= w - gutter;
   const phrase: Pose[] = boxes.map((b, i) =>
     inLine(i)
-      ? { dx: lineX[i] + phraseShift - b.x, dy: C.y - cy(b), o: i >= P0 ? 1 : 0.16, sc: 1 }
+      ? { dx: lineX[i] + phraseShift - b.x, dy: C.y - cy(b), o: i >= P0 ? 1 : inBand(lineX[i] + phraseShift, b.w) ? 0.16 : 0, sc: 1 }
       : { dx: 0, dy: push(b, 1.3), o: 0, sc: 1 },
   );
   // Collapse: every neighbour is pulled toward the one point (k = 0.42 at Word, 0 at Hold) as it fades.
@@ -98,8 +102,20 @@ function build(w: number, h: number, inner: number, fs: number, lh: number, boxe
   const focus: Pose = { dx: focusDx, dy: focusDy, o: 1, sc };
   // pageAtHold > 0: the see-through view. The page settles back into its own lines at that ink, behind the held
   // word, instead of collapsing into the point. Flow positions sit inside the figure box by construction.
-  const settle: Pose = { dx: 0, dy: 0, o: pageAtHold, sc: 1 };
-  const word: Pose[] = boxes.map((b, i) => (i === F ? focus : pageAtHold > 0 ? settle : toward(b, i, 0, 0, 0.4)));
+  // Any page word whose settled box meets the held word's box (plus its dot and tick above) is cut out (ink 0),
+  // so the held word never lands on faint letters.
+  const m = fs * 0.25;
+  const liftAt = Math.max(9, (lh - fs * 1.15) / 2);
+  const held = {
+    x0: C.x - pivot * sc - m,
+    x1: C.x + (fb.w - pivot) * sc + m,
+    y0: C.y - fs * 0.55 * sc - liftAt - 10,
+    y1: C.y + fs * 0.6 * sc + m,
+  };
+  const hits = (b: Box): boolean =>
+    b.x < held.x1 && b.x + b.w > held.x0 && cy(b) - fs * 0.6 < held.y1 && cy(b) + fs * 0.6 > held.y0;
+  const settle = (b: Box): Pose => ({ dx: 0, dy: 0, o: hits(b) ? 0 : pageAtHold, sc: 1 });
+  const word: Pose[] = boxes.map((b, i) => (i === F ? focus : pageAtHold > 0 ? settle(b) : toward(b, i, 0, 0, 0.4)));
   const poses = [page, line, phrase, word, word]; // Hold = Word's pose; only the dot and the colour change
 
   // Fixation sequences (illustrative): skip short words, one regression, always end on the held word.

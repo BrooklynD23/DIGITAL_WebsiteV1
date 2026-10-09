@@ -78,7 +78,6 @@ export function AnatomyPin() {
   });
 
   const beat = anatomy.beats[shown];
-  const single = beat.groups.length === 1 ? beat.groups[0] : null;
 
   if (!enhanced) {
     return (
@@ -112,7 +111,7 @@ export function AnatomyPin() {
               ground="dark"
               fit="room"
               tether
-              highlight={apart ? single : null}
+              highlight={apart ? beat.groups : null}
               title={ART_TITLE}
             />
           </div>
