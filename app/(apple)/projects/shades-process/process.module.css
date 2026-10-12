@@ -1,0 +1,472 @@
+/* MOCKUP: SHADES design-process sketch sheets. Paper-white panels on the dark page. Three review palettes. */
+
+.palettes {
+  --sk-paper: #fbfaf5;
+  --sk-rule: rgba(29, 29, 31, 0.08);
+  --sk-text: #1d1d1f;
+  background: #000;
+}
+
+/* A · Ink + copper: existing tokens only (ink #1d1d1f, --board-copper #c9965f). */
+.palettes[data-palette='a'] {
+  --sk-line: #1d1d1f;
+  --sk-note: #1d1d1f;
+  --sk-lead: #c9965f;
+  --sk-mark: #1d1d1f;
+}
+
+/* B · Blue + magenta pencil, like the reference sheet. Off-token: needs a DESIGN.md waiver. */
+.palettes[data-palette='b'] {
+  --sk-line: #2f5fc4;
+  --sk-note: #1f3f8f;
+  --sk-lead: #c2367f;
+  --sk-mark: #a8256b;
+}
+
+/* C · Graphite + one red mark (--r2-trigger on one callout per sheet). */
+.palettes[data-palette='c'] {
+  --sk-line: #48484c;
+  --sk-note: #3a3a3c;
+  --sk-lead: #86868b;
+  --sk-mark: var(--r2-trigger);
+}
+
+.intro {
+  padding-top: var(--r2-space-9);
+  padding-bottom: var(--r2-space-7);
+}
+
+.draft {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--r2-ink-2);
+}
+
+.defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.section {
+  position: relative;
+  background: #000;
+}
+
+/* ---------- static layout (no JS / reduced motion): sheets stack ---------- */
+.stack {
+  display: grid;
+  gap: var(--r2-space-6);
+  width: min(1200px, 100%);
+  margin: 0 auto;
+  padding: 0 var(--r2-gutter) var(--r2-space-9);
+  box-sizing: border-box;
+}
+
+/* ---------- pinned layout ---------- */
+.pin {
+  position: relative;
+  height: calc(100svh + var(--steps) * 50svh);
+}
+
+.stage {
+  position: sticky;
+  top: var(--r2-nav-h);
+  height: calc(100svh - var(--r2-nav-h));
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) 52px;
+  padding: clamp(12px, 3svh, 32px) max(var(--r2-gutter), (100vw - 1320px) / 2) 4px;
+  box-sizing: border-box;
+}
+
+.sheets {
+  display: grid;
+  min-height: 0;
+}
+
+.sheets > .sheet {
+  grid-area: 1 / 1;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 200ms var(--r2-ease-ui), visibility 0s linear 200ms;
+}
+
+.sheets > .sheet[data-on] {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 360ms var(--r2-ease-emphasized) 160ms;
+}
+
+/* ---------- the sheet: paper panel, art left, notes right ---------- */
+.sheet {
+  box-sizing: border-box;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: var(--r2-space-6);
+  align-items: center;
+  padding: clamp(16px, 3svh, 40px) clamp(16px, 3vw, 48px);
+  border-radius: 6px;
+  overflow: hidden;
+  color: var(--sk-text);
+  background-color: var(--sk-paper);
+  background-image: linear-gradient(var(--sk-rule) 1px, transparent 1px), linear-gradient(90deg, var(--sk-rule) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.art {
+  position: relative;
+  width: 100%;
+  max-height: 100%;
+  aspect-ratio: 4 / 3;
+  justify-self: center;
+}
+
+.sheets .art {
+  width: min(100%, (100svh - var(--r2-nav-h) - 160px) * 4 / 3);
+}
+
+.over {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* The shared Glasses artwork, recoloured to the pencil (its line tokens are read inside its svg). */
+.glasses {
+  position: absolute;
+  inset: 4% 0 auto;
+}
+
+.glassesTop {
+  inset: 2% 12% auto;
+}
+
+.glasses svg {
+  color: var(--sk-line);
+  --g-outline: var(--sk-line);
+  --gg: var(--sk-paper);
+}
+
+.ghost {
+  position: absolute;
+  inset: 0;
+  transform: translate(2px, 1.5px) rotate(0.4deg);
+  opacity: 0.45;
+}
+
+/* ---------- hand-lettered marks ---------- */
+.hand,
+.handSm,
+.handHead,
+.note {
+  font-family: var(--font-hand), 'Comic Sans MS', cursive;
+  fill: var(--sk-note);
+}
+
+.hand {
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.handSm {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.handHead {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.note {
+  font-size: 13px;
+  font-weight: 500;
+  opacity: 0.85;
+}
+
+.lead,
+.strike,
+.doodle,
+.box,
+.boxGroup,
+.arrow,
+.eye {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.lead {
+  stroke: var(--sk-lead);
+  stroke-width: 1.4;
+}
+
+.dot {
+  fill: var(--sk-lead);
+}
+
+.doodle,
+.box,
+.arrow,
+.eye {
+  stroke: var(--sk-line);
+  stroke-width: 1.6;
+}
+
+.boxGroup {
+  stroke: var(--sk-line);
+  stroke-width: 1.2;
+  stroke-dasharray: 5 4;
+}
+
+.strike {
+  stroke: var(--sk-lead);
+  stroke-width: 2.4;
+}
+
+/* Palette C: one red element per sheet. Everywhere else .mark is the note colour. */
+.mark :is(.hand, .handSm),
+.mark.handSm {
+  fill: var(--sk-mark);
+}
+.mark .lead,
+.mark .box,
+.mark.strike {
+  stroke: var(--sk-mark);
+}
+.mark .dot {
+  fill: var(--sk-mark);
+}
+
+/* Draw-on: leaders and strikes draw when the sheet is shown (the timed tween). */
+.sheets .lead,
+.sheets .strike {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 700ms var(--r2-ease-emphasized) 420ms;
+}
+
+.sheets [data-on] .lead,
+.sheets [data-on] .strike {
+  stroke-dashoffset: 0;
+}
+
+/* ---------- copy column ---------- */
+.copy {
+  display: grid;
+  gap: var(--r2-space-3);
+  align-content: center;
+  min-width: 0;
+}
+
+.step {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: #6e6e73;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-hand), cursive;
+  font-weight: 700;
+  font-size: clamp(34px, 3.4vw, 52px);
+  line-height: 1;
+  color: var(--sk-note);
+}
+
+.line {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.45;
+  color: var(--sk-text);
+}
+
+.listHead {
+  margin: var(--r2-space-2) 0 0;
+  font-family: var(--font-hand), cursive;
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--sk-note);
+}
+
+.list {
+  margin: 0;
+  padding-left: 1.3em;
+  display: grid;
+  gap: 2px;
+  font-family: var(--font-hand), cursive;
+  font-size: 20px;
+  line-height: 1.2;
+  color: var(--sk-note);
+}
+
+.tag {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 0 6px;
+  border: 1.5px solid currentColor;
+  border-radius: 10px 8px 11px 7px;
+  font-size: 16px;
+  color: var(--sk-lead);
+}
+
+.tag.mark {
+  color: var(--sk-mark);
+}
+
+.palettes[data-palette='a'] .tag:not(.mark) {
+  color: #1d1d1f;
+}
+
+.gate {
+  margin: var(--r2-space-2) 0 0;
+  font-family: var(--font-hand), cursive;
+  font-weight: 700;
+  font-size: 21px;
+  line-height: 1.2;
+  color: var(--sk-note);
+}
+
+.gate.mark {
+  color: var(--sk-mark);
+}
+
+.small {
+  margin: 0;
+  font-size: 13px;
+  color: #6e6e73;
+}
+
+/* ---------- tracker ---------- */
+.tracker {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
+
+.trackBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 44px;
+  height: 44px;
+  justify-content: center;
+  padding: 0 10px;
+  border: 0;
+  background: none;
+  color: var(--r2-ink-2);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.trackBtn[aria-current] {
+  color: var(--r2-ink);
+}
+
+.trackBtn:focus-visible,
+.paletteBtn:focus-visible {
+  outline: 2px solid var(--r2-focus);
+  outline-offset: -4px;
+}
+
+.trackN {
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  font-size: 12px;
+}
+
+.trackName {
+  font-weight: 600;
+}
+
+/* ---------- review palette control ---------- */
+.palette {
+  position: fixed;
+  left: 12px;
+  bottom: 12px;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 0 4px 0 12px;
+  border-radius: 24px;
+  background: rgba(29, 29, 31, 0.92);
+  color: #f5f5f7;
+  font-size: 12px;
+}
+
+.paletteLabel {
+  margin-right: 4px;
+}
+
+.paletteBtn {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.paletteBtn[aria-pressed='true'] {
+  background: #f5f5f7;
+  color: #1d1d1f;
+}
+
+@media (max-width: 899px) {
+  .sheet {
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+    gap: var(--r2-space-3);
+  }
+
+  .sheets .art {
+    width: min(100%, 40svh * 4 / 3);
+  }
+
+  .title {
+    font-size: 32px;
+  }
+
+  .line {
+    font-size: 15px;
+  }
+
+  .list {
+    font-size: 17px;
+  }
+
+  .gate {
+    font-size: 18px;
+  }
+
+  .paletteLabel {
+    display: none;
+  }
+
+  .palette {
+    top: calc(var(--r2-nav-h) + 8px);
+    bottom: auto;
+    left: auto;
+    right: 8px;
+  }
+}

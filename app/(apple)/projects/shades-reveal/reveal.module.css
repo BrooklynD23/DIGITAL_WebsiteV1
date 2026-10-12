@@ -15,8 +15,7 @@
 /* ---------- shared type ---------- */
 .h2,
 .heroName,
-.beatTitle,
-.faqQ {
+.beatTitle {
   margin: 0;
   font-family: var(--font-display);
   font-weight: var(--r2-fw-display);
@@ -114,26 +113,20 @@
   padding-inline: var(--r2-gutter);
 }
 
-/* ---------- 2 · what SHADES is ---------- */
+/* ---------- 2 · the problem and the approach: two beats ---------- */
 .what {
   display: grid;
-  gap: clamp(20px, 3vw, 40px);
-  padding-block: var(--r2-space-10) var(--r2-space-8); /* the pin below brings its own top room */
+  gap: var(--r2-space-8);
+  padding-block: var(--r2-space-10) var(--r2-space-8);
 }
 
-.whatLine {
+.beat {
+  display: grid;
+  gap: var(--r2-space-4);
+}
+
+.beat > .lead {
   margin: 0;
-  font-family: var(--font-display);
-  font-weight: var(--r2-fw-display);
-  font-size: var(--r2-fs-h1);
-  line-height: var(--r2-lh-h1);
-  letter-spacing: max(var(--r2-ls-h1), -0.03em);
-  color: var(--r2-ink);
-  text-wrap: balance;
-}
-
-.whatLine + .whatLine {
-  color: var(--r2-ink-2);
 }
 
 /* ---------- 3 · anatomy ---------- */
@@ -416,23 +409,47 @@
   margin: 0;
 }
 
-.phases {
-  list-style: none;
+.milestones {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: var(--r2-space-4);
   margin: var(--r2-space-4) 0 0;
   padding: 0;
-  border-top: 1px solid var(--r2-hairline);
-  counter-reset: none;
+  list-style: none;
 }
 
-.phases li {
+/* The line: horizontal on desktop, vertical at <= 734px. Markers sit on it. */
+.milestones::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--r2-hairline-strong);
+}
+
+.milestone {
+  position: relative;
   display: grid;
-  grid-template-columns: 3em minmax(0, 1fr);
-  align-items: baseline;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--r2-hairline);
+  gap: var(--r2-space-2);
+  align-content: start;
+  padding-top: var(--r2-space-5);
   font-size: var(--r2-fs-body);
-  line-height: 24px;
+  line-height: 1.4;
   color: var(--r2-ink);
+}
+
+.milestone::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--r2-ink);
 }
 
 .phaseN {
@@ -449,71 +466,31 @@
   color: var(--r2-ink-2);
 }
 
-/* ---------- Is this real? ---------- */
-.faq {
-  display: grid;
-  gap: var(--r2-space-7);
-  padding-block: var(--r2-space-8) var(--r2-space-10);
-}
-
-.faqList {
-  border-top: 1px solid var(--r2-hairline-strong);
-}
-
-.faqRow {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
-  gap: var(--r2-space-3) var(--r2-space-7);
-  padding: var(--r2-space-5) 0;
-  border-bottom: 1px solid var(--r2-hairline);
-}
-
-.faqQ {
-  font-size: 19px;
-  line-height: 26px;
-  letter-spacing: -0.01em;
-}
-
-.faqA p {
-  margin: 0;
-}
-
-.faqA {
-  display: grid;
-  gap: var(--r2-space-4);
-  max-width: 60ch;
-  font-size: var(--r2-fs-body);
-  line-height: 1.6;
-  color: var(--r2-ink-2);
-}
-
-.bounds {
-  margin: 0;
-  border-top: 1px solid var(--r2-hairline);
-}
-
-.bounds > div {
-  display: grid;
-  grid-template-columns: 5.5em minmax(0, 1fr);
-  gap: var(--r2-space-3);
-  padding: 8px 0;
-  border-bottom: 1px solid var(--r2-hairline);
-  font-size: 14px;
-  line-height: 20px;
-}
-
-.bounds dt {
-  font-weight: 600;
-  color: var(--r2-ink);
-}
-
-.bounds dd {
-  margin: 0;
+.disclaimer {
+  padding-block: var(--r2-space-6) var(--r2-space-8);
 }
 
 @media (max-width: 734px) {
-  .faqRow {
+  .milestones {
     grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .milestones::before {
+    top: 0;
+    bottom: 0;
+    left: 4px;
+    right: auto;
+    width: 1px;
+    height: auto;
+  }
+
+  .milestone {
+    padding: 0 0 var(--r2-space-5) var(--r2-space-6);
+  }
+
+  .milestone::before {
+    top: 4px;
   }
 }
 
@@ -537,7 +514,7 @@
   }
 }
 
-.page[data-spacing='more'] :is(.lead, .heroLine, .beatLine, .legendRole, .faqA, .bounds, .phases li) {
+.page[data-spacing='more'] :is(.lead, .heroLine, .beatLine, .legendRole, .milestone) {
   letter-spacing: var(--reading-spaced-tracking, 0.05em);
   word-spacing: var(--reading-spaced-word, 0.16em);
 }

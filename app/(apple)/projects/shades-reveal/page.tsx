@@ -4,16 +4,12 @@ import chrome from '../../_chrome/chrome.module.css';
 import { fontReadingText } from '../../_system/fonts';
 import { localTitle } from '../../_content/home';
 import { SHADES } from '../../_content/shades';
-import { boundaryTable, boxCaption, closing, faq, hero, view, whatItIs } from '../../_content/shades-reveal';
+import { approach, boxCaption, closing, deeper, disclaimer, hero, milestones, problem, renderCaption } from '../../_content/shades-reveal';
 import { ShadesRoot, SpacingToggle } from '../../_shades/ShadesRoot';
 import { Seats } from '../../_shades/Seats';
 import { SeatRing } from '../../_shades/SeatRing';
 import { Glasses } from '../../_shades-art/Glasses';
 import v1 from '../shades/apple.module.css';
-import { HoldStill } from '../shades-control/HoldStill';
-import hold from '../shades-control/control.module.css';
-import { AnatomyPin } from './AnatomyPin';
-import { HoldStillStills } from '../shades-control/HoldStillStills';
 import s from './reveal.module.css';
 
 /** SHADES round 2, approach 1: product reveal. Review route; not in the nav or the sitemap. */
@@ -25,14 +21,12 @@ export const metadata: Metadata = {
 
 const conceptLine = hero.conceptLines.find((l) => l.isDefault)?.text ?? hero.conceptLines[0].text;
 const boxLine = boxCaption.options.find((l) => l.isDefault)?.text ?? boxCaption.options[0].text;
-/** "Is SHADES a medical device?" carries the Is / Is not / Never rows under its sentence. */
-const BOUNDARY_FAQ = 2;
 
 /** Both object figures: the render caption, then the controller-box line. */
 function RenderCaption() {
   return (
     <figcaption className={s.renderCaption}>
-      <span>{hero.renderCaption}</span>
+      <span>{renderCaption}</span>
       <span>{boxLine}</span>
     </figcaption>
   );
@@ -62,85 +56,61 @@ export default function ShadesRevealPage() {
           </header>
           <figure className={s.render}>
             <div className={s.heroObject}>
-              <Glasses mode="solid" view="three-quarter" ground="dark" tether title={hero.renderCaption} />
+              <Glasses mode="solid" view="three-quarter" ground="dark" tether title={renderCaption} />
             </div>
             <RenderCaption />
           </figure>
         </section>
 
-        {/* 2 · What SHADES is: three declaratives. */}
+        {/* 2 · Two beats: the problem, then how SHADES approaches it. */}
         <section className={`${s.what} ${s.col}`} data-tone="dark">
-          {whatItIs.map((line) => (
-            <p key={line} className={s.whatLine}>{line}</p>
+          {[problem, approach].map((beat) => (
+            <div key={beat.title} className={s.beat}>
+              <h2 className={s.h2}>{beat.title}</h2>
+              {beat.lines.map((line) => (
+                <p key={line} className={s.lead}>{line}</p>
+              ))}
+            </div>
           ))}
         </section>
 
-        {/* 3 · Anatomy: the same object separates. One pin, four stages. */}
-        <AnatomyPin />
 
-        {/* 4 · The view: the "Hold still" slider. Not pinned; the visitor drives it. */}
-        <section id="view" className={s.view} data-tone="dark" aria-labelledby="rv-view">
+        {/* 3 · Go deeper: the anatomy pin and word demo moved to Concept X (2026-10-12). */}
+        <section id="deeper" className={s.view} data-tone="dark" aria-labelledby="rv-deeper">
           <header className={s.head}>
-            <h2 id="rv-view" className={s.h2}>{view.title}</h2>
-            <p className={s.lead}>{view.caption}</p>
+            <h2 id="rv-deeper" className={s.h2}>{deeper.title}</h2>
+            <p className={s.lead}>{deeper.line}</p>
+            <p>
+              <a className={chrome.link} href={deeper.link.href}>{deeper.link.label}</a>
+            </p>
           </header>
-          <div className={`${hold.live} ${s.holdWrap}`}>
-            <HoldStill pageAtHold={0.18} />
-          </div>
-          <div className={`${hold.noscript} ${s.holdWrap}`}>
-            <HoldStillStills />
-            <p className={hold.note}>{view.simulationNote}</p>
-          </div>
         </section>
 
-        {/* 5 · Close: the object again, the roadmap, the honest answers. */}
+        {/* 4 · Close: the object again, then the milestones. */}
         <section id="roadmap" className={s.close} data-tone="dark" aria-labelledby="rv-road">
           <figure className={s.render}>
             <div className={s.closeObject}>
-              <Glasses mode="solid" view="front" ground="dark" tether title={hero.renderCaption} />
+              <Glasses mode="solid" view="front" ground="dark" tether title={renderCaption} />
             </div>
             <RenderCaption />
           </figure>
           <div className={`${s.road} ${s.col}`}>
             <header className={s.roadHead}>
-              <h2 id="rv-road" className={s.h2}>{closing.title}</h2>
-              <p className={s.lead}>{closing.intro}</p>
+              <h2 id="rv-road" className={s.h2}>{milestones.title}</h2>
+              <p className={s.lead}>{milestones.intro}</p>
             </header>
-            <ol className={s.phases}>
-              {closing.phases.map((ph) => (
-                <li key={ph.n}>
+            <ol className={s.milestones}>
+              {milestones.phases.map((ph) => (
+                <li key={ph.n} className={s.milestone}>
                   <span className={s.phaseN}>{ph.n}</span>
                   <span>{ph.name}</span>
                 </li>
               ))}
             </ol>
-            <p className={s.note}>{closing.note}</p>
           </div>
         </section>
 
-        <section className={`${s.faq} ${s.col}`} data-tone="dark" aria-labelledby="rv-faq">
-          <h2 id="rv-faq" className={s.h2}>{faq.heading}</h2>
-          <div className={s.faqList}>
-            {faq.items.map((it, i) => (
-              <div key={it.q} className={s.faqRow}>
-                <h3 className={s.faqQ}>{it.q}</h3>
-                <div className={s.faqA}>
-                  <p>{it.a}</p>
-                  {i === BOUNDARY_FAQ ? (
-                    <dl className={s.bounds}>
-                      {boundaryTable.rows.map((r) => (
-                        <div key={r.term}>
-                          <dt>{r.term}</dt>
-                          <dd>{r.detail}</dd>
-                        </div>
-                      ))}
-                    </dl>
-                  ) : null}
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
+        <p className={`${s.note} ${s.col} ${s.disclaimer}`}>{disclaimer.text}</p>
 
         <JoinChapter
           world="apple"

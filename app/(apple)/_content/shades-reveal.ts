@@ -1,5 +1,6 @@
 /**
- * SHADES round 2, approach 1: product reveal (/projects/shades-reveal/). Includes the merged "Is this real?" block.
+ * SHADES round 2, approach 1: product reveal (/projects/shades-reveal/).
+ * 2026-10-12 (Head Designer): problem and approach beats, milestones, disclaimer, render caption; FAQ removed.
  * Head Designer choice 2026-10-09: this page, with the "Hold still" slider (./shades-control) as the view beat,
  * the research hero line and the Is / Is not / Never table (./shades-research) folded in.
  * Copy written before the build. The page prints only strings from this file, ./shades, ./shades-concept,
@@ -9,9 +10,9 @@
  * Reviewed by brand-guardian 2026-10-09 (revisions applied). 2026-10-09 merge strings: reviewed by brand-guardian 2026-10-09.
  */
 import { SHADES } from './shades';
-import { conceptLabels, hero as conceptHero, stages, systemGroups, viewNote, type SystemGroup } from './shades-concept';
+import { hero as conceptHero, stages, systemGroups, viewNote, type SystemGroup } from './shades-concept';
 import { control } from './shades-control';
-import { boundary as researchBoundary, hero as researchHero } from './shades-research';
+import { hero as researchHero } from './shades-research';
 
 export interface ConceptLine {
   readonly id: 'a' | 'b';
@@ -41,12 +42,36 @@ export const boxCaption = {
   ] as readonly ConceptLine[],
 } as const;
 
-/* ------------------------------------------------------------------ what SHADES is: three declaratives */
+/* ------------------------------------------------------------------ the problem and the approach: two beats (Head Designer, 2026-10-12) */
 
-export const whatItIs: readonly string[] = [
-  SHADES.hero.lead,
-  conceptLabels[0].disclosure,
-];
+export interface Beat {
+  readonly title: string;
+  readonly lines: readonly string[];
+}
+
+export const problem: Beat = {
+  title: 'The problem.',
+  lines: [
+    // src: design-lab/shades-concept/research/notion/01-product-definition.md, section 2 "Goal / purpose" ("the construction of meaning"); Head Designer 2026-10-12
+    'Reading means building meaning.',
+    // src: Notion "Background, & Project Solution | SHADES" (https://app.notion.com/p/3ab169473d778029a38ed4957c453ed2, 2026-09-28): "For individuals with dyslexia…", "the reader remains responsible for locating it, moving through it, regulating its pace, and recovering context"; re-fetched by the orchestrator 2026-10-09
+    'For readers with dyslexia, a page asks for more: find each word, keep the pace, recover lost context.',
+    // src: same Background page: "Most existing reading accommodations attempt to make this process more manageable by changing the appearance of the page … they preserve the same underlying method of interaction"
+    'Most reading aids change how the page looks. How the text arrives stays the same.',
+  ],
+};
+
+export const approach: Beat = {
+  title: 'How SHADES approaches it.',
+  lines: [
+    // src: shades-concept.ts stages[0] caption ("The words move and your eyes can stay: that is RSVP"); Head Designer 2026-10-12
+    'The words come to the reader.',
+    // src: notion/SUMMARY.md section 2 "Words or phrases" (ConOps: "one word or short phrase at a time"; Scope: "fixed display region"); Head Designer 2026-10-12
+    'They appear one word or short phrase at a time, at one fixed point.',
+    // src: notion/SUMMARY.md section 2 "Controller" and Scope (pause, resume, speed, rewind); shades.ts:71 hero.lead ("at the pace you set"); Head Designer 2026-10-12
+    'The reader sets the pace, and can pause, rewind and resume.',
+  ],
+};
 
 /* ------------------------------------------------------------------ anatomy (one pin, 4 beats) */
 
@@ -90,6 +115,13 @@ export const view = {
   simulationNote: control.simulationNote,
 } as const;
 
+/** Replaces the view beat (Head Designer, 2026-10-12): the page shows the planned object only; detail lives on Concept X. Brand-reviewed 2026-10-12. */
+export const deeper = {
+  title: 'Go deeper.',
+  line: 'Every part, its source, and a concept for what SHADES could become.',
+  link: { label: 'See Concept X', href: '/projects/shades-concept-x/' },
+} as const;
+
 /* ------------------------------------------------------------------ closing: roadmap + seats */
 
 export const closing = {
@@ -100,32 +132,23 @@ export const closing = {
   join: SHADES.join,
 } as const;
 
-/* ------------------------------------------------------------------ Is this real? (max 4) */
+/* ------------------------------------------------------------------ this page only (Head Designer, 2026-10-12) */
 
-export interface FaqItem {
-  readonly q: string;
-  readonly a: string;
-}
-
-export const faq = {
-  heading: 'Is this real?',
-  items: [
-    { q: 'Is SHADES a built device?', a: 'No. SHADES is a concept in planning, and its parts are not chosen yet.' },
-    { q: 'What phase is SHADES in?', a: 'The club has not yet confirmed which of the seven phases is current.' },
-    {
-      q: 'Is SHADES a medical device?',
-      a: `No. ${SHADES.tracks.boundary.line}`,
-    },
-    {
-      q: 'What does the first build leave out?',
-      a: 'The first build leaves out wireless, camera or text recognition, AI pacing, eye tracking and standalone use.',
-    },
-  ] as readonly FaqItem[],
+/** Milestones timeline on /projects/shades-reveal/. The closing export above stays for the other SHADES routes. */
+export const milestones = {
+  // src: Head Designer 2026-10-12 (replaces "Seven phases to a prototype." on this page)
+  title: 'Project milestones.',
+  // src: shades-concept.ts stages[5] caption; notion/SUMMARY.md section 2 "Roadmap" (FPGA-TL: seven checkpoints, 7 "Wearable Prototype"); Head Designer 2026-10-12
+  intro: 'Seven milestones on the FPGA team’s plan, from basic FPGA operation to a wearable prototype.',
+  phases: SHADES.roadmap.phases,
 } as const;
 
-/** Is / Is not / Never rows, printed inside the answer to faq.items[2] ("Is SHADES a medical device?"). */
-export const boundaryTable = {
-  rows: researchBoundary.rows,
+// src: Head Designer 2026-10-12 (replaces "Concept render. Not a built device." under both figures on this page); purpose: notion/01-product-definition.md section 1 ("an assistive reading tool for individuals with dyslexia")
+export const renderCaption = 'Research concept for readers with dyslexia.';
+
+// src: Head Designer 2026-10-12; student framing: notion/05-context.md ("Biomedical Engineering project of DIGITAL Technologies @ Cal Poly Pomona"); no treatment: notion/01-product-definition.md section 3 Scope ("not intended to produce ... a clinically validated treatment for dyslexia")
+export const disclaimer = {
+  text: 'SHADES and Concept X are student research. Neither is designed for medical treatment.',
 } as const;
 
 /* ------------------------------------------------------------------ sources (new strings only) */
@@ -137,15 +160,9 @@ export const sources = {
   'boxCaption.b': 'shades.ts:199 scope.in ("A pocket-sized controller"); DECISIONS #7 ("We connect it externally as wired-up", "no software will be run on it")',
   'view.title / view.caption': 'Reused from shades-concept stages[view] (its sources: shades.ts:168; DECISIONS #6)',
   'view.label / steps / lineText / pageWords / heldWord / simulationNote': 'Imported from shades-control control.* (sources listed in shades-control.ts)',
-  'boundaryTable.rows': 'Imported from shades-research boundary.rows (shades.ts:67 labels; shades.ts:181-183 tracks.boundary)',
   'hero.renderCaption': 'PLAN-R2.md "Revisions after the Fable plan audit", image waiver (verbatim)',
   'anatomy.beats.frame': 'shades.ts:239 join.roles[mech] ("The frame, the optics mounts and the controller case."); shades-concept systemGroups.frame',
   'anatomy.beats.display': 'shades.ts:156 lightPath.stages[display]; DECISIONS #6 (see-through)',
   'anatomy.beats.optics': 'shades.ts:162 lightPath.stages[optics]; shades.ts:229 highlights optics ("one eye, at a fixed focus")',
   'anatomy.beats.timing': 'shades.ts:226 highlights timing ("its own time slot"); shades.ts:144 lightPath.stages[control]',
-  'faq.heading': 'PLAN-R2.md revisions table, approach 4 merged into 1 ("Is this real?" block)',
-  'faq.items[0]': 'shades.ts:51 status ("Planning"); shades.ts:133 lightPath.figureLabel ("Parts are not chosen yet")',
-  'faq.items[1]': 'shades.ts:206 roadmap.headline (seven phases); shades.ts:208 roadmap.note; shades.ts:133 ("unconfirmed by the club")',
-  'faq.items[2]': 'shades.ts:184 tracks.boundary.line (verbatim); table rows carry shades.ts:181-183',
-  'faq.items[3]': 'shades.ts:201 scope.out (all five items); shades.ts:190 scope.headline ("the first build")',
 } as const;
