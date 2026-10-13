@@ -3,8 +3,9 @@
  * SHADES Concept X: the detailed technical page for SHADES (Head Designer, 2026-10-12). The main SHADES page
  * (/projects/shades-reveal/) stays simple and links here with "See Concept X"; this page links back.
  * Concept X is a next-gen evolution of the planned SHADES prototype. Head Designer brief 2026-10-12: keep the core (RSVP reading, one eye,
- * see-through, reading-first, research platform, not a medical device); redesign the form; thesis "open and
- * repairable"; CMF matte black polymer, titanium accents, one signal-red detail.
+ * see-through, reading-first, research platform, not a medical device); redesign the form; CMF matte black polymer,
+ * titanium accents, one signal-red detail. Thesis reframed 2026-10-13 (Head Designer): from "open and repairable" to
+ * "a research platform that can change without a rebuild" (Notion Background 2026-09-28). Strings changed carry `// voice 2026-10-13`.
  *
  * Source map (every string carries `src`):
  *   Notion short names (page + last-edited date), from design-lab/shades-concept/research/notion/SUMMARY.md and
@@ -29,7 +30,8 @@ export type Layout = 'planned' | 'potential';
 
 export const meta = {
   title: 'SHADES Concept X',
-  description: 'SHADES Concept X: a concept for open, repairable RSVP reading glasses. Not a planned design.',
+  // src: Head Designer 2026-10-13 thesis reframe; notion/SUMMARY.md §2 Background ("without requiring its architecture to be rebuilt")
+  description: 'SHADES Concept X: a concept for RSVP reading glasses whose hardware can change without a rebuild. Not a planned design.', // voice 2026-10-13
 };
 
 /** Page chrome: back link and the in-page section index. Labels name sections; they make no claims. */
@@ -41,18 +43,21 @@ export const chromeCopy = {
 
 export const hero = {
   title: s('SHADES Concept X', 'Head Designer brief 2026-10-12: name'),
-  caption: s('Concept. Not a planned design.', 'Head Designer brief 2026-10-12: caption'),
-  lead: s('Every part, sourced and tagged. What Notion plans, what Concept X changes, what is still open.', 'page role, Head Designer 2026-10-12; tags below'), // brand-reviewed 2026-10-12
+  caption: s('A design concept, not part of the team’s current plan.', 'Head Designer brief 2026-10-12: caption'), // natural-voice 2026-10-13
+  // src: Background 2026-09-28 ("Future findings can be translated into changes in timing, phrase structure, display behavior, and user control"; "without requiring its architecture to be rebuilt"); Head Designer 2026-10-13 thesis reframe; tags below
+  lead: s('SHADES is planned as a research platform whose timing, phrasing and display can change as new findings arrive, without a rebuild. Concept X asks what its hardware would look like if the physical parts could change the same way. Every part is tagged, so you can see what the team plans, what Concept X changes and what is still an open question.', 'Background 2026-09-28: "translated into changes in timing, phrase structure, display behavior, and user control", "without requiring its architecture to be rebuilt"; Head Designer 2026-10-13; tags below'), // voice 2026-10-13
   original: s('The planned prototype, as drawn today.', 'app/(apple)/_shades-art/Glasses.tsx, tether on; ConOps one cable to a controller'),
-  concept: s('Concept X. Matte black, titanium, one red release.', 'Head Designer brief 2026-10-12: CMF'),
+  concept: s('Concept X in matte black, with titanium at the hinges and bridge and one red release.', 'Head Designer brief 2026-10-12: CMF'), // natural-voice 2026-10-13
 };
 
 export const thesis = {
   nav: s('Overview', 'section index label'), // polished 2026-10-12 (was eyebrow "The idea")
-  line: s('Open it. Fix it. Own a part.', 'Head Designer brief 2026-10-12: thesis "open and repairable", DIGITAL "own a part"'),
+  // src: Head Designer 2026-10-13 thesis reframe; Background 2026-09-28 ("adaptable hardware platform capable of responding to future clinical findings"; "without requiring its architecture to be rebuilt")
+  line: s('Designed to change without a rebuild', 'Head Designer 2026-10-13 thesis; Background 2026-09-28: "without requiring its architecture to be rebuilt"'), // voice 2026-10-13
+  // src: Scope (one eye, fixed focus); Background (see-through; "adaptable hardware platform capable of responding to future clinical findings"; "without requiring its architecture to be rebuilt"); ConOps (one cable); Concept X moves 1, 3, 4
   body: s(
-    'Concept X keeps the reading core: one word at a time, one eye, see-through. Three things come apart. The optics lift out as one pod. The boards sit under four screws. One cable unplugs at both ends.', // brand-reviewed 2026-10-12
-    'Scope 2026-07-29 (one eye, fixed focus); Background 2026-09-28 (see-through); ConOps 2026-08-05 (one cable); Concept X moves below',
+    'Concept X keeps how SHADES reads: one word at a time, shown to one eye on a see-through display. What changes is how the hardware comes apart. The optics lift out as one pod, the boards sit under four screws and the cable unplugs at both ends, so one part can change while the rest of the glasses stays as it is.', // voice 2026-10-13
+    'Scope 2026-07-29 (one eye, fixed focus); Background 2026-09-28 (see-through; "adaptable hardware platform capable of responding to future clinical findings"; "without requiring its architecture to be rebuilt"); ConOps 2026-08-05 (one cable); Concept X moves below',
   ),
 };
 
@@ -67,27 +72,33 @@ export const features: readonly Feature[] = [
   {
     id: 'pod',
     tag: 'CONCEPT',
-    title: s('A pod you can swap.', 'Concept X move 1'),
+    // src: Concept X move 1; Head Designer 2026-10-13 thesis reframe (heading without a period)
+    title: s('Optics that swap as one pod', 'Concept X move 1'), // voice 2026-10-13
+    // src: Background (bird-bath path; "without requiring its architecture to be rebuilt"); PCB-DB Display Daughterboard; Concept X move 1
     line: s(
-      'Display, beam splitter, curved combiner and the display board ride in one pod. Press the red release and it lifts off the frame.',
-      'Background: bird-bath path; PCB-DB: Display Daughterboard; Concept X move 1 (Brilliant Labs Frame, XREAL One)',
+      'The display, beam splitter, curved combiner and display board sit together in one pod, which lifts off the frame when you press the red release, so the optics can change while the frame stays.', // voice 2026-10-13
+      'Background: bird-bath path, "without requiring its architecture to be rebuilt"; PCB-DB: Display Daughterboard; Concept X move 1 (Brilliant Labs Frame, XREAL One)',
     ),
   },
   {
     id: 'tray',
     tag: 'CONCEPT',
-    title: s('Boards you can reach.', 'Concept X move 3'),
+    // src: Concept X move 3; Head Designer 2026-10-13 thesis reframe (heading without a period)
+    title: s('Boards under four screws', 'Concept X move 3'), // voice 2026-10-13
+    // src: PCB-DB Board / Workstream options; Concept X move 3; Background ("without requiring its architecture to be rebuilt")
     line: s(
-      'The controller opens with four standard screws. Boards sit by function, the way the PCB team already splits them.',
+      'Four standard screws open the controller. Inside, the boards are grouped by function, the same way the PCB team already divides them, so you can reach one board without taking the rest apart.', // voice 2026-10-13
       'PCB-DB Board / Workstream options; Concept X move 3 (Meta Ray-Ban Display teardown, Kobo repair parts)',
     ),
   },
   {
     id: 'cable',
     tag: 'POTENTIAL',
-    title: s('One cable, unplugged at both ends.', 'Concept X move 4'),
+    // src: Concept X move 4; Head Designer 2026-10-13 thesis reframe (heading without a period)
+    title: s('One cable that unplugs at both ends', 'Concept X move 4'), // voice 2026-10-13
+    // src: ConOps ("single physical tether cable" for power and data); Concept X move 4
     line: s(
-      'Power and data still share one cable. In Concept X it detaches at the temple and at the controller, so a frayed cable is a swap, not a rebuild.',
+      'Power and data still share one cable, but in Concept X it unplugs at the temple and at the controller, so the cable can be replaced without touching the glasses or the controller.', // voice 2026-10-13
       'ConOps: "single physical tether cable" for power and data; Concept X move 4 (VITURE magnetic connector)',
     ),
   },
@@ -111,10 +122,10 @@ export interface ResearchRow {
 /** As reported by the cited source. "n/f" = not found in the sources read. Weights are reported figures. */
 export const research = {
   nav: s('Research', 'section index label'), // polished 2026-10-12 (was eyebrow "Market research")
-  title: s('What the field teaches.', 'four research passes, 2026-10-12'),
-  lead: s('Eleven products, read for form, not features. Each figure is as its source reports it.', 'research rows below'),
+  title: s('What we learned from other products', 'four research passes, 2026-10-12'), // natural-voice 2026-10-13
+  lead: s('We looked at how eleven products are built and repaired, rather than what they do. Each figure is given as its source reports it.', 'research rows below'), // natural-voice 2026-10-13
   note: s('n/f: not found in the sources read. n/a: does not apply.', 'research table key'), // polished 2026-10-12
-  movesTitle: s('Seven moves for Concept X', 'moves list below'), // moved from page.tsx 2026-10-12, unchanged
+  movesTitle: s('Seven ideas Concept X borrows', 'moves list below'), // natural-voice 2026-10-13
   movesFrom: 'From', // moved from page.tsx 2026-10-12, unchanged
   columns: ['Product', 'Weight', 'Optics / display', 'Battery', 'Compute', 'Controls', 'Repair', 'CMF'] as const,
   rows: [
@@ -198,19 +209,19 @@ export interface Move {
 export const moves: readonly Move[] = [
   {
     n: 1,
-    move: s('Publish the hardware, not only the code. Make the pod printable.', 'Brilliant Labs Frame: schematics, STL models and firmware on its hardware docs'),
+    move: s('Publish the hardware files as well as the code, and make the pod printable.', 'Brilliant Labs Frame: schematics, STL models and firmware on its hardware docs'), // natural-voice 2026-10-13
     taught: 'Brilliant Labs Frame',
     url: 'https://docs.brilliant.xyz/frame/hardware',
   },
   {
     n: 2,
-    move: s('Keep the frame to optics. Compute and power go in the pocket.', 'VITURE Pro: battery and compute in a pocket neckband; Even G1 runs compute on the phone'),
+    move: s('Keep only the optics on the frame, and put compute and power in the pocket.', 'VITURE Pro: battery and compute in a pocket neckband; Even G1 runs compute on the phone'), // natural-voice 2026-10-13
     taught: 'VITURE Pro, Even Realities G1',
     url: 'https://www.viture.com/academy/xr-glasses/pro-one-series',
   },
   {
     n: 3,
-    move: s('Screws and gaskets, never glue. A battery you can lift out.', 'Meta Ray-Ban Display: glued arm seam, opening it drops IPX4; Vuzix M400 hot-swappable pack'),
+    move: s('Use screws and gaskets instead of glue, and make the battery easy to lift out.', 'Meta Ray-Ban Display: glued arm seam, opening it drops IPX4; Vuzix M400 hot-swappable pack'), // natural-voice 2026-10-13
     taught: 'Meta Ray-Ban Display, Vuzix M400',
     url: 'https://roadtovr.com/meta-ray-ban-display-reparability-is-predictably-bad-but-less-than-you-might-think',
   },
@@ -228,13 +239,13 @@ export const moves: readonly Move[] = [
   },
   {
     n: 6,
-    move: s('Rewind is a first-class control, not a menu item.', 'Spritz coverage: a reading researcher quoted on the role of rereading'),
+    move: s('Give rewind its own button instead of hiding it in a menu.', 'Spritz coverage: a reading researcher quoted on the role of rereading'), // natural-voice 2026-10-13
     taught: 'Spritz',
     url: 'https://www.scientificamerican.com/article/speed-reading-reborn-for-smartphones-smartwatches',
   },
   {
     n: 7,
-    move: s('Titanium where it carries load: hinge and bridge.', 'VITURE Pro titanium hinges; Even G1 titanium temple tips'), // brand-reviewed 2026-10-12
+    move: s('Use titanium where the frame carries load, at the hinges and bridge.', 'VITURE Pro titanium hinges; Even G1 titanium temple tips'), // natural-voice 2026-10-13
     taught: 'VITURE Pro, Even Realities G1',
     url: 'https://www.evenrealities.com/g1',
   },
@@ -244,8 +255,8 @@ export const moves: readonly Move[] = [
 
 export const anatomy = {
   nav: s('Anatomy', 'section index label'), // polished 2026-10-12 (was eyebrow)
-  title: s('Every part, and who owns it.', 'shades.ts join.roles'), // brand-reviewed 2026-10-12
-  lead: s('Switch between the planned prototype and Concept X. Parts that move light up.', 'figure behaviour'),
+  title: s('Every part and the subteam that works on it', 'shades.ts join.roles'), // natural-voice 2026-10-13
+  lead: s('Switch between the planned prototype and Concept X, and the parts that change light up.', 'figure behaviour'), // natural-voice 2026-10-13
   fig: 'Fig 1',
   plateTitle: 'SHADES · Planned ↔ Concept X', // brand-reviewed 2026-10-12
   hint: 'Hover, focus or tap a part',
@@ -422,7 +433,7 @@ export const tagKey = {
 
 export const compare = {
   nav: s('Planned vs Concept X', 'section index label'), // polished 2026-10-12 (was eyebrow "Planned vs potential")
-  title: s('What moves, and why.', 'Concept X moves'),
+  title: s('What Concept X changes, and why', 'Concept X moves'), // natural-voice 2026-10-13
   columns: ['Part', 'Planned (Notion)', 'Concept X', 'Why'] as const,
   rows: [
     { part: 'Optics', planned: s('Built into the frame. PLANNED.', 'Scope 2026-07-29'), potential: s('One swappable pod, red release. CONCEPT.', 'move 1'), why: s('Brilliant Labs Frame publishes its hardware.', 'move 1') },
@@ -441,7 +452,7 @@ export const compare = {
 
 export const questions = {
   nav: s('Open questions', 'section index label'), // polished 2026-10-12 (was eyebrow)
-  title: s('What we do not know yet.', 'honest list'),
+  title: s('What we don’t know yet', 'honest list'), // natural-voice 2026-10-13
   items: [
     s('Does a pod latch hold optical alignment as well as a fixed mount? The Focal page asks for ±0.5°.', 'Focal: "±0.5° of perpendicular alignment"'),
     s('Can a detachable pod stay under the 40–50 g system target, with its own housing?', 'Focal 2026-09-28'),
@@ -454,6 +465,6 @@ export const questions = {
 
 export const join = {
   nav: s('Join', 'section index label'), // polished 2026-10-12
-  headline: s('Join us', 'Head Designer brief 2026-10-12'),
-  lead: s('Own a part of SHADES. Every part above names the team that owns it.', 'DIGITAL "own a part"; shades.ts join.roles'), // brand-reviewed 2026-10-12
+  headline: s('Join us', 'Head Designer brief 2026-10-12'), // kept: Head Designer pick
+  lead: s('The parts list above shows which subteam each part belongs to. Ask on Discord about joining one.', 'DIGITAL "own a part"; shades.ts join.roles'), // natural-voice 2026-10-13
 };

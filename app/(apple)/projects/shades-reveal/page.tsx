@@ -4,7 +4,7 @@ import chrome from '../../_chrome/chrome.module.css';
 import { fontReadingText } from '../../_system/fonts';
 import { localTitle } from '../../_content/home';
 import { SHADES } from '../../_content/shades';
-import { approach, boxCaption, closing, deeper, disclaimer, hero, milestones, problem, renderCaption } from '../../_content/shades-reveal';
+import { approach, boxCaption, closing, deeper, disclaimer, hero, milestones, problem, renderCaption, vision } from '../../_content/shades-reveal';
 import { ShadesRoot, SpacingToggle } from '../../_shades/ShadesRoot';
 import { Seats } from '../../_shades/Seats';
 import { SeatRing } from '../../_shades/SeatRing';
@@ -64,7 +64,7 @@ export default function ShadesRevealPage() {
 
         {/* 2 · Two beats: the problem, then how SHADES approaches it. */}
         <section className={`${s.what} ${s.col}`} data-tone="dark">
-          {[problem, approach].map((beat) => (
+          {[problem, approach, vision].map((beat) => (
             <div key={beat.title} className={s.beat}>
               <h2 className={s.h2}>{beat.title}</h2>
               {beat.lines.map((line) => (

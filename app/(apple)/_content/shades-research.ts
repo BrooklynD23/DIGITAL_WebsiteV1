@@ -25,7 +25,8 @@ export interface BoundaryRow {
 export const hero = {
   h1: conceptHero.h1,
   conceptLines: [
-    { id: 'a', text: 'A concept in planning. A research platform, not a medical device.', isDefault: true },
+    // src: notion/SUMMARY.md §2 Root (Status "Planned"; "Engineering Project Designs RSVP Heads-Up Display Glasses"); Scope ("not intended to produce … a clinically validated treatment"); Head Designer 2026-10-13 wording
+    { id: 'a', text: 'Reading glasses still in planning, meant as a research platform and not a medical device.', isDefault: true }, // voice 2026-10-13
     { id: 'b', text: `In planning. ${SHADES.boundaryShort}`, isDefault: false },
   ] as readonly ConceptLine[],
 } as const;

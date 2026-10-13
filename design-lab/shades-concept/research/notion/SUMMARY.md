@@ -85,6 +85,9 @@
 - Scope: "this phase will not claim that RSVP treats dyslexia, improves clinical outcomes, or represents the medically optimal method of presenting text."
 - Scope: "Medical-device approval, FCC or UL certification, and full consumer-product certification are outside the current scope."
 - Explore: human testing needs IRB approval.
+- Background (re-fetched verbatim by the orchestrator 2026-10-09): "By making the pace, structure, location, and presentation of written information controllable, SHADES transforms RSVP from a generalized reading technique into an adaptable hardware platform capable of responding to future clinical findings."
+- Background: "By exposing the variables that conventional reading interfaces leave fixed, the device can respond to future clinical evidence without requiring its architecture to be rebuilt around every new finding."
+- Background: "Researchers will be able to vary how information is presented rather than being restricted to the behavior of a preexisting commercial device. Future findings can be translated into changes in timing, phrase structure, display behavior, and user control because those functions remain accessible within the architecture."
 - Do not print (efficacy): ProdDef calls SHADES "an assistive reading tool for individuals with dyslexia, ADHD, visual tracking difficulties … neurotypical people to learn speed reading".
 
 ### 3. Notion vs site (shades.ts + DECISIONS.md)

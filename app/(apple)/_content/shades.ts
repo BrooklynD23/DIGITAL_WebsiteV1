@@ -231,8 +231,10 @@ export const SHADES = {
   },
 
   join: {
-    headline: 'Pick your seat.',
-    lead: 'Four subteams and a medical-research track.',
+    // src: Head Designer 2026-10-13 (exact pick, replaces "Pick your seat.")
+    headline: 'Join us', // voice 2026-10-13
+    // src: design-lab/shades-concept/research/notion/SUMMARY.md §2 Team (four subteams) + roles[research] below; discord.label ("Ask on Discord")
+    lead: 'Four subteams and a medical-research track work on SHADES. Ask on Discord about joining one.', // voice 2026-10-13
     roles: [
       { id: 'fpga', name: 'SoC and FPGA', line: 'Word timing, text rendering and video output.' },
       { id: 'pcb', name: 'Hardware (PCB)', line: 'Circuit boards for power, controls and the display.' },

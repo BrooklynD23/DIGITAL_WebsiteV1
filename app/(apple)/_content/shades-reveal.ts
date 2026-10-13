@@ -50,26 +50,36 @@ export interface Beat {
 }
 
 export const problem: Beat = {
-  title: 'The problem.',
+  title: 'The problem', // natural-voice 2026-10-13
   lines: [
     // src: design-lab/shades-concept/research/notion/01-product-definition.md, section 2 "Goal / purpose" ("the construction of meaning"); Head Designer 2026-10-12
-    'Reading means building meaning.',
+    'The point of reading is to understand what the words mean.', // natural-voice 2026-10-13
     // src: Notion "Background, & Project Solution | SHADES" (https://app.notion.com/p/3ab169473d778029a38ed4957c453ed2, 2026-09-28): "For individuals with dyslexia…", "the reader remains responsible for locating it, moving through it, regulating its pace, and recovering context"; re-fetched by the orchestrator 2026-10-09
-    'For readers with dyslexia, a page asks for more: find each word, keep the pace, recover lost context.',
+    'For readers with dyslexia, a page leaves much of that work to them: finding each word, moving along the line, keeping a steady pace and getting back to their place when the meaning slips.', // natural-voice 2026-10-13
     // src: same Background page: "Most existing reading accommodations attempt to make this process more manageable by changing the appearance of the page … they preserve the same underlying method of interaction"
-    'Most reading aids change how the page looks. How the text arrives stays the same.',
+    'Most reading aids change how the page looks, but the reader still works through it the same way.', // natural-voice 2026-10-13
   ],
 };
 
 export const approach: Beat = {
-  title: 'How SHADES approaches it.',
+  title: 'What SHADES proposes', // natural-voice 2026-10-13
   lines: [
     // src: shades-concept.ts stages[0] caption ("The words move and your eyes can stay: that is RSVP"); Head Designer 2026-10-12
-    'The words come to the reader.',
+    'SHADES changes how the text is delivered instead. With a method called RSVP, words appear one at a time, or a short phrase at a time, in one fixed spot, so the text comes to the reader.', // natural-voice 2026-10-13
     // src: notion/SUMMARY.md section 2 "Words or phrases" (ConOps: "one word or short phrase at a time"; Scope: "fixed display region"); Head Designer 2026-10-12
-    'They appear one word or short phrase at a time, at one fixed point.',
-    // src: notion/SUMMARY.md section 2 "Controller" and Scope (pause, resume, speed, rewind); shades.ts:71 hero.lead ("at the pace you set"); Head Designer 2026-10-12
-    'The reader sets the pace, and can pause, rewind and resume.',
+    // src: notion/SUMMARY.md section 2 "Controller" and Scope (pause, resume, speed, rewind); shades.ts:71 hero.lead ("at the pace you set"); Background ("control the delivery of text in a manner that supports the construction of meaning"); notion/01-product-definition.md:45 ("deliver complete ideas at a pace and structure the user can follow"); Head Designer 2026-10-12
+    'The reader sets the pace and can pause, rewind and pick up again. Behind that, the engineering aim is to deliver complete ideas in a structure the reader can follow.', // voice 2026-10-13
+  ],
+};
+
+/** End-state beat (Head Designer 2026-10-13: problem → proposed solution → ideal end state). Written by brand-voice-strategist 2026-10-13; awaiting brand-guardian. */
+export const vision: Beat = {
+  title: 'Where it leads',
+  lines: [
+    // src: notion/SUMMARY.md §2 Background ("SHADES therefore does not begin with the claim that RSVP has already been proven to improve dyslexic reading"; "A separate medical research effort will examine whether RSVP is a viable intervention … by directly evaluating comprehension, reading speed, retention, comfort")
+    'SHADES doesn’t start from the claim that RSVP is proven to help. A separate medical research effort will ask whether it does, looking at comprehension, reading speed, retention and comfort.', // voice 2026-10-13
+    // src: Background ("an adaptable hardware platform capable of responding to future clinical findings"; "Future findings can be translated into changes in timing, phrase structure, display behavior, and user control"; "without requiring its architecture to be rebuilt")
+    'So the end goal is glasses that can respond to whatever that research finds. Timing, phrase structure, display behavior and the reader’s controls will stay adjustable, so a new finding can be carried into those settings without rebuilding the glasses.', // voice 2026-10-13
   ],
 };
 
@@ -117,8 +127,9 @@ export const view = {
 
 /** Replaces the view beat (Head Designer, 2026-10-12): the page shows the planned object only; detail lives on Concept X. Brand-reviewed 2026-10-12. */
 export const deeper = {
-  title: 'Go deeper.',
-  line: 'Every part, its source, and a concept for what SHADES could become.',
+  title: 'A closer look', // natural-voice 2026-10-13
+  // src: shades-concept-x.ts thesis (reframed 2026-10-13, Head Designer); notion/SUMMARY.md §2 Background ("without requiring its architecture to be rebuilt")
+  line: 'Concept X lists every planned part with its source and sketches a version of the SHADES hardware whose parts could be swapped one at a time.', // voice 2026-10-13
   link: { label: 'See Concept X', href: '/projects/shades-concept-x/' },
 } as const;
 
@@ -137,9 +148,9 @@ export const closing = {
 /** Milestones timeline on /projects/shades-reveal/. The closing export above stays for the other SHADES routes. */
 export const milestones = {
   // src: Head Designer 2026-10-12 (replaces "Seven phases to a prototype." on this page)
-  title: 'Project milestones.',
+  title: 'Milestones', // natural-voice 2026-10-13
   // src: shades-concept.ts stages[5] caption; notion/SUMMARY.md section 2 "Roadmap" (FPGA-TL: seven checkpoints, 7 "Wearable Prototype"); Head Designer 2026-10-12
-  intro: 'Seven milestones on the FPGA team’s plan, from basic FPGA operation to a wearable prototype.',
+  intro: 'The FPGA team has planned seven milestones, starting with basic FPGA operation and ending with a wearable prototype.', // natural-voice 2026-10-13
   phases: SHADES.roadmap.phases,
 } as const;
 
@@ -148,7 +159,7 @@ export const renderCaption = 'Research concept for readers with dyslexia.';
 
 // src: Head Designer 2026-10-12; student framing: notion/05-context.md ("Biomedical Engineering project of DIGITAL Technologies @ Cal Poly Pomona"); no treatment: notion/01-product-definition.md section 3 Scope ("not intended to produce ... a clinically validated treatment for dyslexia")
 export const disclaimer = {
-  text: 'SHADES and Concept X are student research. Neither is designed for medical treatment.',
+  text: 'SHADES and Concept X are student research projects, and neither is designed for medical treatment.', // natural-voice 2026-10-13
 } as const;
 
 /* ------------------------------------------------------------------ sources (new strings only) */
