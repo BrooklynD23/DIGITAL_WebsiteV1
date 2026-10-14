@@ -116,3 +116,4 @@ Approved by the Head Designer on 2026-10-08. Each item was re-checked with a str
 | `public/assets/landing/DIGITAL_V1_Logo1{,_DarkMode,_Full}.png` | Club logo rasters (the only copies) | No page renders them; `siteConfig.assets` removed | 3 (1.8 MB) |
 | `removed-content-2026-10-08.ts` (new file, not a move) | Unread exports and fields cut from `app/(apple)/_content/{sidekick,home}.ts`, `lib/data/{siteConfig,community,about}.ts`, `lib/types.ts` | Nothing read them; text kept verbatim | 1 |
 | `design-lab/round2/stakeholder/{compare.html,compare.src.html}` | Round 2 stakeholder review page (all approaches, Signal vs Apple) | Outdated: the Apple approach was chosen; Head Designer asked to remove it 2026-10-10 | 2 |
+| `app/(apple)/projects/shades-concept-x/` → `archive/app/(apple)/projects/shades-concept-x-a/` | Concept X variation A (first anatomy figure) | Head Designer picked variation B on 2026-10-13; B now serves `/projects/shades-concept-x/` | 1 folder |

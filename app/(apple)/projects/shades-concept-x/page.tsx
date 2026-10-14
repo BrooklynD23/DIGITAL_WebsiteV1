@@ -34,10 +34,10 @@ import { FIGURE, HERO } from './geometry';
 import './iso.css';
 import './concept-x.css';
 
-/** SHADES Concept X, variation B: the Concept X page with the round-4 review fixes, for side-by-side comparison with
- *  /projects/shades-concept-x/. Every changed style is scoped under `.cx-b`. Not in the nav or the sitemap. */
+/** SHADES Concept X (default since 2026-10-13: variation B, the round-4 Codex review fixes; variation A archived to
+*  archive/app/(apple)/projects/shades-concept-x-a/). Every changed style is scoped under `.cx-b`. Not in the nav or the sitemap. */
 export const metadata: Metadata = {
-  title: `${meta.title} · variation B`,
+  title: meta.title,
   description: meta.description,
   robots: { index: false, follow: false },
 };

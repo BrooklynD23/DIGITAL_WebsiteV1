@@ -14,7 +14,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = resolve(here, '../../../../..');
-const GEO = join(root, 'app/(apple)/projects/shades-concept-x-b/geometry.ts');
+const GEO = join(root, 'app/(apple)/projects/shades-concept-x/geometry.ts');
 const KIT = process.env.ANATOMY_KIT ?? join(homedir(), '.claude/skills/anatomy/kit');
 const A = await import(pathToFileURL(join(KIT, 'audit.mjs')).href);
 const L = await import(pathToFileURL(join(KIT, 'lathe.mjs')).href);

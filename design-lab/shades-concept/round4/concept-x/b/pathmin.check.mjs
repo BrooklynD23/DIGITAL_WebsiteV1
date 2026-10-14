@@ -1,9 +1,9 @@
-/* Self-check for shades-concept-x-b/pathmin.ts against every path in a saved page:
+/* Self-check for shades-concept-x/pathmin.ts against every path in a saved page:
    node --import ./ts-hooks.mjs pathmin.check.mjs <page.html>
    eps 0 must round-trip exactly; eps 0.15 must keep every original point within 0.15 of the output. */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { minPath } from '../../../../../app/(apple)/projects/shades-concept-x-b/pathmin.ts';
+import { minPath } from '../../../../../app/(apple)/projects/shades-concept-x/pathmin.ts';
 
 const decode = (d) => {
   const subs = [];
