@@ -25,13 +25,19 @@ interface Props {
   readonly light: Readonly<Record<Pose, readonly Flat[]>>;
   readonly owners: Readonly<Record<RoleId, string>>;
   readonly art: ReactNode;
+  /** Variation B: Detail A as a separate panel (shown at phone width). */
+  readonly detail?: ReactNode;
+  /** Variation B: id of the visible caption that describes the drawing. */
+  readonly describedBy?: string;
 }
 
-export function Anatomy({ width, height, light, owners, art }: Props) {
+export function Anatomy({ width, height, light, owners, art, detail, describedBy }: Props) {
   const [layout, setLayout] = useState<Layout>('potential');
   const [exploded, setExploded] = useState(false);
   const [active, setActive] = useState<string | null>(null);
   const [pinned, setPinned] = useState<string | null>(null);
+  /* Variation B: the chip with keyboard (or click) focus. Only focus and selection are announced, never hover. */
+  const [focused, setFocused] = useState<string | null>(null);
   const [switching, setSwitching] = useState(false);
   const figRef = useRef<HTMLDivElement>(null);
   const pathRef = useRef<SVGPathElement>(null);
@@ -68,11 +74,14 @@ export function Anatomy({ width, height, light, owners, art }: Props) {
     cancelAnimationFrame(rafRef.current);
     /* The main path and, when assembled, the Detail A path in the inset, driven by one clock. */
     const runs = [{ path, word, pts }];
-    const inset = figRef.current?.querySelector<SVGGElement>(`.cx-inset-light[data-for="${layout}"]`);
-    const insetPath = inset?.querySelector<SVGPathElement>('.cx-light-path');
-    const insetWord = inset?.querySelector<SVGGElement>('.cx-word');
-    const insetPts = insetPath?.dataset.pts?.split(';').map((p) => p.split(' ').map(Number) as unknown as Flat);
-    if (!exploded && insetPath && insetWord && insetPts?.length === pts.length) runs.push({ path: insetPath, word: insetWord, pts: insetPts });
+    /* Variation B: Detail A exists twice (in the drawing and as the phone panel); both play. */
+    const insets = Array.from(figRef.current?.querySelectorAll<SVGGElement>(`.cx-inset-light[data-for="${layout}"]`) ?? []);
+    for (const inset of exploded ? [] : insets) {
+      const insetPath = inset.querySelector<SVGPathElement>('.cx-light-path');
+      const insetWord = inset.querySelector<SVGGElement>('.cx-word');
+      const insetPts = insetPath?.dataset.pts?.split(';').map((p) => p.split(' ').map(Number) as unknown as Flat);
+      if (insetPath && insetWord && insetPts?.length === pts.length) runs.push({ path: insetPath, word: insetWord, pts: insetPts });
+    }
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const place = (w: SVGGElement, [x, y]: Flat) => w.setAttribute('transform', `translate(${x} ${y})`);
     const lengths = runs.map((r) => r.pts.slice(1).reduce((sum, p, i) => sum + dist(r.pts[i], p), 0));
@@ -157,6 +166,10 @@ export function Anatomy({ width, height, light, owners, art }: Props) {
       ? `${part.name} · ${side.tag}`
       : `${part.name} · not in this layout`
     : anatomy.rest;
+  const said = focused ?? pinned;
+  const saidPart = said ? BY_ID.get(said) : undefined;
+  const saidSide = saidPart ? saidPart[layout] : null;
+  const announcement = saidPart ? `${saidPart.name}, ${saidSide ? saidSide.tag : 'not in this layout'}, ${owners[saidPart.owner]}` : '';
 
   return (
     <div
@@ -196,6 +209,7 @@ export function Anatomy({ width, height, light, owners, art }: Props) {
           viewBox={`0 0 ${width} ${height}`}
           role="img"
           aria-label={`SHADES ${layout === 'planned' ? 'planned prototype' : 'Concept X'}, ${exploded ? 'taken apart' : 'assembled'}. ${anatomy.lightCaption.text}`}
+          aria-describedby={describedBy}
           onPointerOver={(e) => setActive(partAt(e.target))}
           onPointerLeave={() => setActive(null)}
           onClick={(e) => setPinned(partAt(e.target))}
@@ -216,8 +230,12 @@ export function Anatomy({ width, height, light, owners, art }: Props) {
           </g>
           </g>
         </svg>
+        {detail}
 
-        <div className="cx-readout" aria-live="polite">
+        <p className="cx-b-sr" aria-live="polite">
+          {announcement}
+        </p>
+        <div className="cx-readout">
           {part ? (
             <>
               <p className="cx-readout-name">{part.name}</p>
@@ -260,8 +278,14 @@ export function Anatomy({ width, height, light, owners, art }: Props) {
                   data-absent={s ? undefined : ''}
                   onPointerEnter={() => setActive(p.id)}
                   onPointerLeave={() => setActive(null)}
-                  onFocus={() => setActive(p.id)}
-                  onBlur={() => setActive(null)}
+                  onFocus={() => {
+                    setActive(p.id);
+                    setFocused(p.id);
+                  }}
+                  onBlur={() => {
+                    setActive(null);
+                    setFocused(null);
+                  }}
                   onClick={() => setPinned((v) => (v === p.id ? null : p.id))}
                 >
                   <span className="cx-chip-name">

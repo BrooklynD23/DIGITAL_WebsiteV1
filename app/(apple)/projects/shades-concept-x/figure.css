@@ -121,3 +121,40 @@
   .cx-inset,
   .cx-fig .cx-lbl { transition: none !important; }
 }
+
+/* ---------- Variation B (every rule scoped under .cx-b, the page root) ---------- */
+/* Readability: silhouette and seam strokes one step up the grey ramp (faint → lo, lo → mid) and a little heavier. */
+.cx-b .iso.cx-fig {
+  --anatomy-faint: #3e3e3e;
+  --anatomy-lo: #6a6a6a;
+  --anatomy-weight: 0.8px;
+}
+
+/* Detail A as its own panel below the drawing on phones; the drawing keeps only the A marker. */
+.cx-b .cx-b-detail { display: none; overflow: visible; }
+
+/* Live region for focus and selection only: read, not shown. */
+.cx-b .cx-b-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .cx-b .cx-fig[data-pose='assembled'] .cx-b-detail {
+    display: block;
+    width: min(100%, 320px);
+    margin: 16px auto 0;
+  }
+  .cx-b .cx-fig .iso-svg:not(.cx-b-detail) .cx-inset-body,
+  .cx-b .cx-fig .iso-svg:not(.cx-b-detail) .cx-inset-lead { display: none; }
+  .cx-b .cx-b-detail .cx-inset-letter { font-size: 12px; }
+
+  /* Callouts: only the focused or selected part's number sits on the drawing; the numbered chips list them all. */
+  .cx-b .cx-lbl:not([data-on]) .cx-lbl-num,
+  .cx-b .cx-lbl:not([data-on]) .cx-lbl-dot { display: none; }
+}

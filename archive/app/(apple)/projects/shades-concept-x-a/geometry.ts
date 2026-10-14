@@ -35,7 +35,6 @@ import {
 } from './iso-kit';
 import * as lathe from './kit/lathe.mjs';
 import * as tubes from './kit/tube.mjs';
-import { minSvg } from './pathmin';
 
 /* The skill kit (kit/*.mjs, copied verbatim) is plain ESM; these are the calls used here, with their real types. */
 type Frame = { readonly o: Point3; readonly a: Point3; readonly u: Point3; readonly v: Point3 };
@@ -814,10 +813,6 @@ export interface Scene {
 const liftIn = (it: Item, pose: Pose) => (explodedOf(pose) ? it.lift : 0);
 const visibleIn = (it: Item, pose: Pose) => !it.only || it.only === layoutOf(pose);
 
-/** Variation B: path tolerance in viewBox units for low-detail parts; the optics and rims keep every point. */
-const PATH_EPS = 0.15;
-const EXACT: ReadonlySet<string> = new Set(['rim', 'lens', 'splitter', 'combiner', 'display', 'eye']);
-
 function piecesOf(items: Item[], P: Projection): Piece[] {
   const o = iso([0, 0, 0], P);
   return order(items, P).map((it) => {
@@ -827,7 +822,7 @@ function piecesOf(items: Item[], P: Projection): Piece[] {
       const m = iso([sx, sy, liftIn(it, pose)], P);
       at[pose] = `translate(${r2(m[0] - o[0])}px, ${r2(m[1] - o[1])}px)`;
     }
-    return { key: it.name, part: it.part, only: it.only, ti: it.ti, cls: it.cls, svg: minSvg(it.svg, EXACT.has(it.part) ? 0 : PATH_EPS), at };
+    return { key: it.name, part: it.part, only: it.only, ti: it.ti, cls: it.cls, svg: it.svg, at };
   });
 }
 

@@ -74,22 +74,29 @@ function Labels({ labels }: { readonly labels: readonly Label[] }) {
   );
 }
 
-/** Detail A: the pod cut open at about four times the scale, so the light path reads when assembled. */
-function InsetView({ inset }: { readonly inset: Inset }) {
+/** Detail A: the pod cut open at about four times the scale, so the light path reads when assembled.
+ *  Variation B: the pointer (lead and A marker) and the body are separate groups, so a phone can keep the marker on
+ *  the drawing and show the body as its own panel. `panel` draws the body only. */
+function InsetView({ inset, clipId, panel = false }: { readonly inset: Inset; readonly clipId: string; readonly panel?: boolean }) {
   const [x0, y0, x1, y1] = inset.box;
   const m = inset.marker.xa;
   return (
     <g className="cx-inset" aria-hidden="true">
-      <clipPath id="cx-inset-clip">
+      {panel ? null : (
+        <g className="cx-inset-ptr">
+          <path className="cx-inset-lead" d={`M${xy(m)}L${x1 - 30} ${y0}`} />
+          <circle className="cx-inset-mark" cx={m[0]} cy={m[1]} r={9} />
+          <text className="cx-inset-letter" x={m[0]} y={m[1] + 3.6} textAnchor="middle">
+            A
+          </text>
+        </g>
+      )}
+      <g className="cx-inset-body">
+      <clipPath id={clipId}>
         <rect x={x0} y={y0} width={x1 - x0} height={y1 - y0} rx={12} />
       </clipPath>
-      <path className="cx-inset-lead" d={`M${xy(m)}L${x1 - 30} ${y0}`} />
-      <circle className="cx-inset-mark" cx={m[0]} cy={m[1]} r={9} />
-      <text className="cx-inset-letter" x={m[0]} y={m[1] + 3.6} textAnchor="middle">
-        A
-      </text>
       <rect className="cx-inset-frame" x={x0} y={y0} width={x1 - x0} height={y1 - y0} rx={12} />
-      <g clipPath="url(#cx-inset-clip)">
+      <g clipPath={`url(#${clipId})`}>
         {inset.pieces.map((p) => (
           <g key={p.key} className={p.cls ? `cx-ipiece ${p.cls}` : 'cx-ipiece'} data-only={p.only} dangerouslySetInnerHTML={{ __html: p.svg }} />
         ))}
@@ -115,7 +122,20 @@ function InsetView({ inset }: { readonly inset: Inset }) {
       <text className="cx-inset-letter cx-inset-corner" x={x0 + 16} y={y0 + 22}>
         A
       </text>
+      </g>
     </g>
+  );
+}
+
+/** Variation B: Detail A as its own panel below the drawing, shown at phone width (figure.css). */
+export function DetailPanel({ scene }: { readonly scene: Scene }) {
+  const inset = scene.inset;
+  if (!inset) return null;
+  const [x0, y0, x1, y1] = inset.box;
+  return (
+    <svg className="iso-svg cx-b-detail" viewBox={`${x0} ${y0} ${x1 - x0} ${y1 - y0}`} aria-hidden="true" focusable="false">
+      <InsetView inset={inset} clipId="cx-b-detail-clip" panel />
+    </svg>
   );
 }
 
@@ -129,7 +149,7 @@ export function Art({ scene }: { readonly scene: Scene }) {
       <g className="cx-cam cx-art">
         <Pieces pieces={scene.pieces} />
       </g>
-      {scene.inset ? <InsetView inset={scene.inset} /> : null}
+      {scene.inset ? <InsetView inset={scene.inset} clipId="cx-inset-clip" /> : null}
       {scene.labels ? <Labels labels={scene.labels} /> : null}
     </>
   );

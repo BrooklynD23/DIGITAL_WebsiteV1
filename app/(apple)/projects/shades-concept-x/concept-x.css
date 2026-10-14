@@ -740,15 +740,13 @@
 .cx-piece[data-on] .cx-plate-sil { stroke: var(--anatomy-lit); }
 .cx-piece > * { transition: opacity 240ms ease; }
 
-/* Switching layout: parts that move or change glow while everything else recedes. */
-@keyframes cx-glow {
-  0% { filter: drop-shadow(0 0 0 rgba(255, 255, 255, 0)); }
-  30% { filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.85)); }
-  100% { filter: drop-shadow(0 0 0 rgba(255, 255, 255, 0)); }
-}
-.cx-fig[data-switching] .cx-piece[data-changed] { animation: cx-glow 1.6s ease-in-out; }
-.cx-fig[data-switching] .cx-piece[data-changed] .iso-edge,
-.cx-fig[data-switching] .cx-piece[data-changed] .cx-plate-sil { stroke: var(--anatomy-lit); }
+/* Switching layout: parts that move or change take a lit, heavier edge while everything else recedes.
+   Variation B: no glow (DESIGN.md bans glow and drop shadows); the original's cx-glow is switched off in case its
+   stylesheet is still loaded from the other route. */
+.cx-b .cx-fig[data-switching] .cx-piece[data-changed] { animation: none; }
+.cx-b .cx-fig[data-switching] .cx-piece[data-changed] .iso-edge,
+.cx-b .cx-fig[data-switching] .cx-piece[data-changed] .cx-plate-sil { stroke: var(--anatomy-lit); stroke-width: 1.2px; }
+.cx-b .cx-fig .cx-piece > .iso-edge { transition: opacity 240ms ease, stroke 240ms ease, stroke-width 240ms ease; }
 .cx-fig[data-switching]:not([data-focus]) .cx-piece:not([data-changed]) > * { opacity: 0.4; }
 
 /* Light path. */
@@ -776,6 +774,7 @@
   .cx-fig .cx-light path,
   .cx-fig .cx-light circle { transition: none !important; }
   .cx-fig[data-switching] .cx-piece[data-changed] { animation: none; }
+  .cx-b .cx-fig .cx-piece > .iso-edge { transition: none !important; }
 }
 
 /* Exploded labels: in the drawing only when taken apart, tag per layout. Hidden at phone width (the chips carry them). */
@@ -790,4 +789,13 @@
 .cx-fig[data-layout='potential'] .cx-label-tag[data-for='planned'] { display: none; }
 @media (max-width: 600px) {
   .cx-label { display: none; }
+}
+
+/* ---------- Variation B: research source text one step larger on phones ---------- */
+@media (max-width: 734px) {
+  .cx-b .cx-research .cx-src a,
+  .cx-b .cx-move-src {
+    font-size: 13px;
+    line-height: 18px;
+  }
 }

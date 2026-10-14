@@ -29,15 +29,14 @@ import { Chevron } from '../../_system/ui/Chevron';
 import v1 from '../shades/apple.module.css';
 import s from '../shades-reveal/reveal.module.css';
 import { Anatomy } from './Anatomy';
-import { Art, DetailPanel, HeroArt } from './Art';
+import { Art, HeroArt } from './Art';
 import { FIGURE, HERO } from './geometry';
 import './iso.css';
 import './concept-x.css';
 
-/** SHADES Concept X, variation B: the Concept X page with the round-4 review fixes, for side-by-side comparison with
- *  /projects/shades-concept-x/. Every changed style is scoped under `.cx-b`. Not in the nav or the sitemap. */
+/** SHADES Concept X: the detailed technical page for SHADES, linked from /projects/shades-reveal/. Not in the nav or the sitemap. */
 export const metadata: Metadata = {
-  title: `${meta.title} · variation B`,
+  title: meta.title,
   description: meta.description,
   robots: { index: false, follow: false },
 };
@@ -55,10 +54,10 @@ const SECTIONS = [
 
 const host = (url: string) => new URL(url).hostname.replace(/^www\./, '');
 
-export default function ShadesConceptXBPage() {
+export default function ShadesConceptXPage() {
   const { spacing } = SHADES;
   return (
-    <ShadesRoot className={`${v1.root} ${fontReadingText} ${s.page} cx-page cx-b`}>
+    <ShadesRoot className={`${v1.root} ${fontReadingText} ${s.page} cx-page`}>
       <a className={chrome.skip} href="#cx-main">Skip to content</a>
       <LocalNav
         title={localTitle}
@@ -139,16 +138,8 @@ export default function ShadesConceptXBPage() {
             <noscript>
               <p className="cx-note">{anatomy.noscript.text}</p>
             </noscript>
-            <Anatomy
-              width={FIGURE.width}
-              height={FIGURE.height}
-              light={FIGURE.light}
-              owners={OWNERS}
-              art={<Art key="art" scene={FIGURE} />}
-              detail={<DetailPanel scene={FIGURE} />}
-              describedBy="cx-b-caption"
-            />
-            <p id="cx-b-caption" className="cx-note">{anatomy.caption.text}</p>
+            <Anatomy width={FIGURE.width} height={FIGURE.height} light={FIGURE.light} owners={OWNERS} art={<Art key="art" scene={FIGURE} />} />
+            <p className="cx-note">{anatomy.caption.text}</p>
             <ul className="cx-key">
               {(Object.keys(tagKey) as (keyof typeof tagKey)[]).map((k) => (
                 <li key={k}>
