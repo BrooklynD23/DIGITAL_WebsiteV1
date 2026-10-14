@@ -1,7 +1,7 @@
 /**
  * Not yet brand-reviewed. Strings changed in the 2026-10-12 polish pass carry `// polished 2026-10-12`.
  * SHADES Concept X: the detailed technical page for SHADES (Head Designer, 2026-10-12). The main SHADES page
- * (/projects/shades-reveal/) stays simple and links here with "See Concept X"; this page links back.
+ * (/projects/shades/) stays simple and links here with "See Concept X"; this page links back.
  * Concept X is a next-gen evolution of the planned SHADES prototype. Head Designer brief 2026-10-12: keep the core (RSVP reading, one eye,
  * see-through, reading-first, research platform, not a medical device); redesign the form; CMF matte black polymer,
  * titanium accents, one signal-red detail. Thesis reframed 2026-10-13 (Head Designer): from "open and repairable" to
@@ -36,8 +36,8 @@ export const meta = {
 
 /** Page chrome: back link and the in-page section index. Labels name sections; they make no claims. */
 export const chromeCopy = {
-  back: s('Back to SHADES', 'main SHADES route /projects/shades-reveal/'), // polished 2026-10-12
-  backHref: '/projects/shades-reveal/',
+  back: s('Back to SHADES', 'main SHADES route /projects/shades/'), // polished 2026-10-12
+  backHref: '/projects/shades/',
   indexLabel: 'On this page', // polished 2026-10-12
 } as const;
 

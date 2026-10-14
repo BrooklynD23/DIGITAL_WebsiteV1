@@ -1,5 +1,5 @@
 /**
- * SHADES round 2, approach 1: product reveal (/projects/shades-reveal/).
+ * SHADES round 2, approach 1: product reveal (/projects/shades/, promoted from /projects/shades-reveal/ 2026-10-13).
  * 2026-10-12 (Head Designer): problem and approach beats, milestones, disclaimer, render caption; FAQ removed.
  * Head Designer choice 2026-10-09: this page, with the "Hold still" slider (./shades-control) as the view beat,
  * the research hero line and the Is / Is not / Never table (./shades-research) folded in.
@@ -145,7 +145,7 @@ export const closing = {
 
 /* ------------------------------------------------------------------ this page only (Head Designer, 2026-10-12) */
 
-/** Milestones timeline on /projects/shades-reveal/. The closing export above stays for the other SHADES routes. */
+/** Milestones timeline on /projects/shades/. The closing export above stays for the other SHADES routes. */
 export const milestones = {
   // src: Head Designer 2026-10-12 (replaces "Seven phases to a prototype." on this page)
   title: 'Milestones', // natural-voice 2026-10-13

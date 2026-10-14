@@ -27,7 +27,7 @@ import { SeatRing } from '../../_shades/SeatRing';
 import { Glasses } from '../../_shades-art/Glasses';
 import { Chevron } from '../../_system/ui/Chevron';
 import v1 from '../shades/apple.module.css';
-import s from '../shades-reveal/reveal.module.css';
+import s from '../shades/reveal.module.css';
 import { Anatomy } from './Anatomy';
 import { Art, DetailPanel, HeroArt } from './Art';
 import { FIGURE, HERO } from './geometry';
