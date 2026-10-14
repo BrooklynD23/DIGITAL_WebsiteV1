@@ -1,0 +1,84 @@
+
+== potential ==
+clearance: 0 problems
+clearance apart: 0 problems
+terminals: 0 ends not on a mount
+loose ends: 0
+screen folds: 0
+support: 0 unsupported solids · 0 hanging tubes · 0 sunk pairs
+depth order: 0 problems
+through in mid-flight: 0 pairs
+self-overlap: 0 chunks whose outline crosses itself on screen
+wobble: 0 smoothed profiles whose slope turns between its ends
+saddles off their host apart: 0
+stand-in shapes: 0 items whose recorded shape covers too little of what it draws
+crowding: 0 pairs where a bend or end touches another line on screen
+in passing (uniform explode states only, not failing): 2 interlocked pairs, 0 pairs no linear key can order
+  cycle  share 0  lensL / rimL   672.31 px²
+  cycle  share 0  lensR / rimR   673.06 px²
+  cycle  share 0.1  lensL / rimL   672.31 px²
+  cycle  share 0.1  lensR / rimR   673.06 px²
+  cycle  share 0.2  lensL / rimL   672.31 px²
+  cycle  share 0.2  lensR / rimR   673.06 px²
+  cycle  share 0.3  lensL / rimL   672.31 px²
+  cycle  share 0.3  lensR / rimR   673.06 px²
+  cycle  share 0.4  lensL / rimL   672.31 px²
+  cycle  share 0.4  lensR / rimR   673.06 px²
+  cycle  share 0.5  lensL / rimL   672.31 px²
+  cycle  share 0.5  lensR / rimR   673.06 px²
+  cycle  share 0.6  lensL / rimL   672.31 px²
+  cycle  share 0.6  lensR / rimR   673.06 px²
+  cycle  share 0.7  lensL / rimL   672.31 px²
+  cycle  share 0.7  lensR / rimR   673.06 px²
+  cycle  share 0.8  lensL / rimL   672.31 px²
+  cycle  share 0.8  lensR / rimR   673.06 px²
+  cycle  share 0.9  lensL / rimL   672.31 px²
+  cycle  share 0.9  lensR / rimR   673.06 px²
+  cycle  share 1  lensL / rimL   672.31 px²
+  cycle  share 1  lensR / rimR   673.06 px²
+free ends apart (marked free, not failing): 2
+  padLArm end   at [68.4, -6.0, 12.9]
+  padRArm end   at [75.6, -6.0, 12.9]
+audit passed
+
+== planned ==
+clearance: 0 problems
+clearance apart: 0 problems
+terminals: 0 ends not on a mount
+loose ends: 0
+screen folds: 0
+support: 0 unsupported solids · 0 hanging tubes · 0 sunk pairs
+depth order: 0 problems
+through in mid-flight: 0 pairs
+self-overlap: 0 chunks whose outline crosses itself on screen
+wobble: 0 smoothed profiles whose slope turns between its ends
+saddles off their host apart: 0
+stand-in shapes: 0 items whose recorded shape covers too little of what it draws
+crowding: 0 pairs where a bend or end touches another line on screen
+in passing (uniform explode states only, not failing): 2 interlocked pairs, 0 pairs no linear key can order
+  cycle  share 0  lensL / rimL   672.31 px²
+  cycle  share 0  lensR / rimR   673.06 px²
+  cycle  share 0.1  lensL / rimL   672.31 px²
+  cycle  share 0.1  lensR / rimR   673.06 px²
+  cycle  share 0.2  lensL / rimL   672.31 px²
+  cycle  share 0.2  lensR / rimR   673.06 px²
+  cycle  share 0.3  lensL / rimL   672.31 px²
+  cycle  share 0.3  lensR / rimR   673.06 px²
+  cycle  share 0.4  lensL / rimL   672.31 px²
+  cycle  share 0.4  lensR / rimR   673.06 px²
+  cycle  share 0.5  lensL / rimL   672.31 px²
+  cycle  share 0.5  lensR / rimR   673.06 px²
+  cycle  share 0.6  lensL / rimL   672.31 px²
+  cycle  share 0.6  lensR / rimR   673.06 px²
+  cycle  share 0.7  lensL / rimL   672.31 px²
+  cycle  share 0.7  lensR / rimR   673.06 px²
+  cycle  share 0.8  lensL / rimL   672.31 px²
+  cycle  share 0.8  lensR / rimR   673.06 px²
+  cycle  share 0.9  lensL / rimL   672.31 px²
+  cycle  share 0.9  lensR / rimR   673.06 px²
+  cycle  share 1  lensL / rimL   672.31 px²
+  cycle  share 1  lensR / rimR   673.06 px²
+free ends apart (marked free, not failing): 2
+  padLArm end   at [68.4, -6.0, 12.9]
+  padRArm end   at [75.6, -6.0, 12.9]
+audit passed

@@ -1,0 +1,123 @@
+/* SHADES Concept X anatomy figure (v2): camera, materials, labels, the Detail A inset. Imported by Art.tsx.
+   Overrides older cx- figure rules in concept-x.css where they meet. */
+
+/* ---------- camera: each pose frames the object; the move is calm and eased ---------- */
+.cx-cam {
+  transition: transform 900ms var(--anatomy-ease);
+}
+
+/* ---------- materials ---------- */
+/* Matte black polymer is the kit's dark ramp. Parts marked cx-black sit one step darker. */
+.cx-black > .iso-shade[data-shade='0'], .cx-black > .iso-shade[data-shade='0'] { fill: #0b0b0b; stroke: #0b0b0b; }
+.cx-black > .iso-shade[data-shade='1'] { fill: #0d0d0d; stroke: #0d0d0d; }
+.cx-black > .iso-shade[data-shade='2'] { fill: #101010; stroke: #101010; }
+.cx-black > .iso-shade[data-shade='3'] { fill: #131313; stroke: #131313; }
+.cx-black > .iso-top { fill: #151515; stroke: #151515; }
+
+/* Boards: a slightly lighter neutral so they read against the black case when it is open. */
+.cx-pcb > .iso-shade[data-shade='0'] { fill: #161917; stroke: #161917; }
+.cx-pcb > .iso-shade[data-shade='1'] { fill: #1a1d1b; stroke: #1a1d1b; }
+.cx-pcb > .iso-shade[data-shade='2'] { fill: #1e211f; stroke: #1e211f; }
+.cx-pcb > .iso-shade[data-shade='3'] { fill: #222523; stroke: #222523; }
+.cx-pcb > .iso-top { fill: #262a27; stroke: #262a27; }
+
+/* Glass: splitter and combiner, see-through. */
+.cx-glass > .iso-shade,
+.cx-glass > .iso-top { fill: rgba(205, 214, 222, 0.1); stroke: none; }
+.cx-glass > .iso-shade[data-shade='3'],
+.cx-glass > .iso-top { fill: rgba(205, 214, 222, 0.16); }
+.cx-glass > .iso-edge { stroke: var(--anatomy-mid); }
+.cx-lens-face { fill: rgba(255, 255, 255, 0.035); stroke: var(--anatomy-lo); stroke-width: 0.6; }
+
+/* The wearer's eye: context only, barely there in the main drawing, clearer in Detail A. */
+.cx-eye { opacity: 0.3; pointer-events: none; }
+.cx-inset .cx-eye { opacity: 0.7; }
+
+/* Titanium (Concept X only): hinge, bridge, pad arms, dial index. */
+.cx-fig[data-layout='potential'] .cx-piece[data-ti] .iso-shade[data-shade='0'] { fill: var(--cx-ti-0); stroke: var(--cx-ti-0); }
+.cx-fig[data-layout='potential'] .cx-piece[data-ti] .iso-shade[data-shade='1'] { fill: var(--cx-ti-1); stroke: var(--cx-ti-1); }
+.cx-fig[data-layout='potential'] .cx-piece[data-ti] .iso-shade[data-shade='2'] { fill: var(--cx-ti-2); stroke: var(--cx-ti-2); }
+.cx-fig[data-layout='potential'] .cx-piece[data-ti] .iso-shade[data-shade='3'] { fill: var(--cx-ti-3); stroke: var(--cx-ti-3); }
+.cx-fig[data-layout='potential'] .cx-piece[data-ti] .iso-top { fill: var(--cx-ti-top); stroke: var(--cx-ti-top); }
+.cx-fig[data-layout='potential'] .cx-piece[data-ti] .tb-body { fill: var(--cx-ti-2); }
+.cx-fig[data-layout='potential'] .cx-piece[data-ti] .tb-shine { fill: var(--cx-ti-top); }
+.cx-fig[data-layout='potential'] .cx-piece[data-ti] .tb-shade { fill: var(--cx-ti-0); }
+.cx-fig[data-layout='potential'] .cx-piece[data-ti] .iso-edge { stroke: var(--cx-ti-edge); }
+
+/* The one signal-red detail: the pod release, four tones of one red. */
+.cx-red > .iso-shade[data-shade='0'] { fill: #7a2318; stroke: #7a2318; }
+.cx-red > .iso-shade[data-shade='1'] { fill: #92291d; stroke: #92291d; }
+.cx-red > .iso-shade[data-shade='2'] { fill: #a83324; stroke: #a83324; }
+.cx-red > .iso-shade[data-shade='3'] { fill: #bf3a29; stroke: #bf3a29; }
+.cx-red > .iso-top { fill: var(--cx-red, #d8412f); stroke: var(--cx-red, #d8412f); }
+.cx-red > .iso-edge { stroke: #ff9a8c; }
+.cx-red-line { stroke: #7a2318 !important; }
+
+/* Assembled, the light path plays in Detail A, where the optics are large enough to read; the main path shows apart. */
+.cx-cam .cx-light { transition: opacity 300ms ease; }
+.cx-fig[data-pose='assembled'] .cx-cam .cx-light { opacity: 0; }
+
+/* ---------- Detail A: the pod cut open, shown when assembled ---------- */
+.cx-inset {
+  transition: opacity 480ms ease 300ms, visibility 0s;
+}
+.cx-fig[data-pose='exploded'] .cx-inset {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 240ms ease, visibility 0s 240ms;
+}
+.cx-inset-frame { fill: #0e0e0e; stroke: var(--anatomy-lo); stroke-width: 1; }
+/* Detail A is the place to read the optics: edges one step brighter, glass a little more visible. */
+.cx-inset .iso-edge { stroke: var(--anatomy-hi); }
+.cx-inset .cx-glass > .iso-shade,
+.cx-inset .cx-glass > .iso-top { fill: rgba(205, 214, 222, 0.16); }
+.cx-inset-lead { fill: none; stroke: var(--anatomy-lo); stroke-width: 0.8; }
+.cx-inset-mark { fill: #0e0e0e; stroke: var(--anatomy-mid); stroke-width: 1; }
+.cx-inset-letter { fill: var(--anatomy-text); font: 600 10px/1 var(--anatomy-mono); letter-spacing: 0.06em; }
+.cx-inset-corner { font-size: 12px; }
+.cx-fig[data-layout='planned'] .cx-ipiece[data-only='potential'],
+.cx-fig[data-layout='potential'] .cx-ipiece[data-only='planned'],
+.cx-fig[data-layout='planned'] .cx-inset-light[data-for='potential'],
+.cx-fig[data-layout='potential'] .cx-inset-light[data-for='planned'] { display: none; }
+
+/* ---------- labels when taken apart ---------- */
+.cx-lbl {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+.cx-fig[data-layout='planned'][data-pose='exploded'] .cx-lbl[data-pose='pe'],
+.cx-fig[data-layout='potential'][data-pose='exploded'] .cx-lbl[data-pose='xe'] {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 400ms ease 650ms;
+}
+.cx-lbl-lead { fill: none; stroke: var(--anatomy-lo); stroke-width: 0.7; }
+.cx-lbl-dot { fill: var(--anatomy-hi); }
+.cx-lbl-name { fill: var(--anatomy-strong); font: 500 11px/1 ui-sans-serif, system-ui, -apple-system, sans-serif; }
+.cx-lbl-tag { fill: var(--anatomy-muted); font: 600 8.5px/1 var(--anatomy-mono); letter-spacing: 0.08em; }
+.cx-lbl[data-on] .cx-lbl-name { fill: var(--anatomy-lit); }
+.cx-lbl[data-on] .cx-lbl-lead { stroke: var(--anatomy-hi); }
+.cx-lbl-num { display: none; }
+.cx-lbl-badge { fill: #f5f5f7; }
+.cx-lbl-n { fill: #000; font: 700 22px/1 var(--anatomy-mono); }
+
+/* Chip numbers match the phone callouts. */
+.cx-chip-name { display: inline-flex; align-items: baseline; gap: 8px; }
+.cx-chip-n { display: none; min-width: 1.6em; font: 600 12px/1 var(--anatomy-mono); color: var(--cx-ink-3, #86868b); }
+
+@media (max-width: 600px) {
+  /* Phone: numbered callouts in the drawing, the same numbers on the chips below. */
+  .cx-lbl-full { display: none; }
+  .cx-lbl-num { display: inline; }
+  .cx-lbl-lead { stroke-width: 1; }
+  .cx-chip-n { display: inline; }
+  .cx-fig[data-pose='exploded'] .cx-chip-n { color: var(--cx-ink, #f5f5f7); }
+  .cx-inset-letter { font-size: 22px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cx-cam,
+  .cx-inset,
+  .cx-fig .cx-lbl { transition: none !important; }
+}

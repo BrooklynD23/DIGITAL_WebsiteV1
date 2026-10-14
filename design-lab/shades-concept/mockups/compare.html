@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>SHADES mockups: A vs B</title>
+<style>
+  :root { --bg:#0b0b0c; --panel:#161617; --line:#2a2a2d; --ink:#f5f5f7; --dim:#a1a1a6; --green:#7FE6A3; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif; }
+  header { position:sticky; top:0; z-index:2; background:rgba(22,22,23,.94); border-bottom:1px solid var(--line); padding:12px 16px; }
+  .bar { max-width:1400px; margin:0 auto; display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+  h1 { font-size:17px; margin:0 12px 0 0; }
+  a.btn, button { min-height:44px; display:inline-flex; align-items:center; padding:0 16px; border-radius:22px; border:1px solid var(--line);
+    background:var(--panel); color:var(--ink); font:inherit; font-size:14px; text-decoration:none; cursor:pointer; }
+  a.btn:hover, button:hover { border-color:var(--dim); }
+  a.btn:focus-visible, button:focus-visible { outline:2px solid var(--green); outline-offset:2px; }
+  button.primary { background:var(--ink); color:#000; border-color:var(--ink); font-weight:600; }
+  button[aria-pressed="true"] { border-color:var(--green); color:var(--green); }
+  .spacer { flex:1; }
+  main { max-width:1400px; margin:0 auto; padding:24px 16px 64px; }
+  .note { color:var(--dim); font-size:14px; max-width:70ch; }
+  .heads, .row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .heads { margin:24px 0 8px; }
+  .heads h2 { margin:0; font-size:20px; }
+  .heads p { margin:4px 0 0; color:var(--dim); font-size:14px; }
+  section { margin-top:32px; }
+  section > h3 { margin:0 0 8px; font-size:15px; color:var(--dim); font-weight:600; }
+  figure { margin:0; background:var(--panel); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  figure a { display:block; }
+  img { display:block; width:100%; height:auto; }
+  body.phone .row img { width:auto; max-width:100%; height:560px; margin:0 auto; }
+  ol { padding-left:20px; }
+  li { margin:6px 0; }
+  code { color:var(--green); }
+  @media (max-width:700px) { .heads, .row { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <h1>SHADES: A vs B</h1>
+    <button class="primary" id="openAll" type="button">Open all three routes</button>
+    <a class="btn" target="_blank" rel="noopener" href="http://localhost:3100/projects/shades/">V0.1 (live)</a>
+    <a class="btn" target="_blank" rel="noopener" href="http://localhost:3100/projects/shades-a/">Mockup A</a>
+    <a class="btn" target="_blank" rel="noopener" href="http://localhost:3100/projects/shades-b/">Mockup B</a>
+    <span class="spacer"></span>
+    <button type="button" id="vDesk" aria-pressed="true">Desktop 1600</button>
+    <button type="button" id="vPhone" aria-pressed="false">Phone 390</button>
+  </div>
+</header>
+
+<main>
+  <p class="note">The links need the dev server on <code>localhost:3100</code>. If the browser blocks "Open all three", allow pop-ups for this page or use the three links. The screenshots below load from this folder and work without the server. Click any screenshot to open it full size.</p>
+
+  <div class="heads">
+    <div><h2>A — the object leads</h2><p>Black ground. One line-drawn frame carried through seven stages. The book appears only inside the lens at "View".</p></div>
+    <div><h2>B — the book leads</h2><p>Paper ground from the first viewport, words streaming through it. Solid frame arrives over the page. Dark sections follow.</p></div>
+  </div>
+
+  <div id="stages"></div>
+
+  <section>
+    <h3>Reference: the current page (V0.1)</h3>
+    <div class="row"><figure><a href="../references/03-current-shades-lightpath.png" target="_blank"><img src="../references/03-current-shades-lightpath.png" alt="Current SHADES light-path section"></a></figure>
+    <figure><a href="../references/02-sol-six-frame-sequence.png" target="_blank"><img src="../references/02-sol-six-frame-sequence.png" alt="The six-frame sequence the Head Designer liked"></a></figure></div>
+  </section>
+
+  <section>
+    <h3>Decisions</h3>
+    <ol>
+      <li>A, B, or parts of each.</li>
+      <li>Held word: green <code>#7FE6A3</code> or white (see the "View, white word" row).</li>
+      <li>Frame: dashed (reads "planned") or solid.</li>
+      <li>Book: the blurred archived photo, or a new plate from prompt <code>BOOK-01</code>.</li>
+      <li>Concept label: "Concept" (A) or "In planning" (B).</li>
+    </ol>
+    <p class="note">Notes per mockup: <a class="btn" href="a/NOTES.md" target="_blank">A notes</a> <a class="btn" href="b/NOTES.md" target="_blank">B notes</a></p>
+  </section>
+</main>
+
+<script>
+  const ROUTES = ['shades', 'shades-a', 'shades-b'].map(r => 'http://localhost:3100/projects/' + r + '/');
+  const STAGES = [
+    ['0-hero', 'Hero'], ['1-idea', '1 · Idea'], ['2-form', '2 · Form'], ['3-system', '3 · System'],
+    ['4-optics', '4 · Optics'], ['5-view', '5 · View'], ['6-glasses', '6 · Glasses'],
+  ];
+  // White-word comparison exists at 1600 for both, at 390 for A only.
+  const WHITE = { a: { 1600: '1600-5-view-white-word.png', 390: '390-5-view-white-word.png' }, b: { 1600: '1600-5-view-white-word-variant.png' } };
+  let size = 1600;
+
+  function fig(side, file, label) {
+    if (!file) return '<figure><p class="note" style="padding:16px">No ' + size + 'px capture for ' + side.toUpperCase() + '.</p></figure>';
+    const src = side + '/' + file;
+    return '<figure><a href="' + src + '" target="_blank"><img loading="lazy" src="' + src + '" alt="Mockup ' + side.toUpperCase() + ', ' + label + ', ' + size + 'px"></a></figure>';
+  }
+  function render() {
+    document.body.classList.toggle('phone', size === 390);
+    const rows = STAGES.map(([id, label]) =>
+      '<section><h3>' + label + '</h3><div class="row">' + fig('a', size + '-' + id + '.png', label) + fig('b', size + '-' + id + '.png', label) + '</div></section>');
+    rows.splice(6, 0, '<section><h3>5 · View, white word</h3><div class="row">' + fig('a', WHITE.a[size], 'view, white word') + fig('b', WHITE.b[size], 'view, white word') + '</div></section>');
+    document.getElementById('stages').innerHTML = rows.join('');
+    document.getElementById('vDesk').setAttribute('aria-pressed', size === 1600);
+    document.getElementById('vPhone').setAttribute('aria-pressed', size === 390);
+  }
+  document.getElementById('vDesk').onclick = () => { size = 1600; render(); };
+  document.getElementById('vPhone').onclick = () => { size = 390; render(); };
+  document.getElementById('openAll').onclick = () => ROUTES.forEach(u => window.open(u, '_blank', 'noopener'));
+  render();
+</script>
+</body>
+</html>

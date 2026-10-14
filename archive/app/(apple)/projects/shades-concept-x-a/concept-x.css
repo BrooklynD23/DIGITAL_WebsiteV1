@@ -1,0 +1,793 @@
+/* SHADES Concept X: the detailed technical page for SHADES. Every selector is prefixed cx- (global file, this
+   route only). Page chrome and docs layout first; the figure's styles follow (shared with Anatomy.tsx / Art.tsx). */
+
+.cx-page {
+  --cx-red: #d8412f;
+  --cx-ti-top: #8f8b84;
+  --cx-ti-0: #4a4844;
+  --cx-ti-1: #57544f;
+  --cx-ti-2: #66635d;
+  --cx-ti-3: #74716a;
+  --cx-ti-edge: #c9c4bb;
+  --cx-mono: var(--font-mono, ui-monospace, Menlo, monospace);
+  --cx-col: 1080px;
+}
+/* Ink resolves per tone: redeclared on every dark section so var() picks up the dark token values. */
+.cx-page,
+.cx-page [data-tone='dark'] {
+  --cx-rule: rgba(255, 255, 255, 0.14);
+  --cx-ink: var(--r2-ink, #f5f5f7);
+  --cx-ink-2: var(--r2-ink-2, #a1a1a6);
+  --cx-ink-3: var(--r2-ink-3, #86868b);
+}
+.cx-page :is(section[id], #join) {
+  scroll-margin-top: calc(var(--r2-nav-h, 52px) + var(--r2-space-4, 16px));
+}
+.cx-page ::selection {
+  background: rgba(245, 245, 247, 0.24);
+  color: #fff;
+}
+.cx-page :is(td, .cx-val, .cx-move-n) {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- sections ---------- */
+.cx-hero-sec {
+  display: grid;
+  justify-items: center;
+  gap: clamp(24px, 4svh, 48px);
+  padding: clamp(40px, 8svh, 96px) var(--r2-gutter, 16px) var(--r2-space-7, 48px);
+}
+.cx-hero-lead {
+  margin: 0;
+  max-width: 34rem;
+  font-size: var(--r2-fs-body, 17px);
+  line-height: 1.5;
+  color: var(--cx-ink-2);
+  text-wrap: pretty;
+}
+.cx-sec {
+  display: grid;
+  gap: var(--r2-space-7, 48px);
+  padding: clamp(64px, 9vw, 128px) 0;
+}
+.cx-wrap {
+  width: min(var(--cx-col), 100% - 2 * var(--r2-gutter, 16px));
+  margin: 0 auto;
+}
+.cx-note {
+  margin: var(--r2-space-4, 16px) 0 0;
+  max-width: 44rem;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--cx-ink-2);
+  text-wrap: pretty;
+}
+.cx-h3 {
+  margin: var(--r2-space-8, 64px) 0 var(--r2-space-4, 16px);
+  font-size: var(--r2-fs-h3, 28px);
+  line-height: var(--r2-lh-h3, 32px);
+  letter-spacing: -0.015em;
+  font-weight: 600;
+  color: var(--cx-ink);
+  text-wrap: balance;
+}
+
+/* ---------- page index + back link ---------- */
+.cx-index {
+  width: min(var(--cx-col), 100%);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 var(--r2-space-5, 24px);
+  padding: var(--r2-space-1, 4px) 0;
+  border-block: 1px solid var(--cx-rule);
+}
+.cx-index ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--r2-space-5, 24px);
+}
+.cx-index ol a,
+.cx-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: var(--r2-target, 44px);
+  font-size: 14px;
+  line-height: 1.2;
+  color: var(--cx-ink-2);
+  text-decoration: none;
+  transition: color var(--r2-dur-ui-fast, 240ms) var(--r2-ease-ui, ease);
+}
+.cx-back {
+  color: var(--cx-ink);
+  font-weight: 500;
+}
+.cx-index ol a:hover,
+.cx-back:hover {
+  color: var(--cx-ink);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
+.cx-back-row {
+  margin-top: var(--r2-space-6, 32px);
+}
+@media (max-width: 734px) {
+  .cx-index {
+    display: grid;
+    gap: 0;
+  }
+  .cx-index ol {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 var(--r2-space-4, 16px);
+    border-top: 1px solid var(--cx-rule);
+  }
+}
+
+/* ---------- hero pair ---------- */
+.cx-pair {
+  width: min(1200px, 100%);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(16px, 3vw, 40px);
+  align-items: end;
+}
+.cx-pair-item {
+  margin: 0;
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+.cx-pair-art {
+  min-width: 0;
+  overflow: clip;
+}
+.cx-pair-item figcaption {
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--cx-ink-2);
+  text-align: center;
+  text-wrap: balance;
+}
+@media (max-width: 760px) {
+  .cx-pair {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- tags ---------- */
+.cx-tag {
+  display: inline-block;
+  padding: 2px 6px;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  font: 600 10px/14px var(--cx-mono);
+  letter-spacing: 0.06em;
+  color: var(--cx-ink-2);
+  white-space: nowrap;
+  vertical-align: 1px;
+}
+.cx-tag[data-tag='PLANNED'] {
+  color: var(--cx-ink);
+}
+.cx-tag[data-tag='CONCEPT'],
+.cx-tag[data-tag='POTENTIAL'] {
+  border-style: dashed;
+}
+.cx-tag[data-tag='NONE'] {
+  border-color: transparent;
+}
+
+/* ---------- features: a hairline row, not cards ---------- */
+.cx-features {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  width: min(var(--cx-col), 100% - 2 * var(--r2-gutter, 16px));
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--r2-space-6, 32px) var(--r2-space-7, 48px);
+}
+.cx-features li {
+  padding-top: var(--r2-space-5, 24px);
+  border-top: 1px solid var(--cx-rule);
+  display: grid;
+  gap: var(--r2-space-3, 12px);
+  align-content: start;
+  justify-items: start;
+}
+.cx-features h3 {
+  margin: 0;
+  font-size: 21px;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--cx-ink);
+  text-wrap: balance;
+}
+.cx-features p {
+  margin: 0;
+  font-size: var(--r2-fs-body, 17px);
+  line-height: 1.5;
+  color: var(--cx-ink-2);
+  text-wrap: pretty;
+}
+
+/* ---------- tables (label/value rows on narrow screens) ---------- */
+.cx-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--cx-ink-2);
+}
+.cx-table th,
+.cx-table td {
+  padding: var(--r2-space-4, 16px) var(--r2-space-3, 12px) var(--r2-space-4, 16px) 0;
+  border-bottom: 1px solid var(--cx-rule);
+  text-align: left;
+  vertical-align: top;
+}
+.cx-table thead th {
+  padding-block: var(--r2-space-3, 12px);
+  border-bottom-color: var(--r2-hairline-strong, #86868b);
+  font: 600 11px/14px var(--cx-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--cx-ink-3);
+}
+.cx-table tbody th {
+  color: var(--cx-ink);
+  font-weight: 600;
+}
+.cx-compare tbody th,
+.cx-parts tbody th {
+  width: 18%;
+}
+.cx-compare td {
+  width: 27%;
+}
+.cx-kind,
+.cx-src,
+.cx-val,
+.cx-srcline {
+  display: block;
+  font-weight: 400;
+}
+.cx-kind {
+  font-size: 13px;
+  color: var(--cx-ink-3);
+}
+.cx-src {
+  margin-top: var(--r2-space-1, 4px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+/* Source links: quiet, but 44px tall. */
+.cx-src a,
+.cx-move-src {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--r2-target, 44px);
+  font: 400 12px/16px var(--cx-mono);
+  color: var(--cx-ink-3);
+  text-decoration: underline;
+  text-decoration-color: var(--cx-rule);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+  transition: color var(--r2-dur-ui-fast, 240ms) var(--r2-ease-ui, ease);
+}
+.cx-src a:hover,
+.cx-move-src:hover {
+  color: var(--cx-ink);
+  text-decoration-color: currentColor;
+}
+.cx-val {
+  margin-top: var(--r2-space-1, 4px);
+  font: 500 12px/16px var(--cx-mono);
+  letter-spacing: 0.02em;
+  color: var(--cx-ink);
+}
+.cx-srcline {
+  margin-top: var(--r2-space-2, 8px);
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--cx-ink-3);
+}
+.cx-absent {
+  color: var(--cx-ink-3);
+}
+
+/* Research: 8 columns need the desktop width; tablets and phones get label/value rows. */
+@media (max-width: 1068px) {
+  .cx-research thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  .cx-research,
+  .cx-research tbody,
+  .cx-research tr,
+  .cx-research th,
+  .cx-research td {
+    display: block;
+  }
+  .cx-research tr {
+    padding: var(--r2-space-5, 24px) 0;
+    border-bottom: 1px solid var(--cx-rule);
+  }
+  .cx-research th,
+  .cx-research td {
+    border: 0;
+    padding: 0;
+  }
+  .cx-research tbody th {
+    margin-bottom: var(--r2-space-2, 8px);
+    font-size: var(--r2-fs-body, 17px);
+  }
+  .cx-research td {
+    display: grid;
+    grid-template-columns: 6.5rem minmax(0, 1fr);
+    gap: var(--r2-space-3, 12px);
+    padding: 6px 0;
+  }
+  .cx-research td::before {
+    content: attr(data-label);
+    font: 600 11px/20px var(--cx-mono);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--cx-ink-3);
+  }
+  .cx-research .cx-src {
+    flex-direction: row;
+    flex-wrap: wrap;
+    column-gap: var(--r2-space-4, 16px);
+  }
+}
+@media (min-width: 735px) and (max-width: 1068px) {
+  .cx-research tr {
+    display: grid;
+    grid-template-columns: 14rem minmax(0, 1fr);
+    column-gap: var(--r2-space-6, 32px);
+  }
+  .cx-research tbody th {
+    grid-row: span 7;
+  }
+  .cx-research .cx-src {
+    flex-direction: column;
+  }
+}
+
+/* Compare and parts tables: label/value rows on phones. */
+@media (max-width: 734px) {
+  :is(.cx-compare, .cx-parts) thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  :is(.cx-compare, .cx-parts),
+  :is(.cx-compare, .cx-parts) :is(tbody, tr, th, td) {
+    display: block;
+    width: auto;
+  }
+  :is(.cx-compare, .cx-parts) tr {
+    padding: var(--r2-space-5, 24px) 0;
+    border-bottom: 1px solid var(--cx-rule);
+  }
+  :is(.cx-compare, .cx-parts) :is(th, td) {
+    border: 0;
+    padding: 0;
+  }
+  :is(.cx-compare, .cx-parts) tbody th {
+    margin-bottom: var(--r2-space-2, 8px);
+    font-size: var(--r2-fs-body, 17px);
+  }
+  :is(.cx-compare, .cx-parts) td {
+    display: grid;
+    grid-template-columns: 5.5rem minmax(0, 1fr);
+    gap: var(--r2-space-3, 12px);
+    padding: 6px 0;
+  }
+  :is(.cx-compare, .cx-parts) td > * {
+    grid-column: 2;
+  }
+  :is(.cx-compare, .cx-parts) td::before {
+    content: attr(data-label);
+    grid-column: 1;
+    grid-row: 1 / span 4;
+    font: 600 11px/20px var(--cx-mono);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--cx-ink-3);
+  }
+  /* Parts cells mix a tag, text and source lines: label on its own line above them. */
+  .cx-parts td {
+    display: block;
+    padding: 6px 0;
+  }
+  .cx-parts td::before {
+    display: block;
+  }
+}
+
+/* ---------- moves ---------- */
+.cx-moves {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+}
+.cx-moves li {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  column-gap: var(--r2-space-3, 12px);
+  padding-top: var(--r2-space-4, 16px);
+  border-top: 1px solid var(--cx-rule);
+}
+.cx-moves li:last-child {
+  border-bottom: 1px solid var(--cx-rule);
+}
+.cx-move-n {
+  grid-row: span 2;
+  font: 500 13px/25px var(--cx-mono);
+  color: var(--cx-ink-3);
+}
+.cx-move-text {
+  font-size: var(--r2-fs-body, 17px);
+  line-height: 1.45;
+  color: var(--cx-ink);
+  text-wrap: pretty;
+}
+
+/* ---------- questions ---------- */
+.cx-questions {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding-left: 1.4em;
+  display: grid;
+  gap: var(--r2-space-4, 16px);
+  font-size: var(--r2-fs-body, 17px);
+  line-height: 1.5;
+  color: var(--cx-ink-2);
+  text-wrap: pretty;
+}
+.cx-questions li::marker {
+  font: 500 13px var(--cx-mono);
+  color: var(--cx-ink-3);
+}
+.cx-back-row.cx-wrap {
+  max-width: 44rem;
+}
+
+/* ---------- parts disclosure ---------- */
+.cx-details {
+  margin-top: var(--r2-space-6, 32px);
+  border-top: 1px solid var(--cx-rule);
+}
+.cx-details summary {
+  min-height: var(--r2-target, 44px);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  cursor: pointer;
+  color: var(--cx-ink);
+  font-weight: 600;
+}
+.cx-details summary::-webkit-details-marker {
+  display: none;
+}
+.cx-details summary svg {
+  transition: transform var(--r2-dur-ui-fast, 240ms) var(--r2-ease-ui, ease);
+}
+.cx-details[open] summary svg {
+  transform: rotate(90deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .cx-details summary svg {
+    transition: none;
+  }
+}
+
+/* ---------- figure: controls, plate, readout, chips ---------- */
+.cx-fig {
+  --anatomy-card: #0b0b0b;
+}
+.cx-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+.cx-seg {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 999px;
+  border: 1px solid var(--cx-rule);
+}
+.cx-seg button,
+.cx-btn,
+.cx-chip {
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 0;
+  background: transparent;
+  color: var(--cx-ink-2);
+  font: 500 14px/1 inherit;
+  font-family: inherit;
+  cursor: pointer;
+}
+.cx-seg button[aria-pressed='true'] {
+  background: #f5f5f7;
+  color: #000;
+}
+.cx-btn {
+  border: 1px solid var(--cx-rule);
+}
+.cx-btn[aria-pressed='true'] {
+  border-color: var(--cx-ink-2);
+  color: var(--cx-ink);
+}
+.cx-seg button:focus-visible,
+.cx-btn:focus-visible,
+.cx-chip:focus-visible {
+  outline: 2px solid #f5f5f7;
+  outline-offset: 2px;
+}
+.cx-plate-card {
+  border-radius: 18px;
+  padding: 44px 16px 16px;
+}
+.cx-plate-card .iso-plate-corner[data-corner='hint'],
+.cx-plate-card .iso-plate-corner[data-corner='readout'] {
+  display: none;
+}
+.cx-readout {
+  margin-top: 8px;
+  min-height: 96px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--cx-rule);
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--cx-ink-2);
+}
+.cx-readout-name {
+  margin: 0 0 6px;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--cx-ink);
+}
+.cx-readout dl {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+}
+.cx-readout dl div {
+  display: flex;
+  gap: 6px;
+  align-items: baseline;
+}
+.cx-readout dt {
+  font: 600 11px/14px ui-monospace, 'SF Mono', Menlo, monospace;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--cx-ink-3);
+}
+.cx-readout dd {
+  margin: 0;
+  color: var(--cx-ink);
+}
+.cx-readout-note {
+  margin: 6px 0 0;
+}
+.cx-chips {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px 16px;
+}
+.cx-chip-group {
+  display: grid;
+  gap: 4px;
+  align-content: start;
+}
+.cx-chip-label {
+  margin: 0 0 4px;
+  font: 600 11px/14px ui-monospace, 'SF Mono', Menlo, monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cx-ink-3);
+}
+.cx-chip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border-radius: 10px;
+  padding: 0 12px;
+  text-align: left;
+  border: 1px solid transparent;
+}
+.cx-chip:hover,
+.cx-chip[aria-pressed='true'] {
+  border-color: var(--cx-rule);
+  color: var(--cx-ink);
+}
+.cx-chip[data-absent] {
+  opacity: 0.55;
+}
+.cx-key {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  font-size: 13px;
+  color: var(--cx-ink-3);
+}
+/* ---------- the drawing ---------- */
+.cx-fig .iso-svg {
+  overflow: hidden;
+}
+.cx-piece {
+  transition: transform 900ms var(--anatomy-ease), opacity 480ms ease, visibility 0s;
+}
+.cx-fig[data-layout='planned'][data-pose='assembled'] .cx-piece { transform: var(--pa); }
+.cx-fig[data-layout='planned'][data-pose='exploded'] .cx-piece { transform: var(--pe); }
+.cx-fig[data-layout='potential'][data-pose='assembled'] .cx-piece { transform: var(--xa); }
+.cx-fig[data-layout='potential'][data-pose='exploded'] .cx-piece { transform: var(--xe); }
+.cx-fig[data-layout='planned'] .cx-piece[data-only='potential'],
+.cx-fig[data-layout='potential'] .cx-piece[data-only='planned'] {
+  opacity: 0;
+  visibility: hidden;
+  transition: transform 900ms var(--anatomy-ease), opacity 480ms ease, visibility 0s 480ms;
+}
+
+/* Plates: stacked copies, silhouette stroked under the fills. */
+.cx-plate-sil {
+  fill: none;
+  stroke: var(--anatomy-mid);
+  stroke-width: 1.4;
+  stroke-linejoin: round;
+}
+.cx-plate-side {
+  fill: var(--anatomy-shade-1);
+}
+.cx-plate-face {
+  fill: var(--anatomy-face);
+  stroke: var(--anatomy-lo);
+  stroke-width: 0.6;
+  stroke-linejoin: round;
+}
+.cx-lens .cx-plate-sil,
+.cx-glass .cx-plate-sil,
+.cx-eye .cx-plate-sil,
+.cx-iris .cx-plate-sil {
+  display: none;
+}
+.cx-lens .cx-plate-face {
+  fill: rgba(255, 255, 255, 0.045);
+  stroke: var(--anatomy-faint);
+}
+.cx-glass .cx-plate-face,
+.cx-glass .cx-plate-side,
+.cx-glass.iso-solid .iso-fill,
+.cx-glass.iso-solid .iso-top {
+  fill: rgba(220, 224, 228, 0.1);
+  stroke: var(--anatomy-mid);
+  stroke-width: 0.6;
+}
+.cx-eye .cx-plate-face {
+  fill: #1c1c1c;
+  stroke: var(--anatomy-mid);
+}
+.cx-iris .cx-plate-face {
+  fill: var(--anatomy-mid);
+  stroke: none;
+}
+.cx-dots circle {
+  fill: var(--anatomy-dot);
+  opacity: 0.4;
+}
+.cx-screw .iso-top {
+  fill: var(--anatomy-hi);
+}
+
+/* Titanium appears only in Concept X. */
+.cx-fig[data-layout='potential'] .cx-piece[data-ti] .iso-top { fill: var(--cx-ti-top); }
+.cx-fig[data-layout='potential'] .cx-piece[data-ti] .iso-shade[data-shade='0'] { fill: var(--cx-ti-0); }
+.cx-fig[data-layout='potential'] .cx-piece[data-ti] .iso-shade[data-shade='1'] { fill: var(--cx-ti-1); }
+.cx-fig[data-layout='potential'] .cx-piece[data-ti] .iso-shade[data-shade='2'] { fill: var(--cx-ti-2); }
+.cx-fig[data-layout='potential'] .cx-piece[data-ti] .iso-shade[data-shade='3'] { fill: var(--cx-ti-3); }
+.cx-fig[data-layout='potential'] .cx-piece[data-ti] .iso-edge { stroke: var(--cx-ti-edge); }
+.cx-fig[data-layout='potential'] .cx-piece[data-ti] .cx-index { stroke: #fff; stroke-width: 1.4; }
+
+/* The one signal-red part: the pod release. */
+.cx-red .iso-fill,
+.cx-red .iso-top { fill: var(--cx-red); }
+.cx-red .iso-shade { fill: #a83324; }
+.cx-red .iso-edge { stroke: #ff9a8c; }
+
+/* Cable. */
+.cx-cable path {
+  fill: none;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+.cx-cable-edge { stroke: var(--anatomy-mid); stroke-width: 4.2; }
+.cx-cable-body { stroke: #141414; stroke-width: 3; }
+.cx-cable-shine { stroke: #2c2c2c; stroke-width: 0.8; transform: translate(-0.6px, -0.6px); }
+
+/* Hover / focus: the shown part is lit, the rest recede. */
+.cx-fig[data-focus] .cx-piece:not([data-on]) > * { opacity: 0.32; transition: opacity 240ms ease; }
+.cx-piece[data-on] .iso-edge,
+.cx-piece[data-on] .cx-plate-sil { stroke: var(--anatomy-lit); }
+.cx-piece > * { transition: opacity 240ms ease; }
+
+/* Switching layout: parts that move or change glow while everything else recedes. */
+@keyframes cx-glow {
+  0% { filter: drop-shadow(0 0 0 rgba(255, 255, 255, 0)); }
+  30% { filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.85)); }
+  100% { filter: drop-shadow(0 0 0 rgba(255, 255, 255, 0)); }
+}
+.cx-fig[data-switching] .cx-piece[data-changed] { animation: cx-glow 1.6s ease-in-out; }
+.cx-fig[data-switching] .cx-piece[data-changed] .iso-edge,
+.cx-fig[data-switching] .cx-piece[data-changed] .cx-plate-sil { stroke: var(--anatomy-lit); }
+.cx-fig[data-switching]:not([data-focus]) .cx-piece:not([data-changed]) > * { opacity: 0.4; }
+
+/* Light path. */
+.cx-light-path {
+  fill: none;
+  stroke: var(--anatomy-lit);
+  stroke-width: 1.2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  opacity: 0.85;
+  vector-effect: non-scaling-stroke;
+}
+.cx-light-node { fill: #000; stroke: var(--anatomy-lit); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.cx-word rect { fill: #f5f5f7; }
+.cx-word text { fill: #000; font: 600 10px/1 ui-monospace, 'SF Mono', Menlo, monospace; letter-spacing: 0.04em; }
+.cx-fig .cx-light path,
+.cx-fig .cx-light circle { transition: d 900ms var(--anatomy-ease), cx 900ms var(--anatomy-ease), cy 900ms var(--anatomy-ease); }
+
+/* Hero render. */
+.cx-hero .iso-svg { overflow: hidden; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cx-piece,
+  .cx-piece > *,
+  .cx-fig .cx-light path,
+  .cx-fig .cx-light circle { transition: none !important; }
+  .cx-fig[data-switching] .cx-piece[data-changed] { animation: none; }
+}
+
+/* Exploded labels: in the drawing only when taken apart, tag per layout. Hidden at phone width (the chips carry them). */
+.cx-label { pointer-events: none; animation: cx-in 400ms ease 500ms both; }
+.cx-fig[data-pose='assembled'] .cx-label { display: none; }
+@keyframes cx-in { from { opacity: 0; } to { opacity: 1; } }
+.cx-label-lead { fill: none; stroke: var(--anatomy-mid); stroke-width: 0.6; vector-effect: non-scaling-stroke; }
+.cx-label-dot { fill: var(--anatomy-hi); }
+.cx-label-name { fill: var(--anatomy-strong); font: 500 11px/1 ui-sans-serif, system-ui, -apple-system, sans-serif; }
+.cx-label-tag { fill: var(--anatomy-muted); font: 600 8.5px/1 ui-monospace, 'SF Mono', Menlo, monospace; letter-spacing: 0.08em; }
+.cx-fig[data-layout='planned'] .cx-label-tag[data-for='potential'],
+.cx-fig[data-layout='potential'] .cx-label-tag[data-for='planned'] { display: none; }
+@media (max-width: 600px) {
+  .cx-label { display: none; }
+}

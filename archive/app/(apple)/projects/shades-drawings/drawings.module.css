@@ -1,0 +1,861 @@
+/* MOCKUP: SHADES as engineering drawing sheets. Two papers (dark default, light) × three pencil palettes. */
+
+/* ---------- paper ---------- */
+.section {
+  position: relative;
+  --d-paper: #000;
+  /* Cyan-tinted grid on black: minor 16px, major 80px. Measured contrast is in the round-3 report. */
+  --d-grid: rgba(110, 190, 255, 0.2);
+  --d-grid-major: rgba(110, 190, 255, 0.38);
+  --d-text: #f5f5f7;
+  --d-mute: #a1a1a6;
+  --d-hair: rgba(245, 245, 247, 0.22);
+  background: var(--d-paper);
+  color: var(--d-text);
+}
+
+.section[data-paper='light'] {
+  --d-paper: #fff;
+  --d-grid: rgba(47, 95, 196, 0.13);
+  --d-grid-major: rgba(47, 95, 196, 0.3);
+  --d-text: #1d1d1f;
+  --d-mute: #5f5f64;
+  --d-hair: rgba(29, 29, 31, 0.2);
+}
+
+/* ---------- pencil palettes, per paper ---------- */
+.section[data-palette='a'] { --d-line: #ece9e2; --d-mark: #c9965f; }
+.section[data-palette='b'] { --d-line: #a9c6ff; --d-mark: #ff8acb; }
+.section[data-palette='c'] { --d-line: #d1d1d6; --d-mark: var(--r2-trigger); }
+.section[data-paper='light'][data-palette='a'] { --d-line: #1d1d1f; --d-mark: #a8743f; }
+.section[data-paper='light'][data-palette='b'] { --d-line: #2f5fc4; --d-mark: #c2367f; }
+.section[data-paper='light'][data-palette='c'] { --d-line: #48484c; --d-mark: var(--r2-trigger); }
+
+.section {
+  --d-pencil: color-mix(in srgb, var(--d-line) 42%, transparent);
+}
+
+.section ::selection {
+  background: var(--d-mark);
+  color: var(--d-paper);
+}
+
+.intro {
+  padding-top: var(--r2-space-9);
+  padding-bottom: var(--r2-space-7);
+}
+
+.draft {
+  margin: 0;
+  font-family: var(--font-draft), var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--r2-ink-2);
+}
+
+.defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  color: var(--d-mark);
+}
+
+/* ---------- static stack (narrow / reduced motion / no JS) ---------- */
+.stack {
+  display: grid;
+  gap: var(--r2-space-6);
+  width: min(1320px, 100%);
+  margin: 0 auto;
+  padding: 0 var(--r2-gutter) var(--r2-space-9);
+  box-sizing: border-box;
+}
+
+.stack > .bar {
+  padding: 4px 0;
+}
+
+/* ---------- pinned ---------- */
+.pin {
+  position: relative;
+  height: calc(100svh + var(--steps) * 50svh);
+}
+
+.stage {
+  position: sticky;
+  top: var(--r2-nav-h);
+  height: calc(100svh - var(--r2-nav-h));
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 8px;
+  width: min(1480px, 100%);
+  margin: 0 auto;
+  padding: 4px var(--r2-gutter) 20px;
+  box-sizing: border-box;
+}
+
+.sheets {
+  display: grid;
+  min-height: 0;
+}
+
+.sheets > .sheet {
+  grid-area: 1 / 1;
+  min-height: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 220ms var(--r2-ease-ui), visibility 0s linear 220ms;
+}
+
+.sheets > .sheet[data-on] {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 300ms var(--r2-ease-emphasized);
+}
+
+/* ---------- bar: tracker + toggles, in flow above the sheet ---------- */
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 52px;
+}
+
+.tracker {
+  display: flex;
+}
+
+.trackBtn {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  background: none;
+  color: var(--d-mute);
+  cursor: pointer;
+  font-family: var(--font-draft), var(--font-mono);
+}
+
+.trackN {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border: 1px solid currentColor;
+  font-size: 12px;
+}
+
+.trackBtn[aria-current='step'] {
+  color: var(--d-text);
+}
+
+.trackBtn[aria-current='step'] .trackN {
+  border-color: var(--d-mark);
+  box-shadow: inset 0 -2px 0 var(--d-mark);
+}
+
+.toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.seg {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--d-hair);
+  border-radius: 22px;
+  padding: 0 2px;
+}
+
+.segLabel {
+  padding: 0 6px 0 14px;
+  font-family: var(--font-draft), var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--d-mute);
+}
+
+.segBtn {
+  min-width: 44px;
+  height: 44px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 22px;
+  background: none;
+  color: var(--d-text);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.segSq {
+  padding: 0;
+  font-family: var(--font-draft), var(--font-mono);
+  font-weight: 500;
+}
+
+.segBtn[aria-pressed='true'] {
+  background: var(--d-text);
+  color: var(--d-paper);
+}
+
+.segBtn:focus-visible,
+.trackBtn:focus-visible {
+  outline: 2px solid var(--d-mark);
+  outline-offset: -3px;
+}
+
+/* ---------- the sheet: border with zones, inner frame ---------- */
+.sheet {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr) 18px;
+  grid-template-rows: 18px minmax(0, 1fr) 18px;
+  border: 1px solid var(--d-pencil);
+  background-color: var(--d-paper);
+  background-image:
+    linear-gradient(var(--d-grid-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--d-grid-major) 1px, transparent 1px),
+    linear-gradient(var(--d-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--d-grid) 1px, transparent 1px);
+  background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+  background-position: -1px -1px;
+  color: var(--d-text);
+}
+
+.zx,
+.zy {
+  display: grid;
+  font-family: var(--font-draft), var(--font-mono);
+  font-size: 10px;
+  color: var(--d-mute);
+  background: var(--d-paper);
+}
+
+.zx {
+  grid-area: 1 / 2;
+  grid-template-columns: repeat(8, 1fr);
+}
+
+.zxB {
+  grid-area: 3 / 2;
+}
+
+.zy {
+  grid-area: 2 / 1;
+  grid-template-rows: repeat(6, 1fr);
+}
+
+.zyR {
+  grid-area: 2 / 3;
+}
+
+.zx > span,
+.zy > span {
+  display: grid;
+  place-items: center;
+}
+
+.zx > span + span {
+  border-left: 1px solid var(--d-pencil);
+}
+
+.zy > span + span {
+  border-top: 1px solid var(--d-pencil);
+}
+
+.inner {
+  grid-area: 2 / 2;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 340px);
+  border: 1.5px solid var(--d-line);
+}
+
+.draw {
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  align-content: center;
+  gap: 20px;
+  padding: clamp(16px, 3vw, 40px);
+}
+
+.side {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  gap: 10px;
+  min-height: 0;
+  padding: 20px 20px 0;
+  border-left: 1px solid var(--d-hair);
+  background: color-mix(in srgb, var(--d-paper) 82%, transparent);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.line {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--d-mute);
+  text-wrap: pretty;
+}
+
+.notes {
+  margin: 4px 0 0;
+  padding: 0 0 0 20px;
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  font-size: 13px;
+  line-height: 1.35;
+  overflow: auto;
+  min-height: 0;
+}
+
+.notes li::marker {
+  font-family: var(--font-draft), var(--font-mono);
+  color: var(--d-mark);
+  font-size: 11px;
+}
+
+.notes > li > span + span {
+  margin-left: 6px;
+}
+
+.src {
+  font-family: var(--font-draft), var(--font-mono);
+  font-size: 10.5px;
+  color: var(--d-mute);
+}
+
+/* ---------- title block ---------- */
+.tb {
+  margin: 0 -20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--d-line);
+  border-top: 1.5px solid var(--d-line);
+  font-family: var(--font-draft), var(--font-mono);
+}
+
+.tb > div {
+  padding: 5px 8px;
+  background: var(--d-paper);
+  min-width: 0;
+}
+
+.tb dt {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--d-mute);
+}
+
+.tb dd {
+  margin: 0;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.tbProject,
+.tbWide,
+.tbStatus {
+  grid-column: 1 / -1;
+}
+
+.tbProject dd {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+}
+
+.tbStatus {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stamp {
+  display: inline-block;
+  padding: 2px 10px;
+  border: 1.5px solid var(--d-mark);
+  color: var(--d-mark);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  transform: rotate(-2deg);
+}
+
+/* ---------- drafted views ---------- */
+.art {
+  position: relative;
+  width: 100%;
+}
+
+.sheets .art {
+  max-width: calc((100svh - 300px) * 1.6);
+  justify-self: center;
+}
+
+.under,
+.over {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.view {
+  position: absolute;
+}
+
+/* The shared Glasses artwork, recoloured to the pencil (its line tokens are read inside its svg). */
+.view svg {
+  color: var(--d-line);
+  --g-outline: var(--d-line);
+  --gg: var(--d-paper);
+}
+
+.art svg {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.con {
+  stroke: var(--d-pencil);
+  stroke-width: 0.7;
+}
+
+.ln {
+  stroke: var(--d-line);
+  stroke-width: 1.4;
+}
+
+.hid {
+  stroke: var(--d-line);
+  stroke-width: 0.9;
+  stroke-dasharray: 4 3;
+  opacity: 0.7;
+}
+
+.cl {
+  stroke: var(--d-mark);
+  stroke-width: 0.8;
+  stroke-dasharray: 14 3 2 3;
+}
+
+.cut {
+  stroke: var(--d-mark);
+  stroke-width: 2.4;
+}
+
+.hatch {
+  fill: url(#dw-hatch);
+  stroke: none;
+  color: var(--d-line);
+}
+
+.ext {
+  stroke: var(--d-line);
+  stroke-width: 0.6;
+}
+
+.dim,
+.lead {
+  stroke: var(--d-mark);
+  stroke-width: 0.9;
+  color: var(--d-mark);
+}
+
+.ray {
+  stroke: var(--d-mark);
+  stroke-width: 0.9;
+  stroke-dasharray: 3 3;
+}
+
+.strike {
+  stroke: var(--d-mark);
+  stroke-width: 1.6;
+}
+
+.dot,
+.markDot {
+  fill: var(--d-mark);
+  stroke: none;
+}
+
+.markDot {
+  fill-opacity: 0.85;
+}
+
+.datumTri {
+  fill: var(--d-line);
+}
+
+.fp .pinR {
+  fill: var(--d-line);
+  stroke: none;
+}
+
+.lbl,
+.lblSm,
+.dimT,
+.dimSub,
+.note,
+.route {
+  font-family: var(--font-draft), var(--font-mono);
+  stroke: none;
+}
+
+.lbl {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  fill: var(--d-text);
+}
+
+.lblSm {
+  font-size: 12px;
+  font-weight: 500;
+  fill: var(--d-mark);
+}
+
+.dimT {
+  font-size: 11px;
+  fill: var(--d-text);
+}
+
+.dimSub {
+  font-size: 8.5px;
+  letter-spacing: 0.1em;
+  fill: var(--d-mark);
+}
+
+.note {
+  font-size: 9.5px;
+  letter-spacing: 0.04em;
+  fill: var(--d-text);
+}
+
+.art .route {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  fill: var(--d-mark);
+}
+
+.ghost {
+  opacity: 0.4;
+}
+
+.ghostT {
+  opacity: 0.45;
+}
+
+/* ---------- variant rows, parts list, boards (HTML on the drawing) ---------- */
+.route {
+  font-family: var(--font-draft), var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--d-mark);
+}
+
+.variants,
+.parts,
+.boards,
+.modules {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.variants {
+  display: grid;
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  gap: 1px;
+  background: var(--d-hair);
+  border: 1px solid var(--d-hair);
+}
+
+.variants > li,
+.parts > li {
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  gap: 4px;
+  padding: 12px 14px;
+  background: var(--d-paper);
+}
+
+.vName {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.vBody {
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--d-mute);
+}
+
+.ghostRow > * {
+  opacity: 0.5;
+}
+
+.ghostRow s {
+  text-decoration-thickness: 1.5px;
+  text-decoration-color: var(--d-mark);
+}
+
+.parts {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--d-hair);
+  border: 1px solid var(--d-hair);
+}
+
+.fp {
+  width: 64px;
+  height: 52px;
+  margin-bottom: 4px;
+}
+
+.boards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.board {
+  position: relative;
+  padding: 14px 16px 12px;
+  border: 1.4px solid var(--d-line);
+  border-radius: 3px;
+  background:
+    radial-gradient(circle at 8px 8px, transparent 3px, var(--d-line) 3.5px, transparent 4.5px) top left / 100% 100% no-repeat,
+    var(--d-paper);
+}
+
+.boardName {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.modules {
+  display: grid;
+  gap: 6px;
+}
+
+.modules > li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  border-top: 1px solid var(--d-hair);
+  padding-top: 6px;
+}
+
+.tag {
+  display: inline-block;
+  padding: 2px 6px;
+  border: 1px solid currentColor;
+  font-family: var(--font-draft), var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+
+.tTarget,
+.tMvp {
+  color: var(--d-text);
+}
+
+.tOpen,
+.tCand {
+  color: var(--d-mark);
+  border-style: dashed;
+}
+
+.tStretch,
+.tCond {
+  color: var(--d-mute);
+  border-style: dotted;
+}
+
+.tOut {
+  color: var(--d-mute);
+  text-decoration: line-through;
+}
+
+/* ---------- motion: sketch → drafting → stamp (pinned only) ---------- */
+.sheets .con,
+.sheets .ln,
+.sheets .ext,
+.sheets .dim,
+.sheets .lead {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.sheets .con { transition: stroke-dashoffset 700ms var(--r2-ease-emphasized) 80ms; }
+.sheets .ln { transition: stroke-dashoffset 900ms var(--r2-ease-emphasized) 420ms; }
+.sheets .ext,
+.sheets .dim,
+.sheets .lead { transition: stroke-dashoffset 500ms var(--r2-ease-emphasized) 1050ms; }
+
+.sheets [data-on] .con,
+.sheets [data-on] .ln,
+.sheets [data-on] .ext,
+.sheets [data-on] .dim,
+.sheets [data-on] .lead {
+  stroke-dashoffset: 0;
+}
+
+.sheets .view {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1000ms var(--r2-ease-emphasized) 420ms;
+}
+
+.sheets [data-on] .view {
+  clip-path: inset(0 0 0 0);
+}
+
+.sheets .hid,
+.sheets .cl,
+.sheets .cut,
+.sheets .hatch,
+.sheets .ray,
+.sheets .strike,
+.sheets .dot,
+.sheets .markDot,
+.sheets svg text,
+.sheets .variants,
+.sheets .parts,
+.sheets .boards,
+.sheets .notes {
+  opacity: 0;
+  transition: opacity 400ms var(--r2-ease-ui) 1100ms;
+}
+
+.sheets [data-on] .hid,
+.sheets [data-on] .cl,
+.sheets [data-on] .cut,
+.sheets [data-on] .hatch,
+.sheets [data-on] .ray,
+.sheets [data-on] .strike,
+.sheets [data-on] .dot,
+.sheets [data-on] .markDot,
+.sheets [data-on] svg text,
+.sheets [data-on] .variants,
+.sheets [data-on] .parts,
+.sheets [data-on] .boards,
+.sheets [data-on] .notes {
+  opacity: 1;
+}
+
+.sheets [data-on] .ghost .strike,
+.sheets [data-on] .ghost {
+  opacity: 0.4;
+}
+
+.sheets .stamp {
+  opacity: 0;
+  transform: rotate(-2deg) scale(1.6);
+  transition: opacity 160ms linear 1500ms, transform 260ms cubic-bezier(0.3, 0, 0, 1) 1500ms;
+}
+
+.sheets [data-on] .stamp {
+  opacity: 1;
+  transform: rotate(-2deg) scale(1);
+}
+
+/* ---------- narrow ---------- */
+@media (max-width: 899px) {
+  .inner {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .side {
+    border-left: 0;
+    border-top: 1px solid var(--d-hair);
+    padding: 16px 16px 0;
+  }
+
+  .tb {
+    margin: 0 -16px;
+  }
+
+  .draw {
+    padding: 14px 8px;
+  }
+
+  .title {
+    font-size: 26px;
+  }
+
+  .segLabel {
+    display: none;
+  }
+
+  .variants {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .parts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .boards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sheet {
+    grid-template-columns: 14px minmax(0, 1fr) 14px;
+    grid-template-rows: 14px minmax(0, 1fr) 14px;
+  }
+
+  .zx,
+  .zy {
+    font-size: 8px;
+  }
+
+  /* SVG lettering in user units: scaled up so it reads at phone width. */
+  /* Drawings keep a drafting width and pan sideways inside the sheet; the page itself never scrolls sideways. */
+  .draw {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+  }
+
+  .draw > .art {
+    min-width: 600px;
+  }
+
+  .lbl,
+  .lblSm,
+  .art .route { font-size: 14px; }
+  .dimT { font-size: 13px; }
+  .dimSub { font-size: 10px; }
+  .note { font-size: 11.5px; }
+}

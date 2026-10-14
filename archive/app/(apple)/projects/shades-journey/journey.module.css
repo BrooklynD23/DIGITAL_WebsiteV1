@@ -1,0 +1,514 @@
+/* MOCKUP: SHADES design-process journey. Builds on shades-drawings/drawings.module.css (paper tokens, sheet,
+   title block, draw-on); this file only adds what the journey needs. */
+
+/* ---------- paper: a grid that reads on black (minor ≈ 1.9:1, major ≈ 4:1 against #000) ---------- */
+.root[data-paper='dark'] {
+  --d-grid: rgba(110, 190, 255, 0.27);
+  --d-grid-major: rgba(110, 190, 255, 0.46);
+  --j-shadow: #000;
+  --j-g1: #5a5a60;
+  --j-g2: #3c3c41;
+  --j-g3: #26262a;
+}
+
+.root[data-paper='light'] {
+  --j-shadow: #6e6e73;
+  --j-g1: #f2f2f4;
+  --j-g2: #d2d2d7;
+  --j-g3: #a1a1a6;
+}
+
+/* ---------- line tiers: silhouette 3, form 1.5, construction 0.75 ---------- */
+.root .sil { stroke-width: 3; }
+.root .form { stroke-width: 1.5; }
+.root .con { stroke: var(--d-pencil); stroke-width: 0.75; }
+.root .mk { stroke: var(--d-mark); }
+.root .mkLead { stroke-width: 1.2; }
+
+.art {
+  position: relative;
+  width: 100%;
+  justify-self: center;
+}
+
+.sheet .art {
+  max-width: calc((100svh - 240px) * 1.5);
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hand {
+  font-family: var(--font-hand), cursive;
+  font-size: 24px;
+  fill: var(--d-mark);
+  stroke: none;
+}
+
+.chip {
+  font-family: var(--font-draft), var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  fill: var(--d-mute);
+  stroke: none;
+}
+
+/* The drawings mockup pans art sideways at phone width; this one scales it down instead. */
+.root .draw {
+  overflow: visible;
+}
+
+.root .draw > * {
+  min-width: 0;
+}
+
+.stageName {
+  margin: 0;
+  padding-bottom: 16px;
+  font-family: var(--font-draft), var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--d-mute);
+}
+
+.root .trackBtn {
+  width: auto;
+  min-width: 44px;
+  padding: 0 4px;
+}
+
+/* Word labels, not digits: let the box fit the label. */
+.root .trackBtn > span {
+  width: auto;
+  padding: 0 10px;
+  white-space: nowrap;
+}
+
+/* ---------- EXPLORE ---------- */
+.dirs {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--d-hair);
+  border: 1px solid var(--d-hair);
+}
+
+.dirs > li {
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  gap: 4px;
+  padding: 12px 14px 16px;
+  background: var(--d-paper);
+}
+
+.dirArt {
+  position: relative;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.cross {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.dirOut > :not(.dirArt) {
+  opacity: 0.55;
+}
+
+/* ---------- REFINE: marker greys ---------- */
+.g1 { fill: var(--j-g1); stroke: none; }
+.g2 { fill: var(--j-g2); stroke: none; }
+.g3 { fill: var(--j-g3); stroke: none; }
+.hi { stroke: var(--d-paper); stroke-width: 4; opacity: 0.6; }
+
+.refineObject,
+.refineLine {
+  position: absolute;
+  left: 4%;
+  top: 6%;
+  width: 56%;
+}
+
+.refineObject {
+  filter: grayscale(1) contrast(0.92) brightness(1.08);
+}
+
+.refineLine svg {
+  color: var(--d-line);
+  --g-outline: var(--d-line);
+  --gg: transparent;
+}
+
+.refineLine {
+  mix-blend-mode: normal;
+  opacity: 0.55;
+}
+
+/* ---------- EXPLODE / ownership ---------- */
+.ghost,
+.lit {
+  transition: opacity 280ms var(--r2-ease-ui);
+}
+
+.ghost {
+  opacity: 0.16;
+}
+
+.lit [class*='ln'] {
+  stroke: var(--d-mark);
+}
+
+/* ---------- RENDER ---------- */
+.root .drawRender {
+  padding: 0;
+  align-content: stretch;
+}
+
+.sheet[data-stage='render'] {
+  background-image: none;
+}
+
+.render {
+  position: relative;
+  margin: 0;
+  height: 100%;
+  min-height: 320px;
+  display: grid;
+  align-content: center;
+  padding: 56px clamp(16px, 4vw, 56px);
+  background: radial-gradient(120% 90% at 50% 40%, #3a3a3f 0%, #161618 55%, #050505 100%);
+  color: #f5f5f7;
+}
+
+.render[data-paper='light'] {
+  background: radial-gradient(120% 90% at 50% 40%, #ffffff 0%, #ececf0 60%, #d6d6db 100%);
+  color: #1d1d1f;
+}
+
+.renderTitle {
+  position: absolute;
+  top: 18px;
+  left: 20px;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.renderCredit {
+  position: absolute;
+  right: 20px;
+  bottom: 16px;
+  font-size: 12px;
+  color: inherit;
+  opacity: 0.75;
+}
+
+.renderViews {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr 0.6fr;
+  align-items: center;
+  gap: clamp(12px, 3vw, 40px);
+}
+
+/* ---------- teams ---------- */
+.teams {
+  padding: var(--r2-space-9) var(--r2-gutter);
+  background: var(--d-paper);
+  color: var(--d-text);
+}
+
+.teams > * {
+  width: min(1320px, 100%);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.teamsHead {
+  display: grid;
+  gap: 8px;
+  margin-bottom: var(--r2-space-7);
+}
+
+.h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+}
+
+.variation {
+  display: block;
+  margin-top: var(--r2-space-7);
+  margin-bottom: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--d-hair);
+  font-family: var(--font-draft), var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--d-mute);
+}
+
+.v1 {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(280px, 1fr);
+  gap: clamp(16px, 3vw, 48px);
+  align-items: start;
+}
+
+.v1Art {
+  border: 1px solid var(--d-pencil);
+  padding: clamp(8px, 2vw, 24px);
+  background-color: var(--d-paper);
+  background-image:
+    linear-gradient(var(--d-grid-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--d-grid-major) 1px, transparent 1px),
+    linear-gradient(var(--d-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--d-grid) 1px, transparent 1px);
+  background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+}
+
+.v1Side {
+  display: grid;
+  gap: 12px;
+}
+
+.teamList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 6px;
+}
+
+.teamBtn {
+  width: 100%;
+  min-height: 44px;
+  display: grid;
+  gap: 2px;
+  padding: 10px 14px;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  background: var(--d-paper);
+  border: 1px solid var(--d-hair);
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.teamBtn:hover,
+.teamBtn:focus-visible,
+.teamBtn[aria-pressed='true'] {
+  border-color: var(--d-mark);
+}
+
+.teamBtn:focus-visible,
+.fanBtn:focus-visible,
+.joinBtn:focus-visible,
+.joinLink:focus-visible {
+  outline: 2px solid var(--d-mark);
+  outline-offset: 2px;
+}
+
+.teamName {
+  font-weight: 600;
+  font-size: 17px;
+}
+
+.teamLine {
+  font-size: 14px;
+  color: var(--d-mute);
+}
+
+.teamParts {
+  font-family: var(--font-draft), var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  color: var(--d-text);
+}
+
+.joinRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 20px;
+  margin: 20px 0 0;
+}
+
+.joinBtn {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 20px;
+  border-radius: 999px;
+  background: var(--d-text);
+  color: var(--d-paper);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.joinBtn:hover {
+  background: var(--r2-trigger, #d8412f);
+  color: #fff;
+}
+
+.joinLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--d-text);
+  text-underline-offset: 4px;
+}
+
+/* ---------- V2: signed sheets ---------- */
+.v2 {
+  display: grid;
+  gap: 16px;
+  justify-items: start;
+}
+
+.fanBtn {
+  min-height: 44px;
+  padding: 0 18px;
+  font: inherit;
+  font-size: 14px;
+  color: inherit;
+  background: transparent;
+  border: 1px solid var(--d-hair);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.fanWrap {
+  --gap: 16px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--gap);
+  padding: 24px 0;
+}
+
+.card {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  min-height: 280px;
+  border: 1.5px solid var(--d-line);
+  background-color: var(--d-paper);
+  background-image:
+    linear-gradient(var(--d-grid-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--d-grid-major) 1px, transparent 1px),
+    linear-gradient(var(--d-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--d-grid) 1px, transparent 1px);
+  background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+  transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+  transform: rotate(calc((var(--i) - 2) * 2.2deg)) translateY(calc(max(var(--i) - 2, 2 - var(--i)) * 8px));
+}
+
+.fanWrap[data-fan='stacked'] .card {
+  transform: translateX(calc((2 - var(--i)) * (100% + var(--gap)))) rotate(calc((var(--i) - 2) * 1.2deg));
+}
+
+.cardLine {
+  margin: 0;
+  padding: 18px 16px;
+  font-family: var(--font-hand), cursive;
+  font-size: 19px;
+  line-height: 1.35;
+  color: var(--d-text);
+}
+
+.cardTb {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1px;
+  background: var(--d-line);
+  border-top: 1.5px solid var(--d-line);
+  font-family: var(--font-draft), var(--font-mono);
+}
+
+.cardTb > div {
+  padding: 6px 10px;
+  background: var(--d-paper);
+}
+
+.cardTb dt {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--d-mute);
+}
+
+.cardTb dd {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .ghost,
+  .lit {
+    transition: none;
+  }
+}
+
+/* ---------- narrow ---------- */
+@media (max-width: 899px) {
+  .root .draw {
+    overflow: visible;
+  }
+
+  .root .draw > * {
+    min-width: 0;
+  }
+
+  .hand {
+    font-size: 30px;
+  }
+
+  .dirs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .renderViews {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .renderViews > .rvMain {
+    grid-column: 1 / -1;
+    order: -1;
+  }
+
+  .v1 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .fanWrap {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .card,
+  .fanWrap[data-fan='stacked'] .card {
+    min-height: 0;
+    transform: none;
+  }
+}

@@ -1,0 +1,552 @@
+/* SHADES · approach 1, product reveal. One dark world, literal black, from hero to the join chapter.
+   Type and colour tokens from worlds.css; the V0.1 page root (../shades/apple.module.css .root) supplies the fonts. */
+
+.page {
+  background: #000;
+  --hud: #7fe6a3;
+  --point: #d8412f;
+}
+
+.page ::selection {
+  background: rgba(127, 230, 163, 0.32);
+  color: #fff;
+}
+
+/* ---------- shared type ---------- */
+.h2,
+.heroName,
+.beatTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--r2-fw-display);
+  text-wrap: balance;
+}
+
+.h2 {
+  font-size: var(--r2-fs-h1);
+  line-height: var(--r2-lh-h1);
+  letter-spacing: max(var(--r2-ls-h1), -0.03em);
+}
+
+.lead {
+  margin: 0 auto;
+  max-width: 36rem;
+  font-size: var(--r2-fs-lead);
+  line-height: 1.5;
+  font-weight: 500;
+  color: var(--r2-ink-2);
+  text-wrap: pretty;
+}
+
+.head {
+  display: grid;
+  gap: var(--r2-space-4);
+  justify-items: center;
+  text-align: center;
+  padding: 0 var(--r2-gutter);
+}
+
+.render {
+  margin: 0;
+  width: 100%;
+  overflow-x: clip; /* Glasses keeps its (hidden) exploded labels positioned past its box in solid mode */
+  display: grid;
+  justify-items: center;
+  gap: var(--r2-space-4);
+}
+
+.renderCaption {
+  display: grid;
+  gap: 2px;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.01em;
+  color: var(--r2-ink-3);
+  text-align: center;
+}
+
+/* ---------- 1 · hero ---------- */
+.hero {
+  min-height: calc(100svh - var(--r2-nav-h));
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: clamp(16px, 4svh, 48px);
+  padding: clamp(32px, 7svh, 88px) var(--r2-gutter) clamp(24px, 5svh, 56px);
+  overflow: hidden;
+}
+
+.heroHead {
+  display: grid;
+  gap: var(--r2-space-3);
+  justify-items: center;
+  text-align: center;
+}
+
+.heroName {
+  font-size: var(--r2-fs-hero);
+  line-height: var(--r2-lh-hero);
+  letter-spacing: var(--r2-ls-hero);
+}
+
+.heroLine {
+  margin: 0;
+  font-size: var(--r2-fs-lead);
+  line-height: 1.4;
+  font-weight: 500;
+  color: var(--r2-ink-2);
+  text-wrap: balance;
+}
+
+/* The object sizes to the room left under the name: never taller than the viewport allows. */
+.heroObject {
+  width: min(1080px, 100%, (100svh - var(--r2-nav-h) - 300px) * 2.1);
+  min-width: min(320px, 100%);
+}
+
+/* One column: the 1024px measure of the local nav and the footer (chrome.module.css .localInner / .footInner). */
+.col {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1024px;
+  margin-inline: auto;
+  padding-inline: var(--r2-gutter);
+}
+
+/* ---------- 2 · the problem and the approach: two beats ---------- */
+.what {
+  display: grid;
+  gap: var(--r2-space-8);
+  padding-block: var(--r2-space-10) var(--r2-space-8);
+}
+
+.beat {
+  display: grid;
+  gap: var(--r2-space-4);
+}
+
+.beat > .lead {
+  margin: 0;
+}
+
+/* ---------- 3 · anatomy ---------- */
+.anat {
+  position: relative;
+  background: #000;
+  scroll-margin-top: var(--r2-nav-h);
+}
+
+.anatStatic {
+  display: grid;
+  gap: var(--r2-space-7);
+  width: min(960px, 100%);
+  margin: 0 auto;
+  padding: var(--r2-space-9) var(--r2-gutter);
+}
+
+.anatStatic .anatArt {
+  width: min(760px, 100%);
+  margin: 0 auto;
+}
+
+.beatList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--r2-space-6);
+}
+
+.beatTitle {
+  font-size: var(--r2-fs-h2);
+  hyphens: manual;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+}
+
+.beatLine {
+  margin: var(--r2-space-3) 0 0;
+  max-width: 34rem;
+  font-size: 17px;
+  line-height: 25px;
+  color: var(--r2-ink-2);
+  text-wrap: pretty;
+}
+
+.legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--r2-hairline);
+}
+
+.legend li {
+  display: grid;
+  grid-template-columns: 10px 7.5em minmax(0, 1fr);
+  align-items: baseline;
+  column-gap: var(--r2-space-3);
+  padding: 11px 0;
+  border-bottom: 1px solid var(--r2-hairline);
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--r2-ink-3);
+  transition: color var(--r2-dur-ui) var(--r2-ease-ui);
+}
+
+.legend li[data-lit] {
+  color: var(--r2-ink);
+}
+
+.swatch {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  align-self: center;
+  opacity: 0.35;
+  transition: opacity var(--r2-dur-ui) var(--r2-ease-ui);
+}
+
+.legend li[data-lit] .swatch {
+  opacity: 1;
+}
+
+.legendName {
+  font-weight: 600;
+}
+
+.legend li[data-lit] .legendRole {
+  color: var(--r2-ink-2);
+}
+
+.anatPin,
+.anatStage {
+  position: relative;
+}
+
+.anatPin {
+  height: calc(100svh + var(--steps) * 50svh);
+}
+
+.anatStage {
+  position: sticky;
+  top: var(--r2-nav-h);
+  height: calc(100svh - var(--r2-nav-h));
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) 52px;
+  column-gap: var(--r2-space-7);
+  padding: clamp(16px, 4svh, 48px) max(var(--r2-gutter), (100vw - 1320px) / 2) 8px;
+}
+
+.anatStage .anatArt {
+  align-self: center;
+  justify-self: center;
+  width: min(100%, (100svh - var(--r2-nav-h) - 140px) * 1.25);
+}
+
+.anatCopy {
+  align-self: center;
+  display: grid;
+  gap: var(--r2-space-6);
+  max-width: 34rem;
+}
+
+.anatCaps {
+  display: grid;
+}
+
+/* Out-then-in: the outgoing caption leaves in 160ms, the incoming one arrives after it. */
+.anatCap {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transform: translateY(12px);
+  visibility: hidden;
+  transition:
+    opacity 160ms var(--r2-ease-ui),
+    transform 160ms var(--r2-ease-ui),
+    visibility 0s 160ms;
+}
+
+.anatCap[data-active] {
+  opacity: 1;
+  transform: none;
+  visibility: visible;
+  transition:
+    opacity 280ms cubic-bezier(0.2, 0, 0, 1) 160ms,
+    transform 280ms cubic-bezier(0.2, 0, 0, 1) 160ms,
+    visibility 0s 160ms;
+}
+
+.tracker {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.trackBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 44px;
+  height: 44px;
+  padding: 0 4px;
+  font: inherit;
+  font-size: 12px;
+  line-height: 16px;
+  background: none;
+  border: 0;
+  border-radius: 50%;
+  color: var(--r2-ink-3);
+  cursor: pointer;
+}
+
+.trackBtn:hover,
+.trackBtn[aria-current] {
+  color: var(--r2-ink);
+}
+
+.trackBtn[aria-current] {
+  padding-inline-end: 12px;
+}
+
+.trackBtn:focus-visible {
+  outline: 2px solid var(--r2-focus);
+  outline-offset: -4px;
+}
+
+.trackDot + .trackDot {
+  margin-left: -4px;
+}
+
+.trackDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  border: 1px solid var(--hue);
+  transition: background var(--r2-dur-ui-fast) var(--r2-ease-ui);
+}
+
+.trackBtn:hover .trackDot,
+.trackBtn[aria-current] .trackDot {
+  background: var(--hue);
+}
+
+@media (max-width: 899px) {
+  .anatStage {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 42svh) minmax(0, 1fr) 48px;
+    row-gap: var(--r2-space-4);
+    padding-top: var(--r2-space-4);
+  }
+
+  .anatStage .anatArt {
+    width: min(100%, 42svh * 1.25);
+  }
+
+  .anatCopy {
+    align-self: start;
+    max-width: none;
+    gap: var(--r2-space-4);
+  }
+
+  .beatTitle {
+    font-size: 28px;
+  }
+
+  .beatLine {
+    font-size: 15px;
+    line-height: 21px;
+  }
+
+  .legend li {
+    padding: 7px 0;
+    font-size: 13px;
+    line-height: 18px;
+    grid-template-columns: 10px 6.5em minmax(0, 1fr);
+  }
+}
+
+/* ---------- 4 · the view: the "Hold still" slider (shades-control/HoldStill, styled by its own module) ---------- */
+.view {
+  display: grid;
+  gap: var(--r2-space-5);
+  padding: var(--r2-space-8) var(--r2-gutter) var(--r2-space-9);
+  scroll-margin-top: var(--r2-nav-h);
+}
+
+.holdWrap {
+  width: 100%;
+  max-width: 928px; /* the page column: 1024 measure less the 48px gutters */
+  margin-inline: auto;
+}
+
+/* ---------- 5 · close ---------- */
+.close {
+  display: grid;
+  gap: var(--r2-space-8);
+  padding: var(--r2-space-10) 0 var(--r2-space-9);
+  scroll-margin-top: var(--r2-nav-h);
+}
+
+.closeObject {
+  width: min(820px, 100% - 2 * var(--r2-gutter));
+}
+
+.road {
+  display: grid;
+  gap: var(--r2-space-6);
+}
+
+.roadHead {
+  display: grid;
+  gap: var(--r2-space-4);
+}
+
+.roadHead .lead {
+  margin: 0;
+}
+
+.milestones {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: var(--r2-space-4);
+  margin: var(--r2-space-4) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* The line: horizontal on desktop, vertical at <= 734px. Markers sit on it. */
+.milestones::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--r2-hairline-strong);
+}
+
+.milestone {
+  position: relative;
+  display: grid;
+  gap: var(--r2-space-2);
+  align-content: start;
+  padding-top: var(--r2-space-5);
+  font-size: var(--r2-fs-body);
+  line-height: 1.4;
+  color: var(--r2-ink);
+}
+
+.milestone::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--r2-ink);
+}
+
+.phaseN {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--r2-ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.note {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--r2-ink-2);
+}
+
+.disclaimer {
+  padding-block: var(--r2-space-6) var(--r2-space-8);
+}
+
+@media (max-width: 734px) {
+  .milestones {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .milestones::before {
+    top: 0;
+    bottom: 0;
+    left: 4px;
+    right: auto;
+    width: 1px;
+    height: auto;
+  }
+
+  .milestone {
+    padding: 0 0 var(--r2-space-5) var(--r2-space-6);
+  }
+
+  .milestone::before {
+    top: 4px;
+  }
+}
+
+/* ---------- motion: one authored moment on arrival ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .heroObject {
+    animation: rv-arrive 1400ms cubic-bezier(0.16, 1, 0.3, 1) 120ms both;
+  }
+}
+
+@keyframes rv-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+.page[data-spacing='more'] :is(.lead, .heroLine, .beatLine, .legendRole, .milestone) {
+  letter-spacing: var(--reading-spaced-tracking, 0.05em);
+  word-spacing: var(--reading-spaced-word, 0.16em);
+}
+
+/* Two label systems in the pin, not three: the legend and the labelled tracker name every group, so the drawing's
+   own labels are not shown. */
+.anatArt [role='img'] > span {
+  display: none;
+}
+
+/* Before the parts separate, the whole object sits left in the exploded pose's room: centre it, then let it slide
+   back as the parts move out (same duration and ease as Glasses). */
+.anatArt [role='img'] {
+  transition: transform 640ms var(--r2-ease-emphasized, cubic-bezier(0.2, 0, 0, 1));
+}
+
+.anatArt[data-pose='solid'] [role='img'] {
+  transform: translateX(var(--pre-x, 10%));
+}
+
+/* One column (≤ 899px): the separated pose also sits left in its room; centre it in the art column. */
+@media (max-width: 899px) {
+  .anatArt[data-pose='exploded'] [role='img'] {
+    transform: translateX(var(--exp-x, 10%));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anatArt [role='img'] {
+    transition: none;
+  }
+}
+
+/* Glasses prints the module labels to the right of the controller box, past its own box: keep room for them. */
+
