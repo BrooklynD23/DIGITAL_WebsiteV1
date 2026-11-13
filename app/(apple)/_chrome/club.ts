@@ -56,7 +56,7 @@ export const BADGE = {
 export const COMING_SOON = {
   label: 'Coming soon',
   links: [
-    { label: 'TWINS', note: 'Simulating a factory and supply chain end to end. First project: VESSEL.', href: '/updates/vessel-product-definition/' },
-    { label: 'DIGITAL Business', note: 'Finance and operations case studies for the club.', href: '/updates/?team=DIGITAL%20Business' },
+    { label: 'TWINS', note: 'Simulating a factory and supply chain end to end. Project: VESSEL.', href: '/updates/vessel-product-definition/' },
+    { label: 'DIGITAL Business', note: 'Finance case studies for the club.', href: '/updates/?team=DIGITAL%20Business' },
   ],
 } as const;

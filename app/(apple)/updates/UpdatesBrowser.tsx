@@ -7,8 +7,9 @@ import type { Update, UpdateSubTeam, UpdateType } from '../../../lib/data/update
 import u from './updates.module.css';
 
 const PAGE = 10;
-/** Below these counts the controls would outnumber the content (Apple Newsroom keeps one list until there is volume). */
-const FEATURE_MIN = 4;
+/** Cards above the log: one lead card + this many in the grid (prototype 2026-11-12). */
+const GRID = 3;
+/** Below this count search would outnumber the content. */
 const SEARCH_MIN = 6;
 const fmt = (iso: string) => new Date(`${iso}T00:00:00`).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
 
@@ -26,7 +27,7 @@ function Title({ item, className }: { item: Update; className?: string }) {
 /** Initials stack (decorative) + names (authors in ink, mentors/lead in ink-2). */
 function Byline({ item }: { item: Update }) {
   return (
-    <p className={u.byline}>
+    <span className={u.byline}>
       <span className={s.srOnly}>{C.by} </span>
       <span className={u.stack} aria-hidden="true">
         {item.authors.slice(0, 4).map((n) => <span key={n} className={u.av}>{initials(n)}</span>)}
@@ -36,8 +37,46 @@ function Byline({ item }: { item: Update }) {
         {item.mentors.length > 0 && ` · ${C.mentor} ${item.mentors.join(', ')}`}
         {item.lead && ` · ${C.leadRole} ${item.lead}`}
       </span>
-    </p>
+    </span>
   );
+}
+
+const meta = (i: Update) => `${i.subTeam}${i.detail ? ` (${i.detail})` : ''} · ${C.typeLabels[i.type]} · ${fmt(i.publishedAt)}`;
+
+/** Lead-card art: the cover image, else the post's value stream as quiet mono labels (VESSEL), else a flat block. */
+function Art({ item }: { item: Update }) {
+  if (item.coverImage) {
+    // eslint-disable-next-line @next/next/no-img-element -- static export, no image optimizer
+    return <img className={u.art} src={item.coverImage.src} alt={item.coverImage.alt} loading="lazy" />;
+  }
+  const flow = item.source === 'site' ? item.page.sections.find((x) => x.flow)?.flow : undefined;
+  return (
+    <div className={u.art} aria-hidden="true">
+      {flow && <ol className={u.artFlow}>{flow.map((f) => <li key={f}>{f}</li>)}</ol>}
+    </div>
+  );
+}
+
+/** One card = one link (open page or LinkedIn). `lead` adds the 2-column art. */
+function Card({ item, lead }: { item: Update; lead?: boolean }) {
+  const body = (
+    <>
+      {lead && <Art item={item} />}
+      <span className={u.cardCopy}>
+        <span className={u.meta}>{meta(item)}</span>
+        <h2 className={lead ? u.leadTitle : u.cardTitle}>{item.title}</h2>
+        <span className={u.cardSummary}>{item.summary}</span>
+        <Byline item={item} />
+        <span className={u.src}>
+          {item.source === 'linkedin' ? <>{C.linkedIn}<span aria-hidden="true"> ↗</span><span className={s.srOnly}>{C.opensLinkedIn}</span></> : C.onSite}
+        </span>
+      </span>
+    </>
+  );
+  const cls = lead ? `${u.card} ${u.lead}` : u.card;
+  return item.source === 'linkedin'
+    ? <a className={cls} href={item.externalUrl} target="_blank" rel="noopener noreferrer">{body}</a>
+    : <Link className={cls} href={`/updates/${item.slug}/`}>{body}</Link>;
 }
 
 function Pill({ label, n, on, soon, onClick }: { label: string; n?: number; on: boolean; soon?: boolean; onClick: () => void }) {
@@ -51,8 +90,8 @@ function Pill({ label, n, on, soon, onClick }: { label: string; n?: number; on: 
 }
 
 /**
- * The whole log: filter pills with honest counts (0 = disabled, still visible), an optional featured row,
- * date-first rows, and an empty state that shows the row shape. `items` arrives sorted newest first; may be empty.
+ * The whole log: filter pills with honest counts (0 = disabled, still visible), cards for the newest four hits
+ * (Head Designer cards exception, 2026-11-12), date-first rows of every hit, and an empty state that shows the row shape. `items` arrives sorted newest first; may be empty.
  */
 export function UpdatesBrowser({ items }: { items: readonly Update[] }) {
   const [team, setTeam] = useState<UpdateSubTeam | null>(null);
@@ -74,9 +113,9 @@ export function UpdatesBrowser({ items }: { items: readonly Update[] }) {
       (!type || i.type === type) &&
       (!needle || [i.title, i.summary, i.subTeam, C.typeLabels[i.type], ...i.authors, ...i.mentors].some((f) => f.toLowerCase().includes(needle))),
   );
-  const featured = !filtered && items.length >= FEATURE_MIN ? items[0] : null;
-  const list = featured ? hits.slice(1) : hits;
-  const shown = all || filtered ? list : list.slice(0, PAGE);
+  const [leadItem, ...rest] = hits;
+  const shown = all || filtered ? hits : hits.slice(0, PAGE);
+  const none = team && !type && !needle ? C.noTeamPosts : C.noMatch;
 
   return (
     <section className={s.section} aria-labelledby="updates-list">
@@ -101,17 +140,11 @@ export function UpdatesBrowser({ items }: { items: readonly Update[] }) {
           )}
         </nav>
 
-        {featured && (
-          <article className={u.feature} aria-label={C.featuredLabel}>
-            {/* eslint-disable-next-line @next/next/no-img-element -- static export, no image optimizer */}
-            {featured.coverImage && <img className={u.art} src={featured.coverImage.src} alt={featured.coverImage.alt} loading="lazy" />}
-            <div className={u.featureCopy}>
-              <span className={u.meta}>{`${fmt(featured.publishedAt)} · ${featured.subTeam}${featured.detail ? ` (${featured.detail})` : ""} · ${C.typeLabels[featured.type]}`}</span>
-              <h2 className={s.h3}><Title item={featured} className={u.featureLink} /></h2>
-              <p className={u.summary}>{featured.summary}</p>
-              <Byline item={featured} />
-            </div>
-          </article>
+        {leadItem && (
+          <div className={u.cards} aria-label={C.featuredLabel} role="group">
+            <Card item={leadItem} lead />
+            {rest.slice(0, GRID).map((i) => <Card key={i.slug} item={i} />)}
+          </div>
         )}
 
         {items.length === 0 ? (
@@ -132,9 +165,9 @@ export function UpdatesBrowser({ items }: { items: readonly Update[] }) {
           <>
             <div className={u.listHead}>
               <h2 id="updates-list" className={`${s.h2} r2-reveal`}>{C.listTitle}</h2>
-              <p role="status" className={u.meta}>{hits.length === 0 ? C.noMatch : C.count(hits.length)}</p>
+              <p role="status" className={u.meta}>{hits.length === 0 ? none : C.count(hits.length)}</p>
             </div>
-            <ul className={u.rows}>
+            {shown.length > 0 && <ul className={u.rows}>
               {shown.map((i) => (
                 <li key={i.slug} className={u.row}>
                   <time className={u.meta} dateTime={i.publishedAt}>{fmt(i.publishedAt)}</time>
@@ -149,8 +182,8 @@ export function UpdatesBrowser({ items }: { items: readonly Update[] }) {
                   </div>
                 </li>
               ))}
-            </ul>
-            {!filtered && !all && list.length > PAGE && (
+            </ul>}
+            {!filtered && !all && hits.length > PAGE && (
               <button type="button" className={s.buttonQuiet} onClick={() => setAll(true)}>{C.seeMore}</button>
             )}
           </>

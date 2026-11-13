@@ -12,7 +12,7 @@
  *   pdf?         { src, title }  file in public/papers/, src like '/papers/<slug>.pdf'
  *   source       'site' (own page from `page`) or 'linkedin' (opens externally)
  *   externalUrl  required when source is 'linkedin'; on a 'site' entry it is the "Read the post on LinkedIn" link
- * From 4 entries up, the newest one is featured above the log; search appears from 6.
+ * The newest entry (or filter hit) leads as a card, the next three follow as cards, then the full log; search appears from 6.
  * Personal names on Updates: Head Designer exception to BRAND.md "no personal names", 2026-11-12.
  */
 export type UpdateType = 'paper' | 'milestone' | 'prototype' | 'achievement' | 'product-definition' | 'case-study';
@@ -60,7 +60,7 @@ export const UPDATES: readonly Update[] = [
       sections: [
         {
           heading: 'What VESSEL is',
-          body: 'VESSEL (Virtual Ecosystem for System Simulation & Enterprise Logistics) is the first TWINS project. Students research, design and simulate an end-to-end manufacturing and supply-chain system with discrete-event simulation or digital-twin software.',
+          body: 'VESSEL (Virtual Ecosystem for System Simulation & Enterprise Logistics) is a TWINS project. Students research, design and simulate an end-to-end manufacturing and supply-chain system with discrete-event simulation or digital-twin software.',
           flow: ['Material recovery', 'Processing', 'Annealing', 'Fabrication', 'Finishing', 'Inspection', 'Packaging', 'Warehouse'],
         },
         {
@@ -184,6 +184,9 @@ export const UPDATES_COPY = {
   count: (n: number) => `${n} ${n === 1 ? 'update' : 'updates'}`,
   searchLabel: 'Search updates',
   noMatch: 'No updates match these filters.',
+  noTeamPosts: 'No posts from this team yet.',
+  onSite: 'On this site',
+  linkedIn: 'LinkedIn',
   seeMore: 'See more',
   opensLinkedIn: ' (opens LinkedIn)',
   empty: { title: 'First posts coming soon.', body: 'Each sub-team will publish here as it finishes something.', row: 'No entries yet' },
