@@ -16,7 +16,7 @@ import { animate, stagger } from 'animejs';
 import { useScrollSteps } from '../../_system';
 import { hero, stages, thesis } from '../../_content/home';
 import h from '../_home/home.module.css';
-import { PART_IDS, STAGE_ORDER, type CameraPose, type PartId } from './contract';
+import { PART_IDS, STAGE_ORDER, VIEWBOX, type CameraPose, type PartId } from './contract';
 import { PhoneArtwork, partTransform, rigTransform } from './PhoneArtwork';
 import { NARROW_CAMERA, POSES } from './poses';
 import { useStagePlayback } from './useStagePlayback';
@@ -84,6 +84,7 @@ function applyPose(els: Els, pos: number): void {
 export function HeroStages() {
   const section = useRef<HTMLElement>(null);
   const art = useRef<HTMLDivElement>(null);
+  const artFrom = useRef<HTMLDivElement>(null);
   const text = useRef<HTMLDivElement>(null);
   const els = useRef<Els | null>(null);
   const readout = useRef<HTMLOutputElement>(null);
@@ -107,14 +108,31 @@ export function HeroStages() {
     if (readout.current) readout.current.textContent = `playhead ${head.current.pos.toFixed(3)} → target ${active}`;
   }, [debug, active, head]);
 
-  // First viewport: the artwork starts exactly below the thesis block, whatever it wraps to.
+  // First viewport: the artwork starts exactly below the thesis block, whatever it wraps to. The art box stays at its
+  // opened inset; the first-viewport box (.artFrom) is reached with a transform, so the opening never shifts layout.
   useEffect(() => {
     const t = text.current;
     const host = section.current;
-    if (!enhanced || !t || !host) return undefined;
-    const ro = new ResizeObserver(() => host.style.setProperty('--text-b', `${t.offsetTop + t.offsetHeight}px`));
-    ro.observe(t);
-    return () => ro.disconnect();
+    const a = art.current;
+    const from = artFrom.current;
+    if (!enhanced || !t || !host || !a || !from) return undefined;
+    let raf = 0;
+    const fit = (h: number): number => Math.min(a.offsetWidth, (h * VIEWBOX.w) / VIEWBOX.h); // drawing width ('meet')
+    const measure = (): void => {
+      host.style.setProperty('--text-b', `${t.offsetTop + t.offsetHeight}px`);
+      const end = fit(a.offsetHeight);
+      if (end <= 0) return;
+      host.style.setProperty('--art-y', `${from.offsetTop + from.offsetHeight / 2 - (a.offsetTop + a.offsetHeight / 2)}px`);
+      host.style.setProperty('--art-s', `${fit(from.offsetHeight) / end}`);
+      // show the art one frame later, so the first measurement lands without a transition
+      if (!host.dataset.art) raf = requestAnimationFrame(() => { host.dataset.art = 'ready'; });
+    };
+    const ro = new ResizeObserver(measure);
+    [t, a, from].forEach((el) => ro.observe(el));
+    return () => {
+      ro.disconnect();
+      cancelAnimationFrame(raf);
+    };
   }, [enhanced]);
 
   // Plan draft-in, once, when the enhanced hero mounts at rest on Plan (SSR already painted the Plan pose).
@@ -143,6 +161,7 @@ export function HeroStages() {
         <div ref={art} className={s.art}>
           <PhoneArtwork className={s.svg} />
         </div>
+        <div ref={artFrom} className={s.artFrom} aria-hidden="true" />
         <div className={s.captions}>
           {stages.map((x, i) => (
             <div key={x.id} className={s.caption} data-active={i === active ? 'true' : undefined} aria-hidden={i === active ? undefined : true}>

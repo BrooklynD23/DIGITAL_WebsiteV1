@@ -13,7 +13,7 @@
 .rule { margin: 0; font-size: var(--r2-fs-lead); line-height: var(--r2-lh-lead); font-weight: 600; color: var(--r2-ink-2); text-wrap: balance; }
 .svg { display: block; width: 100%; height: auto; }
 
-.art, .captions, .debug { display: none; }
+.art, .artFrom, .captions, .debug { display: none; }
 .stills { list-style: none; margin: var(--r2-space-8) auto 0; padding: 0 var(--r2-gutter); max-width: 1024px; display: grid; gap: var(--r2-space-9); }
 .still { display: grid; gap: var(--r2-space-3); justify-items: center; }
 
@@ -38,17 +38,19 @@
   .pin[data-phase='stages'] .heroText { visibility: hidden; transition: --h 240ms var(--r2-ease-ui), visibility 0s 240ms; }
   .stills { display: none; }
 
-  /* First viewport: the Plan sheet sits in the space between the thesis and the tracker (the box, not a transform,
-     so it can never touch the text), then the box opens to the full upper band. */
+  /* First viewport: the Plan sheet sits in the space between the thesis and the tracker, then opens to the full
+     upper band. The box stays at its opened inset; the first-viewport box (.artFrom) is reached with a transform that
+     HeroStages measures (--art-y, --art-s), so the move never shifts layout. Hidden until measured. */
   .art {
-    display: block; position: absolute; left: 0; right: 0;
-    top: calc((1 - var(--h)) * (var(--text-b) + var(--art-gap)) + var(--h) * 28px);
-    bottom: calc(var(--band) + (1 - var(--h)) * (var(--art-b0) - var(--band)));
-    transition: --h 600ms var(--r2-ease-emphasized) 120ms;
+    display: block; position: absolute; left: 0; right: 0; top: 28px; bottom: var(--band);
+    transform: translateY(calc((1 - var(--h)) * var(--art-y, 0px))) scale(calc(1 + (1 - var(--h)) * (var(--art-s, 1) - 1)));
+    transition: transform 600ms var(--r2-ease-emphasized) 120ms;
     /* the pushed-in Test pose runs past the box: fade both edges instead of a hard clip */
     mask-image: linear-gradient(transparent, #000 6%, #000 88%, transparent);
   }
   .pin[data-phase='stages'] .art { transition-delay: 160ms; }
+  .pin:not([data-art]) .art { visibility: hidden; transition: none; }
+  .artFrom { display: block; position: absolute; left: 0; right: 0; top: calc(var(--text-b) + var(--art-gap)); bottom: var(--art-b0); visibility: hidden; pointer-events: none; }
   .svg { width: 100%; height: 100%; }
 
   .captions { display: block; position: absolute; left: 0; right: 0; top: calc(100% - var(--band) + 8px); padding: 0 var(--r2-gutter); opacity: var(--h); transition: --h 200ms var(--r2-ease-ui); }
