@@ -53,9 +53,9 @@
 .local[data-tone='dark'] { background: rgba(22, 22, 23, 0.86); border-bottom-color: rgba(255, 255, 255, 0.12); }
 @media (prefers-reduced-motion: reduce) { .local { transition: none; } }
 .localInner { max-width: 1024px; margin: 0 auto; padding: 0 var(--r2-gutter); height: 100%; display: flex; align-items: center; gap: 24px; }
-.localTitle { font-family: var(--font-display); font-weight: 600; font-size: 21px; letter-spacing: -0.01em; color: var(--r2-ink); text-decoration: none; margin-right: auto; min-height: 44px; display: inline-flex; align-items: center; }
+.localTitle { font-family: var(--font-display); font-weight: 600; font-size: 21px; letter-spacing: -0.01em; color: var(--r2-ink); text-decoration: none; margin-right: auto; min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; }
 .localLinks { list-style: none; margin: 0; padding: 0; display: flex; gap: 24px; }
-.localLinks a { font-size: 12px; color: var(--r2-ink); opacity: 0.88; text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; }
+.localLinks a { font-size: 12px; color: var(--r2-ink); opacity: 0.88; text-decoration: none; min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center; }
 .localLinks a:hover { opacity: 1; text-decoration: underline; }
 /* CTA: 44px hit target around a 30px pill (one contract on every page). */
 .localCta { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; flex: none; }
@@ -74,14 +74,28 @@
 .menuList { list-style: none; margin: 0; padding: 8px var(--r2-gutter) 16px; position: absolute; left: 0; right: 0; top: 100%; background: var(--r2-ground); border-bottom: 1px solid var(--r2-hairline); display: grid; }
 .menuList a { display: flex; align-items: center; min-height: 44px; color: var(--r2-ink); text-decoration: none; font-size: 17px; border-bottom: 1px solid var(--r2-hairline); }
 .menuList li:last-child a { border-bottom: 0; }
+/* "Coming soon" disclosure (desktop). Flat popover on the bar's ground, hairline border, no shadow. */
+.soon { position: relative; flex: none; }
+.soonBtn { display: inline-flex; align-items: center; gap: 5px; min-height: 44px; padding: 0; border: 0; background: none; font: inherit; font-size: 12px; color: var(--r2-ink); opacity: 0.88; cursor: pointer; }
+.soonBtn:hover, .soon[data-open] .soonBtn { opacity: 1; }
+.soonBtn svg { transition: transform var(--r2-dur-ui) var(--r2-ease-ui); }
+.soon[data-open] .soonBtn svg { transform: rotate(180deg); }
+.soonMenu { list-style: none; margin: 0; padding: var(--r2-space-2); position: absolute; top: 100%; left: 50%; translate: -50% 0; width: 300px; display: grid; gap: 2px; background: var(--r2-ground); border: 1px solid var(--r2-hairline); border-radius: var(--r2-radius); z-index: 1; }
+.soonMenu[hidden] { display: none; }
+.soonMenu a { display: grid; gap: 2px; min-height: 44px; padding: 10px 12px; border-radius: 8px; color: var(--r2-ink); text-decoration: none; }
+.soonMenu a:hover { background: var(--r2-ground-raised); }
+.soonMenu strong { font-size: 14px; font-weight: 600; }
+.soonMenu span { font-size: 12px; line-height: 16px; color: var(--r2-ink-2); }
+/* Mobile: the same links as a group at the end of the section menu */
+.menuGroup { padding-top: var(--r2-space-4); font-size: 12px; line-height: 16px; color: var(--r2-ink-2); }
 @media (max-width: 734px) {
-  .localLinks { display: none; }
+  .localLinks, .soon { display: none; }
   .localTitle { font-size: 19px; margin-right: 0; }
   .menu { display: block; margin-right: auto; }
   .localInner { gap: 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .menuBtn svg, .localPill { transition: none; }
+  .menuBtn svg, .localPill, .soonBtn svg { transition: none; }
 }
 
 /* ---------- footer ---------- */
@@ -90,7 +104,7 @@
 .footInner { max-width: 1200px; margin: 0 auto; padding: 0 var(--r2-gutter); display: grid; gap: 20px; }
 .thesis { margin: 0; color: var(--r2-ink); font-family: var(--font-display); }
 .footLinks { list-style: none; padding: 0; margin: 0; display: flex; gap: 8px 24px; flex-wrap: wrap; }
-.footLinks a { color: var(--r2-ink-2); text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; gap: 8px; transition: color var(--r2-dur-ui-fast) var(--r2-ease-ui); }
+.footLinks a { color: var(--r2-ink-2); text-decoration: none; min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; gap: 8px; transition: color var(--r2-dur-ui-fast) var(--r2-ease-ui); }
 .footLinks a:hover { color: var(--r2-ink); }
 .meta { margin: 0; display: grid; gap: 4px; }
 /* Rows two (site pages) and three (legal) reuse .footLinks type and targets; these only pull the rows together. */

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { CLUB, JoinChapter, LocalNav, MEETINGS, PAGES, WorldFooter, href } from '../../_chrome';
+import { CLUB, JoinChapter, LocalNav, MEETINGS, NAV_LINKS, WorldFooter, href } from '../../_chrome';
 import chrome from '../../_chrome/chrome.module.css';
 import { localTitle } from '../../_content/home';
 import { archive, boardFacts, join, mainboard, ruleSentences, rulesHeadline, sidekick, subsystems } from '../../_content/sidekick';
@@ -22,7 +22,7 @@ export default function AppleSidekickPage() {
         current={href('apple', 'sidekick')}
         tone="dark"
         cta={{ label: sidekick.joinLink, href: '#join' }}
-        links={PAGES.filter((p) => p.id !== 'home').map((p) => ({ label: p.label, href: href('apple', p.id) }))}
+        links={NAV_LINKS}
       />
 
       <main id="r2-main">
