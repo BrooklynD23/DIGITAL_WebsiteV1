@@ -117,6 +117,8 @@ committed — see the standing rule in `CLAUDE.md` and `AGENT.md`.
 | lab.30 | #0083    | `16a0fa7` | feat(updates): seven posts with authors, VESSEL post page, Coming soon nav (#0083) | Handoff B, C, D, items 8. Author-name exception (E). §2 reel work excluded |
 | lab.31 | #0084    | `ee8a069` | docs(design): log 2026-11-12 exceptions, Coming soon nav, motion; handoff + prototypes (#0084) | DESIGN.md changelog + exceptions, BRAND.md exception, locked-spec nav notes |
 | lab.32 | #0085    | — | docs(todo): record #0079–#0085 in the Dev Build table (#0085) | This row; SHA is the commit that adds it |
+| lab.33 | #0086    | `e041de6` | feat(updates): cards layout from the approved prototype; trim unsourced TWINS/Business copy (#0086) | Head Designer cards exception (DESIGN §18, §20); copy trims in club.ts + updates.ts; renders in design-lab/renders/ship-20261112/cards/ (gitignored) |
+| lab.34 | #0087    | — | docs(todo): record #0086 (#0087) | This row; SHA is the commit that adds it |
 
 ---
 
