@@ -159,6 +159,11 @@
   --r2-hairline: #d2d2d7;
   --r2-hairline-strong: #86868b;
   --r2-trigger-ink: #b3321f; /* darker red for text / white-on-red, 6.2:1 */
+  /* BRAIN context meter (context-engineering lesson pill). Read on black. --r2-meter-hot equals the Signal
+     --r2-trigger-ink: the Head Designer-approved context warning, 2026-10-15. Not for any other use. */
+  --r2-meter-ok: #5ad17a;
+  --r2-meter-warn: #ffb35c;
+  --r2-meter-hot: #ef6a55;
   --r2-focus: #0b0c0a;
   --r2-nav-bg: rgba(255, 255, 255, 0.78);
   --r2-cta-bg: #1d1d1f;

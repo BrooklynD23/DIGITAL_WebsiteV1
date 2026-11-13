@@ -80,7 +80,7 @@ export const story = {
       topic: 'Tool calling',
       short: 'Tools',
       line: 'To act, the model writes a structured call and the program around it runs the tool.',
-      alt: 'A call travels from the orb to a tool. The tool runs, and its result travels back.',
+      alt: 'A call travels from the orb to a tool. The tool runs, and its result travels back. Each loop shows a different example call.',
       labels: [
         { text: 'call', x: 0.08, y: -0.4 },
         { text: 'result', x: 0.08, y: 0.4 },
@@ -93,7 +93,7 @@ export const story = {
       topic: 'Model Context Protocol',
       short: 'MCP',
       line: 'MCP is the open protocol that lets one client reach many tool and data servers.',
-      alt: 'One line leaves the orb, reaches a single port and fans out to four servers. A message visits each in turn.',
+      alt: 'One line leaves the orb, reaches a single port and fans out to four servers: GitHub, Notion, Discord and Google Drive. A message visits each in turn.',
       labels: [
         { text: 'client', x: -0.62, y: 0.34 },
         { text: 'one interface', x: -0.12, y: -0.14 },
@@ -105,7 +105,7 @@ export const story = {
       topic: 'Context engineering',
       short: 'Context',
       line: 'Every call and result lands in one finite window, so you budget what stays.',
-      alt: 'A fixed grid of slots fills row by row until it is nearly full, then old slots are cleared to make room.',
+      alt: 'A fixed grid of slots fills row by row until it is nearly full, then old slots are cleared to make room. A meter beside the label shows the share of a 128K window in use, changing from green to amber to red as it fills.',
       labels: [{ text: 'context window', x: 0, y: 0.72 }],
     },
     {
@@ -138,6 +138,29 @@ export const story = {
   readonly lessons: readonly Lesson[];
   readonly [k: string]: unknown;
 };
+
+/* ---------- Figure examples (BRAIN is a concept story) ----------
+ * ILLUSTRATIVE ONLY. These calls, results, servers and requests show the shape of tool calling, MCP and a context
+ * budget. They are not DIGITAL's tools or integrations, and nothing here claims the club runs them. */
+export const figureExamples = {
+  calls: [
+    { name: 'run_tests', call: '{"name":"run_tests","path":"auth.spec.ts"}', result: '24 passed, 0 failed' },
+    { name: 'read_file', call: '{"name":"read_file","path":"src/demo.ts"}', result: '212 lines' },
+    { name: 'web_search', call: '{"name":"web_search","q":"RSVP reading speed"}', result: '5 results' },
+    { name: 'send_message', call: '{"name":"send_message","channel":"#general"}', result: 'sent' },
+  ],
+  servers: [
+    { name: 'GitHub', req: 'issues.list' },
+    { name: 'Notion', req: 'pages.search' },
+    { name: 'Discord', req: 'messages.read' },
+    { name: 'Google Drive', req: 'files.get' },
+  ],
+  /** Window size the meter percentage is of (illustrative). */
+  windowK: 128,
+  /** Meter breakpoints, % of the window: below `warn` ok, from `warn` warn, from `hot` hot. */
+  warn: 50,
+  hot: 80,
+} as const;
 
 export type ChapterId = 'loop' | 'tools' | 'mcp' | 'context' | 'harness' | 'evals';
 
@@ -328,7 +351,7 @@ export const close = {
     'Open to every engineering major. Skeptics welcome.',
   ] as const,
   join: {
-    headline: 'Come build on Thursday.',
+    headline: 'Come build with us.',
   },
 } as const;
 

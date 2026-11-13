@@ -11,21 +11,24 @@
  */
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { DotGlyph, paintFrame, subscribeTick, useScrollSteps, type Inks } from '../../_system';
-import { story } from '../../_content/brain';
+import { figureExamples as ex, story } from '../../_content/brain';
 import { pct } from '../../_brain/kit';
 import { STAGE_COUNT, lessonFrame, lessonStill } from '../../_brain/lessons';
 import { useStagePlayback } from '../_hero/useStagePlayback';
+import { CONTEXT_STAGE, MCP_STAGE, TOOLS_STAGE, findLive, updateLive, type LiveEls } from './liveLabels';
 import s from './stages.module.css';
 
 const STEPS = { count: STAGE_COUNT, lead: 0, playShare: 0.72 } as const;
 const STILL = 320;
 const { hero, lessons, nav } = story;
+/** Server rows of the MCP scene (kept in step with SERVER_Y in _brain/lessons). */
+const SERVER_Y = [-0.6, -0.2, 0.2, 0.6] as const;
 
 export function BrainStages() {
   const section = useRef<HTMLElement>(null);
   const fig = useRef<HTMLDivElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
-  const st = useRef({ pos: 0, time: 0, last: -1, size: 0, dpr: 1, inks: null as Inks | null, unsub: null as null | (() => void), onScreen: false, paused: false });
+  const st = useRef({ pos: 0, time: 0, last: -1, size: 0, dpr: 1, inks: null as Inks | null, live: null as LiveEls | null, unsub: null as null | (() => void), onScreen: false, paused: false });
   const [paused, setPaused] = useState(false);
   const { enhanced, active, jumpTo } = useScrollSteps(section, STEPS);
 
@@ -44,6 +47,8 @@ export function BrainStages() {
       S.inks = { ink: cs.color, trigger: cs.getPropertyValue('--r2-trigger').trim() || '#d8412f' };
     }
     paintFrame(ctx, lessonFrame(S.pos, S.time, S.size), S.size, S.dpr, S.inks);
+    if (!S.live && fig.current) S.live = findLive(fig.current);
+    if (S.live) updateLive(S.live, Math.round(S.pos), S.time);
   }, []);
 
   /** Start or stop the loop clock so it runs only when it can be seen and is not paused. */
@@ -131,12 +136,42 @@ export function BrainStages() {
           <div ref={fig} className={s.fig} role="img" aria-label={stages[active].alt}>
             <canvas ref={canvas} className={s.canvas} aria-hidden="true" />
             {lessons.map((x, i) =>
-              x.labels.map((l) => (
+              // The context label is printed beside its meter (one row below), so the two never overlap.
+              (i + 1 === CONTEXT_STAGE ? [] : x.labels).map((l) => (
                 <span key={`${x.id}-${l.text}`} className={s.tag} data-active={i + 1 === active ? 'true' : undefined} style={{ left: pct(l.x), top: pct(l.y) }} aria-hidden="true">
                   {l.text}
                 </span>
               )),
             )}
+            <div className={s.live} data-active={active === TOOLS_STAGE ? 'true' : undefined} aria-hidden="true">
+              <span data-live="call" className={`${s.mono} ${s.callJson} ${s.callText}`} style={{ left: pct(0.08), top: pct(-0.64) }} />
+              <span data-live="result" className={`${s.mono} ${s.callJson}`} style={{ left: pct(0.08), top: pct(0.62) }} />
+              <span data-live="tool" className={s.mono} style={{ left: pct(0.66), top: pct(0.45) }} />
+            </div>
+            <div className={s.live} data-active={active === MCP_STAGE ? 'true' : undefined} aria-hidden="true">
+              {ex.servers.map((v, i) => (
+                <span key={v.name} data-live={`srv${i}`} className={s.server} style={{ left: pct(0.7), top: pct(SERVER_Y[i] - 0.13) }}>
+                  {v.name}
+                </span>
+              ))}
+              {ex.servers.map((v, i) => (
+                <span key={v.req} data-live={`req${i}`} className={`${s.mono} ${s.server} ${s.req}`} style={{ left: pct(0.7), top: pct(SERVER_Y[i] + 0.12) }}>
+                  {v.req}
+                </span>
+              ))}
+            </div>
+            <div className={s.live} data-active={active === CONTEXT_STAGE ? 'true' : undefined} aria-hidden="true">
+              <span className={s.ctxRow} style={{ left: pct(lessons[CONTEXT_STAGE - 1].labels[0].x), top: pct(lessons[CONTEXT_STAGE - 1].labels[0].y) }}>
+              <span>{lessons[CONTEXT_STAGE - 1].labels[0].text}</span>
+              <span data-live="meter" data-tone="ok" className={s.meter}>
+                <svg viewBox="0 0 18 18" width="16" height="16" focusable="false">
+                  <circle cx="9" cy="9" r="7.5" className={s.ringBg} />
+                  <circle data-live="ring" cx="9" cy="9" r="7.5" className={s.ringFg} strokeDasharray="0 47.12" transform="rotate(-90 9 9)" />
+                </svg>
+                <span data-live="pct">30.0%</span>
+              </span>
+              </span>
+            </div>
           </div>
         </div>
 

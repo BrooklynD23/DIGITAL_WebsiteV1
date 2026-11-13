@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
-import { JoinChapter, LINKS, LocalNav, MEETINGS, WorldFooter, WorldNav } from '../../_chrome';
+import { JoinChapter, LINKS, LocalNav, MEETINGS, WorldFooter, href, NAV_LINKS } from '../../_chrome';
+import chrome from '../../_chrome/chrome.module.css';
+import { localTitle } from '../../_content/home';
 import { brain, story } from '../../_content/brain';
 import { Sources } from '../../_brain';
 import { BrainStages } from './BrainStages';
@@ -16,12 +18,14 @@ export const metadata: Metadata = {
 export default function BrainApplePage() {
   return (
     <>
-      <WorldNav world="apple" current="brain" join={false} />
+      {/* One sticky bar, same as home / SIDEKICK / SHADES: the wordmark goes home, the three builds sit beside it. */}
+      <a className={chrome.skip} href="#r2-main">Skip to content</a>
       <LocalNav
-        title={brain.name}
-        titleHref="/projects/brain/"
+        title={localTitle}
+        titleHref="/"
+        current={href('apple', 'brain')}
         tone="dark"
-        links={[{ label: nav.lessons, href: '#lessons' }]}
+        links={NAV_LINKS}
         cta={{ label: nav.cta, href: '#join' }}
       />
       {/* one continuous black surface: hero and lessons (one pin), then the join */}

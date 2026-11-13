@@ -130,3 +130,23 @@ otherwise.
 
 The Signal-world page (archived: `archive/app/design-lab/r2/signal/brain/`) is a separate route and is not covered: it
 still renders the older chapters, demos and `[confirm]` tags.
+
+## 10. Changelog
+
+### 2026-10-15 — Head Designer sign-off
+
+The Head Designer approved these changes to the locked page:
+
+1. Shared sticky nav: `WorldNav` is removed; `LocalNav` (with the project links) is the one sticky bar.
+2. Short-landscape layout: at `orientation: landscape` and `max-height: 500px` the caption sits left, the figure right, the tracker across the bottom.
+3. Tool calling lesson: each loop shows a different example call (`run_tests`, `read_file`, `web_search`, `send_message`) in mono: the call JSON above the call arc, `→ result` below the result arc, the tool name under the tool. Under a 400px figure the call JSON is hidden.
+4. MCP lesson: the four servers are named (GitHub, Notion, Discord, Google Drive); the visited one brightens and shows its request (`issues.list`, `pages.search`, `messages.read`, `files.get`) in mono.
+5. Context engineering lesson: a small pill beside the "context window" label shows `NN.N%` of a 128K window with a ring, synced to the figure's fill. Under 50% green, 50-80% amber, 80% and up red. The figure's accessible name describes the meter; the pill itself is `aria-hidden`.
+6. Tokens: `--r2-meter-ok #5ad17a`, `--r2-meter-warn #ffb35c`, `--r2-meter-hot #ef6a55` in `.world-apple`. The hot value equals the Signal `--r2-trigger-ink` and is the approved context warning; it is not for any other use (it is not `--r2-trigger`).
+
+All example calls, results, servers and requests are illustrative (`figureExamples` in `_content/brain.ts`); BRAIN is a concept story and the page never claims DIGITAL runs them. The stills (reduced motion / no JS) are unchanged. Labels are HTML driven by the same loop clock as the canvas (`projects/brain/liveLabels.ts`).
+
+### 2026-11-12 — Head Designer sign-off (shared nav)
+
+The shared `LocalNav` gains an Updates link (2026-10-15) and a "Coming soon" menu (TWINS, DIGITAL Business;
+DESIGN.md §13.1). The bar stays 52px and sticky, so the sticky-box height is unchanged. Nothing else on this page changes.
