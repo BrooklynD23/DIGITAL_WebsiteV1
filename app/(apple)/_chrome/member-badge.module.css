@@ -1,0 +1,167 @@
+/* Chrome member badge: landscape clip card in brushed chrome with a holographic film.
+   Head Designer exceptions (DESIGN §20, 2026-11-12): the chrome gradients, the full-spectrum film and the tilt/depth are
+   allowed on this component only. The card is always light metal, so its ink is fixed dark on light and dark chapters.
+   Prototype: design-lab/proposals/2026-11-12-badge-updates/chrome-badge.html */
+.tilt {
+  justify-self: center;
+  width: min(360px, 100%);
+  perspective: 900px;
+}
+.badge {
+  --rx: 0deg;
+  --ry: 0deg;
+  --mx: 50%;
+  --my: 50%;
+  --hue: 0deg;
+  --shine: 0.35;
+  --chrome-ink: #1d1d1f;
+  --chrome-ink-2: #3a3a3c;
+  --chrome-ink-3: #48484a;
+  position: relative;
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  aspect-ratio: 8 / 5;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--r2-radius);
+  font: inherit;
+  text-align: start;
+  color: var(--chrome-ink);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transform: rotateX(var(--rx)) rotateY(var(--ry));
+  transition: transform 420ms var(--r2-ease-emphasized);
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0 1px, rgba(0, 0, 0, 0.04) 1px 3px),
+    linear-gradient(160deg, #f4f5f7 0%, #b9bdc4 22%, #eef0f3 40%, #8f949c 58%, #dfe2e6 76%, #a9adb4 100%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.7), inset 0 -1px 0 1px rgba(0, 0, 0, 0.18);
+}
+.badge[data-live] { transition: transform var(--r2-dur-snap) linear; }
+.badge:focus-visible { outline: 2px solid var(--r2-focus); outline-offset: 3px; }
+
+/* Holographic film: a rainbow band whose position follows the light (pointer). Faint at rest. */
+.holo {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: color-dodge;
+  opacity: var(--shine);
+  background: repeating-linear-gradient(
+    115deg,
+    hsl(calc(0deg + var(--hue)) 90% 62%) 0%,
+    hsl(calc(60deg + var(--hue)) 90% 62%) 6%,
+    hsl(calc(130deg + var(--hue)) 90% 60%) 12%,
+    hsl(calc(200deg + var(--hue)) 90% 62%) 18%,
+    hsl(calc(270deg + var(--hue)) 90% 64%) 24%,
+    hsl(calc(330deg + var(--hue)) 90% 62%) 30%
+  );
+  background-size: 260% 260%;
+  background-position: var(--mx) var(--my);
+  transition: opacity 420ms var(--r2-ease-emphasized);
+}
+/* Specular highlight under the pointer. */
+.spec {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  background: radial-gradient(circle at var(--mx) var(--my), rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.15) 28%, rgba(0, 0, 0, 0.12) 62%);
+}
+/* Press: one bright band sweeps across (data-flash is re-set per press, so it replays). */
+.sweep {
+  position: absolute;
+  inset: -40% -60%;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 0;
+  background: linear-gradient(105deg, transparent 38%, rgba(255, 255, 255, 0) 42%, rgba(255, 255, 255, 0.9) 50%, rgba(255, 255, 255, 0) 58%, transparent 62%);
+  transform: translateX(-60%);
+}
+.badge[data-flash] .sweep { animation: sweep 900ms var(--r2-ease-emphasized); }
+@keyframes sweep {
+  from { opacity: 1; transform: translateX(-60%); }
+  to { opacity: 1; transform: translateX(60%); }
+}
+.slot {
+  position: absolute;
+  top: var(--r2-space-4);
+  left: 50%;
+  width: 36px;
+  height: 9px;
+  translate: -50% 0;
+  border-radius: 980px;
+  background: rgba(0, 0, 0, 0.55);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.6), 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+.body {
+  position: relative;
+  box-sizing: border-box;
+  height: 100%;
+  display: grid;
+  align-content: end;
+  gap: var(--r2-space-2);
+  padding: var(--r2-space-7) var(--r2-space-5) var(--r2-space-5);
+}
+.you {
+  min-height: 1.1em;
+  padding-bottom: var(--r2-space-1);
+  border-bottom: 1.5px dashed rgba(29, 29, 31, 0.45);
+  font-family: var(--font-display);
+  font-weight: var(--r2-fw-display);
+  font-size: clamp(28px, 6vw, 40px);
+  line-height: 1.1;
+  letter-spacing: var(--r2-ls-h2);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+.role {
+  font-size: var(--r2-fs-body);
+  line-height: var(--r2-lh-body);
+  font-weight: var(--r2-fw-strong);
+  color: var(--chrome-ink-2);
+  transition: opacity var(--r2-dur-ui-fast) var(--r2-ease-ui);
+}
+.foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--r2-space-3);
+  flex-wrap: wrap;
+  margin-top: var(--r2-space-2);
+}
+.org,
+.team {
+  font-family: var(--font-mono);
+  font-size: var(--r2-fs-label);
+  line-height: var(--r2-lh-label);
+  letter-spacing: var(--r2-ls-label);
+}
+.org { color: var(--chrome-ink-3); }
+.team {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--chrome-ink);
+  font-weight: var(--r2-fw-strong);
+  transition: opacity var(--r2-dur-ui-fast) var(--r2-ease-ui);
+}
+.team svg { flex: none; }
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .badge { transform: none; }
+  .badge, .badge[data-live], .holo, .role, .team { transition: none; }
+  .sweep { display: none; }
+}

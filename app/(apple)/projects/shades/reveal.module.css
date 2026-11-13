@@ -494,23 +494,26 @@
   }
 }
 
-/* ---------- motion: one authored moment on arrival ---------- */
+/* ---------- motion: the shared page entrance on arrival (site-page.module.css): name, line, then the object ---------- */
 @media (prefers-reduced-motion: no-preference) {
+  .heroName,
+  .heroLine {
+    animation: rv-arrive 600ms var(--r2-ease-entrance) both;
+  }
+
+  .heroLine {
+    animation-delay: 80ms;
+  }
+
   .heroObject {
-    animation: rv-arrive 1400ms cubic-bezier(0.16, 1, 0.3, 1) 120ms both;
+    animation: rv-arrive 900ms var(--r2-ease-entrance) 160ms both;
   }
 }
 
 @keyframes rv-arrive {
   from {
     opacity: 0;
-    transform: translateY(24px) scale(0.97);
-    filter: blur(6px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-    filter: none;
+    transform: translateY(12px);
   }
 }
 
@@ -550,3 +553,17 @@
 
 /* Glasses prints the module labels to the right of the controller box, past its own box: keep room for them. */
 
+
+/* Join: badge beside the role rows, under the one pill. Stacks on phones. */
+.joinSeats {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: var(--r2-space-7);
+  align-items: center;
+  width: 100%;
+  margin-top: var(--r2-space-8);
+  text-align: start;
+}
+@media (max-width: 899px) {
+  .joinSeats { grid-template-columns: minmax(0, 1fr); gap: var(--r2-space-6); }
+}
