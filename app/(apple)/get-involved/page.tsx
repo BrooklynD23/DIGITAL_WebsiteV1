@@ -20,7 +20,7 @@ export default function GetInvolvedPage() {
       {paths.map((p, i) => (
         <section key={p.id} id={p.id} className={`${s.section} ${x.anchor}`} data-tone={i % 2 ? 'raised' : undefined} aria-labelledby={`path-${p.id}`}>
           <div className={s.wrap}>
-            <h2 id={`path-${p.id}`} className={s.h2}>{p.title}</h2>
+            <h2 id={`path-${p.id}`} className={`${s.h2} r2-reveal`}>{p.title}</h2>
             <p className={s.lead}>{p.lead}</p>
             {p.id === 'students' ? (
               <>

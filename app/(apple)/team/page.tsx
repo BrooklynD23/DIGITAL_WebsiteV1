@@ -18,7 +18,7 @@ export default function TeamPage() {
       {groups.map((g, i) => (
         <section key={g.id} className={i > 0 ? `${s.section} ${s.flush}` : s.section} aria-labelledby={`team-${g.id}`}>
           <div className={s.wrap}>
-            <h2 id={`team-${g.id}`} className={s.h2}>{g.title}</h2>
+            <h2 id={`team-${g.id}`} className={`${s.h2} r2-reveal`}>{g.title}</h2>
             <ul className={s.grid}>
               {g.seats.map((m) => (
                 <li key={m.id} className={s.item}>

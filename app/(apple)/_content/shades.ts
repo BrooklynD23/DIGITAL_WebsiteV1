@@ -5,7 +5,7 @@
  * Sources: design-lab/round2/research/notion-directives.md and design-lab/shades-concept/research/notion/SUMMARY.md
  * (Notion SHADES pages, re-read 2026-10-09, all tagged [confirm]),
  * lib/data/projects.ts + lib/data/experiments/glasses.ts (RSVP method, reader sets WPM, FPGA, Verilog, Embedded C,
- * optics, mentor), PRODUCT.md (build night). No medical or efficacy claims. Affiliation: Head Designer, 2026-10-09. The mentor is the only personal name.
+ * optics, mentor), PRODUCT.md (sub-team meetings). No medical or efficacy claims. Affiliation: Head Designer, 2026-10-09. The mentor is the only personal name.
  * Unconfirmed component choices (FPGA part, display panel, optics type) are not named.
  */
 import { CLUB } from '../_chrome/club';
@@ -245,8 +245,8 @@ export const SHADES = {
     mentor: 'Mentored by Dr. Mohamed El Hadedy.',
     affiliation: 'DIGITAL is a student organization under the MEP-WiSE Department at Cal Poly Pomona.',
     discord: { label: 'Ask on Discord', href: CLUB.discord },
-    /** Primary join action (production route with the build-night details). */
-    action: { label: 'Come to build night', href: '/get-involved/' },
+    /** Primary join action (production route with the sub-team meeting details). */
+    action: { label: 'Come to a sub-team meeting', href: '/get-involved/' },
   },
 
   confirmTag: '[confirm]',

@@ -48,7 +48,7 @@ export function WorldFooter({ world }: { readonly world: World }) {
           ))}
         </ul>
         <p className={styles.meta}>
-          <span>Build night · {CLUB.when} · {CLUB.where}</span>
+          <span>{CLUB.when} {CLUB.meetingMore}</span>
           <span>DIGITAL @ Cal Poly Pomona</span>
         </p>
       </div>

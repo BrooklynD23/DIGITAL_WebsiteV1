@@ -5,7 +5,7 @@
  *
  * Props
  *   children  the page's sections (put them straight inside; do not add another <main>)
- *   cta       nav pill. Default "Join build night" → `/#join` (the home join chapter). `null` hides it.
+ *   cta       nav pill. Default "Join us" → `/#join` (the home join chapter). `null` hides it.
  *   tone      first paint of the nav: 'dark' (default, for a page that opens on a dark hero) or 'light'.
  *             With JS the bar then follows the section under it (data-tone="dark" = dark, otherwise light).
  *
@@ -21,11 +21,11 @@
  *   Layout
  *     .hero          page opener: centred, viewport-height-aware padding. Add data-tone="dark" for black.
  *     .heroTitle     the h1 (hero scale, clamps on width and height). One per page.
- *     .heroLead      the one line under it, in --r2-ink-2.
+ *     .heroLead      the one line under it, in --r2-ink-2. Directly inside .hero, both rise in once on load.
  *     .section       a chapter: vertical padding + gutter. data-tone="dark" = #000, none = white,
  *                    data-tone="raised" = light grey #f5f5f7. Add .flush to drop the top padding
  *                    when it continues the section above on the same ground.
- *     .wrap          1024px centred column (same as the nav).  .narrow  44rem centred column.
+ *     .wrap          centred column on the nav's content edge (1024px minus the gutters).  .narrow  44rem centred column.
  *     .h2 / .h3      section heading steps.  .lead  a 21px supporting line under an .h2.
  *   Content
  *     .prose         long text: 68ch measure; styles h2, h3, p, ul, ol, a, strong inside it.
@@ -53,12 +53,11 @@ import type { ReactNode } from 'react';
 import { localTitle } from '../_content/home';
 import { LOCAL_CTA, LocalNav } from './LocalNav';
 import { WorldFooter } from './WorldFooter';
-import { PAGES, href } from './routes';
+import { NAV_LINKS } from './routes';
 import chrome from './chrome.module.css';
 import page from './site-page.module.css';
 
 const SITE_CTA = { label: LOCAL_CTA.label, href: '/#join' } as const;
-const BUILD_LINKS = PAGES.filter((p) => p.id !== 'home').map((p) => ({ label: p.label, href: href('apple', p.id) }));
 
 export interface SitePageProps {
   readonly children: ReactNode;
@@ -72,7 +71,7 @@ export function SitePage({ children, cta = SITE_CTA, tone = 'dark' }: SitePagePr
     // light page ground and read grey (home, BRAIN and SIDEKICK have a black page wrapper there).
     <div className={tone === 'dark' ? page.frameDark : undefined}>
       <a className={chrome.skip} href="#r2-main">Skip to content</a>
-      <LocalNav title={localTitle} titleHref="/" links={BUILD_LINKS} cta={cta} tone={tone} />
+      <LocalNav title={localTitle} titleHref="/" links={NAV_LINKS} cta={cta} tone={tone} />
       <main id="r2-main">{children}</main>
       <WorldFooter world="apple" />
     </div>

@@ -40,7 +40,6 @@ export const ABOUT = {
     rows: channels.map((c): Row => ({
       label: PAGES.find((p) => p.id === c.id)?.label ?? c.name,
       meta: c.line,
-      note: c.status,
       href: href('apple', c.id),
     })),
   },

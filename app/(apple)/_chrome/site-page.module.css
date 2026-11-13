@@ -31,6 +31,13 @@
   text-wrap: balance;
 }
 
+/* Entrance, once on load: h1 then lead, 12px rise + fade. CSS only; without motion they are simply there. */
+@keyframes enter { from { opacity: 0; transform: translateY(12px); } }
+@media (prefers-reduced-motion: no-preference) {
+  .hero > .heroTitle, .hero > .heroLead { animation: enter 600ms var(--r2-ease-entrance) both; }
+  .hero > .heroLead { animation-delay: 80ms; }
+}
+
 .section {
   background: var(--r2-ground);
   color: var(--r2-ink);
@@ -41,7 +48,7 @@
 }
 .section[data-tone='raised'] { background: var(--r2-ground-raised); }
 .flush { padding-top: 0; }
-.wrap { max-width: 1024px; margin: 0 auto; }
+.wrap { max-width: calc(1024px - 2 * var(--r2-gutter)); margin: 0 auto; } /* = the nav's content edge (.localInner minus its gutter) */
 .narrow { max-width: 44rem; margin: 0 auto; }
 
 .h2, .h3 { margin: 0; font-family: var(--font-display); font-weight: var(--r2-fw-display); color: var(--r2-ink); text-wrap: balance; }
@@ -71,7 +78,7 @@
 .facts > div { display: grid; grid-template-columns: minmax(8em, 1fr) minmax(0, 2.2fr); gap: var(--r2-space-1) var(--r2-space-5); align-items: baseline; padding: 14px 0; border-bottom: 1px solid var(--r2-hairline); }
 .facts dt { color: var(--r2-ink-2); }
 .facts dd { margin: 0; color: var(--r2-ink); overflow-wrap: anywhere; }
-.facts dd a { color: inherit; text-decoration: underline; text-decoration-color: var(--r2-hairline-strong); text-underline-offset: 0.25em; display: inline-flex; align-items: center; min-height: var(--r2-target); margin: -10px 0; }
+.facts dd a { color: inherit; text-decoration: underline; text-decoration-color: var(--r2-hairline-strong); text-underline-offset: 0.25em; display: inline-flex; align-items: center; min-height: var(--r2-target); margin: -10px 0; transition: text-decoration-color var(--r2-dur-ui-fast) var(--r2-ease-ui); }
 .facts dd a:hover { text-decoration-color: currentColor; }
 
 /* ---------- link rows ---------- */
@@ -164,5 +171,5 @@ select.control { appearance: auto; }
   .button { justify-self: stretch; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .control, .choice span, .button, .buttonQuiet, .linkRow::after, .prose a, .textLink { transition: none; }
+  .control, .choice span, .button, .buttonQuiet, .linkRow::after, .prose a, .textLink, .facts dd a { transition: none; }
 }

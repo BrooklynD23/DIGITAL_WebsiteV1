@@ -251,7 +251,7 @@ const NIGHT = Array.from({ length: 7 }, (_, k) => {
   return [f2(12 + Math.cos(a) * 7.5), f2(12 + Math.sin(a) * 7.5)] as const;
 });
 
-/** Build night. 7 seats; filled = attending, the dashed one is open (red only with `anchor`). Working: seats light in turn. */
+/** Sub-team meeting. 7 seats; filled = attending, the dashed one is open (red only with `anchor`). Working: seats light in turn. */
 export function GlyphNight(p: GlyphProps) {
   return (
     <GlyphFrame name="night" {...p}>
@@ -457,7 +457,7 @@ export const GLYPHS: readonly GlyphEntry[] = [
   { name: 'swap', set: 'build', means: 'Repair plan / replaceable part', Component: GlyphSwap },
   { name: 'trace', set: 'build', means: 'Signal / PCB / data path', Component: GlyphTrace },
   { name: 'lens', set: 'build', means: 'Optical path (SHADES)', Component: GlyphLens },
-  { name: 'night', set: 'build', means: 'Build night, one open seat', Component: GlyphNight },
+  { name: 'night', set: 'build', means: 'Sub-team meeting, one open seat', Component: GlyphNight },
   { name: 'loop', set: 'agentic', means: 'Agent loop', Component: GlyphLoop },
   { name: 'tool', set: 'agentic', means: 'Tool call: request + result', Component: GlyphTool },
   { name: 'mcp-port', set: 'agentic', means: 'MCP: one port per server', Component: GlyphMcpPort },

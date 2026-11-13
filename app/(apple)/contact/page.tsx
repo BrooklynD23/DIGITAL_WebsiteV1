@@ -24,7 +24,7 @@ export default function ContactPage() {
 
       <section className={`${s.section} ${s.flush}`} data-tone="dark" aria-labelledby="contact-direct">
         <div className={s.narrow}>
-          <h2 id="contact-direct" className={s.h2}>{direct.title}</h2>
+          <h2 id="contact-direct" className={`${s.h2} r2-reveal`}>{direct.title}</h2>
           <dl className={s.facts}>
             {direct.rows.map((r) => (
               <div key={r.label}>

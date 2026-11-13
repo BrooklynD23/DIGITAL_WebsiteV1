@@ -71,7 +71,7 @@ export const CONTACT = {
       { label: 'Discord', value: 'Join the club server', href: CLUB.discord },
       { label: 'BRAIN Discord', value: 'Join the BRAIN server', href: LINKS.brainDiscord },
       ...(siteConfig.contact.email ? [{ label: 'Email', value: siteConfig.contact.email, href: `mailto:${siteConfig.contact.email}` }] : []),
-      { label: 'Build night', value: `${CLUB.when} · ${CLUB.where}, ${siteConfig.contact.campus}` },
+      { label: 'Sub-team meetings', value: `${CLUB.when} ${CLUB.meetingMore}` },
       { label: 'GitHub', value: 'SIDEKICK repository', href: LINKS.github },
       { label: 'LinkedIn', value: 'DIGITAL on LinkedIn', href: LINKS.linkedin },
       { label: 'Instagram', value: '@digital.cpp', href: LINKS.instagram },
