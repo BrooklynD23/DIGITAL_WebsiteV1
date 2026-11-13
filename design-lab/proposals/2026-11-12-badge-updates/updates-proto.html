@@ -1,0 +1,256 @@
+<title>DIGITAL Updates Prototype</title>
+<style>
+/* Layout: a review wrapper holding three mock screens (nav with Coming soon menu, Updates index, one post page). Screens use the site's Apple-system colours. */
+:root {
+  --bg: #f5f5f7; --fg: #1d1d1f; --fg-2: #6e6e73; --line: #d2d2d7; --card: #fff;
+  --s-bg: #fff; --s-raised: #f5f5f7; --s-ink: #1d1d1f; --s-ink-2: #6e6e73; --s-line: #d2d2d7; --link: #0066cc;
+  --f: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #111113; --fg: #f5f5f7; --fg-2: #a1a1a6; --line: #333336; --card: #1c1c1e; color-scheme: dark } }
+:root[data-theme="dark"] { --bg: #111113; --fg: #f5f5f7; --fg-2: #a1a1a6; --line: #333336; --card: #1c1c1e; color-scheme: dark }
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--fg); font: 15px/1.5 var(--f); padding-inline: 16px; padding-block: 0 64px; margin: 0; }
+.wrap { max-width: 1080px; margin: 0 auto; display: grid; gap: 40px; }
+header.top { padding-top: 48px; display: grid; gap: 10px; }
+h1 { margin: 0; font-size: clamp(30px, 5vw, 44px); line-height: 1.08; letter-spacing: -0.02em; text-wrap: balance; }
+h2 { margin: 0; letter-spacing: -0.015em; text-wrap: balance; }
+p { margin: 0; }
+.lead { color: var(--fg-2); font-size: 17px; max-width: 68ch; }
+.eyebrow { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg-2); font-weight: 600; }
+.notes { display: grid; gap: 8px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; }
+.notes ol, .notes ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+
+.screen { border-radius: 18px; border: 1px solid var(--line); background: var(--s-bg); color: var(--s-ink); overflow: visible; }
+.screen.clip { overflow: hidden; }
+a { color: inherit; }
+
+/* nav */
+.nav { position: relative; display: flex; align-items: center; gap: 22px; height: 52px; padding: 0 22px; border-bottom: 1px solid var(--s-line); font-size: 13px; background: rgba(255,255,255,0.86); border-radius: 18px 18px 0 0; }
+.nav b { font-size: 19px; margin-right: auto; letter-spacing: -0.01em; }
+.nav .lnk { color: var(--s-ink); text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; }
+.nav .cur { font-weight: 600; }
+.pill { background: var(--s-ink); color: #fff; border-radius: 980px; padding: 6px 13px; font-weight: 600; }
+.soon { position: relative; }
+.soon > button { all: unset; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; min-height: 44px; color: var(--s-ink); font-size: 13px; }
+.soon > button:focus-visible { outline: 2px solid #0071e3; outline-offset: 2px; border-radius: 6px; }
+.soon > button svg { transition: transform 240ms cubic-bezier(0.4,0,0.6,1); }
+.soon[data-open] > button svg { transform: rotate(180deg); }
+.menu { position: absolute; top: 46px; left: 50%; translate: -50% 0; width: 300px; background: #fff; border: 1px solid var(--s-line); border-radius: 14px; padding: 8px; display: grid; gap: 2px; box-shadow: 0 18px 40px rgba(0,0,0,0.10); opacity: 0; transform: translateY(-6px); pointer-events: none; transition: opacity 240ms cubic-bezier(0.4,0,0.6,1), transform 240ms cubic-bezier(0.2,0,0,1); z-index: 5; }
+.soon[data-open] .menu { opacity: 1; transform: none; pointer-events: auto; }
+.menu a { display: grid; gap: 1px; padding: 10px 12px; border-radius: 10px; text-decoration: none; }
+.menu a:hover, .menu a:focus-visible { background: var(--s-raised); outline: none; }
+.menu strong { font-size: 14px; }
+.menu span { font-size: 12px; color: var(--s-ink-2); line-height: 1.35; }
+.menu .k { font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--s-ink-2); padding: 6px 12px 2px; font-weight: 600; }
+@media (max-width: 720px) { .nav .lnk { display: none } .menu { left: auto; right: -40px; translate: none; } }
+
+/* index */
+.up-hero { padding: 48px clamp(20px, 6vw, 64px) 20px; display: grid; gap: 10px; }
+.up-hero h2 { font-size: clamp(44px, 8vw, 76px); letter-spacing: -0.035em; line-height: 1; }
+.up-hero p { font-size: clamp(18px, 2.4vw, 22px); color: var(--s-ink-2); max-width: 36ch; line-height: 1.3; }
+.chips { display: flex; gap: 8px; flex-wrap: wrap; padding: 0 clamp(20px, 6vw, 64px) 28px; }
+.chip { all: unset; cursor: pointer; font-size: 13px; padding: 7px 13px; border-radius: 980px; border: 1px solid var(--s-line); color: var(--s-ink-2); min-height: 20px; }
+.chip[aria-pressed="true"] { background: var(--s-ink); color: #fff; border-color: var(--s-ink); }
+.chip:focus-visible { outline: 2px solid #0071e3; outline-offset: 2px; }
+.chip .soonTag { font-size: 10px; letter-spacing: 0.04em; text-transform: uppercase; margin-left: 6px; opacity: 0.7; }
+.feat { display: grid; gap: 18px; padding: 0 clamp(20px, 6vw, 64px) 40px; }
+.lead-card { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 28px; align-items: center; background: var(--s-raised); border-radius: 22px; overflow: hidden; text-decoration: none; transition: transform 240ms cubic-bezier(0.4,0,0.6,1); }
+.lead-card:hover { transform: translateY(-2px); }
+.art { aspect-ratio: 4 / 3; background: #000; position: relative; overflow: hidden; }
+.art.vessel::before { content: ""; position: absolute; inset: 0; background:
+  linear-gradient(90deg, transparent 0 9%, #3a3a3c 9% 9.4%, transparent 9.4%) 0 0 / 18% 100%,
+  linear-gradient(0deg, transparent 0 48%, #48484a 48% 52%, transparent 52%); opacity: 0.8; }
+.art.vessel::after { content: "recycled aluminum  →  annealing  →  fabrication  →  finishing  →  warehouse"; position: absolute; left: 6%; right: 6%; top: 56%; color: #a1a1a6; font: 500 12px var(--mono); text-align: center; }
+.lc-copy { display: grid; gap: 10px; padding: 26px 30px 26px 0; }
+.meta { font-size: 12px; font-weight: 600; letter-spacing: 0.02em; color: var(--s-ink-2); }
+.lead-card h3 { margin: 0; font-size: clamp(24px, 3vw, 32px); line-height: 1.12; letter-spacing: -0.02em; }
+.lead-card p { color: var(--s-ink-2); }
+.cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.card { display: grid; gap: 8px; align-content: start; padding: 20px; border-radius: 18px; background: var(--s-raised); text-decoration: none; transition: transform 240ms cubic-bezier(0.4,0,0.6,1); }
+.card:hover { transform: translateY(-2px); }
+.card h4 { margin: 0; font-size: 18px; line-height: 1.22; letter-spacing: -0.01em; }
+.card p { font-size: 14px; color: var(--s-ink-2); }
+.src { font-size: 12px; color: var(--s-ink-2); }
+@media (max-width: 820px) { .lead-card { grid-template-columns: 1fr } .lc-copy { padding: 0 20px 22px } .cards { grid-template-columns: 1fr } }
+
+/* authors */
+.authors { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.stack { display: flex; }
+.av { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font: 600 11px var(--f); color: var(--s-ink); background: #e8e8ed; border: 2px solid var(--s-raised); margin-left: -8px; flex: none; }
+.stack .av:first-child { margin-left: 0; }
+.names { font-size: 13px; color: var(--s-ink-2); }
+.names b { color: var(--s-ink); font-weight: 600; }
+
+/* list */
+.list { padding: 0 clamp(20px, 6vw, 64px) 44px; }
+.list h3 { margin: 0 0 12px; font-size: clamp(24px, 3vw, 30px); letter-spacing: -0.02em; }
+.row { display: grid; grid-template-columns: 110px 150px minmax(0, 1fr) auto; gap: 16px; padding: 14px 0; border-top: 1px solid var(--s-line); align-items: center; font-size: 15px; }
+.row .d, .row .t { color: var(--s-ink-2); font-size: 14px; font-variant-numeric: tabular-nums; }
+.row a { text-decoration: none; }
+.row a:hover { text-decoration: underline; }
+.row .stack .av { width: 24px; height: 24px; font-size: 10px; border-color: var(--s-bg); }
+@media (max-width: 720px) { .row { grid-template-columns: 1fr; gap: 4px } }
+
+/* post page */
+.post { max-width: 720px; margin: 0 auto; padding: 48px 22px 56px; display: grid; gap: 18px; }
+.post .back { font-size: 14px; color: var(--link); text-decoration: none; }
+.post h2 { font-size: clamp(32px, 5vw, 48px); line-height: 1.06; letter-spacing: -0.03em; }
+.post .dek { font-size: 20px; color: var(--s-ink-2); line-height: 1.35; }
+.byline { display: grid; gap: 10px; padding: 16px 0; border-top: 1px solid var(--s-line); border-bottom: 1px solid var(--s-line); }
+.person { display: flex; align-items: center; gap: 12px; }
+.person .av { width: 40px; height: 40px; font-size: 14px; margin: 0; border: 0; }
+.person small { display: block; font-size: 12px; color: var(--s-ink-2); }
+.people { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 560px) { .people { grid-template-columns: 1fr } }
+.post h3 { margin: 10px 0 0; font-size: 22px; letter-spacing: -0.01em; }
+.post p.body { font-size: 17px; line-height: 1.6; }
+.flow { display: flex; flex-wrap: wrap; gap: 6px; font: 500 12px var(--mono); }
+.flow span { padding: 6px 10px; border-radius: 980px; background: var(--s-raised); }
+.cta { justify-self: start; background: var(--s-ink); color: #fff; text-decoration: none; border-radius: 980px; padding: 10px 18px; font-weight: 600; font-size: 15px; }
+.badgeSoon { justify-self: start; font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; border: 1px dashed var(--s-ink-2); color: var(--s-ink-2); border-radius: 980px; padding: 3px 10px; }
+@media (prefers-reduced-motion: reduce) { .menu, .lead-card, .card, .soon > button svg { transition: none } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <span class="eyebrow">DIGITAL · updates prototype · 2026-11-12</span>
+    <h1>Updates with authors, and a Coming soon menu for TWINS</h1>
+    <p class="lead">Three views to confirm: the nav with a new "Coming soon" menu, the Updates index filled with the seven real posts, and the first post written on our site (VESSEL). Authors show as round initials until photos arrive.</p>
+  </header>
+
+  <!-- 1. Nav -->
+  <section style="display:grid;gap:12px">
+    <span class="eyebrow">1 · Nav: Coming soon menu (open it)</span>
+    <div class="screen" style="padding-bottom:230px">
+      <nav class="nav" aria-label="Site">
+        <b>DIGITAL</b>
+        <a class="lnk" href="#">SIDEKICK</a><a class="lnk" href="#">SHADES</a><a class="lnk" href="#">BRAIN</a>
+        <div class="soon" id="soon" data-open>
+          <button type="button" aria-expanded="true" aria-controls="soonMenu">Coming soon <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>
+          <div class="menu" id="soonMenu">
+            <span class="k">New at DIGITAL</span>
+            <a href="#post"><strong>TWINS</strong><span>Simulating a factory and supply chain end to end. First project: VESSEL.</span></a>
+            <a href="#index"><strong>DIGITAL Business</strong><span>Finance and operations case studies for the club.</span></a>
+          </div>
+        </div>
+        <span class="pill">Join us</span>
+      </nav>
+    </div>
+  </section>
+
+  <!-- 2. Index -->
+  <section style="display:grid;gap:12px" id="index">
+    <span class="eyebrow">2 · Updates index (/updates/)</span>
+    <div class="screen clip">
+      <div class="up-hero"><h2>Updates</h2><p>Papers, milestones and prototypes from every DIGITAL team.</p></div>
+      <div class="chips" role="group" aria-label="Filter by team" id="chips"></div>
+
+      <div class="feat" id="feat"></div>
+      <div class="list"><h3>All updates</h3><div id="rows"></div></div>
+    </div>
+  </section>
+
+  <!-- 3. Post -->
+  <section style="display:grid;gap:12px" id="post">
+    <span class="eyebrow">3 · Post page (/updates/vessel-product-definition/)</span>
+    <div class="screen clip">
+      <article class="post">
+        <a class="back" href="#index">‹ Updates</a>
+        <span class="badgeSoon">TWINS · Coming soon</span>
+        <h2>Product definition: VESSEL</h2>
+        <p class="dek">A virtual factory that turns recycled aluminum into a finished smartphone enclosure, simulated from raw material to warehouse.</p>
+        <div class="byline">
+          <span class="meta">Sep 30, 2026 · TWINS · Product definition</span>
+          <div class="people" id="people"></div>
+        </div>
+        <h3>What VESSEL is</h3>
+        <p class="body">VESSEL (Virtual Ecosystem for System Simulation &amp; Enterprise Logistics) is the first TWINS project. Students research, design and simulate an end-to-end manufacturing and supply-chain system with discrete-event simulation or digital-twin software.</p>
+        <div class="flow" aria-label="Value stream"><span>Material recovery</span><span>Processing</span><span>Annealing</span><span>Fabrication</span><span>Finishing</span><span>Inspection</span><span>Packaging</span><span>Warehouse</span></div>
+        <h3>The engineering goal</h3>
+        <p class="body">Turn each stage of that value stream into a working simulation. Students define operating parameters such as equipment capacity, cycle time, setup time, labor, energy use, material flow, defect rates, maintenance, inspection, inventory policy, packaging and transport limits. The model produces synthetic production data like a real factory's.</p>
+        <h3>Why it is different</h3>
+        <p class="body">Most projects study manufacturing, quality, operations and logistics separately. VESSEL asks how a decision in one stage changes the rest: teams compare production philosophies, find bottlenecks, investigate defects, balance capacity, cut waste and redesign workflows, then measure cost, throughput, utilization, inventory, lead time, sustainability, quality and delivery.</p>
+        <a class="cta" href="#">Read the post on LinkedIn ↗</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="notes">
+    <h2 style="font-size:20px">Decisions</h2>
+    <ol>
+      <li><strong>Coming soon menu</strong> in the top bar holds TWINS and DIGITAL Business. The bar is shared by every page, including locked SIDEKICK and BRAIN, so this changes their nav too.</li>
+      <li><strong>Author names and initials</strong> on every post. This overrides the brand guide's "no personal names" rule; it would be logged as your exception.</li>
+      <li><strong>Mentors</strong> are listed as authors with a "Mentor" label, not hidden.</li>
+      <li><strong>VESSEL</strong> gets its own page on our site (it is the club's own document). The six spotlights link straight to LinkedIn, with short summaries in our words.</li>
+      <li><strong>Dates</strong> come from each LinkedIn post's ID, so they are exact.</li>
+    </ol>
+  </section>
+</div>
+
+<script>
+(() => {
+  const posts = [
+    { slug: 'vessel', date: '2026-09-30', team: 'TWINS', type: 'Product definition', site: true,
+      title: 'Product definition: VESSEL', summary: 'A virtual factory that turns recycled aluminum into a smartphone enclosure, simulated from raw material to warehouse.',
+      authors: ['Oscar Cao', 'Adrienne Alves', 'Russell Chung', 'Leilani Uson-H'], mentors: ['Russell Chung'] },
+    { date: '2026-08-19', team: 'DIGITAL Business', type: 'Case study', title: 'Samsung financial reporting case study',
+      summary: 'How Samsung separates reporting across affiliates, turned into a proposed finance system for the club.',
+      authors: ['Christian Bautista'], mentors: ['Russell Chung'] },
+    { date: '2026-04-30', team: 'SIDEKICK', type: 'Milestone', title: 'FIFO IP v3: learning how to approach the unknown',
+      summary: 'A first-time FPGA team researched, broke down and built a FIFO step by step in Verilog.',
+      authors: ['Sami Ali', 'Ethan Oliver Wong', 'Jeremy Lee'], mentors: ['Russell Chung', 'Chris Zambrana'] },
+    { date: '2026-03-23', team: 'SIDEKICK', type: 'Milestone', title: 'FIFO IP: reliable data flow in digital systems',
+      summary: 'A parameterized FIFO buffer designed and verified in Vivado, so parts on different clocks can pass data safely.',
+      authors: ['Ethan Trone', 'Allen Nguyen'], mentors: ['Anish Chinnakonda', 'Chris Zambrana'] },
+    { date: '2026-01-22', team: 'SIDEKICK', type: 'Prototype', title: 'Light sensor mini-project',
+      summary: 'An ambient light and proximity sensor board for automatic screen brightness, designed in KiCad.',
+      authors: ['Logan Knip'], mentors: ['Ethan Oliver Wong', 'Max Gross', 'Angelo Duenas'] },
+    { date: '2026-01-21', team: 'SIDEKICK', type: 'Prototype', title: 'Smartphone enclosure: ergonomics and iterative CAD',
+      summary: 'Four enclosure concepts shaped by the module and battery thickness, grip and manufacturability.',
+      authors: ['Russell Chung', 'Logan Knip', 'Izaiah Ortiz'], mentors: [], lead: 'Viren Kumar' },
+    { date: '2025-11-25', team: 'SIDEKICK', type: 'Prototype', title: 'IMU mini-project',
+      summary: 'A 9-axis motion sensor board for the phone daughterboard, from decision matrix to KiCad layout.',
+      authors: ['Allen Nguyen', 'Oscar Cao', 'Mason Tran'], mentors: ['Max Gross'] },
+  ];
+  const soonTeams = new Set(['TWINS', 'DIGITAL Business']);
+  const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const ini = (n) => n.split(/[\s-]+/).filter(Boolean).slice(0, 2).map((w) => w[0]).join('').toUpperCase();
+  const fmt = (iso) => new Date(iso + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  const stack = (names) => `<span class="stack" aria-hidden="true">${names.slice(0, 4).map((n) => `<span class="av">${esc(ini(n))}</span>`).join('')}</span>`;
+  const byline = (p) => `<div class="authors">${stack(p.authors)}<span class="names"><b>${esc(p.authors.join(', '))}</b>${p.mentors.length ? ` · Mentor ${esc(p.mentors.join(', '))}` : ''}</span></div>`;
+  const href = (p) => (p.site ? '#post' : '#');
+  const src = (p) => (p.site ? 'On this site' : 'LinkedIn ↗');
+
+  let filter = 'All';
+  const teams = ['All', 'SIDEKICK', 'SHADES', 'BRAIN', 'TWINS', 'DIGITAL Business'];
+  const chips = document.getElementById('chips');
+  teams.forEach((t) => {
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'chip';
+    b.innerHTML = esc(t) + (soonTeams.has(t) ? '<span class="soonTag">soon</span>' : '');
+    b.addEventListener('click', () => { filter = t; render(); });
+    chips.appendChild(b);
+  });
+  const render = () => {
+    [...chips.children].forEach((c, i) => c.setAttribute('aria-pressed', String(teams[i] === filter)));
+    const list = posts.filter((p) => filter === 'All' || p.team === filter);
+    const [lead, ...rest] = list;
+    document.getElementById('feat').innerHTML = !lead ? '<p class="src">No posts from this team yet.</p>' : `
+      <a class="lead-card" href="${href(lead)}">
+        <div class="art ${lead.slug === 'vessel' ? 'vessel' : ''}" aria-hidden="true"></div>
+        <div class="lc-copy"><span class="meta">${esc(lead.team)} · ${esc(lead.type)} · ${fmt(lead.date)}</span><h3>${esc(lead.title)}</h3><p>${esc(lead.summary)}</p>${byline(lead)}<span class="src">${src(lead)}</span></div>
+      </a>
+      <div class="cards">${rest.slice(0, 3).map((p) => `<a class="card" href="${href(p)}"><span class="meta">${esc(p.team)} · ${esc(p.type)}</span><h4>${esc(p.title)}</h4><p>${esc(p.summary)}</p>${byline(p)}<span class="src">${fmt(p.date)} · ${src(p)}</span></a>`).join('')}</div>`;
+    document.getElementById('rows').innerHTML = list.map((p) => `<div class="row"><span class="d">${fmt(p.date)}</span><span class="t">${esc(p.team)}</span><a href="${href(p)}">${esc(p.title)}${p.site ? '' : ' ↗'}</a>${stack(p.authors)}</div>`).join('');
+  };
+  render();
+
+  const v = posts[0];
+  const people = [...v.authors.map((n) => [n, n === 'Russell Chung' ? 'Author · Mentor' : 'Author'])];
+  document.getElementById('people').innerHTML = people.map(([n, r]) => `<div class="person"><span class="av" aria-hidden="true">${esc(ini(n))}</span><span><b>${esc(n)}</b><small>${r}</small></span></div>`).join('');
+
+  const soon = document.getElementById('soon'), btn = soon.querySelector('button');
+  btn.addEventListener('click', () => { const o = !soon.hasAttribute('data-open'); soon.toggleAttribute('data-open', o); btn.setAttribute('aria-expanded', String(o)); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && soon.hasAttribute('data-open')) { soon.removeAttribute('data-open'); btn.setAttribute('aria-expanded', 'false'); btn.focus(); } });
+})();
+</script>

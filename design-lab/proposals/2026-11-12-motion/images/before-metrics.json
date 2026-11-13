@@ -1,0 +1,44 @@
+{
+ "cls": {
+  "/ d": {
+   "load": 0.012,
+   "total": 0.118,
+   "shifts": 25
+  },
+  "/ m": {
+   "load": 0.0241,
+   "total": 0.1407,
+   "shifts": 24
+  },
+  "/about/ d": {
+   "load": 0.0481,
+   "total": 0.0481,
+   "shifts": 1
+  },
+  "/about/ m": {
+   "load": 0.0058,
+   "total": 0.0058,
+   "shifts": 1
+  },
+  "/contact/ d": {
+   "load": 0.0974,
+   "total": 0.0974,
+   "shifts": 1
+  },
+  "/contact/ m": {
+   "load": 0.0053,
+   "total": 0.0053,
+   "shifts": 1
+  }
+ },
+ "align": {
+  "/about/": {
+   "wordmark": 256,
+   "content": 208
+  },
+  "/updates/": {
+   "wordmark": 256,
+   "content": 208
+  }
+ }
+}

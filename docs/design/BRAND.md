@@ -115,6 +115,12 @@ disclosure correctly; preserve the pattern.
 - Toward: state the spine once, briefly ("Coursework describes systems. We build them."),
   then let the three gaps serve as short supporting evidence — not a triptych of essays.
 
+## Exceptions
+
+- **Names on Updates (Head Designer, 2026-11-12).** `/updates/` and its post pages print each post's authors and
+  mentors exactly as posted, labelling mentors "Mentor". Everywhere else the rule stands: roles and teams, not
+  people. Post summaries are written in our own words, never copied from the source post.
+
 ## Governance
 
 This doc is authoritative for **wording and voice** across every route. It does not govern

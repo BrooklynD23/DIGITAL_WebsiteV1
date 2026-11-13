@@ -1,0 +1,162 @@
+<title>Chrome Member Badge</title>
+<style>
+/* Layout: one review column. Two stages (dark chapter, light chapter) each holding the same chrome badge, then the decisions. */
+:root {
+  --bg: #f5f5f7; --fg: #1d1d1f; --fg-2: #6e6e73; --line: #d2d2d7; --card: #ffffff;
+  --f: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #111113; --fg: #f5f5f7; --fg-2: #a1a1a6; --line: #333336; --card: #1c1c1e; color-scheme: dark } }
+:root[data-theme="dark"] { --bg: #111113; --fg: #f5f5f7; --fg-2: #a1a1a6; --line: #333336; --card: #1c1c1e; color-scheme: dark }
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--fg); font: 15px/1.5 var(--f); padding-inline: 16px; padding-block: 0 64px; margin: 0; }
+.wrap { max-width: 980px; margin: 0 auto; display: grid; gap: 40px; }
+header { padding-top: 48px; display: grid; gap: 10px; }
+h1 { margin: 0; font-size: clamp(30px, 5vw, 44px); line-height: 1.08; letter-spacing: -0.02em; text-wrap: balance; }
+h2 { margin: 0; font-size: 22px; letter-spacing: -0.01em; }
+p { margin: 0; max-width: 66ch; }
+.lead { color: var(--fg-2); font-size: 17px; }
+.eyebrow { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg-2); font-weight: 600; }
+.stages { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 760px) { .stages { grid-template-columns: 1fr } }
+.stage { border-radius: 18px; border: 1px solid var(--line); padding: 48px 20px 28px; display: grid; justify-items: center; gap: 18px; min-width: 0; }
+.stage.dark { background: #000; color: #f5f5f7; }
+.stage.light { background: #fff; color: #1d1d1f; }
+.stage .cap { font-size: 12px; color: #86868b; text-align: center; }
+.notes { display: grid; gap: 10px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; }
+.notes ul, .notes ol { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+code { font-family: var(--mono); font-size: 0.9em; }
+
+/* ---------- The badge ---------- */
+.tilt { perspective: 900px; width: min(360px, 100%); }
+.badge {
+  --rx: 0deg; --ry: 0deg; --mx: 50%; --my: 50%; --shine: 0.35; --hue: 0deg;
+  position: relative; width: 100%; aspect-ratio: 8 / 5; border-radius: 18px; overflow: hidden;
+  transform: rotateX(var(--rx)) rotateY(var(--ry));
+  transition: transform 420ms cubic-bezier(0.2, 0, 0, 1);
+  cursor: pointer; outline: none; color: #1d1d1f;
+  /* chrome base: brushed steel bands */
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.05) 0 1px, rgba(0,0,0,0.04) 1px 3px),
+    linear-gradient(160deg, #f4f5f7 0%, #b9bdc4 22%, #eef0f3 40%, #8f949c 58%, #dfe2e6 76%, #a9adb4 100%);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.7), inset 0 -1px 0 1px rgba(0,0,0,0.18);
+}
+.badge.live { transition: transform 120ms linear; }
+.badge:focus-visible { box-shadow: inset 0 0 0 1px rgba(255,255,255,0.7), 0 0 0 3px #0071e3; }
+/* holographic film: rainbow that slides with the light source */
+.holo {
+  position: absolute; inset: 0; pointer-events: none; mix-blend-mode: color-dodge; opacity: var(--shine);
+  background:
+    repeating-linear-gradient(115deg,
+      hsl(calc(0deg + var(--hue)) 90% 62%) 0%, hsl(calc(60deg + var(--hue)) 90% 62%) 6%,
+      hsl(calc(130deg + var(--hue)) 90% 60%) 12%, hsl(calc(200deg + var(--hue)) 90% 62%) 18%,
+      hsl(calc(270deg + var(--hue)) 90% 64%) 24%, hsl(calc(330deg + var(--hue)) 90% 62%) 30%);
+  background-size: 260% 260%;
+  background-position: var(--mx) var(--my);
+  transition: opacity 420ms cubic-bezier(0.2, 0, 0, 1);
+}
+/* specular highlight that follows the pointer */
+.spec {
+  position: absolute; inset: 0; pointer-events: none; mix-blend-mode: overlay;
+  background: radial-gradient(circle at var(--mx) var(--my), rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.15) 28%, rgba(0,0,0,0.12) 62%);
+}
+/* click: one bright band sweeps across */
+.sweep {
+  position: absolute; inset: -40% -60%; pointer-events: none; mix-blend-mode: screen; opacity: 0;
+  background: linear-gradient(105deg, transparent 38%, rgba(255,255,255,0.0) 42%, rgba(255,255,255,0.9) 50%, rgba(255,255,255,0.0) 58%, transparent 62%);
+  transform: translateX(-60%);
+}
+.badge.flash .sweep { animation: sweep 900ms cubic-bezier(0.2, 0, 0, 1); }
+@keyframes sweep { 0% { opacity: 1; transform: translateX(-60%); } 100% { opacity: 1; transform: translateX(60%); } }
+.slot { position: absolute; top: 14px; left: 50%; width: 36px; height: 9px; translate: -50% 0; border-radius: 980px; background: rgba(0,0,0,0.55); box-shadow: inset 0 1px 1px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.7); }
+.body { position: relative; height: 100%; display: grid; align-content: end; gap: 6px; padding: 40px 22px 18px; }
+.you { min-height: 1.1em; padding-bottom: 4px; border-bottom: 1.5px dashed rgba(29,29,31,0.45); font-weight: 700; font-size: clamp(26px, 6vw, 36px); line-height: 1.1; letter-spacing: -0.02em; text-shadow: 0 1px 0 rgba(255,255,255,0.6); }
+.role { font-size: 16px; font-weight: 600; color: #3a3a3c; transition: opacity 240ms cubic-bezier(0.4,0,0.6,1); }
+.foot { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-top: 6px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.04em; }
+.foot .org { color: #48484a; }
+.foot .team { color: #1d1d1f; font-weight: 600; transition: opacity 240ms cubic-bezier(0.4,0,0.6,1); }
+.hint { font-size: 12px; color: #86868b; }
+@media (prefers-reduced-motion: reduce) {
+  .badge, .badge.live, .holo, .role, .foot .team { transition: none; }
+  .badge.flash .sweep { animation: none; }
+}
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow">DIGITAL · badge prototype · 2026-11-12</span>
+    <h1>A chrome member badge that catches the light</h1>
+    <p class="lead">The badge invites a visitor to picture their own name on a team. Here it is a brushed-chrome card with a holographic film: move the pointer over it and the rainbow slides with the light, the card tilts toward you. Click or press Enter and one bright band sweeps across, the film flares, and the next open role appears.</p>
+  </header>
+
+  <div class="stages">
+    <div class="stage dark">
+      <div class="tilt"><div class="badge" tabindex="0" role="img" aria-label="A blank member badge with an open seat. Open roles: SIDEKICK: STM32 controller, IMU, Haptics; SHADES: SoC and FPGA, Hardware (PCB), Mechanical."><span class="holo"></span><span class="spec"></span><span class="sweep"></span><span class="slot"></span><div class="body" aria-hidden="true"><span class="you"></span><span class="role"></span><div class="foot"><span class="org">DIGITAL @ CAL POLY POMONA</span><span class="team"></span></div></div></div></div>
+      <span class="cap">On a dark chapter (home join)</span>
+    </div>
+    <div class="stage light">
+      <div class="tilt"><div class="badge" tabindex="0" role="img" aria-label="A blank member badge with an open seat on SHADES. Open roles: SoC and FPGA, Hardware (PCB), Mechanical."><span class="holo"></span><span class="spec"></span><span class="sweep"></span><span class="slot"></span><div class="body" aria-hidden="true"><span class="you"></span><span class="role"></span><div class="foot"><span class="org">DIGITAL @ CAL POLY POMONA</span><span class="team"></span></div></div></div></div>
+      <span class="cap">On a light chapter (SHADES join)</span>
+    </div>
+  </div>
+  <p class="hint" style="text-align:center">Hover to tilt. Click or press Enter to flash and show the next role. On a phone, tap.</p>
+
+  <section class="notes">
+    <h2>How it works</h2>
+    <ul>
+      <li><strong>Chrome base:</strong> layered grey gradients with fine brushed lines. No image files.</li>
+      <li><strong>Holographic film:</strong> a rainbow band in <code>color-dodge</code> blend whose position follows the pointer, so the colours slide as the light moves. At rest it stays faint (35%).</li>
+      <li><strong>Tilt:</strong> up to 8° toward the pointer, easing back over 420ms when the pointer leaves.</li>
+      <li><strong>Click:</strong> a white band sweeps across in 900ms, the film flares to full and shifts hue, then settles. The role advances on each click, so the visitor can browse the open seats.</li>
+      <li><strong>Reduced motion:</strong> no tilt, no sweep, the film holds still. Click still advances the role.</li>
+      <li><strong>Accessibility:</strong> focusable, Enter and Space work, the label lists every open role.</li>
+    </ul>
+  </section>
+
+  <section class="notes">
+    <h2>What this needs from you</h2>
+    <ol>
+      <li><strong>Colour exception:</strong> the rainbow film is a full-spectrum effect in a system with one red and greys. It would be the second named exception after the BRAIN orb.</li>
+      <li><strong>Shadow and depth:</strong> the current badge is flat by rule (no shadow, no rotation, DESIGN §11 and §18). Chrome reads as metal only with highlights and a tilt, so this needs that rule lifted for the badge.</li>
+      <li><strong>Where:</strong> home join and SHADES join, as now.</li>
+    </ol>
+  </section>
+</div>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const homeRoles = [['SIDEKICK', 'STM32 controller'], ['SIDEKICK', 'IMU'], ['SIDEKICK', 'Haptics'], ['SHADES', 'SoC and FPGA'], ['SHADES', 'Hardware (PCB)'], ['SHADES', 'Mechanical']];
+  const shadesRoles = [['SHADES', 'SoC and FPGA'], ['SHADES', 'Hardware (PCB)'], ['SHADES', 'Mechanical']];
+  document.querySelectorAll('.badge').forEach((b, k) => {
+    const roles = k === 0 ? homeRoles : shadesRoles;
+    const you = b.querySelector('.you'), role = b.querySelector('.role'), team = b.querySelector('.team');
+    let i = 0, hue = 0;
+    const show = () => { role.textContent = roles[i][1]; team.textContent = roles[i][0]; };
+    const next = () => {
+      role.style.opacity = 0; team.style.opacity = 0;
+      setTimeout(() => { i = (i + 1) % roles.length; show(); role.style.opacity = 1; team.style.opacity = 1; }, reduce ? 0 : 240);
+    };
+    show();
+    const name = 'Your name';
+    if (reduce) you.textContent = name;
+    else { let n = 0; const type = () => { you.textContent = name.slice(0, n++); if (n <= name.length) setTimeout(type, 110); }; setTimeout(type, 400 + k * 300); }
+    const set = (x, y) => {
+      b.style.setProperty('--mx', `${x * 100}%`); b.style.setProperty('--my', `${y * 100}%`);
+      if (!reduce) { b.style.setProperty('--ry', `${(x - 0.5) * 16}deg`); b.style.setProperty('--rx', `${(0.5 - y) * 16}deg`); }
+    };
+    b.addEventListener('pointermove', (e) => { const r = b.getBoundingClientRect(); b.classList.add('live'); set((e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height); });
+    b.addEventListener('pointerleave', () => { b.classList.remove('live'); set(0.5, 0.5); });
+    const flash = () => {
+      next();
+      if (reduce) return;
+      hue = (hue + 70) % 360; b.style.setProperty('--hue', `${hue}deg`);
+      b.style.setProperty('--shine', '0.95');
+      b.classList.remove('flash'); void b.offsetWidth; b.classList.add('flash');
+      setTimeout(() => b.style.setProperty('--shine', '0.35'), 650);
+    };
+    b.addEventListener('click', flash);
+    b.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flash(); } });
+  });
+})();
+</script>
