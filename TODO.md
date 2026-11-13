@@ -119,6 +119,8 @@ committed — see the standing rule in `CLAUDE.md` and `AGENT.md`.
 | lab.32 | #0085    | — | docs(todo): record #0079–#0085 in the Dev Build table (#0085) | This row; SHA is the commit that adds it |
 | lab.33 | #0086    | `e041de6` | feat(updates): cards layout from the approved prototype; trim unsourced TWINS/Business copy (#0086) | Head Designer cards exception (DESIGN §18, §20); copy trims in club.ts + updates.ts; renders in design-lab/renders/ship-20261112/cards/ (gitignored) |
 | lab.34 | #0087    | — | docs(todo): record #0086 (#0087) | This row; SHA is the commit that adds it |
+| lab.35 | #0088    | `932ce87` | fix(updates): LinkedIn-verified summaries, Samsung co-author, text-only lead card (#0088) | 6 LinkedIn posts checked by 2 Haiku readers (sign-in overlay; paraphrased text): 20 of 21 details supported, 'four concepts' removed, 'first-time' and Samsung wording corrected; brand-guardian REVISE applied. Head Designer: Russell Chung author + mentor on Samsung; text-only lead. `./run.sh check` green; cards renders 0 overflow / 0 console errors at 1440, 375, 844 |
+| lab.36 | #0089    | — | docs(todo): record #0088 (#0089) | This row; SHA is the commit that adds it |
 
 ---
 
