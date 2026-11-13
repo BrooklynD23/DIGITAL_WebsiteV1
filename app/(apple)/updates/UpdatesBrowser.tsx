@@ -43,18 +43,21 @@ function Byline({ item }: { item: Update }) {
 
 const meta = (i: Update) => `${i.subTeam}${i.detail ? ` (${i.detail})` : ''} · ${C.typeLabels[i.type]} · ${fmt(i.publishedAt)}`;
 
-/** Lead-card art: the cover image, else the post's value stream as quiet mono labels (VESSEL), else a flat block. */
+/** Lead-card art: the cover image, else the post's value stream as quiet mono labels (VESSEL), else none (text-only lead). */
+const flowOf = (item: Update) => (item.source === 'site' ? item.page.sections.find((x) => x.flow)?.flow : undefined);
+const hasArt = (item: Update) => !!item.coverImage || !!flowOf(item);
+
 function Art({ item }: { item: Update }) {
   if (item.coverImage) {
     // eslint-disable-next-line @next/next/no-img-element -- static export, no image optimizer
     return <img className={u.art} src={item.coverImage.src} alt={item.coverImage.alt} loading="lazy" />;
   }
-  const flow = item.source === 'site' ? item.page.sections.find((x) => x.flow)?.flow : undefined;
-  return (
+  const flow = flowOf(item);
+  return flow ? (
     <div className={u.art} aria-hidden="true">
-      {flow && <ol className={u.artFlow}>{flow.map((f) => <li key={f}>{f}</li>)}</ol>}
+      <ol className={u.artFlow}>{flow.map((f) => <li key={f}>{f}</li>)}</ol>
     </div>
-  );
+  ) : null;
 }
 
 /** One card = one link (open page or LinkedIn). `lead` adds the 2-column art. */
@@ -73,7 +76,7 @@ function Card({ item, lead }: { item: Update; lead?: boolean }) {
       </span>
     </>
   );
-  const cls = lead ? `${u.card} ${u.lead}` : u.card;
+  const cls = lead ? `${u.card} ${u.lead}${hasArt(item) ? '' : ` ${u.leadText}`}` : u.card;
   return item.source === 'linkedin'
     ? <a className={cls} href={item.externalUrl} target="_blank" rel="noopener noreferrer">{body}</a>
     : <Link className={cls} href={`/updates/${item.slug}/`}>{body}</Link>;
