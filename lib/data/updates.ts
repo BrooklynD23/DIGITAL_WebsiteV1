@@ -1,5 +1,6 @@
 /**
- * Updates directory data. To add an entry, push one object onto UPDATES (any order; the page sorts newest first).
+ * Updates directory data. UPDATES below is the fallback snapshot; source of truth is Supabase digital_posts
+ * (read at build time by ./updates-source.ts; editor how-to in supabase/README.md). Field reference (any order; the page sorts newest first):
  *   slug         url-safe id, unique; a 'site' entry is served at /updates/<slug>/
  *   title        plain title
  *   type         one of UpdateType
@@ -23,6 +24,7 @@ export type TagSlug = 'digital' | 'sidekick' | 'shades' | 'brain' | 'twins' | 'b
 export interface UpdatePage {
   /** One-sentence standfirst under the title. */
   readonly dek: string;
+  /** body: one paragraph, or several separated by a blank line ("\n\n"). */
   readonly sections: ReadonlyArray<{ readonly heading: string; readonly body: string; readonly flow?: readonly string[] }>;
 }
 
@@ -45,6 +47,7 @@ export type Update =
   | (UpdateBase & { readonly source: 'site'; readonly page: UpdatePage; readonly externalUrl?: string })
   | (UpdateBase & { readonly source: 'linkedin'; readonly externalUrl: string });
 
+/** Fallback snapshot; source of truth is Supabase digital_posts. Served when SUPABASE_URL is unset. */
 export const UPDATES: readonly Update[] = [
   {
     slug: 'vessel-product-definition',

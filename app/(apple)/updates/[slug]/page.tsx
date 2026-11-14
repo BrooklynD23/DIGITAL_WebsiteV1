@@ -3,29 +3,30 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { SitePage } from '../../_chrome';
 import s from '../../_chrome/site-page.module.css';
-import { UPDATES, SOON_TEAMS, UPDATES_COPY as C, initials } from '../../../../lib/data/updates';
+import { SOON_TEAMS, UPDATES_COPY as C, initials } from '../../../../lib/data/updates';
 import type { Update } from '../../../../lib/data/updates';
+import { getUpdates } from '../../../../lib/data/updates-source';
 import u from '../updates.module.css';
 import { TagChips } from '../TagChips';
 
 export const dynamicParams = false;
 
-const siteEntries = (): Extract<Update, { source: 'site' }>[] =>
-  UPDATES.filter((x): x is Extract<Update, { source: 'site' }> => x.source === 'site');
+const siteEntries = async (): Promise<Extract<Update, { source: 'site' }>[]> =>
+  (await getUpdates()).filter((x): x is Extract<Update, { source: 'site' }> => x.source === 'site');
 
-export function generateStaticParams() {
-  return siteEntries().map((x) => ({ slug: x.slug }));
+export async function generateStaticParams() {
+  return (await siteEntries()).map((x) => ({ slug: x.slug }));
 }
 
-export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
-  const e = siteEntries().find((x) => x.slug === params.slug);
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const e = (await siteEntries()).find((x) => x.slug === params.slug);
   return e ? { title: C.postTitle(e.title), description: e.summary } : {};
 }
 
 const fmt = (iso: string) => new Date(`${iso}T00:00:00`).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
 
-export default function UpdatePostPage({ params }: { params: { slug: string } }) {
-  const e = siteEntries().find((x) => x.slug === params.slug);
+export default async function UpdatePostPage({ params }: { params: { slug: string } }) {
+  const e = (await siteEntries()).find((x) => x.slug === params.slug);
   if (!e) notFound();
   const people = [
     ...e.authors.map((n) => [n, e.mentors.includes(n) ? `${C.author} · ${C.mentor}` : C.author] as const),
@@ -57,7 +58,7 @@ export default function UpdatePostPage({ params }: { params: { slug: string } })
             {e.page.sections.map((sec) => (
               <section key={sec.heading}>
                 <h2>{sec.heading}</h2>
-                <p>{sec.body}</p>
+                {sec.body.split('\n\n').filter(Boolean).map((p) => <p key={p}>{p}</p>)}
                 {sec.flow && (
                   <ul className={u.flow} aria-label={C.valueStreamLabel}>
                     {sec.flow.map((v) => <li key={v}>{v}</li>)}

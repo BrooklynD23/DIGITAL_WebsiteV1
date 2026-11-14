@@ -11,7 +11,9 @@
     "start": "next start",
     "lint": "next lint",
     "validate:vercel": "node scripts/validate-vercel-json.mjs",
-    "encode:teardown": "node scripts/encode-teardown-assets.mjs"
+    "encode:teardown": "node scripts/encode-teardown-assets.mjs",
+    "prebuild": "node --env-file-if-exists=.env.local scripts/fetch-update-assets.mjs",
+    "test:updates": "node --experimental-strip-types --test lib/data/updates-source.test.ts"
   },
   "dependencies": {
     "@tabler/icons-react": "^3.48.0",

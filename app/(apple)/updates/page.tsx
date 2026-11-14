@@ -1,15 +1,16 @@
 import type { Metadata } from 'next';
 import { SitePage } from '../_chrome';
 import s from '../_chrome/site-page.module.css';
-import { UPDATES, UPDATES_COPY as C } from '../../../lib/data/updates';
+import { UPDATES_COPY as C } from '../../../lib/data/updates';
+import { getUpdates } from '../../../lib/data/updates-source';
 import { UpdatesBrowser } from './UpdatesBrowser';
 import u from './updates.module.css';
 
 export const metadata: Metadata = { title: C.meta.title, description: C.meta.description };
 
 // Apple Newsroom shape: title + one line, then the list. The sub-team pitch lives on each build page, not here.
-export default function UpdatesPage() {
-  const sorted = [...UPDATES].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
+export default async function UpdatesPage() {
+  const sorted = [...(await getUpdates())].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
   return (
     <SitePage tone="light">
       <section className={`${s.section} ${u.head}`} aria-labelledby="updates-title">
