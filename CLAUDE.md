@@ -46,6 +46,7 @@ Run `./run.sh check` before committing to confirm TypeScript and lint are clean.
 | `app/(apple)/_content/` | Copy for the Apple pages (`home.ts`, `sidekick.ts`, `shades.ts`, `brain.ts`) |
 | `app/(apple)/projects/_hero/` | Home phone-hero artwork + `useStagePlayback.ts` (stage playback used by every pinned page) |
 | `lib/data/` | Club facts and content read by the Apple pages (siteConfig, team, involvement, about, community) |
+| Supabase: `supabase/`, `lib/data/updates-source.ts` | Updates posts read at build time from `digital_posts` (editor how-to: `supabase/README.md`); no env → `UPDATES` snapshot |
 | `archive/` | Every earlier design and iteration; not built, linted or type-checked. Index: `archive/README.md` |
 | `design-lab/` | Design-lab record: research, renders, scripts (e.g. `scripts/sidekick-mainboard.mjs`) |
 

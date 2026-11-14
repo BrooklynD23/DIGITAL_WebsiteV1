@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Updates Tag Chips</title>
+<meta name="description" content="Phase 0 prototype: coloured tag chips on the live DIGITAL Updates index and post page, for Head Designer sign-off.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link id="fonts" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<style id="css">
+/* ===== Tokens: Apple world (light) copied from app/(apple)/_system/tokens/worlds.css + .font-apple tracking ===== */
+:root {
+  --font-display: 'Geist', ui-sans-serif, system-ui, sans-serif;
+  --font-text: 'Geist', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --r2-ground: #ffffff;
+  --r2-ground-raised: #f5f5f7;
+  --r2-ink: #1d1d1f;
+  --r2-ink-2: #6e6e73;
+  --r2-ink-3: #6e6e73;
+  --r2-hairline: #d2d2d7;
+  --r2-hairline-strong: #86868b;
+  --r2-focus: #0b0c0a;
+  --r2-nav-bg: rgba(255, 255, 255, 0.78);
+  --r2-cta-bg: #1d1d1f;
+  --r2-cta-ink: #ffffff;
+  --r2-cta-bg-hover: #b3321f;
+  --r2-ease-ui: cubic-bezier(0.4, 0, 0.6, 1);
+  --r2-ease-entrance: cubic-bezier(0.16, 1, 0.3, 1);
+  --r2-dur-ui-fast: 240ms;
+  --r2-space-1: 4px; --r2-space-2: 8px; --r2-space-3: 12px; --r2-space-4: 16px; --r2-space-5: 24px;
+  --r2-space-6: 32px; --r2-space-7: 48px; --r2-space-8: 64px;
+  --r2-gutter: 16px;
+  --r2-measure: 34rem;
+  --r2-radius: 12px;
+  --r2-target: 44px;
+  --r2-nav-h: 52px;
+  --r2-fw-display: 600;
+  --r2-fw-strong: 600;
+  --r2-fs-hero: 80px; --r2-lh-hero: 84px; --r2-ls-hero: -0.035em;
+  --r2-ls-h2: -0.03em;
+  --r2-fs-h3: 28px; --r2-lh-h3: 32px; --r2-ls-h3: -0.015em;
+  --r2-fs-lead: 21px; --r2-lh-lead: 29px; --r2-ls-lead: -0.004em;
+  --r2-fs-body: 17px; --r2-lh-body: 25px; --r2-ls-body: 0em;
+  --r2-fs-small: 12px;
+  --r2-fs-label: 12px; --r2-lh-label: 16px; --r2-ls-label: 0.04em;
+
+  /* NEW (PLAN §4, light values only per Revisions #9): tag chip pairs */
+  --r2-tag-digital-bg: #e8e8ed;  --r2-tag-digital-ink: #1d1d1f;
+  --r2-tag-sidekick-bg: #e3f2ff; --r2-tag-sidekick-ink: #0b4f80;
+  --r2-tag-shades-bg: #fff1d6;   --r2-tag-shades-ink: #7a4a00;
+  --r2-tag-brain-bg: #efe7fd;    --r2-tag-brain-ink: #5b2fa3;
+  --r2-tag-twins-bg: #ddf6ea;    --r2-tag-twins-ink: #11603f;
+  --r2-tag-business-bg: #fce4f1; --r2-tag-business-ink: #8a1f5a;
+
+  /* Prototype chrome only (not part of the reviewed screens) */
+  --p-bg: #ececef;
+  --p-ink: #1d1d1f;
+  --p-ink-2: #5c5c62;
+  --p-line: #c9c9cf;
+  --p-card: #f7f7f9;
+}
+@media (min-width: 735px) { :root { --r2-gutter: 32px; } }
+@media (min-width: 1069px) { :root { --r2-gutter: 48px; } }
+@media (max-width: 734px) {
+  :root { --r2-fs-hero: 40px; --r2-lh-hero: 44px; --r2-fs-h3: 21px; --r2-lh-h3: 25px; --r2-fs-lead: 17px; --r2-lh-lead: 25px; }
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --p-bg: #121214; --p-ink: #f5f5f7; --p-ink-2: #a1a1a6; --p-line: #3a3a3e; --p-card: #1c1c1f; }
+}
+:root[data-theme="dark"] { --p-bg: #121214; --p-ink: #f5f5f7; --p-ink-2: #a1a1a6; --p-line: #3a3a3e; --p-card: #1c1c1f; }
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--p-bg); color: var(--p-ink); font-family: var(--font-text); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+body[data-frame] { background: var(--r2-ground); }
+
+/* ===== Prototype chrome ===== */
+.proto { max-width: 1240px; margin: 0 auto; padding: 40px 16px 80px; }
+.p-head { max-width: 46rem; margin-bottom: 40px; }
+.p-eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em; color: var(--p-ink-2); margin: 0 0 16px; }
+.p-head h1 { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: clamp(28px, 5vw, 40px); line-height: 1.1; letter-spacing: -0.03em; }
+.p-head p { margin: 12px 0 0; color: var(--p-ink-2); font-size: 15px; line-height: 1.5; text-wrap: pretty; }
+.p-head ul { margin: 12px 0 0; padding-left: 1.2em; color: var(--p-ink-2); font-size: 14px; line-height: 1.5; }
+.view { margin-top: 56px; }
+.cap { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin: 0 0 12px; }
+.cap b { font-family: var(--font-display); font-weight: 600; font-size: 19px; letter-spacing: -0.01em; }
+.cap span { color: var(--p-ink-2); font-size: 14px; }
+.addr { display: flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 14px; border: 1px solid var(--p-line); border-bottom: 0; border-radius: 12px 12px 0 0; background: var(--p-card); font-family: var(--font-mono); font-size: 12px; color: var(--p-ink-2); overflow-wrap: anywhere; }
+.addr output { color: var(--p-ink); }
+.screen { background: var(--r2-ground); color: var(--r2-ink); border: 1px solid var(--p-line); border-radius: 0 0 12px 12px; overflow: hidden; }
+.screen.solo { border-radius: 12px; }
+body[data-frame] .screen { border: 0; border-radius: 0; }
+.toggle { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 12px 16px; border: 1px dashed var(--p-line); border-radius: 12px; background: var(--p-card); font-size: 14px; color: var(--p-ink-2); }
+.toggle label { position: relative; display: inline-flex; min-height: 44px; align-items: center; cursor: pointer; }
+.toggle input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
+.toggle label span { display: inline-flex; align-items: center; height: 32px; padding: 0 14px; border: 1px solid var(--p-line); border-radius: 980px; color: var(--p-ink); }
+.toggle input:checked + span { background: var(--p-ink); border-color: var(--p-ink); color: var(--p-bg); }
+.toggle input:focus-visible + span { outline: 2px solid var(--p-ink); outline-offset: 2px; }
+.cap .warn { flex-basis: 100%; font-family: var(--font-mono); font-size: 12px; color: var(--p-ink); }
+.mwrap { position: relative; overflow: hidden; border: 1px solid var(--p-line); border-radius: 12px; background: var(--r2-ground); }
+.mwrap iframe { display: block; width: 375px; height: 900px; border: 0; transform-origin: 0 0; }
+.p-note { margin: 10px 0 0; font-size: 13px; color: var(--p-ink-2); }
+
+/* ===== Live Updates page (site-page.module.css + updates.module.css + chrome.module.css), restated ===== */
+.local { position: sticky; top: 0; z-index: 5; height: var(--r2-nav-h); background: var(--r2-nav-bg); backdrop-filter: saturate(1.8) blur(20px); -webkit-backdrop-filter: saturate(1.8) blur(20px); border-bottom: 1px solid var(--r2-hairline); }
+.screen .local { position: relative; }
+.localInner { max-width: 1024px; margin: 0 auto; padding: 0 var(--r2-gutter); height: 100%; display: flex; align-items: center; gap: 24px; }
+.localTitle { font-family: var(--font-display); font-weight: 600; font-size: 21px; letter-spacing: -0.01em; color: var(--r2-ink); text-decoration: none; margin-right: auto; min-height: 44px; display: inline-flex; align-items: center; }
+.localLinks { list-style: none; margin: 0; padding: 0; display: flex; gap: 24px; }
+.localLinks a, .soonBtn { font: inherit; font-size: 12px; color: var(--r2-ink); opacity: 0.88; text-decoration: none; min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 5px; background: none; border: 0; padding: 0; cursor: pointer; }
+.localCta { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; }
+.localPill { display: inline-flex; align-items: center; height: 30px; padding: 0 14px; border-radius: 980px; font-size: 12px; font-weight: 500; background: var(--r2-cta-bg); color: var(--r2-cta-ink); transition: background var(--r2-dur-ui-fast) var(--r2-ease-ui); }
+.localCta:hover .localPill { background: var(--r2-cta-bg-hover); }
+.menuBtn { display: none; place-items: center; width: 44px; height: 44px; margin-left: -8px; color: var(--r2-ink); background: none; border: 0; }
+
+.section { background: var(--r2-ground); color: var(--r2-ink); padding: clamp(48px, 10svh, 96px) var(--r2-gutter); font-size: var(--r2-fs-body); line-height: var(--r2-lh-body); letter-spacing: var(--r2-ls-body); }
+.flush { padding-top: 0; }
+.head { padding-bottom: 0; }
+.wrap { max-width: calc(1024px - 2 * var(--r2-gutter)); margin: 0 auto; }
+.title { margin: 0; font-family: var(--font-display); font-weight: var(--r2-fw-display); color: var(--r2-ink); font-size: var(--r2-fs-hero); line-height: var(--r2-lh-hero); letter-spacing: var(--r2-ls-hero); }
+.lead { margin: var(--r2-space-4) 0 0; max-width: 34rem; font-size: var(--r2-fs-lead); line-height: var(--r2-lh-lead); letter-spacing: var(--r2-ls-lead); color: var(--r2-ink-2); text-wrap: pretty; }
+.h2 { margin: 0; font-family: var(--font-display); font-weight: var(--r2-fw-display); color: var(--r2-ink); text-wrap: balance; font-size: clamp(28px, min(8vw, 8svh), 48px); line-height: 1.1; letter-spacing: var(--r2-ls-h2); }
+.srOnly { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+
+.filters { display: flex; flex-wrap: wrap; align-items: center; gap: var(--r2-space-3) var(--r2-space-5); padding-bottom: var(--r2-space-6); margin-bottom: var(--r2-space-7); border-bottom: 1px solid var(--r2-hairline); }
+.group { display: flex; flex-wrap: wrap; align-items: center; gap: var(--r2-space-2); }
+.group + .group { padding-left: var(--r2-space-5); border-left: 1px solid var(--r2-hairline); }
+.pill { display: inline-flex; align-items: center; gap: var(--r2-space-2); min-height: var(--r2-target); padding: 0 var(--r2-space-4); border: 1px solid var(--r2-hairline-strong); border-radius: 980px; background: transparent; color: var(--r2-ink); font: inherit; font-size: var(--r2-fs-small); font-weight: 500; cursor: pointer; transition: background var(--r2-dur-ui-fast) var(--r2-ease-ui), color var(--r2-dur-ui-fast) var(--r2-ease-ui); }
+.pill:hover:not(:disabled) { border-color: var(--r2-ink); }
+.pill[aria-pressed='true'] { background: var(--r2-ink); border-color: var(--r2-ink); color: var(--r2-ground); }
+.pill:disabled { color: var(--r2-ink-3); border-color: var(--r2-hairline); cursor: default; }
+.pill:focus-visible { outline: 2px solid var(--r2-focus); outline-offset: 2px; }
+.n { font-family: var(--font-mono); font-variant-numeric: tabular-nums; opacity: 0.7; }
+.soon { font-family: var(--font-mono); font-size: 11px; letter-spacing: var(--r2-ls-label); text-transform: uppercase; color: var(--r2-ink-2); }
+.pill:disabled .soon, .pill[aria-pressed='true'] .soon { color: inherit; }
+.search { margin-left: auto; min-width: min(240px, 100%); }
+.control { width: 100%; min-height: 48px; padding: 11px 14px; font: inherit; font-size: 17px; line-height: 24px; color: var(--r2-ink); background: var(--r2-ground-raised); border: 1px solid var(--r2-hairline-strong); border-radius: var(--r2-radius); appearance: none; }
+.control:hover { border-color: var(--r2-ink); }
+.control:focus-visible { outline: 2px solid var(--r2-focus); outline-offset: 2px; border-color: var(--r2-ink); }
+
+/* ===== NEW: tag chip (.tag in updates.module.css) =====
+   Target = the button/link (min 44px tall, transparent). Visual = .tagChip inside it. */
+.tag { --bg: var(--r2-tag-digital-bg); --ink: var(--r2-tag-digital-ink);
+  display: inline-flex; align-items: center; min-height: var(--r2-target); padding: 0; margin: 0; border: 0; background: transparent;
+  font: inherit; color: inherit; text-decoration: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.tag[data-tag='sidekick'] { --bg: var(--r2-tag-sidekick-bg); --ink: var(--r2-tag-sidekick-ink); }
+.tag[data-tag='shades'] { --bg: var(--r2-tag-shades-bg); --ink: var(--r2-tag-shades-ink); }
+.tag[data-tag='brain'] { --bg: var(--r2-tag-brain-bg); --ink: var(--r2-tag-brain-ink); }
+.tag[data-tag='twins'] { --bg: var(--r2-tag-twins-bg); --ink: var(--r2-tag-twins-ink); }
+.tag[data-tag='business'] { --bg: var(--r2-tag-business-bg); --ink: var(--r2-tag-business-ink); }
+.tagChip { display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 10px; border-radius: 980px;
+  background: var(--bg); color: var(--ink); font-size: var(--r2-fs-label); line-height: 1; font-weight: 500; letter-spacing: 0; white-space: nowrap;
+  text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 0.25em; text-decoration-thickness: 1px;
+  transition: background var(--r2-dur-ui-fast) var(--r2-ease-ui), color var(--r2-dur-ui-fast) var(--r2-ease-ui), text-decoration-color var(--r2-dur-ui-fast) var(--r2-ease-ui); }
+.tag.lg .tagChip { height: 32px; padding: 0 14px; gap: 8px; }
+.tag .n, .tag .soon { color: inherit; opacity: 1; }
+.tag:hover:not(:disabled) .tagChip, .tag.is-hover .tagChip { text-decoration-color: currentColor; }
+.tag[aria-pressed='true'] .tagChip, .tag.is-pressed .tagChip { background: var(--ink); color: var(--bg); }
+/* Review toggle (Head Designer choice): ink fill = same pressed look as the All / Type pills. */
+[data-pressed='ink'] .tag[aria-pressed='true'] .tagChip, [data-pressed='ink'] .tag.is-pressed .tagChip { background: var(--r2-ink); color: var(--r2-ground); }
+.tag:disabled, .tag.is-disabled { cursor: default; }
+.tag:disabled .tagChip, .tag.is-disabled .tagChip { background: transparent; box-shadow: inset 0 0 0 1px var(--r2-hairline); color: var(--r2-ink-3); }
+.tag:focus-visible { outline: none; }
+.tag:focus-visible .tagChip, .tag.is-focus .tagChip { outline: 2px solid var(--r2-focus); outline-offset: 2px; }
+.tags { display: flex; flex-wrap: wrap; align-items: center; column-gap: var(--r2-space-1); margin: -2px 0; }
+/* Wrapped chips stack at 28px pitch; each 44px target overlaps the next line by 16px. */
+.tags .tag { margin-block: -8px; }
+.chipline { display: flex; flex-wrap: wrap; align-items: center; gap: var(--r2-space-2); }
+
+/* cards */
+.cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--r2-space-5); margin-bottom: var(--r2-space-8); }
+.card { position: relative; display: grid; align-content: start; min-width: 0; padding: var(--r2-space-5); border-radius: var(--r2-radius); background: var(--r2-ground-raised); color: var(--r2-ink); transition: transform var(--r2-dur-ui-fast) var(--r2-ease-ui); }
+@media (prefers-reduced-motion: no-preference) { .card:hover { transform: translateY(-2px); } }
+/* One card = one link, stretched over the card; chips sit above it so they stay their own targets. */
+.cardLink { color: inherit; text-decoration: none; }
+@supports selector(:has(*)) {
+  .cardLink { outline: none; }
+  .card:has(.cardLink:focus-visible) { outline: 2px solid var(--r2-focus); outline-offset: 3px; }
+  .card:has(.tag:hover) .leadTitle, .card:has(.tag:hover) .cardTitle { text-decoration-color: transparent; }
+}
+.cardLink::after { content: ''; position: absolute; inset: 0; border-radius: inherit; }
+.card .tags { position: relative; z-index: 1; }
+.leadCard { grid-column: 1 / -1; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: var(--r2-space-6); align-items: stretch; padding: 0; overflow: hidden; }
+.leadCard .cardCopy { align-self: center; padding: var(--r2-space-5) var(--r2-space-6) var(--r2-space-5) 0; }
+.cardCopy { display: grid; gap: var(--r2-space-2); min-width: 0; }
+.leadTitle, .cardTitle { margin: 0; font-family: var(--font-display); font-weight: var(--r2-fw-display); color: var(--r2-ink); text-wrap: balance; text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 0.2em; transition: text-decoration-color var(--r2-dur-ui-fast) var(--r2-ease-ui); }
+.card:hover .leadTitle, .card:hover .cardTitle { text-decoration-color: currentColor; }
+.leadTitle { font-size: var(--r2-fs-h3); line-height: var(--r2-lh-h3); letter-spacing: var(--r2-ls-h3); }
+.cardTitle { font-size: var(--r2-fs-lead); line-height: var(--r2-lh-lead); letter-spacing: var(--r2-ls-lead); }
+.cardSummary { display: block; color: var(--r2-ink-2); font-size: var(--r2-fs-small); line-height: 1.45; }
+.leadCard .cardSummary { font-size: var(--r2-fs-body); line-height: var(--r2-lh-body); max-width: var(--r2-measure); }
+.card .byline { margin-top: var(--r2-space-2); }
+.card .av { background: var(--r2-ground); }
+.src { font-size: var(--r2-fs-small); color: var(--r2-ink-2); }
+.art { width: 100%; display: grid; align-content: center; background: var(--r2-ink); align-self: stretch; min-height: 320px; }
+.artFlow { list-style: none; margin: 0; padding: 0 var(--r2-space-5); display: flex; flex-wrap: wrap; justify-content: center; gap: var(--r2-space-3) var(--r2-space-2); }
+.artFlow li { padding: 4px 10px; border: 1px solid var(--r2-ink-2); border-radius: var(--r2-radius); font-family: var(--font-mono); font-size: var(--r2-fs-label); letter-spacing: var(--r2-ls-label); color: var(--r2-hairline); }
+
+/* log */
+.listHead { display: flex; justify-content: space-between; align-items: baseline; gap: var(--r2-space-4); flex-wrap: wrap; }
+.listHead p { margin: 0; }
+.meta { font-family: var(--font-mono); font-size: var(--r2-fs-label); line-height: var(--r2-lh-label); letter-spacing: var(--r2-ls-label); color: var(--r2-ink-2); font-variant-numeric: tabular-nums; }
+.rows { list-style: none; margin: var(--r2-space-6) 0 0; padding: 0; border-bottom: 1px solid var(--r2-hairline); }
+.row { display: grid; grid-template-columns: 120px 140px minmax(0, 1fr); gap: var(--r2-space-4); align-items: start; min-height: 64px; padding: var(--r2-space-2) 0; border-top: 1px solid var(--r2-hairline); color: var(--r2-ink-2); }
+.row > .meta { padding-top: 13px; }
+.rowTeam { display: grid; justify-items: start; gap: var(--r2-space-1); padding-top: 10px; }
+.rowBody { min-width: 0; display: grid; gap: var(--r2-space-1); }
+.rowTitle { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--r2-space-1) var(--r2-space-4); min-width: 0; }
+.rowLink { min-height: var(--r2-target); display: inline-flex; align-items: center; color: var(--r2-ink); font-size: var(--r2-fs-body); text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 0.25em; transition: text-decoration-color var(--r2-dur-ui-fast) var(--r2-ease-ui); }
+.rowLink:hover { text-decoration-color: currentColor; }
+.rowLink:focus-visible { outline: 2px solid var(--r2-focus); outline-offset: 2px; }
+.rowSummary { margin: 0; max-width: var(--r2-measure); color: var(--r2-ink-2); font-size: var(--r2-fs-small); line-height: 1.45; }
+
+/* bylines */
+.byline { margin: 0; display: flex; align-items: center; gap: var(--r2-space-3); min-width: 0; font-size: var(--r2-fs-small); line-height: 1.4; color: var(--r2-ink-2); }
+.stack { display: inline-flex; flex: none; }
+.av { width: 28px; height: 28px; margin-left: -8px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--r2-ground-raised); border: 1px solid var(--r2-hairline); color: var(--r2-ink); font-size: 11px; font-weight: 600; letter-spacing: 0; }
+.av:first-child { margin-left: 0; }
+.names { min-width: 0; overflow-wrap: anywhere; }
+.authors { color: var(--r2-ink); }
+
+.join { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--r2-space-5); padding-top: var(--r2-space-7); border-top: 1px solid var(--r2-hairline); }
+.button { display: inline-flex; align-items: center; justify-content: center; min-height: var(--r2-target); padding: 0 24px; border-radius: 980px; font-size: 17px; font-weight: 500; text-decoration: none; background: var(--r2-cta-bg); color: var(--r2-cta-ink); transition: background var(--r2-dur-ui-fast) var(--r2-ease-ui); }
+.button:hover { background: var(--r2-cta-bg-hover); }
+
+/* post page */
+.back { display: inline-flex; align-items: center; min-height: var(--r2-target); color: var(--r2-ink-2); text-decoration: none; }
+.back:hover { color: var(--r2-ink); }
+.postTitle { margin: var(--r2-space-4) 0 0; max-width: 20ch; font-family: var(--font-display); font-weight: var(--r2-fw-display); color: var(--r2-ink); font-size: var(--r2-fs-hero); line-height: var(--r2-lh-hero); letter-spacing: var(--r2-ls-hero); text-wrap: balance; }
+.postByline { margin: var(--r2-space-7) 0; padding: var(--r2-space-5) 0; border-top: 1px solid var(--r2-hairline); border-bottom: 1px solid var(--r2-hairline); display: grid; gap: var(--r2-space-4); }
+.people { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--r2-space-4) var(--r2-space-5); }
+.person { display: flex; align-items: center; gap: var(--r2-space-3); min-width: 0; }
+.person .av { width: 40px; height: 40px; margin: 0; font-size: 14px; flex: none; }
+.person b { display: block; font-weight: var(--r2-fw-strong); color: var(--r2-ink); }
+.person small { display: block; font-size: var(--r2-fs-small); color: var(--r2-ink-2); }
+.prose { max-width: 68ch; color: var(--r2-ink); }
+.prose h2 { font-family: var(--font-display); font-weight: var(--r2-fw-display); font-size: var(--r2-fs-h3); line-height: var(--r2-lh-h3); letter-spacing: var(--r2-ls-h3); margin: var(--r2-space-8) 0 var(--r2-space-4); }
+.prose section:first-child h2 { margin-top: 0; }
+.prose p { margin: 0 0 var(--r2-space-4); text-wrap: pretty; }
+.flow { list-style: none; margin: 0 0 var(--r2-space-4); padding: 0; display: flex; flex-wrap: wrap; gap: var(--r2-space-2); }
+.flow li { padding: 6px 12px; border: 1px solid var(--r2-hairline-strong); border-radius: var(--r2-radius); font-family: var(--font-mono); font-size: var(--r2-fs-label); letter-spacing: var(--r2-ls-label); color: var(--r2-ink); }
+.textLink { display: inline-flex; align-items: center; min-height: var(--r2-target); margin-top: var(--r2-space-5); color: var(--r2-ink); text-decoration: underline; text-decoration-color: var(--r2-hairline-strong); text-underline-offset: 0.25em; }
+
+/* states strip */
+.states { padding: var(--r2-space-5); display: grid; gap: var(--r2-space-4); }
+.stHead, .stRow { display: grid; grid-template-columns: 140px repeat(5, minmax(0, 1fr)); gap: var(--r2-space-3); align-items: center; }
+.stHead span { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--r2-ink-2); }
+.stRow { border-top: 1px solid var(--r2-hairline); padding-top: var(--r2-space-2); }
+.stRow > .meta { color: var(--r2-ink); }
+.stCell { display: flex; flex-direction: column; align-items: flex-start; }
+.stCell small { display: none; font-family: var(--font-mono); font-size: 11px; color: var(--r2-ink-2); }
+.stNote { margin: 0; font-size: 13px; line-height: 1.5; color: var(--r2-ink-2); }
+
+@media (max-width: 734px) {
+  .localLinks, .soonBtn { display: none; }
+  .menuBtn { display: grid; }
+  .localTitle { margin-right: 0; }
+  .localInner { gap: 0; }
+  .localCta { margin-left: auto; }
+  .group + .group { padding-left: 0; border-left: 0; }
+  .search { margin-left: 0; width: 100%; }
+  .cards { grid-template-columns: minmax(0, 1fr); gap: var(--r2-space-4); }
+  .leadCard { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .leadCard .cardCopy { padding: var(--r2-space-5); }
+  .art { aspect-ratio: 16 / 9; min-height: 0; }
+  .row { grid-template-columns: auto minmax(0, 1fr); gap: 2px var(--r2-space-3); padding: var(--r2-space-3) 0; }
+  .row > .meta { padding-top: 14px; }
+  .rowTeam { display: flex; flex-wrap: wrap; align-items: center; gap: 0 var(--r2-space-2); }
+  .rowBody { grid-column: 1 / -1; }
+  .people { grid-template-columns: minmax(0, 1fr); }
+  .postTitle { font-size: 40px; line-height: 44px; }
+  .stHead { display: none; }
+  .stRow { grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); }
+  .stRow > .meta { grid-column: 1 / -1; }
+  .stCell small { display: block; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .enter { animation: enter 600ms var(--r2-ease-entrance) both; }
+  .enter + .enter { animation-delay: 80ms; }
+}
+@keyframes enter { from { opacity: 0; transform: translateY(12px); } }
+@media (prefers-reduced-motion: reduce) {
+  .pill, .card, .leadTitle, .cardTitle, .rowLink, .tagChip, .localPill, .button { transition: none; }
+}
+</style>
+</head>
+<body>
+<main class="proto" id="proto">
+  <header class="p-head">
+    <p class="p-eyebrow">Proposal · 2026-11-12 supabase-updates · Phase 0 · for Head Designer sign-off</p>
+    <h1>Updates tag chips</h1>
+    <p>What ships today on /updates/, with one change: the Team pills become a group of coloured tag chips, and every card, row and post byline shows its tags. Chips filter the list here, and the address line shows the URL the page would share.</p>
+    <ul>
+      <li>New: six <code>--r2-tag-*</code> bg/ink pairs (PLAN §4, light only). Nothing else changes colour.</li>
+      <li>New strings use the reviewed copy: group "Tags"; chip names "&lt;tag&gt; updates" (links) and "&lt;tag&gt;, n updates" (filter); empty line "No updates with this tag yet."</li>
+    </ul>
+  </header>
+
+  <div class="toggle" role="radiogroup" aria-labelledby="tg-l">
+    <span id="tg-l">Review choice · Pressed chip</span>
+    <label><input type="radio" name="pressed" value="colour" checked><span>Colour fill</span></label>
+    <label><input type="radio" name="pressed" value="ink"><span>Ink fill</span></label>
+  </div>
+
+  <section class="view" aria-labelledby="v1">
+    <p class="cap"><b id="v1">1 · /updates/ at desktop width</b><span>Click a chip in the filter bar, a card or a row. (On a phone this view reflows like view 2.)</span><span class="warn">Example extra tags for review — not in the real data: VESSEL + DIGITAL; “FIFO IP: reliable data flow” + DIGITAL, BRAIN.</span></p>
+    <div class="addr" aria-live="polite">digitalcpp.vercel.app/updates/<output id="addr"></output></div>
+    <div class="screen" id="desk"></div>
+  </section>
+
+  <section class="view" aria-labelledby="v2">
+    <p class="cap"><b id="v2">2 · The same index at 375px</b><span>Rendered in a 375px frame, scaled down if your window is narrower.</span></p>
+    <div class="mwrap" id="mwrap"><iframe id="mframe" title="Updates index at 375px wide" loading="eager"></iframe></div>
+  </section>
+
+  <section class="view" aria-labelledby="v3">
+    <p class="cap"><b id="v3">3 · /updates/vessel-product-definition/</b><span>The tag chips sit in the byline, above the date line.</span></p>
+    <div class="screen solo" id="post"></div>
+  </section>
+
+  <section class="view" aria-labelledby="v4">
+    <p class="cap"><b id="v4">States</b><span>Each state is fixed in place here so you can compare them side by side. Pressed swaps bg and ink.</span></p>
+    <div class="screen solo" id="states"></div>
+  </section>
+</main>
+
+<script id="js">
+(function () {
+  'use strict';
+  var TAGS = [
+    { slug: 'digital', label: 'DIGITAL' },
+    { slug: 'sidekick', label: 'SIDEKICK', team: 'SIDEKICK' },
+    { slug: 'shades', label: 'SHADES', team: 'SHADES' },
+    { slug: 'brain', label: 'BRAIN', team: 'BRAIN' },
+    { slug: 'twins', label: 'TWINS', team: 'TWINS', soon: true },
+    { slug: 'business', label: 'DIGITAL Business', team: 'DIGITAL Business', soon: true }
+  ];
+  var TYPES = ['paper', 'milestone', 'prototype', 'achievement', 'product-definition', 'case-study'];
+  var C = {
+    title: 'Updates', lead: 'Papers, milestones and prototypes from every DIGITAL team.',
+    featuredLabel: 'Featured', listTitle: 'All updates', filterLabel: 'Filter updates', typeGroup: 'Type', all: 'All',
+    tagGroup: 'Tags', showTag: function (l) { return l + ' updates'; }, tagCount: function (l, n) { return l + ', ' + n + ' ' + (n === 1 ? 'update' : 'updates'); }, noTagPosts: 'No updates with this tag yet.',
+    count: function (n) { return n + ' ' + (n === 1 ? 'update' : 'updates'); },
+    searchLabel: 'Search updates', noMatch: 'No updates match these filters.',
+    onSite: 'On this site', linkedIn: 'LinkedIn', opensLinkedIn: ' (opens LinkedIn)', author: 'Author', mentor: 'Mentor',
+    leadRole: 'Lead', soon: 'soon', comingSoon: 'Coming soon', back: 'Updates', readOnLinkedIn: 'Read the post on LinkedIn', by: 'By',
+    valueStreamLabel: 'Value stream', join: { title: 'Build the next update.', cta: 'Join us', href: '/#join' },
+    typeLabels: { paper: 'Paper', milestone: 'Milestone', prototype: 'Prototype', achievement: 'Achievement', 'product-definition': 'Product definition', 'case-study': 'Case study' }
+  };
+  // lib/data/updates.ts UPDATES, verbatim. `tags` = the new column (seeded '{}').
+  var UPDATES = [
+    { slug: 'vessel-product-definition', title: 'Product definition: VESSEL', type: 'product-definition', subTeam: 'TWINS', publishedAt: '2026-09-30',
+      summary: 'A virtual factory that turns recycled aluminum into a smartphone enclosure, simulated from raw material to warehouse.',
+      authors: ['Oscar Cao', 'Adrienne Alves', 'Russell Chung', 'Leilani Uson-H'], mentors: ['Russell Chung'], source: 'site', tags: ['digital'] /* REVIEW EXAMPLE ONLY */,
+      externalUrl: 'https://www.linkedin.com/posts/twins-technical-workspace-for-industrial-net-logistics-simulations_product-definition-vessel-digital-cal-activity-7511111489567604737-dhNg',
+      page: { dek: 'A virtual factory that turns recycled aluminum into a finished smartphone enclosure, simulated from raw material to warehouse.',
+        sections: [
+          { heading: 'What VESSEL is', body: 'VESSEL (Virtual Ecosystem for System Simulation & Enterprise Logistics) is a TWINS project. Students research, design and simulate an end-to-end manufacturing and supply-chain system with discrete-event simulation or digital-twin software.',
+            flow: ['Material recovery', 'Processing', 'Annealing', 'Fabrication', 'Finishing', 'Inspection', 'Packaging', 'Warehouse'] },
+          { heading: 'The engineering goal', body: "Turn each stage of that value stream into a working simulation. Students define operating parameters such as equipment capacity, cycle time, setup time, labor, energy use, material flow, defect rates, maintenance, inspection, inventory policy, packaging and transport limits. The model produces synthetic production data like a real factory's." },
+          { heading: 'Why it is different', body: 'Most projects study manufacturing, quality, operations and logistics separately. VESSEL asks how a decision in one stage changes the rest: teams compare production philosophies, find bottlenecks, investigate defects, balance capacity, cut waste and redesign workflows, then measure cost, throughput, utilization, inventory, lead time, sustainability, quality and delivery.' }
+        ] } },
+    { slug: 'samsung-financial-reporting-case-study', title: 'Samsung financial reporting case study', type: 'case-study', subTeam: 'DIGITAL Business', publishedAt: '2026-08-19',
+      summary: "Samsung's legally distinct affiliates move value through documented transactions. This study turns that model into a proposed finance system for the club.",
+      authors: ['Christian Bautista', 'Russell Chung'], mentors: ['Russell Chung'], source: 'linkedin', tags: [], externalUrl: 'https://www.linkedin.com/feed/update/urn:li:activity:7495673529762402304/' },
+    { slug: 'fifo-ip-v3', title: 'FIFO IP v3: learning how to approach the unknown', type: 'milestone', subTeam: 'SIDEKICK', detail: 'SoC', publishedAt: '2026-04-30',
+      summary: 'With little Verilog or FPGA experience, the team built a FIFO step by step.',
+      authors: ['Sami Ali', 'Ethan Oliver Wong', 'Jeremy Lee'], mentors: ['Russell Chung', 'Chris Zambrana'], source: 'linkedin', tags: [], externalUrl: 'https://www.linkedin.com/feed/update/urn:li:activity:7455669830839615491' },
+    { slug: 'fifo-ip', title: 'FIFO IP: reliable data flow in digital systems', type: 'milestone', subTeam: 'SIDEKICK', detail: 'SoC', publishedAt: '2026-03-23',
+      summary: 'A parameterized FIFO buffer designed and verified in Vivado, so parts on different clocks can pass data safely.',
+      authors: ['Ethan Trone', 'Allen Nguyen'], mentors: ['Anish Chinnakonda', 'Chris Zambrana'], source: 'linkedin', tags: ['digital', 'brain'] /* REVIEW EXAMPLE ONLY */, externalUrl: 'https://www.linkedin.com/feed/update/urn:li:activity:7441927871029288960' },
+    { slug: 'light-sensor-mini-project', title: 'Light sensor mini-project', type: 'prototype', subTeam: 'SIDEKICK', detail: 'Hardware', publishedAt: '2026-01-22',
+      summary: 'An ambient light and proximity sensor board for automatic screen brightness, designed in KiCad.',
+      authors: ['Logan Knip'], mentors: ['Ethan Oliver Wong', 'Max Gross', 'Angelo Duenas'], source: 'linkedin', tags: [], externalUrl: 'https://www.linkedin.com/feed/update/urn:li:activity:7420182388397338624' },
+    { slug: 'smartphone-enclosure', title: 'Smartphone enclosure: ergonomics and iterative CAD', type: 'prototype', subTeam: 'SIDEKICK', detail: 'Enclosure', publishedAt: '2026-01-21',
+      summary: 'The team iterated enclosure concepts around module and battery thickness, grip and manufacturability.',
+      authors: ['Russell Chung', 'Logan Knip', 'Izaiah Ortiz'], mentors: [], lead: 'Viren Kumar', source: 'linkedin', tags: [], externalUrl: 'https://www.linkedin.com/feed/update/urn:li:activity:7419545678722252800' },
+    { slug: 'imu-mini-project', title: 'IMU mini-project', type: 'prototype', subTeam: 'SIDEKICK', detail: 'Hardware', publishedAt: '2025-11-25',
+      summary: 'A 9-axis motion sensor board for the phone daughterboard, from decision matrix to KiCad layout.',
+      authors: ['Allen Nguyen', 'Oscar Cao', 'Mason Tran'], mentors: ['Max Gross'], source: 'linkedin', tags: [], externalUrl: 'https://www.linkedin.com/feed/update/urn:li:activity:7399148596031381504' }
+  ].sort(function (a, b) { return b.publishedAt.localeCompare(a.publishedAt); });
+
+  var GRID = 3, SEARCH_MIN = 6;
+  var esc = function (s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+  var fmt = function (iso) { return new Date(iso + 'T00:00:00').toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }); };
+  var initials = function (n) { return n.split(/[\s-]+/).filter(Boolean).slice(0, 2).map(function (w) { return w[0]; }).join('').toUpperCase(); };
+  var bySlug = function (s) { return TAGS.filter(function (t) { return t.slug === s; })[0]; };
+  // Shown tags = team tag + tags column, deduplicated, team first (PLAN §4).
+  var tagsOf = function (i) {
+    var team = TAGS.filter(function (t) { return t.team === i.subTeam; })[0].slug;
+    return [team].concat(i.tags.filter(function (t) { return t !== team; })).map(bySlug);
+  };
+
+  var chipLink = function (t) {
+    return '<a class="tag" data-tag="' + t.slug + '" href="?tag=' + t.slug + '" aria-label="' + esc(C.showTag(t.label)) + '"><span class="tagChip">' + esc(t.label) + '</span></a>';
+  };
+  var chipRow = function (i) { return '<span class="tags">' + tagsOf(i).map(chipLink).join('') + '</span>'; };
+  var byline = function (i) {
+    return '<span class="byline"><span class="srOnly">' + C.by + ' </span><span class="stack" aria-hidden="true">' +
+      i.authors.slice(0, 4).map(function (n) { return '<span class="av">' + initials(n) + '</span>'; }).join('') +
+      '</span><span class="names"><span class="authors">' + esc(i.authors.join(', ')) + '</span>' +
+      (i.mentors.length ? ' · ' + C.mentor + ' ' + esc(i.mentors.join(', ')) : '') + (i.lead ? ' · ' + C.leadRole + ' ' + esc(i.lead) : '') + '</span></span>';
+  };
+  var href = function (i) { return i.source === 'linkedin' ? i.externalUrl : '/updates/' + i.slug + '/'; };
+  var ext = function (i) { return i.source === 'linkedin' ? ' target="_blank" rel="noopener noreferrer"' : ''; };
+  var extMark = '<span aria-hidden="true"> ↗</span><span class="srOnly">' + C.opensLinkedIn + '</span>';
+  var meta = function (i) { return (i.detail ? i.detail + ' · ' : '') + C.typeLabels[i.type] + ' · ' + fmt(i.publishedAt); };
+  var flowOf = function (i) { return i.source === 'site' ? (i.page.sections.filter(function (x) { return x.flow; })[0] || {}).flow : null; };
+
+  function card(i, lead) {
+    var flow = lead && flowOf(i);
+    var art = flow ? '<div class="art" aria-hidden="true"><ol class="artFlow">' + flow.map(function (f) { return '<li>' + esc(f) + '</li>'; }).join('') + '</ol></div>' : '';
+    return '<article class="card' + (lead ? ' leadCard' : '') + '"' + (lead && !flow ? ' style="grid-template-columns:minmax(0,1fr)"' : '') + '>' + art +
+      '<div class="cardCopy"><div class="chipline">' + chipRow(i) + '<span class="meta">' + esc(meta(i)) + '</span></div>' +
+      '<h2 class="' + (lead ? 'leadTitle' : 'cardTitle') + '"><a class="cardLink" href="' + href(i) + '"' + ext(i) + '>' + esc(i.title) + '</a></h2>' +
+      '<span class="cardSummary">' + esc(i.summary) + '</span>' + byline(i) +
+      '<span class="src">' + (i.source === 'linkedin' ? C.linkedIn + extMark : C.onSite) + '</span></div></article>';
+  }
+  function row(i) {
+    return '<li class="row"><time class="meta" datetime="' + i.publishedAt + '">' + fmt(i.publishedAt) + '</time>' +
+      '<span class="rowTeam">' + chipRow(i) + (i.detail ? '<span class="meta">' + esc(i.detail) + '</span>' : '') + '</span>' +
+      '<div class="rowBody"><span class="rowTitle"><a class="rowLink" href="' + href(i) + '"' + ext(i) + '>' + esc(i.title) + (i.source === 'linkedin' ? extMark : '') + '</a>' +
+      '<span class="meta">' + C.typeLabels[i.type] + '</span></span><p class="rowSummary">' + esc(i.summary) + '</p>' + byline(i) + '</div></li>';
+  }
+  var nav = '<nav class="local" aria-label="DIGITAL"><div class="localInner"><a class="localTitle" href="/">DIGITAL</a>' +
+    '<button class="menuBtn" type="button" aria-label="Sections"><svg width="12" height="8" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1.5l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button>' +
+    '<ul class="localLinks"><li><a href="/projects/sidekick/">SIDEKICK</a></li><li><a href="/projects/shades/">SHADES</a></li><li><a href="/projects/brain/">BRAIN</a></li><li><a href="/updates/" aria-current="page">Updates</a></li></ul>' +
+    '<button class="soonBtn" type="button">Coming soon <svg width="9" height="6" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1.5l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button>' +
+    '<a class="localCta" href="/#join"><span class="localPill">Join us</span></a></div></nav>';
+
+  function renderIndex(root, onUrl) {
+    var st = { tag: null, type: null, q: '' };
+    root.innerHTML = nav +
+      '<section class="section head"><div class="wrap"><h1 class="title enter">' + C.title + '</h1><p class="lead enter">' + C.lead + '</p></div></section>' +
+      '<section class="section"><div class="wrap" data-list></div></section>' +
+      '<section class="section flush"><div class="wrap join"><h2 class="h2">' + C.join.title + '</h2><a class="button" href="' + C.join.href + '">' + C.join.cta + '</a></div></section>';
+    var list = root.querySelector('[data-list]');
+    var n = function (pred) { return UPDATES.filter(pred).length; };
+    function draw(focusSel) {
+      var needle = st.q.trim().toLowerCase();
+      var hits = UPDATES.filter(function (i) {
+        var tg = tagsOf(i);
+        return (!st.tag || tg.some(function (t) { return t.slug === st.tag; })) && (!st.type || i.type === st.type) &&
+          (!needle || [i.title, i.summary, i.subTeam, C.typeLabels[i.type]].concat(i.authors, i.mentors, tg.map(function (t) { return t.label; }))
+            .some(function (f) { return f.toLowerCase().indexOf(needle) > -1; }));
+      });
+      var none = st.tag && !st.type && !needle ? C.noTagPosts : C.noMatch;
+      var tagBtns = TAGS.map(function (t) {
+        var c = n(function (i) { return tagsOf(i).some(function (x) { return x.slug === t.slug; }); });
+        return '<button type="button" class="tag lg" data-tag="' + t.slug + '" data-f="tag" data-v="' + t.slug + '" aria-label="' + esc(C.tagCount(t.label, c)) + '" aria-pressed="' + (st.tag === t.slug) + '"' + (c === 0 ? ' disabled' : '') + '>' +
+          '<span class="tagChip">' + esc(t.label) + (t.soon ? '<span class="soon">' + C.soon + '</span>' : '') + '<span class="n">' + c + '</span></span></button>';
+      }).join('');
+      var typeBtns = TYPES.map(function (t) {
+        var c = n(function (i) { return i.type === t; });
+        return '<button type="button" class="pill" data-f="type" data-v="' + t + '" aria-pressed="' + (st.type === t) + '"' + (c === 0 ? ' disabled' : '') + '>' + C.typeLabels[t] + '<span class="n">' + c + '</span></button>';
+      }).join('');
+      list.innerHTML = '<nav class="filters" aria-label="' + C.filterLabel + '">' +
+        '<div class="group" role="group" aria-label="' + C.tagGroup + '"><button type="button" class="pill" data-f="all" aria-pressed="' + (!st.tag && !st.type) + '">' + C.all + '</button>' + tagBtns + '</div>' +
+        '<div class="group" role="group" aria-label="' + C.typeGroup + '">' + typeBtns + '</div>' +
+        (UPDATES.length >= SEARCH_MIN ? '<div class="search"><label class="srOnly" for="q-' + root.id + '">' + C.searchLabel + '</label><input id="q-' + root.id + '" class="control" type="search" placeholder="' + C.searchLabel + '" autocomplete="off"></div>' : '') +
+        '</nav>' +
+        (hits[0] ? '<div class="cards" role="group" aria-label="' + C.featuredLabel + '">' + card(hits[0], true) + hits.slice(1, 1 + GRID).map(function (i) { return card(i); }).join('') + '</div>' : '') +
+        '<div class="listHead"><h2 class="h2">' + C.listTitle + '</h2><p role="status" class="meta">' + (hits.length ? C.count(hits.length) : none) + '</p></div>' +
+        (hits.length ? '<ul class="rows">' + hits.map(row).join('') + '</ul>' : '');
+      var input = list.querySelector('input');
+      if (input) { input.value = st.q; input.addEventListener('input', function () { st.q = input.value; draw('input'); }); }
+      if (focusSel) { var f = list.querySelector(focusSel); if (f) { f.focus({ preventScroll: true }); if (focusSel === 'input' && f.setSelectionRange) f.setSelectionRange(st.q.length, st.q.length); } }
+      onUrl(st.tag ? '?tag=' + st.tag : '');
+    }
+    root.addEventListener('click', function (e) {
+      var b = e.target.closest('button[data-f]');
+      if (b) {
+        if (b.dataset.f === 'all') { st.tag = null; st.type = null; }
+        else if (b.dataset.f === 'tag') st.tag = st.tag === b.dataset.v ? null : b.dataset.v;
+        else st.type = st.type === b.dataset.v ? null : b.dataset.v;
+        draw('button[data-f="' + b.dataset.f + '"]' + (b.dataset.v ? '[data-v="' + b.dataset.v + '"]' : ''));
+        return;
+      }
+      var a = e.target.closest('a.tag');
+      if (a) { e.preventDefault(); st.tag = a.dataset.tag; st.type = null; st.q = ''; draw('button[data-v="' + a.dataset.tag + '"]'); list.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); return; }
+      var other = e.target.closest('a');
+      if (other) e.preventDefault(); // prototype: no navigation
+    });
+    draw();
+  }
+
+  function setHash(q) {
+    try { history.replaceState(null, '', q ? '#' + q.slice(1) : location.pathname + location.search); } catch (err) { /* srcdoc frames may refuse; the address line still shows it */ }
+  }
+
+  if (document.body.hasAttribute('data-frame')) {
+    renderIndex(document.getElementById('desk'), setHash);
+    return;
+  }
+
+  var addr = document.getElementById('addr');
+  renderIndex(document.getElementById('desk'), function (q) { addr.textContent = q; setHash(q); });
+
+  // ---- View 3: VESSEL post page ----
+  var e = UPDATES.filter(function (x) { return x.slug === 'vessel-product-definition'; })[0];
+  var people = e.authors.map(function (nm) { return [nm, e.mentors.indexOf(nm) > -1 ? C.author + ' · ' + C.mentor : C.author]; })
+    .concat(e.mentors.filter(function (nm) { return e.authors.indexOf(nm) < 0; }).map(function (nm) { return [nm, C.mentor]; }));
+  var post = document.getElementById('post');
+  post.innerHTML = nav + '<article class="section"><div class="wrap"><a class="back" href="/updates/">‹ ' + C.back + '</a>' +
+    '<h1 class="postTitle">' + esc(e.title) + '</h1><p class="lead">' + esc(e.page.dek) + '</p>' +
+    '<div class="postByline">' + chipRow(e) + '<span class="meta">' + fmt(e.publishedAt) + ' · ' + C.typeLabels[e.type] + ' · ' + C.comingSoon + '</span>' +
+    '<ul class="people">' + people.map(function (p) { return '<li class="person"><span class="av" aria-hidden="true">' + initials(p[0]) + '</span><span><b>' + esc(p[0]) + '</b><small>' + p[1] + '</small></span></li>'; }).join('') + '</ul></div>' +
+    '<div class="prose">' + e.page.sections.map(function (s) {
+      return '<section><h2>' + esc(s.heading) + '</h2><p>' + esc(s.body) + '</p>' + (s.flow ? '<ul class="flow" aria-label="' + C.valueStreamLabel + '">' + s.flow.map(function (v) { return '<li>' + esc(v) + '</li>'; }).join('') + '</ul>' : '') + '</section>';
+    }).join('') + '</div>' +
+    '<a class="textLink" href="' + e.externalUrl + '" target="_blank" rel="noopener noreferrer">' + C.readOnLinkedIn + extMark + '</a></div></article>';
+  post.addEventListener('click', function (ev) { var a = ev.target.closest('a'); if (a) ev.preventDefault(); });
+
+  // ---- States strip ----
+  var S = [['Rest', ''], ['Hover', 'is-hover'], ['Pressed', 'is-pressed'], ['Disabled (0 posts)', 'is-disabled'], ['Focus-visible', 'is-focus']];
+  document.getElementById('states').innerHTML = '<div class="states"><div class="stHead" aria-hidden="true"><span>Tag</span>' + S.map(function (s) { return '<span>' + s[0] + '</span>'; }).join('') + '</div>' +
+    TAGS.map(function (t) {
+      return '<div class="stRow"><span class="meta">--r2-tag-' + t.slug + '</span>' + S.map(function (s) {
+        return '<span class="stCell"><span class="tag ' + s[1] + '" data-tag="' + t.slug + '"><span class="tagChip">' + esc(t.label) + '</span></span><small>' + s[0] + '</small></span>';
+      }).join('') + '</div>';
+    }).join('') +
+    '<p class="stNote">Hover underlines the label (the chip has no border to darken). Disabled = <code>--r2-ink-3</code> on transparent, never ink-3 on a chip bg. Focus = 2px <code>--r2-focus</code> ring, 2px offset. Every chip sits in a 44px tall hit area. Red is never a tag colour.</p></div>';
+
+  // ---- View 2: same index inside a 375px frame ----
+  var frame = document.getElementById('mframe'), wrap = document.getElementById('mwrap');
+  function setPressed(v) {
+    document.documentElement.dataset.pressed = v;
+    try { frame.contentDocument.documentElement.dataset.pressed = v; } catch (err) { /* frame not ready; applied on load */ }
+  }
+  document.querySelectorAll('input[name="pressed"]').forEach(function (r) { r.addEventListener('change', function () { setPressed(r.value); }); });
+  frame.srcdoc = '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=375">' +
+    document.getElementById('fonts').outerHTML + '<style>' + document.getElementById('css').textContent + '</style></head>' +
+    '<body data-frame><div class="screen" id="desk"></div><script>' + document.getElementById('js').textContent + '<\/script></body></html>';
+  function fit() {
+    var doc = frame.contentDocument, h = doc && doc.documentElement ? doc.documentElement.scrollHeight : 900;
+    var s = Math.min(1, wrap.parentElement.clientWidth / 377);
+    frame.style.height = h + 'px';
+    frame.style.transform = s < 1 ? 'scale(' + s + ')' : '';
+    wrap.style.width = Math.round(377 * s) + 'px';
+    wrap.style.height = Math.ceil(h * s + 2) + 'px';
+  }
+  frame.addEventListener('load', function () {
+    setPressed(document.documentElement.dataset.pressed || 'colour');
+    fit();
+    try { new ResizeObserver(fit).observe(frame.contentDocument.body); } catch (err) { /* older browsers: fixed height */ }
+  });
+  addEventListener('resize', fit);
+})();
+</script>
+</body>
+</html>

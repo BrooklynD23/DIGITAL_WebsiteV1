@@ -66,3 +66,6 @@ design-lab/renders/r2/crit/**/gframes/
 
 # Design-lab render output (screenshots, motion captures): kept on disk, not in git
 design-lab/renders/
+
+# Updates media downloaded from Supabase at build (scripts/fetch-update-assets.mjs)
+public/updates/media/
