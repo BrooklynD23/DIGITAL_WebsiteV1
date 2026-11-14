@@ -20,7 +20,7 @@ export default function AboutPage() {
 
       <section className={s.section} data-tone="dark" aria-labelledby="beliefs-title">
         <div className={s.wrap}>
-          <h2 id="beliefs-title" className={s.h2}>{beliefs.title}</h2>
+          <h2 id="beliefs-title" className={`${s.h2} r2-reveal`}>{beliefs.title}</h2>
           <ul className={x.statements}>
             {beliefs.items.map((b) => (
               <li key={b} className={s.h3}>{b}</li>
@@ -32,7 +32,7 @@ export default function AboutPage() {
       {/* /pillars/ redirects to /about#how-we-work: keep this id. */}
       <section id="how-we-work" className={`${s.section} ${x.anchor}`} data-tone="dark" aria-labelledby="how-title">
         <div className={s.wrap}>
-          <h2 id="how-title" className={s.h2}>{how.title}</h2>
+          <h2 id="how-title" className={`${s.h2} r2-reveal`}>{how.title}</h2>
           <p className={s.lead}>{how.lead}</p>
           <ol className={x.stages}>
             {how.stages.map((st) => (
@@ -49,14 +49,14 @@ export default function AboutPage() {
 
       <section className={s.section} aria-labelledby="builds-title">
         <div className={s.wrap}>
-          <h2 id="builds-title" className={s.h2}>{builds.title}</h2>
+          <h2 id="builds-title" className={`${s.h2} r2-reveal`}>{builds.title}</h2>
           <LinkRows rows={builds.rows} />
         </div>
       </section>
 
       <section className={s.section} data-tone="raised" aria-labelledby="name-title">
         <div className={s.wrap}>
-          <h2 id="name-title" className={s.h2}>{name.title}</h2>
+          <h2 id="name-title" className={`${s.h2} r2-reveal`}>{name.title}</h2>
           <dl className={s.facts}>
             {name.rows.map((r) => (
               <div key={r.key}>
@@ -70,7 +70,7 @@ export default function AboutPage() {
 
       <section className={s.section} aria-labelledby="more-title">
         <div className={s.wrap}>
-          <h2 id="more-title" className={s.h2}>{more.title}</h2>
+          <h2 id="more-title" className={`${s.h2} r2-reveal`}>{more.title}</h2>
           <LinkRows rows={more.rows} />
         </div>
       </section>

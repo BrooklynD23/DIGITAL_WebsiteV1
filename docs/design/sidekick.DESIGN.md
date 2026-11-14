@@ -261,3 +261,10 @@ from the first run is in `archive/public/design-lab/r2/boards/sidekick-mainboard
   components in `app/(apple)/_sidekick/` (`Stack.tsx`, `IsoModules.tsx`, `geometry.ts`, `lineForm.ts`,
   `stackFrame.ts`, `stack.module.css`). No live route renders them.
 - The Signal-world SIDEKICK page (archived: `archive/app/design-lab/r2/signal/sidekick/`).
+
+## 12. Sign-offs after the lock
+
+### 2026-11-12 — Head Designer sign-off (shared nav)
+
+The nav reads `NAV_LINKS` (SIDEKICK, SHADES, BRAIN, Updates) and gains the shared "Coming soon" menu (TWINS,
+DIGITAL Business; DESIGN.md §13.1). The bar stays 52px and sticky. The join keeps the dot-orb visual; nothing else changes.

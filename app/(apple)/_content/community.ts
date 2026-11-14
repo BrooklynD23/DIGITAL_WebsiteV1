@@ -12,11 +12,11 @@ const described = (id: string): string | undefined => communityChannels.find((c)
 export const COMMUNITY = {
   meta: {
     title: 'Community · DIGITAL',
-    description: 'Where DIGITAL works between build nights: the Discord servers, LinkedIn and the SIDEKICK repository.',
+    description: 'Where DIGITAL works between sub-team meetings: the Discord servers, LinkedIn and the SIDEKICK repository.',
   },
   hero: {
     title: 'Where the build happens.',
-    lead: 'Discord carries the work between build nights.',
+    lead: 'Discord carries the work between sub-team meetings.',
   },
   channels: {
     title: 'Channels',

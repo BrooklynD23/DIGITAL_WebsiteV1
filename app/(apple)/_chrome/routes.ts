@@ -14,11 +14,18 @@ export function href(_world: World, page: PageId): string {
   return page === 'home' ? '/' : `/projects/${page}/`;
 }
 
+/** Top bar links on every page: the three builds, then Updates (papers and milestones, for students and sponsors). */
+export const NAV_LINKS: ReadonlyArray<{ readonly label: string; readonly href: string }> = [
+  ...PAGES.filter((p) => p.id !== 'home').map((p) => ({ label: p.label, href: href('apple', p.id) })),
+  { label: 'Updates', href: '/updates/' },
+];
+
 /** Footer rows two and three: the site pages and the legal pages. Labels are the pages' own titles. */
 export const SITE_PAGES: ReadonlyArray<{ readonly label: string; readonly href: string }> = [
   { label: 'About', href: '/about/' },
   { label: 'Team', href: '/team/' },
   { label: 'Community', href: '/community/' },
+  { label: 'Updates', href: '/updates/' },
   { label: 'Get involved', href: '/get-involved/' },
   { label: 'Contact', href: '/contact/' },
 ];

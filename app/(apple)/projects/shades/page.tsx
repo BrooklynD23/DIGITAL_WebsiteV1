@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { JoinChapter, LocalNav, MEETINGS, PAGES, WorldFooter, href } from '../../_chrome';
+import { JoinChapter, LocalNav, MemberBadge, MEETINGS, WorldFooter, href, NAV_LINKS } from '../../_chrome';
 import chrome from '../../_chrome/chrome.module.css';
 import { fontReadingText } from '../../_system/fonts';
 import { localTitle } from '../../_content/home';
@@ -7,7 +7,6 @@ import { SHADES } from '../../_content/shades';
 import { approach, boxCaption, closing, deeper, disclaimer, hero, milestones, problem, renderCaption, vision } from '../../_content/shades-reveal';
 import { ShadesRoot, SpacingToggle } from '../../_shades/ShadesRoot';
 import { Seats } from '../../_shades/Seats';
-import { SeatRing } from '../../_shades/SeatRing';
 import { Glasses } from '../../_shades-art/Glasses';
 import v1 from './apple.module.css';
 import s from './reveal.module.css';
@@ -41,7 +40,7 @@ export default function ShadesRevealPage() {
         titleHref="/"
         current={href('apple', 'shades')}
         cta={{ label: join.headline.replace(/\.$/, ''), href: '#join' }}
-        links={PAGES.filter((p) => p.id !== 'home').map((p) => ({ label: p.label, href: href('apple', p.id) }))}
+        links={NAV_LINKS}
         tone="dark"
         utility={<SpacingToggle className={v1.localSpacing} label={spacing.label} stateText={{ on: spacing.more, off: spacing.standard }} />}
       />
@@ -113,15 +112,22 @@ export default function ShadesRevealPage() {
 
         <JoinChapter
           world="apple"
-          visual={<SeatRing world="apple" />}
+          visual={null}
           headline={closing.join.headline}
           lead={closing.join.lead}
           {...MEETINGS.subteam}
           primary={{ label: closing.join.discord.label, href: closing.join.discord.href, external: true }}
+          primaryStyle="pill"
+          backers={false}
         >
-          <Seats world="apple" />
-          <p className={s.note}>{SHADES.join.mentor}</p>
-          <p className={s.note}>{SHADES.join.affiliation}</p>
+          {/* BRAIN-style ending: headline, line, meeting, one pill. The seats sit under it: badge beside the role rows. */}
+          <div className={s.joinSeats}>
+            <MemberBadge roles={SHADES.join.roles} project="SHADES" />
+            <Seats world="apple" />
+          </div>
+          <p className={s.note}>
+            {SHADES.join.mentor} {SHADES.join.affiliation}
+          </p>
         </JoinChapter>
       </main>
       <WorldFooter world="apple" />

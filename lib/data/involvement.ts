@@ -138,9 +138,9 @@ export const involvementCategories: InvolvementCategory[] = [
 
 // Meeting info for the page
 export const meetingInfo = {
-  title: 'General Meetings',
-  description: 'Thursday nights are build nights. Subsystem standups first, workshop after.',
-  schedule: 'Thursdays @ 6:00 PM',
+  title: 'Sub-team Meetings',
+  description: 'Meetings are sub-team based. Join our Discord for more information.',
+  schedule: 'Set by each sub-team',
   location: 'Building 17, Room 1635',
   campus: 'Cal Poly Pomona',
   perks: ['Hands-on workshops', 'Industry guest speakers', 'Project updates', 'Networking'],

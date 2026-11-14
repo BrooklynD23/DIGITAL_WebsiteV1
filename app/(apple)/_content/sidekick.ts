@@ -240,8 +240,8 @@ export const ruleSentences = [
 export const join = {
   headline: 'Take a subsystem.',
   lead: 'Pick a board. Its files are in the repository.',
-  when: 'Thursdays, 6:00 PM',
-  where: 'Building 17, Room 1635',
+  when: CLUB.when,
+  where: null,
   discord: CLUB.discord,
 } as const;
 

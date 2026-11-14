@@ -6,7 +6,10 @@ import { involvementCategories } from '@/lib/data/involvement';
 import { siteConfig } from '@/lib/data/siteConfig';
 
 export const CLUB = {
-  when: 'Thursdays, 6:00 PM',
+  /** No club-wide meeting (Head Designer, 2026-11-12): each sub-team sets its own time. */
+  when: 'Meetings are sub-team based.',
+  /** Follow-up line wherever the meeting fact appears. */
+  meetingMore: 'Join our Discord for more information.',
   where: siteConfig.contact.location,
   /** Main club server. */
   discord: siteConfig.social.discord,
@@ -22,9 +25,9 @@ export const LINKS = {
   brainDiscord: siteConfig.social.brainDiscord,
 } as const;
 
-/** Per-team meeting facts for <JoinChapter when / where / bring>. SIDEKICK and SHADES subteams set their own times. */
+/** Per-team meeting facts for <JoinChapter when / where / bring>. SIDEKICK and SHADES sub-teams set their own times; BRAIN meets Fridays. */
 export const MEETINGS = {
-  subteam: { when: 'Subteam meetings depend on the team.', where: null, bring: 'Join the Discord to connect with the leads.' },
+  subteam: { when: CLUB.when, where: null, bring: CLUB.meetingMore },
   brain: { when: 'Fridays, 12:00 – 1:00 PM', where: null, bring: CLUB.noExperience },
 } as const;
 
@@ -38,3 +41,22 @@ export interface BackerPath {
 export const BACKER_PATHS: readonly BackerPath[] = (
   involvementCategories.find((c) => c.id === 'companies')?.options ?? []
 ).map((o) => ({ id: o.id, label: o.title, href: o.link }));
+
+/** Strings on the blank member badge (MemberBadge). */
+export const BADGE = {
+  org: 'DIGITAL @ CAL POLY POMONA',
+  name: 'Your name',
+  /** aria-label prefix; the open roles are appended. */
+  label: 'A blank member badge with an open seat. Open roles:',
+  /** aria-label suffix: what a press does. */
+  press: 'Press to show the next role.',
+} as const;
+
+/** "Coming soon" menu in the top bar: teams that publish on /updates/ but have no build page yet. */
+export const COMING_SOON = {
+  label: 'Coming soon',
+  links: [
+    { label: 'TWINS', note: 'Simulating a factory and supply chain end to end. Project: VESSEL.', href: '/updates/vessel-product-definition/' },
+    { label: 'DIGITAL Business', note: 'Finance case studies for the club.', href: '/updates/?team=DIGITAL%20Business' },
+  ],
+} as const;

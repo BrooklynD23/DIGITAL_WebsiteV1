@@ -11,7 +11,7 @@ export const siteConfig: SiteConfig = {
     email: '',
     location: 'Building 17, Room 1635',
     campus: 'Cal Poly Pomona',
-    meetingTime: 'Thursdays @ 6:00 PM',
+    meetingTime: 'Set by each sub-team',
   },
   // Approved public links (Head Designer, 2026-10-07). Single source: club.ts, community.ts and the root metadata read these.
   social: {

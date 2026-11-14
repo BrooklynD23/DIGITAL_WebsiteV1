@@ -102,6 +102,9 @@ const mcp: Scene = {
   },
 };
 
+/** Context fill (0..1) at loop phase u: shared by the figure and the HTML meter so they never disagree. */
+export const ctxFill = (u: number): number => (u < 0.72 ? lerp(0.3, 0.96, easeInOut(u / 0.72)) : lerp(0.96, 0.3, easeInOut(seg(u, 0.86, 1))));
+
 const COLS = 12;
 const ROWS = 8;
 const PITCH = 0.115;
@@ -111,7 +114,7 @@ const context: Scene = {
   still: 0.78,
   draw: (u, spin, c) => {
     const dots = model(0, -0.72, 0.15, spin, c);
-    const fill = u < 0.72 ? lerp(0.3, 0.96, easeInOut(u / 0.72)) : lerp(0.96, 0.3, easeInOut(seg(u, 0.86, 1)));
+    const fill = ctxFill(u);
     const x0 = (-(COLS - 1) / 2) * PITCH;
     const y0 = -0.34;
     for (let i = 0; i < COLS * ROWS; i++) {
@@ -180,6 +183,9 @@ const evals: Scene = {
 
 const SCENES: readonly Scene[] = [alone, loop, tools, mcp, context, harness, evals];
 export const STAGE_COUNT = SCENES.length;
+
+/** Loop phase (0..1) and loop index of stage i at loop clock `time` (ms). Drives the HTML labels. */
+export const stageLoop = (i: number, time: number): { u: number; n: number } => ({ u: (time % SCENES[i].ms) / SCENES[i].ms, n: Math.floor(time / SCENES[i].ms) });
 
 const drawAt = (i: number, time: number, c: Ctx): Raw => SCENES[i].draw((time % SCENES[i].ms) / SCENES[i].ms, time * 0.00022, c);
 

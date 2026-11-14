@@ -62,7 +62,7 @@ Detail lives in `docs/design/BRAND.md`. The rules that shaped the shipped pages:
 5. Print only what a source states. `[confirm]` tags are removed from the pages; a fact with no source is left out, not tagged.
 6. Honest status words: "Archived design", "Planned", "An archive, not a finished phone."
 7. CTAs are imperative, 2–4 words: "Join build night", "Take a subsystem", "Join BRAIN".
-8. No hype adjectives, no exclamation marks, no personal names.
+8. No hype adjectives, no exclamation marks, no personal names (exception: author and mentor names on Updates, §18).
 9. Banned filler: comprehensive, innovative, cutting-edge, seamless, robust, leverage (verb), empower, elevate, unlock, journey, passionate.
 
 Copy changes go through the `brand-voice-strategist` agent to write and the `brand-guardian` agent to review.
@@ -108,7 +108,13 @@ Light is the default. A section becomes dark with `data-tone="dark"`; the same t
 
 **Black is literal.** Product-story sections paint `#000` directly (`.pin`, `.story`, `.facts`, BRAIN `.page`) so the surface is continuous across sections.
 
-**No other hue** except the SIDEKICK functional palette (§12).
+**No other hue** except the SIDEKICK functional palette (§12) and these named Head Designer exceptions:
+
+| Exception | Approved | Where | Scope |
+|---|---|---|---|
+| BRAIN orb colours (blue / violet / cyan, literal rgb) | 2026-10-15 | `_home/BrainOrb.tsx` (home "Explore our projects", BRAIN row) | That orb only |
+| BRAIN context meter `--r2-meter-ok #5ad17a`, `--r2-meter-warn #ffb35c`, `--r2-meter-hot #ef6a55` | 2026-10-15 | `worlds.css`; the context % pill in the BRAIN context-engineering lesson | The meter only (`brain.DESIGN.md` §10) |
+| Chrome member badge: brushed-chrome greys and a full-spectrum holographic film (`color-dodge`) | 2026-11-12 | `_chrome/MemberBadge.tsx`, `member-badge.module.css` (home and SHADES joins) | That badge only; see §11 for its depth |
 
 ## 7. Type
 
@@ -249,6 +255,8 @@ Two kinds of figure. Both draw in the current ink colour.
 
 **Never:** gradients, glow, bloom, drop shadows, glass, photographic renders, stock imagery.
 
+**Exception (Head Designer, 2026-11-12): the chrome member badge.** `MemberBadge` may use gradients (the brushed chrome, the film, a specular highlight under the pointer), inset highlights and a tilt of at most 8° toward the pointer. A press plays a 900ms light sweep, flares the film and shows the next open role. Under reduced motion there is no tilt, sweep or flare; a press still advances the role. The lift applies to this component only; no other figure or card may copy it.
+
 ## 12. SIDEKICK functional palette
 
 The one sanctioned multi-colour exception, requested by the Head Designer for `/projects/sidekick/` only. Six hues with alternating lightness so that neighbours separate without relying on hue. A group colour is never shown without its text label. Source: `app/(apple)/projects/sidekick/sidekick.module.css`.
@@ -273,12 +281,13 @@ Copper is the board colour on any page that draws a board. The group hues stay o
 `<LocalNav>` (`_chrome/LocalNav.tsx`): `position: sticky; top: 0`, 52px, 1024px column, translucent ground with `backdrop-filter: saturate(1.8) blur(20px)`, 1px bottom hairline.
 
 - Left: the `DIGITAL` wordmark (21px / 600; 19px ≤ 734px) linking to `/`.
-- Links: the three builds from `PAGES` in `_chrome/routes.ts`, 12px. The current page's link gets `aria-current="page"`. At ≤ 734px the links collapse into a chevron disclosure menu.
-- Right: **one** filled pill, 30px tall inside a 44px hit target, 12px / 500. Default label "Join build night" → `#join`. A page may relabel it; it may not add a second one.
+- Links: `NAV_LINKS` in `_chrome/routes.ts` (the three builds, then Updates), 12px. The current page's link gets `aria-current="page"`. At ≤ 734px the links collapse into a chevron disclosure menu.
+- "Coming soon" menu (2026-11-12, `_chrome/ComingSoon.tsx`, links in `COMING_SOON` in `club.ts`): a 12px button after the links with a chevron, `aria-expanded` / `aria-controls`, opening a flat 300px popover (nav ground, hairline border, `--r2-radius`, no shadow) with TWINS → the VESSEL post and DIGITAL Business → `/updates/?team=DIGITAL%20Business`. Escape closes it and returns focus to the button; an outside press, focus leaving or a link choice also close it. At ≤ 734px the button hides and the same links end the section menu under a "Coming soon" group label. Approved for every page, the locked SIDEKICK and BRAIN included.
+- Right: **one** filled pill, 30px tall inside a 44px hit target, 12px / 500. Default label "Join us" → `#join`. A page may relabel it; it may not add a second one.
 - `utility` slot: at most one extra control (SHADES' spacing toggle).
 - Tone: `tone="dark"` sets the first paint; `ToneSync` then follows the section under the bar.
 
-BRAIN is locked with its earlier two-bar chrome (a 44px global bar that scrolls away above a BRAIN-titled local nav). Do not copy that to another page.
+BRAIN uses the same one sticky `LocalNav` since 2026-10-15 (`WorldNav` removed; `brain.DESIGN.md` §10).
 
 ### 13.2 Join ending
 
@@ -287,24 +296,25 @@ BRAIN is locked with its earlier two-bar chrome (a 44px global bar that scrolls 
 - Centred, 1024px column, `--r2-space-10` vertical padding (`-9` on phones).
 - Title at the `h2` step, an optional lead, the meeting line at the `h3` step / 600, then "No project experience required."
 - Primary action: a chevron text link by default, because the nav pill is the page's one filled CTA. `primaryStyle="pill"` (44px, 17px / 500) is for a page whose join is the destination (BRAIN).
-- Default visual: a 200px open-seat dot figure that plays once on entry and carries the red anchor.
+- Default visual: a 200px open-seat dot figure that plays once on entry and carries the red anchor (SIDEKICK keeps it). Home and SHADES pass the chrome `MemberBadge` (§11 exception).
 - "Back a build" row: sponsor, recruiter and faculty links read from `lib/data/involvement.ts`.
 
 Facts come from `_chrome/club.ts`, not from the page:
 
 | Constant | Value |
 |---|---|
-| `CLUB.when` | Thursdays, 6:00 PM (build night) |
+| `CLUB.when` | Meetings are sub-team based. (no club-wide time or room since 2026-11-12) |
+| `CLUB.meetingMore` | Join our Discord for more information. |
 | `CLUB.discord` | `https://discord.gg/U77P2U2D84` |
 | `LINKS.brainDiscord` | `https://discord.gg/Smfv4weJMz` |
 | `LINKS.github` | `https://github.com/DIGITALatCalPolyPomonaCPP/SIDEKICK-Prev.-TheSmartphoneProject-` |
 | `LINKS.linkedin` | `https://www.linkedin.com/company/digital-cal-poly-pomona` |
 | `MEETINGS.brain.when` | Fridays, 12:00 – 1:00 PM |
-| `MEETINGS.subteam.when` | Subteam meetings depend on the team. (SIDEKICK, SHADES) |
+| `MEETINGS.subteam` | `CLUB.when` + `CLUB.meetingMore` (SIDEKICK, SHADES) |
 
 ### 13.3 Footer
 
-`<WorldFooter world="apple">`: `--r2-ground-raised`, 1024px column, padding 48px top / 56px bottom. Rows, top to bottom: the thesis (17/25, 600); the build links (DIGITAL, SIDEKICK, SHADES, BRAIN; 12px, 44px tall); site and legal links; the social icons (Discord, Instagram, LinkedIn, GitHub; external, new tab, `rel="noopener noreferrer"`); meta (12/16: build night, room, "DIGITAL @ Cal Poly Pomona").
+`<WorldFooter world="apple">`: `--r2-ground-raised`, 1024px column, padding 48px top / 56px bottom. Rows, top to bottom: the thesis (17/25, 600); the build links (DIGITAL, SIDEKICK, SHADES, BRAIN; 12px, 44px tall); site and legal links; the social icons (Discord, Instagram, LinkedIn, GitHub; external, new tab, `rel="noopener noreferrer"`); meta (12/16: the meeting line, "DIGITAL @ Cal Poly Pomona").
 
 **Rows (2026-10-07):** builds, then site pages, then legal (`SITE_PAGES`, `LEGAL_PAGES` in `routes.ts`), then the social row, then the meta lines.
 
@@ -312,7 +322,7 @@ Facts come from `_chrome/club.ts`, not from the page:
 
 ### 13.4 SitePage — the frame for a simple page
 
-`<SitePage>` (`_chrome/SitePage.tsx`) renders the skip link, the one `LocalNav`, a single `<main id="r2-main">`, and the footer. Props: `children`; `cta` (default "Join build night" → `/#join`, `null` hides it); `tone` (`'dark'` default, or `'light'`). Its class vocabulary (`.hero`, `.section`, `.wrap`, `.prose`, `.facts`, `.rows`, `.grid`, form controls) is in `_chrome/site-page.module.css` and documented in the component's header comment. It was being built on 2026-10-07; read that comment before relying on a class.
+`<SitePage>` (`_chrome/SitePage.tsx`) renders the skip link, the one `LocalNav`, a single `<main id="r2-main">`, and the footer. Props: `children`; `cta` (default "Join us" → `/#join`, `null` hides it); `tone` (`'dark'` default, or `'light'`). Its class vocabulary (`.hero`, `.section`, `.wrap`, `.prose`, `.facts`, `.rows`, `.grid`, form controls) is in `_chrome/site-page.module.css` and documented in the component's header comment. It was being built on 2026-10-07; read that comment before relying on a class.
 
 ## 14. Motion
 
@@ -399,7 +409,8 @@ Rejected by the Head Designer. Do not reintroduce.
 **Known deviations in the shipped code** (recorded so they are not copied):
 
 - SIDEKICK (locked as built): each stage caption has a Geist Mono label line above the heading. It carries the group swatch and is the colour legend.
-- BRAIN (locked as built): two-bar chrome (§13.1).
+- Updates (open, Head Designer exception 2026-11-12): posts name their authors and mentors, with round initials avatars (photos later). This overrides "no personal names" (§4 rule 8, the "Name people" row above) for `/updates/` and its post pages only.
+- Updates cards (open, Head Designer exception 2026-11-12): the `/updates/` index shows the newest four posts (or filter hits) as cards on `--r2-ground-raised`, `--r2-radius` corners: one lead card (art + copy, 2 columns, 1 column ≤ 734px) and a 3-up grid, then the hairline rows of every post. Each card is one link; hover lifts it 2px (`--r2-ease-ui`, off under reduced motion). This overrides "Put content in cards" (row above) for `/updates/` only; no other page may copy it. Source: `design-lab/proposals/2026-11-12-badge-updates/updates-proto.html`, view 2.
 - SHADES (open): the hero glasses use a radial-gradient lens glow and a blur filter (`projects/shades/Glasses.tsx`), and the highlights strip uses rounded cells (`_system/ui/Highlights`).
 - Home, SIDEKICK and SHADES wrap content in `<div id="r2-main">`, not `<main>`. Only BRAIN and `SitePage` render `<main>`. `ToneSync` selects sections inside `main`.
 
@@ -436,3 +447,7 @@ Source: `app/(apple)/_system/tokens/worlds.css` (`.world-apple`, `.world-apple [
 | 2026-06-01 | Initial DESIGN.md: industrial studio system derived from `Refractor/`. |
 | 2026-09-14 | Rewritten as the DIGITAL brand system (paper and ink palette, serif / sans / mono registers, the sheet model, the sign-off block). |
 | 2026-10-07 | **Rewritten as the Apple system, as implemented.** The Head Designer made the Apple pages the default routes (`/`, `/projects/sidekick/`, `/projects/shades/`, `/projects/brain/`) and the Apple system the site's design system. SIDEKICK and BRAIN are locked. The previous visual system (parchment ground, Newsreader / IBM Plex, the sheet model, the sign-off block, the build-record page anatomy) is retired; its code is in `archive/` and its specification is in git history (`DESIGN.md` before this date). The brand layer is kept: the venture-studio positioning, the thesis, the four beliefs, the voice rules and the on-brand test. Remaining `app/(legacy)/` routes are being migrated onto this system. |
+| 2026-10-15 | Head Designer approvals: default nav pill "Join us"; BRAIN moves to the shared sticky `LocalNav` (§13.1, `brain.DESIGN.md` §10); 44px tap targets on nav and footer links; BRAIN lessons gain tool-call examples, named MCP servers and a context % pill on new tokens `--r2-meter-ok/-warn/-hot` (§6 exception); home "Explore our projects" rows (SIDEKICK board, SHADES glasses, BRAIN orb + readout) with the **BRAIN orb colour exception** (§6); flat `MemberBadge` v1 on the home and SHADES joins; `/updates/` v1 + footer link. |
+| 2026-11-12 | Meetings are sub-team based: "Build night" and the club-wide time and room are removed (`CLUB.when`, `CLUB.meetingMore`, §13.2). **Motion "do now"**: home hero animates transform only (CLS 0.118 → 0.012 desktop, 0.141 → 0.008 mobile); `.r2-reveal` on the home build rows and simple-page `h2`s; one page-load entrance (h1 then lead, 600ms, 80ms stagger, `--r2-ease-entrance`; SHADES blur removed); `.wrap` aligned to the wordmark; one hover language (underline fades in) on open-page links. |
+| 2026-11-12 | **Chrome member badge** replaces the flat badge on the home and SHADES joins, with two Head Designer exceptions: the rainbow holographic film (§6, second colour exception after the BRAIN orb) and gradients, inset highlights and an 8° tilt on this component only (§11). **Coming soon** menu in the shared nav (§13.1): TWINS and DIGITAL Business; touches the locked SIDEKICK and BRAIN navs (approved). **Updates** filled with seven posts; authors and mentors shown with initials avatars, overriding "no personal names" on Updates only (§18); new post page `/updates/vessel-product-definition/` (static, `generateStaticParams`). |
+| 2026-11-12 | Updates cards exception (Head Designer). `/updates/` moves from hairline rows to the prototype's cards: lead card + 3-up grid above the full log; filtered views show cards for the hits, an empty team shows "No posts from this team yet." Lead art is the cover image, else the post's value stream as mono labels on a flat ink block (no gradients). Recorded under §18 known deviations. Copy trims (Head Designer approved): "is the first TWINS project" → "is a TWINS project" (`lib/data/updates.ts`); Coming soon notes "First project: VESSEL." → "Project: VESSEL." and "Finance and operations case studies" → "Finance case studies" (`_chrome/club.ts`), dropping the unsourced "first" and "operations". |

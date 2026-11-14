@@ -6,7 +6,7 @@ import { LinkRows } from '../_site/LinkRows';
 
 export const metadata: Metadata = { title: COMMUNITY.meta.title, description: COMMUNITY.meta.description };
 
-/** Community: the channels that exist, as link rows. Build night is the join chapter. */
+/** Community: the channels that exist, as link rows. Sub-team meetings are the join chapter. */
 export default function CommunityPage() {
   const { hero, channels } = COMMUNITY;
   return (
@@ -18,7 +18,7 @@ export default function CommunityPage() {
 
       <section className={s.section} aria-labelledby="channels-title">
         <div className={s.wrap}>
-          <h2 id="channels-title" className={s.h2}>{channels.title}</h2>
+          <h2 id="channels-title" className={`${s.h2} r2-reveal`}>{channels.title}</h2>
           <LinkRows rows={channels.rows} />
         </div>
       </section>

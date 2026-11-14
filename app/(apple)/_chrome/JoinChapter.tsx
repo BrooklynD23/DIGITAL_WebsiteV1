@@ -8,12 +8,12 @@ import s from './join.module.css';
 
 /**
  * <JoinChapter world …> — the one join ending for every r2 page, both worlds (replaces 8 implementations).
- * Facts come from ./club (siteConfig): Thursdays 6:00 PM, Building 17 Room 1635, Discord, no experience needed.
+ * Facts come from ./club (siteConfig): meetings are sub-team based (no club-wide time or room), Discord, no experience needed.
  * One primary action + a "Back a build" path for sponsors, recruiters and faculty (/contact?type=…, production).
  *   Signal: WHEN / WHERE / BRING readout, outlined action in the text face (sentence case; mono is for readouts
  *           only), never filled. No solid band: the page graticule runs underneath. The default seat carries
  *           the page's red trigger (open seat) unless `trigger={false}`.
- *   Apple:  centred light chapter. The page's ONE filled CTA is the LocalNav pill ("Join build night" → #join),
+ *   Apple:  centred light chapter. The page's ONE filled CTA is the LocalNav pill ("Join us" → #join),
  *           which stays in view here, so the primary action defaults to a chevron text link.
  *           Use `primaryStyle="pill"` only on an Apple page without a LocalNav.
  * id defaults to "join" (the LocalNav CTA target).
@@ -30,7 +30,7 @@ export interface JoinChapterProps {
   readonly headline?: string;
   /** One optional sentence under the headline (page-specific: which part could be theirs). */
   readonly lead?: string;
-  /** Meeting facts. Default: the club build night (./club). `where` / `bring` = null leaves that fact out. */
+  /** Meeting facts. Default: the club sub-team meetings (./club). `where` / `bring` = null leaves that fact out. */
   readonly when?: string;
   readonly where?: string | null;
   readonly bring?: string | null;
@@ -38,7 +38,7 @@ export interface JoinChapterProps {
   readonly secondary?: JoinAction;
   /** Apple only: chevron text link (default; the LocalNav pill is the page's one filled CTA) or a filled pill. */
   readonly primaryStyle?: 'pill' | 'link';
-  /** Visual slot. Default: an open-seat orb that plays once on entry. `null` = none. */
+  /** Visual slot. Default: an open-seat orb that plays once on entry. `null` = none. Home and SHADES pass a <MemberBadge>. */
   readonly visual?: ReactNode | null;
   /** Red anchor on the default seat (the page's one trigger in this viewport). Default true. */
   readonly trigger?: boolean;
@@ -49,7 +49,7 @@ export interface JoinChapterProps {
    * visual. For pages whose ending is already long.
    */
   readonly compact?: boolean;
-  /** Extra page content under the facts (e.g. SIDEKICK's open-seat rows). */
+  /** Extra page content under the action (SHADES badge + seats, SIDEKICK subsystem reel): act first, detail after. */
   readonly children?: ReactNode;
   readonly className?: string;
 }
@@ -74,8 +74,8 @@ export function JoinChapter({
   headline = homeJoin.headline,
   lead,
   when = CLUB.when,
-  where = CLUB.where,
-  bring = CLUB.noExperience,
+  where = null,
+  bring = CLUB.meetingMore,
   primary = DISCORD,
   secondary,
   primaryStyle = 'link',
@@ -169,7 +169,6 @@ export function JoinChapter({
               {bring ? <p className={s.bring}>{bring}</p> : null}
             </>
           )}
-          {children}
           <div className={s.actions}>
             {world === 'apple' && primaryStyle === 'pill' ? (
               <ActionLink a={primary} className={s.pill} />
@@ -178,6 +177,7 @@ export function JoinChapter({
             )}
             {secondary ? <ActionLink a={secondary} className={s.textLink} chevron={world === 'apple'} /> : null}
           </div>
+          {children}
           {backerRow}
         </div>
       </div>

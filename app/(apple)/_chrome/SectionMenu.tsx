@@ -6,6 +6,7 @@
  */
 import { useEffect, useRef } from 'react';
 import { Chevron } from '../_system/ui/Chevron';
+import { COMING_SOON } from './club';
 import styles from './chrome.module.css';
 
 export function SectionMenu({
@@ -47,6 +48,12 @@ export function SectionMenu({
         {links.map((l) => (
           <li key={`${l.label}|${l.href}`}>
             <a href={l.href}>{l.label}</a>
+          </li>
+        ))}
+        <li className={styles.menuGroup} aria-hidden="true">{COMING_SOON.label}</li>
+        {COMING_SOON.links.map((l) => (
+          <li key={l.href}>
+            <a href={l.href} aria-label={`${l.label}, ${COMING_SOON.label.toLowerCase()}`}>{l.label}</a>
           </li>
         ))}
       </ul>

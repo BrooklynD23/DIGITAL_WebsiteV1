@@ -4,7 +4,7 @@
  * "[confirm]" tag. No member names, counts, partners or outcomes.
  * `join.headline / cta / lead` are read by _chrome/JoinChapter and the system specimen: keep those keys.
  */
-import type { BuildVerb, Verb } from '../_system';
+import type { BuildVerb } from '../_system';
 
 export const thesis = 'Make something worth putting your name on.';
 
@@ -48,22 +48,17 @@ export interface Channel {
   readonly ch: 'CH1' | 'CH2' | 'CH3';
   readonly name: string;
   readonly line: string;
-  /** Signature micro-motion for the channel. */
-  readonly verb: Verb;
+  /** Accessible label of the chapter's visual. */
   readonly verbNote: string;
-  /** Notion status is "Planned" for all three; always shown with [confirm]. */
-  readonly status: string;
-  /** RSVP word drawn at the fixation point of the channel's orb (SHADES only). */
-  readonly word?: string;
 }
 
 export const channels: readonly Channel[] = [
-  { id: 'sidekick', ch: 'CH1', name: 'SIDEKICK', line: 'A modular phone design on a Zynq-7000.', verb: 'explode', verbNote: 'Its layers separate on one axis.', status: 'Archived design' },
-  { id: 'shades', ch: 'CH2', name: 'SHADES', line: 'Glasses that show text word by word.', verb: 'fixate', verbNote: 'Scattered dots land on one point.', status: 'Planned', word: 'own' },
-  { id: 'brain', ch: 'CH3', name: 'BRAIN', line: 'Software built with agentic AI tools.', verb: 'bud', verbNote: 'Child orbs split off the parent.', status: 'Planned' },
+  { id: 'sidekick', ch: 'CH1', name: 'SIDEKICK', line: 'A modular smartphone design, files on GitHub.', verbNote: 'The SIDEKICK main board design, front copper and parts.' },
+  { id: 'shades', ch: 'CH2', name: 'SHADES', line: 'Research-backed heads-up display glasses, a rendered prototype.', verbNote: 'The planned SHADES glasses, rendered.' },
+  { id: 'brain', ch: 'CH3', name: 'BRAIN', line: 'How AI agents work, and how to build with them.', verbNote: 'An orb that swells while an example agent works.' },
 ];
 
-export const channelsHeadline = 'Three builds. One could be yours.';
+export const channelsHeadline = 'Explore our projects';
 
 /** Apple LocalNav title (Head Designer, 2026-10-02: "DIGITAL"; positioning stays in the hero line). */
 export const localTitle = 'DIGITAL';
@@ -72,14 +67,33 @@ export const localTitle = 'DIGITAL';
 export const highlights: ReadonlyArray<{ readonly id: string; readonly title: string; readonly caption: string }> = [
   { id: 'stages', title: 'One cycle', caption: 'A build splits into subsystems. Each one runs the same four stages.' },
   { id: 'venture', title: 'Venture Studies', caption: 'Turns engineering scope into budgets, sponsor briefs and pitches.' },
-  { id: 'night', title: 'Build night', caption: 'Thursdays, 6:00 PM, Building 17, Room 1635. Discord carries the work in between.' },
+  { id: 'night', title: 'Sub-team meetings', caption: 'Meetings are sub-team based. Join our Discord for more information.' },
   { id: 'majors', title: 'Any major', caption: 'Engineering, CS, design, business, data and science students can own parts.' },
 ];
 
 export const join = {
   id: 'join',
-  headline: 'Thursday is build night.',
-  lead: 'Come once and pick a part. Discord carries the work in between.',
+  headline: 'Join a sub-team.',
+  lead: 'Meetings are sub-team based. Join our Discord for more information.',
   cta: 'Join the Discord',
   secondary: 'Pick a build first',
+} as const;
+
+/** BRAIN chapter readout (AI SDK Elements "Reasoning" pattern). A tool is [name, argument, result, ok?]. */
+export interface HomeJob {
+  readonly think: string;
+  readonly tools: ReadonlyArray<readonly [string, string, string, boolean?]>;
+  readonly sec: number;
+}
+
+export const homeJobs: readonly HomeJob[] = [
+  { think: 'The test suite is red. Run it first to see which test fails.', tools: [['run_tests', 'npm test', '1 failed'], ['read_file', 'src/demo.ts', '212 lines'], ['edit_file', 'src/demo.ts:47', 'patched'], ['run_tests', 'npm test', '24 passed']], sec: 4 },
+  { think: 'Summarize this week in Discord. Ask the Discord server for the last 50 messages.', tools: [['mcp · discord', 'messages.list #general', '50 messages'], ['write', 'summary.md', '6 bullets']], sec: 3 },
+  { think: 'Check the board netlist for unconnected pins with a script.', tools: [['bash', 'python check_nets.py demo-board.net', '2 warnings'], ['read_file', 'demo-board.net', 'U4 pin 12'], ['bash', 'python check_nets.py demo-board.net', '0 warnings']], sec: 5 },
+  { think: 'Clean the build folder. That deletes files, so the harness asks first.', tools: [['bash', 'rm -rf build/', 'needs approval', false]], sec: 2 },
+];
+
+export const readoutLabels = {
+  thinking: 'Thinking…',
+  thought: (n: number): string => `Thought for ${n} ${n === 1 ? 'second' : 'seconds'}`,
 } as const;

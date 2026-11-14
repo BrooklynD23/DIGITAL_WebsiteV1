@@ -70,13 +70,14 @@
 .buildOrb { justify-self: center; width: min(100%, 560px, calc(100svh - 240px)); color: var(--r2-ink); }
 .buildCopy { display: grid; gap: var(--r2-space-3); justify-items: start; }
 .buildName { margin: 0; font-family: var(--font-display); font-weight: var(--r2-fw-display); font-size: var(--r2-fs-h1); line-height: var(--r2-lh-h1); letter-spacing: var(--r2-ls-h1); }
-.buildLink { display: inline-flex; align-items: center; gap: 8px; color: inherit; text-decoration: none; min-height: 44px; }
-.buildLink:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.12em; }
+.build .buildCopy { animation-range: entry 10% cover 35%; } /* the copy trails the visual's .r2-reveal */
+/* Open-page link hover: the underline fades in, the chevron steps 3px (same as updates rows and .linkRow). */
+.buildLink { display: inline-flex; align-items: center; gap: 8px; color: inherit; min-height: 44px; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.12em; text-decoration-color: transparent; transition: text-decoration-color var(--r2-dur-ui-fast) var(--r2-ease-ui); }
+.buildLink:hover { text-decoration-color: currentColor; }
 .buildLink svg { transition: transform var(--r2-dur-ui-fast) var(--r2-ease-ui); }
 .buildLink:hover svg { transform: translateX(3px); }
 .buildLine { margin: 0; font-size: var(--r2-fs-lead); line-height: var(--r2-lh-lead); font-weight: 600; color: var(--r2-ink); max-width: 26rem; text-wrap: pretty; }
 .buildConfirm { font-family: var(--font-mono); font-size: var(--r2-fs-small); font-weight: 400; color: var(--r2-ink-2); }
-.buildStatus { margin: 0; font-family: var(--font-mono); font-size: var(--r2-fs-small); line-height: var(--r2-lh-small); color: var(--r2-ink-2); }
 
 /* ---------------------------------------------------------------- responsive */
 @media (max-width: 1068px) {
@@ -103,7 +104,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .buildLink svg { transition: none; }
+  .buildLink, .buildLink svg { transition: none; }
 }
 
 /* Highlights card 1: the home-stages clip gets its own dark rounded card inside the light card (until the shared

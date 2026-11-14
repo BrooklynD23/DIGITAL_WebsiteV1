@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Motion Do-Now Prototype</title>
+<style>
+  :root {
+    --ground: #ffffff; --ground-raised: #f5f5f7; --ink: #1d1d1f; --ink-2: #6e6e73;
+    --hairline: #d2d2d7; --hairline-strong: #86868b; --cta-bg: #1d1d1f; --cta-ink: #ffffff; --cta-hover: #b3321f;
+    --dark-ground: #000000; --dark-ink: #f5f5f7; --dark-ink-2: #a1a1a6;
+    --ease-ui: cubic-bezier(0.4, 0, 0.6, 1); --ease-emphasized: cubic-bezier(0.2, 0, 0, 1); --ease-entrance: cubic-bezier(0.16, 1, 0.3, 1);
+    --dur-ui-fast: 240ms; --gutter: 16px;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #000000; --ground-raised: #161617; --ink: #f5f5f7; --ink-2: #a1a1a6;
+      --hairline: #424245; --hairline-strong: #86868b; --cta-bg: #f5f5f7; --cta-ink: #1d1d1f;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #000000; --ground-raised: #161617; --ink: #f5f5f7; --ink-2: #a1a1a6;
+    --hairline: #424245; --hairline-strong: #86868b; --cta-bg: #f5f5f7; --cta-ink: #1d1d1f;
+    color-scheme: dark;
+  }
+  @media (min-width: 735px) { :root { --gutter: 32px; } }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ground); color: var(--ink); font: 17px/1.47 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; letter-spacing: -0.022em; }
+  main { max-width: 1024px; margin: 0 auto; padding: 48px var(--gutter) 96px; }
+  h1, h2, h3 { margin: 0; font-weight: 600; text-wrap: balance; }
+  h1 { font-size: clamp(34px, 7vw, 56px); line-height: 1.07; letter-spacing: -0.03em; }
+  h2 { font-size: clamp(26px, 5vw, 36px); line-height: 1.12; letter-spacing: -0.02em; }
+  h3 { font-size: 19px; line-height: 1.3; }
+  p { margin: 0; }
+  .lead { margin-top: 12px; font-size: 21px; line-height: 1.38; color: var(--ink-2); max-width: 40rem; }
+  .meta { margin-top: 16px; font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 13px; color: var(--ink-2); }
+  section.item { padding: 64px 0 0; margin-top: 64px; border-top: 1px solid var(--hairline); }
+  .tag { display: inline-block; font-family: ui-monospace, Menlo, monospace; font-size: 13px; color: var(--ink-2); margin-bottom: 8px; }
+  .why { margin-top: 12px; color: var(--ink-2); max-width: 44rem; }
+  .num { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px 24px; font-family: ui-monospace, Menlo, monospace; font-size: 14px; }
+  .num b { font-weight: 600; }
+  .pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 24px; }
+  .pair.narrow { grid-template-columns: repeat(2, minmax(0, 220px)); }
+  @media (max-width: 640px) { .pair { grid-template-columns: minmax(0, 1fr); } .pair.narrow { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  figure { margin: 0; min-width: 0; }
+  figure img { display: block; width: 100%; height: auto; border: 1px solid var(--hairline); border-radius: 12px; background: #000; }
+  figcaption { margin-top: 8px; font-size: 14px; line-height: 1.43; color: var(--ink-2); }
+  figcaption strong { color: var(--ink); font-weight: 600; }
+  .strip { margin-top: 24px; }
+  .strip h3 { font-size: 15px; color: var(--ink-2); font-weight: 500; margin-bottom: 8px; }
+  .frames { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+  .frames figure img { border-radius: 6px; }
+  .frames figcaption { font-family: ui-monospace, Menlo, monospace; font-size: 12px; margin-top: 4px; }
+  @media (max-width: 640px) { .frames { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+  /* ---------- live demos: the exact shipped CSS, renamed to demo classes ---------- */
+  .demo { margin-top: 24px; border: 1px solid var(--hairline); border-radius: 12px; overflow: hidden; }
+  .demoHead { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 16px; background: var(--ground-raised); border-bottom: 1px solid var(--hairline); font-size: 14px; color: var(--ink-2); }
+  .btn { font: inherit; font-size: 15px; font-weight: 500; min-height: 44px; padding: 0 20px; border: 0; border-radius: 980px; background: var(--cta-bg); color: var(--cta-ink); cursor: pointer; transition: background var(--dur-ui-fast) var(--ease-ui), color var(--dur-ui-fast) var(--ease-ui); }
+  .btn:hover { background: var(--cta-hover); color: #ffffff; }
+  .btn:focus-visible, a:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+  /* item 1: the art box is fixed; first viewport = transform */
+  .artStage { position: relative; height: 300px; background: var(--dark-ground); color: var(--dark-ink); overflow: hidden; --h: 0; }
+  .artStage[data-open] { --h: 1; }
+  .artThesis { position: absolute; left: 0; right: 0; top: 20px; text-align: center; font-size: 22px; font-weight: 600; letter-spacing: -0.02em; opacity: calc(1 - var(--h)); transition: opacity 240ms var(--ease-ui); }
+  .artStage[data-open] .artThesis { transition-delay: 0ms; }
+  .artBox {
+    position: absolute; left: 0; right: 0; top: 16px; bottom: 32%;
+    transform: translateY(calc((1 - var(--h)) * var(--art-y))) scale(calc(1 + (1 - var(--h)) * (var(--art-s) - 1)));
+    transition: transform 600ms var(--ease-emphasized) 120ms;
+    --art-y: 52px; --art-s: 0.62;
+  }
+  .artStage[data-open] .artBox { transition-delay: 160ms; }
+  .artBox svg { width: 100%; height: 100%; display: block; }
+
+  /* item 2: .r2-reveal (worlds.css) inside a scroller */
+  .scroller { height: 340px; overflow-y: auto; background: #000; color: var(--dark-ink); padding: 0 var(--gutter); }
+  .spacer { height: 300px; display: grid; place-items: center; color: var(--dark-ink-2); font-size: 14px; }
+  .bRow { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; align-items: center; padding: 48px 0; }
+  .bOrb { aspect-ratio: 1; border-radius: 50%; border: 1px solid #424245; display: grid; place-items: center; color: var(--dark-ink-2); font-size: 13px; }
+  .bName { font-size: 32px; font-weight: 600; letter-spacing: -0.02em; }
+  .bLine { margin-top: 8px; font-size: 19px; font-weight: 600; }
+  .demoH2 { font-size: 32px; font-weight: 600; padding: 24px 0 64px; letter-spacing: -0.02em; }
+  @keyframes r2-reveal { from { opacity: 0; transform: translateY(var(--r2-reveal-y, 30px)); } to { opacity: 1; transform: none; } }
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .r2-reveal { animation: r2-reveal linear both; animation-timeline: view(); animation-range: entry 0% cover 30%; }
+      .trail { animation-range: entry 10% cover 35%; }
+    }
+  }
+
+  /* item 3: page-load entrance */
+  .heroDemo { background: var(--dark-ground); color: var(--dark-ink); text-align: center; padding: 56px var(--gutter) 48px; }
+  .heroDemo h1 { margin: 0 auto; max-width: 16em; font-size: clamp(34px, 8vw, 64px); line-height: 1.05; letter-spacing: -0.03em; }
+  .heroDemo p { margin: 16px auto 0; max-width: 34rem; font-size: clamp(17px, 4.6vw, 21px); line-height: 1.4; font-weight: 600; color: var(--dark-ink-2); }
+  .objDemo { margin: 32px auto 0; width: min(420px, 100%); aspect-ratio: 2.1; border: 1px solid #424245; border-radius: 999px; display: grid; place-items: center; color: var(--dark-ink-2); font-size: 13px; }
+  @keyframes enter { from { opacity: 0; transform: translateY(12px); } }
+  @media (prefers-reduced-motion: no-preference) {
+    .play .eTitle, .play .eLead { animation: enter 600ms var(--ease-entrance) both; }
+    .play .eLead { animation-delay: 80ms; }
+    .play .eObj { animation: enter 900ms var(--ease-entrance) 160ms both; }
+  }
+
+  /* item 4 */
+  .ruler { margin-top: 24px; background: #000; color: var(--dark-ink); border-radius: 12px; overflow: hidden; font-size: 14px; }
+  .rNav, .rBody { max-width: 1024px; margin: 0 auto; padding: 0 var(--gutter); }
+  .rNav { height: 44px; display: flex; align-items: center; font-weight: 600; border-bottom: 1px solid #424245; }
+  .rBody { padding-top: 20px; padding-bottom: 20px; }
+  .rBody > div { padding: 8px 0; }
+  .rOld { margin: 0 calc(-1 * var(--gutter)); color: var(--dark-ink-2); }
+  .rNew { border-left: 2px solid var(--dark-ink); padding-left: 8px !important; margin-left: -10px; }
+
+  /* item 5: one hover language */
+  .links { padding: 24px var(--gutter); display: grid; gap: 20px; background: var(--ground); }
+  .lLabel { font-family: ui-monospace, Menlo, monospace; font-size: 12px; color: var(--ink-2); margin-bottom: 2px; }
+  .buildLink { display: inline-flex; align-items: center; gap: 8px; color: var(--ink); min-height: 44px; font-size: 40px; font-weight: 600; letter-spacing: -0.02em; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.12em; text-decoration-color: transparent; transition: text-decoration-color var(--dur-ui-fast) var(--ease-ui); }
+  .buildLink:hover { text-decoration-color: currentColor; }
+  .buildLink svg { transition: transform var(--dur-ui-fast) var(--ease-ui); }
+  .buildLink:hover svg { transform: translateX(3px); }
+  .rowLink, .featureLink { color: var(--ink); text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 0.25em; transition: text-decoration-color var(--dur-ui-fast) var(--ease-ui); }
+  .rowLink:hover, .featureLink:hover { text-decoration-color: currentColor; }
+  .rowLink { display: inline-flex; align-items: center; min-height: 44px; }
+  .featureLink { font-size: 24px; font-weight: 600; }
+  .linkRow { display: flex; align-items: center; justify-content: space-between; min-height: 56px; border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); color: var(--ink); text-decoration: none; }
+  .linkRow::after { content: ''; width: 8px; height: 8px; border-right: 1.5px solid currentColor; border-top: 1.5px solid currentColor; transform: rotate(45deg); margin-right: 4px; opacity: 0.6; transition: transform var(--dur-ui-fast) var(--ease-ui), opacity var(--dur-ui-fast) var(--ease-ui); }
+  .linkRow:hover::after { opacity: 1; transform: translateX(3px) rotate(45deg); }
+  .textLink { color: var(--ink); text-decoration: underline; text-decoration-color: var(--hairline-strong); text-underline-offset: 0.25em; transition: text-decoration-color var(--dur-ui-fast) var(--ease-ui); }
+  .textLink:hover { text-decoration-color: currentColor; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .artBox, .artThesis, .buildLink, .buildLink svg, .rowLink, .featureLink, .linkRow::after, .textLink { transition: none; }
+  }
+  .note { margin-top: 64px; padding: 20px; background: var(--ground-raised); border-radius: 12px; font-size: 15px; color: var(--ink-2); }
+  .note strong { color: var(--ink); }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Motion: the five do-now fixes</h1>
+    <p class="lead">Prototype for sign-off. Each item has before and after captures from the dev build (1440×900 and 390×844) and a live block that runs the exact CSS that would ship.</p>
+    <p class="meta">2026-11-12 · branch feature/projects-showcase · uncommitted · evidence: design-lab/renders/review-20261112-fable/</p>
+  </header>
+
+  <!-- 1 -->
+  <section class="item" aria-labelledby="i1">
+    <span class="tag">1 · Home hero</span>
+    <h2 id="i1">The drawing opens with a transform. Layout no longer moves.</h2>
+    <p class="why">Before, the art box animated <code>top</code>/<code>bottom</code> for 600ms, so each frame was a layout shift. Now the box sits at its opened size and the first-viewport position is a translate + scale, measured by HeroStages. Same 600ms, same <code>--r2-ease-emphasized</code>, same end states.</p>
+    <div class="num"><span>CLS desktop <b>0.118 → 0.0121</b></span><span>CLS mobile <b>0.1407 → 0.0083</b></span><span>shifts <b>25 → 3 (desktop)</b></span></div>
+    <div class="pair">
+      <figure><img src="images/before-home-d.jpg" alt="Home hero before, first viewport" loading="lazy"><figcaption><strong>Before</strong> · first viewport</figcaption></figure>
+      <figure><img src="images/after-home-d.jpg" alt="Home hero after, first viewport" loading="lazy"><figcaption><strong>After</strong> · first viewport: identical</figcaption></figure>
+      <figure><img src="images/before-home-scroll-d-rest.jpg" alt="Home hero before, opened" loading="lazy"><figcaption><strong>Before</strong> · after the first scroll</figcaption></figure>
+      <figure><img src="images/after-home-scroll-d-rest.jpg" alt="Home hero after, opened" loading="lazy"><figcaption><strong>After</strong> · after the first scroll: identical</figcaption></figure>
+    </div>
+    <div class="strip"><h3>First scroll, desktop: before (top) and after (bottom)</h3>
+      <div class="frames"><figure><img src="images/before-home-scroll-d-0.jpg" alt="before home-scroll-d at 0ms" loading="lazy"><figcaption>0ms</figcaption></figure><figure><img src="images/before-home-scroll-d-120.jpg" alt="before home-scroll-d at 120ms" loading="lazy"><figcaption>120ms</figcaption></figure><figure><img src="images/before-home-scroll-d-240.jpg" alt="before home-scroll-d at 240ms" loading="lazy"><figcaption>240ms</figcaption></figure><figure><img src="images/before-home-scroll-d-400.jpg" alt="before home-scroll-d at 400ms" loading="lazy"><figcaption>400ms</figcaption></figure><figure><img src="images/before-home-scroll-d-700.jpg" alt="before home-scroll-d at 700ms" loading="lazy"><figcaption>700ms</figcaption></figure></div>
+      <div class="frames" style="margin-top:6px"><figure><img src="images/after-home-scroll-d-0.jpg" alt="after home-scroll-d at 0ms" loading="lazy"><figcaption>0ms</figcaption></figure><figure><img src="images/after-home-scroll-d-120.jpg" alt="after home-scroll-d at 120ms" loading="lazy"><figcaption>120ms</figcaption></figure><figure><img src="images/after-home-scroll-d-240.jpg" alt="after home-scroll-d at 240ms" loading="lazy"><figcaption>240ms</figcaption></figure><figure><img src="images/after-home-scroll-d-400.jpg" alt="after home-scroll-d at 400ms" loading="lazy"><figcaption>400ms</figcaption></figure><figure><img src="images/after-home-scroll-d-700.jpg" alt="after home-scroll-d at 700ms" loading="lazy"><figcaption>700ms</figcaption></figure></div>
+    </div>
+    <div class="strip"><h3>First scroll, 390px: before (top) and after (bottom)</h3>
+      <div class="frames"><figure><img src="images/before-home-scroll-m-0.jpg" alt="before home-scroll-m at 0ms" loading="lazy"><figcaption>0ms</figcaption></figure><figure><img src="images/before-home-scroll-m-120.jpg" alt="before home-scroll-m at 120ms" loading="lazy"><figcaption>120ms</figcaption></figure><figure><img src="images/before-home-scroll-m-240.jpg" alt="before home-scroll-m at 240ms" loading="lazy"><figcaption>240ms</figcaption></figure><figure><img src="images/before-home-scroll-m-400.jpg" alt="before home-scroll-m at 400ms" loading="lazy"><figcaption>400ms</figcaption></figure><figure><img src="images/before-home-scroll-m-700.jpg" alt="before home-scroll-m at 700ms" loading="lazy"><figcaption>700ms</figcaption></figure></div>
+      <div class="frames" style="margin-top:6px"><figure><img src="images/after-home-scroll-m-0.jpg" alt="after home-scroll-m at 0ms" loading="lazy"><figcaption>0ms</figcaption></figure><figure><img src="images/after-home-scroll-m-120.jpg" alt="after home-scroll-m at 120ms" loading="lazy"><figcaption>120ms</figcaption></figure><figure><img src="images/after-home-scroll-m-240.jpg" alt="after home-scroll-m at 240ms" loading="lazy"><figcaption>240ms</figcaption></figure><figure><img src="images/after-home-scroll-m-400.jpg" alt="after home-scroll-m at 400ms" loading="lazy"><figcaption>400ms</figcaption></figure><figure><img src="images/after-home-scroll-m-700.jpg" alt="after home-scroll-m at 700ms" loading="lazy"><figcaption>700ms</figcaption></figure></div>
+    </div>
+    <div class="demo">
+      <div class="demoHead"><span>Live · transform only (placeholder drawing)</span><button class="btn" type="button" data-toggle-art>Open</button></div>
+      <div class="artStage" id="artStage">
+        <p class="artThesis">Make something worth putting your name on.</p>
+        <div class="artBox"><svg viewBox="0 0 1600 900" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><rect x="2" y="2" width="1596" height="896"/><rect x="300" y="200" width="1000" height="500" rx="90"/><rect x="420" y="300" width="300" height="200"/><circle cx="1120" cy="380" r="70"/></svg></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="item" aria-labelledby="i2">
+    <span class="tag">2 · Reveals</span>
+    <h2 id="i2">Build rows and section headings rise in as they arrive.</h2>
+    <p class="why">The existing <code>.r2-reveal</code> (30px + fade, scroll-linked, reduced-motion gated) now sits on each home build's visual and copy, and on the section h2s of about, team, community, get involved, contact and updates. The copy trails the visual: <code>entry 10% cover 35%</code>. JoinChapter is untouched.</p>
+    <div class="pair">
+      <figure><img src="images/before-home-reveal-d.jpg" alt="Home build row entering, before" loading="lazy"><figcaption><strong>Before</strong> · first build row 140px into view: fully drawn</figcaption></figure>
+      <figure><img src="images/after-home-reveal-d.jpg" alt="Home build row entering, after" loading="lazy"><figcaption><strong>After</strong> · same scroll: rising in, copy a step behind</figcaption></figure>
+      <figure><img src="images/before-about-reveal-m.jpg" alt="About heading entering, before" loading="lazy"><figcaption><strong>Before</strong> · about h2, 390px</figcaption></figure>
+      <figure><img src="images/after-about-reveal-m.jpg" alt="About heading entering, after" loading="lazy"><figcaption><strong>After</strong> · about h2, 390px</figcaption></figure>
+    </div>
+    <div class="demo">
+      <div class="demoHead"><span>Live · scroll inside the box</span></div>
+      <div class="scroller">
+        <div class="spacer">Scroll ↓</div>
+        <div class="bRow"><div class="bOrb r2-reveal">visual</div><div class="r2-reveal trail"><p class="bName">SIDEKICK ›</p><p class="bLine">A modular smartphone design, files on GitHub.</p></div></div>
+        <div class="bRow"><div class="bOrb r2-reveal">visual</div><div class="r2-reveal trail"><p class="bName">SHADES ›</p><p class="bLine">Research-backed heads-up display glasses prototype.</p></div></div>
+        <p class="demoH2 r2-reveal">How a build runs</p>
+        <div class="spacer"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="item" aria-labelledby="i3">
+    <span class="tag">3 · Page-load entrance</span>
+    <h2 id="i3">One entrance: h1, then lead, then the object.</h2>
+    <p class="why">SitePage heroes (and the updates title): 12px rise + fade, 600ms <code>--r2-ease-entrance</code>, lead 80ms later. SHADES uses the same move; its hero object drops the blur and scale and runs 900ms. CSS keyframes only, inside <code>prefers-reduced-motion: no-preference</code>.</p>
+    <div class="strip"><h3>SHADES hero load, desktop: before (top, blur + scale, 1400ms) and after (bottom)</h3>
+      <div class="frames"><figure><img src="images/before-shades-load-d-0.jpg" alt="before shades-load-d at 0ms" loading="lazy"><figcaption>0ms</figcaption></figure><figure><img src="images/before-shades-load-d-120.jpg" alt="before shades-load-d at 120ms" loading="lazy"><figcaption>120ms</figcaption></figure><figure><img src="images/before-shades-load-d-240.jpg" alt="before shades-load-d at 240ms" loading="lazy"><figcaption>240ms</figcaption></figure><figure><img src="images/before-shades-load-d-400.jpg" alt="before shades-load-d at 400ms" loading="lazy"><figcaption>400ms</figcaption></figure><figure><img src="images/before-shades-load-d-700.jpg" alt="before shades-load-d at 700ms" loading="lazy"><figcaption>700ms</figcaption></figure></div>
+      <div class="frames" style="margin-top:6px"><figure><img src="images/after-shades-load-d-0.jpg" alt="after shades-load-d at 0ms" loading="lazy"><figcaption>0ms</figcaption></figure><figure><img src="images/after-shades-load-d-120.jpg" alt="after shades-load-d at 120ms" loading="lazy"><figcaption>120ms</figcaption></figure><figure><img src="images/after-shades-load-d-240.jpg" alt="after shades-load-d at 240ms" loading="lazy"><figcaption>240ms</figcaption></figure><figure><img src="images/after-shades-load-d-400.jpg" alt="after shades-load-d at 400ms" loading="lazy"><figcaption>400ms</figcaption></figure><figure><img src="images/after-shades-load-d-700.jpg" alt="after shades-load-d at 700ms" loading="lazy"><figcaption>700ms</figcaption></figure></div>
+    </div>
+    <div class="strip"><h3>About hero load, 390px: before (top, no entrance) and after (bottom)</h3>
+      <div class="frames"><figure><img src="images/before-about-load-m-0.jpg" alt="before about-load-m at 0ms" loading="lazy"><figcaption>0ms</figcaption></figure><figure><img src="images/before-about-load-m-120.jpg" alt="before about-load-m at 120ms" loading="lazy"><figcaption>120ms</figcaption></figure><figure><img src="images/before-about-load-m-240.jpg" alt="before about-load-m at 240ms" loading="lazy"><figcaption>240ms</figcaption></figure><figure><img src="images/before-about-load-m-400.jpg" alt="before about-load-m at 400ms" loading="lazy"><figcaption>400ms</figcaption></figure><figure><img src="images/before-about-load-m-700.jpg" alt="before about-load-m at 700ms" loading="lazy"><figcaption>700ms</figcaption></figure></div>
+      <div class="frames" style="margin-top:6px"><figure><img src="images/after-about-load-m-0.jpg" alt="after about-load-m at 0ms" loading="lazy"><figcaption>0ms</figcaption></figure><figure><img src="images/after-about-load-m-120.jpg" alt="after about-load-m at 120ms" loading="lazy"><figcaption>120ms</figcaption></figure><figure><img src="images/after-about-load-m-240.jpg" alt="after about-load-m at 240ms" loading="lazy"><figcaption>240ms</figcaption></figure><figure><img src="images/after-about-load-m-400.jpg" alt="after about-load-m at 400ms" loading="lazy"><figcaption>400ms</figcaption></figure><figure><img src="images/after-about-load-m-700.jpg" alt="after about-load-m at 700ms" loading="lazy"><figcaption>700ms</figcaption></figure></div>
+    </div>
+    <div class="demo">
+      <div class="demoHead"><span>Live · the shipped keyframes</span><button class="btn" type="button" data-replay>Replay</button></div>
+      <div class="heroDemo play" id="heroDemo">
+        <h1 class="eTitle">A studio run by students.</h1>
+        <p class="eLead">Mixed-discipline teams at Cal Poly Pomona. Each member takes one part of a real build and owns it.</p>
+        <div class="objDemo eObj">object (SHADES: 900ms, 160ms later)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="item" aria-labelledby="i4">
+    <span class="tag">4 · Column offset</span>
+    <h2 id="i4">Page content lines up with the DIGITAL wordmark.</h2>
+    <p class="why"><code>.wrap</code> was 1024px inside a padded section, so content sat a gutter left of the nav. It is now <code>calc(1024px - 2 * var(--r2-gutter))</code>, the nav's content edge. Below 1024px nothing changes.</p>
+    <div class="num"><span>load CLS about <b>0.0481 → 0.0124</b> (d) · <b>0.0058 → 0.0001</b> (m)</span><span>contact <b>0.0974 → 0.0367</b> (d) · <b>0.0053 → 0.0005</b> (m)</span></div>
+    <div class="num"><span>about @1440: wordmark <b>256px · content 208 → 256px</b></span><span>updates @1440: wordmark <b>256px · content 208 → 256px</b></span></div>
+    <div class="pair">
+      <figure><img src="images/before-about-d.jpg" alt="About before" loading="lazy"><figcaption><strong>Before</strong> · about, 1440</figcaption></figure>
+      <figure><img src="images/after-about-d.jpg" alt="About after" loading="lazy"><figcaption><strong>After</strong> · about, 1440</figcaption></figure>
+      <figure><img src="images/before-updates-d.jpg" alt="Updates before" loading="lazy"><figcaption><strong>Before</strong> · updates, 1440</figcaption></figure>
+      <figure><img src="images/after-updates-d.jpg" alt="Updates after" loading="lazy"><figcaption><strong>After</strong> · updates, 1440</figcaption></figure>
+    </div>
+    <div class="ruler" aria-hidden="true">
+      <div class="rNav">DIGITAL</div>
+      <div class="rBody"><div class="rOld">Before: content edge one gutter left</div><div class="rNew">After: content edge under the wordmark</div></div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="item" aria-labelledby="i5">
+    <span class="tag">5 · Hover</span>
+    <h2 id="i5">One hover language on open-page links.</h2>
+    <p class="why">The underline fades in through <code>text-decoration-color</code> over <code>--r2-dur-ui-fast</code> (240ms, <code>--r2-ease-ui</code>); a chevron steps 3px. Home build names, updates rows and the featured update now match the link rows and text links already on the simple pages. Nav links are unchanged.</p>
+    <div class="pair">
+      <figure><img src="images/before-hover-home-on.jpg" alt="Home build link hover, before" loading="lazy"><figcaption><strong>Before</strong> · build link, hover (underline snaps on)</figcaption></figure>
+      <figure><img src="images/after-hover-home-on.jpg" alt="Home build link hover, after" loading="lazy"><figcaption><strong>After</strong> · build link, hover (fades in over 240ms)</figcaption></figure>
+      <figure><img src="images/before-hover-home-rest.jpg" alt="Home build link at rest, before" loading="lazy"><figcaption><strong>Before</strong> · build link at rest</figcaption></figure>
+      <figure><img src="images/after-hover-home-rest.jpg" alt="Home build link at rest, after" loading="lazy"><figcaption><strong>After</strong> · at rest: unchanged. Updates has no entries yet, so its row links are shown live below only.</figcaption></figure>
+    </div>
+    <div class="demo">
+      <div class="demoHead"><span>Live · hover each link</span></div>
+      <div class="links">
+        <div><p class="lLabel">.buildLink (home)</p><a class="buildLink" href="#i5">SIDEKICK <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a></div>
+        <div><p class="lLabel">.featureLink (updates)</p><a class="featureLink" href="#i5">Sample entry title (updates has no entries yet)</a></div>
+        <div><p class="lLabel">.rowLink (updates)</p><a class="rowLink" href="#i5">Sample row title</a></div>
+        <div><p class="lLabel">.linkRow (simple pages, unchanged)</p><a class="linkRow" href="#i5">Discord</a></div>
+        <div><p class="lLabel">.textLink (simple pages, unchanged)</p><p>Inline <a class="textLink" href="#i5">text link</a> in a sentence.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="note"><strong>Reduced motion.</strong> Every move here is gated: under <code>prefers-reduced-motion: reduce</code> the reveals and entrances do not run (content is simply there), link transitions are off, and the home hero shows the still page. Without JavaScript the hero falls back to the stills and every entrance and reveal is plain CSS, so nothing is hidden at rest. Turn on reduced motion in your OS to check this page.</div>
+</main>
+<script>
+  document.querySelector('[data-replay]').addEventListener('click', () => {
+    const el = document.getElementById('heroDemo');
+    el.classList.remove('play'); void el.offsetWidth; el.classList.add('play');
+  });
+  document.querySelector('[data-toggle-art]').addEventListener('click', (e) => {
+    const stage = document.getElementById('artStage');
+    const open = stage.toggleAttribute('data-open');
+    e.currentTarget.textContent = open ? 'Close' : 'Open';
+  });
+</script>
+</body>
+</html>
