@@ -127,6 +127,8 @@ committed — see the standing rule in `CLAUDE.md` and `AGENT.md`.
 | lab.40 | #0093    | — | docs(todo): record #0092 (#0093) | This row; SHA is the commit that adds it |
 | lab.41 | #0094    | `aec7bfd` | feat(home): BRAIN sphere as an agent loop (Direction A) (#0094) | Branch `feature/brain-sphere`. Head Designer 2026-11-14: 420-dot sphere, wave while thinking, one dot out to a tool and back, result prints on return; ink only (orb colour exception retired, DESIGN §6); `needs approval` waiting dot = the one red; Pause/Play (44px, aria-pressed); canvas 300 to 400px. Pure code in `_home/sphere/` (timeline.ts, draw.ts) for B/C later. Strings provisional pending brand review. `./run.sh check` green; 0 console errors, 0 overflow at 1440/375/844; locked SIDEKICK + BRAIN 0 errors; avg paint 0.19ms |
 | lab.42 | #0095    | — | docs(todo): record #0094 (#0095) | This row; SHA is the commit that adds it |
+| lab.43 | #0098    | `11365de` | feat(updates): show each post once, post page ends in more updates, folded filters on phones (#0098) | Branch `feature/updates-ux`. Head Designer 2026-11-14: log lists only posts not in the cards ("Earlier", year labels); post page breadcrumb, reading time, "More updates"; phones fold Type + search into one details; 0-post Type pills hidden. New strings provisional, pending brand review |
+| lab.44 | #0099    | — | docs(todo): record #0098 (#0099) | This row; SHA is the commit that adds it |
 
 ---
 
