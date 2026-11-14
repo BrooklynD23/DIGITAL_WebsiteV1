@@ -1,11 +1,10 @@
 'use client';
 
-/** AI SDK Elements "Reasoning" pattern: a fixed-height readout (never changes the chapter's height). Newest line at the bottom. */
-import { useEffect, useState } from 'react';
-import { homeJobs, readoutLabels, type HomeJob } from '../_content/home';
+/** AI SDK Elements "Reasoning" pattern: a fixed-height readout, rendered from the shared loop state. A tool's result prints only when its dot returns. */
+import type { ReactNode } from 'react';
+import { readoutLabels } from '../_content/home';
+import { CHAR, held, type LoopState } from './sphere/timeline';
 import s from './brain.module.css';
-
-type Line = { readonly k: 'think'; readonly text: string } | { readonly k: 'tool'; readonly tool: HomeJob['tools'][number] };
 
 const ICON = (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -15,72 +14,39 @@ const ICON = (
     <path d="M12 18v-5" />
   </svg>
 );
-const CHEV = (
-  <svg className={s.chev} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
-    <path d="m6 15 6-6 6 6" />
-  </svg>
-);
 
-const wait = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
+function view(st: LoopState) {
+  const chars = st.phase === 'think' ? Math.floor(st.u / CHAR) : st.job.think.length;
+  const shown = st.phase === 'think' ? 0 : st.phase === 'tool' ? st.ti + 1 : st.job.tools.length;
+  const pending = st.phase === 'tool' && !held(st.job.tools[st.ti]) && st.p < 0.62;
+  return { chars, shown, pending };
+}
+/** Changes only when the readout would look different. */
+export function readoutKey(st: LoopState): string {
+  const v = view(st);
+  return [st.ji, v.chars, v.shown, v.pending, st.phase].join('|');
+}
 
-export function AgentReadout({ reduce, active, onKick, onTarget }: { readonly reduce: boolean; readonly active: boolean; readonly onKick: () => void; readonly onTarget: (v: number) => void }) {
-  const [lines, setLines] = useState<readonly Line[]>([]);
-  const [label, setLabel] = useState<string>(readoutLabels.thinking);
-  const [busy, setBusy] = useState(true);
-  const [open, setOpen] = useState(true);
-
-  useEffect(() => {
-    if (reduce) {
-      const j = homeJobs[0];
-      setLines([{ k: 'think', text: j.think }, ...j.tools.map((tool) => ({ k: 'tool' as const, tool }))]);
-      setLabel(readoutLabels.thought(j.sec));
-      setBusy(false);
-      return;
-    }
-    if (!active) return;
-    let dead = false;
-    const sleep = async (ms: number) => { await wait(ms); return !dead; };
-    (async () => {
-      for (let j = 0; !dead; j = (j + 1) % homeJobs.length) {
-        const job = homeJobs[j];
-        setLines([]); setLabel(readoutLabels.thinking); setBusy(true); setOpen(true); onTarget(0.9);
-        for (let i = 0; i <= job.think.length; i += 2) {
-          setLines([{ k: 'think', text: job.think.slice(0, i) }]);
-          if (!(await sleep(18))) return;
-        }
-        setLines([{ k: 'think', text: job.think }]);
-        for (const tool of job.tools) {
-          if (!(await sleep(650))) return;
-          setLines((l) => [...l, { k: 'tool', tool }]);
-          onKick();
-        }
-        setLabel(readoutLabels.thought(job.sec)); setBusy(false); onTarget(0.25);
-        if (!(await sleep(2200))) return;
-        setOpen(false);
-        if (!(await sleep(1400))) return;
-      }
-    })();
-    return () => { dead = true; };
-  }, [reduce, active, onKick, onTarget]);
-
+export function AgentReadout({ st, reduce, children }: { readonly st: LoopState; readonly reduce: boolean; readonly children?: ReactNode }) {
+  const { chars, shown, pending } = view(st);
+  const busy = st.phase === 'think' || st.phase === 'tool';
   return (
-    <div className={s.rsn} data-open={open ? '1' : '0'}>
-      <button type="button" className={s.trigger} aria-expanded={open} onClick={() => setOpen((o) => !o)}>
-        {ICON}
-        <span className={busy ? s.shimmer : undefined}>{label}</span>
-        {CHEV}
-      </button>
+    <div className={s.rsn} data-open={st.phase === 'rest' ? '0' : '1'}>
+      <div className={s.rsnTop}>
+        <span className={s.trigger}>
+          {ICON}
+          <span className={busy && !reduce ? s.shimmer : undefined}>{busy ? readoutLabels.thinking : readoutLabels.thought(st.job.sec)}</span>
+        </span>
+        {children}
+      </div>
       <div className={s.body} aria-live="off">
-        {lines.map((l, i) =>
-          l.k === 'think' ? (
-            <p key={i} className={s.think}>{l.text}</p>
-          ) : (
-            <div key={i} className={s.tool}>
-              <b>{l.tool[0]}</b><span>{l.tool[1]}</span>
-              <span className={l.tool[3] === false ? s.no : s.ok}>{l.tool[2]}</span>
-            </div>
-          ),
-        )}
+        <p className={s.think}>{st.job.think.slice(0, chars)}</p>
+        {st.job.tools.slice(0, shown).map((t, i) => (
+          <div key={i} className={s.tool}>
+            <b>{t[0]}</b><span>{t[1]}</span>
+            {!(pending && i === shown - 1) && <span className={held(t) ? s.no : s.ok}>{t[2]}</span>}
+          </div>
+        ))}
       </div>
     </div>
   );
