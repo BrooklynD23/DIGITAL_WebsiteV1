@@ -192,6 +192,22 @@ export const tagsOf = (i: Update): readonly UpdateTag[] => {
 };
 
 /** Filter order on the page. */
+/** Reading time in whole minutes: words / 200, at least 1. */
+export const readMinutes = (e: Extract<Update, { source: 'site' }>): number =>
+  Math.max(1, Math.round([e.page.dek, ...e.page.sections.map((x) => `${x.heading} ${x.body}`)].join(' ').split(/\s+/).filter(Boolean).length / 200));
+
+/** Up to `n` other posts: same-tag first, then nearest in time. */
+export const moreOf = (all: readonly Update[], cur: Update, n = 3): Update[] => {
+  const mine = new Set(tagsOf(cur).map((t) => t.slug));
+  const t0 = Date.parse(cur.publishedAt);
+  return all
+    .filter((x) => x.slug !== cur.slug)
+    .map((x) => ({ x, same: tagsOf(x).some((t) => mine.has(t.slug)) ? 0 : 1, d: Math.abs(Date.parse(x.publishedAt) - t0) }))
+    .sort((a, b) => a.same - b.same || a.d - b.d)
+    .slice(0, n)
+    .map((r) => r.x);
+};
+
 export const UPDATE_TEAMS: readonly UpdateSubTeam[] = ['SIDEKICK', 'SHADES', 'BRAIN', 'TWINS', 'DIGITAL Business'];
 export const UPDATE_TYPES: readonly UpdateType[] = ['paper', 'milestone', 'prototype', 'achievement', 'product-definition', 'case-study'];
 
@@ -200,7 +216,12 @@ export const UPDATES_COPY = {
   title: 'Updates',
   lead: 'Papers, milestones and prototypes from every DIGITAL team.',
   featuredLabel: 'Featured',
-  listTitle: 'All updates',
+  earlier: 'Earlier',
+  foldLabel: 'Filter',
+  moreUpdates: 'More updates',
+  allUpdates: 'All updates',
+  minRead: 'min read',
+  breadcrumb: 'Breadcrumb',
   filterLabel: 'Filter updates',
   tagGroup: 'Tags',
   typeGroup: 'Type',

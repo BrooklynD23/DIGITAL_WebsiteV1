@@ -129,6 +129,8 @@ committed — see the standing rule in `CLAUDE.md` and `AGENT.md`.
 | lab.42 | #0095    | — | docs(todo): record #0094 (#0095) | This row; SHA is the commit that adds it |
 | lab.43 | #0096    | `f536ee3` | feat(brain): one job, three views — loop, context window, tools (#0096) | Branch `feature/brain-three-views`. Head Designer unlocked /projects/brain/ 2026-11-14. New `ThreeViews` between the pin and the join: one job in three dot spheres (Loop, Context, Tools) on one clock, clock line think / act / check, own Pause/Play (44px); 3 columns from 735px, switch below. Red only for the held call in Loop; ink elsewhere. `drawB`, `drawC`, `makeTimeline` beside drawA in `_home/sphere/`. Copy in `story.layers` + `figureExamples.job` (calls/servers unchanged). Docs: brain.DESIGN.md, DESIGN.md §9/§20, CLAUDE.md. `./run.sh check` green; 0 console errors, 0 overflow at 1440/375/844; avg frame 0.5ms (3 canvases, 1440) |
 | lab.44 | #0097    | — | docs(todo): record #0096 (#0097) | This row; SHA is the commit that adds it |
+| lab.45 | #0098    | `11365de` | feat(updates): show each post once, post page ends in more updates, folded filters on phones (#0098) | Branch `feature/updates-ux`. Head Designer 2026-11-14: log lists only posts not in the cards ("Earlier", year labels); post page breadcrumb, reading time, "More updates"; phones fold Type + search into one details; 0-post Type pills hidden. New strings provisional, pending brand review |
+| lab.46 | #0099    | — | docs(todo): record #0098 (#0099) | This row; SHA is the commit that adds it |
 
 ---
 
