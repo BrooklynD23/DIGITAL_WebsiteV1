@@ -127,6 +127,8 @@ committed — see the standing rule in `CLAUDE.md` and `AGENT.md`.
 | lab.40 | #0093    | — | docs(todo): record #0092 (#0093) | This row; SHA is the commit that adds it |
 | lab.41 | #0094    | `aec7bfd` | feat(home): BRAIN sphere as an agent loop (Direction A) (#0094) | Branch `feature/brain-sphere`. Head Designer 2026-11-14: 420-dot sphere, wave while thinking, one dot out to a tool and back, result prints on return; ink only (orb colour exception retired, DESIGN §6); `needs approval` waiting dot = the one red; Pause/Play (44px, aria-pressed); canvas 300 to 400px. Pure code in `_home/sphere/` (timeline.ts, draw.ts) for B/C later. Strings provisional pending brand review. `./run.sh check` green; 0 console errors, 0 overflow at 1440/375/844; locked SIDEKICK + BRAIN 0 errors; avg paint 0.19ms |
 | lab.42 | #0095    | — | docs(todo): record #0094 (#0095) | This row; SHA is the commit that adds it |
+| lab.43 | #0096    | `f536ee3` | feat(brain): one job, three views — loop, context window, tools (#0096) | Branch `feature/brain-three-views`. Head Designer unlocked /projects/brain/ 2026-11-14. New `ThreeViews` between the pin and the join: one job in three dot spheres (Loop, Context, Tools) on one clock, clock line think / act / check, own Pause/Play (44px); 3 columns from 735px, switch below. Red only for the held call in Loop; ink elsewhere. `drawB`, `drawC`, `makeTimeline` beside drawA in `_home/sphere/`. Copy in `story.layers` + `figureExamples.job` (calls/servers unchanged). Docs: brain.DESIGN.md, DESIGN.md §9/§20, CLAUDE.md. `./run.sh check` green; 0 console errors, 0 overflow at 1440/375/844; avg frame 0.5ms (3 canvases, 1440) |
+| lab.44 | #0097    | — | docs(todo): record #0096 (#0097) | This row; SHA is the commit that adds it |
 
 ---
 
