@@ -121,6 +121,8 @@ committed — see the standing rule in `CLAUDE.md` and `AGENT.md`.
 | lab.34 | #0087    | — | docs(todo): record #0086 (#0087) | This row; SHA is the commit that adds it |
 | lab.35 | #0088    | `932ce87` | fix(updates): LinkedIn-verified summaries, Samsung co-author, text-only lead card (#0088) | 6 LinkedIn posts checked by 2 Haiku readers (sign-in overlay; paraphrased text): 20 of 21 details supported, 'four concepts' removed, 'first-time' and Samsung wording corrected; brand-guardian REVISE applied. Head Designer: Russell Chung author + mentor on Samsung; text-only lead. `./run.sh check` green; cards renders 0 overflow / 0 console errors at 1440, 375, 844 |
 | lab.36 | #0089    | — | docs(todo): record #0088 (#0089) | This row; SHA is the commit that adds it |
+| lab.37 | #0090    | `ddbfbad` | feat(updates): coloured tag chips with ?tag= filter (#0090) | Branch `feature/updates-tags`. Supabase plan Phase 3, from `tags-proto.html` (Head Designer 2026-11-14): 12 `--r2-tag-*` tokens (DESIGN §6/§18/§19/§20), `UPDATE_TAGS` + `tagsOf()`, Tags chips replace Team pills (0-post tags hidden), `?tag=` replaceState, chips on cards/rows/post byline, Coming soon Business → `?tag=business`. Contrast 6.66–13.78:1. `./run.sh check` green; renders in design-lab/renders/updates-tags/ (gitignored) 0 overflow / 0 console errors / all chip targets ≥ 44px at 1440, 375, 844; locked SIDEKICK + BRAIN 0 errors |
+| lab.38 | #0091    | — | docs(todo): record #0090 (#0091) | This row; SHA is the commit that adds it |
 
 ---
 

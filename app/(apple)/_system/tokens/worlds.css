@@ -199,6 +199,19 @@
   --r2-fs-label: 12px;
   --r2-lh-label: 16px;
   --r2-ls-label: var(--track-mono, 0);
+  /* Updates tag chips (Head Designer exception 2026-11-12/14; /updates/ + post pages only, light only). bg / ink >= 6.6:1. */
+  --r2-tag-digital-bg: #e8e8ed;
+  --r2-tag-digital-ink: #1d1d1f;
+  --r2-tag-sidekick-bg: #e3f2ff;
+  --r2-tag-sidekick-ink: #0b4f80;
+  --r2-tag-shades-bg: #fff1d6;
+  --r2-tag-shades-ink: #7a4a00;
+  --r2-tag-brain-bg: #efe7fd;
+  --r2-tag-brain-ink: #5b2fa3;
+  --r2-tag-twins-bg: #ddf6ea;
+  --r2-tag-twins-ink: #11603f;
+  --r2-tag-business-bg: #fce4f1;
+  --r2-tag-business-ink: #8a1f5a;
 }
 
 .world-apple [data-tone='dark'],

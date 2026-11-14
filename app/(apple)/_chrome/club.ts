@@ -57,6 +57,6 @@ export const COMING_SOON = {
   label: 'Coming soon',
   links: [
     { label: 'TWINS', note: 'Simulating a factory and supply chain end to end. Project: VESSEL.', href: '/updates/vessel-product-definition/' },
-    { label: 'DIGITAL Business', note: 'Finance case studies for the club.', href: '/updates/?team=DIGITAL%20Business' },
+    { label: 'DIGITAL Business', note: 'Finance case studies for the club.', href: '/updates/?tag=business' },
   ],
 } as const;

@@ -6,6 +6,7 @@ import s from '../../_chrome/site-page.module.css';
 import { UPDATES, SOON_TEAMS, UPDATES_COPY as C, initials } from '../../../../lib/data/updates';
 import type { Update } from '../../../../lib/data/updates';
 import u from '../updates.module.css';
+import { TagChips } from '../TagChips';
 
 export const dynamicParams = false;
 
@@ -39,8 +40,9 @@ export default function UpdatePostPage({ params }: { params: { slug: string } })
           <h1 id="post-title" className={u.postTitle}>{e.title}</h1>
           <p className={s.lead}>{e.page.dek}</p>
           <div className={u.postByline}>
+            <TagChips item={e} />
             <span className={u.meta}>
-              {`${fmt(e.publishedAt)} · ${e.subTeam} · ${C.typeLabels[e.type]}`}{soon && ` · ${C.comingSoon}`}
+              {`${fmt(e.publishedAt)} · ${e.detail ? `${e.detail} · ` : ''}${C.typeLabels[e.type]}`}{soon && ` · ${C.comingSoon}`}
             </span>
             <ul className={u.people}>
               {people.map(([n, role]) => (

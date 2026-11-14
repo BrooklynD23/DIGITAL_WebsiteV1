@@ -1,5 +1,5 @@
 /* Updates log. Cards for the newest four (Head Designer exception to DESIGN §18, 2026-11-12), then hairline rows of every post.
-   Row grid: date · sub-team · title + type. */
+   Row grid: date · tag chips (+ detail) · title + type. */
 .head { padding-bottom: 0; }
 /* Entrance, once on load: title then lead (same move as the SitePage hero, site-page.module.css). */
 @keyframes enter { from { opacity: 0; transform: translateY(12px); } }
@@ -11,7 +11,7 @@
 
 /* ---------- filters ---------- */
 .filters { display: flex; flex-wrap: wrap; align-items: center; gap: var(--r2-space-3) var(--r2-space-5); padding-bottom: var(--r2-space-6); margin-bottom: var(--r2-space-7); border-bottom: 1px solid var(--r2-hairline); }
-.group { display: flex; flex-wrap: wrap; gap: var(--r2-space-2); }
+.group { display: flex; flex-wrap: wrap; align-items: center; gap: var(--r2-space-2); }
 .group + .group { padding-left: var(--r2-space-5); border-left: 1px solid var(--r2-hairline); }
 .pill {
   display: inline-flex; align-items: center; gap: var(--r2-space-2);
@@ -27,16 +27,55 @@
 .pill:focus-visible { outline: 2px solid var(--r2-focus); outline-offset: 2px; }
 .n { font-family: var(--font-mono); font-variant-numeric: tabular-nums; opacity: 0.7; }
 .search { margin-left: auto; min-width: min(240px, 100%); }
+.filters { scroll-margin-top: calc(var(--r2-nav-h) + var(--r2-space-5)); }
+
+/* ---------- tag chips (Head Designer exception 2026-11-12/14, DESIGN §6; source: tags-proto.html) ----------
+   Target = the button/link (44px tall, transparent). Visual = .tagChip inside it: 24px inline, 32px in the filter bar. */
+.tag {
+  --bg: var(--r2-tag-digital-bg); --ink: var(--r2-tag-digital-ink);
+  display: inline-flex; align-items: center; min-height: var(--r2-target); padding: 0; margin: 0; border: 0; background: transparent;
+  font: inherit; color: inherit; text-decoration: none; cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.tag[data-tag='sidekick'] { --bg: var(--r2-tag-sidekick-bg); --ink: var(--r2-tag-sidekick-ink); }
+.tag[data-tag='shades'] { --bg: var(--r2-tag-shades-bg); --ink: var(--r2-tag-shades-ink); }
+.tag[data-tag='brain'] { --bg: var(--r2-tag-brain-bg); --ink: var(--r2-tag-brain-ink); }
+.tag[data-tag='twins'] { --bg: var(--r2-tag-twins-bg); --ink: var(--r2-tag-twins-ink); }
+.tag[data-tag='business'] { --bg: var(--r2-tag-business-bg); --ink: var(--r2-tag-business-ink); }
+.tagChip {
+  display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 10px; border-radius: 980px;
+  background: var(--bg); color: var(--ink); font-size: var(--r2-fs-label); line-height: 1; font-weight: 500; letter-spacing: 0; white-space: nowrap;
+  text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 0.25em; text-decoration-thickness: 1px;
+  transition: background var(--r2-dur-ui-fast) var(--r2-ease-ui), color var(--r2-dur-ui-fast) var(--r2-ease-ui), text-decoration-color var(--r2-dur-ui-fast) var(--r2-ease-ui);
+}
+.tagLg .tagChip { height: 32px; padding: 0 14px; gap: 8px; }
+.tag .n { color: inherit; opacity: 1; }
+.tag:hover .tagChip { text-decoration-color: currentColor; }
+.tag[aria-pressed='true'] .tagChip { background: var(--ink); color: var(--bg); }
+.tag:focus-visible { outline: none; }
+.tag:focus-visible .tagChip { outline: 2px solid var(--r2-focus); outline-offset: 2px; }
+.tags { display: flex; flex-wrap: wrap; align-items: center; column-gap: var(--r2-space-1); margin: -2px 0; }
+/* Wrapped chips stack at 28px pitch; each 44px target overlaps the next line by 16px. */
+.tags .tag { margin-block: -8px; }
+.chipline { display: flex; flex-wrap: wrap; align-items: center; gap: var(--r2-space-2); }
 
 /* ---------- cards: lead (art + copy) then a 3-up grid; each card is one link ---------- */
 .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--r2-space-5); margin-bottom: var(--r2-space-8); }
 .card {
-  display: grid; align-content: start; min-width: 0; min-height: var(--r2-target);
+  position: relative; display: grid; align-content: start; min-width: 0; min-height: var(--r2-target);
   padding: var(--r2-space-5); border-radius: var(--r2-radius); background: var(--r2-ground-raised);
   color: var(--r2-ink); text-decoration: none;
   transition: transform var(--r2-dur-ui-fast) var(--r2-ease-ui);
 }
-.card:focus-visible { outline: 2px solid var(--r2-focus); outline-offset: 3px; border-radius: var(--r2-radius); }
+/* One card = one link, stretched over the card; chips sit above it so they stay their own targets. */
+.cardLink { color: inherit; text-decoration: none; }
+.cardLink::after { content: ''; position: absolute; inset: 0; border-radius: inherit; }
+.cardLink:focus-visible { outline: 2px solid var(--r2-focus); outline-offset: 2px; }
+@supports selector(:has(*)) {
+  .cardLink:focus-visible { outline: none; }
+  .card:has(.cardLink:focus-visible) { outline: 2px solid var(--r2-focus); outline-offset: 3px; }
+  .card:has(.tag:hover) .leadTitle, .card:has(.tag:hover) .cardTitle { text-decoration-color: transparent; }
+}
+.card .tags { position: relative; z-index: 1; }
 @media (prefers-reduced-motion: no-preference) { .card:hover { transform: translateY(-2px); } }
 .lead { grid-column: 1 / -1; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: var(--r2-space-6); align-items: stretch; padding: 0; overflow: hidden; }
 .lead .cardCopy { align-self: center; padding: var(--r2-space-5) var(--r2-space-6) var(--r2-space-5) 0; }
@@ -67,6 +106,7 @@
 .meta { font-family: var(--font-mono); font-size: var(--r2-fs-label); line-height: var(--r2-lh-label); letter-spacing: var(--r2-ls-label); color: var(--r2-ink-2); font-variant-numeric: tabular-nums; }
 .rows { list-style: none; margin: var(--r2-space-6) 0 0; padding: 0; border-bottom: 1px solid var(--r2-hairline); }
 .row { display: grid; grid-template-columns: 120px 140px minmax(0, 1fr); gap: var(--r2-space-4); align-items: start; min-height: 64px; padding: var(--r2-space-2) 0; border-top: 1px solid var(--r2-hairline); font-size: var(--r2-fs-body); color: var(--r2-ink-2); }
+.rowTeam { display: grid; justify-items: start; gap: var(--r2-space-1); padding-top: 10px; }
 .rowBody { min-width: 0; display: grid; gap: var(--r2-space-1); }
 .rowSummary { margin: 0; max-width: var(--r2-measure); color: var(--r2-ink-2); font-size: var(--r2-fs-small); line-height: 1.45; }
 .row > .meta { padding-top: 13px; }
@@ -82,8 +122,6 @@
 .av:first-child { margin-left: 0; }
 .names { min-width: 0; overflow-wrap: anywhere; }
 .authors { color: var(--r2-ink); }
-.soon { font-family: var(--font-mono); font-size: 11px; letter-spacing: var(--r2-ls-label); text-transform: uppercase; color: var(--r2-ink-2); }
-.pill:disabled .soon, .pill[aria-pressed='true'] .soon { color: inherit; }
 
 /* ---------- post page ---------- */
 .back { display: inline-flex; align-items: center; min-height: var(--r2-target); color: var(--r2-ink-2); text-decoration: none; }
@@ -112,11 +150,12 @@
   .lead .cardCopy { padding: var(--r2-space-5); }
   .lead .art { aspect-ratio: 16 / 9; height: auto; min-height: 0; }
   .row { grid-template-columns: auto minmax(0, 1fr); gap: 2px var(--r2-space-3); padding: var(--r2-space-3) 0; }
-  .row > .meta { padding-top: 0; }
+  .row > .meta { padding-top: 4px; }
+  .rowTeam { display: flex; flex-wrap: wrap; align-items: center; gap: 0 var(--r2-space-2); padding-top: 0; }
   .rowBody { grid-column: 1 / -1; }
   .people { grid-template-columns: minmax(0, 1fr); }
   .postTitle { font-size: 40px; line-height: 44px; }
   .ghost > :first-child { display: none; }
   .ghost { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { .pill, .card, .leadTitle, .cardTitle, .rowLink, .back { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .pill, .card, .leadTitle, .cardTitle, .rowLink, .back, .tagChip { transition: none; } }
