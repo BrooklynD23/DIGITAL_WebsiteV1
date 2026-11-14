@@ -55,7 +55,7 @@ export interface Channel {
 export const channels: readonly Channel[] = [
   { id: 'sidekick', ch: 'CH1', name: 'SIDEKICK', line: 'A modular smartphone design, files on GitHub.', verbNote: 'The SIDEKICK main board design, front copper and parts.' },
   { id: 'shades', ch: 'CH2', name: 'SHADES', line: 'Research-backed heads-up display glasses, a rendered prototype.', verbNote: 'The planned SHADES glasses, rendered.' },
-  { id: 'brain', ch: 'CH3', name: 'BRAIN', line: 'How AI agents work, and how to build with them.', verbNote: 'An orb that swells while an example agent works.' },
+  { id: 'brain', ch: 'CH3', name: 'BRAIN', line: 'How AI agents work, and how to build with them.', verbNote: 'A sphere of dots. A wave crosses it while the agent thinks; one dot leaves to call a tool and returns.' }, // provisional, pending brand review,
 ];
 
 export const channelsHeadline = 'Explore our projects';
@@ -95,5 +95,7 @@ export const homeJobs: readonly HomeJob[] = [
 
 export const readoutLabels = {
   thinking: 'Thinking…',
+  pause: 'Pause', // provisional, pending brand review
+  play: 'Play', // provisional, pending brand review
   thought: (n: number): string => `Thought for ${n} ${n === 1 ? 'second' : 'seconds'}`,
 } as const;

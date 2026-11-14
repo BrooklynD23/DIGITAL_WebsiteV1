@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BRAIN Layers Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* Review chrome tokens (the bar at the bottom is not part of the page). */
+:root {
+  --pg-bg: #f5f5f7; --pg-ink: #1d1d1f; --pg-ink-2: #6e6e73; --pg-line: #d2d2d7; --pg-focus: #0b0c0a;
+  --font-display: 'Geist', ui-sans-serif, system-ui, sans-serif;
+  --font-text: 'Geist', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  /* Site tokens: app/(apple)/_system/tokens/worlds.css, .world-apple [data-tone='dark'] */
+  --r2-ground: #000000; --r2-ground-raised: #161617; --r2-ink: #f5f5f7; --r2-ink-2: #a1a1a6; --r2-hairline: #424245; --r2-focus: #f5f5f7;
+  --r2-cta-bg: #f5f5f7; --r2-cta-ink: #1d1d1f; --r2-cta-bg-hover: #b3321f; --r2-cta-ink-hover: #ffffff;
+  --r2-trigger: #d8412f;
+  --r2-ease-ui: cubic-bezier(0.4, 0, 0.6, 1); --r2-dur-ui-fast: 240ms;
+  --r2-space-3: 12px; --r2-space-4: 16px; --r2-space-5: 24px; --r2-space-6: 32px; --r2-space-7: 48px; --r2-space-8: 64px; --r2-space-9: 96px; --r2-space-10: 128px;
+  --r2-gutter: 16px; --r2-nav-h: 52px; --r2-ls-h1: -0.005em;
+  --r2-fs-lead: 21px; --r2-lh-lead: 29px; --r2-fs-body: 17px; --r2-lh-body: 25px; --r2-fs-h1: 56px; --r2-lh-h1: 60px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme='light']) { --pg-bg: #1c1c1e; --pg-ink: #f5f5f7; --pg-ink-2: #a1a1a6; --pg-line: #424245; --pg-focus: #f5f5f7; } }
+:root[data-theme='dark'] { --pg-bg: #1c1c1e; --pg-ink: #f5f5f7; --pg-ink-2: #a1a1a6; --pg-line: #424245; --pg-focus: #f5f5f7; }
+@media (min-width: 735px) { :root { --r2-gutter: 32px; } }
+@media (min-width: 1069px) { :root { --r2-gutter: 48px; } }
+@media (max-width: 734px) { :root { --r2-fs-lead: 17px; --r2-lh-lead: 25px; --r2-fs-h1: 32px; --r2-lh-h1: 36px; } }
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: #000; color: var(--r2-ink); font-family: var(--font-text); -webkit-font-smoothing: antialiased; overflow-x: hidden; padding-bottom: 64px; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--r2-focus); outline-offset: 3px; border-radius: 4px; }
+
+/* ---- existing page, abbreviated: LocalNav, the last lesson of the pin, the join ---- */
+.nav { position: sticky; top: 0; z-index: 3; height: var(--r2-nav-h); background: rgba(22, 22, 23, 0.86); -webkit-backdrop-filter: saturate(1.8) blur(20px); backdrop-filter: saturate(1.8) blur(20px); border-bottom: 1px solid var(--r2-hairline); }
+.navIn { max-width: 1024px; height: 100%; margin: 0 auto; padding: 0 var(--r2-gutter); display: flex; align-items: center; gap: 28px; font-size: 12px; color: var(--r2-ink-2); }
+.navIn b { margin-right: auto; font-family: var(--font-display); font-weight: 600; font-size: 14px; letter-spacing: 0.02em; color: var(--r2-ink); }
+.navIn .cur { color: var(--r2-ink); }
+.navCta { display: inline-flex; align-items: center; min-height: 28px; padding: 0 12px; border-radius: 980px; background: var(--r2-cta-bg); color: var(--r2-cta-ink); }
+@media (max-width: 734px) { .navIn span:not(.cur):not(.navCta) { display: none; } .navIn { gap: 16px; } }
+
+.h2 { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: clamp(28px, min(8vw, 8svh), 56px); line-height: 1.08; letter-spacing: var(--r2-ls-h1); text-wrap: balance; }
+.line { margin: 0; max-width: 32rem; font-size: clamp(17px, min(4.6vw, 3.2svh), 21px); line-height: 1.4; font-weight: 600; color: var(--r2-ink-2); text-wrap: balance; }
+.lesson { padding: clamp(16px, 4svh, 44px) var(--r2-gutter) 8px; display: grid; justify-items: center; text-align: center; gap: 12px; }
+.lesson svg { width: min(100%, 300px); height: auto; color: var(--r2-ink); margin: 12px 0; }
+.bar { display: flex; justify-content: center; align-items: center; gap: 4px; flex-wrap: wrap; }
+.trackBtn, .pause { min-width: 44px; min-height: 44px; background: none; border: 0; border-radius: 980px; color: var(--r2-ink-2); font-size: 12px; line-height: 16px; cursor: pointer; transition: color var(--r2-dur-ui-fast) var(--r2-ease-ui); }
+.trackBtn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 0 12px; }
+.trackBtn:hover, .trackBtn[aria-current], .trackBtn[aria-pressed='true'], .pause:hover { color: var(--r2-ink); }
+.trackBtn:focus-visible, .pause:focus-visible { outline: 2px solid var(--r2-focus); outline-offset: -4px; }
+.trackDot { width: 8px; height: 8px; border-radius: 50%; border: 1px solid currentColor; }
+.trackBtn[aria-current] .trackDot, .trackBtn[aria-pressed='true'] .trackDot { background: currentColor; }
+.pause { display: grid; place-items: center; }
+.pause svg { fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.mock { opacity: 0.55; pointer-events: none; }
+@media (max-width: 734px) { .mock .trackBtn { padding: 0; } .mock .trackBtn span:last-child { display: none; } }
+
+.join { padding: var(--r2-space-10) var(--r2-gutter); display: grid; justify-items: center; text-align: center; gap: var(--r2-space-4); }
+.join h2 { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: var(--r2-fs-h1); line-height: var(--r2-lh-h1); letter-spacing: var(--r2-ls-h1); }
+.join p { margin: 0; font-size: var(--r2-fs-lead); line-height: var(--r2-lh-lead); font-weight: 600; color: var(--r2-ink-2); }
+.join p.meta { font-size: var(--r2-fs-body); line-height: var(--r2-lh-body); font-weight: 400; }
+.pill { display: inline-flex; align-items: center; min-height: 44px; padding: 0 22px; border-radius: 980px; background: var(--r2-cta-bg); color: var(--r2-cta-ink); font-size: 17px; font-weight: 500; text-decoration: none; margin-top: 8px; }
+
+/* ---- NEW SECTION: one job, three layers ---- */
+.layers { padding: var(--r2-space-9) var(--r2-gutter) var(--r2-space-7); display: grid; justify-items: center; text-align: center; gap: var(--r2-space-5); }
+.layersHead { display: grid; gap: 12px; justify-items: center; }
+/* the shared clock, in words: one line, fixed height so nothing below it moves */
+.step { display: flex; align-items: center; justify-content: center; gap: 4px; width: 100%; max-width: 40rem; }
+.stepText { flex: 1; min-width: 0; min-height: 44px; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 14px; line-height: 20px; color: var(--r2-ink-2); text-align: left; }
+.stepText b { flex: none; width: 3.2em; font-family: var(--font-mono); font-size: 12px; font-weight: 600; color: var(--r2-ink); text-align: right; }
+.stepText span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.stepText .mono { font-family: var(--font-mono); font-size: 12px; }
+.stepText i { font-style: normal; color: var(--r2-ink); }
+
+.panels { width: 100%; max-width: 1120px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--r2-space-6); }
+.panel { display: grid; justify-items: center; align-content: start; gap: 8px; min-width: 0; }
+.panel canvas { width: min(100%, 340px); aspect-ratio: 1; display: block; color: var(--r2-ink); }
+.panel h3 { margin: 4px 0 0; font-family: var(--font-display); font-weight: 600; font-size: 21px; line-height: 29px; }
+.panel p { margin: 0; max-width: 19rem; font-size: var(--r2-fs-body); line-height: var(--r2-lh-body); color: var(--r2-ink-2); text-wrap: pretty; }
+.switch { display: none; }
+@media (max-width: 734px) { .panels { grid-template-columns: minmax(0, 1fr); gap: var(--r2-space-7); } }
+
+/* layout 2: one large sphere and a 3-way switch. "auto" = columns from 735px, switch below. */
+.layers[data-layout='switch'] .switch { display: flex; }
+.layers[data-layout='switch'] .panels { grid-template-columns: minmax(0, 1fr); }
+.layers[data-layout='switch'] .panel:not([data-on]) { display: none; }
+.layers[data-layout='switch'] .panel canvas { width: min(100%, 460px, calc(100svh - 420px)); min-width: min(100%, 280px); }
+.layers[data-layout='switch'] .panel h3 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.layers[data-layout='switch'] .panel p { max-width: 26rem; min-height: 50px; }
+@media (max-width: 734px) {
+  .layers[data-layout='auto'] .switch { display: flex; }
+  .layers[data-layout='auto'] .panels { gap: 0; }
+  .layers[data-layout='auto'] .panel:not([data-on]) { display: none; }
+  .layers[data-layout='auto'] .panel h3 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .layers[data-layout='auto'] .panel p { min-height: 75px; }
+}
+@media (prefers-reduced-motion: reduce) { .layers .pause { display: none; } .trackBtn, .pause { transition: none; } }
+
+/* ---- review bar (not part of the page) ---- */
+.review { position: fixed; left: 0; right: 0; bottom: 0; z-index: 5; background: var(--pg-bg); color: var(--pg-ink-2); border-top: 1px solid var(--pg-line); font-size: 13px; }
+.reviewIn { max-width: 1120px; margin: 0 auto; padding: 6px 16px; display: flex; align-items: center; gap: 8px; overflow-x: auto; white-space: nowrap; }
+.review button { min-height: 44px; padding: 0 14px; border: 1px solid var(--pg-line); border-radius: 980px; background: none; color: var(--pg-ink); cursor: pointer; font-size: 13px; }
+.review button[aria-pressed='true'] { background: var(--pg-ink); color: var(--pg-bg); border-color: var(--pg-ink); }
+.review :focus-visible { outline-color: var(--pg-focus); }
+.note { padding: 0 var(--r2-gutter) 4px; text-align: center; font-size: 12px; color: var(--r2-ink-2); opacity: 0.7; }
+</style>
+</head>
+<body>
+<nav class="nav" aria-label="Site (abbreviated)"><div class="navIn"><b>DIGITAL</b><span>SIDEKICK</span><span>SHADES</span><span class="cur">BRAIN</span><span>Updates</span><span>Coming soon</span><span class="navCta">Join BRAIN</span></div></nav>
+
+<main>
+  <!-- existing: the last stage of the pinned lessons, shown still and dimmed -->
+  <p class="note" style="padding-top:12px">Existing page, abbreviated: the last pinned lesson</p>
+  <section class="lesson mock" aria-label="Existing lesson: Evals (abbreviated)">
+    <h2 class="h2">Evals</h2>
+    <p class="line">Evals are repeatable tests of behaviour, the proof it works more than once.</p>
+    <svg id="evals" viewBox="0 0 300 200" aria-hidden="true"></svg>
+    <div class="bar"><button class="trackBtn" tabindex="-1"><span class="trackDot"></span><span>Loop</span></button><button class="trackBtn" tabindex="-1"><span class="trackDot"></span><span>Tools</span></button><button class="trackBtn" tabindex="-1"><span class="trackDot"></span><span>MCP</span></button><button class="trackBtn" tabindex="-1"><span class="trackDot"></span><span>Context</span></button><button class="trackBtn" tabindex="-1"><span class="trackDot"></span><span>Harness</span></button><button class="trackBtn" aria-current="step" tabindex="-1"><span class="trackDot"></span><span>Evals</span></button></div>
+  </section>
+
+  <!-- NEW -->
+  <section class="layers" id="layers" data-layout="cols" aria-labelledby="layers-h">
+    <div class="layersHead">
+      <h2 class="h2" id="layers-h">One job, three layers</h2>
+      <p class="line">The same job, seen from the loop, the context window and the tools.</p>
+    </div>
+    <div class="step">
+      <div class="stepText" id="step" aria-live="off"></div>
+      <button type="button" class="pause" id="pause" aria-label="Pause animation"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M5 3.5v9M11 3.5v9"/></svg></button>
+    </div>
+    <div class="bar switch" role="group" aria-label="Layer" id="switch"></div>
+    <div class="panels" id="panels"></div>
+    <p class="line" id="compare">The loop sets how long it works, the window what it knows, the tools what it can do.</p>
+  </section>
+
+  <p class="note">Existing page: the join</p>
+  <section class="join" aria-label="Existing join">
+    <h2>Come build one with us.</h2>
+    <p>Idea first, tool second.</p>
+    <p class="meta">Fridays, 12:00 – 1:00 PM · No project experience required.</p>
+    <a class="pill" href="#layers">Join the BRAIN Discord</a>
+  </section>
+</main>
+
+<div class="review" role="region" aria-label="Review controls"><div class="reviewIn">
+  <span>Layout</span>
+  <button type="button" data-lay="cols" aria-pressed="true">1 · Three columns</button>
+  <button type="button" data-lay="switch" aria-pressed="false">2 · One sphere + switch</button>
+  <button type="button" data-lay="auto" aria-pressed="false">Columns, switch on phone</button>
+</div></div>
+
+<script>
+'use strict';
+/* One illustrative job. Tool and server names are the page's own (figureExamples in _content/brain.ts):
+   run_tests, read_file, web_search, send_message; GitHub, Notion, Discord, Google Drive. Wording is provisional. */
+const JOBS = [
+  { think: 'A test is failing. Run it, read the file, then check the open issues.', tools: [['run_tests', 'auth.spec.ts', '1 failed'], ['read_file', 'src/demo.ts', '212 lines'], ['GitHub', 'issues.list', '3 open'], ['run_tests', 'auth.spec.ts', '24 passed, 0 failed'], ['send_message', '#general', 'needs approval', false]] },
+];
+const DIRS = [
+  { id: 'A', name: 'The loop', sw: 'Loop', cap: 'Think, act, check, repeat. It sets how many steps a job gets.', label: 'A sphere of dots. A wave crosses it while the model thinks; one dot leaves to call a tool and returns.' },
+  { id: 'B', name: 'The context window', sw: 'Context', cap: 'Everything the model can see. Each result uses up some of it.', label: 'A sphere of dots that fills along a spiral as the thought and each tool result are added. A ring shows how full it is.' },
+  { id: 'C', name: 'The tools', sw: 'Tools', cap: 'Everything the model can reach. A call goes out and a result comes back.', label: 'A small sphere of dots with eight tools and servers around it. Each call travels out to one of them and back.' },
+];
+/* ===== engine: copied unchanged from sphere-proto.html (except the C tool list) ===== */
+/* ---------- one timeline, a pure function of time ---------- */
+const TOOL = 1300, HOLD = 2200, REST = 1400, CHAR = 24;
+let acc = 0;
+const TL = JOBS.map((j) => {
+  const think = Math.max(1200, j.think.length * CHAR), toolsEnd = think + j.tools.length * TOOL;
+  const o = { j, start: acc, think, toolsEnd, len: toolsEnd + HOLD + REST };
+  acc += o.len;
+  return o;
+});
+const LOOP = acc;
+function stateAt(T) {
+  const t = ((T % LOOP) + LOOP) % LOOP;
+  const ji = TL.findIndex((o) => t < o.start + o.len), o = TL[ji], u = t - o.start, job = o.j;
+  let phase, ti = -1, p;
+  if (u < o.think) { phase = 'think'; p = u / o.think; }
+  else if (u < o.toolsEnd) { phase = 'tool'; ti = Math.floor((u - o.think) / TOOL); p = ((u - o.think) % TOOL) / TOOL; }
+  else if (u < o.toolsEnd + HOLD) { phase = 'done'; p = (u - o.toolsEnd) / HOLD; }
+  else { phase = 'rest'; p = (u - o.toolsEnd - HOLD) / REST; }
+  return { ji, job, u, phase, ti, p };
+}
+
+/* ---------- math ---------- */
+const TAU = Math.PI * 2;
+const clamp = (v, a = 0, b = 1) => (v < a ? a : v > b ? b : v);
+const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
+const easeOut = (t) => 1 - (1 - t) ** 3;
+const hash = (i) => { const s = Math.sin(i * 127.1 + 311.7) * 43758.5453; return s - Math.floor(s); };
+const fib = (n) => Array.from({ length: n }, (_, i) => { const y = 1 - ((i + 0.5) / n) * 2, r = Math.sqrt(1 - y * y), th = i * 2.399963229728653; return [Math.cos(th) * r, y, Math.sin(th) * r]; });
+function rot(p, cy, sy, ct, st) { const x = p[0] * cy + p[2] * sy, z = -p[0] * sy + p[2] * cy; return [x, p[1] * ct - z * st, p[1] * st + z * ct]; }
+const held = (tool) => tool[3] === false;
+
+/** The call in flight: f = 0 at the model, 1 at the tool. `run` = the tool is working. A held call stops at 0.6. */
+function travel(st) {
+  const tl = st.job.tools;
+  if (st.phase === 'tool') {
+    const p = st.p;
+    if (held(tl[st.ti])) return { i: st.ti, f: 0.6 * easeOut(clamp(p / 0.35)), held: true, vis: clamp(p / 0.1) };
+    const f = p < 0.35 ? ease(p / 0.35) : p < 0.6 ? 1 : p < 0.9 ? 1 - ease((p - 0.6) / 0.3) : 0;
+    return { i: st.ti, f, held: false, run: p >= 0.35 && p < 0.6, vis: clamp(p / 0.1) * clamp((1 - p) / 0.1) };
+  }
+  const li = tl.length - 1;
+  if (held(tl[li])) {
+    if (st.phase === 'done') return { i: li, f: 0.6, held: true, vis: 1 };
+    if (st.phase === 'rest') return { i: li, f: 0.6 * (1 - ease(st.p)), held: true, vis: 1 - st.p };
+  }
+  return null;
+}
+/** The last result that came back: which tool, and ms since it landed (null after 1s or when nothing landed). */
+function impact(st) {
+  const tl = st.job.tools; let i = -1, e = 0;
+  if (st.phase === 'tool') { if (st.p >= 0.9) { i = st.ti; e = (st.p - 0.9) * TOOL; } else if (st.ti > 0) { i = st.ti - 1; e = (st.p + 0.1) * TOOL; } }
+  else if (st.phase === 'done') { i = tl.length - 1; e = st.p * HOLD + 0.1 * TOOL; }
+  return i < 0 || e > 1000 || held(tl[i]) ? null : { i, e };
+}
+
+/* ---------- canvas helpers (units are CSS px; the context is pre-scaled by dpr) ---------- */
+function dotAt(g, x, y, r, a) { g.globalAlpha = a; g.beginPath(); g.arc(x, y, r, 0, TAU); g.fill(); }
+function seg(g, x1, y1, x2, y2, a, dash) { g.globalAlpha = a; g.setLineDash(dash || []); g.beginPath(); g.moveTo(x1, y1); g.lineTo(x2, y2); g.stroke(); }
+function label(g, s, x, y, S, a) {
+  g.font = '11px "Geist Mono", ui-monospace, monospace'; g.textBaseline = 'middle';
+  const w = g.measureText(s).width; g.globalAlpha = a; g.fillText(s, clamp(x - w / 2, 4, S - w - 4), y);
+}
+/** The call line, the tool slot and the dot in flight. Shared by A and C. */
+function drawCall(g, S, ink, tr, x1, y1, x2, y2) {
+  const big = S >= 200, x = x1 + (x2 - x1) * tr.f, y = y1 + (y2 - y1) * tr.f;
+  g.strokeStyle = g.fillStyle = ink.ink; g.lineWidth = 1;
+  seg(g, x1, y1, x2, y2, 0.35 * tr.vis, [4, 3]);
+  seg(g, x1, y1, x, y, 0.85 * tr.vis);
+  g.globalAlpha = 0.8 * tr.vis; g.beginPath(); g.arc(x2, y2, big ? 5.5 : 3, 0, TAU); g.stroke();
+  if (tr.run) dotAt(g, x2, y2, big ? 3 : 1.6, 1);
+  if (tr.held) { // the gate: a short bar across the line, and the one red mark waiting at it
+    const gx = x1 + (x2 - x1) * 0.7, gy = y1 + (y2 - y1) * 0.7, L = Math.hypot(x2 - x1, y2 - y1) || 1, nx = -(y2 - y1) / L * 8, ny = (x2 - x1) / L * 8;
+    seg(g, gx - nx, gy - ny, gx + nx, gy + ny, 0.9 * tr.vis);
+    g.fillStyle = ink.trigger;
+  } else g.fillStyle = ink.hot;
+  if (tr.f > 0.001 && !tr.run) dotAt(g, x, y, big ? 3.2 : 2, tr.vis);
+  g.fillStyle = ink.ink;
+}
+
+/* ---------- A · Loop: think = a wave over the dots; act = one dot leaves and returns; check = it lands as a new wave ---------- */
+const A_N = 420, A_P = fib(A_N);
+const A_NB = A_P.map((p, i) => { // two nearest neighbours of each dot, once
+  let a = -1, b = -1, da = -2, db = -2;
+  for (let j = 0; j < A_N; j++) { if (j === i) continue; const d = p[0] * A_P[j][0] + p[1] * A_P[j][1] + p[2] * A_P[j][2]; if (d > da) { b = a; db = da; a = j; da = d; } else if (d > db) { b = j; db = d; } }
+  return [a, b];
+});
+const A_SLOT = [-0.55, 0.6, 2.55, 3.7];
+const ax = new Float32Array(A_N), ay = new Float32Array(A_N), az = new Float32Array(A_N), aa = new Float32Array(A_N);
+function drawA(g, S, T, st, ink) {
+  const c = S / 2, R = S * 0.3, big = S >= 200, yaw = T * 0.00016, cy = Math.cos(yaw), sy = Math.sin(yaw), ct = Math.cos(0.38), sn = Math.sin(0.38);
+  const waves = []; // [ox, oy, oz, front (rad), gain], in view space
+  if (st.phase === 'think') for (const off of [0, 500]) {
+    const e = st.u + off, a = hash(Math.floor(e / 1000) * 2 + st.ji * 13 + off) * TAU;
+    waves.push([Math.cos(a) * 0.8, Math.sin(a) * 0.8, 0.6, ((e % 1000) / 1000) * Math.PI, clamp(st.u / 300)]);
+  }
+  const im = impact(st);
+  if (im) { const a = A_SLOT[im.i % 4]; waves.push([Math.cos(a) * 0.95, Math.sin(a) * 0.95, 0.31, (im.e / 1000) * Math.PI, 1]); }
+  const breath = 1 + Math.sin(T * 0.0021) * 0.008;
+  for (let i = 0; i < A_N; i++) {
+    const v = rot(A_P[i], cy, sy, ct, sn); let act = 0;
+    for (const w of waves) { const d = Math.acos(clamp(v[0] * w[0] + v[1] * w[1] + v[2] * w[2], -1, 1)); act = Math.max(act, clamp(1 - Math.abs(d - w[3]) / 0.42) * w[4] * (1 - 0.5 * w[3] / Math.PI)); }
+    const k = R * breath * (1 + act * 0.045);
+    ax[i] = c + v[0] * k; ay[i] = c + v[1] * k; az[i] = (v[2] + 1) / 2; aa[i] = act;
+  }
+  g.strokeStyle = ink.hot; g.lineWidth = 1; g.setLineDash([]);
+  for (let i = 0; i < A_N; i++) if (aa[i] > 0.3) for (const j of A_NB[i]) { g.globalAlpha = aa[i] * 0.6 * (0.3 + 0.7 * az[i]); g.beginPath(); g.moveTo(ax[i], ay[i]); g.lineTo(ax[j], ay[j]); g.stroke(); }
+  const base = big ? 1.5 : 0.9;
+  for (const pass of [0, 1]) { // 0 = resting dots in ink, 1 = firing dots (ink, or the approved blue when tinted)
+    g.fillStyle = pass ? ink.hot : ink.ink;
+    for (let i = 0; i < A_N; i++) { const hot = aa[i] > 0.3; if (hot !== !!pass) continue; dotAt(g, ax[i], ay[i], base * (0.65 + 0.5 * az[i]) * (1 + aa[i] * 1.1), clamp((0.14 + 0.5 * az[i]) + aa[i] * 0.7)); }
+  }
+  const tr = travel(st);
+  if (tr && tr.vis > 0) { const a = A_SLOT[tr.i % 4], cx = Math.cos(a), sx = Math.sin(a); drawCall(g, S, ink, tr, c + cx * R * 1.04, c + sx * R * 1.04, c + cx * S * 0.455, c + sx * S * 0.455); }
+}
+
+/* ---------- B · Tokens: the sphere is the context window; dots fill in spiral order ---------- */
+const B_N = 560, B_P = fib(B_N);
+function levelAt(st) {
+  const B0 = 0.12, TH = 0.14, TA = 0.16, tl = st.job.tools;
+  const add = (n) => tl.slice(0, n).reduce((s, t) => s + (held(t) ? 0 : TA), 0);
+  if (st.phase === 'think') return B0 + TH * st.p;
+  if (st.phase === 'tool') return B0 + TH + add(st.ti) + (held(tl[st.ti]) ? 0 : TA * ease(clamp((st.p - 0.1) / 0.5)));
+  const top = B0 + TH + add(tl.length);
+  return st.phase === 'done' ? top : top + (B0 - top) * ease(st.p);
+}
+function drawB(g, S, T, st, ink) {
+  const c = S / 2, R = S * 0.33, big = S >= 200, yaw = T * 0.00016, cy = Math.cos(yaw), sy = Math.sin(yaw), ct = Math.cos(0.5), sn = Math.sin(0.5);
+  const lv = levelAt(st), F = lv * B_N, base = big ? 1.5 : 0.9, hot = [];
+  g.fillStyle = ink.ink;
+  for (let i = 0; i < B_N; i++) {
+    const v = rot(B_P[i], cy, sy, ct, sn), z = (v[2] + 1) / 2, q = clamp((F - i) / 14);
+    if (q <= 0) { dotAt(g, c + v[0] * R, c + v[1] * R, base * 0.55, 0.1 + 0.12 * z); continue; }
+    const k = R * (1 + (1 - easeOut(q)) * 0.5), x = c + v[0] * k, y = c + v[1] * k, r = base * (0.7 + 0.5 * z) * (1 + (1 - q) * 1.3), a = clamp(0.3 + 0.7 * z) * (0.35 + 0.65 * q);
+    if (q < 1) hot.push(x, y, r, Math.max(a, 0.75)); else dotAt(g, x, y, r, a);
+  }
+  g.fillStyle = ink.hot;
+  for (let i = 0; i < hot.length; i += 4) dotAt(g, hot[i], hot[i + 1], hot[i + 2], hot[i + 3]);
+  // the meter: a hairline ring that closes as the window fills, and the figure in mono
+  g.strokeStyle = g.fillStyle = ink.ink; g.lineWidth = 1; g.setLineDash([]);
+  g.globalAlpha = 0.16; g.beginPath(); g.arc(c, c, R * 1.3, 0, TAU); g.stroke();
+  g.globalAlpha = 0.8; g.beginPath(); g.arc(c, c, R * 1.3, -TAU / 4, -TAU / 4 + lv * TAU); g.stroke();
+  const ea = -TAU / 4 + lv * TAU; dotAt(g, c + Math.cos(ea) * R * 1.3, c + Math.sin(ea) * R * 1.3, big ? 2.4 : 1.4, 1);
+  if (big) label(g, Math.round(lv * 100) + '%', c, c + R * 1.3 + 16, S, 0.75);
+}
+
+/* ---------- C · Tools: one model, six tools on an orbit; a call travels out and back ---------- */
+const C_N = 300, C_P = fib(C_N), C_SAT = ['run_tests', 'read_file', 'web_search', 'send_message', 'GitHub', 'Notion', 'Discord', 'Google Drive'];
+function drawC(g, S, T, st, ink) {
+  const c = S / 2, big = S >= 200, im = impact(st), kick = im ? Math.exp(-im.e / 280) : 0, R = S * 0.185 * (1 + kick * 0.07);
+  const yaw = T * 0.0002, cy = Math.cos(yaw), sy = Math.sin(yaw), ct = Math.cos(0.38), sn = Math.sin(0.38);
+  const tr = travel(st), active = tr ? C_SAT.indexOf(st.job.tools[tr.i][0]) : -1;
+  const co = Math.cos(-0.3), so = Math.sin(-0.3), RX = S * 0.43, RY = RX * 0.36;
+  const sat = C_SAT.map((_, k) => { const a = (k / C_SAT.length) * TAU + T * 0.00005, ex = Math.cos(a) * RX, ey = Math.sin(a) * RY; return { x: c + ex * co - ey * so, y: c + ex * so + ey * co, front: Math.sin(a) > 0 }; });
+  g.strokeStyle = g.fillStyle = ink.ink; g.lineWidth = 1;
+  g.globalAlpha = 0.22; g.setLineDash([1, 4]); g.beginPath(); g.ellipse(c, c, RX, RY, -0.3, 0, TAU); g.stroke();
+  sat.forEach((s, k) => {
+    const L = Math.hypot(s.x - c, s.y - c), ux = (s.x - c) / L, uy = (s.y - c) / L, x1 = c + ux * R * 1.08, y1 = c + uy * R * 1.08;
+    if (k === active && tr.vis > 0) return;
+    seg(g, x1, y1, s.x, s.y, s.front ? 0.2 : 0.11, [1, 4]);
+    g.setLineDash([]); g.globalAlpha = s.front ? 0.6 : 0.3; g.beginPath(); g.arc(s.x, s.y, big ? 4.5 : 2.5, 0, TAU); g.stroke();
+  });
+  const think = st.phase === 'think' ? 1 : st.phase === 'tool' ? 0.3 : 0.06, base = big ? 1.4 : 0.9, hot = [];
+  for (let i = 0; i < C_N; i++) {
+    const v = rot(C_P[i], cy, sy, ct, sn), z = (v[2] + 1) / 2;
+    const tw = Math.max(Math.pow(Math.max(0, Math.sin(T * 0.005 + hash(i) * 40)), 8) * think, kick);
+    const x = c + v[0] * R, y = c + v[1] * R, r = base * (0.65 + 0.5 * z) * (1 + tw * 0.9), a = clamp(0.16 + 0.5 * z + tw * 0.6);
+    if (tw > 0.3) hot.push(x, y, r, a); else dotAt(g, x, y, r, a);
+  }
+  g.fillStyle = ink.hot;
+  for (let i = 0; i < hot.length; i += 4) dotAt(g, hot[i], hot[i + 1], hot[i + 2], hot[i + 3]);
+  g.fillStyle = ink.ink;
+  if (active >= 0 && tr.vis > 0) {
+    const s = sat[active], L = Math.hypot(s.x - c, s.y - c), ux = (s.x - c) / L, uy = (s.y - c) / L;
+    drawCall(g, S, ink, tr, c + ux * R * 1.08, c + uy * R * 1.08, s.x, s.y);
+    if (big) label(g, C_SAT[active], s.x, s.y + (s.y > c ? 17 : -17), S, 0.9 * tr.vis);
+  }
+}
+const DRAW = { A: drawA, B: drawB, C: drawC };
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const STILL = TL[0].think + TOOL * 1.45; // reduced motion: job 1, second call, the dot at its tool
+let T = reduce ? STILL : 0, last = 0, raf = 0, paused = false, dir = 'A', tint = false;
+const views = [], readouts = [], ft = { n: 0, sum: 0, max: 0 };
+
+function addView(cv, getDir) {
+  const v = { cv, g: cv.getContext('2d'), getDir, S: 0, dpr: 1, vis: false, ink: null };
+  const size = () => {
+    const w = cv.clientWidth; if (!w) return;
+    v.S = w; v.dpr = Math.min(window.devicePixelRatio || 1, 2); cv.width = cv.height = Math.round(w * v.dpr);
+    const cs = getComputedStyle(cv); v.inkBase = cs.color; v.trigger = cs.getPropertyValue('--r2-trigger').trim() || '#d8412f'; v.blue = cs.getPropertyValue('--orb-blue').trim();
+    paint(v, stateAt(T));
+  };
+  new ResizeObserver(size).observe(cv);
+  new IntersectionObserver(([e]) => { v.vis = e.isIntersecting; schedule(); }).observe(cv);
+  views.push(v);
+}
+function paint(v, st) {
+  if (!v.S) return;
+  const g = v.g; g.setTransform(v.dpr, 0, 0, v.dpr, 0, 0); g.clearRect(0, 0, v.S, v.S); g.lineCap = 'round';
+  DRAW[v.getDir()](g, v.S, T, st, { ink: v.inkBase, hot: tint ? v.blue : v.inkBase, trigger: v.trigger });
+  g.globalAlpha = 1; g.setLineDash([]);
+}
+function paintAll(force) {
+  const t0 = performance.now(), st = stateAt(T);
+  for (const v of views) if (v.vis || force) paint(v, st);
+  for (const r of readouts) renderReadout(r, st);
+  const d = performance.now() - t0; ft.n++; ft.sum += d; if (d > ft.max) ft.max = d;
+}
+const wantRun = () => !paused && !reduce && !document.hidden && views.some((v) => v.vis);
+function frame(now) { raf = 0; T += last ? Math.min(now - last, 50) : 16; last = now; paintAll(); schedule(); }
+function schedule() { if (raf) return; if (!wantRun()) { last = 0; return; } raf = requestAnimationFrame(frame); }
+document.addEventListener('visibilitychange', schedule);
+/* ===== page ===== */
+const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
+/** The shared clock in words: the phase (the lesson's own labels: think, act, check) and what is happening. */
+function renderReadout(r, st) {
+  const tl = st.job.tools, tool = st.phase === 'think' ? null : tl[st.phase === 'tool' ? st.ti : tl.length - 1];
+  const back = tool && (st.phase !== 'tool' || held(tool) || st.p >= 0.62);
+  const chars = st.phase === 'think' ? Math.floor(st.u / CHAR) : 0;
+  const key = [st.phase, st.ti, chars, back].join('|');
+  if (r._k === key) return; r._k = key;
+  r.root.style.opacity = st.phase === 'rest' ? '0.4' : '1';
+  if (!tool) { r.root.replaceChildren(el('b', '', 'think'), el('span', '', st.job.think.slice(0, chars))); return; }
+  const s = el('span', 'mono', `${tool[0]} ${tool[1]}`);
+  if (back) s.append(' → ', el('i', '', tool[2]));
+  r.root.replaceChildren(el('b', '', back && !held(tool) ? 'check' : 'act'), s);
+}
+readouts.push({ root: document.getElementById('step') });
+
+const sec = document.getElementById('layers'), panels = document.getElementById('panels'), sw = document.getElementById('switch');
+function setDir(d) {
+  dir = d;
+  panels.querySelectorAll('.panel').forEach((p) => p.toggleAttribute('data-on', p.dataset.dir === d));
+  sw.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.dir === d)));
+}
+for (const D of DIRS) {
+  const p = el('div', 'panel'); p.dataset.dir = D.id;
+  const cv = el('canvas'); cv.setAttribute('role', 'img'); cv.setAttribute('aria-label', D.label);
+  p.append(cv, el('h3', '', D.name), el('p', '', D.cap)); panels.append(p); addView(cv, () => D.id);
+  const b = el('button', 'trackBtn'); b.type = 'button'; b.dataset.dir = D.id; b.append(el('span', 'trackDot'), el('span', '', D.sw));
+  b.addEventListener('click', () => setDir(D.id)); sw.append(b);
+}
+setDir('A');
+const pauseBtn = document.getElementById('pause');
+function setPaused(p) {
+  paused = p; pauseBtn.setAttribute('aria-label', p ? 'Play animation' : 'Pause animation');
+  pauseBtn.querySelector('path').setAttribute('d', p ? 'M5 3.5v9l7.5-4.5z' : 'M5 3.5v9M11 3.5v9'); schedule();
+}
+pauseBtn.addEventListener('click', () => setPaused(!paused));
+function setLayout(l) {
+  sec.dataset.layout = l;
+  document.querySelectorAll('[data-lay]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.lay === l)));
+}
+document.querySelectorAll('[data-lay]').forEach((b) => b.addEventListener('click', () => setLayout(b.dataset.lay)));
+document.fonts && document.fonts.ready.then(() => paintAll(true));
+
+// the existing Evals still: 24 runs, three fail (lessons.ts FAILS = 4, 11, 17)
+document.getElementById('evals').innerHTML = Array.from({ length: 24 }, (_, i) => { const x = 50 + (i % 6) * 40, y = 40 + Math.floor(i / 6) * 40; return [4, 11, 17].includes(i) ? `<circle cx="${x}" cy="${y}" r="6" fill="none" stroke="currentColor" stroke-dasharray="2 1.5"/>` : `<circle cx="${x}" cy="${y}" r="6" fill="currentColor"/>`; }).join('');
+
+/* QA hooks */
+window.__proto = {
+  LOOP, STILL, TL, setDir, setPaused, setLayout,
+  setT(ms) { T = ms; paintAll(true); },
+  visible: () => views.filter((v) => v.vis).length,
+  stats() { const s = { frames: ft.n, avgMs: ft.n ? ft.sum / ft.n : 0, maxMs: ft.max, running: !!raf, T }; ft.n = ft.sum = ft.max = 0; return s; },
+};
+</script>
+</body>
+</html>

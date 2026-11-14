@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BRAIN Sphere Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* Page chrome tokens (the review page itself). The chapters below use the site's --r2-* tokens, copied from
+   app/(apple)/_system/tokens/worlds.css. */
+:root {
+  --pg-bg: #f5f5f7; --pg-raised: #ffffff; --pg-ink: #1d1d1f; --pg-ink-2: #6e6e73; --pg-line: #d2d2d7; --pg-focus: #0b0c0a;
+  --font-display: 'Geist', ui-sans-serif, system-ui, sans-serif;
+  --font-text: 'Geist', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --r2-trigger: #d8412f;
+  --r2-ease-ui: cubic-bezier(0.4, 0, 0.6, 1);
+  --r2-dur-ui-fast: 240ms; --r2-dur-ui-slow: 320ms;
+  --r2-space-3: 12px; --r2-space-5: 24px; --r2-space-6: 32px; --r2-space-7: 48px; --r2-space-8: 64px; --r2-space-9: 96px;
+  --r2-gutter: 16px; --r2-radius: 12px;
+  --r2-fs-h1: 56px; --r2-lh-h1: 60px; --r2-ls-h1: -0.005em; --r2-fs-lead: 21px; --r2-lh-lead: 29px;
+  /* Head Designer exception 2026-10-15 (BrainOrb.tsx blob 1): only used when "Tint" is switched on. */
+  --orb-blue: rgb(88, 140, 255);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) { --pg-bg: #0b0b0c; --pg-raised: #161617; --pg-ink: #f5f5f7; --pg-ink-2: #a1a1a6; --pg-line: #424245; --pg-focus: #f5f5f7; }
+}
+:root[data-theme='dark'] { --pg-bg: #0b0b0c; --pg-raised: #161617; --pg-ink: #f5f5f7; --pg-ink-2: #a1a1a6; --pg-line: #424245; --pg-focus: #f5f5f7; }
+@media (min-width: 735px) { :root { --r2-gutter: 32px; } }
+@media (min-width: 1069px) { :root { --r2-gutter: 48px; } }
+@media (max-width: 734px) { :root { --r2-fs-h1: 32px; --r2-lh-h1: 36px; --r2-fs-lead: 17px; --r2-lh-lead: 25px; } }
+
+/* Site tones (worlds.css .world-apple and [data-tone='dark']) */
+[data-tone='light'] { --r2-ground: #ffffff; --r2-ink: #1d1d1f; --r2-ink-2: #6e6e73; --r2-hairline: #d2d2d7; --r2-focus: #0b0c0a; --ok: #6e6e73; --no: #1d1d1f; }
+[data-tone='dark'] { --r2-ground: #000000; --r2-ink: #f5f5f7; --r2-ink-2: #a1a1a6; --r2-hairline: #424245; --r2-focus: #f5f5f7; --ok: #7ad08f; --no: #ffb35c; }
+[data-tone] { background: var(--r2-ground); color: var(--r2-ink); }
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--pg-bg); color: var(--pg-ink); font-family: var(--font-text); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--pg-focus); outline-offset: 3px; border-radius: 4px; }
+[data-tone] :focus-visible { outline-color: var(--r2-focus); }
+
+.head { max-width: 1120px; margin: 0 auto; padding: 32px 16px 20px; }
+.head h1 { margin: 0 0 6px; font-size: 28px; line-height: 32px; font-weight: 600; letter-spacing: -0.01em; }
+.head p { margin: 0; max-width: 62ch; color: var(--pg-ink-2); font-size: 15px; line-height: 22px; }
+
+.bar { position: sticky; top: 0; z-index: 2; background: var(--pg-bg); border-bottom: 1px solid var(--pg-line); }
+.barIn { max-width: 1120px; margin: 0 auto; padding: 4px 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 16px; font-size: 13px; color: var(--pg-ink-2); }
+.barIn b { color: var(--pg-ink); font-weight: 600; }
+.ctl { min-height: 44px; padding: 0 12px; background: none; border: 1px solid var(--pg-line); border-radius: 980px; cursor: pointer; color: var(--pg-ink); font-size: 13px; }
+.ctl[aria-pressed='true'] { background: var(--pg-ink); color: var(--pg-bg); border-color: var(--pg-ink); }
+.sp { flex: 1; }
+
+.tiles { max-width: 1120px; margin: 0 auto; padding: 20px 16px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.tile { all: unset; box-sizing: border-box; cursor: pointer; display: grid; justify-items: center; gap: 8px; padding: 12px 8px 14px; border-radius: var(--r2-radius); border: 1px solid transparent; text-align: center; min-width: 0; }
+.tile[aria-pressed='true'] { border-color: var(--r2-ink-2); }
+.tile:focus-visible { outline: 2px solid var(--pg-focus); outline-offset: 3px; }
+.tile canvas { width: min(100%, 280px); aspect-ratio: 1; display: block; }
+.tile strong { font-size: 15px; font-weight: 600; }
+.tile span { font-size: 12px; line-height: 16px; color: var(--r2-ink-2); max-width: 28ch; }
+@media (max-width: 734px) { .tile span { display: none; } .tile { padding: 8px 4px 10px; } .tile strong { font-size: 13px; } }
+
+.tag { max-width: 1120px; margin: 0 auto; padding: 20px 16px 8px; font-size: 13px; color: var(--pg-ink-2); }
+
+/* The showcase row: home.module.css .builds / .build / .buildOrb / .buildCopy / .buildName / .buildLine */
+.builds { padding: var(--r2-space-7) 0; }
+.build { max-width: 1120px; margin: 0 auto; padding: var(--r2-space-7) var(--r2-gutter); display: grid; grid-template-columns: minmax(0, 560px) minmax(0, 1fr); gap: var(--r2-space-8); align-items: center; }
+.buildOrb { justify-self: center; width: min(100%, 560px); color: var(--r2-ink); }
+.buildCopy { display: grid; gap: var(--r2-space-3); justify-items: start; }
+.buildName { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: var(--r2-fs-h1); line-height: var(--r2-lh-h1); letter-spacing: var(--r2-ls-h1); }
+.buildLink { display: inline-flex; align-items: center; gap: 8px; color: inherit; min-height: 44px; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.12em; text-decoration-color: transparent; transition: text-decoration-color var(--r2-dur-ui-fast) var(--r2-ease-ui); }
+.buildLink:hover { text-decoration-color: currentColor; }
+.buildLine { margin: 0; font-size: var(--r2-fs-lead); line-height: var(--r2-lh-lead); font-weight: 600; max-width: 26rem; text-wrap: pretty; }
+@media (max-width: 1068px) { .build { gap: var(--r2-space-6); grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+@media (max-width: 734px) {
+  .build { grid-template-columns: minmax(0, 1fr); gap: var(--r2-space-5); justify-items: center; text-align: center; }
+  .buildCopy { justify-items: center; }
+  .buildOrb { width: min(100%, 358px); }
+}
+
+/* brain.module.css, with the canvas widened from 300px to 400px so the tool reach fits */
+.wrap { display: grid; justify-items: center; gap: 18px; min-width: 0; }
+.orb { width: min(400px, 100%); aspect-ratio: 1; display: block; }
+.rsn { width: 100%; max-width: 460px; height: 196px; display: flex; flex-direction: column; overflow: hidden; font-size: 14px; color: var(--r2-ink-2); text-align: left; }
+.rsnTop { flex: none; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.trigger, .pause { all: unset; box-sizing: border-box; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; cursor: pointer; color: var(--r2-ink-2); font-size: 14px; }
+.pause { font-size: 12px; padding: 0 4px; }
+.pause:hover { color: var(--r2-ink); }
+.trigger:focus-visible, .pause:focus-visible { outline: 2px solid var(--r2-focus); outline-offset: 2px; border-radius: 6px; }
+.trigger svg { width: 18px; height: 18px; flex: none; }
+.shimmer { background: linear-gradient(90deg, var(--r2-ink-2) 0%, var(--r2-ink) 50%, var(--r2-ink-2) 100%); background-size: 200% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: shimmer 1.6s linear infinite; }
+@keyframes shimmer { from { background-position: 100% 0; } to { background-position: -100% 0; } }
+.body { flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: flex-end; gap: 8px; padding-top: 6px; overflow: hidden; line-height: 1.55; transition: opacity var(--r2-dur-ui-slow) var(--r2-ease-ui); -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 36px); mask-image: linear-gradient(to bottom, transparent 0, #000 36px); }
+.rsn[data-open='0'] .body { opacity: 0; }
+.think { margin: 0; }
+.tool { flex: none; display: flex; align-items: baseline; gap: 8px; font-family: var(--font-mono); font-size: 12px; border: 1px solid var(--r2-hairline); border-radius: 8px; padding: 6px 10px; overflow: hidden; white-space: nowrap; }
+.tool b { color: var(--r2-ink); font-weight: 600; }
+.ok, .no { margin-left: auto; padding-left: 10px; }
+.ok { color: var(--ok); } .no { color: var(--no); }
+@media (prefers-reduced-motion: reduce) { .shimmer { animation: none; } .body, .buildLink { transition: none; } .pause, #pauseAll { display: none; } }
+.paused .shimmer { animation-play-state: paused; }
+
+.notes { max-width: 1120px; margin: 0 auto; padding: 24px 16px 56px; color: var(--pg-ink-2); font-size: 13px; line-height: 20px; }
+.notes code { font-family: var(--font-mono); font-size: 12px; color: var(--pg-ink); }
+</style>
+</head>
+<body>
+<header class="head">
+  <h1>BRAIN sphere: three directions</h1>
+  <p>Home, "Explore our projects", BRAIN row. Each sphere is driven by the same example agent the readout prints, so the figure and the text say the same thing. Pick a direction; it plays in the dark and the light chapter below.</p>
+</header>
+
+<div class="bar"><div class="barIn">
+  <span>Showing <b id="dirName">A · Loop</b></span>
+  <span class="sp"></span>
+  <button class="ctl" id="tint" aria-pressed="false" title="Paint the firing dots in the approved orb blue instead of ink">Tint: orb blue</button>
+  <button class="ctl" id="pauseAll" aria-pressed="false">Pause</button>
+</div></div>
+
+<section data-tone="dark" aria-label="Compare the three directions">
+  <div class="tiles" id="tiles"></div>
+</section>
+
+<p class="tag">Dark chapter (as shipped on the home page)</p>
+<section class="builds" data-tone="dark"><article class="build" data-row></article></section>
+<p class="tag">Light chapter</p>
+<section class="builds" data-tone="light"><article class="build" data-row></article></section>
+
+<footer class="notes">
+  Prototype only. Canvas 2D, ink from the element's computed <code>color</code>, no gradients, glow or blur. Pauses when off screen, when the tab is hidden and on Pause; <code>prefers-reduced-motion</code> shows one still pose. Example calls are the existing <code>homeJobs</code> in <code>_content/home.ts</code>.
+</footer>
+
+<script>
+'use strict';
+/* ---------- content (verbatim from app/(apple)/_content/home.ts) ---------- */
+const JOBS = [
+  { think: 'The test suite is red. Run it first to see which test fails.', tools: [['run_tests', 'npm test', '1 failed'], ['read_file', 'src/demo.ts', '212 lines'], ['edit_file', 'src/demo.ts:47', 'patched'], ['run_tests', 'npm test', '24 passed']], sec: 4 },
+  { think: 'Summarize this week in Discord. Ask the Discord server for the last 50 messages.', tools: [['mcp · discord', 'messages.list #general', '50 messages'], ['write', 'summary.md', '6 bullets']], sec: 3 },
+  { think: 'Check the board netlist for unconnected pins with a script.', tools: [['bash', 'python check_nets.py demo-board.net', '2 warnings'], ['read_file', 'demo-board.net', 'U4 pin 12'], ['bash', 'python check_nets.py demo-board.net', '0 warnings']], sec: 5 },
+  { think: 'Clean the build folder. That deletes files, so the harness asks first.', tools: [['bash', 'rm -rf build/', 'needs approval', false]], sec: 2 },
+];
+const LINE = 'How AI agents work, and how to build with them.';
+const DIRS = [
+  { id: 'A', name: 'Loop', note: 'A thought spreads across the dots. One dot leaves to call a tool and comes back.', label: 'A sphere of dots. A wave crosses it while the agent thinks; one dot leaves to call a tool and returns.' },
+  { id: 'B', name: 'Tokens', note: 'The sphere is the context window. It fills dot by dot as tokens and results land.', label: 'A sphere of dots that fills along a spiral as the agent writes tokens and reads tool results.' },
+  { id: 'C', name: 'Tools', note: 'One model in the middle, six tools around it. A call goes out along a line and returns.', label: 'A small sphere of dots with six tools around it. A call travels out to one tool and back.' },
+];
+
+/* ---------- one timeline, a pure function of time ---------- */
+const TOOL = 1300, HOLD = 2200, REST = 1400, CHAR = 24;
+let acc = 0;
+const TL = JOBS.map((j) => {
+  const think = Math.max(1200, j.think.length * CHAR), toolsEnd = think + j.tools.length * TOOL;
+  const o = { j, start: acc, think, toolsEnd, len: toolsEnd + HOLD + REST };
+  acc += o.len;
+  return o;
+});
+const LOOP = acc;
+function stateAt(T) {
+  const t = ((T % LOOP) + LOOP) % LOOP;
+  const ji = TL.findIndex((o) => t < o.start + o.len), o = TL[ji], u = t - o.start, job = o.j;
+  let phase, ti = -1, p;
+  if (u < o.think) { phase = 'think'; p = u / o.think; }
+  else if (u < o.toolsEnd) { phase = 'tool'; ti = Math.floor((u - o.think) / TOOL); p = ((u - o.think) % TOOL) / TOOL; }
+  else if (u < o.toolsEnd + HOLD) { phase = 'done'; p = (u - o.toolsEnd) / HOLD; }
+  else { phase = 'rest'; p = (u - o.toolsEnd - HOLD) / REST; }
+  return { ji, job, u, phase, ti, p };
+}
+
+/* ---------- math ---------- */
+const TAU = Math.PI * 2;
+const clamp = (v, a = 0, b = 1) => (v < a ? a : v > b ? b : v);
+const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
+const easeOut = (t) => 1 - (1 - t) ** 3;
+const hash = (i) => { const s = Math.sin(i * 127.1 + 311.7) * 43758.5453; return s - Math.floor(s); };
+const fib = (n) => Array.from({ length: n }, (_, i) => { const y = 1 - ((i + 0.5) / n) * 2, r = Math.sqrt(1 - y * y), th = i * 2.399963229728653; return [Math.cos(th) * r, y, Math.sin(th) * r]; });
+function rot(p, cy, sy, ct, st) { const x = p[0] * cy + p[2] * sy, z = -p[0] * sy + p[2] * cy; return [x, p[1] * ct - z * st, p[1] * st + z * ct]; }
+const held = (tool) => tool[3] === false;
+
+/** The call in flight: f = 0 at the model, 1 at the tool. `run` = the tool is working. A held call stops at 0.6. */
+function travel(st) {
+  const tl = st.job.tools;
+  if (st.phase === 'tool') {
+    const p = st.p;
+    if (held(tl[st.ti])) return { i: st.ti, f: 0.6 * easeOut(clamp(p / 0.35)), held: true, vis: clamp(p / 0.1) };
+    const f = p < 0.35 ? ease(p / 0.35) : p < 0.6 ? 1 : p < 0.9 ? 1 - ease((p - 0.6) / 0.3) : 0;
+    return { i: st.ti, f, held: false, run: p >= 0.35 && p < 0.6, vis: clamp(p / 0.1) * clamp((1 - p) / 0.1) };
+  }
+  const li = tl.length - 1;
+  if (held(tl[li])) {
+    if (st.phase === 'done') return { i: li, f: 0.6, held: true, vis: 1 };
+    if (st.phase === 'rest') return { i: li, f: 0.6 * (1 - ease(st.p)), held: true, vis: 1 - st.p };
+  }
+  return null;
+}
+/** The last result that came back: which tool, and ms since it landed (null after 1s or when nothing landed). */
+function impact(st) {
+  const tl = st.job.tools; let i = -1, e = 0;
+  if (st.phase === 'tool') { if (st.p >= 0.9) { i = st.ti; e = (st.p - 0.9) * TOOL; } else if (st.ti > 0) { i = st.ti - 1; e = (st.p + 0.1) * TOOL; } }
+  else if (st.phase === 'done') { i = tl.length - 1; e = st.p * HOLD + 0.1 * TOOL; }
+  return i < 0 || e > 1000 || held(tl[i]) ? null : { i, e };
+}
+
+/* ---------- canvas helpers (units are CSS px; the context is pre-scaled by dpr) ---------- */
+function dotAt(g, x, y, r, a) { g.globalAlpha = a; g.beginPath(); g.arc(x, y, r, 0, TAU); g.fill(); }
+function seg(g, x1, y1, x2, y2, a, dash) { g.globalAlpha = a; g.setLineDash(dash || []); g.beginPath(); g.moveTo(x1, y1); g.lineTo(x2, y2); g.stroke(); }
+function label(g, s, x, y, S, a) {
+  g.font = '11px "Geist Mono", ui-monospace, monospace'; g.textBaseline = 'middle';
+  const w = g.measureText(s).width; g.globalAlpha = a; g.fillText(s, clamp(x - w / 2, 4, S - w - 4), y);
+}
+/** The call line, the tool slot and the dot in flight. Shared by A and C. */
+function drawCall(g, S, ink, tr, x1, y1, x2, y2) {
+  const big = S >= 200, x = x1 + (x2 - x1) * tr.f, y = y1 + (y2 - y1) * tr.f;
+  g.strokeStyle = g.fillStyle = ink.ink; g.lineWidth = 1;
+  seg(g, x1, y1, x2, y2, 0.35 * tr.vis, [4, 3]);
+  seg(g, x1, y1, x, y, 0.85 * tr.vis);
+  g.globalAlpha = 0.8 * tr.vis; g.beginPath(); g.arc(x2, y2, big ? 5.5 : 3, 0, TAU); g.stroke();
+  if (tr.run) dotAt(g, x2, y2, big ? 3 : 1.6, 1);
+  if (tr.held) { // the gate: a short bar across the line, and the one red mark waiting at it
+    const gx = x1 + (x2 - x1) * 0.7, gy = y1 + (y2 - y1) * 0.7, L = Math.hypot(x2 - x1, y2 - y1) || 1, nx = -(y2 - y1) / L * 8, ny = (x2 - x1) / L * 8;
+    seg(g, gx - nx, gy - ny, gx + nx, gy + ny, 0.9 * tr.vis);
+    g.fillStyle = ink.trigger;
+  } else g.fillStyle = ink.hot;
+  if (tr.f > 0.001 && !tr.run) dotAt(g, x, y, big ? 3.2 : 2, tr.vis);
+  g.fillStyle = ink.ink;
+}
+
+/* ---------- A · Loop: think = a wave over the dots; act = one dot leaves and returns; check = it lands as a new wave ---------- */
+const A_N = 420, A_P = fib(A_N);
+const A_NB = A_P.map((p, i) => { // two nearest neighbours of each dot, once
+  let a = -1, b = -1, da = -2, db = -2;
+  for (let j = 0; j < A_N; j++) { if (j === i) continue; const d = p[0] * A_P[j][0] + p[1] * A_P[j][1] + p[2] * A_P[j][2]; if (d > da) { b = a; db = da; a = j; da = d; } else if (d > db) { b = j; db = d; } }
+  return [a, b];
+});
+const A_SLOT = [-0.55, 0.6, 2.55, 3.7];
+const ax = new Float32Array(A_N), ay = new Float32Array(A_N), az = new Float32Array(A_N), aa = new Float32Array(A_N);
+function drawA(g, S, T, st, ink) {
+  const c = S / 2, R = S * 0.3, big = S >= 200, yaw = T * 0.00016, cy = Math.cos(yaw), sy = Math.sin(yaw), ct = Math.cos(0.38), sn = Math.sin(0.38);
+  const waves = []; // [ox, oy, oz, front (rad), gain], in view space
+  if (st.phase === 'think') for (const off of [0, 500]) {
+    const e = st.u + off, a = hash(Math.floor(e / 1000) * 2 + st.ji * 13 + off) * TAU;
+    waves.push([Math.cos(a) * 0.8, Math.sin(a) * 0.8, 0.6, ((e % 1000) / 1000) * Math.PI, clamp(st.u / 300)]);
+  }
+  const im = impact(st);
+  if (im) { const a = A_SLOT[im.i % 4]; waves.push([Math.cos(a) * 0.95, Math.sin(a) * 0.95, 0.31, (im.e / 1000) * Math.PI, 1]); }
+  const breath = 1 + Math.sin(T * 0.0021) * 0.008;
+  for (let i = 0; i < A_N; i++) {
+    const v = rot(A_P[i], cy, sy, ct, sn); let act = 0;
+    for (const w of waves) { const d = Math.acos(clamp(v[0] * w[0] + v[1] * w[1] + v[2] * w[2], -1, 1)); act = Math.max(act, clamp(1 - Math.abs(d - w[3]) / 0.42) * w[4] * (1 - 0.5 * w[3] / Math.PI)); }
+    const k = R * breath * (1 + act * 0.045);
+    ax[i] = c + v[0] * k; ay[i] = c + v[1] * k; az[i] = (v[2] + 1) / 2; aa[i] = act;
+  }
+  g.strokeStyle = ink.hot; g.lineWidth = 1; g.setLineDash([]);
+  for (let i = 0; i < A_N; i++) if (aa[i] > 0.3) for (const j of A_NB[i]) { g.globalAlpha = aa[i] * 0.6 * (0.3 + 0.7 * az[i]); g.beginPath(); g.moveTo(ax[i], ay[i]); g.lineTo(ax[j], ay[j]); g.stroke(); }
+  const base = big ? 1.5 : 0.9;
+  for (const pass of [0, 1]) { // 0 = resting dots in ink, 1 = firing dots (ink, or the approved blue when tinted)
+    g.fillStyle = pass ? ink.hot : ink.ink;
+    for (let i = 0; i < A_N; i++) { const hot = aa[i] > 0.3; if (hot !== !!pass) continue; dotAt(g, ax[i], ay[i], base * (0.65 + 0.5 * az[i]) * (1 + aa[i] * 1.1), clamp((0.14 + 0.5 * az[i]) + aa[i] * 0.7)); }
+  }
+  const tr = travel(st);
+  if (tr && tr.vis > 0) { const a = A_SLOT[tr.i % 4], cx = Math.cos(a), sx = Math.sin(a); drawCall(g, S, ink, tr, c + cx * R * 1.04, c + sx * R * 1.04, c + cx * S * 0.455, c + sx * S * 0.455); }
+}
+
+/* ---------- B · Tokens: the sphere is the context window; dots fill in spiral order ---------- */
+const B_N = 560, B_P = fib(B_N);
+function levelAt(st) {
+  const B0 = 0.12, TH = 0.14, TA = 0.16, tl = st.job.tools;
+  const add = (n) => tl.slice(0, n).reduce((s, t) => s + (held(t) ? 0 : TA), 0);
+  if (st.phase === 'think') return B0 + TH * st.p;
+  if (st.phase === 'tool') return B0 + TH + add(st.ti) + (held(tl[st.ti]) ? 0 : TA * ease(clamp((st.p - 0.1) / 0.5)));
+  const top = B0 + TH + add(tl.length);
+  return st.phase === 'done' ? top : top + (B0 - top) * ease(st.p);
+}
+function drawB(g, S, T, st, ink) {
+  const c = S / 2, R = S * 0.33, big = S >= 200, yaw = T * 0.00016, cy = Math.cos(yaw), sy = Math.sin(yaw), ct = Math.cos(0.5), sn = Math.sin(0.5);
+  const lv = levelAt(st), F = lv * B_N, base = big ? 1.5 : 0.9, hot = [];
+  g.fillStyle = ink.ink;
+  for (let i = 0; i < B_N; i++) {
+    const v = rot(B_P[i], cy, sy, ct, sn), z = (v[2] + 1) / 2, q = clamp((F - i) / 14);
+    if (q <= 0) { dotAt(g, c + v[0] * R, c + v[1] * R, base * 0.55, 0.1 + 0.12 * z); continue; }
+    const k = R * (1 + (1 - easeOut(q)) * 0.5), x = c + v[0] * k, y = c + v[1] * k, r = base * (0.7 + 0.5 * z) * (1 + (1 - q) * 1.3), a = clamp(0.3 + 0.7 * z) * (0.35 + 0.65 * q);
+    if (q < 1) hot.push(x, y, r, Math.max(a, 0.75)); else dotAt(g, x, y, r, a);
+  }
+  g.fillStyle = ink.hot;
+  for (let i = 0; i < hot.length; i += 4) dotAt(g, hot[i], hot[i + 1], hot[i + 2], hot[i + 3]);
+  // the meter: a hairline ring that closes as the window fills, and the figure in mono
+  g.strokeStyle = g.fillStyle = ink.ink; g.lineWidth = 1; g.setLineDash([]);
+  g.globalAlpha = 0.16; g.beginPath(); g.arc(c, c, R * 1.3, 0, TAU); g.stroke();
+  g.globalAlpha = 0.8; g.beginPath(); g.arc(c, c, R * 1.3, -TAU / 4, -TAU / 4 + lv * TAU); g.stroke();
+  const ea = -TAU / 4 + lv * TAU; dotAt(g, c + Math.cos(ea) * R * 1.3, c + Math.sin(ea) * R * 1.3, big ? 2.4 : 1.4, 1);
+  if (big) label(g, Math.round(lv * 100) + '%', c, c + R * 1.3 + 16, S, 0.75);
+}
+
+/* ---------- C · Tools: one model, six tools on an orbit; a call travels out and back ---------- */
+const C_N = 300, C_P = fib(C_N), C_SAT = ['run_tests', 'read_file', 'edit_file', 'bash', 'mcp · discord', 'write'];
+function drawC(g, S, T, st, ink) {
+  const c = S / 2, big = S >= 200, im = impact(st), kick = im ? Math.exp(-im.e / 280) : 0, R = S * 0.185 * (1 + kick * 0.07);
+  const yaw = T * 0.0002, cy = Math.cos(yaw), sy = Math.sin(yaw), ct = Math.cos(0.38), sn = Math.sin(0.38);
+  const tr = travel(st), active = tr ? C_SAT.indexOf(st.job.tools[tr.i][0]) : -1;
+  const co = Math.cos(-0.3), so = Math.sin(-0.3), RX = S * 0.43, RY = RX * 0.36;
+  const sat = C_SAT.map((_, k) => { const a = (k / C_SAT.length) * TAU + T * 0.00005, ex = Math.cos(a) * RX, ey = Math.sin(a) * RY; return { x: c + ex * co - ey * so, y: c + ex * so + ey * co, front: Math.sin(a) > 0 }; });
+  g.strokeStyle = g.fillStyle = ink.ink; g.lineWidth = 1;
+  g.globalAlpha = 0.22; g.setLineDash([1, 4]); g.beginPath(); g.ellipse(c, c, RX, RY, -0.3, 0, TAU); g.stroke();
+  sat.forEach((s, k) => {
+    const L = Math.hypot(s.x - c, s.y - c), ux = (s.x - c) / L, uy = (s.y - c) / L, x1 = c + ux * R * 1.08, y1 = c + uy * R * 1.08;
+    if (k === active && tr.vis > 0) return;
+    seg(g, x1, y1, s.x, s.y, s.front ? 0.2 : 0.11, [1, 4]);
+    g.setLineDash([]); g.globalAlpha = s.front ? 0.6 : 0.3; g.beginPath(); g.arc(s.x, s.y, big ? 4.5 : 2.5, 0, TAU); g.stroke();
+  });
+  const think = st.phase === 'think' ? 1 : st.phase === 'tool' ? 0.3 : 0.06, base = big ? 1.4 : 0.9, hot = [];
+  for (let i = 0; i < C_N; i++) {
+    const v = rot(C_P[i], cy, sy, ct, sn), z = (v[2] + 1) / 2;
+    const tw = Math.max(Math.pow(Math.max(0, Math.sin(T * 0.005 + hash(i) * 40)), 8) * think, kick);
+    const x = c + v[0] * R, y = c + v[1] * R, r = base * (0.65 + 0.5 * z) * (1 + tw * 0.9), a = clamp(0.16 + 0.5 * z + tw * 0.6);
+    if (tw > 0.3) hot.push(x, y, r, a); else dotAt(g, x, y, r, a);
+  }
+  g.fillStyle = ink.hot;
+  for (let i = 0; i < hot.length; i += 4) dotAt(g, hot[i], hot[i + 1], hot[i + 2], hot[i + 3]);
+  g.fillStyle = ink.ink;
+  if (active >= 0 && tr.vis > 0) {
+    const s = sat[active], L = Math.hypot(s.x - c, s.y - c), ux = (s.x - c) / L, uy = (s.y - c) / L;
+    drawCall(g, S, ink, tr, c + ux * R * 1.08, c + uy * R * 1.08, s.x, s.y);
+    if (big) label(g, C_SAT[active], s.x, s.y + (s.y > c ? 17 : -17), S, 0.9 * tr.vis);
+  }
+}
+const DRAW = { A: drawA, B: drawB, C: drawC };
+
+/* ---------- readout (AgentReadout.tsx, driven by the same clock) ---------- */
+const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
+function renderReadout(r, st) {
+  const busy = st.phase === 'think' || st.phase === 'tool';
+  const chars = st.phase === 'think' ? Math.floor(st.u / CHAR) : st.job.think.length;
+  const shown = st.phase === 'think' ? 0 : st.phase === 'tool' ? st.ti + 1 : st.job.tools.length;
+  const pending = st.phase === 'tool' && !held(st.job.tools[st.ti]) && st.p < 0.62; // the result prints when the call comes back
+  const key = [st.ji, chars, shown, pending, st.phase].join('|');
+  if (r._k === key) return; r._k = key;
+  r.root.dataset.open = st.phase === 'rest' ? '0' : '1';
+  r.lab.textContent = busy ? 'Thinking…' : `Thought for ${st.job.sec} ${st.job.sec === 1 ? 'second' : 'seconds'}`;
+  r.lab.className = busy && !reduce ? 'shimmer' : '';
+  const kids = [el('p', 'think', st.job.think.slice(0, chars))];
+  st.job.tools.slice(0, shown).forEach((t, i) => {
+    const d = el('div', 'tool'); d.append(el('b', '', t[0]), el('span', '', t[1]));
+    if (!(pending && i === shown - 1)) d.append(el('span', held(t) ? 'no' : 'ok', t[2]));
+    kids.push(d);
+  });
+  r.body.replaceChildren(...kids);
+}
+
+/* ---------- page ---------- */
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const STILL = TL[0].think + TOOL * 1.45; // reduced motion: job 1, second call, the dot at its tool
+let T = reduce ? STILL : 0, last = 0, raf = 0, paused = false, dir = 'A', tint = false;
+const views = [], readouts = [], ft = { n: 0, sum: 0, max: 0 };
+
+function addView(cv, getDir) {
+  const v = { cv, g: cv.getContext('2d'), getDir, S: 0, dpr: 1, vis: false, ink: null };
+  const size = () => {
+    const w = cv.clientWidth; if (!w) return;
+    v.S = w; v.dpr = Math.min(window.devicePixelRatio || 1, 2); cv.width = cv.height = Math.round(w * v.dpr);
+    const cs = getComputedStyle(cv); v.inkBase = cs.color; v.trigger = cs.getPropertyValue('--r2-trigger').trim() || '#d8412f'; v.blue = cs.getPropertyValue('--orb-blue').trim();
+    paint(v, stateAt(T));
+  };
+  new ResizeObserver(size).observe(cv);
+  new IntersectionObserver(([e]) => { v.vis = e.isIntersecting; schedule(); }).observe(cv);
+  views.push(v);
+}
+function paint(v, st) {
+  if (!v.S) return;
+  const g = v.g; g.setTransform(v.dpr, 0, 0, v.dpr, 0, 0); g.clearRect(0, 0, v.S, v.S); g.lineCap = 'round';
+  DRAW[v.getDir()](g, v.S, T, st, { ink: v.inkBase, hot: tint ? v.blue : v.inkBase, trigger: v.trigger });
+  g.globalAlpha = 1; g.setLineDash([]);
+}
+function paintAll(force) {
+  const t0 = performance.now(), st = stateAt(T);
+  for (const v of views) if (v.vis || force) paint(v, st);
+  for (const r of readouts) renderReadout(r, st);
+  const d = performance.now() - t0; ft.n++; ft.sum += d; if (d > ft.max) ft.max = d;
+}
+const wantRun = () => !paused && !reduce && !document.hidden && views.some((v) => v.vis);
+function frame(now) { raf = 0; T += last ? Math.min(now - last, 50) : 16; last = now; paintAll(); schedule(); }
+function schedule() { if (raf) return; if (!wantRun()) { last = 0; return; } raf = requestAnimationFrame(frame); }
+document.addEventListener('visibilitychange', schedule);
+
+function setPaused(p) {
+  paused = p; document.body.classList.toggle('paused', p);
+  document.getElementById('pauseAll').setAttribute('aria-pressed', String(p));
+  document.getElementById('pauseAll').textContent = p ? 'Play' : 'Pause';
+  document.querySelectorAll('.pause').forEach((b) => { b.textContent = p ? 'Play' : 'Pause'; b.setAttribute('aria-pressed', String(p)); });
+  schedule();
+}
+function setDir(d) {
+  dir = d; const D = DIRS.find((x) => x.id === d);
+  document.getElementById('dirName').textContent = `${D.id} · ${D.name}`;
+  document.querySelectorAll('.tile').forEach((t) => t.setAttribute('aria-pressed', String(t.dataset.dir === d)));
+  document.querySelectorAll('[data-row] canvas').forEach((cv) => cv.setAttribute('aria-label', D.label));
+  paintAll(true);
+}
+
+const tiles = document.getElementById('tiles');
+for (const D of DIRS) {
+  const b = el('button', 'tile'); b.type = 'button'; b.dataset.dir = D.id;
+  const cv = el('canvas'); cv.setAttribute('aria-hidden', 'true');
+  b.append(cv, el('strong', '', `${D.id} · ${D.name}`), el('span', '', D.note));
+  b.addEventListener('click', () => setDir(D.id));
+  tiles.append(b); addView(cv, () => D.id);
+}
+const ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/><path d="M12 18v-5"/></svg>';
+const CHEV = '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>';
+document.querySelectorAll('[data-row]').forEach((row) => {
+  row.innerHTML = `<div class="buildOrb"><div class="wrap"><canvas class="orb" role="img"></canvas>
+    <div class="rsn" data-open="1"><div class="rsnTop"><span class="trigger">${ICON}<span data-lab>Thinking…</span></span><button type="button" class="pause" aria-pressed="false">Pause</button></div><div class="body" aria-live="off"></div></div></div></div>
+    <div class="buildCopy"><h3 class="buildName"><a class="buildLink" href="#">BRAIN ${CHEV}</a></h3><p class="buildLine"></p></div>`;
+  row.querySelector('.buildLine').textContent = LINE;
+  row.querySelector('.pause').addEventListener('click', () => setPaused(!paused));
+  readouts.push({ root: row.querySelector('.rsn'), lab: row.querySelector('[data-lab]'), body: row.querySelector('.body') });
+  addView(row.querySelector('canvas'), () => dir);
+});
+document.getElementById('pauseAll').addEventListener('click', () => setPaused(!paused));
+document.getElementById('tint').addEventListener('click', (e) => { tint = !tint; e.currentTarget.setAttribute('aria-pressed', String(tint)); paintAll(true); });
+setDir('A');
+document.fonts && document.fonts.ready.then(() => paintAll(true));
+
+/* QA hooks: set the clock by hand, read frame cost, check the loop is stopped. */
+window.__proto = {
+  LOOP, STILL, TL,
+  setT(ms) { T = ms; paintAll(true); },
+  setDir, setPaused,
+  stats() { const s = { frames: ft.n, avgMs: ft.n ? ft.sum / ft.n : 0, maxMs: ft.max, running: !!raf, T }; ft.n = ft.sum = ft.max = 0; return s; },
+};
+</script>
+</body>
+</html>
