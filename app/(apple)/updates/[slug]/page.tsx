@@ -3,11 +3,12 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { SitePage } from '../../_chrome';
 import s from '../../_chrome/site-page.module.css';
-import { SOON_TEAMS, UPDATES_COPY as C, initials } from '../../../../lib/data/updates';
+import { SOON_TEAMS, UPDATES_COPY as C, initials, moreOf, readMinutes } from '../../../../lib/data/updates';
 import type { Update } from '../../../../lib/data/updates';
 import { getUpdates } from '../../../../lib/data/updates-source';
 import u from '../updates.module.css';
 import { TagChips } from '../TagChips';
+import { UpdateRow } from '../UpdateRow';
 
 export const dynamicParams = false;
 
@@ -28,6 +29,7 @@ const fmt = (iso: string) => new Date(`${iso}T00:00:00`).toLocaleDateString('en-
 export default async function UpdatePostPage({ params }: { params: { slug: string } }) {
   const e = (await siteEntries()).find((x) => x.slug === params.slug);
   if (!e) notFound();
+  const more = moreOf(await getUpdates(), e);
   const people = [
     ...e.authors.map((n) => [n, e.mentors.includes(n) ? `${C.author} · ${C.mentor}` : C.author] as const),
     ...e.mentors.filter((n) => !e.authors.includes(n)).map((n) => [n, C.mentor] as const),
@@ -37,13 +39,17 @@ export default async function UpdatePostPage({ params }: { params: { slug: strin
     <SitePage tone="light">
       <article className={s.section} aria-labelledby="post-title">
         <div className={s.wrap}>
-          <Link className={u.back} href="/updates/">‹ {C.back}</Link>
+          <nav className={u.crumbs} aria-label={C.breadcrumb}>
+            <Link href="/updates/">{C.back}</Link>
+            <span aria-hidden="true">/</span>
+            <span aria-current="page">{C.typeLabels[e.type]}</span>
+          </nav>
           <h1 id="post-title" className={u.postTitle}>{e.title}</h1>
           <p className={s.lead}>{e.page.dek}</p>
           <div className={u.postByline}>
             <TagChips item={e} />
             <span className={u.meta}>
-              {`${fmt(e.publishedAt)} · ${e.detail ? `${e.detail} · ` : ''}${C.typeLabels[e.type]}`}{soon && ` · ${C.comingSoon}`}
+              {`${fmt(e.publishedAt)} · ${e.detail ? `${e.detail} · ` : ''}${C.typeLabels[e.type]} · ${readMinutes(e)} ${C.minRead}`}{soon && ` · ${C.comingSoon}`}
             </span>
             <ul className={u.people}>
               {people.map(([n, role]) => (
@@ -71,6 +77,13 @@ export default async function UpdatePostPage({ params }: { params: { slug: strin
             <a className={`${s.textLink} ${u.postLink}`} href={e.externalUrl} target="_blank" rel="noopener noreferrer">
               {C.readOnLinkedIn}<span aria-hidden="true"> ↗</span><span className={s.srOnly}>{C.opensLinkedIn}</span>
             </a>
+          )}
+          {more.length > 0 && (
+            <section className={u.more} aria-labelledby="more-updates">
+              <h2 id="more-updates" className={s.h2}>{C.moreUpdates}</h2>
+              <ul className={u.rows}>{more.map((i) => <UpdateRow key={i.slug} item={i} />)}</ul>
+              <Link className={`${s.textLink} ${u.moreLink}`} href="/updates/">{C.allUpdates}</Link>
+            </section>
           )}
         </div>
       </article>

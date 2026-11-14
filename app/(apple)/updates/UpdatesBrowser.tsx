@@ -2,9 +2,10 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import s from '../_chrome/site-page.module.css';
-import { UPDATE_TAGS, UPDATE_TEAMS, UPDATE_TYPES, UPDATES_COPY as C, initials, tagsOf } from '../../../lib/data/updates';
+import { UPDATE_TAGS, UPDATE_TEAMS, UPDATE_TYPES, UPDATES_COPY as C, tagsOf } from '../../../lib/data/updates';
 import type { TagSlug, Update, UpdateType } from '../../../lib/data/updates';
 import { TagChips } from './TagChips';
+import { Byline, UpdateRow, fmt } from './UpdateRow';
 import u from './updates.module.css';
 
 const PAGE = 10;
@@ -12,36 +13,6 @@ const PAGE = 10;
 const GRID = 3;
 /** Below this count search would outnumber the content. */
 const SEARCH_MIN = 6;
-const fmt = (iso: string) => new Date(`${iso}T00:00:00`).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-
-function Title({ item, className }: { item: Update; className?: string }) {
-  if (item.source === 'linkedin') {
-    return (
-      <a className={className} href={item.externalUrl} target="_blank" rel="noopener noreferrer">
-        {item.title}<span aria-hidden="true"> ↗</span><span className={s.srOnly}>{C.opensLinkedIn}</span>
-      </a>
-    );
-  }
-  return <Link className={className} href={`/updates/${item.slug}/`}>{item.title}</Link>;
-}
-
-/** Initials stack (decorative) + names (authors in ink, mentors/lead in ink-2). */
-function Byline({ item }: { item: Update }) {
-  return (
-    <span className={u.byline}>
-      <span className={s.srOnly}>{C.by} </span>
-      <span className={u.stack} aria-hidden="true">
-        {item.authors.slice(0, 4).map((n) => <span key={n} className={u.av}>{initials(n)}</span>)}
-      </span>
-      <span className={u.names}>
-        <span className={u.authors}>{item.authors.join(', ')}</span>
-        {item.mentors.length > 0 && ` · ${C.mentor} ${item.mentors.join(', ')}`}
-        {item.lead && ` · ${C.leadRole} ${item.lead}`}
-      </span>
-    </span>
-  );
-}
-
 const meta = (i: Update) => `${i.detail ? `${i.detail} · ` : ''}${C.typeLabels[i.type]} · ${fmt(i.publishedAt)}`;
 
 /** Lead-card art: the cover image, else the post's value stream as quiet mono labels (VESSEL), else none (text-only lead). */
@@ -107,6 +78,15 @@ export function UpdatesBrowser({ items }: { items: readonly Update[] }) {
   const [type, setType] = useState<UpdateType | null>(null);
   const [q, setQ] = useState('');
   const [all, setAll] = useState(false);
+  // Phones fold Type + search into one <details>; wide screens keep it open (summary hidden by CSS).
+  const [open, setOpen] = useState(true);
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 734px)');
+    const sync = () => setOpen(!mq.matches);
+    sync();
+    mq.addEventListener('change', sync);
+    return () => mq.removeEventListener('change', sync);
+  }, []);
 
   useEffect(() => {
     const t = new URLSearchParams(window.location.search).get('tag');
@@ -139,11 +119,16 @@ export function UpdatesBrowser({ items }: { items: readonly Update[] }) {
       (!needle || [i.title, i.summary, i.subTeam, C.typeLabels[i.type], ...i.authors, ...i.mentors, ...tagsOf(i).map((t) => t.label)].some((f) => f.toLowerCase().includes(needle))),
   );
   const [leadItem, ...rest] = hits;
-  const shown = all || filtered ? hits : hits.slice(0, PAGE);
+  // Each post once: the log holds only what the cards (lead + GRID) did not show.
+  const log = hits.slice(1 + GRID);
+  const shown = all || filtered ? log : log.slice(0, PAGE);
+  const years = Array.from(new Set(shown.map((i) => i.publishedAt.slice(0, 4))));
+  const typeCounts = UPDATE_TYPES.map((x) => [x, items.filter((i) => i.type === x).length] as const).filter(([, n]) => n > 0);
+  const active = (type ? 1 : 0) + (needle ? 1 : 0);
   const none = tag && !type && !needle ? C.noTagPosts : C.noMatch;
 
   return (
-    <section className={s.section} aria-labelledby="updates-list">
+    <section className={s.section} aria-label={C.allUpdates}>
       <div className={s.wrap}>
         <nav id="updates-filters" className={u.filters} aria-label={C.filterLabel}>
           <div className={u.group} role="group" aria-label={C.tagGroup}>
@@ -158,18 +143,25 @@ export function UpdatesBrowser({ items }: { items: readonly Update[] }) {
               );
             })}
           </div>
-          <div className={u.group} role="group" aria-label={C.typeGroup}>
-            {UPDATE_TYPES.map((t) => (
-              <Pill key={t} label={C.typeLabels[t]} n={items.filter((i) => i.type === t).length} on={type === t} onClick={() => setType(type === t ? null : t)} />
-            ))}
-          </div>
-          {items.length >= SEARCH_MIN && (
-            <div className={u.search}>
-              <label className={s.srOnly} htmlFor="updates-q">{C.searchLabel}</label>
-              <input id="updates-q" className={s.control} type="search" placeholder={C.searchLabel} autoComplete="off" value={q} onChange={(e) => setQ(e.target.value)} />
+          <details className={u.fold} open={open} onToggle={(e) => setOpen(e.currentTarget.open)}>
+            <summary className={u.foldSummary}>{C.foldLabel}{active > 0 && <span className={u.n}> {active}</span>}</summary>
+            <div className={u.foldBody}>
+              <div className={u.group} role="group" aria-label={C.typeGroup}>
+                {typeCounts.map(([x, n]) => (
+                  <Pill key={x} label={C.typeLabels[x]} n={n} on={type === x} onClick={() => setType(type === x ? null : x)} />
+                ))}
+              </div>
+              {items.length >= SEARCH_MIN && (
+                <div className={u.search}>
+                  <label className={s.srOnly} htmlFor="updates-q">{C.searchLabel}</label>
+                  <input id="updates-q" className={s.control} type="search" placeholder={C.searchLabel} autoComplete="off" value={q} onChange={(e) => setQ(e.target.value)} />
+                </div>
+              )}
             </div>
-          )}
+          </details>
         </nav>
+
+        {items.length > 0 && <p role="status" className={`${u.meta} ${u.status}`}>{hits.length === 0 ? none : C.count(hits.length)}</p>}
 
         {leadItem && (
           <div className={u.cards} aria-label={C.featuredLabel} role="group">
@@ -180,7 +172,7 @@ export function UpdatesBrowser({ items }: { items: readonly Update[] }) {
 
         {items.length === 0 ? (
           <>
-            <h2 id="updates-list" className={`${s.h2} r2-reveal`}>{C.empty.title}</h2>
+            <h2 className={`${s.h2} r2-reveal`}>{C.empty.title}</h2>
             <p className={s.lead}>{C.empty.body}</p>
             <ul className={u.rows}>
               {UPDATE_TEAMS.map((t) => (
@@ -194,30 +186,16 @@ export function UpdatesBrowser({ items }: { items: readonly Update[] }) {
           </>
         ) : (
           <>
-            <div className={u.listHead}>
-              <h2 id="updates-list" className={`${s.h2} r2-reveal`}>{C.listTitle}</h2>
-              <p role="status" className={u.meta}>{hits.length === 0 ? none : C.count(hits.length)}</p>
-            </div>
-            {shown.length > 0 && <ul className={u.rows}>
-              {shown.map((i) => (
-                <li key={i.slug} className={u.row}>
-                  <time className={u.meta} dateTime={i.publishedAt}>{fmt(i.publishedAt)}</time>
-                  <span className={u.rowTeam}>
-                    <TagChips item={i} onTag={pickTag} />
-                    {i.detail && <span className={u.meta}>{i.detail}</span>}
-                  </span>
-                  <div className={u.rowBody}>
-                    <span className={u.rowTitle}>
-                      <Title item={i} className={u.rowLink} />
-                      <span className={u.meta}>{C.typeLabels[i.type]}</span>
-                    </span>
-                    <p className={u.rowSummary}>{i.summary}</p>
-                    <Byline item={i} />
-                  </div>
-                </li>
-              ))}
-            </ul>}
-            {!filtered && !all && hits.length > PAGE && (
+            {log.length > 0 && <h2 id="updates-list" className={`${s.h2} r2-reveal`}>{C.earlier}</h2>}
+            {years.map((y) => (
+              <div key={y}>
+                <h3 className={u.year}>{y}</h3>
+                <ul className={u.rows}>
+                  {shown.filter((i) => i.publishedAt.startsWith(y)).map((i) => <UpdateRow key={i.slug} item={i} short onTag={pickTag} />)}
+                </ul>
+              </div>
+            ))}
+            {!filtered && !all && log.length > PAGE && (
               <button type="button" className={s.buttonQuiet} onClick={() => setAll(true)}>{C.seeMore}</button>
             )}
           </>
