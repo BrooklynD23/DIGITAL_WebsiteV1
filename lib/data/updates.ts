@@ -5,6 +5,7 @@
  *   type         one of UpdateType
  *   subTeam      one of UpdateSubTeam (SOON_TEAMS are labelled "Coming soon")
  *   detail?      sub-team area shown after the team, e.g. 'SoC'
+ *   tags?        extra TagSlugs beyond the team tag (Supabase `digital_posts.tags`); shown as chips via tagsOf()
  *   publishedAt  ISO date, e.g. '2026-11-02' (LinkedIn dates are decoded from the post's activity ID)
  *   summary      one or two plain sentences in our own words, stated facts only (never copied from LinkedIn)
  *   authors      names exactly as posted; mentors listed separately and labelled "Mentor"; lead? likewise "Lead"
@@ -17,6 +18,7 @@
  */
 export type UpdateType = 'paper' | 'milestone' | 'prototype' | 'achievement' | 'product-definition' | 'case-study';
 export type UpdateSubTeam = 'SIDEKICK' | 'SHADES' | 'BRAIN' | 'TWINS' | 'DIGITAL Business';
+export type TagSlug = 'digital' | 'sidekick' | 'shades' | 'brain' | 'twins' | 'business';
 
 export interface UpdatePage {
   /** One-sentence standfirst under the title. */
@@ -30,6 +32,7 @@ interface UpdateBase {
   readonly type: UpdateType;
   readonly subTeam: UpdateSubTeam;
   readonly detail?: string;
+  readonly tags?: readonly TagSlug[];
   readonly publishedAt: string;
   readonly summary: string;
   readonly authors: readonly string[];
@@ -167,6 +170,24 @@ export const initials = (name: string): string =>
     .join('')
     .toUpperCase();
 
+export interface UpdateTag { readonly slug: TagSlug; readonly label: string; readonly team?: UpdateSubTeam }
+/** Tag chips, filter order (PLAN §4). Colours: `--r2-tag-<slug>-bg/-ink` in worlds.css. */
+export const UPDATE_TAGS: readonly UpdateTag[] = [
+  { slug: 'digital', label: 'DIGITAL' },
+  { slug: 'sidekick', label: 'SIDEKICK', team: 'SIDEKICK' },
+  { slug: 'shades', label: 'SHADES', team: 'SHADES' },
+  { slug: 'brain', label: 'BRAIN', team: 'BRAIN' },
+  { slug: 'twins', label: 'TWINS', team: 'TWINS' },
+  { slug: 'business', label: 'DIGITAL Business', team: 'DIGITAL Business' },
+];
+
+/** Shown tags: team tag first, then `tags`, deduplicated. */
+export const tagsOf = (i: Update): readonly UpdateTag[] => {
+  const team = UPDATE_TAGS.find((t) => t.team === i.subTeam);
+  const extra = UPDATE_TAGS.filter((t) => t !== team && i.tags?.includes(t.slug));
+  return team ? [team, ...extra] : extra;
+};
+
 /** Filter order on the page. */
 export const UPDATE_TEAMS: readonly UpdateSubTeam[] = ['SIDEKICK', 'SHADES', 'BRAIN', 'TWINS', 'DIGITAL Business'];
 export const UPDATE_TYPES: readonly UpdateType[] = ['paper', 'milestone', 'prototype', 'achievement', 'product-definition', 'case-study'];
@@ -178,13 +199,17 @@ export const UPDATES_COPY = {
   featuredLabel: 'Featured',
   listTitle: 'All updates',
   filterLabel: 'Filter updates',
-  teamGroup: 'Team',
+  tagGroup: 'Tags',
   typeGroup: 'Type',
   all: 'All',
   count: (n: number) => `${n} ${n === 1 ? 'update' : 'updates'}`,
   searchLabel: 'Search updates',
   noMatch: 'No updates match these filters.',
-  noTeamPosts: 'No posts from this team yet.',
+  noTagPosts: 'No updates with this tag yet.',
+  /** Filter chip name; pressed state is aria-pressed only. */
+  tagCount: (label: string, n: number) => `${label}, ${n} ${n === 1 ? 'update' : 'updates'}`,
+  /** Card / row / byline chip link name. */
+  showTag: (label: string) => `${label} updates`,
   onSite: 'On this site',
   linkedIn: 'LinkedIn',
   seeMore: 'See more',
@@ -194,7 +219,6 @@ export const UPDATES_COPY = {
   mentor: 'Mentor',
   postTitle: (title: string) => `${title} · DIGITAL`,
   leadRole: 'Lead',
-  soon: 'soon',
   comingSoon: 'Coming soon',
   back: 'Updates',
   readOnLinkedIn: 'Read the post on LinkedIn',
