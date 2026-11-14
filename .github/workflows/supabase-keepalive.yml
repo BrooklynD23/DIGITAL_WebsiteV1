@@ -1,0 +1,51 @@
+# Daily: read the published Updates posts from Supabase (counts as activity, so the free project is not paused),
+# keep that JSON as a backup artifact, and rebuild the site so Studio edits go live within a day.
+# "Run workflow" (workflow_dispatch) is the publish-now button. See supabase/README.md.
+name: Supabase keep-alive
+
+on:
+  schedule:
+    - cron: '17 9 * * *' # daily 09:17 UTC, off the hour to dodge cron congestion
+  workflow_dispatch:
+
+permissions:
+  actions: write # re-enable this workflow (GitHub disables schedules after 60 days without commits)
+  contents: read
+
+jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Read published posts from Supabase
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
+        run: |
+          curl --fail --silent --show-error --max-time 30 \
+            "$SUPABASE_URL/rest/v1/digital_posts?select=*&order=published_at.desc" \
+            -H "apikey: $SUPABASE_PUBLISHABLE_KEY" -o posts.json
+          python3 -c "import json; d = json.load(open('posts.json')); assert isinstance(d, list) and d, 'no published posts'; print(len(d), 'published posts')"
+
+      - name: Back up published posts
+        uses: actions/upload-artifact@v4
+        with:
+          name: digital-posts-${{ github.run_id }}
+          path: posts.json
+          retention-days: 90
+
+      - name: Rebuild the site
+        env:
+          HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "::warning::VERCEL_DEPLOY_HOOK_URL is not set; skipping the rebuild."
+            exit 0
+          fi
+          curl --fail --silent --show-error --max-time 30 -X POST "$HOOK" > /dev/null
+          echo "Vercel rebuild requested."
+
+      - name: Keep this schedule enabled
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow enable supabase-keepalive.yml --repo "$GITHUB_REPOSITORY"

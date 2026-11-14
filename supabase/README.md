@@ -47,7 +47,8 @@ A paragraph. A blank line starts a new paragraph.
 - The build copies the file into the site; a missing or misspelled file fails the build.
 
 ## When edits go live
-- Edits appear on the next production build of the `deployment` branch (any merge to `main` that passes CI, or a redeploy in Vercel).
+- Edits appear on the next production build of the `deployment` branch: the daily rebuild (09:17 UTC), any merge to `main` that passes CI, or a redeploy in Vercel.
+- **Publish now:** GitHub → Actions → "Supabase keep-alive" → Run workflow. It rebuilds the site in about 2 minutes.
 - A bad row (wrong value, missing field) fails the build with the row's slug in the log. The live site keeps the last good version; fix the row and rebuild.
 
 ## Escape hatch
@@ -55,6 +56,12 @@ If Supabase is paused or down, every build fails. To publish anyway from the sna
 Vercel → Project → Settings → Environment Variables → remove `SUPABASE_URL` (Production) → Deployments → Redeploy.
 A free project pauses after a week without activity; the pause email has a Restore link (Dashboard → Restore project).
 Put `SUPABASE_URL` back once it is restored.
+
+## Keep-alive and backup
+- `.github/workflows/supabase-keepalive.yml` runs daily: it reads the published posts (Supabase counts this as activity, so the free project is not paused), saves them as a `digital-posts-<run>` artifact (kept 90 days), and calls the Vercel deploy hook.
+- Secrets (GitHub → Settings → Secrets → Actions): `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `VERCEL_DEPLOY_HOOK_URL` (Vercel → Settings → Git → Deploy Hooks, branch `deployment`). Without the hook secret the job still pings and backs up, and warns.
+- GitHub turns off scheduled workflows after 60 days without commits; the job re-enables itself each run. If it is ever off, Actions → the workflow → Enable.
+- A failed run emails the person who last edited the workflow. The backup holds published posts only; export drafts by hand from Studio (Table editor → Export CSV).
 
 ## Access
 - Head Designer is Owner. At most 2 more people as **Developer**, with MFA on.
