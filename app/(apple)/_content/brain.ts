@@ -129,6 +129,23 @@ export const story = {
       labels: [{ text: '24 runs of one test', x: 0.3, y: -0.62 }],
     },
   ],
+  /** "One job, three views": one example job plays in three spheres on one clock (projects/brain/ThreeViews.tsx). */
+  layers: {
+    heading: 'One job, three views',
+    line: 'One example job plays in all three at once: the loop, the window, the tools.',
+    compare: 'When a result lands, the loop moves on, the window grows, the tool goes quiet.',
+    clock: { think: 'think', act: 'act', check: 'check' },
+    switchName: 'View',
+    pause: 'Pause',
+    play: 'Play',
+    pauseName: 'Pause the three spheres',
+    playName: 'Play the three spheres',
+    views: [
+      { id: 'loop', topic: 'The loop', short: 'Loop', line: 'Think, act, check, repeat. It lets one job take many steps.', alt: 'A sphere of dots. A wave crosses it while the model thinks. A dot leaves for each tool call and comes back. The last call stops and waits for approval.' },
+      { id: 'context', topic: 'The context window', short: 'Context', line: 'Everything the model can see. Each result takes up room in it.', alt: 'A sphere of dots that fills as the thought and each result are added. A ring and a percentage show how full it is.' },
+      { id: 'tools', topic: 'The tools', short: 'Tools', line: 'Everything the model can reach. It writes the call; the program runs it.', alt: 'A small sphere of dots with four tools and four servers around it. Each call travels out to one of them and back. The last stops short and waits.' },
+    ],
+  },
   join: {
     headline: 'Come build one with us.',
     thesis: 'Idea first, tool second.',
@@ -155,6 +172,16 @@ export const figureExamples = {
     { name: 'Discord', req: 'messages.read' },
     { name: 'Google Drive', req: 'files.get' },
   ],
+  /** The example job the three-views section plays (illustrative). A tool is [name, argument, result, ok?]; `false` = held for approval. */
+  job: {
+    thought: 'A test is failing. Run it, read the code, check the open issues, then post in #general.',
+    calls: [
+      ['run_tests', 'auth.spec.ts', '1 failed'],
+      ['read_file', 'src/demo.ts', '212 lines'],
+      ['GitHub', 'issues.list', '3 open'],
+      ['send_message', '#general', 'needs approval', false],
+    ],
+  },
   /** Window size the meter percentage is of (illustrative). */
   windowK: 128,
   /** Meter breakpoints, % of the window: below `warn` ok, from `warn` warn, from `hot` hot. */

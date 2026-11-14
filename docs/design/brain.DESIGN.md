@@ -1,8 +1,10 @@
 # BRAIN Page — Style Reference
 
-> A model thinks. A system acts. One black surface, one figure, six lessons.
+> A model thinks. A system acts. One black surface, one figure, six lessons, one job in three views.
 
-**Status: LOCKED — approved by the Head Designer on 2026-10-07.** No adjustments are to be made to
+> **Unlocked by the Head Designer 2026-11-14 for the three-views section (§1, §2, §3, §5, §6, §7, §8, §10); re-locked after merge.**
+
+**Status: LOCKED — approved by the Head Designer on 2026-10-07; re-locked 2026-11-14 with the three-views section.** No adjustments are to be made to
 this page. Any change to the files listed under [Locked files](#locked-files), or any shared change
 that alters how this page renders, needs explicit Head Designer sign-off first. This document is
 extracted as-implemented from the component source.
@@ -23,6 +25,10 @@ One pinned section carries the hero and six lessons as seven stages of a single 
 same 72 dots (the model orb) survive every stage; the rest of each figure flies into the next one
 dot for dot. Nothing wipes to blank and no rule, card or divider separates lessons.
 
+After the pin, one normal-flow section, **"One job, three views"**, is the recap: one example job plays in three dot
+spheres at once, on one clock (`ThreeViews.tsx`). It adds no new concept; it shows the loop, the context window and the
+tools during the same moment. When a result lands, the loop moves on, the window grows and the tool goes quiet.
+
 ## 2. Copy (verbatim — source: `story` in `app/(apple)/_content/brain.ts`)
 
 | Stage | Heading | Tracker | Line |
@@ -34,6 +40,21 @@ dot for dot. Nothing wipes to blank and no rule, card or divider separates lesso
 | 4 | Context engineering | Context | Every call and result lands in one finite window, so you budget what stays. |
 | 5 | Harness engineering | Harness | The program around the model is the harness: its loop, tools, permissions and checks. |
 | 6 | Evals | Evals | Evals are repeatable tests of behaviour, the proof it works more than once. |
+
+**One job, three views** (`story.layers` and `figureExamples.job` in `_content/brain.ts`; brand-reviewed 2026-11-14):
+
+| Slot | Text |
+|---|---|
+| Heading | One job, three views |
+| Line | One example job plays in all three at once: the loop, the window, the tools. |
+| The loop | Think, act, check, repeat. It lets one job take many steps. |
+| The context window | Everything the model can see. Each result takes up room in it. |
+| The tools | Everything the model can reach. It writes the call; the program runs it. |
+| Compare | When a result lands, the loop moves on, the window grows, the tool goes quiet. |
+| Clock words | think · act · check. Switch group "View": Loop · Context · Tools. Pause / Play (names "Pause the three spheres" / "Play the three spheres"). |
+| Example job | "A test is failing. Run it, read the code, check the open issues, then post in #general." Calls: `run_tests auth.spec.ts → 1 failed`; `read_file src/demo.ts → 212 lines`; `GitHub issues.list → 3 open`; `send_message #general → needs approval` (held). |
+
+Tool and server names in the Tools sphere are the page's own (`figureExamples.calls` / `.servers`, unchanged).
 
 **Ending:** "Come build one with us." · "Idea first, tool second." · **Fridays, 12:00 – 1:00 PM** ·
 "No project experience required." · filled pill "Join the BRAIN Discord" →
@@ -57,6 +78,12 @@ In-figure labels are single lowercase words (`think`, `act`, `check`, `repeat`, 
 | Figure | `min(100cqw, 100cqh, 640px)` square inside a `container-type: size` box; takes whatever height is left |
 | Nothing | is placed by a pixel offset; nothing can pass the nav or the fold |
 
+**Three views** sit between the pin and the join, same black surface, no rule. Padding `--r2-space-9` top,
+`--r2-space-7` bottom. Heading, line, then the clock line (one row, 44px, fixed height) with its Pause/Play button, then the
+spheres, then the compare line. From 735px: three equal columns (max 1120px, 340px spheres, name and line under each). Below
+735px: one sphere (up to 460px) with a 3-way switch (Loop / Context / Tools, 44px, `aria-pressed`); the names are
+visually hidden but stay in the DOM.
+
 Verified with no clipped heading or figure and no horizontal overflow at 1600×790, 1440×900,
 1280×720, 1024×768, 768×1024, 390×844 and 375×667 (hero and stage 1 at all seven; all stages at
 1600×790 and 390×844).
@@ -76,7 +103,7 @@ Type clamps on viewport **height** as well as width. That is what keeps the head
 ## 5. Colour
 
 `#000` ground, `--r2-ink` (warm white) figure and headings, `--r2-ink-2` supporting text. No
-gradients, glow, glass, cards, hairlines or section rules. The join shares the black surface (its
+gradients, glow, glass, cards, hairlines or section rules. In the three views the one red (`--r2-trigger`) is the held call in the Loop sphere only; in the Tools sphere the held call stops at its gate in ink, and the Context sphere is ink (a percentage and a hairline ring, no coloured meter). The join shares the black surface (its
 default top rule is removed in `brain.module.css`); the light footer is where the surface ends.
 
 ## 6. Motion
@@ -89,6 +116,7 @@ default top rule is removed in `brain.module.css`); the light footer is where th
 | Caption swap | Out-then-in: outgoing 160 ms, incoming 240 ms after a 160 ms delay, opacity + 12px y. Never two at once. |
 | Figure tags | Fade out 160 ms; fade in 320 ms after a 620 ms delay (after the morph lands). |
 | Pause | 44px button beside the tracker freezes the loop; stage transitions still paint. |
+| Three views loop | A second loop, independent of the pin and `_system` ticker: one rAF clock (`makeTimeline`, one ~11s job: think, four calls, hold, rest) paints the three canvases. It runs only while a canvas is on screen, the tab is visible and Pause is off. Its own Pause/Play button (44px, visible "Pause" / "Play"). dpr capped at 2; measured ≤ 2 ms per frame for three canvases at 1440. |
 
 ## 7. Controls and accessibility
 
@@ -96,6 +124,7 @@ default top rule is removed in `brain.module.css`); the light footer is where th
   At ≤ 734px it shows dots only; the names stay for screen readers.
 - The canvas is decorative; every lesson carries a text alternative (`alt` in `story.lessons`).
 - Inactive captions are `aria-hidden`.
+- Three views: each canvas is `role="img"` with its own text alternative (`story.layers.views[].alt`). The switch is a `role="group"` named "View" of `aria-pressed` buttons. The clock line is not a live region. Reduced motion: three still poses (same moment: `read_file` at its tool, window at 56%), Pause hidden. No JS: three server-rendered SVG stills stacked, no switch.
 - Reduced motion / no JS: the pin does not exist. The same caption elements stack in normal flow,
   each with a server-rendered SVG still (`lessonStill`). Full content parity. The pin switches on
   only under `@media (scripting: enabled) and (prefers-reduced-motion: no-preference)`.
@@ -109,7 +138,9 @@ Do not edit without Head Designer sign-off:
 - `app/(apple)/projects/brain/stages.module.css`
 - `app/(apple)/projects/brain/brain.module.css`
 - `app/(apple)/_brain/lessons.ts` (and `_brain/kit.ts`, `_brain/Bits.tsx` as it uses them)
-- `story` in `app/(apple)/_content/brain.ts`
+- `story` in `app/(apple)/_content/brain.ts` (including `story.layers`) and `figureExamples.job`
+- `app/(apple)/projects/brain/ThreeViews.tsx` and `three.module.css`
+- `app/(apple)/_home/sphere/draw.ts` and `timeline.ts` (shared with the home BRAIN sphere; check both after any change)
 
 ### Shared code this page depends on
 
@@ -150,3 +181,13 @@ All example calls, results, servers and requests are illustrative (`figureExampl
 
 The shared `LocalNav` gains an Updates link (2026-10-15) and a "Coming soon" menu (TWINS, DIGITAL Business;
 DESIGN.md §13.1). The bar stays 52px and sticky, so the sticky-box height is unchanged. Nothing else on this page changes.
+
+### 2026-11-14 — Head Designer unlock: one job, three views
+
+The Head Designer unlocked the route for one change and re-locked it after merge:
+
+1. New section `ThreeViews` between `<BrainStages />` and `<JoinChapter />`: one example job in three spheres (Loop, Context, Tools) on one clock, with a clock line (think / act / check) and its own Pause/Play.
+2. Three columns from 735px; below, one sphere with a 3-way switch.
+3. Red only for the held call in the Loop sphere. Ink elsewhere.
+4. Copy in `story.layers` and `figureExamples.job` (`figureExamples.calls` / `.servers` unchanged, so the Tool-calling lesson is unchanged).
+5. `drawB`, `drawC`, `makeTimeline` added beside the home sphere's pure module in `_home/sphere/`. `BrainStages.tsx`, `stages.module.css`, `_brain/lessons.ts` are untouched.

@@ -61,7 +61,7 @@ implementation** — propose the change and wait for sign-off; never overhaul fi
 | `/` home | root `DESIGN.md` |
 | `/projects/shades/` | root `DESIGN.md` |
 | `/projects/sidekick/` | `docs/design/sidekick.DESIGN.md` — **LOCKED 2026-10-07: no changes without Head Designer sign-off** |
-| `/projects/brain/` | `docs/design/brain.DESIGN.md` — **LOCKED 2026-10-07: no changes without Head Designer sign-off** |
+| `/projects/brain/` | `docs/design/brain.DESIGN.md` — **LOCKED 2026-10-07 (re-locked 2026-11-14 with the three-views section): no changes without Head Designer sign-off** |
 | `/about`, `/team`, `/community`, `/contact`, `/get-involved`, `/privacy`, `/terms`, `/cookies`, error pages | Apple system (`SitePage` / `LegalPage` frames) — root `DESIGN.md` |
 | Redirect stubs: `/pillars`, `/projects`, `/projects/modular-smartphone`, `/projects/smart-reading`, `/design-lab/r2/apple/*` | None — `app/(apple)/_redirect.tsx`; do not extend |
 

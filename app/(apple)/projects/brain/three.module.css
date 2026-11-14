@@ -1,0 +1,45 @@
+/* BRAIN · "One job, three views": three dot spheres on one clock. Ink only; the one red is drawn on the Loop canvas. */
+.layers { padding: var(--r2-space-9) var(--r2-gutter) var(--r2-space-7); display: grid; justify-items: center; text-align: center; gap: var(--r2-space-5); }
+.head { display: grid; gap: 12px; justify-items: center; }
+.h2 { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: clamp(28px, 8vw, 56px); line-height: 1.08; letter-spacing: var(--r2-ls-h1); text-wrap: balance; }
+.line { margin: 0; max-width: 32rem; font-size: clamp(17px, 4.6vw, 21px); line-height: 1.4; font-weight: 600; color: var(--r2-ink-2); text-wrap: balance; }
+
+/* the shared clock in words: one line, fixed height so nothing below it moves */
+.clock { display: flex; align-items: center; justify-content: center; gap: 4px; width: 100%; max-width: 40rem; min-height: 44px; }
+.clockText { flex: 1; min-width: 0; min-height: 44px; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 14px; line-height: 20px; color: var(--r2-ink-2); text-align: left; }
+.clockText b { flex: none; width: 3.2em; font-family: var(--font-mono); font-size: 12px; font-weight: 600; color: var(--r2-ink); text-align: right; }
+.clockText span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.clockText .mono { font-family: var(--font-mono); font-size: 12px; }
+.clockText i { font-style: normal; color: var(--r2-ink); }
+
+.switch { display: none; justify-content: center; gap: 4px; }
+.trackBtn, .pause { min-width: 44px; min-height: 44px; background: none; border: 0; border-radius: 980px; color: var(--r2-ink-2); font: inherit; font-size: 12px; line-height: 16px; cursor: pointer; transition: color var(--r2-dur-ui-fast) var(--r2-ease-ui); }
+.trackBtn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 0 12px; }
+.trackBtn:hover, .trackBtn[aria-pressed='true'], .pause:hover { color: var(--r2-ink); }
+.trackBtn:focus-visible, .pause:focus-visible { outline: 2px solid var(--r2-focus); outline-offset: -4px; }
+.trackDot { width: 8px; height: 8px; border-radius: 50%; border: 1px solid currentColor; }
+.trackBtn[aria-pressed='true'] .trackDot { background: currentColor; }
+.pause { padding: 0 8px; }
+
+.panels { width: 100%; max-width: 1120px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--r2-space-6); }
+.panel { display: grid; justify-items: center; align-content: start; gap: 8px; min-width: 0; }
+.canvas, .still { width: min(100%, 340px); aspect-ratio: 1; display: block; color: var(--r2-ink); }
+.still { height: auto; }
+/* the script swaps the SVG still for the canvas; without it the still stays */
+.canvas { display: none; }
+.layers[data-live] .canvas { display: block; }
+.layers[data-live] .still { display: none; }
+.h3 { margin: 4px 0 0; font-family: var(--font-display); font-weight: 600; font-size: 21px; line-height: 29px; }
+.cap { margin: 0; max-width: 19rem; font-size: var(--r2-fs-body); line-height: var(--r2-lh-body); color: var(--r2-ink-2); text-wrap: pretty; }
+
+/* below 735px: one sphere and a 3-way switch (the switch needs the script, so without it all three stack) */
+@media (max-width: 734px) {
+  .panels { grid-template-columns: minmax(0, 1fr); gap: var(--r2-space-7); }
+  .layers[data-live] .switch { display: flex; }
+  .layers[data-live] .panels { gap: 0; }
+  .layers[data-live] .panel:not([data-on]) { display: none; }
+  .layers[data-live] .canvas { width: min(100%, 460px, calc(100svh - 420px)); min-width: min(100%, 280px); }
+  .layers[data-live] .h3 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .layers[data-live] .cap { max-width: 26rem; min-height: 75px; }
+}
+@media (prefers-reduced-motion: reduce) { .pause { display: none; } .trackBtn, .pause { transition: none; } }
