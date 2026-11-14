@@ -216,9 +216,8 @@ export const UPDATES_COPY = {
   title: 'Updates',
   lead: 'Papers, milestones and prototypes from every DIGITAL team.',
   featuredLabel: 'Featured',
-  // provisional, pending brand review
   earlier: 'Earlier',
-  foldLabel: 'Type and search',
+  foldLabel: 'Filter',
   moreUpdates: 'More updates',
   allUpdates: 'All updates',
   minRead: 'min read',

@@ -12,25 +12,32 @@ export const ease = (t: number): number => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * 
 export const easeOut = (t: number): number => 1 - (1 - t) ** 3;
 export const held = (tool: Tool): boolean => tool[3] === false;
 
-let acc = 0;
-const TL = homeJobs.map((job, ji) => {
-  const think = Math.max(1200, job.think.length * CHAR), toolsEnd = think + job.tools.length * TOOL;
-  const o = { job, ji, start: acc, think, toolsEnd, len: toolsEnd + HOLD + REST };
-  acc += o.len;
-  return o;
-});
-const LOOP = acc;
-/** Reduced motion: job 1, second call, the dot at its tool. */
-export const STILL = TL[0].think + TOOL * 1.45;
-
-export function stateAt(T: number): LoopState {
-  const t = ((T % LOOP) + LOOP) % LOOP;
-  const o = TL.find((x) => t < x.start + x.len) ?? TL[0], u = t - o.start;
-  if (u < o.think) return { ji: o.ji, job: o.job, u, phase: 'think', ti: -1, p: u / o.think };
-  if (u < o.toolsEnd) return { ji: o.ji, job: o.job, u, phase: 'tool', ti: Math.floor((u - o.think) / TOOL), p: ((u - o.think) % TOOL) / TOOL };
-  if (u < o.toolsEnd + HOLD) return { ji: o.ji, job: o.job, u, phase: 'done', ti: -1, p: (u - o.toolsEnd) / HOLD };
-  return { ji: o.ji, job: o.job, u, phase: 'rest', ti: -1, p: (u - o.toolsEnd - HOLD) / REST };
+/** One looping timeline over a list of jobs. The home sphere and the BRAIN page each build their own. */
+export function makeTimeline(jobs: readonly HomeJob[]) {
+  let acc = 0;
+  const TL = jobs.map((job, ji) => {
+    const think = Math.max(1200, job.think.length * CHAR), toolsEnd = think + job.tools.length * TOOL;
+    const o = { job, ji, start: acc, think, toolsEnd, len: toolsEnd + HOLD + REST };
+    acc += o.len;
+    return o;
+  });
+  const LOOP = acc;
+  /** Reduced motion: job 1, second call, the dot at its tool. */
+  const still = TL[0].think + TOOL * 1.45;
+  const stateAt = (T: number): LoopState => {
+    const t = ((T % LOOP) + LOOP) % LOOP;
+    const o = TL.find((x) => t < x.start + x.len) ?? TL[0], u = t - o.start;
+    if (u < o.think) return { ji: o.ji, job: o.job, u, phase: 'think', ti: -1, p: u / o.think };
+    if (u < o.toolsEnd) return { ji: o.ji, job: o.job, u, phase: 'tool', ti: Math.floor((u - o.think) / TOOL), p: ((u - o.think) % TOOL) / TOOL };
+    if (u < o.toolsEnd + HOLD) return { ji: o.ji, job: o.job, u, phase: 'done', ti: -1, p: (u - o.toolsEnd) / HOLD };
+    return { ji: o.ji, job: o.job, u, phase: 'rest', ti: -1, p: (u - o.toolsEnd - HOLD) / REST };
+  };
+  return { stateAt, still };
 }
+
+const home = makeTimeline(homeJobs);
+export const STILL = home.still;
+export const stateAt = home.stateAt;
 
 /** The call in flight: f = 0 at the model, 1 at the tool. A held call stops at 0.6, at the gate. */
 export function travel(st: LoopState): Travel | null {

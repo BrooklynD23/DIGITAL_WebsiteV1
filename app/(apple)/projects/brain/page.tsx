@@ -5,6 +5,7 @@ import { localTitle } from '../../_content/home';
 import { brain, story } from '../../_content/brain';
 import { Sources } from '../../_brain';
 import { BrainStages } from './BrainStages';
+import { ThreeViews } from './ThreeViews';
 import s from './brain.module.css';
 
 const { hero, join, nav } = story;
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
   description: `${hero.beats.join(' ')} ${hero.lead}`,
 };
 
-/** LOCKED 2026-10-07 (Head Designer): approved as built. Spec and locked-file list: docs/design/brain.DESIGN.md. */
+/** LOCKED 2026-10-07 (Head Designer); unlocked and re-locked 2026-11-14 with the three-views section. Spec and locked-file list: docs/design/brain.DESIGN.md. */
 export default function BrainApplePage() {
   return (
     <>
@@ -31,6 +32,7 @@ export default function BrainApplePage() {
       {/* one continuous black surface: hero and lessons (one pin), then the join */}
       <main id="r2-main" className={s.page} data-tone="dark">
         <BrainStages />
+        <ThreeViews />
         <JoinChapter
           world="apple"
           className={s.join}
