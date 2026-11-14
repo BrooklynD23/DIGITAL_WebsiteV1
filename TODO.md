@@ -131,6 +131,8 @@ committed — see the standing rule in `CLAUDE.md` and `AGENT.md`.
 | lab.44 | #0097    | — | docs(todo): record #0096 (#0097) | This row; SHA is the commit that adds it |
 | lab.45 | #0098    | `11365de` | feat(updates): show each post once, post page ends in more updates, folded filters on phones (#0098) | Branch `feature/updates-ux`. Head Designer 2026-11-14: log lists only posts not in the cards ("Earlier", year labels); post page breadcrumb, reading time, "More updates"; phones fold Type + search into one details; 0-post Type pills hidden. New strings provisional, pending brand review |
 | lab.46 | #0099    | — | docs(todo): record #0098 (#0099) | This row; SHA is the commit that adds it |
+| lab.47 | #0100    | `31ddeb6` | ci(supabase): daily keep-alive, posts backup and site rebuild (#0100) | Phase 4. `.github/workflows/supabase-keepalive.yml`: daily 09:17 UTC + Run workflow; reads published `digital_posts` (keeps the free project active), 90-day JSON artifact, Vercel deploy hook (secret `VERCEL_DEPLOY_HOOK_URL`, set by the Head Designer), self re-enable. No DB webhook (review finding 4). `supabase/README.md` gains "Keep-alive and backup" + publish-now. |
+| lab.48 | #0101    | — | docs(todo): record #0100 (#0101) | This row; SHA is the commit that adds it |
 
 ---
 
