@@ -133,6 +133,8 @@ committed — see the standing rule in `CLAUDE.md` and `AGENT.md`.
 | lab.46 | #0099    | — | docs(todo): record #0098 (#0099) | This row; SHA is the commit that adds it |
 | lab.47 | #0100    | `31ddeb6` | ci(supabase): daily keep-alive, posts backup and site rebuild (#0100) | Phase 4. `.github/workflows/supabase-keepalive.yml`: daily 09:17 UTC + Run workflow; reads published `digital_posts` (keeps the free project active), 90-day JSON artifact, Vercel deploy hook (secret `VERCEL_DEPLOY_HOOK_URL`, set by the Head Designer), self re-enable. No DB webhook (review finding 4). `supabase/README.md` gains "Keep-alive and backup" + publish-now. |
 | lab.48 | #0101    | — | docs(todo): record #0100 (#0101) | This row; SHA is the commit that adds it |
+| lab.49 | #0102    | `137d132` | feat(motion): cross-page view transitions (#0102) | Branch `feature/view-transitions`. Head Designer 2026-11-15 (shared chrome on locked SIDEKICK + BRAIN approved). `@view-transition { navigation: auto }` + one `--r2-dur-ui` / `--r2-ease-ui` cross-fade in `worlds.css`, off under reduced motion; sticky nav held as group `r2-nav`. Nav wordmark, footer, home build rows, `LinkRows` move from `next/link` to `<a>` (client nav skips cross-document transitions). Docs: DESIGN.md §14/§20, sidekick + brain spec sign-off lines. `./run.sh check` + `./run.sh build` green; Playwright on the static export, home → SIDEKICK → BRAIN → Updates → back ×3 at 1440×900 and 375×667: 0 console errors, 0 overflow, scroll restored on every back, pins still step, `pagereveal.viewTransition` set; reduced motion: no transition. Later: Updates card → post links (still `next/link`) |
+| lab.50 | #0103    | — | docs(todo): record #0102 (#0103) | This row; SHA is the commit that adds it |
 
 ---
 
