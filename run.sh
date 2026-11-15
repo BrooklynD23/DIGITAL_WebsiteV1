@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# run.sh — quick test/dev launcher for the DIGITAL website (Next.js 14)
+# run.sh — quick test/dev launcher for the DIGITAL website (Next.js 16)
 #
 # Runs a set of pre-flight checks ("is everything good to go?") and then
 # starts the app. By default it runs the checks and launches the dev server.
@@ -137,7 +137,7 @@ run_checks() {
 
   step "6/6  Lint"
   if npm run lint >/tmp/run-lint.log 2>&1; then
-    pass "next lint clean"
+    pass "eslint clean"
   else
     warn "lint reported issues (non-blocking) — see /tmp/run-lint.log"
     sed 's/^/      /' /tmp/run-lint.log | tail -n 20

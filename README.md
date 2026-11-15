@@ -1,7 +1,7 @@
 # DIGITAL @ Cal Poly Pomona Website
 
 Official website for **DIGITAL**, a student-run venture studio at Cal Poly Pomona.
-Built with **Next.js 14 (App Router)** and **TypeScript**, configured for **static export**
+Built with **Next.js 16 (App Router)** and **TypeScript**, configured for **static export**
 and deployed on **Vercel**.
 
 The live site is the "Apple" design system (default since 2026-10-07): a phone-hero home page
@@ -12,8 +12,8 @@ and three build pages (SIDEKICK, SHADES, BRAIN) in `app/(apple)/`. The remaining
 
 | Layer | Choice |
 |-------|--------|
-| Framework | Next.js 14 (App Router, `output: 'export'`) |
-| UI | React 18; CSS modules on design tokens (`app/(apple)/_system/tokens/worlds.css`); Tailwind CSS 3 configured, no live route uses it |
+| Framework | Next.js 16 (App Router, `output: 'export'`) |
+| UI | React 19; CSS modules on design tokens (`app/(apple)/_system/tokens/worlds.css`); Tailwind CSS 3 configured, no live route uses it |
 | Motion | Anime.js (stage playback), CSS scroll timelines, canvas dot engine |
 | Forms | Formspree |
 | Analytics | Vercel Analytics + Speed Insights |

@@ -19,14 +19,16 @@ export async function generateStaticParams() {
   return (await siteEntries()).map((x) => ({ slug: x.slug }));
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+export async function generateMetadata(props: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const params = await props.params;
   const e = (await siteEntries()).find((x) => x.slug === params.slug);
   return e ? { title: C.postTitle(e.title), description: e.summary } : {};
 }
 
 const fmt = (iso: string) => new Date(`${iso}T00:00:00`).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
 
-export default async function UpdatePostPage({ params }: { params: { slug: string } }) {
+export default async function UpdatePostPage(props: { params: Promise<{ slug: string }> }) {
+  const params = await props.params;
   const e = (await siteEntries()).find((x) => x.slug === params.slug);
   if (!e) notFound();
   const more = moreOf(await getUpdates(), e);

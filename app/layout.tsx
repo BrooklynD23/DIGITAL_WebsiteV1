@@ -44,7 +44,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" data-scroll-behavior="smooth">
       {/* Fonts, chrome and <main> belong to the route group: app/(apple)/layout.tsx. */}
       <body className="overflow-x-hidden antialiased">
         {children}

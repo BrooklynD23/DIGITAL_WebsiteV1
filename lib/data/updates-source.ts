@@ -76,6 +76,7 @@ export async function getUpdates(): Promise<readonly Update[]> {
   if (!key) throw new Error('[updates] SUPABASE_URL is set but SUPABASE_PUBLISHABLE_KEY is missing');
   const res = await fetch(`${url}/rest/v1/digital_posts?select=*&order=published_at.desc`, {
     headers: { apikey: key, 'x-build': BUILD_ID },
+    cache: 'force-cache', // Next 15+ no longer caches fetch by default; keeps one read per build (keyed by x-build)
   }).catch((e: unknown) => {
     throw new Error(`[updates] Supabase fetch failed: ${String(e)}`, { cause: e });
   });

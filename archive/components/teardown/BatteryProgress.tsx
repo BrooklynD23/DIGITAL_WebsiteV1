@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 
 interface BatteryProgressProps {
   className?: string;
-  fillRef?: React.RefObject<HTMLDivElement>;
+  fillRef?: React.RefObject<HTMLDivElement | null>;
 }
 
 /**
