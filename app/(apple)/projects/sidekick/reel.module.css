@@ -1,0 +1,88 @@
+/* Subsystem reel: hairline-ruled tiles on the section ground (no cards, DESIGN §18). Transform-only motion. */
+.group {
+  /* No token fits these two: the tile width and one full loop (10 tiles × 200px ≈ 42px/s). */
+  --reel-tile: 200px;
+  --reel-loop: 48s;
+  display: grid;
+  justify-items: end;
+  width: 100%;
+  margin-top: var(--r2-space-8);
+}
+.reel {
+  width: 100%;
+  overflow: hidden;
+  border-block: 1px solid var(--r2-hairline);
+  text-align: start;
+}
+.track {
+  display: flex;
+  width: max-content;
+}
+.tiles {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.tile {
+  display: grid;
+  align-content: start;
+  gap: var(--r2-space-2);
+  width: var(--reel-tile);
+  padding: var(--r2-space-5);
+  border-left: 1px solid var(--r2-hairline);
+  color: var(--r2-ink);
+}
+.tile svg { margin-bottom: var(--r2-space-2); }
+.name {
+  font-size: var(--r2-fs-body);
+  line-height: var(--r2-lh-body);
+  font-weight: var(--r2-fw-strong);
+}
+.part {
+  font-family: var(--font-mono);
+  font-size: var(--r2-fs-label);
+  line-height: var(--r2-lh-label);
+  letter-spacing: var(--r2-ls-label);
+  color: var(--r2-ink-2);
+}
+
+/* Pause / Play: quiet ink-2 text under the strip, like the home sphere's Pause. */
+.pause {
+  min-width: var(--r2-target);
+  min-height: var(--r2-target);
+  padding: 0 var(--r2-space-2);
+  background: none;
+  border: 0;
+  border-radius: 980px;
+  color: var(--r2-ink-2);
+  font: inherit;
+  font-size: var(--r2-fs-label);
+  line-height: var(--r2-lh-label);
+  cursor: pointer;
+  transition: color var(--r2-dur-ui-fast) var(--r2-ease-ui);
+}
+.pause:hover { color: var(--r2-ink); }
+.pause:focus-visible { outline: 2px solid var(--r2-focus); outline-offset: -4px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .track { animation: reel var(--reel-loop) linear infinite; }
+  .reel:hover .track,
+  .reel[data-stopped] .track { animation-play-state: paused; }
+}
+@keyframes reel {
+  to { transform: translateX(-50%); }
+}
+
+/* Reduced motion: no loop, one wrapped list, the duplicate and the Pause removed. */
+@media (prefers-reduced-motion: reduce) {
+  .pause { display: none; }
+  .track { width: 100%; }
+  .tiles { flex-wrap: wrap; }
+  .tiles[aria-hidden] { display: none; }
+  .tile { width: 50%; box-sizing: border-box; }
+}
+/* 735px: the phone breakpoint (DESIGN §8); media queries cannot read custom properties. */
+@media (prefers-reduced-motion: reduce) and (min-width: 735px) {
+  .tile { width: 20%; }
+}

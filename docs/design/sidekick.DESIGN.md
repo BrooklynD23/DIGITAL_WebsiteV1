@@ -2,7 +2,7 @@
 
 > A phone, part by part. One black surface, one real board, nine played poses.
 
-**Status: LOCKED — approved by the Head Designer on 2026-10-07.** The page is approved as built. No
+**Status: LOCKED — approved by the Head Designer on 2026-10-07; re-locked 2026-11-15 with the subsystem reel join (§12).** The page is approved as built. No
 adjustments are to be made to it. Any change to the files listed under [Locked files](#9-locked-files),
 or any shared change that alters how this page renders, needs explicit Head Designer sign-off first.
 This document is extracted as-implemented from the component source.
@@ -52,10 +52,12 @@ track, Panel.
 **Catalogue:** "Ten subsystems, one repository." (`subsystems`) · "An archive, not a finished phone."
 (`archive`: planned data path, design targets) · "One of each, per part." (`rulesHeadline`,
 `ruleSentences`).
-**Ending** (`join` + `MEETINGS.subteam`): "Take a subsystem." · "Pick a board. Its files are in the
-repository." · "Subteam meetings depend on the team." · "Join the Discord to connect with the leads." ·
-chevron link "Take a subsystem on Discord" → `CLUB.discord` (`https://discord.gg/U77P2U2D84`, new tab,
-`rel="noopener noreferrer"`).
+**Ending** (`join` + `MEETINGS.subteam.when`, `bring={null}`, `backers={false}`, `visual={null}`): "Take a
+subsystem." · "Pick a board. Its files are in the repository." · "Meetings are sub-team based."
+(`CLUB.when`) · filled pill "Ask on Discord" (`join.cta`) → `CLUB.discord` (`siteConfig.social.discord`,
+new tab, `rel="noopener noreferrer"`) · the subsystem reel (`SubsystemReel.tsx`, §7, §8) with
+"Pause" / "Play" (`reel`). No "Join our Discord for more information." line, no "Back a build" row, no
+dot orb (2026-11-15 sign-off, §12).
 **Nav:** one sticky bar. Wordmark `DIGITAL` → `/`; links SIDEKICK (current), SHADES, BRAIN; CTA pill
 "Take a subsystem" → `#join`.
 
@@ -172,6 +174,7 @@ cards.
 | Group colour | Each part box holds two copies of the same SVG: copper below, the group colour above, cross-faded by opacity. |
 | Caption swap | Out-then-in: outgoing 160 ms, incoming 240 ms after a 160 ms delay, opacity + 12px y. Never two at once. |
 | At rest | 0 rAF. A `ResizeObserver` refits the camera on resize. |
+| Join reel | `SubsystemReel.tsx` + `reel.module.css`: the ten subsystems (Tabler line icon 32px / 1.25, name, part number in mono) as 200px hairline tiles (`--reel-tile`), printed twice; the track slides `translateX(-50%)` over **48 s** (`--reel-loop`), linear, infinite (≈ 42 px/s). CSS only; `animation-play-state: paused` on hover, on Pause, off screen (`IntersectionObserver`) and in a hidden tab. |
 
 Poses (`app/(apple)/_sidekick/mainboardPoses.ts`):
 
@@ -199,6 +202,11 @@ are hidden while the board is assembled.
   pose with the same copy and parts table. Full content parity. The pin switches on only under
   `@media (scripting: enabled) and (prefers-reduced-motion: no-preference)`.
 - A "Skip to content" link is the first focusable element and targets `#r2-main`.
+- Join reel: one `role="group"` labelled "Ten subsystems, one repository." (`subsystems.headline`); the
+  track is `aria-hidden` (the same ten are listed in `#subsystems`), and its second copy is `aria-hidden`
+  too. Under it, a "Pause" / "Play" text button (44px, `--r2-ink-2`, `aria-pressed`, names "Pause the
+  subsystem reel" / "Play the subsystem reel"). Reduced motion: no loop, no button, one static wrapped
+  grid (2 columns, 5 from 735px).
 
 ## 9. Locked files
 
@@ -207,6 +215,7 @@ Do not edit without Head Designer sign-off:
 - `app/(apple)/projects/sidekick/page.tsx`
 - `app/(apple)/projects/sidekick/BoardStory.tsx`
 - `app/(apple)/projects/sidekick/sidekick.module.css`
+- `app/(apple)/projects/sidekick/SubsystemReel.tsx`, `app/(apple)/projects/sidekick/reel.module.css`
 - `app/(apple)/_sidekick/Mainboard.tsx`
 - `app/(apple)/_sidekick/mainboardPoses.ts`
 - `app/(apple)/_sidekick/mainboard.module.css`
@@ -214,7 +223,7 @@ Do not edit without Head Designer sign-off:
 - In `app/(apple)/_content/sidekick.ts`: `mainboard`, `boardStages`, `boardFacts`, `subsystems`,
   `archive` and their types (`PartGroupId`, `BoardStageId`, `PartRow`, `BoardStage`); also the values
   the page reads from the older part of the file (`sidekick.name`, `sidekick.joinLink`, `join`,
-  `rulesHeadline`, `ruleSentences`)
+  `reel`, `rulesHeadline`, `ruleSentences`)
 - `public/boards/sidekick-mainboard/*` (19 SVG files: six copper layers, `core.svg`, twelve
   `parts-<group>-<f|b>.svg`)
 - `design-lab/scripts/sidekick-mainboard.mjs`
@@ -267,7 +276,7 @@ from the first run is in `archive/public/design-lab/r2/boards/sidekick-mainboard
 ### 2026-11-12 — Head Designer sign-off (shared nav)
 
 The nav reads `NAV_LINKS` (SIDEKICK, SHADES, BRAIN, Updates) and gains the shared "Coming soon" menu (TWINS,
-DIGITAL Business; DESIGN.md §13.1). The bar stays 52px and sticky. The join keeps the dot-orb visual; nothing else changes.
+DIGITAL Business; DESIGN.md §13.1). The bar stays 52px and sticky. The join kept the dot-orb visual (replaced by the subsystem reel, 2026-11-15 below); nothing else changed.
 
 ### 2026-11-15 — Head Designer sign-off (page transitions)
 
@@ -279,6 +288,19 @@ Approved 2026-11-15 from the 2026-11-12 motion review "later" list. Only motion 
 
 1. Caption swap: the literal `160ms` / `240ms` in the caption rules now read `--r2-dur-caption-out` / `--r2-dur-caption-in` (`_system/tokens/worlds.css`). Same values, same `--r2-ease-ui`: the swap is unchanged frame for frame. Nothing else in the page's own CSS changes.
 2. Shared nav: link hover fades the underline in (`--r2-dur-ui-fast`, `--r2-ease-ui`) instead of snapping it on.
-3. Shared join: the title gets `.r2-reveal`; the text-link and backer-link underlines fade in. The dot-orb visual is unchanged.
+3. Shared join: the title gets `.r2-reveal`; the text-link and backer-link underlines fade in. The dot-orb visual was unchanged (replaced by the subsystem reel, below).
 4. Geist is preloaded (`_system/fonts/index.ts`), so the face is in hand at first paint.
 
+### 2026-11-15 — Head Designer sign-off (subsystem reel join)
+
+The Head Designer reviewed the captured reel on 2026-11-15 and approved the unshipped 2026-10-19 design
+as shown. The page is re-locked with it.
+
+1. The join's dot orb is replaced by the subsystem reel: ten tiles (icon, name, part number) sliding in a
+   48 s linear loop; reduced motion shows a static grid (§7, §8).
+2. The primary action is a filled pill "Ask on Discord" (`join.cta`). This is a second filled CTA beside
+   the nav pill, an approved deviation (DESIGN.md §18).
+3. The "Join our Discord for more information." line and the "Back a build" row are removed.
+4. Shipped with fixes that keep the look: a Pause / Play control, the loop stops off screen and in a
+   hidden tab, the tiles are read once (group label, track `aria-hidden`), tile width and loop length are
+   named custom properties. Strings in `_content/sidekick.ts` (`join.cta`, `reel`), brand-reviewed.
