@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { siteConfig } from '@/lib/data/siteConfig';
-import { DraftNotice, LegalAddress, LegalPage, type LegalSection } from '../_legal/LegalPage';
+import { LegalAddress, LegalPage, type LegalSection } from '../_legal/LegalPage';
 
 export const metadata: Metadata = {
   title: 'Terms of Use — DIGITAL @ Cal Poly Pomona',
@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     'Terms governing your use of the DIGITAL @ Cal Poly Pomona website.',
 };
 
-const LAST_UPDATED = 'June 19, 2026';
+const LAST_UPDATED = 'November 15, 2026';
 const ORG = siteConfig.fullName;
 
 const SECTIONS: readonly LegalSection[] = [
@@ -139,8 +139,7 @@ const SECTIONS: readonly LegalSection[] = [
     body: (
       <p>
         These Terms shall be governed by and construed in accordance with the laws of
-        the State of California, USA, without regard to conflict-of-law principles.{' '}
-        <span>[To be confirmed by the organization.]</span>{' '}
+        the State of California, USA, without regard to conflict-of-law principles.
         Any disputes arising under these Terms shall be subject to the exclusive
         jurisdiction of the courts located in Los Angeles County, California.
       </p>
@@ -170,5 +169,5 @@ const SECTIONS: readonly LegalSection[] = [
 ];
 
 export default function TermsPage() {
-  return <LegalPage title="Terms of Service" updated={LAST_UPDATED} intro={<DraftNotice />} sections={SECTIONS} />;
+  return <LegalPage title="Terms of Service" updated={LAST_UPDATED} sections={SECTIONS} />;
 }

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { siteConfig } from '@/lib/data/siteConfig';
-import { DraftNotice, LegalAddress, LegalPage, type LegalSection } from '../_legal/LegalPage';
+import { LegalAddress, LegalPage, type LegalSection } from '../_legal/LegalPage';
 import l from '../_legal/legal.module.css';
 
 export const metadata: Metadata = {
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     'Cookie and local storage notice for the DIGITAL @ Cal Poly Pomona website.',
 };
 
-const LAST_UPDATED = 'June 19, 2026';
+const LAST_UPDATED = 'November 15, 2026';
 const ORG = siteConfig.fullName;
 
 const SECTIONS: readonly LegalSection[] = [
@@ -50,11 +50,31 @@ const SECTIONS: readonly LegalSection[] = [
         </p>
         <h3>Strictly Necessary / Functional Storage</h3>
         <p>
-          Some web browsers cache static assets (HTML, CSS, images) in their built-in
-          cache — this is a browser feature outside our control and is not a cookie. We
-          do not currently use <code>localStorage</code>, <code>sessionStorage</code>,
-          or any other client-side storage for user data. If this changes (e.g., to save
-          a theme preference), this notice will be updated.
+          Your browser may cache static files (HTML, CSS, images) in its built-in cache.
+          This is a browser feature outside our control and is not a cookie.
+        </p>
+        <p>
+          The Site saves two display preferences in your browser&rsquo;s{' '}
+          <code>localStorage</code>, and only after you choose them:
+        </p>
+        <ul>
+          <li>
+            <strong>Theme</strong> (<code>r2-theme</code>): <code>light</code> or{' '}
+            <code>dark</code>, saved when you pick Light or Dark with the theme button in
+            the navigation. Picking System deletes it.
+          </li>
+          <li>
+            <strong>SHADES spacing</strong> (<code>r2-shades-spacing</code>):{' '}
+            <code>more</code> or <code>standard</code>, saved when you use the spacing
+            toggle on the SHADES page.
+          </li>
+        </ul>
+        <p>
+          These values are not cookies. They stay in your browser; we never read them on
+          a server or send them anywhere. They contain no personal information and do not
+          track you. They do not expire; clearing this Site&rsquo;s data in your browser
+          removes them. The Site sets no cookies and does not use{' '}
+          <code>sessionStorage</code>, IndexedDB, or any other client-side storage.
         </p>
       </>
     ),
@@ -109,9 +129,9 @@ const SECTIONS: readonly LegalSection[] = [
     title: '5. Changes to This Notice',
     body: (
       <p>
-        If our cookie practices change — for example, if we add a feature that requires
-        client-side storage — we will update this notice and the &ldquo;Last
-        updated&rdquo; date accordingly.
+        If our cookie or storage practices change — for example, if we set a cookie or
+        store anything new in your browser — we will update this notice and the
+        &ldquo;Last updated&rdquo; date accordingly.
       </p>
     ),
   },
@@ -129,7 +149,6 @@ const SECTIONS: readonly LegalSection[] = [
 
 const INTRO = (
   <>
-    <DraftNotice />
     <div className={l.note}>
       <p><strong>Short version</strong></p>
       <p>
