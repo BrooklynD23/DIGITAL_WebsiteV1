@@ -242,6 +242,15 @@ export const join = {
   lead: 'Pick a board. Its files are in the repository.',
   when: CLUB.when,
   where: null,
+  cta: 'Ask on Discord',
   discord: CLUB.discord,
+} as const;
+
+/** Subsystem reel in the join (projects/sidekick/SubsystemReel.tsx): the Pause / Play control. */
+export const reel = {
+  pause: 'Pause',
+  play: 'Play',
+  pauseName: 'Pause the subsystem reel',
+  playName: 'Play the subsystem reel',
 } as const;
 

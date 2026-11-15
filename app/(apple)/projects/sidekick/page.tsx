@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
-import { CLUB, JoinChapter, LocalNav, MEETINGS, NAV_LINKS, WorldFooter, href } from '../../_chrome';
+import { JoinChapter, LocalNav, MEETINGS, NAV_LINKS, WorldFooter, href } from '../../_chrome';
 import chrome from '../../_chrome/chrome.module.css';
 import { localTitle } from '../../_content/home';
 import { archive, boardFacts, join, mainboard, ruleSentences, rulesHeadline, sidekick, subsystems } from '../../_content/sidekick';
 import { BoardStory } from './BoardStory';
+import { SubsystemReel } from './SubsystemReel';
 import s from './sidekick.module.css';
 
 export const metadata: Metadata = {
@@ -101,8 +102,14 @@ export default function AppleSidekickPage() {
           headline={join.headline}
           lead={join.lead}
           {...MEETINGS.subteam}
-          primary={{ label: 'Take a subsystem on Discord', href: CLUB.discord, external: true }}
-        />
+          bring={null}
+          primary={{ label: join.cta, href: join.discord, external: true }}
+          primaryStyle="pill"
+          visual={null}
+          backers={false}
+        >
+          <SubsystemReel />
+        </JoinChapter>
       </main>
       <WorldFooter world="apple" />
     </div>
