@@ -133,6 +133,8 @@ committed — see the standing rule in `CLAUDE.md` and `AGENT.md`.
 | lab.46 | #0099    | — | docs(todo): record #0098 (#0099) | This row; SHA is the commit that adds it |
 | lab.47 | #0100    | `31ddeb6` | ci(supabase): daily keep-alive, posts backup and site rebuild (#0100) | Phase 4. `.github/workflows/supabase-keepalive.yml`: daily 09:17 UTC + Run workflow; reads published `digital_posts` (keeps the free project active), 90-day JSON artifact, Vercel deploy hook (secret `VERCEL_DEPLOY_HOOK_URL`, set by the Head Designer), self re-enable. No DB webhook (review finding 4). `supabase/README.md` gains "Keep-alive and backup" + publish-now. |
 | lab.48 | #0101    | — | docs(todo): record #0100 (#0101) | This row; SHA is the commit that adds it |
+| lab.55 | #0108    | `b236184` | feat(deps): upgrade to Next.js 16 and React 19, clear npm audit (#0108) | Branch `feature/next-16` (from origin/main; PR A Tailwind removal paused at its gate). Head Designer approved 2026-11-15. npm audit 17 (1 critical, 13 high, 3 moderate) → 0. Codemod `upgrade latest` + hand fixes: async `params` on `/updates/[slug]`, `force-static` on robots/sitemap, fetch `force-cache` (x-build key keeps it per build), `data-scroll-behavior="smooth"`, backdrop-filter order (Lightning CSS dropped the unprefixed one), eslint 10 flat config (`next lint` gone), sharp 0.35. `./run.sh check`/`build` green, `test:updates` 6/6; 45 full-page shots (15 routes × 1440/375/844) 0.000% vs production, 0 console errors, 0 overflow |
+| lab.56 | #0109    | — | docs(todo): record #0108 (#0109) | This row; SHA is the commit that adds it |
 
 ---
 
