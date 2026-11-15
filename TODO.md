@@ -158,9 +158,9 @@ committed — see the standing rule in `CLAUDE.md` and `AGENT.md`.
   `lib/data/siteConfig.ts` (one edit), then re-read Privacy, Terms and Cookies.
 - [ ] **Formspree form ID** — `siteConfig.formspreeEndpoint` is still `YOUR_FORM_ID`; the contact form cannot send.
 - [ ] **Favicon and social-share image** — none ship (`/favicon.ico` 404s; no `og:image`).
-- [ ] **Legal pages** — still "Draft — pending review" (2026-06-19). Cookies says no browser storage is used, but
-  SHADES saves a spacing preference in `localStorage`; "club" wording; Terms of Service / Terms of Use naming;
-  Terms names Notion links; one "[To be confirmed by the organization.]" placeholder.
+- [ ] **Legal pages** — approved by the Head Designer 2026-11-15 (#0114): draft notice, the "[To be confirmed by
+  the organization.]" placeholder and the false "no `localStorage`" line are gone. Left: "club" wording; Terms of
+  Service / Terms of Use naming; Terms names Notion links.
 - [ ] **SIDEKICK board file** — the README photo board (XC7Z020 CLG484, RTL8211F) has no design file in the repo;
   the page renders `zynq_sdr_dongle` for now. Rerun `design-lab/scripts/sidekick-mainboard.mjs` when the file exists.
 - [ ] **Team roster** — `/team/` shows seats only; names, a BRAIN lead and the "Venture Studies" seat need confirming.

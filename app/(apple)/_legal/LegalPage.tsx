@@ -22,7 +22,7 @@ export function LegalPage({ title, updated, intro, sections }: {
   readonly title: string;
   readonly updated: string;
   /** Notices that sit above the numbered sections. */
-  readonly intro: ReactNode;
+  readonly intro?: ReactNode;
   readonly sections: readonly LegalSection[];
 }) {
   return (
@@ -54,20 +54,6 @@ export function LegalPage({ title, updated, intro, sections }: {
         </div>
       </section>
     </SitePage>
-  );
-}
-
-/** The draft notice all three legal pages open with. */
-export function DraftNotice() {
-  return (
-    <div className={l.note}>
-      <p><strong>Draft — pending review</strong></p>
-      <p>
-        This is a starter document and should be reviewed by the organization (and legal
-        counsel where appropriate) before being relied upon. It is provided in good faith
-        as a reasonable starting point for a non-commercial student engineering club.
-      </p>
-    </div>
   );
 }
 

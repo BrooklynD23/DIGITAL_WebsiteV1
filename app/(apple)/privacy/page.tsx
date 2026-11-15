@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { siteConfig } from '@/lib/data/siteConfig';
-import { DraftNotice, LegalAddress, LegalPage, type LegalSection } from '../_legal/LegalPage';
+import { LegalAddress, LegalPage, type LegalSection } from '../_legal/LegalPage';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy — DIGITAL @ Cal Poly Pomona',
@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     'How DIGITAL @ Cal Poly Pomona collects, uses, and protects information about visitors to our website.',
 };
 
-const LAST_UPDATED = 'June 19, 2026';
+const LAST_UPDATED = 'November 15, 2026';
 const ORG = siteConfig.fullName;
 const EMAIL = siteConfig.contact.email;
 
@@ -198,5 +198,5 @@ const SECTIONS: readonly LegalSection[] = [
 ];
 
 export default function PrivacyPage() {
-  return <LegalPage title="Privacy Policy" updated={LAST_UPDATED} intro={<DraftNotice />} sections={SECTIONS} />;
+  return <LegalPage title="Privacy Policy" updated={LAST_UPDATED} sections={SECTIONS} />;
 }
