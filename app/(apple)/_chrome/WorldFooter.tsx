@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { IconBrandDiscord, IconBrandGithub, IconBrandInstagram, IconBrandLinkedin } from '@tabler/icons-react';
 import { CLUB, LINKS } from './club';
 import { LEGAL_PAGES, PAGES, SITE_PAGES, href, type World } from './routes';
@@ -21,10 +20,10 @@ export function WorldFooter({ world }: { readonly world: World }) {
         <ul className={styles.footLinks}>
           {PAGES.map((p) => (
             <li key={p.id}>
-              <Link href={href(world, p.id)} prefetch={false}>
+              <a href={href(world, p.id)}>
                 {world === 'signal' && p.channel ? <span className={styles.channel}>{p.channel}</span> : null}
                 {p.label}
-              </Link>
+              </a>
             </li>
           ))}
         </ul>
@@ -33,7 +32,7 @@ export function WorldFooter({ world }: { readonly world: World }) {
           <ul key={row[0].href} className={`${styles.footLinks} ${i === 0 ? styles.footSite : styles.footLegal}`}>
             {row.map((p) => (
               <li key={p.href}>
-                <Link href={p.href} prefetch={false}>{p.label}</Link>
+                <a href={p.href}>{p.label}</a>
               </li>
             ))}
           </ul>
