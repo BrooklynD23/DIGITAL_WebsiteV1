@@ -3,7 +3,7 @@
 ## Project Overview
 
 **DIGITAL @ Cal Poly Pomona** is the website of a student-run venture studio, built with
-**Next.js 14 (App Router)**, React 18 and TypeScript. The site is configured for **static
+**Next.js 16 (App Router)**, React 19 and TypeScript. The site is configured for **static
 export** (`output: 'export'` in `next.config.js`) and is deployed to Vercel.
 
 As of 2026-10-07 the **Apple system** is the site's default design system. The live pages are

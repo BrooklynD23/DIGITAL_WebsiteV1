@@ -27,8 +27,8 @@ export interface PlayOnEntryOptions {
 const prefersReduced = (): boolean => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 export function usePlayOnEntry(
-  target: RefObject<Element>,
-  play: RefObject<DotStageHandle> | (() => void),
+  target: RefObject<Element | null>,
+  play: RefObject<DotStageHandle | null> | (() => void),
   options: PlayOnEntryOptions = {},
 ): void {
   const { threshold = 0.6, armBelowFold = false, delay = 0 } = options;

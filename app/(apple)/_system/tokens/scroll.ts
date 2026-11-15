@@ -47,7 +47,7 @@ export function progressOf(rect: DOMRect, vh: number, range: ScrollRange): numbe
   return p < 0 ? 0 : p > 1 ? 1 : p;
 }
 
-export function useScrollProgress<T extends HTMLElement>(ref: RefObject<T>, options: ScrollProgressOptions = {}): void {
+export function useScrollProgress<T extends HTMLElement>(ref: RefObject<T | null>, options: ScrollProgressOptions = {}): void {
   const { range = 'cover', onProgress, cssVar = '--p', reducedValue = 1 } = options;
   const cb = useRef(onProgress);
   cb.current = onProgress;
@@ -177,7 +177,7 @@ export interface ScrollSteps {
  * Range is 'contain' (pin). 0 rAF at rest.
  */
 export function useScrollSteps<T extends HTMLElement>(
-  pin: RefObject<T>,
+  pin: RefObject<T | null>,
   options: StepOptions & {
     readonly onFrame?: (p: number, at: StepAt) => void;
     readonly onStep?: (i: number, prev: number) => void;

@@ -137,7 +137,7 @@ export function Icon({ name }: { readonly name: 'minus' | 'plus' | 'replay' | 'c
 }
 
 /** Play the chapter's beat once, the first time the stage is mostly on screen (a single-shot trigger). */
-export function useEntryPlay(host: RefObject<HTMLElement>, onEnter: () => void, threshold = 0.45): void {
+export function useEntryPlay(host: RefObject<HTMLElement | null>, onEnter: () => void, threshold = 0.45): void {
   const cb = useRef(onEnter);
   cb.current = onEnter;
   useEffect(() => {

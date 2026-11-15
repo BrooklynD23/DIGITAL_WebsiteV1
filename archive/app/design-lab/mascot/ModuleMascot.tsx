@@ -75,7 +75,7 @@ function mascotKeyOf(target: EventTarget | null): MascotKey | null {
 }
 
 /** True while the element is on screen and the tab is visible. */
-function useOnScreen(ref: React.RefObject<HTMLElement>): boolean {
+function useOnScreen(ref: React.RefObject<HTMLElement | null>): boolean {
   const [inView, setInView] = useState(false);
   const [pageVisible, setPageVisible] = useState(true);
   useEffect(() => {

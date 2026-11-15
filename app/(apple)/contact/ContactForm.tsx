@@ -135,7 +135,7 @@ export function ContactForm() {
           noValidate={hydrated}
           onSubmit={handleSubmit}
           onChange={(e) => {
-            const name = (e.target as HTMLInputElement).name as FieldName;
+            const name = (e.nativeEvent.target as HTMLInputElement).name as FieldName;
             if (errors[name]) setErrors((prev) => ({ ...prev, [name]: undefined }));
           }}
         >

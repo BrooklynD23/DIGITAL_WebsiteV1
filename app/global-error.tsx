@@ -22,7 +22,6 @@ export default function GlobalError({
               {SYSTEM.retry}
             </button>
             {/* plain anchor: a full reload is the point when the root layout failed */}
-            {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
             <a href={SYSTEM.home.href} className={s.buttonQuiet}>
               {SYSTEM.home.label}
             </a>
