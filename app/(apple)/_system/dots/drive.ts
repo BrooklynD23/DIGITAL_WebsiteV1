@@ -20,8 +20,8 @@ export interface ScrollDriveOptions {
 }
 
 export function useScrollDrive<T extends HTMLElement>(
-  target: RefObject<T>,
-  stage: RefObject<DotStageHandle>,
+  target: RefObject<T | null>,
+  stage: RefObject<DotStageHandle | null>,
   options: ScrollDriveOptions = {},
 ): void {
   const opt = useRef(options);
@@ -37,7 +37,7 @@ export function useScrollDrive<T extends HTMLElement>(
   useScrollProgress(target, { range: options.range ?? 'contain', onProgress, cssVar: options.cssVar });
 }
 
-export function useTimeDrive(stage: RefObject<DotStageHandle>) {
+export function useTimeDrive(stage: RefObject<DotStageHandle | null>) {
   const play = useCallback((loop = false) => stage.current?.play({ loop }), [stage]);
   const stop = useCallback(() => stage.current?.stop(), [stage]);
   return { play, stop } as const;

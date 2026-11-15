@@ -4,7 +4,7 @@
  * Dash code (from concept E): solid = exists/owned, dotted = planned, 2 3 = leader, 5 4 = boundary.
  * Every glyph: idle (dotted, 60% ink) → working (its verb, live-only) → done (solid, centre node filled, never red).
  */
-import type { CSSProperties } from 'react';
+import type { CSSProperties, JSX } from 'react';
 import { GlyphFrame, anim, type GlyphProps } from './Glyph';
 
 type CP = CSSProperties | undefined;

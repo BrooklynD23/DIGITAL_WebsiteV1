@@ -47,7 +47,7 @@
 }
 
 /* ---------- Apple local nav (sticky 52px, one filled CTA) ---------- */
-.local { font-family: var(--font-text); position: sticky; top: 0; z-index: 49; height: var(--r2-nav-h); background: var(--r2-nav-bg, rgba(255, 255, 255, 0.78)); backdrop-filter: saturate(1.8) blur(20px); -webkit-backdrop-filter: saturate(1.8) blur(20px); border-bottom: 1px solid var(--r2-hairline); color: var(--r2-ink); }
+.local { font-family: var(--font-text); position: sticky; top: 0; z-index: 49; height: var(--r2-nav-h); background: var(--r2-nav-bg, rgba(255, 255, 255, 0.78)); -webkit-backdrop-filter: saturate(1.8) blur(20px); backdrop-filter: saturate(1.8) blur(20px); border-bottom: 1px solid var(--r2-hairline); color: var(--r2-ink); }
 .local { transition: background-color var(--r2-dur-ui) var(--r2-ease-ui), color var(--r2-dur-ui) var(--r2-ease-ui), border-color var(--r2-dur-ui) var(--r2-ease-ui); }
 /* Tone follows the chapter under the bar (ToneSync): translucent light over light chapters, dark over dark. */
 .local[data-tone='dark'] { background: rgba(22, 22, 23, 0.86); border-bottom-color: rgba(255, 255, 255, 0.12); }
