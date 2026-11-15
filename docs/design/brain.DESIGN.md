@@ -191,3 +191,13 @@ The Head Designer unlocked the route for one change and re-locked it after merge
 3. Red only for the held call in the Loop sphere. Ink elsewhere.
 4. Copy in `story.layers` and `figureExamples.job` (`figureExamples.calls` / `.servers` unchanged, so the Tool-calling lesson is unchanged).
 5. `drawB`, `drawC`, `makeTimeline` added beside the home sphere's pure module in `_home/sphere/`. `BrainStages.tsx`, `stages.module.css`, `_brain/lessons.ts` are untouched.
+
+### 2026-11-15 — Head Designer sign-off (motion polish, shared chrome)
+
+Approved 2026-11-15 from the 2026-11-12 motion review "later" list. Only motion values and shared chrome change:
+
+1. Caption swap: the literal `160ms` / `240ms` in the caption rules now read `--r2-dur-caption-out` / `--r2-dur-caption-in` (`_system/tokens/worlds.css`). Same values, same `--r2-ease-ui`: the swap is unchanged frame for frame. Nothing else in the page's own CSS changes.
+2. Shared nav: link hover fades the underline in (`--r2-dur-ui-fast`, `--r2-ease-ui`) instead of snapping it on.
+3. Shared join: the title gets `.r2-reveal`; the text-link and backer-link underlines fade in. The join visual is unchanged.
+4. Geist is preloaded (`_system/fonts/index.ts`), so the face is in hand at first paint.
+

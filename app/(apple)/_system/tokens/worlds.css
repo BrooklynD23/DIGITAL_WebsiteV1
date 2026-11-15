@@ -30,6 +30,9 @@
   --r2-dur-ui: 280ms;
   --r2-dur-ui-slow: 320ms;
   --r2-dur-draw: 480ms;
+  /* Caption swap on every pin (DESIGN §10.4): out 160ms, then in 240ms after the out finishes. Easing: --r2-ease-ui. */
+  --r2-dur-caption-out: 160ms;
+  --r2-dur-caption-in: 240ms;
   /* M3 Expressive springs sampled to linear() (tokens/motion.ts springToLinear). Pair with the duration. */
   --r2-spring-spatial-fast: linear(0, 0.072, 0.238, 0.44, 0.638, 0.806, 0.934, 1.021, 1.071, 1.092, 1.093, 1.081, 1.063, 1.044, 1.026, 1.012, 1.002, 0.995, 0.992, 0.991, 0.992, 0.993, 0.995, 0.997, 1);
   --r2-spring-spatial-fast-dur: 350ms;

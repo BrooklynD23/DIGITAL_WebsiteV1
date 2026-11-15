@@ -59,9 +59,9 @@ h1.heading { font-size: var(--r2-fs-h1); line-height: var(--r2-lh-h1); letter-sp
   /* Out-then-in: the outgoing caption leaves in 160ms, the incoming one arrives after it (never two at once). */
   .caption {
     grid-area: 1 / 1; align-self: start; opacity: 0; transform: translateY(12px); visibility: hidden;
-    transition: opacity 160ms var(--r2-ease-ui), transform 160ms var(--r2-ease-ui), visibility 0s 160ms;
+    transition: opacity var(--r2-dur-caption-out) var(--r2-ease-ui), transform var(--r2-dur-caption-out) var(--r2-ease-ui), visibility 0s var(--r2-dur-caption-out);
   }
-  .caption[data-active] { opacity: 1; transform: none; visibility: visible; transition: opacity 240ms var(--r2-ease-ui) 160ms, transform 240ms var(--r2-ease-ui) 160ms, visibility 0s 160ms; }
+  .caption[data-active] { opacity: 1; transform: none; visibility: visible; transition: opacity var(--r2-dur-caption-in) var(--r2-ease-ui) var(--r2-dur-caption-out), transform var(--r2-dur-caption-in) var(--r2-ease-ui) var(--r2-dur-caption-out), visibility 0s var(--r2-dur-caption-out); }
 
   .tracker { display: flex; grid-area: 2 / 1 / 3 / -1; justify-content: center; align-items: center; }
   .step { position: relative; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; min-width: 28px; justify-content: center; padding: 0 8px; background: none; border: 0; border-radius: 980px; color: var(--r2-ink-2); font: inherit; font-size: 12px; line-height: 16px; cursor: pointer; transition: color var(--r2-dur-ui-fast) var(--r2-ease-ui); }
