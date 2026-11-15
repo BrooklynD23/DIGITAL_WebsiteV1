@@ -268,3 +268,7 @@ from the first run is in `archive/public/design-lab/r2/boards/sidekick-mainboard
 
 The nav reads `NAV_LINKS` (SIDEKICK, SHADES, BRAIN, Updates) and gains the shared "Coming soon" menu (TWINS,
 DIGITAL Business; DESIGN.md §13.1). The bar stays 52px and sticky. The join keeps the dot-orb visual; nothing else changes.
+
+### 2026-11-15 — Head Designer sign-off (page transitions)
+
+Shared chrome change: page loads cross-fade (DESIGN.md §14) and the sticky nav holds still as its own view-transition group; the nav wordmark and footer links are plain `<a>`. Nothing on this page changes.

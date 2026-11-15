@@ -16,7 +16,8 @@
 }
 
 /* ---------- shared: motion, spacing, font slots ---------- */
-:where(.world-signal, .world-apple) {
+/* :root:has(.world-apple) too, so the ::view-transition-* pseudos (children of <html>) can read the motion tokens. */
+:where(.world-signal, .world-apple, :root:has(.world-apple)) {
   --font-display: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-text: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
@@ -362,6 +363,21 @@
   .r2-reveal {
     animation: none !important;
   }
+}
+
+/* Page transitions (DESIGN.md §14): every same-origin page load cross-fades the old page into the new one.
+   Cross-document only, so site links are plain <a> (a next/link client navigation would skip it).
+   The sticky nav is its own group and holds still. No support or reduced motion: an instant page load. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}
+::view-transition-group(*),
+::view-transition-old(*),
+::view-transition-new(*) {
+  animation-duration: var(--r2-dur-ui);
+  animation-timing-function: var(--r2-ease-ui);
 }
 
 @media (prefers-reduced-motion: reduce) {

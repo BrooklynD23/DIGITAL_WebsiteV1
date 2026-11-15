@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import s from '../_chrome/site-page.module.css';
 import x from './extras.module.css';
 
@@ -28,7 +27,7 @@ export function LinkRows({ rows, className }: { readonly rows: readonly Row[]; r
             {r.href.startsWith('http') ? (
               <a className={s.linkRow} href={r.href} target="_blank" rel="noopener noreferrer">{body}</a>
             ) : (
-              <Link className={s.linkRow} href={r.href} prefetch={false}>{body}</Link>
+              <a className={s.linkRow} href={r.href}>{body}</a>
             )}
           </li>
         );
