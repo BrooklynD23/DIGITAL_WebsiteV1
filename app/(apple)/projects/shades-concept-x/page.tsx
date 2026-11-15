@@ -70,7 +70,7 @@ export default function ShadesConceptXBPage() {
         utility={<SpacingToggle className={v1.localSpacing} label={spacing.label} stateText={{ on: spacing.more, off: spacing.standard }} />}
       />
 
-      <main id="cx-main">
+      <main id="cx-main" data-tone="dark" data-tone-fixed>
         {/* Hero: the planned render beside Concept X, then the page index. */}
         <section className="cx-hero-sec" data-tone="dark" aria-labelledby="cx-h1">
           <header className={s.heroHead}>

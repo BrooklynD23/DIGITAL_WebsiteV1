@@ -52,7 +52,7 @@ export default function ShadesRevealPage() {
             <h1 id="rv-hero" className={s.heroName}>{hero.h1}</h1>
             <p className={s.heroLine}>{conceptLine}</p>
           </header>
-          <figure className={s.render}>
+          <figure className={s.render} data-tone="dark" data-tone-fixed>
             <div className={s.heroObject}>
               <Glasses mode="solid" view="three-quarter" ground="dark" tether title={renderCaption} />
             </div>
@@ -86,7 +86,7 @@ export default function ShadesRevealPage() {
 
         {/* 4 · Close: the object again, then the milestones. */}
         <section id="roadmap" className={s.close} data-tone="dark" aria-labelledby="rv-road">
-          <figure className={s.render}>
+          <figure className={s.render} data-tone="dark" data-tone-fixed>
             <div className={s.closeObject}>
               <Glasses mode="solid" view="front" ground="dark" tether title={renderCaption} />
             </div>

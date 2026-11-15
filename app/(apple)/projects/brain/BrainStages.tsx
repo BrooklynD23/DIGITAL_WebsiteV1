@@ -17,6 +17,7 @@ import { STAGE_COUNT, lessonFrame, lessonStill } from '../../_brain/lessons';
 import { useStagePlayback } from '../_hero/useStagePlayback';
 import { CONTEXT_STAGE, MCP_STAGE, TOOLS_STAGE, findLive, updateLive, type LiveEls } from './liveLabels';
 import s from './stages.module.css';
+import { THEME_EVENT } from '../../_chrome/theme';
 
 const STEPS = { count: STAGE_COUNT, lead: 0, playShare: 0.72 } as const;
 const STILL = 320;
@@ -90,7 +91,13 @@ export function BrainStages() {
     });
     io.observe(el);
     document.addEventListener('visibilitychange', sync);
+    const onTheme = (): void => {
+      S.inks = null; // site theme switch: re-read ink on the next paint
+      paint();
+    };
+    window.addEventListener(THEME_EVENT, onTheme);
     return () => {
+      window.removeEventListener(THEME_EVENT, onTheme);
       ro.disconnect();
       io.disconnect();
       document.removeEventListener('visibilitychange', sync);

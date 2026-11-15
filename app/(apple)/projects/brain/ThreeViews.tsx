@@ -12,6 +12,7 @@ import type { HomeJob } from '../../_content/home';
 import { C_SAT, drawA, drawB, drawC, fib, levelAt, type Ink } from '../../_home/sphere/draw';
 import { CHAR, held, makeTimeline, type LoopState } from '../../_home/sphere/timeline';
 import s from './three.module.css';
+import { THEME_EVENT } from '../../_chrome/theme';
 
 const { layers } = story;
 const DRAW = [drawA, drawB, drawC] as const;
@@ -111,7 +112,9 @@ export function ThreeViews() {
     });
     const ios = v.map((x) => { const io = new IntersectionObserver(([e]) => { x.on = e.isIntersecting; schedule(); }); io.observe(x.cv); return io; });
     document.addEventListener('visibilitychange', schedule);
-    return () => { cancelAnimationFrame(raf); ros.forEach((r) => r.disconnect()); ios.forEach((o) => o.disconnect()); document.removeEventListener('visibilitychange', schedule); };
+    const onTheme = () => { v.forEach((x) => { const cs = getComputedStyle(x.cv); x.ink = { ink: cs.color, trigger: cs.getPropertyValue('--r2-trigger').trim() || '#d8412f' }; }); paint(true); };
+    window.addEventListener(THEME_EVENT, onTheme);
+    return () => { window.removeEventListener(THEME_EVENT, onTheme); cancelAnimationFrame(raf); ros.forEach((r) => r.disconnect()); ios.forEach((o) => o.disconnect()); document.removeEventListener('visibilitychange', schedule); };
   }, [paused, reduce]);
 
   return (

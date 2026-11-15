@@ -17,9 +17,7 @@
 .tool { flex: none; display: flex; align-items: baseline; gap: 8px; font-family: var(--font-mono); font-size: 12px; color: var(--r2-ink-2); border: 1px solid var(--r2-hairline); border-radius: 8px; padding: 6px 10px; overflow: hidden; white-space: nowrap; }
 .tool b { color: var(--r2-ink); font-weight: 600; }
 .ok, .no { margin-left: auto; padding-left: 10px; }
-/* Result colours: green / amber on dark chapters only; ink on light (DESIGN.md §18). */
-.ok { color: var(--r2-ink-2); }
-.no { color: var(--r2-ink); }
-:global([data-tone='dark']) .ok { color: #7ad08f; }
-:global([data-tone='dark']) .no { color: #ffb35c; }
+/* Result colours: green / amber where the dark set defines --r2-tool-*; ink on light (DESIGN.md §18). */
+.ok { color: var(--r2-tool-ok, var(--r2-ink-2)); }
+.no { color: var(--r2-tool-no, var(--r2-ink)); }
 @media (prefers-reduced-motion: reduce) { .shimmer { animation: none; } .body { transition: none; } .pause { display: none; } }

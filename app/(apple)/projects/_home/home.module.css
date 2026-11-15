@@ -3,7 +3,7 @@
  * Default styles = the still page (reduced motion, no JS). The pin is switched on only under
  * `(scripting: enabled) and (prefers-reduced-motion: no-preference)`, so the server HTML paints the final layout. */
 
-.page { background: #000; }
+.page { background: var(--r2-story); }
 .inner { max-width: 1024px; margin: 0 auto; padding: 0 var(--r2-gutter); }
 .h2 { margin: 0 auto; text-align: center; font-family: var(--font-display); font-weight: var(--r2-fw-display); font-size: var(--r2-fs-h1); line-height: var(--r2-lh-h1); letter-spacing: var(--r2-ls-h1); text-wrap: balance; max-width: 16ch; }
 

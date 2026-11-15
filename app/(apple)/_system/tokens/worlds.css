@@ -219,7 +219,8 @@
 }
 
 .world-apple [data-tone='dark'],
-.world-apple[data-tone='dark'] {
+.world-apple[data-tone='dark'],
+:root[data-theme='dark'] .world-apple {
   color-scheme: dark;
   --r2-ground: #000000;
   --r2-ground-raised: #161617;
@@ -234,8 +235,64 @@
   --r2-nav-bg: rgba(22, 22, 23, 0.8);
   --r2-cta-bg: #f5f5f7;
   --r2-cta-ink: #1d1d1f;
+  /* Home BRAIN readout tool results (DESIGN §18): literal on dark only; unset on light, so they fall back to ink. */
+  --r2-tool-ok: #7ad08f;
+  --r2-tool-no: #ffb35c;
+  /* Updates tag chips, dark set (2026-11-15 theme toggle): each bg / ink pair 9.1-10.4:1 (WCAG). Same hues as the
+     light set, deep tint under a pale ink; pressed still swaps bg and ink. Colour never without its label. */
+  --r2-tag-digital-bg: #3a3a3c;
+  --r2-tag-digital-ink: #f5f5f7;
+  --r2-tag-sidekick-bg: #0d3554;
+  --r2-tag-sidekick-ink: #bfe3ff;
+  --r2-tag-shades-bg: #4a3000;
+  --r2-tag-shades-ink: #ffdf9e;
+  --r2-tag-brain-bg: #3a2266;
+  --r2-tag-brain-ink: #e2d4fc;
+  --r2-tag-twins-bg: #0c3f29;
+  --r2-tag-twins-ink: #b5edd1;
+  --r2-tag-business-bg: #5a1440;
+  --r2-tag-business-ink: #fbd0e8;
   color: var(--r2-ink);
   background: var(--r2-ground);
+}
+
+/* ---------- site theme (DESIGN §9): <html data-theme> from the inline head script (_chrome/theme.ts) ----------
+   absent = the designed mix (light default, [data-tone='dark'] chapters dark); 'dark' = the dark set on the whole
+   world (above); 'light' = the light set on every chapter, dark-tone ones included (below).
+   [data-tone-fixed] keeps a dark surface dark in Light: artwork that cannot flip honestly (photographic or
+   gradient renders, the SIDEKICK copper board). --r2-story is the story-chapter ground: #000, white in Light. */
+.world-apple {
+  --r2-story: #000000;
+}
+:root[data-theme='light'] .world-apple [data-tone='dark']:not([data-tone-fixed], [data-tone-fixed] *),
+:root[data-theme='light'] .world-apple[data-tone='dark'] {
+  color-scheme: light;
+  --r2-story: #ffffff;
+  --r2-ground: #ffffff;
+  --r2-ground-raised: #f5f5f7;
+  --r2-ink: #1d1d1f;
+  --r2-ink-2: #6e6e73;
+  --r2-ink-3: #6e6e73;
+  --r2-phosphor: #1d1d1f;
+  --r2-hairline: #d2d2d7;
+  --r2-hairline-strong: #86868b;
+  --r2-trigger-ink: #b3321f;
+  --r2-focus: #0b0c0a;
+  --r2-nav-bg: rgba(255, 255, 255, 0.78);
+  --r2-cta-bg: #1d1d1f;
+  --r2-cta-ink: #ffffff;
+  --r2-tool-ok: initial;
+  --r2-tool-no: initial;
+  /* BRAIN context meter on white: the same three states in text-safe shades (>= 4.5:1 on #fff). */
+  --r2-meter-ok: #1a7f37;
+  --r2-meter-warn: #9a5b00;
+  --r2-meter-hot: #b3321f;
+}
+:root[data-theme='light'] .world-apple {
+  --r2-story: #ffffff;
+}
+:root[data-theme='light'] .world-apple [data-tone-fixed] {
+  --r2-story: #000000;
 }
 
 @media (max-width: 734px) {

@@ -78,7 +78,7 @@ Copy changes go through the `brand-voice-strategist` agent to write and the `bra
 | `app/(apple)/_system/fonts/` | Self-hosted variable fonts and the font classes (`fontApple`, `fontReadingText`) |
 | `app/(apple)/_system/dots/` | Dot engine: `DotStage`, `DotGlyph`, `paintFrame`, the shared ticker |
 | `app/(apple)/_system/ui/` | `PlayOnce`, `Highlights`, `Chevron` |
-| `app/(apple)/_chrome/` | `LocalNav`, `WorldFooter`, `JoinChapter`, `SitePage`, `ToneSync`, `routes.ts` (`PAGES`, `href`), `club.ts` (`CLUB`, `LINKS`, `MEETINGS`) |
+| `app/(apple)/_chrome/` | `LocalNav`, `WorldFooter`, `JoinChapter`, `SitePage`, `ToneSync`, `ThemeToggle` + `theme.ts` (site theme, §9), `routes.ts` (`PAGES`, `href`), `club.ts` (`CLUB`, `LINKS`, `MEETINGS`, `THEME`) |
 | `app/(apple)/_content/` | Page copy: `home.ts`, `sidekick.ts`, `shades.ts`, `brain.ts` |
 | `app/(apple)/projects/_hero/` | Home phone hero: `HeroStages`, `PhoneArtwork`, `poses.ts`, `useStagePlayback.ts` |
 | `app/(apple)/_sidekick/`, `_shades/`, `_brain/`, `_home/` | Page-scoped figures and helpers |
@@ -87,6 +87,8 @@ Copy changes go through the `brand-voice-strategist` agent to write and the `bra
 ## 6. Colour
 
 Light is the default. A section becomes dark with `data-tone="dark"`; the same token names re-resolve. Never hard-code a tone-dependent hex in a component; use the token.
+
+**Site theme (2026-11-15).** The visitor picks System, Light or Dark in the nav (§9, §13.1). `<html data-theme="light">` re-resolves every `data-tone="dark"` chapter to the light column below; `<html data-theme="dark">` puts the dark column on the whole world; no attribute is the designed mix. Mapping lives in `worlds.css` ("site theme" block). A surface that cannot flip honestly carries `data-tone="dark" data-tone-fixed` and stays dark in Light (§11).
 
 | Token | Light | Dark (`data-tone="dark"`) | Use |
 |---|---|---|---|
@@ -106,16 +108,16 @@ Light is the default. A section becomes dark with `data-tone="dark"`; the same t
 
 **The one red (`#d8412f`).** It is a mark, not a colour scheme. Shipped uses: the test point and marker triangle in the home phone artwork, the anchor dot of a dot figure (the open seat in the join), the waiting dot at the approval gate in the home BRAIN sphere (`needs approval` call, 2026-11-14), and the CTA hover (in its darker text-safe shade). Never body text, never a dot colour, never a fill behind content. Red text uses `--r2-trigger-ink`.
 
-**Black is literal.** Product-story sections paint `#000` directly (`.pin`, `.story`, `.facts`, BRAIN `.page`) so the surface is continuous across sections.
+**Black is literal, through one token.** Product-story surfaces paint `--r2-story` (`.pin`, `.facts`, home and BRAIN `.page`, the `SitePage` nav slot, the home phone's occlusion faces) so the surface is continuous across sections. It is `#000` in the mix and in Dark, `#fff` in Light, and `#000` again inside a `[data-tone-fixed]` surface. The SIDEKICK board `.story` and the SHADES renders keep a literal `#000`.
 
 **No other hue** except the SIDEKICK functional palette (§12) and these named Head Designer exceptions:
 
 | Exception | Approved | Where | Scope |
 |---|---|---|---|
 | ~~BRAIN orb colours (blue / violet / cyan)~~ **retired 2026-11-14** | 2026-10-15 | `BrainOrb.tsx` deleted; the home BRAIN visual is now an ink-only dot sphere (§11). Nothing else used these colours | None |
-| BRAIN context meter `--r2-meter-ok #5ad17a`, `--r2-meter-warn #ffb35c`, `--r2-meter-hot #ef6a55` | 2026-10-15 | `worlds.css`; the context % pill in the BRAIN context-engineering lesson | The meter only (`brain.DESIGN.md` §10) |
+| BRAIN context meter `--r2-meter-ok #5ad17a`, `--r2-meter-warn #ffb35c`, `--r2-meter-hot #ef6a55`; in Light `#1a7f37` / `#9a5b00` / `#b3321f` (5.1 / 5.4 / 6.2:1 on white, 2026-11-15) | 2026-10-15 | `worlds.css`; the context % pill in the BRAIN context-engineering lesson | The meter only (`brain.DESIGN.md` §10) |
 | Chrome member badge: brushed-chrome greys and a full-spectrum holographic film (`color-dodge`) | 2026-11-12 | `_chrome/MemberBadge.tsx`, `member-badge.module.css` (home and SHADES joins) | That badge only; see §11 for its depth |
-| Updates tag chips `--r2-tag-<slug>-bg/-ink` (graphite, blue, amber, violet, green, magenta; light only, every pair ≥ 6.6:1, pressed swaps bg and ink) | 2026-11-12 (tokens), 2026-11-14 (chip spec) | `worlds.css` `.world-apple`; `.tag` in `updates/updates.module.css`, `updates/TagChips.tsx` | `/updates/` and its post pages only. Colour never without its label; red is never a tag |
+| Updates tag chips `--r2-tag-<slug>-bg/-ink` (graphite, blue, amber, violet, green, magenta; light pairs ≥ 6.6:1; dark set since 2026-11-15, deep tint under pale ink, pairs 9.1–10.4:1; pressed swaps bg and ink) | 2026-11-12 (tokens), 2026-11-14 (chip spec) | `worlds.css` `.world-apple`; `.tag` in `updates/updates.module.css`, `updates/TagChips.tsx` | `/updates/` and its post pages only. Colour never without its label; red is never a tag |
 
 ## 7. Type
 
@@ -179,6 +181,16 @@ Each page opens with the product story on black and ends with the catalogue on l
 | SIDEKICK | Board story pin, "The board, in numbers" | after the facts strip | Subsystems, status, rules (`#f5f5f7`), join, footer |
 | SHADES | Hero, problem, method, reader, light-path pin | after the pin | Highlights, tracks, scope (`#f5f5f7`), roadmap, join, footer |
 | BRAIN | Hero + lessons pin, "One job, three views" (normal flow, three dot spheres on one clock), join | before the footer | Footer |
+
+**Site theme (Head Designer, 2026-11-15).** The table above is the designed mix. The nav's theme control (§13.1) offers three states:
+
+| Choice | Renders | `<html data-theme>` |
+|---|---|---|
+| **System** (default, nothing stored) | The designed mix while the OS is light; every chapter dark while the OS prefers dark. Follows a live OS change. | absent, or `dark` |
+| **Light** | Every chapter on the light set, dark story chapters included. `[data-tone-fixed]` surfaces stay dark. The nav stays light. | `light` |
+| **Dark** | Every chapter on the dark set, catalogue, footer, Updates and simple pages included. The nav stays dark. | `dark` |
+
+Why System is the mix and not "all light": the mix is the approved design and the OS light setting says nothing against it; a dark OS asks for less light, so every chapter goes dark. The choice is stored in `localStorage` (`r2-theme`; System removes the key) and applied before first paint by an inline script in the root `<head>` (`_chrome/theme.ts`, `THEME_SCRIPT`), so a stored theme never flashes and cross-document navigation keeps it. Without JavaScript the page renders the mix. Canvas figures re-read their ink on the `r2-theme` window event.
 
 Rules:
 
@@ -256,6 +268,8 @@ Two kinds of figure. Both draw in the current ink colour.
 
 **Never:** gradients, glow, bloom, drop shadows, glass, photographic renders, stock imagery.
 
+**Fixed-tone surfaces (2026-11-15).** Line art and dot figures draw in `currentColor`, so they flip with the theme. Artwork with its own literal palette cannot, and keeps its dark surface in Light: it carries `data-tone="dark" data-tone-fixed`. Current list: the SIDEKICK board story (copper and group hues are tuned for black), the SHADES rendered glasses (`<figure>` on SHADES, the home SHADES row), the home SIDEKICK board row, and the whole of `/projects/shades-concept-x/` (`<main>`; iso renders on literal darks). The chrome member badge keeps its own inks in every theme.
+
 **Exception (Head Designer, 2026-11-12): the chrome member badge.** `MemberBadge` may use gradients (the brushed chrome, the film, a specular highlight under the pointer), inset highlights and a tilt of at most 8° toward the pointer. A press plays a 900ms light sweep, flares the film and shows the next open role. Under reduced motion there is no tilt, sweep or flare; a press still advances the role. The lift applies to this component only; no other figure or card may copy it.
 
 ## 12. SIDEKICK functional palette
@@ -286,7 +300,8 @@ Copper is the board colour on any page that draws a board. The group hues stay o
 - "Coming soon" menu (2026-11-12, `_chrome/ComingSoon.tsx`, links in `COMING_SOON` in `club.ts`): a 12px button after the links with a chevron, `aria-expanded` / `aria-controls`, opening a flat 300px popover (nav ground, hairline border, `--r2-radius`, no shadow) with TWINS → the VESSEL post and DIGITAL Business → `/updates/?team=DIGITAL%20Business`. Escape closes it and returns focus to the button; an outside press, focus leaving or a link choice also close it. At ≤ 734px the button hides and the same links end the section menu under a "Coming soon" group label. Approved for every page, the locked SIDEKICK and BRAIN included.
 - Right: **one** filled pill, 30px tall inside a 44px hit target, 12px / 500. Default label "Join us" → `#join`. A page may relabel it; it may not add a second one.
 - `utility` slot: at most one extra control (SHADES' spacing toggle).
-- Tone: `tone="dark"` sets the first paint; `ToneSync` then follows the section under the bar.
+- Theme control (2026-11-15, `_chrome/ThemeToggle.tsx`): its own element after the utility slot and before the pill, on every page and at every width (on phones it sits beside the pill, not in the section menu). One 44px icon button, no fill, ink at 0.88 like the links: sun-moon (System), sun (Light), moon (Dark), Tabler, 20px at stroke 1.5. A press cycles System → Light → Dark. Accessible name "Theme: System. Switch to Light" (strings in `THEME`, `club.ts`); a visible tooltip with the current theme shows on hover and keyboard focus, Escape hides it. The icon comes from `<html data-theme-choice>`, so it is right at first paint.
+- Tone: `tone="dark"` sets the first paint; `ToneSync` then follows the section under the bar. In Light or Dark the chosen theme overrides it (CSS in `chrome.module.css`): the bar keeps one tone on every chapter.
 
 BRAIN uses the same one sticky `LocalNav` since 2026-10-15 (`WorldNav` removed; `brain.DESIGN.md` §10).
 
@@ -357,6 +372,7 @@ Facts come from `_chrome/club.ts`, not from the page:
 7. Contrast: `--r2-ink-2` is 5.1:1 on white and 8.2:1 on black. `#d8412f` is not used as text.
 8. Colour is never the only signal: SIDEKICK group colours always sit beside a label.
 9. Reduced motion and no-JS show the full content (§10.6).
+10. Theme (2026-11-15): every theme keeps text pairs at ≥ 4.5:1 (axe `color-contrast` on all routes × Light, Dark, System light, System dark). `color-scheme` follows the theme on `<html>` and on every chapter, so scrollbars and form controls match; `<meta name="theme-color">` is `#ffffff` in Light and `#000000` otherwise. Under `forced-colors` the control is a system-coloured icon button with its outline focus ring.
 
 ## 16. Performance
 
@@ -416,7 +432,7 @@ Rejected by the Head Designer. Do not reintroduce.
 - Updates (open, Head Designer exception 2026-11-12): posts name their authors and mentors, with round initials avatars (photos later). This overrides "no personal names" (§4 rule 8, the "Name people" row above) for `/updates/` and its post pages only.
 - Updates cards (open, Head Designer exception 2026-11-12): the `/updates/` index shows the newest four posts (or filter hits) as cards on `--r2-ground-raised`, `--r2-radius` corners: one lead card (art + copy, 2 columns, 1 column ≤ 734px) and a 3-up grid, then the hairline rows of the remaining posts (none repeated), grouped by year under "Earlier". Each card is one link; hover lifts it 2px (`--r2-ease-ui`, off under reduced motion). This overrides "Put content in cards" (row above) for `/updates/` only; no other page may copy it. Source: `design-lab/proposals/2026-11-12-badge-updates/updates-proto.html`, view 2.
 - Updates tag chips (open, Head Designer exception 2026-11-12/14): coloured pill chips (§6) replace the Team pills and the team name in card meta, row column and post byline. Filter chips are 32px tall, inline chips 24px, both in a 44px hit area; tags with no posts are hidden. Cards become `<article>` with the title link stretched over the card (`::after`) so the chips stay their own links. URL `?tag=<slug>`. Source: `design-lab/proposals/2026-11-12-supabase-updates/tags-proto.html`.
-- Home BRAIN readout (open): tool results `#7ad08f` / `#ffb35c` (`_home/brain.module.css`) stay literal on dark chapters; on light chapters they fall back to ink.
+- Home BRAIN readout (open): tool results `#7ad08f` / `#ffb35c` (`--r2-tool-ok` / `--r2-tool-no`, defined on the dark set in `worlds.css`) show on dark chapters; on light chapters, and in Light, they fall back to ink.
 - SHADES (open): the hero glasses use a radial-gradient lens glow and a blur filter (`projects/shades/Glasses.tsx`), and the highlights strip uses rounded cells (`_system/ui/Highlights`).
 - SIDEKICK join (Head Designer approved 2026-11-15): a second filled CTA. The join's primary action is a filled pill "Ask on Discord" (`primaryStyle="pill"`) on a page that also has the LocalNav pill, overriding "one filled CTA" (§13.1, §13.2, §17) on SIDEKICK only. The join shows the subsystem reel instead of the dot orb and has no "Back a build" row (`sidekick.DESIGN.md` §12).
 - Home, SIDEKICK and SHADES wrap content in `<div id="r2-main">`, not `<main>`. Only BRAIN and `SitePage` render `<main>`. `ToneSync` selects sections inside `main`.
@@ -444,7 +460,10 @@ Source: `app/(apple)/_system/tokens/worlds.css` (`.world-apple`, `.world-apple [
 | Ease | `--r2-ease-ui`, `--r2-ease-emphasized`, `--r2-ease-entrance` | `cubic-bezier(0.4, 0, 0.6, 1)`; `(0.2, 0, 0, 1)`; `(0.16, 1, 0.3, 1)` |
 | Duration | `--r2-dur-snap`, `-ui-fast`, `-ui`, `-ui-slow`, `-draw`, `-caption-out`, `-caption-in`; `--r2-reveal-y` | 120, 240, 280, 320, 480, 160, 240 ms; `30px` |
 | SIDEKICK only | `--sk-g-*`, `--board-copper`, `--sk-fr4` | §12 |
-| Updates tags only | `--r2-tag-{digital,sidekick,shades,brain,twins,business}-{bg,ink}` | `#e8e8ed`/`#1d1d1f`, `#e3f2ff`/`#0b4f80`, `#fff1d6`/`#7a4a00`, `#efe7fd`/`#5b2fa3`, `#ddf6ea`/`#11603f`, `#fce4f1`/`#8a1f5a` (light only; §6) |
+| Updates tags only | `--r2-tag-{digital,sidekick,shades,brain,twins,business}-{bg,ink}` | light `#e8e8ed`/`#1d1d1f`, `#e3f2ff`/`#0b4f80`, `#fff1d6`/`#7a4a00`, `#efe7fd`/`#5b2fa3`, `#ddf6ea`/`#11603f`, `#fce4f1`/`#8a1f5a`; dark `#3a3a3c`/`#f5f5f7`, `#0d3554`/`#bfe3ff`, `#4a3000`/`#ffdf9e`, `#3a2266`/`#e2d4fc`, `#0c3f29`/`#b5edd1`, `#5a1440`/`#fbd0e8` (§6) |
+| Story ground | `--r2-story` | `#000000`; `#ffffff` in Light; `#000000` inside `[data-tone-fixed]` |
+| Home BRAIN results | `--r2-tool-ok`, `--r2-tool-no` | `#7ad08f`, `#ffb35c` on the dark set; unset on light (falls back to ink) |
+| Site theme | `<html data-theme>` `light` / `dark` / absent; `<html data-theme-choice>` `system` / `light` / `dark`; `[data-tone-fixed]` | §9 |
 
 `worlds.css` also still defines a `.world-signal` token set. No live route uses it.
 
@@ -468,3 +487,4 @@ Source: `app/(apple)/_system/tokens/worlds.css` (`.world-apple`, `.world-apple [
 | 2026-11-15 | **Stack: Next.js 16 + React 19** (Head Designer approved 2026-11-15; npm audit). Stack line updated. No visual change: static export, tokens and pages unchanged; `<html data-scroll-behavior="smooth">` keeps the Next 14 instant scroll-to-top on route change. |
 | 2026-11-15 | **Tailwind removed** (Head Designer approved 2026-11-15; npm audit). Its Preflight reset and the `@tailwindcss/forms` base for the controls live pages use (text/email/search, select, textarea, radio) are inlined as plain CSS in `app/globals.css`; `overflow-x: hidden` and font smoothing move onto `body`; `.sr-only` kept as plain CSS (SHADES seats). No visual change. |
 | 2026-11-15 | **SIDEKICK subsystem reel join** (Head Designer reviewed the captured reel and approved the 2026-10-19 design as shown; `/projects/sidekick/` re-locked with it). The join's dot orb becomes a strip of the ten subsystems (icon, name, part number) in a 48s linear CSS loop with a Pause/Play control (44px, `aria-pressed`); it stops on hover, off screen and in a hidden tab; static grid under reduced motion. Primary action is a filled "Ask on Discord" pill, a second filled CTA recorded under §18 known deviations; the meeting-info line and "Back a build" row are dropped on this page. Spec: `sidekick.DESIGN.md` §2, §7, §8, §12. |
+| 2026-11-15 | **Site theme: System / Light / Dark** (Head Designer, 2026-11-15; both designs approved on any page; shared chrome on the locked SIDEKICK and BRAIN approved, spec sign-offs added). One 44px icon button in the nav after the utility slot (§13.1), cycling System → Light → Dark, with a visible tooltip. System = the designed mix while the OS is light, all dark while it prefers dark; Light = every chapter light; Dark = every chapter dark (§9). Stored in `localStorage` `r2-theme`, applied before first paint by an inline `<head>` script (`_chrome/theme.ts`), so no flash and the choice survives cross-document navigation. New: `--r2-story` (literal black story surfaces, white in Light), `[data-tone-fixed]` (SIDEKICK board story, SHADES renders, home SIDEKICK/SHADES rows, Concept X stay dark in Light, §11), dark tag-chip set (§6, §19), Light meter shades, `--r2-tool-ok/-no` (§18). `color-scheme`, overscroll ground and `theme-color` follow the theme (§15). Canvas figures re-read ink on the `r2-theme` event. |

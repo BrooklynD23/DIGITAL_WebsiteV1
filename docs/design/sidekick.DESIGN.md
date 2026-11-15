@@ -304,3 +304,14 @@ as shown. The page is re-locked with it.
 4. Shipped with fixes that keep the look: a Pause / Play control, the loop stops off screen and in a
    hidden tab, the tiles are read once (group label, track `aria-hidden`), tile width and loop length are
    named custom properties. Strings in `_content/sidekick.ts` (`join.cta`, `reel`), brand-reviewed.
+
+### 2026-11-15 — Head Designer sign-off (site theme toggle, shared chrome)
+
+Approved 2026-11-15: a site-wide System / Light / Dark control in the shared nav (DESIGN.md §9, §13.1). On this page:
+
+1. The nav gains the theme button between the links and the pill; in Light or Dark the bar keeps one tone.
+2. The board story (`BoardStory.tsx` `<section id="board">`) carries `data-tone-fixed`: it stays on black in Light, because the copper and group hues are tuned for black. In Dark and System it is unchanged.
+3. `.facts` paints `--r2-story` instead of a literal `#000` (identical in System and Dark; white in Light). The catalogue sections follow the theme through the tokens.
+4. The join (subsystem reel, #0110) is not touched; it is on tokens and follows the theme.
+
+The Head Designer reviews every route in both themes before merge.
