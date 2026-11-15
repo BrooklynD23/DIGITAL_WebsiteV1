@@ -4,7 +4,7 @@
  * Type clamps on viewport height as well as width, and the figure takes what is left (minmax(0, 1fr)),
  * so nothing is placed by a pixel offset and nothing can pass the nav or the fold. */
 
-.pin { position: relative; background: #000; color: var(--r2-ink); scroll-margin-top: var(--r2-sticky-top, 52px); }
+.pin { position: relative; background: var(--r2-story); color: var(--r2-ink); scroll-margin-top: var(--r2-sticky-top, 52px); }
 .sticky { padding: var(--r2-space-8) var(--r2-gutter) var(--r2-space-9); }
 
 .captions { display: grid; gap: var(--r2-space-9); justify-items: center; text-align: center; }

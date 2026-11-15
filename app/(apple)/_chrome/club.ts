@@ -60,3 +60,10 @@ export const COMING_SOON = {
     { label: 'DIGITAL Business', note: 'Finance case studies for the club.', href: '/updates/?tag=business' },
   ],
 } as const;
+
+/** Theme control in the nav (ThemeToggle). `label` is the visible tooltip and the accessible name. */
+export const THEME = {
+  label: { system: 'Theme: System', light: 'Theme: Light', dark: 'Theme: Dark' },
+  /** Said after the name: what a press does. */
+  next: { system: 'Switch to Light', light: 'Switch to Dark', dark: 'Switch to System' },
+} as const;

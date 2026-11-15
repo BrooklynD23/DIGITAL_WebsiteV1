@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { ComingSoon } from './ComingSoon';
 import { SectionMenu } from './SectionMenu';
+import { ThemeToggle } from './ThemeToggle';
 import { ToneSync } from './ToneSync';
 import styles from './chrome.module.css';
 
@@ -11,7 +12,7 @@ import styles from './chrome.module.css';
  * CTA contract: omit `cta` and every page gets the same pill, LOCAL_CTA = "Join us" → #join
  * (the page's <JoinChapter>, whose default id is "join"). Pass `cta={null}` only for a page with no join chapter.
  * `utility`: one extra control between the links and the CTA (e.g. SHADES' spacing toggle). It stays visible
- * on mobile. Links collapse into a section menu (chevron disclosure) at ≤734px. With links, a "Coming soon" menu
+ * on mobile. The theme control (ThemeToggle) is its own element after it, on every page and breakpoint. Links collapse into a section menu (chevron disclosure) at ≤734px. With links, a "Coming soon" menu
  * * (COMING_SOON in club.ts) follows them; on mobile its links end the section menu.
  * The pill is 30px tall inside a 44px hit target. Tone follows the chapter under the bar (pages mark dark
  * chapters data-tone="dark"); `tone` sets the first paint, `autoTone={false}` freezes it.
@@ -49,6 +50,7 @@ export function LocalNav({ title, titleHref, links, current, cta = LOCAL_CTA, ut
         {links.length > 0 ? <ComingSoon /> : null}
         {links.length > 0 ? <SectionMenu title={title} links={links} /> : null}
         {utility ? <div className={styles.localUtility}>{utility}</div> : null}
+        <ThemeToggle />
         {cta ? (
           <a className={styles.localCta} href={cta.href}>
             <span className={styles.localPill}>{cta.label}</span>

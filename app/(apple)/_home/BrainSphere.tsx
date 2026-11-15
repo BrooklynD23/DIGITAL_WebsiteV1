@@ -9,6 +9,7 @@ import { useEffect, useRef } from 'react';
 import { drawA, type Ink } from './sphere/draw';
 import { STILL, stateAt, type LoopState } from './sphere/timeline';
 import s from './brain.module.css';
+import { THEME_EVENT } from '../_chrome/theme';
 
 export function BrainSphere({ label, paused, reduce, onFrame }: {
   readonly label: string; readonly paused: boolean; readonly reduce: boolean; readonly onFrame: (st: LoopState) => void;
@@ -47,9 +48,10 @@ export function BrainSphere({ label, paused, reduce, onFrame }: {
       paint();
     };
     const ro = new ResizeObserver(size); ro.observe(cv);
+    window.addEventListener(THEME_EVENT, size); // theme switch: re-read ink, repaint
     const io = new IntersectionObserver(([e]) => { vis = e.isIntersecting; schedule(); }); io.observe(cv);
     document.addEventListener('visibilitychange', schedule);
-    return () => { cancelAnimationFrame(raf); ro.disconnect(); io.disconnect(); document.removeEventListener('visibilitychange', schedule); };
+    return () => { cancelAnimationFrame(raf); ro.disconnect(); io.disconnect(); window.removeEventListener(THEME_EVENT, size); document.removeEventListener('visibilitychange', schedule); };
   }, [paused, reduce]);
 
   return <canvas ref={ref} className={s.orb} role="img" aria-label={label} />;

@@ -2,7 +2,7 @@
    Type and colour tokens from worlds.css; the V0.1 page root (../shades/apple.module.css .root) supplies the fonts. */
 
 .page {
-  background: #000;
+  background: var(--r2-story);
   --hud: #7fe6a3;
   --point: #d8412f;
 }

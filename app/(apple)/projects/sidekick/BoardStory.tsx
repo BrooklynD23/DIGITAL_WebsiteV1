@@ -130,7 +130,7 @@ export function BoardStory() {
   }, [enhanced, settle]);
 
   return (
-    <section ref={section} id="board" data-tone="dark" className={s.story} aria-labelledby="sk-title">
+    <section ref={section} id="board" data-tone="dark" data-tone-fixed className={s.story} aria-labelledby="sk-title">
       <div className={s.sticky}>
         <div ref={art} className={s.art} aria-hidden="true">
           <Mainboard />

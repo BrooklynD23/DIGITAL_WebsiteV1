@@ -3,6 +3,7 @@ import './globals.css';
 import { siteConfig } from '@/lib/data/siteConfig';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import { THEME_SCRIPT } from './(apple)/_chrome/theme';
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || siteConfig.url;
 
@@ -44,7 +45,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" data-scroll-behavior="smooth">
+    // suppressHydrationWarning: THEME_SCRIPT sets data-theme / data-theme-choice on <html> before React hydrates.
+    <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
+      <head>
+        <meta name="theme-color" content="#000000" />
+        {/* Site theme before first paint (DESIGN.md §9): reads the stored choice, sets <html data-theme>. */}
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      </head>
       {/* Fonts, chrome and <main> belong to the route group: app/(apple)/layout.tsx. */}
       <body>
         {children}

@@ -3,7 +3,7 @@
  * The pin is switched on only under `(scripting: enabled) and (prefers-reduced-motion: no-preference)`.
  * The stage tracker reuses the button row from ../_home/home.module.css. */
 
-.pin { position: relative; background: #000; color: var(--r2-ink); }
+.pin { position: relative; background: var(--r2-story); color: var(--r2-ink); }
 .pinSticky { padding: var(--r2-space-9) 0; text-align: center; }
 .heroText { max-width: 1024px; margin: 0 auto; padding: 0 var(--r2-gutter); display: grid; gap: var(--r2-space-4); justify-items: center; }
 .heroTitle { margin: 0; max-width: 12em; font-family: var(--font-display); font-weight: var(--r2-fw-display); font-size: var(--r2-fs-hero); line-height: var(--r2-lh-hero); letter-spacing: var(--r2-ls-hero); text-wrap: balance; }

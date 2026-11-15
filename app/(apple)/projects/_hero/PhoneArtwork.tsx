@@ -30,7 +30,7 @@ function Tiers({ tiers }: { readonly tiers: readonly Tier[] }) {
     <>
       {tiers.map((t, i) =>
         t.fill !== undefined ? (
-          <path key={i} d={t.d} fill="#000" fillOpacity={t.fill} stroke="none" />
+          <path key={i} d={t.d} style={{ fill: 'var(--r2-story, #000)' }} fillOpacity={t.fill} stroke="none" />
         ) : (
           <path
             key={i}

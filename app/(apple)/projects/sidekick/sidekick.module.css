@@ -51,7 +51,7 @@
 }
 
 /* ---------- board facts ---------- */
-.facts { background: #000; color: var(--r2-ink); padding: var(--r2-space-8) var(--r2-gutter) var(--r2-space-9); text-align: center; }
+.facts { background: var(--r2-story); color: var(--r2-ink); padding: var(--r2-space-8) var(--r2-gutter) var(--r2-space-9); text-align: center; }
 .factsInner { max-width: var(--wrap); margin: 0 auto; }
 .factGrid { margin: var(--r2-space-7) 0 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--r2-space-6) var(--r2-space-5); text-align: left; }
 .factGrid > div { border-top: 1px solid var(--r2-hairline-strong); padding-top: var(--r2-space-3); }

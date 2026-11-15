@@ -205,3 +205,14 @@ Approved 2026-11-15 from the 2026-11-12 motion review "later" list. Only motion 
 3. Shared join: the title gets `.r2-reveal`; the text-link and backer-link underlines fade in. The join visual is unchanged.
 4. Geist is preloaded (`_system/fonts/index.ts`), so the face is in hand at first paint.
 
+
+### 2026-11-15 — Head Designer sign-off (site theme toggle, shared chrome)
+
+Approved 2026-11-15: a site-wide System / Light / Dark control in the shared nav (DESIGN.md §9, §13.1). On this page:
+
+1. The nav gains the theme button between the links and the pill; in Light or Dark the bar keeps one tone.
+2. `.page`, `.page .join` and the lessons `.pin` paint `--r2-story` instead of a literal `#000`: identical in System and Dark, white in Light, where every dot figure draws in the light ink (`currentColor`).
+3. The lessons canvas (`BrainStages.tsx`) and the three views (`ThreeViews.tsx`) re-read their ink on the `r2-theme` window event, so a switch repaints them at once. No drawing, timing or copy changes.
+4. In Light the context meter reads `--r2-meter-ok/-warn/-hot` as `#1a7f37` / `#9a5b00` / `#b3321f` (≥ 5:1 on white); on black it keeps `#5ad17a` / `#ffb35c` / `#ef6a55`.
+
+The Head Designer reviews every route in both themes before merge.

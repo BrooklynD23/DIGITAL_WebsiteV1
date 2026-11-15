@@ -5,7 +5,7 @@
   --chrome: var(--r2-nav-h);
   --wrap: 1200px;
   font-family: var(--font-read);
-  background: #000; /* the page opens dark; light chapters paint their own ground */
+  background: var(--r2-story); /* the page opens dark; light chapters paint their own ground */
   color: var(--r2-ink);
 }
 

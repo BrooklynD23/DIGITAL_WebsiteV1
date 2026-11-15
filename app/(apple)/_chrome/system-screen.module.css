@@ -1,6 +1,8 @@
 /* Chrome-less black screen (404, errors, redirect stubs). Tokens come from the dark tone on the wrapper. */
 html:has(.screen),
 html:has(.screen) body { background: #000 !important; color-scheme: dark; }
+:global(html[data-theme='light']):has(.screen),
+:global(html[data-theme='light']):has(.screen) body { background: #fff !important; color-scheme: light; }
 .screen {
   box-sizing: border-box;
   min-height: 100svh;

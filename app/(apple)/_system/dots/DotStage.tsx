@@ -26,6 +26,7 @@ import { paintFrame, type Inks } from './paint';
 import { insideFrame, once, subscribe } from './ticker';
 import type { Frame, FrameOpts, Verb } from './types';
 import s from './stage.module.css';
+import { THEME_EVENT } from '../../_chrome/theme';
 
 export interface DotStageHandle {
   /** Time drive: run from `from` (default: 0 if at rest) to rest; `loop` keeps cycling until stop(). */
@@ -304,6 +305,12 @@ function DotStageInner(props: DotStageProps, ref: ForwardedRef<DotStageHandle>) 
     S.inks = readInks();
     S.dirty = true;
     draw();
+    const onTheme = (): void => {
+      S.inks = readInks(); // site theme switch
+      S.dirty = true;
+      draw();
+    };
+    window.addEventListener(THEME_EVENT, onTheme);
 
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
     const onMotion = (): void => {
@@ -345,6 +352,7 @@ function DotStageInner(props: DotStageProps, ref: ForwardedRef<DotStageHandle>) 
 
     return () => {
       mq.removeEventListener('change', onMotion);
+      window.removeEventListener(THEME_EVENT, onTheme);
       io.disconnect();
       document.removeEventListener('visibilitychange', onVis);
       halt();
