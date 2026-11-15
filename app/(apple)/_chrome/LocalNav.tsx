@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { ComingSoon } from './ComingSoon';
 import { SectionMenu } from './SectionMenu';
@@ -37,9 +36,9 @@ export function LocalNav({ title, titleHref, links, current, cta = LOCAL_CTA, ut
     <div className={styles.local} data-chrome="local-nav" data-tone={tone === 'dark' ? 'dark' : undefined}>
       {autoTone ? <ToneSync /> : null}
       <nav aria-label={`${title} sections`} className={styles.localInner}>
-        <Link href={titleHref} className={styles.localTitle} prefetch={false}>
+        <a href={titleHref} className={styles.localTitle}>
           {title}
-        </Link>
+        </a>
         <ul className={styles.localLinks}>
           {links.map((l) => (
             <li key={`${l.label}|${l.href}`}>

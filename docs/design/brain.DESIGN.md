@@ -191,3 +191,7 @@ The Head Designer unlocked the route for one change and re-locked it after merge
 3. Red only for the held call in the Loop sphere. Ink elsewhere.
 4. Copy in `story.layers` and `figureExamples.job` (`figureExamples.calls` / `.servers` unchanged, so the Tool-calling lesson is unchanged).
 5. `drawB`, `drawC`, `makeTimeline` added beside the home sphere's pure module in `_home/sphere/`. `BrainStages.tsx`, `stages.module.css`, `_brain/lessons.ts` are untouched.
+
+### 2026-11-15 — Head Designer sign-off (page transitions)
+
+Shared chrome change: page loads cross-fade (DESIGN.md §14) and the sticky nav holds still as its own view-transition group; the nav wordmark and footer links are plain `<a>`. Nothing on this page changes.
