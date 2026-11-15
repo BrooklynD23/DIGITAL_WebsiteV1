@@ -84,7 +84,6 @@ run_checks() {
     "package.json"
     "next.config.js"
     "tsconfig.json"
-    "tailwind.config.ts"
     "postcss.config.js"
     "app/layout.tsx"
     "app/(apple)/layout.tsx"

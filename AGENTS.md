@@ -29,5 +29,5 @@ Locked pages change only with Head Designer sign-off. `docs/design/landing.DESIG
 ## Quick Constraints
 
 - Verify with `./run.sh check` before committing.
-- Static export only; content lives in `app/(apple)/_content/` and `lib/data/`; Apple pages use CSS modules on tokens (no live route uses Tailwind); TypeScript strict.
+- Static export only; content lives in `app/(apple)/_content/` and `lib/data/`; Apple pages use CSS modules on tokens (no Tailwind; `app/globals.css` holds the inlined Preflight reset); TypeScript strict.
 - Record every commit in `TODO.md`'s Dev Build / Version Control table.

@@ -98,9 +98,9 @@ config, or feature work should be left unrecorded in that table.
   require a Node.js runtime, API routes that persist state, etc.). All data must be
   resolvable at build time.
 - **Styling.** The Apple system uses CSS modules on the `--r2-*` tokens from
-  `app/(apple)/_system/tokens/worlds.css`; do not add Tailwind classes or new hex values to
-  Apple pages. Tailwind (`tailwind.config.ts`) is configured but no live route uses it. Do
-  not add a CSS-in-JS library.
+  `app/(apple)/_system/tokens/worlds.css`; no new hex values on Apple pages. Tailwind is not
+  installed (removed in #0106); the global reset is its Preflight, inlined as plain CSS at the
+  top of `app/globals.css`. Do not add Tailwind, utility-class CSS or a CSS-in-JS library.
 - **Content lives in data files** — never hard-code copy into page or component files.
   Apple pages read `app/(apple)/_content/*.ts` and `app/(apple)/_chrome/club.ts`; club facts,
   team, involvement and community content live in `lib/data/`. Print only facts a source states.
