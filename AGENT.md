@@ -75,7 +75,7 @@ Version Control table in `TODO.md`. Do not leave commits unrecorded.
 
 - Static export only — no runtime server features.
 - Content in `app/(apple)/_content/` (Apple pages) and `lib/data/` (club facts, team, involvement) — never hard-code copy into pages or components.
-- Apple pages: CSS modules on `--r2-*` tokens. No live route uses Tailwind. No CSS-in-JS libraries.
+- Apple pages: CSS modules on `--r2-*` tokens. No Tailwind (the reset is inlined Preflight in `app/globals.css`). No CSS-in-JS libraries.
 - TypeScript strict — all code must pass `tsc --noEmit`.
 - One red (`#d8412f`) — a mark only, per `DESIGN.md` §6.
 - Scroll picks a stage and a timed tween plays it; never scrub. One sticky nav bar per page.

@@ -35,7 +35,7 @@ Thesis: **"Make something worth putting your name on."** The mechanism is owners
 
 ## Capabilities and Constraints
 
-- Next.js 14 App Router, React 18, TypeScript strict, Tailwind 3, **static export only** (no server runtime, no runtime LLM).
+- Next.js 14 App Router, React 18, TypeScript strict, CSS modules, **static export only** (no server runtime, no runtime LLM).
 - Content lives in `lib/data/`; copy changes go through brand-voice-strategist → brand-guardian (`docs/design/BRAND.md`).
 - Design exploration happens in the lab worktree (`/design-lab/*`); production routes change only after Head Designer sign-off.
 - Knowledgebase corrections (`design-lab/round2/research/kb-smartphone.md`, shown as `[confirm]`): the phone is built around a Zynq-7000 SoM (ARM + FPGA), not an ESP32-S3; there is no radio; the toolchain is KiCad 9; there are 3 real 2-layer boards (power carrier 49×41 mm, partly routed; sensor daughter board, no layout yet; FPC2532AP fingerprint board 22.8×26.1 mm, routed). Nothing has been fabricated or tested; the main branch paused 2025-08-26 mid-design.

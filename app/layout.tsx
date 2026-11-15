@@ -46,7 +46,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       {/* Fonts, chrome and <main> belong to the route group: app/(apple)/layout.tsx. */}
-      <body className="overflow-x-hidden antialiased">
+      <body>
         {children}
 
         {/* Vercel Analytics & Speed Insights — cookieless, static-export compatible */}

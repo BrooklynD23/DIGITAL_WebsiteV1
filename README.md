@@ -13,7 +13,7 @@ and three build pages (SIDEKICK, SHADES, BRAIN) in `app/(apple)/`. The remaining
 | Layer | Choice |
 |-------|--------|
 | Framework | Next.js 14 (App Router, `output: 'export'`) |
-| UI | React 18; CSS modules on design tokens (`app/(apple)/_system/tokens/worlds.css`); Tailwind CSS 3 configured, no live route uses it |
+| UI | React 18; CSS modules on design tokens (`app/(apple)/_system/tokens/worlds.css`); global reset is Tailwind 3.4 Preflight inlined in `app/globals.css` (no Tailwind) |
 | Motion | Anime.js (stage playback), CSS scroll timelines, canvas dot engine |
 | Forms | Formspree |
 | Analytics | Vercel Analytics + Speed Insights |
