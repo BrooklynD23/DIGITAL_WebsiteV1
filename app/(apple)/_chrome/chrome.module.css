@@ -55,8 +55,9 @@
 .localInner { max-width: 1024px; margin: 0 auto; padding: 0 var(--r2-gutter); height: 100%; display: flex; align-items: center; gap: 24px; }
 .localTitle { font-family: var(--font-display); font-weight: 600; font-size: 21px; letter-spacing: -0.01em; color: var(--r2-ink); text-decoration: none; margin-right: auto; min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; }
 .localLinks { list-style: none; margin: 0; padding: 0; display: flex; gap: 24px; }
-.localLinks a { font-size: 12px; color: var(--r2-ink); opacity: 0.88; text-decoration: none; min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center; }
-.localLinks a:hover { opacity: 1; text-decoration: underline; }
+/* One hover language with the open-page links (DESIGN §14): the underline fades in, it never snaps. */
+.localLinks a { font-size: 12px; color: var(--r2-ink); opacity: 0.88; text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 0.25em; min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center; transition: opacity var(--r2-dur-ui-fast) var(--r2-ease-ui), text-decoration-color var(--r2-dur-ui-fast) var(--r2-ease-ui); }
+.localLinks a:hover { opacity: 1; text-decoration-color: currentColor; }
 /* CTA: 44px hit target around a 30px pill (one contract on every page). */
 .localCta { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; flex: none; }
 .localPill { display: inline-flex; align-items: center; height: 30px; padding: 0 14px; border-radius: 980px; font-size: 12px; font-weight: 500; white-space: nowrap; background: var(--r2-cta-bg); color: var(--r2-cta-ink); transition: background var(--r2-dur-ui-fast) var(--r2-ease-ui), color var(--r2-dur-ui-fast) var(--r2-ease-ui); }
@@ -76,7 +77,7 @@
 .menuList li:last-child a { border-bottom: 0; }
 /* "Coming soon" disclosure (desktop). Flat popover on the bar's ground, hairline border, no shadow. */
 .soon { position: relative; flex: none; }
-.soonBtn { display: inline-flex; align-items: center; gap: 5px; min-height: 44px; padding: 0; border: 0; background: none; font: inherit; font-size: 12px; color: var(--r2-ink); opacity: 0.88; cursor: pointer; }
+.soonBtn { display: inline-flex; align-items: center; gap: 5px; min-height: 44px; padding: 0; border: 0; background: none; font: inherit; font-size: 12px; color: var(--r2-ink); opacity: 0.88; cursor: pointer; transition: opacity var(--r2-dur-ui-fast) var(--r2-ease-ui); }
 .soonBtn:hover, .soon[data-open] .soonBtn { opacity: 1; }
 .soonBtn svg { transition: transform var(--r2-dur-ui) var(--r2-ease-ui); }
 .soon[data-open] .soonBtn svg { transform: rotate(180deg); }
@@ -95,7 +96,7 @@
   .localInner { gap: 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .menuBtn svg, .localPill, .soonBtn svg { transition: none; }
+  .menuBtn svg, .localPill, .soonBtn, .soonBtn svg, .localLinks a { transition: none; }
 }
 
 /* ---------- footer ---------- */

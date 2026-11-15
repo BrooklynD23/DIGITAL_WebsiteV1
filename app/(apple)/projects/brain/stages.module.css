@@ -39,9 +39,9 @@
   .caption {
     grid-area: 1 / 1;
     opacity: 0; transform: translateY(12px); visibility: hidden;
-    transition: opacity 160ms var(--r2-ease-ui), transform 160ms var(--r2-ease-ui), visibility 0s 160ms;
+    transition: opacity var(--r2-dur-caption-out) var(--r2-ease-ui), transform var(--r2-dur-caption-out) var(--r2-ease-ui), visibility 0s var(--r2-dur-caption-out);
   }
-  .caption[data-active] { opacity: 1; transform: none; visibility: visible; transition: opacity 240ms var(--r2-ease-ui) 160ms, transform 240ms var(--r2-ease-ui) 160ms, visibility 0s 160ms; }
+  .caption[data-active] { opacity: 1; transform: none; visibility: visible; transition: opacity var(--r2-dur-caption-in) var(--r2-ease-ui) var(--r2-dur-caption-out), transform var(--r2-dur-caption-in) var(--r2-ease-ui) var(--r2-dur-caption-out), visibility 0s var(--r2-dur-caption-out); }
 
   .figBox { display: grid; place-items: center; min-height: 0; container-type: size; }
   .fig { position: relative; width: min(100cqw, 100cqh, 640px); aspect-ratio: 1; color: var(--r2-ink); }

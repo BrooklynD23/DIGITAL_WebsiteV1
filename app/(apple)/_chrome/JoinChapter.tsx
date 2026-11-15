@@ -131,7 +131,7 @@ export function JoinChapter({
       <div className={s.inner}>
         {seat ? <div className={s.visual}>{seat}</div> : null}
         <div className={s.copy}>
-          <h2 id={titleId} className={s.title}>
+          <h2 id={titleId} className={`${s.title} r2-reveal`}>
             {headline}
           </h2>
           {lead ? <p className={s.lead}>{lead}</p> : null}

@@ -119,7 +119,7 @@ Light is the default. A section becomes dark with `data-tone="dark"`; the same t
 
 ## 7. Type
 
-**Faces** (`app/(apple)/_system/fonts/`, all SIL OFL 1.1, self-hosted `woff2`, Latin subset, variable, `font-display: swap`, not preloaded):
+**Faces** (`app/(apple)/_system/fonts/`, all SIL OFL 1.1, self-hosted `woff2`, Latin subset, variable, `font-display: swap`; Geist is preloaded (`preload: true`, 29 KB) since 2026-11-14, the others are not):
 
 | Slot | Face | Axis range | Stack after it |
 |---|---|---|---|
@@ -220,7 +220,7 @@ For a new pin: height `calc(100svh + N * 50svh)` (half a viewport of scroll per 
 
 ### 10.4 Caption swap (out, then in)
 
-Outgoing caption: `opacity` and `translateY(12px)` over 160ms, then `visibility: hidden`. Incoming caption: 240ms, after a 160ms delay. Easing `--r2-ease-ui`. Two captions are never visible at once. Inactive captions are `aria-hidden`.
+Outgoing caption: `opacity` and `translateY(12px)` over `--r2-dur-caption-out` (160ms), then `visibility: hidden`. Incoming caption: `--r2-dur-caption-in` (240ms), after a `--r2-dur-caption-out` delay. Easing `--r2-ease-ui`. Home hero, SIDEKICK and BRAIN read these tokens (SHADES has no live caption swap); a pin does not set its own values. Two captions are never visible at once. Inactive captions are `aria-hidden`.
 
 ### 10.5 Tracker
 
@@ -282,7 +282,7 @@ Copper is the board colour on any page that draws a board. The group hues stay o
 `<LocalNav>` (`_chrome/LocalNav.tsx`): `position: sticky; top: 0`, 52px, 1024px column, translucent ground with `backdrop-filter: saturate(1.8) blur(20px)`, 1px bottom hairline.
 
 - Left: the `DIGITAL` wordmark (21px / 600; 19px ≤ 734px) linking to `/`.
-- Links: `NAV_LINKS` in `_chrome/routes.ts` (the three builds, then Updates), 12px. The current page's link gets `aria-current="page"`. At ≤ 734px the links collapse into a chevron disclosure menu.
+- Links: `NAV_LINKS` in `_chrome/routes.ts` (the three builds, then Updates), 12px. The current page's link gets `aria-current="page"`. Hover: opacity 0.88 → 1 and the underline fades in (`text-decoration-color` transparent → `currentColor`, `--r2-dur-ui-fast`, `--r2-ease-ui`), the same language as the open-page links (§14); the Coming soon button fades its opacity the same way. At ≤ 734px the links collapse into a chevron disclosure menu.
 - "Coming soon" menu (2026-11-12, `_chrome/ComingSoon.tsx`, links in `COMING_SOON` in `club.ts`): a 12px button after the links with a chevron, `aria-expanded` / `aria-controls`, opening a flat 300px popover (nav ground, hairline border, `--r2-radius`, no shadow) with TWINS → the VESSEL post and DIGITAL Business → `/updates/?team=DIGITAL%20Business`. Escape closes it and returns focus to the button; an outside press, focus leaving or a link choice also close it. At ≤ 734px the button hides and the same links end the section menu under a "Coming soon" group label. Approved for every page, the locked SIDEKICK and BRAIN included.
 - Right: **one** filled pill, 30px tall inside a 44px hit target, 12px / 500. Default label "Join us" → `#join`. A page may relabel it; it may not add a second one.
 - `utility` slot: at most one extra control (SHADES' spacing toggle).
@@ -295,8 +295,8 @@ BRAIN uses the same one sticky `LocalNav` since 2026-10-15 (`WorldNav` removed; 
 `<JoinChapter world="apple">` (`_chrome/JoinChapter.tsx`), `id="join"`, is the last section before the footer on every build page and the home page.
 
 - Centred, 1024px column, `--r2-space-10` vertical padding (`-9` on phones).
-- Title at the `h2` step, an optional lead, the meeting line at the `h3` step / 600, then "No project experience required."
-- Primary action: a chevron text link by default, because the nav pill is the page's one filled CTA. `primaryStyle="pill"` (44px, 17px / 500) is for a page whose join is the destination (BRAIN).
+- Title at the `h2` step with `.r2-reveal` (the same scroll-linked rise as every section `h2`; static under reduced motion), an optional lead, the meeting line at the `h3` step / 600, then "No project experience required."
+- Primary action: a chevron text link by default (its underline and the backer links' underline fade in on hover, §14), because the nav pill is the page's one filled CTA. `primaryStyle="pill"` (44px, 17px / 500) is for a page whose join is the destination (BRAIN).
 - Default visual: a 200px open-seat dot figure that plays once on entry and carries the red anchor (SIDEKICK keeps it). Home and SHADES pass the chrome `MemberBadge` (§11 exception).
 - "Back a build" row: sponsor, recruiter and faculty links read from `lib/data/involvement.ts`.
 
@@ -335,12 +335,14 @@ Facts come from `_chrome/club.ts`, not from the page:
 | `--r2-dur-snap` | 120ms | Colour snap |
 | `--r2-dur-ui-fast` / `-ui` / `-ui-slow` | 240 / 280 / 320ms | Hover, nav tone, state change |
 | `--r2-dur-draw` | 480ms | A glyph drawing on, once |
+| `--r2-dur-caption-out` / `-in` | 160 / 240ms | Caption swap on every pin (§10.4) |
 | `--r2-spring-spatial-fast` / `-spatial` / `-effects` | `linear()` springs, 350 / 420 / 300ms | Available; pair each with its `-dur` |
 | `--r2-reveal-y` | 30px | `.r2-reveal` travel |
 
 - Stage playback: 900–1200ms per stage, cubic in-out (§10).
 - `.r2-reveal`: 30px rise and fade tied to `animation-timeline: view()` (`entry 0% cover 30%`). Where the browser lacks it, or under reduced motion, the element is simply visible.
 - A figure plays once on entry (`PlayOnce`) or is driven by a pin. Nothing loops for decoration; a loop has a pause control (BRAIN).
+- **One hover language** for text links, nav included: the underline is always set and fades in through `text-decoration-color` over `--r2-dur-ui-fast` with `--r2-ease-ui`; it never snaps on.
 - `prefers-reduced-motion: reduce` removes pins, transitions and loops; content is unchanged.
 - **Page transitions** (2026-11-15): moving between pages is one cross-fade of the whole page, `--r2-dur-ui` on `--r2-ease-ui` (`@view-transition { navigation: auto }` in `worlds.css`). The sticky `LocalNav` is its own group (`view-transition-name: r2-nav`) and holds still. It is cross-document only, so links between site pages are plain `<a>`, not `next/link` (a client navigation skips it); every page is a static file, so a full load costs little. No slide, no shared-element morph, no hero title morph. Browsers without support, and reduced motion, load the page instantly. Back and forward restore scroll as a normal page load does.
 
@@ -362,7 +364,7 @@ Facts come from `_chrome/club.ts`, not from the page:
 2. Animate `transform` and `opacity` only. No layout properties, no per-frame React state.
 3. Heavy geometry lives in **static SVG files** referenced with `<use href="…#l">`, not in the HTML or the RSC payload. A pose moves whole boxes and never rewrites a path. (The 19 SIDEKICK board files total about 227 KB; the extraction script enforces a 250 KB budget.)
 4. Server HTML paints the final still layout. Hydration adds the pin; it does not move content.
-5. Fonts: variable, Latin subset, `swap`, self-hosted.
+5. Fonts: variable, Latin subset, `swap`, self-hosted. Geist (the Apple face) is preloaded so it is in hand before first paint; without it the file was found only after the CSS and swapped in late, a layout shift wherever the fallback wraps differently (next/font's fallback is Arial-metric, and Linux/Android have no Arial).
 6. Sibling page links use `prefetch={false}`.
 7. `IntersectionObserver` for nav tone and entry detection. Page components do not add their own scroll listeners; they use `useScrollSteps`.
 
@@ -439,7 +441,7 @@ Source: `app/(apple)/_system/tokens/worlds.css` (`.world-apple`, `.world-apple [
 | Space | `--r2-space-1` … `--r2-space-10` | 4, 8, 12, 16, 24, 32, 48, 64, 96, 128 px |
 | Layout | `--r2-gutter`, `--r2-measure`, `--r2-radius`, `--r2-target`, `--r2-sticky-top` | 16 / 32 / 48px; `34rem`; `12px`; `44px`; `var(--r2-nav-h)` |
 | Ease | `--r2-ease-ui`, `--r2-ease-emphasized`, `--r2-ease-entrance` | `cubic-bezier(0.4, 0, 0.6, 1)`; `(0.2, 0, 0, 1)`; `(0.16, 1, 0.3, 1)` |
-| Duration | `--r2-dur-snap`, `-ui-fast`, `-ui`, `-ui-slow`, `-draw`; `--r2-reveal-y` | 120, 240, 280, 320, 480 ms; `30px` |
+| Duration | `--r2-dur-snap`, `-ui-fast`, `-ui`, `-ui-slow`, `-draw`, `-caption-out`, `-caption-in`; `--r2-reveal-y` | 120, 240, 280, 320, 480, 160, 240 ms; `30px` |
 | SIDEKICK only | `--sk-g-*`, `--board-copper`, `--sk-fr4` | §12 |
 | Updates tags only | `--r2-tag-{digital,sidekick,shades,brain,twins,business}-{bg,ink}` | `#e8e8ed`/`#1d1d1f`, `#e3f2ff`/`#0b4f80`, `#fff1d6`/`#7a4a00`, `#efe7fd`/`#5b2fa3`, `#ddf6ea`/`#11603f`, `#fce4f1`/`#8a1f5a` (light only; §6) |
 
@@ -461,3 +463,4 @@ Source: `app/(apple)/_system/tokens/worlds.css` (`.world-apple`, `.world-apple [
 | 2026-11-14 | **BRAIN: one job, three views** (Head Designer unlocked `/projects/brain/` for this change; re-locked after merge). A normal-flow section between the pin and the join: one example job in three dot spheres (Loop, Context, Tools) on one clock, a clock line (think / act / check) and its own Pause/Play. Three columns from 735px, one sphere and a 3-way switch below. The one red is the held call in the Loop sphere only; ink elsewhere. Spec: `brain.DESIGN.md` §1-§10. |
 | 2026-11-14 | **Updates UX** (Head Designer, `design-lab/proposals/2026-11-14-updates-ux/`): the log lists only posts not shown as cards (§18 cards exception reworded, "Earlier", year labels); post pages gain a breadcrumb, reading time and a "More updates" block of hairline rows; on phones Type pills + search fold into one native `<details>`; Type pills with 0 posts are hidden. No new tokens. |
 | 2026-11-15 | **Page transitions** (Head Designer, from the 2026-11-12 motion review "later" list): cross-document View Transition, one `--r2-dur-ui` cross-fade, sticky nav held as its own group, off under reduced motion (§14). The nav wordmark, footer links, home build rows and simple-page link rows move from `next/link` to plain `<a>` so they make real page loads. Shared chrome, so it touches the locked SIDEKICK and BRAIN pages (approved). Updates card → post links stay `next/link` (no transition) for now. |
+| 2026-11-15 | **Motion polish** (Head Designer, 2026-11-12 review "later" list; touches shared chrome on the locked SIDEKICK and BRAIN, approved). Nav links join the one hover language: the underline fades in over `--r2-dur-ui-fast` / `--r2-ease-ui` (§13.1, §14); the join's text link and backer links fade the same way and the join title gets `.r2-reveal` (§13.2); SIDEKICK keeps the dot orb. Caption swap reads new tokens `--r2-dur-caption-out` (160ms) / `--r2-dur-caption-in` (240ms) on home, SIDEKICK and BRAIN, values unchanged (§10.4, §19; SHADES has no live swap). Geist is preloaded: load CLS on a production export, /contact/ 0.0369 → 0 desktop, 0.0009 → 0 phone; /about/ 0.0125 → 0, 0.0065 → 0 (§7, §16). |

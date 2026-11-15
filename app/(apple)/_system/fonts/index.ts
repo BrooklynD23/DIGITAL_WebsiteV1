@@ -25,7 +25,9 @@ export const monaSans = localFont({ src: './mona-sans/MonaSans-latin-var.woff2',
 export const monaspaceKrypton = localFont({ src: './monaspace/MonaspaceKrypton-latin-var.woff2', weight: '200 800', display: 'swap', preload: false, variable: '--fs-krypton' });
 
 // Apple page played straight — Vercel's Geist pair
-export const geist = localFont({ src: './geist/Geist-latin-var.woff2', weight: '100 900', display: 'swap', preload: false, variable: '--fs-geist' });
+// preload: true — Geist is the shipped Apple face; without it the file is found only after the CSS and swaps in after first
+// paint, a layout shift on every page whose fallback (Arial metrics; no Arial on Linux/Android) wraps differently.
+export const geist = localFont({ src: './geist/Geist-latin-var.woff2', weight: '100 900', display: 'swap', preload: true, variable: '--fs-geist' });
 export const geistMono = localFont({ src: './geist-mono/GeistMono-latin-var.woff2', weight: '100 900', display: 'swap', preload: false, variable: '--fs-geist-mono' });
 
 // SHADES reading face — Braille Institute
