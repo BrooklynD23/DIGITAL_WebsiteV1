@@ -16,7 +16,8 @@
 }
 
 /* ---------- shared: motion, spacing, font slots ---------- */
-:where(.world-signal, .world-apple) {
+/* :root:has(.world-apple) too, so the ::view-transition-* pseudos (children of <html>) can read the motion tokens. */
+:where(.world-signal, .world-apple, :root:has(.world-apple)) {
   --font-display: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-text: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
@@ -30,6 +31,9 @@
   --r2-dur-ui: 280ms;
   --r2-dur-ui-slow: 320ms;
   --r2-dur-draw: 480ms;
+  /* Caption swap on every pin (DESIGN §10.4): out 160ms, then in 240ms after the out finishes. Easing: --r2-ease-ui. */
+  --r2-dur-caption-out: 160ms;
+  --r2-dur-caption-in: 240ms;
   /* M3 Expressive springs sampled to linear() (tokens/motion.ts springToLinear). Pair with the duration. */
   --r2-spring-spatial-fast: linear(0, 0.072, 0.238, 0.44, 0.638, 0.806, 0.934, 1.021, 1.071, 1.092, 1.093, 1.081, 1.063, 1.044, 1.026, 1.012, 1.002, 0.995, 0.992, 0.991, 0.992, 0.993, 0.995, 0.997, 1);
   --r2-spring-spatial-fast-dur: 350ms;
@@ -362,6 +366,21 @@
   .r2-reveal {
     animation: none !important;
   }
+}
+
+/* Page transitions (DESIGN.md §14): every same-origin page load cross-fades the old page into the new one.
+   Cross-document only, so site links are plain <a> (a next/link client navigation would skip it).
+   The sticky nav is its own group and holds still. No support or reduced motion: an instant page load. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}
+::view-transition-group(*),
+::view-transition-old(*),
+::view-transition-new(*) {
+  animation-duration: var(--r2-dur-ui);
+  animation-timing-function: var(--r2-ease-ui);
 }
 
 @media (prefers-reduced-motion: reduce) {

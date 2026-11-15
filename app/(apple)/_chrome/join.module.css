@@ -102,13 +102,14 @@
   gap: 4px;
   min-height: var(--r2-target);
   color: var(--r2-ink-2);
-  text-decoration: none;
-  transition: color var(--r2-dur-ui-fast) var(--r2-ease-ui);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.25em;
+  transition: color var(--r2-dur-ui-fast) var(--r2-ease-ui), text-decoration-color var(--r2-dur-ui-fast) var(--r2-ease-ui);
 }
 .backerLink:hover {
   color: var(--r2-ink);
-  text-decoration: underline;
-  text-underline-offset: 0.25em;
+  text-decoration-color: currentColor;
 }
 
 /* ---------- Signal: readout grid, line-form action ---------- */
@@ -234,12 +235,13 @@
   color: var(--r2-cta-ink-hover);
 }
 
+/* Underline fades in on hover (one hover language, DESIGN §14); .textLink carries the transition. */
 [data-world-join='apple'] .textLink {
-  text-decoration: none;
+  text-decoration-color: transparent;
   font-size: var(--r2-fs-lead);
 }
 [data-world-join='apple'] .textLink:hover {
-  text-decoration: underline;
+  text-decoration-color: currentColor;
 }
 
 /* ---------- compact variant: facts on one line, one backer link ---------- */

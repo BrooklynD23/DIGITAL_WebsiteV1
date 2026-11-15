@@ -60,9 +60,9 @@
     position: absolute; left: var(--r2-gutter); right: var(--r2-gutter); top: 0; margin: 0 auto; max-width: 44rem;
     display: grid; justify-items: center; gap: var(--r2-space-3);
     opacity: 0; transform: translateY(12px); visibility: hidden;
-    transition: opacity 160ms var(--r2-ease-ui), transform 160ms var(--r2-ease-ui), visibility 0s 160ms;
+    transition: opacity var(--r2-dur-caption-out) var(--r2-ease-ui), transform var(--r2-dur-caption-out) var(--r2-ease-ui), visibility 0s var(--r2-dur-caption-out);
   }
-  .caption[data-active] { opacity: 1; transform: none; visibility: visible; transition: opacity 240ms var(--r2-ease-ui) 160ms, transform 240ms var(--r2-ease-ui) 160ms, visibility 0s 160ms; }
+  .caption[data-active] { opacity: 1; transform: none; visibility: visible; transition: opacity var(--r2-dur-caption-in) var(--r2-ease-ui) var(--r2-dur-caption-out), transform var(--r2-dur-caption-in) var(--r2-ease-ui) var(--r2-dur-caption-out), visibility 0s var(--r2-dur-caption-out); }
 
   .debug { display: block; position: fixed; z-index: 99; right: 8px; bottom: 8px; padding: 4px 8px; background: #000; color: var(--r2-ink); border: 1px solid var(--r2-hairline); font-family: var(--font-mono); font-size: 12px; line-height: 16px; }
 }

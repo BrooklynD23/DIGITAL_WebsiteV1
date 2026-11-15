@@ -1,6 +1,5 @@
 /** Apple world: one build per chapter. The visual is the chapter's hero (~560px column): board, glasses, or the BRAIN orb.
  *  Visual and copy rise in with .r2-reveal (worlds.css); the copy trails slightly (home.module.css). */
-import Link from 'next/link';
 import { Chevron } from '../../_system';
 import { BrainVisual } from '../../_home/BrainVisual';
 import { Glasses } from '../../_shades-art/Glasses';
@@ -23,10 +22,10 @@ export function BuildChapter({ channel: c, flip }: { readonly channel: Channel; 
       <Visual c={c} />
       <div className={`${s.buildCopy} r2-reveal`}>
         <h3 id={`build-${c.id}`} className={s.buildName}>
-          <Link className={s.buildLink} href={`/projects/${c.id}/`} prefetch={false}>
+          <a className={s.buildLink} href={`/projects/${c.id}/`}>
             {c.name}
             <Chevron dir="right" size={28} />
-          </Link>
+          </a>
         </h3>
         <p className={s.buildLine}>{c.line}</p>
       </div>
