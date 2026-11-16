@@ -19,7 +19,7 @@ DIGITAL is a student-run venture studio at Cal Poly Pomona. Members build real h
 
 ## Positioning
 
-Thesis: **"Make something worth putting your name on."** The mechanism is ownership. Each build is split into subsystems, and each subsystem has one owner, one review path per handoff, one test gate before merge and one repair plan before release (`lib/data/phoneV2.ts:295-300`). Generic student clubs describe activities. DIGITAL shows the build and who owns each part of it.
+Thesis: **"Make something worth putting your name on."** The mechanism is ownership. Each build is split into subsystems, and each subsystem has one owner, one review path per handoff, one test gate before merge and one repair plan before release (source: `archive/lib/data/phoneV2.ts`). Generic student clubs describe activities. DIGITAL shows the build and who owns each part of it.
 
 ## Operating Context
 
@@ -29,13 +29,13 @@ Thesis: **"Make something worth putting your name on."** The mechanism is owners
   - **BRAIN** (Building Remarkable AI Innovation and kNowledge): agentic-AI initiative. Builds software with agentic tools and enters hackathons. Its page tells a concept story (MCP, context engineering, harnesses, tool use) and claims no curriculum, because Notion has none.
   - Venture Studies: a program (scope → budgets, sponsor briefs, pitches).
   - Notion lists all three initiatives as "Planned"; the site tags their status [confirm].
-- Ritual: build night every Thursday 6:00 PM, Building 17, Room 1635. Discord for async work.
+- Ritual: no club-wide meeting; each sub-team sets its own time; location Building 17, Room 1635 (`app/(apple)/_chrome/club.ts`). Discord for async work.
 - Engineering source of truth for the smartphone: `DIGITAL-KNOWLEDGEBASE/TheSmartphoneProject` (KiCad projects, docs, wiki).
 - Each project page has its own presentation "spin" (smartphone: scroll teardown; smart reading: 3D glasses + RSVP demo). This is a deliberate pattern to keep.
 
 ## Capabilities and Constraints
 
-- Next.js 14 App Router, React 18, TypeScript strict, CSS modules, **static export only** (no server runtime, no runtime LLM).
+- Next.js 16 App Router, React 19, TypeScript strict, CSS modules, **static export only** (no server runtime, no runtime LLM).
 - Content lives in `lib/data/`; copy changes go through brand-voice-strategist → brand-guardian (`docs/design/BRAND.md`).
 - Design exploration happens in the lab worktree (`/design-lab/*`); production routes change only after Head Designer sign-off.
 - Knowledgebase corrections (`design-lab/round2/research/kb-smartphone.md`, shown as `[confirm]`): the phone is built around a Zynq-7000 SoM (ARM + FPGA), not an ESP32-S3; there is no radio; the toolchain is KiCad 9; there are 3 real 2-layer boards (power carrier 49×41 mm, partly routed; sensor daughter board, no layout yet; FPC2532AP fingerprint board 22.8×26.1 mm, routed). Nothing has been fabricated or tested; the main branch paused 2025-08-26 mid-design.

@@ -14,8 +14,8 @@ sign-off; never overhaul first.
 | Route | Governing style reference |
 |-------|---------------------------|
 | `/` home, `/projects/shades/` | root `DESIGN.md` |
-| `/projects/sidekick/` | `docs/design/sidekick.DESIGN.md` — **LOCKED 2026-10-07** |
-| `/projects/brain/` | `docs/design/brain.DESIGN.md` — **LOCKED 2026-10-07** |
+| `/projects/sidekick/` | `docs/design/sidekick.DESIGN.md` — **LOCKED 2026-10-07 (re-locked 2026-11-15)** |
+| `/projects/brain/` | `docs/design/brain.DESIGN.md` — **LOCKED 2026-10-07 (re-locked 2026-11-14)** |
 | `/about`, `/team`, `/community`, `/contact`, `/get-involved`, legal pages, error pages | Apple system (`SitePage` / `LegalPage` frames) — root `DESIGN.md` |
 
 Locked pages change only with Head Designer sign-off. `docs/design/landing.DESIGN.md`,

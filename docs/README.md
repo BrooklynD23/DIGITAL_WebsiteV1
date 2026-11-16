@@ -50,7 +50,7 @@ Central map for the DIGITAL @ Cal Poly Pomona website repository.
 
 ## Branch: `design-lab/shades-revamp`
 
-Current working branch. `design-lab/exploration` is open as a draft PR into `main`.
+Historical note: this branch is no longer the working branch; see `TODO.md` for current work.
 
 The earlier `feature/brand-story-gsap` overhaul (home landing, PhoneV2, Smart Reading, GSAP reveals,
 `/review` hub) is superseded; its designs are in `archive/`. See
