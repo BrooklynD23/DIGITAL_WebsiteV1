@@ -147,6 +147,8 @@ committed — see the standing rule in `CLAUDE.md` and `AGENT.md`.
 | lab.62 | #0113    | — | docs(todo): record #0112 (#0113) | This row; SHA is the commit that adds it |
 | lab.63 | #0114    | `a88f586` | fix(legal): approve Privacy, Terms and Cookies — remove draft notice, true storage line (#0114) | Head Designer approved legal pages 2026-11-15; draft notice + Terms placeholder removed; Cookies storage line now lists `r2-theme` and `r2-shades-spacing`; dates → November 15, 2026; brand-voice-strategist wrote, brand-guardian PASS; `./run.sh check` green |
 | lab.64 | #0115    | — | docs(todo): record #0114 (#0115) | This row; SHA is the commit that adds it |
+| lab.65 | #0116    | `d465e38` | docs: README with screenshots, stack and services; sync docs with code (#0116) | Branch `docs/readme`. Head Designer asked 2026-11-15. README: 8 production shots in `docs/readme/` (≈420 KB, `capture.mjs` refreshes them; Dark shot is `/updates/`), quick start, stack, services + deployment, repo map, doc index, contributing, `TODO(maintainer)` placeholders (leads, contact, roadmap, license). Stale lines fixed in CLAUDE.md, AGENT.md, AGENTS.md, PRODUCT.md, DESIGN.md (§20 row), docs/ROUTES.md, docs/README.md, archive/README.md, docs/archive/README.md. Docs only. `./run.sh check` green; README relative links all resolve |
+| lab.66 | #0117    | — | docs(todo): record #0116 (#0117) | This row; SHA is the commit that adds it |
 
 ---
 

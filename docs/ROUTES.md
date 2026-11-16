@@ -15,6 +15,8 @@ route group (`app/(apple)/`; the group folder is not part of the URL). Every rou
 | `/projects/sidekick/` | `app/(apple)/projects/sidekick/page.tsx` | SIDEKICK: the FPGA main board in nine played stages | `docs/design/sidekick.DESIGN.md` (**locked**) |
 | `/projects/shades/` | `app/(apple)/projects/shades/page.tsx` | SHADES: reading glasses, live reader, light-path stages | `DESIGN.md` |
 | `/projects/brain/` | `app/(apple)/projects/brain/page.tsx` | BRAIN: six lessons on one dot figure | `docs/design/brain.DESIGN.md` (**locked**) |
+| `/updates/` | `app/(apple)/updates/page.tsx` (+ `[slug]/`) | Updates log and post pages, built from Supabase at build time | `DESIGN.md`, `supabase/README.md` |
+| `/projects/shades-concept-x/` | `app/(apple)/projects/shades-concept-x/page.tsx` | SHADES concept X page | `DESIGN.md` |
 
 ### Shared-frame pages (`app/(apple)/`)
 

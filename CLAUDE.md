@@ -42,9 +42,10 @@ Run `./run.sh check` before committing to confirm TypeScript and lint are clean.
 | `app/(apple)/` | Live pages on the Apple system (route group; the folder name is not part of the URL) |
 | `app/(apple)/layout.tsx` | World shell: token class `world-apple` + font class |
 | `app/(apple)/_system/` | Shared system: tokens (`tokens/worlds.css`), scroll hooks (`tokens/scroll.ts`), fonts, dot engine, shared UI |
-| `app/(apple)/_chrome/` | `LocalNav`, `WorldFooter`, `JoinChapter`, `SitePage` (frame for simple pages), `routes.ts`, `club.ts` (`CLUB` / `LINKS` / `MEETINGS`) |
+| `app/(apple)/_chrome/` | `LocalNav`, `WorldFooter`, `JoinChapter`, `SitePage` (frame for simple pages), `ThemeToggle.tsx` + `theme.ts` (System / Light / Dark, `localStorage` key `r2-theme`), `routes.ts`, `club.ts` (`CLUB` / `LINKS` / `MEETINGS`) |
 | `app/(apple)/_content/` | Copy for the Apple pages (`home.ts`, `sidekick.ts`, `shades.ts`, `brain.ts`) |
 | `app/(apple)/projects/_hero/` | Home phone-hero artwork + `useStagePlayback.ts` (stage playback used by every pinned page) |
+| `app/(apple)/updates/` | `/updates/` and `/updates/[slug]/`: Supabase-backed updates log and post pages |
 | `lib/data/` | Club facts and content read by the Apple pages (siteConfig, team, involvement, about, community) |
 | Supabase: `supabase/`, `lib/data/updates-source.ts` | Updates posts read at build time from `digital_posts` (editor how-to: `supabase/README.md`); no env → `UPDATES` snapshot |
 | `archive/` | Every earlier design and iteration; not built, linted or type-checked. Index: `archive/README.md` |
@@ -60,6 +61,7 @@ implementation** — propose the change and wait for sign-off; never overhaul fi
 |-------|---------------------------|
 | `/` home | root `DESIGN.md` |
 | `/projects/shades/` | root `DESIGN.md` |
+| `/updates/`, `/projects/shades-concept-x/` | root `DESIGN.md` |
 | `/projects/sidekick/` | `docs/design/sidekick.DESIGN.md` — **LOCKED 2026-10-07 (re-locked 2026-11-15 with the reel join): no changes without Head Designer sign-off** |
 | `/projects/brain/` | `docs/design/brain.DESIGN.md` — **LOCKED 2026-10-07 (re-locked 2026-11-14 with the three-views section): no changes without Head Designer sign-off** |
 | `/about`, `/team`, `/community`, `/contact`, `/get-involved`, `/privacy`, `/terms`, `/cookies`, error pages | Apple system (`SitePage` / `LegalPage` frames) — root `DESIGN.md` |

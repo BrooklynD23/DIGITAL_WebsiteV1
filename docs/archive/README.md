@@ -16,7 +16,7 @@ For current guidance, start at [`docs/README.md`](../README.md).
 
 ## Active docs (do not archive)
 
-- [`DESIGN.md`](../../DESIGN.md) — industrial studio system (non-immersive routes)
+- [`DESIGN.md`](../../DESIGN.md) — Apple system (default since 2026-10-07)
 - [`docs/design/`](../../docs/design/) — route-scoped style + brand voice
 - [`docs/ROUTES.md`](../ROUTES.md) — production route map
 - [`docs/MAINTAINER_GUIDE.md`](../MAINTAINER_GUIDE.md) — content and ops guide

@@ -77,7 +77,7 @@ Archived 2026-10-07 by the link audit, after `app/(legacy)/` held no page. Nothi
 | `public/assets/landing/Landing-Page-Hero.png` | Old landing hero image; no page referenced it (`siteConfig.assets.landingHero` removed) | 1 (7.8 MB) |
 
 Same method as below: `tsc --listFilesOnly` from `app/**` (134 files in the graph), then a string search for each public asset.
-Left in place: `app/globals.css` and `tailwind.config.ts` (Tailwind preflight, the forms plugin, `sr-only`, `antialiased`,
+Left in place then: `app/globals.css` and `tailwind.config.ts` (the latter removed with Tailwind in #0106; Tailwind preflight, the forms plugin, `sr-only`, `antialiased`,
 `overflow-x-hidden` and `html { scroll-behavior }` still reach the live pages; the legacy tokens in them do not).
 The `public/assets/landing/DIGITAL_V1_Logo1*.png` files were left then and archived on 2026-10-08 (see the clean-up table).
 
