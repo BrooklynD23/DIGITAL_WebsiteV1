@@ -149,6 +149,8 @@ committed — see the standing rule in `CLAUDE.md` and `AGENT.md`.
 | lab.64 | #0115    | — | docs(todo): record #0114 (#0115) | This row; SHA is the commit that adds it |
 | lab.65 | #0116    | `d465e38` | docs: README with screenshots, stack and services; sync docs with code (#0116) | Branch `docs/readme`. Head Designer asked 2026-11-15. README: 8 production shots in `docs/readme/` (≈420 KB, `capture.mjs` refreshes them; Dark shot is `/updates/`), quick start, stack, services + deployment, repo map, doc index, contributing, `TODO(maintainer)` placeholders (leads, contact, roadmap, license). Stale lines fixed in CLAUDE.md, AGENT.md, AGENTS.md, PRODUCT.md, DESIGN.md (§20 row), docs/ROUTES.md, docs/README.md, archive/README.md, docs/archive/README.md. Docs only. `./run.sh check` green; README relative links all resolve |
 | lab.66 | #0117    | — | docs(todo): record #0116 (#0117) | This row; SHA is the commit that adds it |
+| lab.69 | #0120    | `b63066c` | fix(updates): avatar initials no longer overlap (#0120) | Branch `fix/updates-avatars`. Head Designer 2026-11-16. Removed the -8px overlap; 4px gap in `.stack` |
+| lab.70 | #0121    | — | docs(todo): record #0120 (#0121) | This row; SHA is the commit that adds it |
 
 ---
 
