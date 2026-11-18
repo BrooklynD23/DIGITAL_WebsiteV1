@@ -108,6 +108,7 @@ run.sh                  Preflight and dev/build launcher
 | [`PRODUCT.md`](PRODUCT.md) | Product brief: audience, purpose, principles |
 | [`docs/README.md`](docs/README.md) | Documentation hub |
 | [`docs/ROUTES.md`](docs/ROUTES.md) | Route map: live, redirect stubs, retired |
+| [`docs/WBS.md`](docs/WBS.md) | Standardized WBS task pipeline behind the home hero's four stages |
 | [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) | CI/CD and Vercel setup |
 | [`docs/design/BRAND.md`](docs/design/BRAND.md) | Voice and copy rules for every route |
 | [`docs/design/sidekick.DESIGN.md`](docs/design/sidekick.DESIGN.md) | SIDEKICK page spec (locked) |

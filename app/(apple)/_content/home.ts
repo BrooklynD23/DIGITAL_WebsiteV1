@@ -22,11 +22,11 @@ export interface Stage {
   readonly verb: BuildVerb;
   /** What the dots do (the metaphor named). */
   readonly motion: string;
-  /** What the stage means for the owner (static stills, jump-button names). */
+  /** Renders only on /about ("How a build runs"): what the stage achieves, in one line. */
   readonly line: string;
   /**
-   * The ownership rule this stage enforces (lib/data/phoneV2.ts buildScope.scopeItems), shown with the stage in
-   * the scrubbed pin. Pairing decided by the Head Designer, 2026-10-02.
+   * The supporting line under the heading: the stage's two WBS tasks in plain words (docs/WBS.md).
+   * Mapping approved by the Head Designer, 2026-11-17.
    */
   readonly rule: string;
   /** Apple phone hero: the stage's display headline (supporting line = `rule`). */
@@ -35,10 +35,10 @@ export interface Stage {
 }
 
 export const stages: readonly Stage[] = [
-  { id: 'plan', n: '01', name: 'Plan', verb: 'form', motion: 'An outline settles on a shape.', line: 'Draw the edge of your part.', rule: 'One owner per subsystem.', heading: 'Start with the schematic.', glyph: 'seat' },
-  { id: 'prototype', n: '02', name: 'Prototype', verb: 'orbit', motion: 'Parts move on their own orbits.', line: 'Build it in pieces first.', rule: 'One review path per handoff.', heading: 'Split it into parts you can build.', glyph: 'handoff' },
-  { id: 'test', n: '03', name: 'Test', verb: 'scramble', motion: 'It scrambles, then clicks back.', line: 'Break it before it merges.', rule: 'One test gate before merge.', heading: 'Test the one connection that matters.', glyph: 'gate' },
-  { id: 'integrate', n: '04', name: 'Integrate', verb: 'wire', motion: 'Separate nodes wire into one.', line: 'Wire it in. Hand it on.', rule: 'One repair plan before release.', heading: 'Put it back together as one phone.', glyph: 'swap' },
+  { id: 'plan', n: '01', name: 'Discover', verb: 'form', motion: 'An outline settles on a shape.', line: 'Learn what the part does and where it fits.', rule: 'Set the size limits. Study how real products solve it.', heading: 'Know what the part must do first.', glyph: 'seat' },
+  { id: 'prototype', n: '02', name: 'Decide', verb: 'orbit', motion: 'Parts move on their own orbits.', line: 'Pick one concept, and know why.', rule: 'Compare materials and how to make it. Then weigh the trade-offs.', heading: 'Score the options before you commit.', glyph: 'handoff' },
+  { id: 'test', n: '03', name: 'Design', verb: 'scramble', motion: 'It scrambles, then clicks back.', line: 'Get it right on screen before you cut.', rule: 'Make every part fit. Simulate stress and heat.', heading: 'Model it in 3D, then check the physics.', glyph: 'gate' },
+  { id: 'integrate', n: '04', name: 'Build', verb: 'wire', motion: 'Separate nodes wire into one.', line: 'Turn the model into a part you can hold.', rule: 'Fabricate a mockup and cycle-test it. Deliver drawings and a parts list.', heading: 'Make it real, then hand it off.', glyph: 'swap' },
 ];
 
 export type ChannelId = 'sidekick' | 'shades' | 'brain';
