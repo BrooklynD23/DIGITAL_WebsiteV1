@@ -153,6 +153,8 @@ committed — see the standing rule in `CLAUDE.md` and `AGENT.md`.
 | lab.68 | #0119    | — | docs(todo): record #0118 (#0119) | This row; SHA is the commit that adds it |
 | lab.69 | #0120    | `b63066c` | fix(updates): avatar initials no longer overlap (#0120) | Branch `fix/updates-avatars`. Head Designer 2026-11-16. Removed the -8px overlap; 4px gap in `.stack` |
 | lab.70 | #0121    | — | docs(todo): record #0120 (#0121) | This row; SHA is the commit that adds it |
+| lab.71 | #0122    | `441fa5b` | feat(home): hero stages follow the WBS task pipeline (#0122) | Branch `feat/home-wbs-stages`. Head Designer 2026-11-17: 4 hero stages each cover 2 WBS tasks (`docs/WBS.md`). Copy in `home.ts` per brand-guardian review; also renders on /about. README doc index row. `./run.sh check` green |
+| lab.72 | #0123    | — | docs(todo): record #0122 (#0123) | This row; SHA is the commit that adds it |
 
 ---
 
