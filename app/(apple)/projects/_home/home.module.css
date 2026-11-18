@@ -72,6 +72,7 @@
 :root[data-theme='light'] .onDark { display: none; }
 :root[data-theme='light'] .onLight { display: block; }
 :root[data-theme='light'] .buildStatic { animation: none; opacity: 1; transform: none; } /* Light: no reveal, fully visible at first paint */
+:root[data-theme='light'] .buildCard { box-sizing: border-box; padding: var(--r2-space-5); border-radius: var(--r2-radius); background: var(--r2-ground-raised); } /* Light: grey card so the cream board reads as an object */
 .buildCopy { display: grid; gap: var(--r2-space-3); justify-items: start; }
 .buildName { margin: 0; font-family: var(--font-display); font-weight: var(--r2-fw-display); font-size: var(--r2-fs-h1); line-height: var(--r2-lh-h1); letter-spacing: var(--r2-ls-h1); }
 .build .buildCopy { animation-range: entry 10% cover 35%; } /* the copy trails the visual's .r2-reveal */

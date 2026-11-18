@@ -22,7 +22,7 @@ function Visual({ c }: { readonly c: Channel }) {
     );
   }
   // Assembled, still, all copper (the 'board' pose). Mainboard is aria-hidden, so the wrapper carries the name.
-  return <div className={`${orb} ${s.buildStatic}`} data-tone="dark" role="img" aria-label={c.verbNote}><Mainboard stage="board" still /></div>;
+  return <div className={`${orb} ${s.buildStatic} ${s.buildCard}`} data-tone="dark" role="img" aria-label={c.verbNote}><Mainboard stage="board" still /></div>;
 }
 
 export function BuildChapter({ channel: c, flip }: { readonly channel: Channel; readonly flip: boolean }) {
