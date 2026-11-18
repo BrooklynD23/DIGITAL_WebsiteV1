@@ -192,12 +192,14 @@ export function useScrollSteps<T extends HTMLElement>(
   const enhanced = hydrated && !reduced;
   const [active, setActive] = useState(0);
   const activeRef = useRef(0);
+  const lastP = useRef(-1);
   const opt = useRef(options);
   opt.current = options;
 
   const onProgress = enhanced
     ? (p: number): void => {
         const o = opt.current;
+        lastP.current = p;
         const at = stepAt(p, o);
         if (at.i !== activeRef.current) {
           const prev = activeRef.current;
@@ -219,6 +221,25 @@ export function useScrollSteps<T extends HTMLElement>(
     window.scrollTo({ top: Math.round(top), behavior: r || !smooth ? 'auto' : 'smooth' });
   };
   const jumpTo = (i: number): void => scrollToProgress(stepRestPoint(i, opt.current));
+
+  // Browser zoom (Ctrl +/-) and rotation change the viewport width, which resizes the svh-based pin under an unchanged
+  // scrollY, so the page lands on another step. Put the pin back at the progress it had. Resize fires before the next
+  // scroll frame, so lastP still holds the pre-zoom value. Height-only resizes (mobile URL bar) are ignored.
+  const restore = useRef(scrollToProgress);
+  restore.current = scrollToProgress;
+  useEffect(() => {
+    if (!enhanced) return;
+    let width = window.innerWidth;
+    const onResize = (): void => {
+      if (window.innerWidth === width) return;
+      width = window.innerWidth;
+      const p = lastP.current;
+      const r = pin.current?.getBoundingClientRect();
+      if (r && r.top < window.innerHeight && r.bottom > 0 && p > 0 && p < 1) restore.current(p, false);
+    };
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, [enhanced, pin]);
 
   return { enhanced, active, scrollToProgress, jumpTo };
 }
