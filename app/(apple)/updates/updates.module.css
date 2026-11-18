@@ -130,9 +130,8 @@
 
 /* ---------- bylines ---------- */
 .byline { margin: 0; display: flex; align-items: center; gap: var(--r2-space-3); min-width: 0; font-size: var(--r2-fs-small); line-height: 1.4; color: var(--r2-ink-2); }
-.stack { display: inline-flex; flex: none; }
-.av { width: 28px; height: 28px; margin-left: -8px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--r2-ground-raised); border: 1px solid var(--r2-hairline); color: var(--r2-ink); font-size: 11px; font-weight: 600; letter-spacing: 0; }
-.av:first-child { margin-left: 0; }
+.stack { display: inline-flex; gap: var(--r2-space-1); flex: none; }
+.av { width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--r2-ground-raised); border: 1px solid var(--r2-hairline); color: var(--r2-ink); font-size: 11px; font-weight: 600; letter-spacing: 0; }
 .names { min-width: 0; overflow-wrap: anywhere; }
 .authors { color: var(--r2-ink); }
 
