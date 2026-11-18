@@ -155,6 +155,8 @@ committed — see the standing rule in `CLAUDE.md` and `AGENT.md`.
 | lab.70 | #0121    | — | docs(todo): record #0120 (#0121) | This row; SHA is the commit that adds it |
 | lab.71 | #0122    | `441fa5b` | feat(home): hero stages follow the WBS task pipeline (#0122) | Branch `feat/home-wbs-stages`. Head Designer 2026-11-17: 4 hero stages each cover 2 WBS tasks (`docs/WBS.md`). Copy in `home.ts` per brand-guardian review; also renders on /about. README doc index row. `./run.sh check` green |
 | lab.72 | #0123    | — | docs(todo): record #0122 (#0123) | This row; SHA is the commit that adds it |
+| lab.73 | #0124    | `7f5e2f8` | fix(scroll): pinned stages keep their place on zoom and rotation (#0124) | Branch `fix/scroll-zoom-restore`. Head Designer approved 2026-11-17. `useScrollSteps` restores pin progress after a width resize (zoom, rotation). Shared code: home hero, locked SIDEKICK and BRAIN. `./run.sh check` green |
+| lab.74 | #0125    | — | docs(todo): record #0124 (#0125) | This row; SHA is the commit that adds it |
 
 ---
 
