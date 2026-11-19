@@ -103,7 +103,7 @@ run.sh                  Preflight and dev/build launcher
 | Doc | What it is |
 |-----|-----------|
 | [`CLAUDE.md`](CLAUDE.md) | Project conventions, key files, standing rules |
-| [`AGENT.md`](AGENT.md), [`AGENTS.md`](AGENTS.md) | Short rules for automated agents |
+| [`AGENT.md`](AGENT.md), [`AGENTS.md`](AGENTS.md) | Pointers to `CLAUDE.md` for automated agents (`AGENTS.md`: the 3 most-missed rules) |
 | [`DESIGN.md`](DESIGN.md) | The Apple design system as implemented: tokens, patterns, changelog |
 | [`PRODUCT.md`](PRODUCT.md) | Product brief: audience, purpose, principles |
 | [`docs/README.md`](docs/README.md) | Documentation hub |
