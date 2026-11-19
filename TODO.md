@@ -3,7 +3,7 @@
 This file is the **authoritative work log** for the DIGITAL website project. It is organized
 by Sprint. Each sprint contains a numbered task checklist and a Dev Build / Version Control
 table that maps internal build numbers to git commit SHAs. Update this file whenever work is
-committed — see the standing rule in `CLAUDE.md` and `AGENT.md`.
+committed — see the standing rule in `CLAUDE.md`.
 
 ---
 
@@ -157,6 +157,8 @@ committed — see the standing rule in `CLAUDE.md` and `AGENT.md`.
 | lab.72 | #0123    | — | docs(todo): record #0122 (#0123) | This row; SHA is the commit that adds it |
 | lab.73 | #0124    | `7f5e2f8` | fix(scroll): pinned stages keep their place on zoom and rotation (#0124) | Branch `fix/scroll-zoom-restore`. Head Designer approved 2026-11-17. `useScrollSteps` restores pin progress after a width resize (zoom, rotation). Shared code: home hero, locked SIDEKICK and BRAIN. `./run.sh check` green |
 | lab.74 | #0125    | — | docs(todo): record #0124 (#0125) | This row; SHA is the commit that adds it |
+| lab.75 | #0126    | `c5d2584` | docs: AGENT.md and AGENTS.md point to CLAUDE.md (#0126) | Branch `docs/agents-pointer`. Head Designer approved 2026-11-19. Duplicated rules removed so `CLAUDE.md` is the single source; AGENTS.md keeps the 3 most-missed rules. Doc index rows in README.md and docs/README.md updated. Docs only |
+| lab.76 | #0127    | — | docs(todo): record #0126 (#0127) | This row; SHA is the commit that adds it |
 
 ---
 
