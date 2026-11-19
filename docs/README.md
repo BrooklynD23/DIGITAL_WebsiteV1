@@ -8,7 +8,7 @@ Central map for the DIGITAL @ Cal Poly Pomona website repository.
 |-----|----------|---------|
 | [`README.md`](../README.md) | Everyone | Quick start, stack, scripts, deployment |
 | [`CLAUDE.md`](../CLAUDE.md) | Humans + agents | Full project conventions |
-| [`AGENT.md`](../AGENT.md) | Automated agents | Condensed agent rules |
+| [`AGENT.md`](../AGENT.md) | Automated agents | Pointer to `CLAUDE.md` (`AGENTS.md` is the entry point) |
 | [`TODO.md`](../TODO.md) | Maintainers | Sprint tasks + build/version log |
 
 ## Design system
