@@ -105,6 +105,7 @@ run.sh                  Preflight and dev/build launcher
 | [`CLAUDE.md`](CLAUDE.md) | Project conventions, key files, standing rules |
 | [`AGENT.md`](AGENT.md), [`AGENTS.md`](AGENTS.md) | Pointers to `CLAUDE.md` for automated agents (`AGENTS.md`: the 3 most-missed rules) |
 | [`DESIGN.md`](DESIGN.md) | The Apple design system as implemented: tokens, patterns, changelog |
+| [`LICENSE`](LICENSE) | MIT for code; brand and content reserved |
 | [`PRODUCT.md`](PRODUCT.md) | Product brief: audience, purpose, principles |
 | [`docs/README.md`](docs/README.md) | Documentation hub |
 | [`docs/ROUTES.md`](docs/ROUTES.md) | Route map: live, redirect stubs, retired |
@@ -160,6 +161,13 @@ the default theme.
 
 ## License and ownership
 
-<!-- TODO(maintainer): no LICENSE file or license field exists in the repo. Add one, or state ownership here. -->
+The source code is licensed under the [MIT License](LICENSE).
+
+The MIT License does not cover the DIGITAL brand or content. All rights are reserved for:
+- the DIGITAL name, logos and member badge design;
+- written copy in `app/(apple)/_content/`, `app/(apple)/_chrome/club.ts` and `lib/data/`;
+- images, renders, screenshots and fonts in `public/` and `docs/readme/`.
+
+Cal Poly Pomona and other third-party names and marks belong to their owners. To reuse any of the above, ask the club first.
 
 Maintained by DIGITAL @ Cal Poly Pomona.
