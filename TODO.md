@@ -159,6 +159,8 @@ committed — see the standing rule in `CLAUDE.md`.
 | lab.74 | #0125    | — | docs(todo): record #0124 (#0125) | This row; SHA is the commit that adds it |
 | lab.75 | #0126    | `c5d2584` | docs: AGENT.md and AGENTS.md point to CLAUDE.md (#0126) | Branch `docs/agents-pointer`. Head Designer approved 2026-11-19. Duplicated rules removed so `CLAUDE.md` is the single source; AGENTS.md keeps the 3 most-missed rules. Doc index rows in README.md and docs/README.md updated. Docs only |
 | lab.76 | #0127    | — | docs(todo): record #0126 (#0127) | This row; SHA is the commit that adds it |
+| lab.77 | #0128    | `6487abf` | docs: add MIT license for code; brand and content reserved (#0128) | Branch `docs/license`. Head Designer decided 2026-11-21: MIT for code, holder DIGITAL @ Cal Poly Pomona; brand, copy and images all rights reserved. LICENSE, package.json `license`, README section. Docs only |
+| lab.78 | #0129    | — | docs(todo): record #0128 (#0129) | This row; SHA is the commit that adds it |
 
 ---
 
