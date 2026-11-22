@@ -161,6 +161,8 @@ committed — see the standing rule in `CLAUDE.md`.
 | lab.76 | #0127    | — | docs(todo): record #0126 (#0127) | This row; SHA is the commit that adds it |
 | lab.77 | #0128    | `6487abf` | docs: add MIT license for code; brand and content reserved (#0128) | Branch `docs/license`. Head Designer decided 2026-11-21: MIT for code, holder DIGITAL @ Cal Poly Pomona; brand, copy and images all rights reserved. LICENSE, package.json `license`, README section. Docs only |
 | lab.78 | #0129    | — | docs(todo): record #0128 (#0129) | This row; SHA is the commit that adds it |
+| lab.79 | #0130    | `0fe8167` | chore: commit the Next.js agent-rules block in AGENTS.md (#0130) | Branch `chore/nextjs-agent-rules`. Head Designer approved 2026-11-22. Block is written by `next dev` (Next 16); committed so the tree stays clean. Docs only |
+| lab.80 | #0131    | — | docs(todo): record #0130 (#0131) | This row; SHA is the commit that adds it |
 
 ---
 
